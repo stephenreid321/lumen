@@ -1,0 +1,34 @@
+<ol class="breadcrumb">
+  <li><a href="/sectors">Sectors</a></li>
+  <li class="active">
+    <%=@sector.name%>
+  </li> 
+</ol>
+
+<div class="row">
+  <div class="col-md-8">
+
+    <h2><%=@sector.name%> <small><%=pluralize(@sector.sectorships.count,'organisation')%></small></h2>
+
+    <% @sector.sectorships.sort_by { |sectorship| sectorship.organisation.name }.each { |sectorship| organisation = sectorship.organisation %>
+      <div class="media">
+        <a class="pull-left">
+          <img style="max-width: 64px" src="<%=organisation.picture ? organisation.picture.thumb('64x64#').url : '/images/square.png' %>">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading"><a href="/organisations/<%=organisation.id%>"><%=organisation.name%></a></h4>      
+          <ul class="fa-ul">
+            <% if organisation.website%>
+              <li><i title="Website" class="fa-li fa fa-globe"></i><a target="new" href="http://<%=organisation.website%>"><%=organisation.website%></a></li>
+            <% end %>                                        
+          </ul>
+        </div>
+      </div>
+    <% } %>
+
+  </div>
+  <div class="col-md-4">
+    <h2><%=pluralize(@sector.members.count,'person')%> from this sector</h2>
+    <%= partial :'accounts/list', :locals => {:scope => 'sector', :scope_id => @sector.id} %>
+  </div>
+</div>

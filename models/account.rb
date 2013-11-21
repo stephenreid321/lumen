@@ -1,0 +1,159 @@
+class Account
+  include Mongoid::Document
+  include Mongoid::Timestamps
+    
+  has_many :sign_ins, :dependent => :destroy  
+  has_many :page_views, :dependent => :destroy  
+  has_many :memberships, :dependent => :destroy    
+  has_many :conversation_posts, :dependent => :destroy
+  has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
+  
+  def events
+    Event.where(:id.in => memberships.map(&:group).map(&:events).flatten.map(&:id))
+  end
+      
+  has_many :affiliations, :dependent => :destroy
+  accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank
+  
+  before_validation :check_at_least_one_affiliation
+  def check_at_least_one_affiliation
+    errors.add(:affiliations, "must be present") if sign_ins.count > 0 and affiliations.empty?
+  end  
+
+  def network    
+    Account.where(:id.in => memberships.map(&:group).map(&:memberships).flatten.map(&:account_id))
+  end
+  
+  def expertises
+    expertise ? expertise.split(',').map { |x| x.split(';') }.flatten.map(&:downcase).map(&:strip) : []
+  end
+           
+  # Picture
+  field :picture_uid
+  pictures_accessor :picture do
+    after_assign :resize_picture
+  end
+  def resize_picture
+    picture.process!(:resize, '500x500>')
+  end 
+  attr_accessor :rotate_picture_by
+  before_validation :rotate_picture
+  def rotate_picture
+    if self.picture and self.rotate_picture_by
+      picture.process!(:rotate, self.rotate_picture_by)
+    end  
+  end
+  
+  # Connections  
+  has_many :connections, :dependent => :destroy
+  accepts_nested_attributes_for :connections
+  def self.providers
+    [
+      Provider.new('Twitter', image: ->(hash){ hash['info']['image'].gsub(/_normal/,'') }),
+      Provider.new('Facebook', image: ->(hash){ hash['info']['image'].gsub(/square/,'large') }),
+      Provider.new('Google', omniauth_name: 'google_oauth2', icon: 'google-plus', nickname: ->(hash) { hash['info']['name'] }, profile_url: ->(hash){ "http://plus.google.com/#{hash['uid']}"}),
+      Provider.new('LinkedIn', nickname: ->(hash) { hash['info']['name'] }, profile_url: ->(hash){ hash['info']['urls']['public_profile'] })
+    ]
+  end  
+  def self.provider_object(omniauth_name)    
+    providers.find { |provider| provider.omniauth_name == omniauth_name }
+  end  
+    
+  # Fields  
+  field :name, :type => String
+  field :email, :type => String
+  field :crypted_password, :type => String
+  field :role, :type => String, :default => 'user'
+  field :time_zone, :type => String, :default => 'London'
+    
+  field :phone, :type => String 
+  field :location, :type => String 
+  field :expertise, :type => String  
+              
+  attr_accessor :password, :password_confirmation 
+
+  validates_presence_of :name, :email
+  validates_presence_of :password, :if => :password_required
+  validates_presence_of :password_confirmation, :if => :password_required  
+  validates_presence_of :role, :time_zone # defaults
+  
+  validates_length_of :email, :within => 3..100
+  validates_uniqueness_of :email, :case_sensitive => false
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i  
+  validates_length_of :password, :within => 4..40, :if => :password_required
+  validates_confirmation_of :password, :if => :password_required  
+      
+  def self.fields_for_index
+    [:name, :email, :phone, :created_at]
+  end
+    
+  def self.fields_for_form
+    {
+      :name => :text,
+      :email => :text,
+      :phone => :text,      
+      :picture => :image,
+      :role => :select,
+      :time_zone => :select,
+      :password => :password,
+      :password_confirmation => :password,
+      :location => :text,
+      :expertise => :text,
+      :affiliations => :collection
+    }
+  end
+  
+  def self.filter_options
+    {
+      :o => 'created_at',
+      :d => 'desc'
+    }    
+  end
+    
+  def self.edit_hints
+    {
+      :password => 'Leave blank to keep existing password'      
+    }
+  end   
+           
+  def self.time_zones
+    ['']+ActiveSupport::TimeZone::MAPPING.keys.sort
+  end  
+  
+  def self.roles
+    ['user','admin']
+  end    
+  
+  def self.lookup
+    :name
+  end  
+    
+  def uid
+    id
+  end
+  
+  def info
+    {:email => email, :name => name}
+  end
+  
+  def self.authenticate(email, password)
+    account = find_by(email: /#{Regexp.escape(email)}/i) if email.present?
+    account && account.has_password?(password) ? account : nil
+  end
+  
+  before_save :encrypt_password, :if => :password_required
+
+  def has_password?(password)
+    ::BCrypt::Password.new(crypted_password) == password
+  end
+
+  private
+  def encrypt_password
+    self.crypted_password = ::BCrypt::Password.create(self.password)
+  end
+
+  def password_required
+    crypted_password.blank? || self.password.present?
+  end  
+    
+end

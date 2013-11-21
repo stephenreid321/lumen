@@ -1,0 +1,36 @@
+
+<p><%= page_entries_info @accounts, :model => 'Person' %></p>
+
+<ul class="list-unstyled clearfix">
+  <% @accounts.each { |account| %>
+    <li style="display: block; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; padding: 5px">
+
+      <div class="media">
+        <a class="pull-left">
+          <img style="width: 100px" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading"><a href="/accounts/<%=account.id%>"><%=account.name%></a></h4>        
+          <ul class="fa-ul">
+            <% account.affiliations.each { |affiliation|%>
+              <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
+            <% } %>
+          </ul>          
+        </div>
+      </div>        
+
+    </li>
+  <% } %>
+</ul>
+
+<script>
+  $(function() {
+    $('#results .pagination a').click(function(e) {
+      e.preventDefault();
+      $('#results').load($(this).attr('href'), function() {
+        scroll(0,0);
+      });
+    });  
+  });
+</script>
+<%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :page_links => false %>

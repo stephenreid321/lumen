@@ -1,0 +1,46 @@
+
+<script>
+  $(function() {
+    $('#results-form').submit(function(e) {
+      e.preventDefault();
+      $('#filter-spin').show();
+      $('#results').load('/organisations/results?'+$(this).serialize(), function() {
+        $('#filter-spin').hide();
+      });
+    });
+        
+    $('#results-form select, #results-form input[type=radio]').change(function() {
+      $(this.form).submit();
+    });
+        
+    $('#results-form').submit();
+  });  
+</script>
+
+<% form_tag '', :method => 'get', :id => 'results-form' do %>
+
+  <%
+  organisations = Organisation.all
+%>
+
+  <div class="row" style="margin-top: 10px">
+    <div class="col-md-8">
+      <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => ['']+organisations.map(&:name).uniq.sort, :"data-placeholder" => 'Filter by name' %>
+      <%= select_tag :sector, :selected => @sector, :class => 'form-control chosen', :options => ['']+organisations.map(&:sectorships).flatten.map(&:sector).map(&:name).uniq.sort, :"data-placeholder" => 'Filter by sector' %>
+      <div style="margin-top: 5px;">
+        <label class="radio-inline" style="padding-left: 0">Sort by</label>
+        <% {'Last updated' => :date, 'Name' => :name}.each { |k,v| %>
+          <label class="radio-inline">
+            <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
+          </label>        
+        <% } %>      
+        <label class="radio-inline">
+          <i id="filter-spin" style="display:none" class="fa fa-spin fa-refresh"></i>
+        </label>                      
+      </div>
+    </div>
+  </div>
+
+<% end %>  
+
+<div id="results" style="margin-top: 10px"></div>

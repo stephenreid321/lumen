@@ -1,0 +1,85 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    Manage members
+  </li>
+</ol>
+
+<div class="row">
+  <div class="col-md-8">
+    <ul class="nav nav-pills" style="margin-top: 10px">
+      <% {:admins => 'Admins', :others => 'Others', :notification_level_none => 'Notifications off', :never_signed_in => 'Never signed in', :no_affiliations => 'No affiliations', :no_picture => 'No picture'}.each { |k,v| %>
+        <li <%= 'class="active"'.html_safe if @view == k %>>
+          <a href="?view=<%=k%>"><%=v%></a>
+        </li>
+      <% } %> 
+    </ul>
+
+    <style>#members td { padding: 0.5em }</style>
+    <table id="members" >
+      <% @memberships.each { |membership| %>
+        <tr>
+          <td>
+            <a href="/accounts/<%=membership.account_id%>"><%= membership.account.name %></a>
+          </td>
+          <td>
+            <%= (sign_in = membership.account.sign_ins.order_by(:created_at.desc).limit(1).first) ? "Last signed in #{sign_in.created_at}" : "Never signed in" %>
+          </td>
+          <td>
+            <a title="Remove from group" data-confirm="Are you sure you want to remove this member?" class="edit" href="/groups/<%=@group.slug%>/remove_member/<%=membership.account_id%>"><i class="fa fa-times"></i></a>
+          </td>      
+          <td>
+            <% if membership.admin? %>
+              <a title="Unadmin" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/unadmin/<%=membership.account_id%>"><i class="fa fa-key"></i></a>
+            <% else %>
+              <a title="Make admin" class="edit" href="/groups/<%=@group.slug%>/make_admin/<%=membership.account_id%>"><i class="fa fa-key"></i></a>
+            <% end %>
+          </td>
+          <td>
+            <% if membership.notification_level == 'each' %>
+              <a title="Email notifications on; click to turn off" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/set_notification_level/<%=membership.account_id%>/none"><i class="fa fa-envelope"></i></a>
+            <% else %>
+              <a title="Email notifications off; click to turn on" class="edit restore-opacity" href="/groups/<%=@group.slug%>/set_notification_level/<%=membership.account_id%>/each"><i class="fa fa-envelope"></i></a>
+            <% end %>        
+          </td>
+          <% if [:never_signed_in, :no_affiliations, :no_picture].include? @view %>        
+            <td>
+              <a class="btn btn-default" href="/groups/<%=@group.slug%>/reminder?account_id=<%=membership.account_id%>&issue=<%=@view%>">Send reminder</a>
+              <% if membership.reminder_sent %>Reminder sent <%= time_ago_in_words(membership.reminder_sent) %> ago<% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% } %>
+    </table>
+
+  </div>
+  <div class="col-md-4">
+
+    <h2>Add a member</h2>
+    <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
+      <div class="form-group">
+        <label class="sr-only">Name</label>
+        <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>
+      </div>
+      <div class="form-group">
+        <label class="sr-only">Email</label>    
+        <%= text_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
+      </div>
+      <div class="checkbox">
+        <label>
+          Send notifications <%= check_box_tag :notification_level, :value => 'each', :checked => true %>
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          Admin <%= check_box_tag :role, :value => 'admin' %>
+        </label>
+      </div>    
+      <%= submit_tag 'Add', :class => 'btn btn-default' %>
+    <% end %>    
+
+  </div>
+</div>

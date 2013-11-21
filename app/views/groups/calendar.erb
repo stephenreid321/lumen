@@ -1,0 +1,11 @@
+<ol class="breadcrumb" style="margin-bottom: 20px">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>  
+  <li class="active">
+    Calendar
+  </li>
+</ol>
+
+<%= partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar"} %>

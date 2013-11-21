@@ -1,0 +1,64 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li><a href="/groups/<%=@conversation.group.slug%>"><%=@conversation.group.slug%></a></li>
+  <li class="active"><%=@conversation.subject%></li>
+  <% if @conversation.group.memberships.find_by(account: current_account).admin? %>
+    <li style="float: right; width: 11em">
+      <a title="Delete conversation" data-confirm="Are you sure you want to delete this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/destroy"><i class="fa fa-times"></i> Delete conversation</a>
+    </li>    
+  <% end %>
+</ol>
+
+<div class="row">
+
+  <div class="col-md-8">
+
+    <h2><%=@conversation.subject%></h2>
+
+    <% @conversation.conversation_posts.order_by(:created_at.asc).each { |conversation_post|  %>
+      <div class="media">
+        <span class="pull-left">
+          <img class="media-object" style="width: 32px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+        </span>
+        <div class="media-body">
+          <div>
+            <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>            
+            <ul class="fa-ul">
+              <% conversation_post.attachments.each { |attachment| %>
+                <li><i class="fa fa-li fa-paperclip"></i><a href="<%=attachment.file.url%>"><%=attachment.file_name%></a></li>
+              <% } %>
+            </ul>
+
+            <div id="conversation-post-<%=conversation_post.id%>"><%= Rinku.auto_link(conversation_post.body_with_inline_images).html_safe %></div>
+          </div>
+          <div title="<%=conversation_post.created_at%>" style="font-size: 12px; opacity: 0.5"><%=time_ago_in_words(conversation_post.created_at)%> ago</div>
+        </div>
+      </div> 
+    <% } %>
+    <div class="media">
+      <span class="pull-left">
+        <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+      </span>
+      <div class="media-body">
+        <% form_tag "/conversations/#{@conversation.slug}/post", :multipart => true do |f| %>        
+          <script>$(function() { $('#post').wysihtml5(); });</script>
+          <%= text_area_tag :body, :class => 'form-control', :id => 'post', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10  %>        
+          <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();$('#attach').show();$('#attach input').click();">Attach a file</a>
+          <div style="display:none; margin-bottom: 10px" id="attach">
+            <%= file_field_tag :attachment %>
+          </div>
+          <%= submit_tag 'Post', :class => 'btn btn-default'  %>
+        <% end %> 
+      </div>
+    </div>  
+
+
+
+  </div>
+  <div class="col-md-4">
+    <h2><%=pluralize(@conversation.participants.count,'participant')%> in this conversation</h2>
+    <%= partial :'accounts/list', :locals => {:scope => 'conversation', :scope_id => @conversation.id} %>
+  </div>
+</div>
+
+

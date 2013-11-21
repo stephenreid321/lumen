@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%=ENV['SITE_NAME']%></title>
+
+    <%
+    [
+      'bootstrap.min.css',
+      'bootstrap-theme.min.css',
+      'font-awesome.min.css',
+      'bootstrap-wysihtml5-0.0.3.css',
+      'chosen.min.css',
+      'chosen-bootstrap.css',
+      'bootstrap-stacked-tabs.css'
+    ].each { |file| %> 
+      <link rel="stylesheet" href="/stylesheets/<%=file%>" />    
+    <% } %>
+
+    <% [
+      'jquery-1.9.1.min.js',
+      'bootstrap.min.js',
+      'bootstrap3-typeahead.min.js',
+      'wysihtml5-0.3.0.js',
+      'bootstrap-wysihtml5-0.0.3.js',
+      'jquery.confirm.js',
+      'jquery.deparam.js',
+      'jquery.typing-0.2.0.min.js',
+      'chosen.jquery.min.js'
+    ].each { |file| %>
+      <script src="/javascripts/<%=file%>"></script>
+    <% } %>    
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+    <script>$(function() { $("select.chosen").chosen({allow_single_deselect: true}); });</script>
+    <style>.chosen-container { margin-bottom: 5px; } .chosen-default span { opacity: 0.5 }</style>
+
+    <style>
+      body { padding: 60px 20px 20px 20px; }
+      .restore-opacity { opacity: 0.5; }
+      .restore-opacity:hover { opacity: 1 !important  }
+      a.edit { color: black; text-decoration: none; opacity: 0.25 }
+      a.edit:hover { opacity: 1 }      
+      ul.breadcrumb { margin: 0 0 5px }
+      body, p, input, select, textarea, button, h1,h2,h3,h4,h5,h6 { font-family: 'Lato', 'Helvetica', 'Arial', sans-serif }
+      .chosen-container-single .chosen-single abbr { top: 10px }
+      ol.breadcrumb { margin-bottom: 0 }
+      ol.breadcrumb li[style*=float]:before { content: '' }
+      select[name*=day], select[name*=month], select[name*=year], select[name*=hour], select[name*=min] { display:inline; width: auto } 
+      .popover { z-index: 1040 }
+
+      /* news.me */
+      .news-summary ol.top-stories.stories-list { list-style-type: none; margin: 0; padding: 0 }
+      .news-summary .stories-list-item { margin-top: 26px }
+      .news-summary h5.story-header { font-size: 18px; margin: 0;  line-height: 100% }
+      .news-summary .story-meta { font-size: 13px; margin: 8px 0 }
+      .news-summary .pipe, .story-tweeter-names, .story-tweeter-names a { color: #888 }
+      .news-summary a.top-stories-domain { color: #333; font-weight: bold; }
+      .news-summary a.top_stories_body { color: #666 }
+      .news-summary .story-tweeters { margin-top: 8px }
+      .news-summary .story-tweeters img { border-radius: 2px }      
+    </style>   
+
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <% if !current_account %>
+          <a class="navbar-brand" href="/"><%=ENV['SITE_NAME']%></a>
+        <% end %>        
+      </div>
+      <% if current_account %>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">        
+          <ul class="nav navbar-nav">
+            <% if current_account %>
+              <li><a href="/"><i class="fa fa-home"></i>&nbsp;&nbsp;Home</a></li>
+
+              <li class="dropdown">
+                <a class="dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="#">
+                  <i class="fa fa-group"></i>&nbsp;&nbsp;Groups
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
+                    <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
+                  <% } %>  
+                </ul>
+              </li>                
+              <li><a href="/organisations"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Organisations</a></li>
+              <li><a href="/sectors"><i class="fa fa-th-list"></i>&nbsp;&nbsp;Sectors</a></li>
+              <% if current_account.role == 'admin' %>
+                <li class="admin"><a href="/analytics"><i class="fa fa-dashboard"></i>&nbsp;&nbsp;Sitewide analytics</a></li>        
+              <% end %>
+            <%  end %>
+          </ul>  
+          <style>li.admin { background: #F5F2EB;  }</style>
+          <ul class="nav navbar-nav navbar-right">
+            <% if current_account %>
+              <li><a href="/account/edit">
+                  Edit profile & connect accounts
+                  <% if current_account.connections.count < 3 %>
+                    (<%=current_account.connections.count%>/4 connected)
+                  <% end %>
+                </a></li>
+              <li><a href="/sign_out">Sign out</a></li>
+            <%  end %> 
+          </ul>
+        </div>
+      <% end %>
+    </nav>    
+
+
+    <div style="z-index: 1040; width: 40%; margin-left: -20%; left: 50%; position: absolute; margin-top: -40px">
+      <% {:error => 'alert-danger', :warning => 'alert-warning', :notice => 'alert-info'}.each { |k,v| %>
+        <% if flash[k] %>
+          <div id="top-alert" class="fade in alert <%=v%> alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= flash[k] %>
+          </div>
+        <% end %>        
+      <% } %>       
+    </div>
+    <script>
+      $(function() {
+        $(".alert").alert();
+        window.setTimeout(function() { $("#top-alert").alert('close'); }, 3000);
+      });
+    </script>
+
+    <%= yield %>
+
+    <div id="footer" class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <hr />
+        <div class="restore-opacity" style="text-align: center">
+          <a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a>
+          &middot;
+          <a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a>
+        </div>
+      </div>
+    </div>
+
+    <% if Padrino.env == :production %>
+
+      <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-38168145-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+      </script>      
+    <% end %>
+
+  </body>
+</html>

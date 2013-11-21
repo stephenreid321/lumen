@@ -1,0 +1,76 @@
+
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li class="active">
+    <%=@group.slug%>    
+  </li>
+  <% if @current_membership.admin? %>
+    <li style="float: right; width: 10em;">
+      <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
+    </li>
+    <li style="float: right; width: 6em;">
+      <a title="Analytics" class="edit restore-opacity" href="/groups/<%=@group.slug%>/analytics"><i class="fa fa-dashboard"></i> Analytics</a>
+    </li>    
+  <% end %>     
+  <li style="float: right; width: 7.5em;">
+    <a title="Leave group" data-confirm="Are you sure you want to leave this group?" class="edit restore-opacity" href="/groups/<%=@group.slug%>/leave"><i class="fa fa-sign-out"></i> Leave group</a>          
+  </li>  
+  <li style="float: right; width: 12em">
+    <% if @current_membership.notification_level == 'each' %>
+      <a title="Email notifications on; click to turn off" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/notification_level/none"><i class="fa fa-envelope"></i> Email notifications on</a>
+    <% else %>
+      <a title="Email notifications off; click to turn on" class="edit restore-opacity" href="/groups/<%=@group.slug%>/notification_level/each"><i class="fa fa-envelope"></i> Email notifications off</a>
+    <% end %>
+  </li>   
+</ol>
+
+<div class="row">
+
+  <div class="col-md-1">
+
+    <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
+	  <style>.nav-tabs li a { color: #aaa }</style>
+      <ul class="nav nav-tabs">
+        <li class="active"><a title="Conversations" href="#a" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
+        <li><a href="#b" title="Calendar" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
+      </ul>
+    </div>
+    <script>
+      $(function() {
+        
+        $(window).resize(function(){
+          if (document.documentElement.clientWidth < 992) {
+            $('.tabs-left-please').removeClass('tabs-left');
+          } else {
+            $('.tabs-left-please').addClass('tabs-left');
+          }
+        });
+
+        $('a[data-toggle="tab"][title=Calendar]').on('shown.bs.tab', function (e) {
+          $('#calendar').fullCalendar('render')
+        });
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+          $('.fc-event').popover('destroy');
+        });
+      });
+    </script>
+
+  </div>
+  <div class="col-md-7">        
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="a">
+        <%= partial :'conversations/conversations' %>
+      </div>
+      <div class="tab-pane" id="b">
+        <style>#calendar { margin-top: 20px }</style>
+        <%= partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar", :mini => true} %>        
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-4">
+    <h2><%=pluralize(@group.memberships.count,'member')%> in this group</h2>
+    <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<script src="/javascripts/fullcalendar.min.js"></script>
+<link rel="stylesheet" href="/stylesheets/fullcalendar.css" />    
+<style>
+  .fc-button { height: auto; line-height: 1.42857; padding: 6px 12px }
+</style>
+<script>
+  $(function() {
+    var mini = <%= defined?(mini) ? 'true' : 'false' %>
+    $('#calendar').fullCalendar({
+      events: '<%=calendar_path%>/feed',
+      buttonText:
+        {
+        prev:     '<i class="fa fa-chevron-left"></i>', // <
+        next:     '<i class="fa fa-chevron-right"></i>', // >
+        today:    'Today',
+        month:    'Month',
+        week:     'Week',
+        day:      'Day'
+      },      
+      firstDay: 1,      
+      height: mini ? null : $(window).height() - $('#calendar').offset().top - $('#footer').height() - parseInt($('body').css('padding-bottom')) - 10, // and ten for luck
+      header:
+        mini ? {
+        left: 'today prev,next title',
+        right: ''
+      } : {
+        left: 'today prev,next title',
+        right: 'agendaDay,agendaWeek,month' 
+      } ,
+      titleFormat:
+        {
+        week: "d[ MMM][ yyyy]{ '&#8212;' d MMM yyyy}", // Sep 7 - 13 2009
+        day: 'dddd d MMM yyyy'                  // Tuesday, Sep 8, 2009
+      },        
+      columnFormat:
+        {
+        week: 'ddd d/M', // Mon 9/7
+        day: 'dddd d/M'  // Monday 9/7
+      },      
+      eventClick: function(event, jsEvent, view) {        
+        console.log(this);
+        $('.fc-event').popover('destroy');
+        if ($(this).data('popover') == true) {
+          $(this).data('popover', false);
+        } else {
+          var content = '<ul class="fa-ul">'
+          if (event.group_slug)
+            content += '<li><i class="fa-li fa fa-group"></i><strong><a href="/groups/' + event.group_slug + '/calendar">' + event.group_slug +  '</a></strong></li>'      
+          content += '<li><i class="fa-li fa fa-calendar"></i><strong>' + event.when_details + '</strong></li>'
+          if (event.location)
+            content += '<li><i class="fa-li fa fa-globe"></i><strong><a target="map" href="http://www.google.co.uk/maps?q=' + event.location + '">' + event.location +  '</a></strong></li>'
+          content += '</ul>'
+          if (event.details)
+            content += event.details
+          content += '<p style="font-size: smaller; text-align: right; margin-top: 10px">Created by <a href="/accounts/' + event.account_id + '">' + event.account_name + '</a> &middot; <a href="<%=calendar_path%>/' + event.id + '/edit">Edit</a></p>' ,
+          $(this).popover({
+            content: content,
+            trigger: 'manual',
+            title: event.title,
+            placement:'auto top',
+            container:'body',
+            html: true          
+          }).popover('show');
+          $('.fc-event').data('popover',false);
+          $(this).data('popover',true);
+        }
+        return false;
+      },
+      viewDestroy: function() {
+        $('.fc-event').popover('destroy');
+        $('.fc-event').data('popover',false);
+      },
+<% if params[:event_id]; event = Event.find(params[:event_id]) %>      
+        year: <%=event.start_time.year%>,
+        month: <%=event.start_time.month - 1%>,
+        date: <%=event.start_time.day%>,
+        eventAfterAllRender: function() {
+          $('.event-<%=event.id%>').mouseover().click(); 
+        }
+<% end %>  
+    });
+
+
+
+    if (mini) {
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>" class="btn btn-default" title="Full width"><i class="fa fa-resize-horizontal"></i></a>');
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=export_path ||= "#{calendar_path}.ics"%>" class="btn btn-default" title="Export"><i class="fa fa-calendar"></i></a>');
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
+    } else {
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=export_path%>" class="btn btn-default" title="Export"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Export</a>');
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
+    }
+
+  });  
+</script>
+
+<div id="calendar"></div>

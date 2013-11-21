@@ -1,0 +1,125 @@
+<% if !@group %>
+  <div class="row" style="margin-top: 10px">
+    <div class="col-md-6 col-md-offset-3">
+      <% form_tag '', :class => 'form-horizontal' do %>
+        <div class="form-group">
+          <label class="control-label col-md-3">Pick a group</label>
+          <div class="col-md-6"> 
+            <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/calendar/add'" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+
+  <ol class="breadcrumb">
+    <li><a href="/">Groups</a></li>
+    <li>
+      <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+    </li>
+    <li>
+      <a href="/groups/<%=@group.slug%>/calendar">Calendar</a>    
+    </li>  
+    <li class="active">
+      <%= @event.persisted? ? 'Edit' : 'Add' %> event
+    </li>
+  </ol>
+
+
+  <div class="row" style="margin-top: 10px">
+    <div class="col-md-6 col-md-offset-3">
+
+      <% form_for @event, @event.new_record? ? "/groups/#{@group.slug}/calendar/add" : "/groups/#{@group.slug}/calendar/#{@event.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:name).blank? %>">
+          <label class="control-label col-md-3">Event name</label>
+          <div class="col-md-6">      
+            <%=f.text_field :name, :class => 'form-control' %>
+            <% if !f.error_message_on(:name).blank? %>
+              <p class="help-block"><%= f.error_message_on :name, :prepend => Event.human_attribute_name(:name) %></p>
+            <% end %>
+          </div>
+        </div>  
+
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:details).blank? %>">
+          <label class="control-label col-md-3"><%= Event.human_attribute_name(:details) %></label>
+          <div class="col-md-9">   
+            <script>$(function() { $('#event_details').wysihtml5(); });</script>
+            <%=f.text_area :details, :class => 'form-control', :style => 'height: 8em' %>
+            <% if !f.error_message_on(:details).blank? %>
+              <p class="help-block"><%= f.error_message_on :details, :prepend => Event.human_attribute_name(:details) %></p>
+            <% end %>
+          </div>
+        </div>        
+
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
+          <label class="control-label col-md-3">Where</label>
+          <div class="col-md-6">      
+            <%=f.text_field :location, :class => 'form-control' %>
+            <% if !f.error_message_on(:location).blank? %>
+              <p class="help-block"><%= f.error_message_on :location, :prepend => Event.human_attribute_name(:location) %></p>
+            <% end %>
+          </div>
+        </div>      
+
+
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:start_time).blank? %>">
+          <label class="control-label col-md-3">From</label>
+          <div class="col-md-9">      
+            <%= date_select_tags 'event[start_time]', :class => 'form-control', :value => @event.start_time %>
+            <span class="time">
+              @ <%= time_select_tags 'event[start_time]', :class => 'form-control', :fives => true, :value => @event.start_time %>
+            </span>          
+            <% if !f.error_message_on(:start_time).blank? %>
+              <p class="help-block"><%= f.error_message_on :start_time, :prepend => Event.human_attribute_name(:start_time) %></p>
+            <% end %>
+          </div>
+        </div>     
+
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:end_time).blank? %>">
+          <label class="control-label col-md-3">To</label>
+          <div class="col-md-9">      
+            <%= date_select_tags 'event[end_time]', :class => 'form-control', :value => @event.end_time %>
+            <span class="time">
+              @ <%= time_select_tags 'event[end_time]', :class => 'form-control', :fives => true, :value => @event.end_time %>
+            </span>
+            <% if !f.error_message_on(:end_time).blank? %>
+              <p class="help-block"><%= f.error_message_on :end_time, :prepend => Event.human_attribute_name(:end_time) %></p>
+            <% end %>          
+          </div>
+        </div>     
+
+        <%= f.check_box :consider_time, :style => 'display: none'%>
+
+        <style>
+          .time { display: none }
+        </style>
+        <script>
+          $(function() {          
+            var add = $('<a href="javascript:;" style="margin-left: 5px">Add a time</a>');         
+            $(add).click(function() {
+              $('.time').show();
+              $('#event_consider_time').prop('checked',true);
+              $(this).hide();
+            });
+            $(add).insertBefore($('.time').first());
+            if ($('#event_consider_time').prop('checked'))
+              $(add).click();
+          });
+        </script>    
+
+        <div class="form-group">
+          <div class="col-md-offset-3 col-md-8">
+            <button class="btn btn-primary" type="submit"><%= @event.new_record? ? 'Add event' : 'Update event' %></button>
+            <% if @event.persisted? %><a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/destroy" data-confirm="Are you sure you want to delete this event?" class="btn btn-danger" href="">Delete event</a><% end %>
+          </div>
+        </div>       
+
+      <% end %>
+
+    </div>
+  </div>
+
+<% end %>
+

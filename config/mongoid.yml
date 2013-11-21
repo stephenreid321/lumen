@@ -1,0 +1,14 @@
+development:
+  sessions:
+    default:
+      database: <%= File.basename(PADRINO_ROOT) %>
+      hosts:
+        - localhost:27017
+
+production:
+  sessions:
+    default:
+      uri: <%= ENV['MONGOHQ_URL'] %>
+      options:
+        skip_version_check: true
+        safe: true

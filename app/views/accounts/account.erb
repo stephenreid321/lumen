@@ -1,0 +1,41 @@
+<div class="media">
+  <a class="pull-left">
+    <img style="max-width: 300px" src="<%=@account.picture.try(:url) || '/images/silhouette.png' %>" />
+  </a>
+  <div class="media-body">
+    <h2 class="media-heading"><%=@account.name%></h2>        
+    <ul class="fa-ul">
+      <% @account.affiliations.each { |affiliation|%>
+        <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
+      <% } %>
+      <% if @account.location %>
+        <li><i title="Location" class="fa fa-li fa-location-arrow"></i>Based in <%=@account.location%></li>
+      <% else %>
+        <li><i style="opacity: 0.25" class="fa fa-li fa-location-arrow"></i></li> &nbsp;
+      <% end %>           
+      <% if @account.expertise %>
+        <li><i title="Areas of expertise" class="fa fa-li fa-tags"></i><%@account.expertises.each { |expertise|%><span class="label label-default" style="text-indent: 0"><%=expertise%></span> <% } %></li>
+      <% else %>
+        <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
+      <% end %>             
+      <li><i title="Email" class="fa fa-li fa-envelope"></i><a target="_blank" href="mailto:<%=@account.email%>"><%=@account.email%></a></li>         
+      <% if @account.phone %>
+        <li><i title="Phone" class="fa fa-li fa-phone"></i><%=@account.phone%></li>
+      <% else %>
+        <li><i style="opacity: 0.25" class="fa fa-li fa-phone"></i></li> &nbsp;
+      <% end %>
+      <% Account.providers.each { |provider| %>
+        <li>
+          <% if connection = @account.connections.find_by(provider: provider.display_name) %>          
+            <i title="<%=provider.display_name%>" class="fa fa-li fa-<%=provider.icon%>"></i><a target="_blank" href="<%=provider.profile_url.call(connection.omniauth_hash)%>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
+          <% else %>
+            <i style="opacity: 0.25" class="fa fa-li fa-<%=provider.icon%>"></i> &nbsp;
+          <% end %>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+</div>
+
+
+

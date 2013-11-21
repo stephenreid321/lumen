@@ -1,0 +1,8 @@
+<ol class="breadcrumb">
+  <li class="active">Sectors</li>
+</ol>
+
+
+  <% @sectors.each { |sector| %>
+  <h2><a href="/sectors/<%=sector.id%>"><%=sector.name%></a> <small><%=pluralize(sector.sectorships.count, 'organisation')%>, <%=pluralize(sector.members.count, 'person')%></small></h2>
+  <% } %>

@@ -1,0 +1,122 @@
+<ol class="breadcrumb" style="margin-bottom: 10px">
+  <li><a href="/organisations">Organisations</a></li>
+  <li>
+    <a href="/organisations/<%=@organisation.id%>"><%=@organisation.name%></a>
+  </li>
+  <li class="active">
+    Edit
+  </li>
+</ol>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <% form_for @organisation, @organisation.new_record? ? "/organisations/new" : "/organisations/#{@organisation.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+
+      <div class="form-group <%= 'has-error' if !f.error_message_on(:name).blank? %>">
+        <label class="control-label col-md-3">Name</label>
+        <div class="col-md-6">      
+          <%=f.text_field :name, :class => 'form-control' %>
+          <% if !f.error_message_on(:name).blank? %>
+            <p class="help-block"><%= f.error_message_on :name, :prepend => 'Name' %></p>
+          <% end %>
+        </div>
+      </div> 
+
+      <div class="form-group <%= 'has-error' if !f.error_message_on(:address).blank? %>">
+        <label class="control-label col-md-3">Address</label>
+        <div class="col-md-6">      
+          <%=f.text_field :address, :class => 'form-control' %>
+          <% if !f.error_message_on(:address).blank? %>
+            <p class="help-block"><%= f.error_message_on :address, :prepend => 'Address' %></p>
+          <% end %>
+        </div>
+      </div>      
+
+      <div class="form-group <%= 'has-error' if !f.error_message_on(:website).blank? %>">
+        <label class="control-label col-md-3"><%='Website'%></label>        
+        <div class="col-md-6">      
+          <%=f.text_field :website, :class => 'form-control' %>
+          <% if !f.error_message_on(:website).blank? %>
+            <p class="help-block"><%= f.error_message_on :website, :prepend => 'Website' %></p>
+          <% end %>
+        </div>
+      </div>  
+
+      <div class="form-group <%= 'has-error' if !f.error_message_on(:sectorships).blank? %>">
+        <label class="control-label col-md-3">Sectors</label>
+        <div class="col-md-6">             
+          <div id="sectorships">
+            <% f.fields_for :sectorships do |o| %>
+              <div class="sectorship input-group">
+                <%= o.text_field :sector_name, :class => 'form-control typeahead', :value => o.object.try(:sector).try(:name), :placeholder => 'Sector', :autocomplete => 'off' %>
+                <% unless o.object.new_record? %>
+                  <span class="input-group-btn">          
+                    <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked',true).closest('.sectorship').hide()" class="fa fa-times"></i>
+                    <%= o.check_box '_destroy', :style => 'display: none' %>                    
+                  </span>                
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+          <style>
+            .sectorship { margin-bottom: 10px }
+            .sectorship .input-group-btn { padding-left: 5px }
+          </style>
+          <script>
+            $(function() {
+              var icon = $('<i style="cursor: pointer" class="fa fa-plus-square"></i>');
+              $(icon).click(function() {
+                var c = $('.sectorship').length
+                var i = $('<input type="text" />');
+                i.attr('name', 'organisation[sectorships_attributes]['+c+'][sector_name]');
+                i.attr('id', 'organisation_sectorships_attributes_'+c+'_sector_name');
+                i.attr('placeholder', 'Sector');
+                i.addClass('form-control');
+                i.addClass('typeahead');
+                i.prop('autocomplete', 'off');
+                i.typeahead({source: sectors});
+                var d = $('<div class="sectorship input-group"/>');
+                i.appendTo(d);
+                $('<span class="input-group-btn"><i style="visibility:hidden" class="fa fa-times"></i></span>').appendTo(d);
+                d.appendTo('#sectorships');
+                i.focus();                
+              });
+              icon.insertAfter('#sectorships');
+              var sectors = <%=Sector.all.select { |sector| sector.sectorships.count > 0 }.map { |sector| sector.name }.to_json.html_safe%>;
+              $('.typeahead').typeahead({source: sectors});                
+            });
+          </script>
+        </div>
+      </div>    
+
+      <div class="form-group <%= 'has-error' if !f.error_message_on(:picture).blank? %>">
+        <label class="control-label col-md-3">Picture</label>
+        <div class="col-md-6">       
+          <% if !@organisation.picture or (!@organisation.persisted? and !@provider) %>
+            <%= f.file_field :picture, :class => 'form-control' %>  
+          <% else %>            
+            <img style="display: block; max-height: 200px; margin-bottom: 10px" src="<%= @organisation.persisted? ? @organisation.picture.url : @provider.image.call(session['omniauth.auth'])%>">
+            <div>
+              <%= f.file_field :picture %>  
+            </div>
+            <div>
+              <span class="file-option">Remove</span> <%= f.check_box :remove_picture %>
+            </div>
+          <% end %>    
+          <% if !f.error_message_on(:picture).blank? %>
+            <p class="help-block"><%= f.error_message_on :picture, :prepend => 'Picture' %></p>
+          <% end %>            
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-offset-3 col-md-8">
+          <button class="btn btn-primary" type="submit"><%= @organisation.new_record? ? 'Create organisation' : 'Update organisation' %></button>
+        </div>
+      </div>    
+
+    <% end %>
+
+  </div>
+</div>

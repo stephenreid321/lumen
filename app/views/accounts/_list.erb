@@ -1,0 +1,61 @@
+
+<script>
+  $(function() {
+    $('#results-form').submit(function(e) {
+      e.preventDefault();
+      $('#filter-spin').show();
+      $('#results').load('/accounts/results?'+$(this).serialize(), function() {
+        $('#filter-spin').hide();
+      });
+    });
+        
+    $('#results-form select, #results-form input[type=radio]').change(function() {
+      $(this.form).submit();
+    });
+        
+    $('#results-form').submit();
+  });  
+</script>
+
+<% form_tag '', :method => 'get', :id => 'results-form' do %>
+
+  <%= hidden_field_tag :scope, :value => scope %> 
+  <%= hidden_field_tag :scope_id, :value => scope_id %> 
+
+  <%
+  accounts = case scope
+  when 'network'
+    current_account.network
+  when 'group'
+    group = Group.find(scope_id)
+    group.members
+  when 'conversation'
+    conversation = Conversation.find(scope_id)
+    conversation.participants
+  when 'organisation'
+    organisation = Organisation.find(scope_id)
+    organisation.members
+  when 'sector'
+    sector = Sector.find(scope_id)
+    sector.members
+  end
+%>
+  
+  <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => ['']+accounts.map(&:name).uniq.sort, :"data-placeholder" => 'Filter by name' %>
+  <%= select_tag :org, :selected => @org, :class => 'form-control chosen', :options => ['']+accounts.map(&:affiliations).flatten.map(&:organisation).map(&:name).uniq.sort, :"data-placeholder" => 'Filter by organisation' %>
+  <%= select_tag :exp, :selected => @exp, :class => 'form-control chosen', :options => ['']+accounts.map(&:expertises).flatten.uniq.sort, :"data-placeholder" => 'Filter by expertise' %>
+  <div style="margin-top: 5px;">
+    <label class="radio-inline" style="padding-left: 0">Sort by</label>
+    <% {'Date joined' => :date, 'Name' => :name}.each { |k,v| %>
+      <label class="radio-inline">
+        <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
+      </label>        
+    <% } %>      
+    <label class="radio-inline">
+      <i id="filter-spin" style="display:none" class="fa fa-spin fa-refresh"></i>
+    </label>                      
+  </div>
+
+<% end %>  
+
+<div id="results" style="margin-top: 10px"></div>

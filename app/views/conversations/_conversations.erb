@@ -1,0 +1,54 @@
+<h2>Conversations</h2>
+
+<div class="row">
+  <div class="col-md-6">          
+    <%= page_entries_info @conversations, :model => 'Conversation' %>
+  </div>
+  <div class="col-md-offset-2 col-md-4">
+    <% form_tag '',  :style => "margin: 0; margin-bottom: 5px; float: right", :method => 'get' do %>      
+      <div class="input-group" style="text-align: right">
+        <%= search_field_tag :q, :class => 'form-control', :value => @q %>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+        </span>            
+      </div>            
+    <% end %> 
+  </div>
+</div>
+
+<table class="table">
+  <% @conversations.order_by(:updated_at.desc).each { |conversation| %>
+    <tr>
+      <td><a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a></td>
+      <td><span style="opacity: <%=(o = (0.3 + 0.7*(conversation.conversation_posts.count.to_f/3))) > 1 ? 1 : o%>"class="badge"><%=conversation.conversation_posts.count%></span></td>
+      <td>
+        Last post <%= time_ago_in_words(conversation.last_conversation_post.created_at) %> ago
+        by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>
+      </td>
+    </tr>
+  <% } %>      
+</table>
+
+<%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+
+
+<h3>New conversation</h3>
+
+<p>Fill out the form below or send an email to <a href="mailto:<%=@group.imap_address%>"><%=@group.imap_address%></a></p>
+<div class="media">
+  <span class="pull-left">
+    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+  </span>
+  <div class="media-body">
+    <% form_tag "/groups/#{@group.slug}/new_conversation", :multipart => true do |f| %>
+      <%= text_field_tag :subject, :class => 'form-control', :placeholder => 'Subject', :style => 'margin-bottom: 10px; width: 15em;' %>
+      <script>$(function() { $('#post').wysihtml5(); });</script>
+      <%= text_area_tag :body, :class => 'form-control', :id => 'post', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10 %>
+      <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();$('#attach').show();$('#attach input').click();">Attach a file</a>
+      <div style="display:none; margin-bottom: 10px" id="attach">
+        <%= file_field_tag :attachment %>
+      </div>            
+      <%= submit_tag 'Post', :class => 'btn btn-default'  %>
+    <% end %> 
+  </div>
+</div>

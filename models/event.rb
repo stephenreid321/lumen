@@ -1,0 +1,110 @@
+class Event
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  
+  belongs_to :group
+  belongs_to :account
+
+  field :name, :type => String
+  field :start_time, :type => ActiveSupport::TimeWithZone
+  field :end_time, :type => ActiveSupport::TimeWithZone
+  field :consider_time, :type => Boolean
+  field :location, :type => String
+  field :details, :type => String
+  
+  validates_presence_of :name, :start_time, :end_time, :group, :account
+  
+  before_validation :ensure_end_after_start
+  def ensure_end_after_start
+    errors.add(:end_time, 'must be after the start time') unless end_time >= start_time
+  end
+    
+  def self.fields_for_index
+    [:name, :start_time, :end_time, :consider_time, :location, :details, :group_id, :account_id]
+  end
+  
+  def self.fields_for_form
+    {
+      :name => :text,
+      :start_time => :datetime,
+      :end_time => :datetime,
+      :consider_time => :check_box,
+      :location => :text,
+      :details => :text_area,
+      :group_id => :lookup,
+      :account_id => :lookup
+    }
+  end
+  
+  before_validation :consider_time_to_boolean
+  def consider_time_to_boolean
+    if self.consider_time == '0'
+      self.consider_time = false
+    elsif self.consider_time == '1'
+      self.consider_time = true
+    end
+    return true
+  end
+  
+  def when_details
+    if consider_time
+      if start_time.to_date == end_time.to_date
+        "#{start_time.to_date.to_s(:no_year)}, #{start_time.to_s(:no_double_zeros)} &mdash; #{end_time.to_s(:no_double_zeros)}"
+      else
+        "#{start_time.to_date.to_s(:no_year)}, #{start_time.to_s(:no_double_zeros)} &mdash; #{end_time.to_date.to_s(:no_year)}, #{end_time.to_s(:no_double_zeros)}"
+      end
+    else
+      if start_time.to_date == end_time.to_date
+        start_time.to_date.to_s(:no_year)
+      else
+        "#{start_time.to_date.to_s(:no_year)} &mdash; #{end_time.to_date.to_s(:no_year)}"
+      end
+    end
+  end
+  
+  def self.ical(eventable)
+    cal = RiCal.Calendar do |rcal|
+      rcal.add_x_property('X-WR-CALNAME', eventable.is_a?(Group) ? eventable.imap_address : ENV['DOMAIN'])
+      eventable.events.each { |event|
+        rcal.event do |revent|
+          revent.summary = event.name
+          revent.dtstart =  event.consider_time ? event.start_time : event.start_time.to_date
+          revent.dtend = event.consider_time ? event.end_time : (event.end_time.to_date + 1.day)
+          (revent.location = event.location) if event.location
+          description = ''
+          #description << event.details+"<br />" if event.details
+          #description << "Created by #{event.account.name}<br /><br />"
+          description << "http://#{ENV['DOMAIN']}/groups/#{event.group.slug}/calendar?event_id=#{event.id}"
+          #description = Nokogiri::HTML.parse(description)            
+          #description.css("br").each { |node| node.replace("\n") }
+          #description = description.text
+          revent.description = description
+        end
+      }
+    end
+    cal.export
+  end
+  
+  def self.json(eventable, start_time=nil, end_time=nil)
+    events = eventable.events
+    events = events.where(:start_time.gte => Time.zone.at(start_time.to_i)) if start_time
+    events = events.where(:end_time.lte => Time.zone.at(end_time.to_i)) if end_time
+    JSON.pretty_generate events.map { |event| 
+      {
+        :title => event.name,
+        :start => event.start_time.to_s(:db),
+        :end => event.end_time.to_s(:db), 
+        :allDay => !event.consider_time,
+        :when_details => event.when_details,
+        :location => event.location,
+        :details => event.details,
+        :account_id => event.account_id.to_s,
+        :account_name => event.account.name,
+        :id => event.id.to_s,
+        :className => "event-#{event.id}",
+        :group_slug => (event.group.slug unless eventable.is_a?(Group))
+      }
+    }    
+  end
+  
+end

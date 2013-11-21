@@ -51,7 +51,17 @@
               <p class="help-block"><%= f.error_message_on :details, :prepend => Event.human_attribute_name(:details) %></p>
             <% end %>
           </div>
-        </div>        
+        </div> 
+      
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:reason).blank? %>">
+          <label class="control-label col-md-3">Members of this group should come because&hellip;</label>
+          <div class="col-md-6">      
+            <%=f.text_field :reason, :class => 'form-control' %>
+            <% if !f.error_message_on(:reason).blank? %>
+              <p class="help-block"><%= f.error_message_on :reason, :prepend => Event.human_attribute_name(:reason) %></p>
+            <% end %>
+          </div>
+        </div>       
 
         <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
           <label class="control-label col-md-3">Where</label>

@@ -11,6 +11,7 @@ class Event
   field :consider_time, :type => Boolean
   field :location, :type => String
   field :details, :type => String
+  field :reason, :type => String
   
   validates_presence_of :name, :start_time, :end_time, :group, :account
   
@@ -20,7 +21,7 @@ class Event
   end
     
   def self.fields_for_index
-    [:name, :start_time, :end_time, :consider_time, :location, :details, :group_id, :account_id]
+    [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :group_id, :account_id]
   end
   
   def self.fields_for_form
@@ -31,6 +32,7 @@ class Event
       :consider_time => :check_box,
       :location => :text,
       :details => :text_area,
+      :reason => :text,
       :group_id => :lookup,
       :account_id => :lookup
     }
@@ -71,14 +73,7 @@ class Event
           revent.dtstart =  event.consider_time ? event.start_time : event.start_time.to_date
           revent.dtend = event.consider_time ? event.end_time : (event.end_time.to_date + 1.day)
           (revent.location = event.location) if event.location
-          description = ''
-          #description << event.details+"<br />" if event.details
-          #description << "Created by #{event.account.name}<br /><br />"
-          description << "http://#{ENV['DOMAIN']}/groups/#{event.group.slug}/calendar?event_id=#{event.id}"
-          #description = Nokogiri::HTML.parse(description)            
-          #description.css("br").each { |node| node.replace("\n") }
-          #description = description.text
-          revent.description = description
+          revent.description = "http://#{ENV['DOMAIN']}/groups/#{event.group.slug}/calendar?event_id=#{event.id}"
         end
       }
     end
@@ -98,6 +93,7 @@ class Event
         :when_details => event.when_details,
         :location => event.location,
         :details => event.details,
+        :reason => event.reason,
         :account_id => event.account_id.to_s,
         :account_name => event.account.name,
         :id => event.id.to_s,

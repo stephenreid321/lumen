@@ -1,5 +1,7 @@
-HireFire::Resource.configure do |config|
-  config.dyno(:worker) do
-    HireFire::Macro::Delayed::Job.queue(:mapper => :mongoid)
+if defined? Hirefire
+  HireFire::Resource.configure do |config|
+    config.dyno(:worker) do
+      HireFire::Macro::Delayed::Job.queue(:mapper => :mongoid)
+    end
   end
 end

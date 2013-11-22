@@ -37,17 +37,17 @@ gem 'premailer'
 
 # Asynchronous tasks
 gem 'delayed_job_mongoid', github: 'shkbahmad/delayed_job_mongoid'
-gem 'hirefire-resource'
+# gem 'hirefire-resource'
 
 # Interacting with other websites
 gem 'mechanize'
 # gem 'pismo'
 # gem 'oauth'
-gem 'twitter'
+# gem 'twitter'
 # gem 'koala'
 # gem 'hominid'
-gem 'restforce'
-gem 'heroku-api'
+# gem 'restforce'
+# gem 'heroku-api'
 
 # Caching
 gem 'rack-cache'

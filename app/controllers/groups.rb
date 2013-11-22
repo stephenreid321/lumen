@@ -127,9 +127,11 @@ ActivateApp::App.controllers do
       @membership.notification_level = 'none' if params[:notification_level] != 'each'
       @membership.save
       
+      group = @group # instance var not available in defaults block
       Mail.defaults do
-        delivery_method :smtp, { :address => @group.smtp_server, :port => @group.smtp_port, :authentication => @group.smtp_authentication, :enable_ssl => @group.smtp_ssl, :user_name => @group.smtp_username, :password => @group.smtp_password }
+        delivery_method :smtp, { :address => group.smtp_server, :port => group.smtp_port, :authentication => group.smtp_authentication, :enable_ssl => group.smtp_ssl, :user_name => group.smtp_username, :password => group.smtp_password }
       end      
+      
       mail = Mail.new(
         :to => account.email,
         :from => "#{@group.smtp_name} <#{@group.smtp_address}>",
@@ -171,9 +173,12 @@ Best,
     when :no_picture
       "uploaded a profile picture"
     end
+
+    group = @group # instance var not available in defaults block
     Mail.defaults do
-      delivery_method :smtp, { :address => @group.smtp_server, :port => @group.smtp_port, :authentication => @group.smtp_authentication, :enable_ssl => @group.smtp_ssl, :user_name => @group.smtp_username, :password => @group.smtp_password }
-    end
+      delivery_method :smtp, { :address => group.smtp_server, :port => group.smtp_port, :authentication => group.smtp_authentication, :enable_ssl => group.smtp_ssl, :user_name => group.smtp_username, :password => group.smtp_password }
+    end        
+    
     mail = Mail.new(
       :to => account.email,
       :from => "#{@group.smtp_name} <#{@group.smtp_address}>",

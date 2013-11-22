@@ -35,19 +35,8 @@ gem 'rinku'
 gem 'mail'
 gem 'premailer'
 
-# Asynchronous tasks
-gem 'delayed_job_mongoid', github: 'shkbahmad/delayed_job_mongoid'
-# gem 'hirefire-resource'
-
 # Interacting with other websites
 gem 'mechanize'
-# gem 'pismo'
-# gem 'oauth'
-# gem 'twitter'
-# gem 'koala'
-# gem 'hominid'
-# gem 'restforce'
-# gem 'heroku-api'
 
 # Caching
 gem 'rack-cache'

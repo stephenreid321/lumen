@@ -49,6 +49,31 @@ TWITTER_SECRET=
 AIRBRAKE_API_KEY=
 ```
 
+#### Example cPanel notification script
+
+```php
+#!/usr/local/bin/php -n
+<?php
+require_once('PlancakeEmailParser.php');
+
+$fd = fopen("php://stdin", "r");
+$email = "";
+while (!feof($fd))
+{
+    $email .= fread($fd, 1024);
+}
+fclose($fd);
+
+$emailParser = new PlancakeEmailParser($email);
+
+$sender = $emailParser->getHeader('Sender');
+if ($sender != $argv[1].'-noreply@neweconomyorganisersnetwork.org') { 
+	exec("curl --silent http://www.neweconomyorganisersnetwork.org/groups/check?slug=".$argv[1]);
+}
+
+?>
+```
+
 ### Seeding the database
 
 ``` ruby

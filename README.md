@@ -28,6 +28,11 @@ NOREPLY_NAME=New Economy Organisers Network
 NOREPLY_ADDRESS=no-reply@neweconomyorganisersnetwork.org
 NOREPLY_SIG=Stephen, Dan, Huw and the rest of the NEON team
 
+CPANEL_URL=https://www.neweconomyorganisersnetwork.org/cpanel
+CPANEL_USERNAME=neon
+CPANEL_PASSWORD=
+CPANEL_NOTIFICATION_SCRIPT=notify.php
+
 S3_BUCKET_NAME=
 S3_ACCESS_KEY=
 S3_SECRET=

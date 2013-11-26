@@ -48,6 +48,18 @@ class Group
   def members
     Account.where(:id.in => memberships.only(:account_id).map(&:account_id))
   end
+  
+  after_create :setup_mail_accounts_and_forwarder
+  def setup_mail_accounts_and_forwarder
+    if ENV['CPANEL_URL']
+      agent = Mechanize.new
+      index = agent.post("#{ENV['CPANEL_URL']}/login", :user => ENV['CPANEL_USERNAME'], :pass => ENV['CPANEL_PASSWORD'])
+      session_path = index.uri.to_s.split('index.html').first
+      agent.post(session_path + "mail/doaddpop.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :password => self.imap_password, :password2 => self.imap_password, :quota => 0)
+      agent.post(session_path + "mail/doaddpop.html", :domain => ENV['MAIL_DOMAIN'], :email => "#{self.slug}-noreply", :password => self.imap_password, :password2 => self.imap_password, :quota => 0)
+      agent.post(session_path + "mail/doaddfwd.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :fwdopt => 'pipe', :fwdsystem => ENV['CPANEL_USERNAME'], :pipefwd => "#{ENV['CPANEL_NOTIFICATION_SCRIPT']} #{slug}")
+    end
+  end  
    
   def self.check!
     Group.each { |group|

@@ -50,7 +50,7 @@
             <% end %>
           </div>
         </div>  
-      
+
         <div class="form-group <%= 'has-error' if !f.error_message_on(:organisation_id).blank? %>">
           <label class="control-label col-md-3">Host organisation</label>
           <div class="col-md-6">      
@@ -71,7 +71,7 @@
             <% end %>
           </div>
         </div> 
-      
+
         <div class="form-group <%= 'has-error' if !f.error_message_on(:more_info).blank? %>">
           <label class="control-label col-md-3">Link to full event details</label>
           <div class="col-md-6">      
@@ -81,7 +81,7 @@
             <% end %>
           </div>
         </div>       
-    
+
         <div class="form-group <%= 'has-error' if !f.error_message_on(:ticketing).blank? %>">
           <label class="control-label col-md-3">Ticketing</label>
           <div class="col-md-6">    
@@ -126,7 +126,7 @@
             <% end %>
           </div>
         </div>          
-                  
+
         <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
           <label class="control-label col-md-3">Where</label>
           <div class="col-md-6">      
@@ -182,7 +182,7 @@
               $(add).click();
           });
         </script> 
-        
+
         <div class="form-group <%= 'has-error' if !f.error_message_on(:reason).blank? %>">
           <label class="control-label col-md-3">Members of this group should come because&hellip; (optional)</label>
           <div class="col-md-6">      
@@ -191,7 +191,19 @@
               <p class="help-block"><%= f.error_message_on :reason, :prepend => Event.human_attribute_name(:reason) %></p>
             <% end %>
           </div>
-        </div>          
+        </div>       
+
+        <% if @event.new_record? %>
+          <div class="form-group <%= 'has-error' if !f.error_message_on(:start_conversation).blank? %>">
+            <label class="control-label col-md-3">Notify the group about the addition of this event?</label>
+            <div class="col-md-6">      
+              <%=f.check_box :start_conversation, :checked => true %>
+              <% if !f.error_message_on(:start_conversation).blank? %>
+                <p class="help-block"><%= f.error_message_on :start_conversation, :prepend => Event.human_attribute_name(:start_conversation) %></p>
+              <% end %>
+            </div>
+          </div>     
+        <% end %>
 
         <div class="form-group">
           <div class="col-md-offset-3 col-md-8">

@@ -51,6 +51,13 @@ ActivateApp::App.controllers do
     @event.account = current_account
     if @event.save  
       flash[:notice] = "<strong>Great!</strong> The event was created successfully."
+      if @event.start_conversation == '1'
+        conversation = @event.group.conversations.create!(subject: "New event: #{@event.name}")
+        conversation_post = conversation.conversation_posts.create!(
+          :body => %Q{<h1><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/calendar/#{@event.id}">#{@event.name}</a></h1>#{partial('events/summary')}},
+          :account => @event.account)
+        conversation_post.send_notifications!  
+      end
       redirect "/groups/#{@group.slug}/calendar/#{@event.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the event from being saved."

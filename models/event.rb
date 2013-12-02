@@ -17,6 +17,8 @@ class Event
   field :tickets_link, :type => String
   field :more_info, :type => String
   
+  attr_accessor :start_conversation
+  
   validates_presence_of :name, :start_time, :end_time, :group, :account, :ticketing
   
   before_validation :ensure_end_after_start

@@ -15,6 +15,7 @@ class Event
   field :reason, :type => String
   field :ticketing, :type => String
   field :tickets_link, :type => String
+  field :more_info, :type => String
   
   validates_presence_of :name, :start_time, :end_time, :group, :account, :ticketing
   
@@ -24,7 +25,7 @@ class Event
   end
     
   def self.fields_for_index
-    [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :ticketing, :tickets_link, :group_id, :account_id, :organisation_id]
+    [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :more_info, :ticketing, :tickets_link, :group_id, :account_id, :organisation_id]
   end
   
   def self.fields_for_form
@@ -35,6 +36,7 @@ class Event
       :consider_time => :check_box,
       :location => :text,
       :details => :text_area,
+      :more_info => :text,
       :reason => :text,
       :ticketing => :select,
       :tickets_link => :text,
@@ -102,8 +104,8 @@ class Event
         :allDay => !event.consider_time,
         :when_details => event.when_details,
         :location => event.location,
-        :details => event.details,
         :reason => event.reason,
+        :more_info => event.more_info,
         :ticketing => event.ticketing,
         :tickets_link => event.tickets_link,
         :account_id => event.account_id.to_s,

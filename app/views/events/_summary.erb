@@ -1,16 +1,23 @@
 <ul class="fa-ul">
-  <li><i title="Happening <%= @event.when_details %>" class="fa-li fa fa-calendar"></i><strong><%= @event.when_details %></strong></li>
+  <li><i title="Happening <%= @event.when_details %>" class="fa-li fa fa-calendar"></i><%= @event.when_details %></li>
   <% if @event.organisation %>
-    <li>Hosted by <i title="Host organisation" class="fa-li fa fa-bullhorn"></i><strong><a href="/organisations/<%=@event.organisation_id%>"><%= @event.organisation.name %></a></strong></li>
+    <li>Hosted by <i title="Host organisation" class="fa-li fa fa-bullhorn"></i><a href="/organisations/<%=@event.organisation_id%>"><%= @event.organisation.name %></a></li>
   <% end %>
-  <li><i title="Location" class="fa-li fa fa-map-marker"></i><strong><a href="http://www.google.co.uk/maps?q=<%= URI.encode(@event.location) %>" target="map"><%= @event.location %></a></strong></li>
-  <li><i title="Ticketing" class="fa-li fa fa-ticket"></i><strong>
-      <% if @event.tickets_link %>
-        <a target="_blank" href="<%=@event.tickets_link %>"><%=@event.ticketing %></a>
-      <% else %>
-        <%=@event.ticketing %>
-      <% end %>
-    </strong></li>
+  <li><i title="For more information" class="fa-li fa fa-info"></i>
+    <% if @event.more_info %>
+      See <a href="<%=@event.more_info%>"><%=@event.more_info.split('/')[2].gsub('www.','')%></a> for more information or contact <a href="/accounts/<%=@event.account_id %>"><%=@event.account.name%></a>
+    <% else %>
+      Contact <a href="/accounts/<%=@event.account_id %>"><%=@event.account.name%></a> for more information
+    <% end %>    
+  </li>
+  <li><i title="Location" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(@event.location) %>" target="map"><%= @event.location %></a></li>
+  <li><i title="Ticketing" class="fa-li fa fa-ticket"></i>
+    <% if @event.tickets_link %>
+      <a target="_blank" href="<%=@event.tickets_link %>"><%=@event.ticketing %></a>
+    <% else %>
+      <%=@event.ticketing %>
+    <% end %>
+  </li>
 </ul>
 
 <% if @event.reason %>
@@ -23,8 +30,3 @@
   <% if @event.reason %><br /><br /><% end %>
   <%= @event.details  %>
 <% end %>
-
-<p style="font-size: smaller; text-align: right; margin-top: 10px">
-  Created by <a href="/accounts/<%=@event.account_id %>"><%=@event.account.name%></a>
-  &middot; <a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit">Edit</a>
-</p>

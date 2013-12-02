@@ -71,6 +71,16 @@
             <% end %>
           </div>
         </div> 
+      
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:more_info).blank? %>">
+          <label class="control-label col-md-3">Link for more information</label>
+          <div class="col-md-6">      
+            <%=f.text_field :more_info, :class => 'form-control' %>
+            <% if !f.error_message_on(:more_info).blank? %>
+              <p class="help-block"><%= f.error_message_on :more_info, :prepend => Event.human_attribute_name(:more_info) %></p>
+            <% end %>
+          </div>
+        </div>       
     
         <div class="form-group <%= 'has-error' if !f.error_message_on(:ticketing).blank? %>">
           <label class="control-label col-md-3">Ticketing</label>

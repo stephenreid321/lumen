@@ -71,21 +71,25 @@
           $('.event-<%=event.id%>').mouseover().click(); 
         }
 <% end %>  
-  });
+    });
 
 
 
-if (mini) {
-  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>" class="btn btn-default" title="Full width"><i class="fa fa-resize-horizontal"></i></a>');
-  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=export_path ||= "#{calendar_path}.ics"%>" class="btn btn-default" title="Export"><i class="fa fa-calendar"></i></a>');
-  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
-} else {
-  $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
-  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=export_path%>" class="btn btn-default" title="Export"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Export</a>');
-  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
-}
+    if (mini) {
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>" class="btn btn-default" title="Full width"><i class="fa fa-resize-horizontal"></i></a>');
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
+    } else {
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
+      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
+    }
 
-});  
+  });  
 </script>
 
 <div id="calendar"></div>
+
+<p style="text-align: center; margin-top: 10px">
+  Add this calendar to your Google Calendar (<a href="https://support.google.com/calendar/answer/37100?hl=en">instructions</a>), Apple Calendar, etc:<br />
+  <input onclick="this.select()" class="form-control" style="width: 20em; display: inline" type="text" value="http://<%=ENV['DOMAIN']%><%=export_path ||= "#{calendar_path}.ics"%>">
+</p>
+

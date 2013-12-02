@@ -46,7 +46,7 @@
   <%= select_tag :exp, :selected => @exp, :class => 'form-control chosen', :options => ['']+accounts.map(&:expertises).flatten.uniq.sort, :"data-placeholder" => 'Filter by expertise' %>
   <div style="margin-top: 5px;">
     <label class="radio-inline" style="padding-left: 0">Sort by</label>
-    <% {'Date joined' => :date, 'Name' => :name}.each { |k,v| %>
+    <% {'Date joined' => :date, 'Name' => :name, 'Last updated' => :updated}.each { |k,v| %>
       <label class="radio-inline">
         <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
       </label>        

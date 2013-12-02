@@ -50,6 +50,7 @@ module ActivateApp
   
     get '/' do
       if current_account
+        @o = :updated
         erb :home
       else
         redirect '/sign_in'

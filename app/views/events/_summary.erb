@@ -1,16 +1,10 @@
 <ul class="fa-ul">
   <li><i title="Happening <%= @event.when_details %>" class="fa-li fa fa-calendar"></i><%= @event.when_details %></li>
+  <li><i title="Location" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(@event.location) %>" target="map"><%= @event.location %></a></li>
+  <li><i title="Listed by <%=@event.account.name%>" class="fa-li fa fa-user"></i> Listed by <a href="/accounts/<%=@event.account_id %>"><%=@event.account.name%></a></li>
   <% if @event.organisation %>
     <li>Hosted by <i title="Host organisation" class="fa-li fa fa-bullhorn"></i><a href="/organisations/<%=@event.organisation_id%>"><%= @event.organisation.name %></a></li>
-  <% end %>
-  <li><i title="For more information" class="fa-li fa fa-info"></i>
-    <% if @event.more_info %>
-      For more information, see <a href="<%=@event.more_info%>"><%=@event.more_info.split('/')[2].gsub('www.','')%></a> or contact <a href="/accounts/<%=@event.account_id %>"><%=@event.account.name%></a>
-    <% else %>
-      For more information, contact <a href="/accounts/<%=@event.account_id %>"><%=@event.account.name%></a>
-    <% end %>    
-  </li>
-  <li><i title="Location" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(@event.location) %>" target="map"><%= @event.location %></a></li>
+  <% end %> 
   <% if @event.ticketing %>
     <li><i title="Ticketing" class="fa-li fa fa-ticket"></i>
       <% if @event.tickets_link %>
@@ -20,6 +14,11 @@
       <% end %>
     </li>
   <% end %>
+  <% if @event.more_info %>
+    <li><i title="For more information" class="fa-li fa fa-info"></i>
+      Full details at <a href="<%=@event.more_info%>"><%=@event.more_info.split('/')[2].gsub('www.','')%></a>
+    </li>
+  <% end %>       
 </ul>
 
 <% if @event.reason %>

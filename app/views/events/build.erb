@@ -72,6 +72,51 @@
           </div>
         </div>       
 
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:ticketing).blank? %>">
+          <label class="control-label col-md-3">Ticketing</label>
+          <div class="col-md-6">    
+            <% Event.ticketing.each { |option| %>
+              <div class="radio">
+                <label>
+                  <%=f.radio_button :ticketing, :value => option, :checked => (option == @event.ticketing) %>
+                  <%=option%>
+                </label>
+              </div>            
+            <% } %>
+            <% if !f.error_message_on(:ticketing).blank? %>
+              <p class="help-block"><%= f.error_message_on :ticketing, :prepend => Event.human_attribute_name(:ticketing) %></p>
+            <% end %>
+          </div>
+        </div>    
+
+        <script>
+          $(function() {
+            $("input[name='event[ticketing]']").click(function() {
+              if($(this).val() == 'No ticket required') {
+                $('#tickets-link-div').hide()
+                $('#tickets-link-div input').val('')
+              } else if($(this).val() == 'Free, but please RSVP') {
+                $('#tickets-link-div').show();
+                $('#tickets-link-div > .control-label').html('Link to RSVP')
+              } else if($(this).val() == 'Ticket required') {
+                $('#tickets-link-div').show();
+                $('#tickets-link-div > .control-label').html('Link for tickets')
+              }
+            });
+            $("input[name='event[ticketing]']:checked").click();
+          });
+        </script>
+
+        <div id="tickets-link-div" style="display:none" class="form-group <%= 'has-error' if !f.error_message_on(:tickets_link).blank? %>">
+          <label class="control-label col-md-3"></label>
+          <div class="col-md-6">      
+            <%=f.text_field :tickets_link, :class => 'form-control' %>
+            <% if !f.error_message_on(:tickets_link).blank? %>
+              <p class="help-block"><%= f.error_message_on :tickets_link, :prepend => Event.human_attribute_name(:tickets_link) %></p>
+            <% end %>
+          </div>
+        </div>          
+
         <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
           <label class="control-label col-md-3">Where</label>
           <div class="col-md-6">      
@@ -80,7 +125,7 @@
               <p class="help-block"><%= f.error_message_on :location, :prepend => Event.human_attribute_name(:location) %></p>
             <% end %>
           </div>
-        </div>      
+        </div>          
 
 
         <div class="form-group <%= 'has-error' if !f.error_message_on(:start_time).blank? %>">

@@ -21,10 +21,19 @@
     <ul class="fa-ul">
       <li><i class="fa-li fa fa-calendar"></i><strong><%= @event.when_details  %></strong></li>
       <li><i class="fa-li fa fa-globe"></i><strong><a href="http://www.google.co.uk/maps?q=<%= URI.encode(@event.location) %>" target="map"><%= @event.location %></a></strong></li>
+      <li><i class="fa-li fa fa-ticket"></i><strong>
+          <% if @event.tickets_link %>
+            <a target="_blank" href="<%=@event.tickets_link %>"><%=@event.ticketing %></a>
+          <% else %>
+            <%=@event.ticketing %>
+          <% end %>
+        </strong></li>
     </ul>
 
-    <strong><%= @event.reason %></strong>
-    <br /><br />
+    <% if @event.reason %>
+      <strong><%= @event.reason %></strong>
+      <br /><br />
+    <% end %>
 
     <%= @event.details  %>
 

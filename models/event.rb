@@ -12,8 +12,10 @@ class Event
   field :location, :type => String
   field :details, :type => String
   field :reason, :type => String
+  field :ticketing, :type => String
+  field :tickets_link, :type => String
   
-  validates_presence_of :name, :start_time, :end_time, :group, :account
+  validates_presence_of :name, :start_time, :end_time, :group, :account, :ticketing
   
   before_validation :ensure_end_after_start
   def ensure_end_after_start
@@ -21,7 +23,7 @@ class Event
   end
     
   def self.fields_for_index
-    [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :group_id, :account_id]
+    [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :ticketing, :tickets_link, :group_id, :account_id]
   end
   
   def self.fields_for_form
@@ -33,9 +35,15 @@ class Event
       :location => :text,
       :details => :text_area,
       :reason => :text,
+      :ticketing => :select,
+      :tickets_link => :text,
       :group_id => :lookup,
       :account_id => :lookup
     }
+  end
+  
+  def self.ticketing
+    ['No ticket required','Free, but please RSVP', 'Ticket required']
   end
   
   before_validation :consider_time_to_boolean
@@ -94,6 +102,8 @@ class Event
         :location => event.location,
         :details => event.details,
         :reason => event.reason,
+        :ticketing => event.ticketing,
+        :tickets_link => event.tickets_link,
         :account_id => event.account_id.to_s,
         :account_name => event.account.name,
         :id => event.id.to_s,

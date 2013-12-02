@@ -49,6 +49,12 @@
           content += '<li><i class="fa-li fa fa-calendar"></i><strong>' + event.when_details + '</strong></li>'
           if (event.location)
             content += '<li><i class="fa-li fa fa-globe"></i><strong><a target="map" href="http://www.google.co.uk/maps?q=' + event.location + '">' + event.location +  '</a></strong></li>'
+          content += '<li><i class="fa-li fa fa-ticket"></i><strong>'
+          if (event.tickets_link)
+            content += '<a target="_blank" href="' + event.tickets_link + '">' + event.ticketing +  '</a>'          
+          else
+            content += event.ticketing               
+          content += '</strong></li>'
           content += '</ul>'
           if (event.reason)
             content += '<p><strong>' + event.reason + '</strong> <a href="/groups/' + event.group_slug + '/calendar/' + event.id + '">Read more&hellip;</a></p>'

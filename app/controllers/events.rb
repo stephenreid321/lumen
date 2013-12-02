@@ -51,7 +51,7 @@ ActivateApp::App.controllers do
     @event.account = current_account
     if @event.save  
       flash[:notice] = "<strong>Great!</strong> The event was created successfully."
-      redirect "/groups/#{@group.slug}/calendar/"
+      redirect "/groups/#{@group.slug}/calendar/#{@event.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the event from being saved."
       erb :'events/build'
@@ -78,7 +78,7 @@ ActivateApp::App.controllers do
     @event = @group.events.find(params[:id])
     if @event.update_attributes(params[:event])
       flash[:notice] = "<strong>Great!</strong> The event was updated successfully."
-      redirect "/groups/#{@group.slug}/calendar/"
+      redirect "/groups/#{@group.slug}/calendar/#{@event.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the event from being saved."
       erb :'events/build'

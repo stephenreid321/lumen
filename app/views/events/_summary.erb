@@ -8,7 +8,7 @@
   <% if @event.ticketing %>
     <li><i title="Ticketing" class="fa-li fa fa-ticket"></i>
       <% if @event.tickets_link %>
-        <a target="_blank" href="<%=@event.tickets_link %>"><%=@event.ticketing %></a>
+        <a target="_blank" href="<%= @event.tickets_link.include?('@') ? "mailto:#{@event.tickets_link}" : @event.tickets_link %>"><%=@event.ticketing %></a>
       <% else %>
         <%=@event.ticketing %>
       <% end %>
@@ -25,7 +25,14 @@
   <a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>">Read more&hellip;</a>
 <% else %>
   <% if @event.reason %>
-    <strong>Members of <%=@event.group.slug%> should come because&hellip;</strong> <%= @event.reason %><br /><br />
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Members of <%=@event.group.slug%> should come because&hellip;</h3>
+      </div>      
+      <div class="panel-body">  
+        <%= @event.reason %>
+      </div>
+    </div>
   <% end %>  
   <%= @event.details  %>
 <% end %>

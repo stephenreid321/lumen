@@ -107,10 +107,10 @@
                 $('#tickets-link-div input').val('')
               } else if($(this).val() == 'Free, but please RSVP') {
                 $('#tickets-link-div').show();
-                $('#tickets-link-div > .control-label').html('Link to RSVP')
+                $('#tickets-link-div > .control-label').html('Link/email to RSVP')
               } else if($(this).val() == 'Ticket required') {
                 $('#tickets-link-div').show();
-                $('#tickets-link-div > .control-label').html('Link for tickets')
+                $('#tickets-link-div > .control-label').html('Link/email for tickets')
               }
             });
             $("input[name='event[ticketing]']:checked").click();

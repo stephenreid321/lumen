@@ -11,28 +11,30 @@
     </div>
     <script>
       $(function() {
-        
-        $('#calendar-li').tooltip({
-          title: '<%=pluralize(current_account.events.where(:start_time.gt => Time.now).count,'upcoming event')%>',
-          placement: 'bottom',
-          trigger: 'manual'
-        }).tooltip('show');
-                
-        $(window).resize(function(){
-          if (document.documentElement.clientWidth < 992) {
-            $('.tabs-left-please').removeClass('tabs-left');
-          } else {
-            $('.tabs-left-please').addClass('tabs-left');
-          }
-        });
 
-        $('a[data-toggle="tab"][title=Calendar]').on('shown.bs.tab', function (e) {
-          $('#calendar').fullCalendar('render')
-        });
-        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-          $('.fc-event').popover('destroy');
-        });
-      });
+<% if (c = current_account.events.where(:start_time.gt => Time.now).count) > 0 %>
+      $('#calendar-li').tooltip({
+        title: '<%=pluralize(c,'upcoming event')%>',
+        placement: 'bottom',
+        trigger: 'manual'
+      }).tooltip('show');
+<% end %>
+                
+    $(window).resize(function(){
+      if (document.documentElement.clientWidth < 992) {
+        $('.tabs-left-please').removeClass('tabs-left');
+      } else {
+        $('.tabs-left-please').addClass('tabs-left');
+      }
+    });
+
+    $('a[data-toggle="tab"][title=Calendar]').on('shown.bs.tab', function (e) {
+      $('#calendar').fullCalendar('render')
+    });
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+      $('.fc-event').popover('destroy');
+    });
+  });
     </script>
 
   </div>

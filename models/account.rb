@@ -65,11 +65,17 @@ class Account
   field :crypted_password, :type => String
   field :role, :type => String, :default => 'user'
   field :time_zone, :type => String, :default => 'London'
+  field :updated_profile, :type => Boolean, :default => false
+  before_validation :updated_profile_to_boolean
+  def updated_profile_to_boolean
+    self.updated_profile = true if self.updated_profile == 'true'
+    self.updated_profile = false if self.updated_profile == 'false'
+  end
     
   field :phone, :type => String 
   field :location, :type => String 
   field :expertise, :type => String  
-              
+                 
   attr_accessor :password, :password_confirmation 
 
   validates_presence_of :name, :email

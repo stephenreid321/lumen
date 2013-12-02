@@ -13,9 +13,14 @@
     </strong></li>
 </ul>
 
+<% if @event.reason %>
+  <strong><%= @event.reason %></strong>
+<% end %>
+
 <% if params[:read_more] %>
   <a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>">Read more&hellip;</a>
 <% else %>
+  <% if @event.reason %><br /><br /><% end %>
   <%= @event.details  %>
 <% end %>
 

@@ -171,7 +171,17 @@
             if ($('#event_consider_time').prop('checked'))
               $(add).click();
           });
-        </script>    
+        </script> 
+        
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:reason).blank? %>">
+          <label class="control-label col-md-3">Members of this group should come because&hellip; (optional)</label>
+          <div class="col-md-6">      
+            <%=f.text_field :reason, :class => 'form-control' %>
+            <% if !f.error_message_on(:reason).blank? %>
+              <p class="help-block"><%= f.error_message_on :reason, :prepend => Event.human_attribute_name(:reason) %></p>
+            <% end %>
+          </div>
+        </div>          
 
         <div class="form-group">
           <div class="col-md-offset-3 col-md-8">

@@ -36,7 +36,13 @@
         {
         week: 'ddd d/M', // Mon 9/7
         day: 'dddd d/M'  // Monday 9/7
-      },      
+      },   
+      loading: function(isLoading) {
+        if (isLoading == true)
+          $('.fc-header-title h2').append(' <i class="fa fa-spinner fa-spin"></i>');
+        else
+          $('.fc-header-title h2 i').remove();
+      },
       eventClick: function(event, jsEvent, view) {        
         console.log(this);
         $('.fc-event').popover('destroy');

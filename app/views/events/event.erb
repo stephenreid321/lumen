@@ -18,30 +18,8 @@
   <div class="col-md-6">
 
     <h1><%= @event.name %></h1>
-    <ul class="fa-ul">
-      <li><i class="fa-li fa fa-calendar"></i><strong><%= @event.when_details  %></strong></li>
-      <li><i class="fa-li fa fa-globe"></i><strong><a href="http://www.google.co.uk/maps?q=<%= URI.encode(@event.location) %>" target="map"><%= @event.location %></a></strong></li>
-      <li><i class="fa-li fa fa-ticket"></i><strong>
-          <% if @event.tickets_link %>
-            <a target="_blank" href="<%=@event.tickets_link %>"><%=@event.ticketing %></a>
-          <% else %>
-            <%=@event.ticketing %>
-          <% end %>
-        </strong></li>
-    </ul>
 
-    <% if @event.reason %>
-      <strong><%= @event.reason %></strong>
-      <br /><br />
-    <% end %>
-
-    <%= @event.details  %>
-
-    <p style="font-size: smaller; text-align: right; margin-top: 10px">
-      Created by <a href="/accounts/<%=@event.account_id %>"><%=@event.account.name%></a>
-      &middot; <a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit">Edit</a>
-    </p>
-
+    <%= partial 'events/summary' %>
 
   </div>
   <div class="col-md-6">

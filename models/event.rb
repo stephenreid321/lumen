@@ -4,6 +4,7 @@ class Event
   
   belongs_to :group
   belongs_to :account
+  belongs_to :organisation
 
   field :name, :type => String
   field :start_time, :type => ActiveSupport::TimeWithZone
@@ -23,7 +24,7 @@ class Event
   end
     
   def self.fields_for_index
-    [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :ticketing, :tickets_link, :group_id, :account_id]
+    [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :ticketing, :tickets_link, :group_id, :account_id, :organisation_id]
   end
   
   def self.fields_for_form
@@ -38,7 +39,8 @@ class Event
       :ticketing => :select,
       :tickets_link => :text,
       :group_id => :lookup,
-      :account_id => :lookup
+      :account_id => :lookup,
+      :organisation_id => :lookup
     }
   end
   
@@ -106,6 +108,8 @@ class Event
         :tickets_link => event.tickets_link,
         :account_id => event.account_id.to_s,
         :account_name => event.account.name,
+        :organisation_id => event.organisation_id.to_s,
+        :organisation_name => event.organisation.try(:name),        
         :id => event.id.to_s,
         :className => "event-#{event.id}",
         :group_slug => event.group.slug,

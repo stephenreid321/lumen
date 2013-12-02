@@ -50,6 +50,16 @@
             <% end %>
           </div>
         </div>  
+      
+        <div class="form-group <%= 'has-error' if !f.error_message_on(:organisation_id).blank? %>">
+          <label class="control-label col-md-3">Host organisation</label>
+          <div class="col-md-6">      
+            <%=f.select :organisation_id, :options => ['']+Organisation.order_by(:name.asc).map { |organisation| [organisation.name, organisation.id] }, :class => 'form-control' %>
+            <% if !f.error_message_on(:organisation_id).blank? %>
+              <p class="help-block"><%= f.error_message_on :organisation_id, :prepend => Event.human_attribute_name(:organisation_id) %></p>
+            <% end %>
+          </div>
+        </div>      
 
         <div class="form-group <%= 'has-error' if !f.error_message_on(:details).blank? %>">
           <label class="control-label col-md-3"><%= Event.human_attribute_name(:details) %></label>
@@ -116,7 +126,7 @@
             <% end %>
           </div>
         </div>          
-
+                  
         <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
           <label class="control-label col-md-3">Where</label>
           <div class="col-md-6">      

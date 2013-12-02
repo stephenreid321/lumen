@@ -99,4 +99,11 @@ ActivateApp::App.controllers do
     erb :'events/event'
   end  
   
+  get '/groups/:slug/calendar/:id/summary' do
+    protected!
+    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @event = @group.events.find(params[:id])
+    partial :'events/summary'
+  end    
+  
 end

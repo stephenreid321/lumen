@@ -43,30 +43,17 @@
         if ($(this).data('popover') == true) {
           $(this).data('popover', false);
         } else {
-          var content = '<ul class="fa-ul">'
-          if (event.eventable != 'Group')
-            content += '<li><i class="fa-li fa fa-group"></i><strong><a href="/groups/' + event.group_slug + '/calendar">' + event.group_slug +  '</a></strong></li>'      
-          content += '<li><i class="fa-li fa fa-calendar"></i><strong>' + event.when_details + '</strong></li>'
-          if (event.location)
-            content += '<li><i class="fa-li fa fa-globe"></i><strong><a target="map" href="http://www.google.co.uk/maps?q=' + event.location + '">' + event.location +  '</a></strong></li>'
-          content += '<li><i class="fa-li fa fa-ticket"></i><strong>'
-          if (event.tickets_link)
-            content += '<a target="_blank" href="' + event.tickets_link + '">' + event.ticketing +  '</a>'          
-          else
-            content += event.ticketing               
-          content += '</strong></li>'
-          content += '</ul>'
-          if (event.reason)
-            content += '<p><strong>' + event.reason + '</strong> <a href="/groups/' + event.group_slug + '/calendar/' + event.id + '">Read more&hellip;</a></p>'
-          content += '<p style="font-size: smaller; text-align: right; margin-top: 10px">Created by <a href="/accounts/' + event.account_id + '">' + event.account_name + '</a> &middot; <a href="<%=calendar_path%>/' + event.id + '/edit">Edit</a></p>' ,
-          $(this).popover({
-            content: content,
-            trigger: 'manual',
-            title: event.title,
-            placement:'auto top',
-            container:'body',
-            html: true          
-          }).popover('show');
+          el = $(this);
+          $.get('/groups/' + event.group_slug + '/calendar/' + event.id + '/summary?read_more=true', function(response) {
+            el.popover({
+              content: response,
+              trigger: 'manual',
+              title: event.title,
+              placement:'auto top',
+              container:'body',
+              html: true          
+            }).popover('show');
+          });
           $('.fc-event').data('popover',false);
           $(this).data('popover',true);
         }
@@ -84,21 +71,21 @@
           $('.event-<%=event.id%>').mouseover().click(); 
         }
 <% end %>  
-    });
+  });
 
 
 
-    if (mini) {
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>" class="btn btn-default" title="Full width"><i class="fa fa-resize-horizontal"></i></a>');
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=export_path ||= "#{calendar_path}.ics"%>" class="btn btn-default" title="Export"><i class="fa fa-calendar"></i></a>');
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
-    } else {
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=export_path%>" class="btn btn-default" title="Export"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Export</a>');
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
-    }
+if (mini) {
+  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>" class="btn btn-default" title="Full width"><i class="fa fa-resize-horizontal"></i></a>');
+  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=export_path ||= "#{calendar_path}.ics"%>" class="btn btn-default" title="Export"><i class="fa fa-calendar"></i></a>');
+  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
+} else {
+  $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
+  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=export_path%>" class="btn btn-default" title="Export"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Export</a>');
+  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add an event</a>');
+}
 
-  });  
+});  
 </script>
 
 <div id="calendar"></div>

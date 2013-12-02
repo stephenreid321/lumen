@@ -6,6 +6,7 @@ class Organisation
   field :address, :type => String
   field :website, :type => String
   
+  has_many :events, :dependent => :destroy
   has_many :sectorships, :dependent => :destroy
   accepts_nested_attributes_for :sectorships, allow_destroy: true, reject_if: :all_blank
   

@@ -50,22 +50,6 @@ class ConversationPost
     self.conversation_post_bccs.create(emails: emails)        
   end
     
-  def thread
-    x = ''
-    conversation.conversation_posts.order_by(:created_at.desc)[1..-1].each { |conversation_post|
-      x << %Q{
-        <br /><br />        
-        On #{conversation_post.created_at}, #{conversation_post.account.name} &lt;<a href="mailto:#{conversation_post.account.email}">#{conversation_post.account.email}</a>&gt; wrote:
-        <div style="border-left: 1px solid #ccc; margin-left: 1em; padding-left: 1em">
-        #{conversation_post.body_with_inline_images}
-      }
-    }
-    (conversation.conversation_posts.count -1).times { 
-      x << '</blockquote>'
-    }
-    x
-  end
-  
   def body_with_inline_images
     b = body.gsub(/src="cid:(\S+)"/) { |match|
       begin

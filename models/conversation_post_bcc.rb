@@ -21,6 +21,22 @@ class ConversationPostBcc
   def self.lookup
     :id
   end
+  
+  def thread
+    x = ''
+    conversation_post.conversation.conversation_posts.order_by(:created_at.desc)[1..-1].each { |conversation_post|
+      x << %Q{
+        <br /><br />        
+        On #{conversation_post.created_at}, #{conversation_post.account.name} &lt;<a href="mailto:#{conversation_post.account.email}">#{conversation_post.account.email}</a>&gt; wrote:
+        <div style="border-left: 1px solid #ccc; margin-left: 1em; padding-left: 1em">
+        #{conversation_post.body_with_inline_images}
+      }
+    }
+    (conversation_post.conversation.conversation_posts.count -1).times { 
+      x << '</blockquote>'
+    }
+    x
+  end  
     
   def go!
     
@@ -45,7 +61,7 @@ class ConversationPostBcc
     <span style="font-size: 80%">Respond by replying above this line or visit <a href="http://#{ENV['DOMAIN']}/conversations/#{conversation_post.conversation.slug}">http://#{ENV['DOMAIN']}/conversations/#{conversation_post.conversation.slug}</a></span>
     <br /><br />
     #{conversation_post.body_with_inline_images}
-    #{conversation_post.thread}
+    #{thread}
     <hr style="border: 0; background-color: #ddd" />  
     <span style="font-size: 80%"><a href="http://#{ENV['DOMAIN']}/groups/#{group.slug}/notification_level/none">Stop receiving email notifications from #{group.imap_address}</a></span>
 </body>

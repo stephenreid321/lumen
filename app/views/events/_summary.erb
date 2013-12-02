@@ -28,6 +28,7 @@
 <% else %>  
   <%= @event.details  %>
   <% if @event.reason %>
+    <br />
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Members of <%=@event.group.slug%> should come because&hellip;</h3>

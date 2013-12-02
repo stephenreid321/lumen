@@ -18,16 +18,14 @@
     <li><i title="For more information" class="fa-li fa fa-info"></i>
       Full details at <a href="<%=@event.more_info%>"><%=@event.more_info.split('/')[2].gsub('www.','')%></a>
     </li>
-  <% end %>       
+  <% end %>    
 </ul>
-
-<% if @event.reason %>
-  <strong><%= @event.reason %></strong>
-<% end %>
 
 <% if params[:read_more] %>
   <a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>">Read more&hellip;</a>
 <% else %>
-  <% if @event.reason %><br /><br /><% end %>
+  <% if @event.reason %>
+    <strong>Members of <%=@event.group.slug%> should come because&hellip;</strong> <%= @event.reason %><br /><br />
+  <% end %>  
   <%= @event.details  %>
 <% end %>

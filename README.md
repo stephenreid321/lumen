@@ -80,6 +80,7 @@ if ($sender != $argv[1].'-noreply@neweconomyorganisersnetwork.org') {
 Fragment.create!(slug: 'about', body: 'this is the about page')
 Fragment.create!(slug: 'first-time', body: 'this is the message displayed when someone signs in for the first time')
 Fragment.create!(slug: 'sign-in', body: 'this is the message on the sign in page')
+Fragment.create!(slug: 'tip-meta', body: 'fragments named tip-* are randomly selected to appear at the top of emails')
 
 account = Account.create!(name: 'Stephen Reid', email: 'admin@neweconomyorganisersnetwork.org', password: 'password', password_confirmation: 'password', role: 'admin')
 group = Group.create!(slug: 'post-keynesian-chat')

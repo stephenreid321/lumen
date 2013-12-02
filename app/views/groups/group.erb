@@ -32,29 +32,28 @@
       <style>.nav-tabs li a { color: #aaa }</style>
       <ul class="nav nav-tabs">
         <li class="active"><a title="Conversations" href="#news-tab" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
-        <li id="calendar-li"><a href="#calendar-tab" title="Calendar" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
+        <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
       </ul>
     </div>
     <script>
       $(function() {
+        
+        $(window).resize(function(){
+          if (document.documentElement.clientWidth < 992) {
+            $('.tabs-left-please').removeClass('tabs-left');
+          } else {
+            $('.tabs-left-please').addClass('tabs-left');
+          }
+        });
 
 <% if (c = @group.events.where(:start_time.gt => Time.now).count) > 0 %>
-      $('#calendar-li').tooltip({
+      $("a[href='#calendar-tab']").tooltip({
         title: '<%=pluralize(c,'upcoming event')%>',
         placement: 'bottom',
         trigger: 'manual'
       }).tooltip('show');        
 <% end %>
-        
-    $(window).resize(function(){
-      if (document.documentElement.clientWidth < 992) {
-        $('.tabs-left-please').removeClass('tabs-left');
-      } else {
-        $('.tabs-left-please').addClass('tabs-left');
-      }
-    });
-
-    $('a[data-toggle="tab"][title=Calendar]').on('shown.bs.tab', function (e) {
+    $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
       $('#calendar').fullCalendar('render')
     });
     $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {

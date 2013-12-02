@@ -73,7 +73,7 @@ class Event
           revent.dtstart =  event.consider_time ? event.start_time : event.start_time.to_date
           revent.dtend = event.consider_time ? event.end_time : (event.end_time.to_date + 1.day)
           (revent.location = event.location) if event.location
-          revent.description = "http://#{ENV['DOMAIN']}/groups/#{event.group.slug}/calendar?event_id=#{event.id}"
+          revent.description = "http://#{ENV['DOMAIN']}/groups/#{event.group.slug}/calendar/#{event.id}"
         end
       }
     end
@@ -98,7 +98,8 @@ class Event
         :account_name => event.account.name,
         :id => event.id.to_s,
         :className => "event-#{event.id}",
-        :group_slug => (event.group.slug unless eventable.is_a?(Group))
+        :group_slug => event.group.slug,
+        :eventable => eventable.class.to_s
       }
     }    
   end

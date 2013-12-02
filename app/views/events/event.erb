@@ -1,0 +1,42 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/calendar">Calendar</a>    
+  </li>  
+  <li class="active">
+    <%= @event.name %>
+  </li>
+  <li style="float: right; width: 7em">
+    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
+  </li>       
+</ol>
+
+<div class="row">
+  <div class="col-md-6">
+
+    <h1><%= @event.name %></h1>
+    <ul class="fa-ul">
+      <li><i class="fa-li fa fa-calendar"></i><strong><%= @event.when_details  %></strong></li>
+      <li><i class="fa-li fa fa-globe"></i><strong><a href="http://www.google.co.uk/maps?q=<%= URI.encode(@event.location) %>" target="map"><%= @event.location %></a></strong></li>
+    </ul>
+
+    <strong><%= @event.reason %></strong>
+    <br /><br />
+
+    <%= @event.details  %>
+
+    <p style="font-size: smaller; text-align: right; margin-top: 10px">
+      Created by <a href="/accounts/<%=@event.account_id %>"><%=@event.account.name%></a>
+      &middot; <a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit">Edit</a>
+    </p>
+
+
+  </div>
+  <div class="col-md-6">
+    <style>#calendar { margin-top: 20px }</style>
+    <%= partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar", :mini => true} %>  
+  </div>
+</div>

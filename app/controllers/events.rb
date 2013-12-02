@@ -90,6 +90,13 @@ ActivateApp::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
     @event = @group.events.find(params[:id]).destroy    
     redirect "/groups/#{@group.slug}/calendar/"
+  end 
+  
+  get '/groups/:slug/calendar/:id' do
+    protected!
+    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @event = @group.events.find(params[:id])
+    erb :'events/event'
   end  
   
 end

@@ -21,9 +21,18 @@
     <li>
       <a href="/groups/<%=@group.slug%>/calendar">Calendar</a>    
     </li>  
-    <li class="active">
-      <%= @event.persisted? ? 'Edit' : 'Add' %> event
-    </li>
+    <% if @event.persisted? %>
+      <li>
+        <a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>"><%= @event.name %></a>    
+      </li>      
+      <li class="active">
+        Edit
+      </li>
+    <% else %>
+      <li class="active">
+        Add event
+      </li>    
+    <% end %>
   </ol>
 
 
@@ -52,7 +61,7 @@
             <% end %>
           </div>
         </div> 
-      
+
         <div class="form-group <%= 'has-error' if !f.error_message_on(:reason).blank? %>">
           <label class="control-label col-md-3">Members of this group should come because&hellip;</label>
           <div class="col-md-6">      

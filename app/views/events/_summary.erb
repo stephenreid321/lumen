@@ -11,13 +11,15 @@
     <% end %>    
   </li>
   <li><i title="Location" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(@event.location) %>" target="map"><%= @event.location %></a></li>
-  <li><i title="Ticketing" class="fa-li fa fa-ticket"></i>
-    <% if @event.tickets_link %>
-      <a target="_blank" href="<%=@event.tickets_link %>"><%=@event.ticketing %></a>
-    <% else %>
-      <%=@event.ticketing %>
-    <% end %>
-  </li>
+  <% if @event.ticketing %>
+    <li><i title="Ticketing" class="fa-li fa fa-ticket"></i>
+      <% if @event.tickets_link %>
+        <a target="_blank" href="<%=@event.tickets_link %>"><%=@event.ticketing %></a>
+      <% else %>
+        <%=@event.ticketing %>
+      <% end %>
+    </li>
+  <% end %>
 </ul>
 
 <% if @event.reason %>

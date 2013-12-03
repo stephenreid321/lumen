@@ -10,7 +10,7 @@
   <% if @event.ticketing %>
     <li><i title="Ticketing" class="fa-li fa fa-ticket"></i>
       <% if @event.tickets_link %>
-        <a target="_blank" href="<%= @event.tickets_link.include?('@') ? "mailto:#{@event.tickets_link}" : @event.tickets_link %>"><%=@event.ticketing %></a>
+        <a target="_blank" href="<%= @event.tickets_link.include?('@') ? "mailto:#{@event.tickets_link}?subject=RSVP for #{@event.name}" : @event.tickets_link %>"><%=@event.ticketing %></a>
       <% else %>
         <%=@event.ticketing %>
       <% end %>

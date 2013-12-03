@@ -32,7 +32,7 @@ class ConversationPostBcc
     t << %Q{You can <a href="http://#{ENV['DOMAIN']}/conversations/#{conversation_post.conversation.slug}">view this conversation on the web</a> to learn more about its participants.}
     t << %Q{You can <a href="http://#{ENV['DOMAIN']}/groups/#{group.slug}">search past conversations</a> of this group.}
     t << %Q{#{group.slug} has <a href="http://#{ENV['DOMAIN']}/groups/#{group.slug}">#{c = group.memberships.count} #{c == 1 ? 'member' : 'members'}</a>.}
-    t << %Q{<a href="http://#{ENV['DOMAIN']}/accounts/#{(a = group.memberships.order_by(:created_at.desc).first.account).id}">#{a.name}</a> is the newest member of #{group.slug}.}
+    t << %Q{The most recent profile update was made by <a href="http://#{ENV['DOMAIN']}/accounts/#{(a = group.memberships.map(&:account).select { |account| account.updated_profile }.sort_by { |account| account.updated_at }.reverse.first).id}">#{a.name}</a>.}
     t += Fragment.where(slug: /tip-/).map { |fragment| fragment.body }
     t
   end

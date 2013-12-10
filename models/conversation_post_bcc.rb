@@ -73,6 +73,7 @@ class ConversationPostBcc
     </style>
 </head>
 <body>
+    <span style="display:none !important;visibility: hidden;opacity: 0;font-size: 0">#{Nokogiri::HTML.parse(conversation_post.body).text[0..149]}<br /></span>
     <span style="font-size: 80%">Respond by replying above this line or visit <a href="http://#{ENV['DOMAIN']}/conversations/#{conversation_post.conversation.slug}">http://#{ENV['DOMAIN']}/conversations/#{conversation_post.conversation.slug}</a></span>
     <br />
     <span style="font-size: 80%"><strong>Did you know:</strong> #{tips.sample}</span>

@@ -25,6 +25,7 @@ class Group
   has_many :conversation_posts, :dependent => :destroy
   has_many :memberships, :dependent => :destroy
   has_many :events, :dependent => :destroy
+  has_many :news_summaries, :dependent => :destroy
   
   validates_presence_of :slug
   validates_uniqueness_of :slug

@@ -264,4 +264,29 @@ Best,
     end
   end  
   
+  get '/groups/:slug/news_summaries' do
+    protected!
+    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])      
+    if @group.memberships.find_by(account: current_account).admin?           
+      erb :'groups/news_summaries'
+    else
+      flash[:error] = "You're not an admin of that group!"
+      redirect "/groups/#{@group.slug}"
+    end
+  end  
+  
+  post '/groups/:slug/news_summaries/add' do
+    protected!
+    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])              
+    @group.news_summaries.create :title => params[:title], :newsme_username => params[:newsme_username]
+    redirect back
+  end    
+  
+  get '/groups/:slug/news_summaries/:id/destroy' do
+    protected!
+    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])              
+    @group.news_summaries.find(params[:id]).destroy
+    redirect back
+  end     
+  
 end

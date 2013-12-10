@@ -1,0 +1,11 @@
+<h2>News summary for <%=(date = (news_summaries.first.updated_at - 1.day)).strftime("%A #{date.day.ordinalize} %b")%></h2>
+<div class="row">
+  <% news_summaries.order_by(:order.asc).each { |news_summary| %>
+    <div class="col-md-<%=news_summaries.count == 1 ? 12 : 6%> <% if news_summaries.count > 2 %>many-summaries<% end %>">
+      <div class="news-summary">
+        <h3 style="color: #aaa; font-style: italic"><%=news_summary.title%> <% if !@group %><small><%=news_summaries.first.group.slug%></small><% end%></h3>
+        <%= news_summary.body %>
+      </div>
+    </div>
+  <% } %>
+</div>

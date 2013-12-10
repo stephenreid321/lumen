@@ -5,20 +5,22 @@
     <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
       <style>.nav-tabs li a { color: #aaa }</style>
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#news-tab" title="News" data-toggle="tab"><i class="fa fa-fire"></i></a></li>
-        <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
+        <% if current_account.news_summaries.count > 0 %>        
+          <li class="active"><a href="#news-tab" title="News" data-toggle="tab"><i class="fa fa-fire"></i></a></li>
+        <% end %>
+        <li class="<% if current_account.news_summaries.count == 0 %>active<% end %> calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
       </ul>
     </div>
     <script>
       $(function() {
                 
-    $(window).resize(function(){
-      if (document.documentElement.clientWidth < 992) {
-        $('.tabs-left-please').removeClass('tabs-left');
-      } else {
-        $('.tabs-left-please').addClass('tabs-left');
-      }
-    });
+        $(window).resize(function(){
+          if (document.documentElement.clientWidth < 992) {
+            $('.tabs-left-please').removeClass('tabs-left');
+          } else {
+            $('.tabs-left-please').addClass('tabs-left');
+          }
+        });
 
 <% if (c = current_account.events.where(:start_time.gt => Time.now).count) > 0 %>
       $("a[href='#calendar-tab']").tooltip({
@@ -40,20 +42,12 @@
   <div class="col-md-7">        
 
     <div class="tab-content">
-      <div class="tab-pane active" id="news-tab">
-        <h2><% if NewsSummary.count > 0 %>News summary for <%=(date = (NewsSummary.first.updated_at - 1.day)).strftime("%A #{date.day.ordinalize} %b")%><% end %></h2>
-        <div class="row">
-          <% NewsSummary.order_by(:order.asc).each { |news_summary| %>
-            <div class="col-md-<%=12/NewsSummary.count%>">
-              <div class="news-summary">
-                <h3 style="color: #aaa; font-style: italic"><%=news_summary.title%></h3>
-                <%= news_summary.body %>
-              </div>
-            </div>
-          <% } %>
+      <% if current_account.news_summaries.count > 0 %>
+        <div class="tab-pane active" id="news-tab">
+          <%= partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries} %>
         </div>
-      </div>
-      <div class="tab-pane" id="calendar-tab">
+      <% end %>
+      <div class="tab-pane <% if current_account.news_summaries.count == 0 %>active<% end %>" id="calendar-tab">
         <style>#calendar { margin-top: 20px }</style>
         <%= partial :'events/calendar', :locals => {:calendar_path => '/calendar', :export_path => "/calendar.ics?token=#{current_account.id}", :mini => true} %>        
       </div>      

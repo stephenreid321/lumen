@@ -1,0 +1,46 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    News summaries
+  </li>
+</ol>
+
+<div class="row">
+  <div class="col-md-8">
+
+    <style>#news-summaries td { padding: 0.5em }</style>
+    <table style="margin-top: 20px" id="news-summaries">
+      <% @group.news_summaries.each { |news_summary| %>
+        <tr>
+          <td>
+            <strong><%=news_summary.title%></strong> <a href="http://www.news.me/<%=news_summary.newsme_username%>"><%=news_summary.newsme_username%></a></h2>
+          </td>
+          <td>
+            <a data-confirm="Are you sure you want to remove this news summary?" class="edit" href="/groups/<%=@group.slug%>/news_summaries/<%=news_summary.id%>/destroy"><i class="fa fa-times"></i></a>
+          </td>
+        </tr>
+      <% } %>
+    </table>
+
+  </div>
+  <div class="col-md-4">
+
+    <h2>Add a news summary</h2>
+    <% form_tag "/groups/#{@group.slug}/news_summaries/add", :method => 'post' do %>
+      <div class="form-group">
+        <label class="sr-only">Title</label>
+        <%= text_field_tag :title, :class => 'form-control', :placeholder => 'Title' %>
+      </div>
+      <div class="form-group">
+        <label class="sr-only">News.me username</label>    
+        <%= text_field_tag :newsme_username, :class => 'form-control', :placeholder => 'News.me username' %>
+      </div>
+      <%= submit_tag 'Add', :class => 'btn btn-default' %>
+    <% end %> 
+
+
+  </div>
+</div>

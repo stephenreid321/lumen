@@ -24,6 +24,10 @@ class Account
     Account.where(:id.in => memberships.map(&:group).map(&:memberships).flatten.map(&:account_id))
   end
   
+  def news_summaries
+    NewsSummary.where(:id.in => memberships.map(&:group).map(&:news_summaries).flatten.map(&:_id))
+  end
+  
   def expertises
     expertise ? expertise.split(',').map { |x| x.split(';') }.flatten.map(&:downcase).map(&:strip) : []
   end

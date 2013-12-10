@@ -6,6 +6,9 @@
   </li>
   <% if @current_membership.admin? %>
     <li style="float: right; width: 10em;">
+      <a title="News" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-fire"></i> News summaries</a>
+    </li>
+    <li style="float: right; width: 10em;">
       <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
     </li>
     <li style="float: right; width: 6em;">
@@ -31,7 +34,10 @@
     <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
       <style>.nav-tabs li a { color: #aaa }</style>
       <ul class="nav nav-tabs">
-        <li class="active"><a title="Conversations" href="#news-tab" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
+        <% if @group.news_summaries.count > 0 %>
+          <li class="active"><a title="News" href="#news-tab" data-toggle="tab"><i class="fa fa-fire"></i></a></li>
+        <% end %>
+        <li <% if @group.news_summaries.count == 0 %>class="active"<% end %>><a title="Conversations" href="#conversations-tab" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
         <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
       </ul>
     </div>
@@ -66,7 +72,12 @@
   <div class="col-md-7">        
 
     <div class="tab-content">
-      <div class="tab-pane active" id="news-tab">
+      <% if @group.news_summaries.count > 0 %>
+        <div class="tab-pane active" id="news-tab">
+          <%= partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries} %>
+        </div>      
+      <% end %>      
+      <div class="tab-pane <% if @group.news_summaries.count == 0 %>active<% end %>" id="conversations-tab">
         <%= partial :'conversations/conversations' %>
       </div>
       <div class="tab-pane" id="calendar-tab">

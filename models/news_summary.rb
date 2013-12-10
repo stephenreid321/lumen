@@ -7,12 +7,11 @@ class NewsSummary
   field :title, :type => String
   field :newsme_username, :type => String
   field :body, :type => String  
-  field :order, :type => Integer
   
   validates_presence_of :group, :title, :body
     
   def self.fields_for_index
-    [:group_id, :title, :newsme_username, :body, :order]
+    [:group_id, :title, :newsme_username, :body]
   end
   
   def self.fields_for_form
@@ -21,7 +20,6 @@ class NewsSummary
       :title => :text,
       :newsme_username => :text,
       :body => :text_area,      
-      :order => :text   
     }
   end
   

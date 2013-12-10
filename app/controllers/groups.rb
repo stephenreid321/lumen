@@ -105,38 +105,52 @@ ActivateApp::App.controllers do
   end   
   
   post '/groups/:slug/invite' do
-    protected!
+    protected!    
     @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])
-    if !(account = Account.find_by(email: /^#{params[:email]}$/i))
-      account = Account.new({
-          :name => params[:name],
-          :password => generate_password(8),
-          :email => params[:email]
-        })
-      account.password_confirmation = account.password
-      if account.save
-        extra = " with the email address #{account.email} and the password #{account.password}"
-      else
-        flash[:error] = 'Please enter a valid name and email address.'
-        redirect back
+    notices = []
+    data = params[:data] || "#{params[:name]}\t#{params[:email]}"
+    data.split("\n").reject { |line| line.blank? }.each { |line|
+      name, email = line.split("\t")
+      if !email
+        notices << "Please provide an email address for #{name}"
+        next
       end
-    end
-    if !@group.memberships.find_by(account: account)
-      @membership = @group.memberships.build :account => account
-      @membership.role = 'admin' if params[:role] == 'admin'
-      @membership.notification_level = 'none' if params[:notification_level] != 'each'
-      @membership.save
+      name.strip!
+      email.strip!
+    
+      if !(account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))        
+        account = Account.new({
+            :name => name,
+            :password => generate_password(8),
+            :email => email
+          })
+        account.password_confirmation = account.password
+        if account.save
+          extra = " with the email address #{account.email} and the password #{account.password}"
+        else
+          notices << "Failed to create an account for #{email} - is this a valid email address?"
+          next
+        end
+      end
+      if @group.memberships.find_by(account: account)
+        notices << "#{email} is already a member of this group."
+        next
+      else
+        @membership = @group.memberships.build :account => account
+        @membership.role = 'admin' if params[:role] == 'admin'
+        @membership.notification_level = 'none' if params[:notification_level] != 'each'
+        @membership.save
       
-      group = @group # instance var not available in defaults block
-      Mail.defaults do
-        delivery_method :smtp, { :address => group.smtp_server, :port => group.smtp_port, :authentication => group.smtp_authentication, :enable_ssl => group.smtp_ssl, :user_name => group.smtp_username, :password => group.smtp_password }
-      end      
+        group = @group # instance var not available in defaults block
+        Mail.defaults do
+          delivery_method :smtp, { :address => group.smtp_server, :port => group.smtp_port, :authentication => group.smtp_authentication, :enable_ssl => group.smtp_ssl, :user_name => group.smtp_username, :password => group.smtp_password }
+        end      
       
-      mail = Mail.new(
-        :to => account.email,
-        :from => "#{@group.smtp_name} <#{@group.smtp_address}>",
-        :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
-        :body => %Q{
+        mail = Mail.new(
+          :to => account.email,
+          :from => "#{@group.smtp_name} <#{@group.smtp_address}>",
+          :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
+          :body => %Q{
 Hi #{account.name.split(' ').first},
    
 #{current_account.name} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_DEFINITE']}.
@@ -145,19 +159,14 @@ You can sign in at http://#{ENV['DOMAIN']}/sign_in#{extra}.
 
 Best,
 #{@group.smtp_sig}
-        }
-      )
-      mail.deliver!
-      flash[:notice] = "#{params[:email]} was added to the group."
-      if @membership.role == 'admin'      
-        redirect "/groups/#{@group.slug}/members?view=admins"
-      else
-        redirect "/groups/#{@group.slug}/members?view=others"
-      end      
-    else
-      flash[:notice] = "#{params[:email]} is already a member of this group."
-      redirect back
-    end
+          }
+        )
+        mail.deliver!
+        notices << "#{email} was added to the group."
+      end
+    }
+    flash[:notice] = notices.join('<br />') if !notices.empty?
+    redirect back
   end
   
   get '/groups/:slug/reminder' do

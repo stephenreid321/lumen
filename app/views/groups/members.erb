@@ -59,27 +59,49 @@
   <div class="col-md-4">
 
     <h2>Add a member</h2>
-    <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
-      <div class="form-group">
-        <label class="sr-only">Name</label>
-        <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>
-      </div>
-      <div class="form-group">
-        <label class="sr-only">Email</label>    
-        <%= text_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
-      </div>
-      <div class="checkbox">
-        <label>
-          Send notifications <%= check_box_tag :notification_level, :value => 'each', :checked => true %>
-        </label>
-      </div>
-      <div class="checkbox">
-        <label>
-          Admin <%= check_box_tag :role, :value => 'admin' %>
-        </label>
-      </div>    
-      <%= submit_tag 'Add', :class => 'btn btn-default' %>
-    <% end %>    
+    <div id="add-single">
+      <p><a href="javascript:;" onclick="$('#add-single').hide();$('#add-multiple').show();">Add multiple</a></p>
+      <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
+        <div class="form-group">
+          <label class="sr-only">Name</label>
+          <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>
+        </div>
+        <div class="form-group">
+          <label class="sr-only">Email</label>    
+          <%= text_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
+        </div>
+        <div class="checkbox">
+          <label>
+            Email notifications on <%= check_box_tag :notification_level, :value => 'each', :checked => true %>
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            Admin <%= check_box_tag :role, :value => 'admin' %>
+          </label>
+        </div>    
+        <%= submit_tag 'Add', :class => 'btn btn-default' %>
+      <% end %>    
+    </div>
+    <div id="add-multiple" style="display: none">
+      <p>Paste from spreadsheet, two columns: name, email</p>
+      <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
+        <div class="form-group">
+          <%= text_area_tag :data, :class => 'form-control' %>
+        </div>
+        <div class="checkbox">
+          <label>
+            Email notifications on <%= check_box_tag :notification_level, :value => 'each', :checked => true %>
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            Admin <%= check_box_tag :role, :value => 'admin' %>
+          </label>
+        </div>    
+        <%= submit_tag 'Add', :class => 'btn btn-default' %>
+      <% end %>    
+    </div>    
 
   </div>
 </div>

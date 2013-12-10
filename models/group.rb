@@ -90,7 +90,7 @@ class Group
             msg = imap.fetch(sequence_id,'RFC822')[0].attr['RFC822']          
             mail = Mail.read_from_string msg
               
-            account = Account.find_by(email: /^#{from}$/i)
+            account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)
               
             if mail.html_part
               body = mail.html_part.body

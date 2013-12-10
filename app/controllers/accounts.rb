@@ -5,7 +5,7 @@ ActivateApp::App.controller do
   end  
   
   post '/accounts/forgot_password' do
-    if @account = Account.find_by(email: /^#{params[:email]}$/i)
+    if @account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i)
       @account.password = generate_password(8)
       @account.password_confirmation = @account.password
       @account.save!

@@ -37,7 +37,7 @@ class ConversationPostBcc
   def didyouknow
     group = conversation_post.conversation.group
     if group.didyouknows.count > 0
-      %Q{<span style="font-size: 80%"><strong>Did you know:</strong> #{didyouknow_replacements(group.didyouknows.all.sample.body)}</span><br />}
+      %Q{<span style="font-size: 80%"><strong>Did you know&hellip;</strong> #{didyouknow_replacements(group.didyouknows.all.sample.body)}</span><br />}
     end
   end
     

@@ -16,7 +16,7 @@
       <% @group.news_summaries.each { |news_summary| %>
         <tr>
           <td>
-            <strong><%=news_summary.title%></strong> <a href="http://www.news.me/<%=news_summary.newsme_username%>"><%=news_summary.newsme_username%></a></h2>
+            <strong><%=news_summary.title%></strong> <a href="http://www.news.me/<%=news_summary.newsme_username%>"><%=news_summary.newsme_username%></a>
           </td>
           <td>
             <a data-confirm="Are you sure you want to remove this news summary?" class="edit" href="/groups/<%=@group.slug%>/news_summaries/<%=news_summary.id%>/destroy"><i class="fa fa-times"></i></a>

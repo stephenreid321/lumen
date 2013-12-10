@@ -289,4 +289,29 @@ Best,
     redirect back
   end     
   
+  get '/groups/:slug/didyouknows' do
+    protected!
+    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])      
+    if @group.memberships.find_by(account: current_account).admin?           
+      erb :'groups/didyouknows'
+    else
+      flash[:error] = "You're not an admin of that group!"
+      redirect "/groups/#{@group.slug}"
+    end
+  end  
+  
+  post '/groups/:slug/didyouknows/add' do
+    protected!
+    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])              
+    @group.didyouknows.create :body => params[:body]
+    redirect back
+  end    
+  
+  get '/groups/:slug/didyouknows/:id/destroy' do
+    protected!
+    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])              
+    @group.didyouknows.find(params[:id]).destroy
+    redirect back
+  end  
+  
 end

@@ -5,23 +5,11 @@ ActivateApp::App.controllers do
     when :ics      
       Event.ical(Account.find(params[:token])) if params[:token]
     when :html
-      membership_required!
+      sign_in_required!
       partial :'events/calendar', :locals => {:calendar_path => '/calendar', :export_path => "/calendar.ics?token=#{current_account.id}" }, :layout => true
     end     
   end
-      
-  get '/groups/:slug/calendar', :provides => [:html, :ics] do    
-    @group = Group.find_by(slug: params[:slug])
-    membership_required!
-    case content_type   
-    when :ics
-      Event.ical(@group)
-    when :html
-      sign_in_required!
-      erb :'groups/calendar'
-    end    
-  end  
-  
+        
   get '/calendar/feed' do
     sign_in_required!
     Event.json(current_account, params[:start], params[:end])
@@ -36,7 +24,18 @@ ActivateApp::App.controllers do
     @event = current_account.events.find(params[:id])
     membership_required!(@event.group)
     redirect "/groups/#{@event.group.slug}/calendar/#{@event.id}/edit"
-  end    
+  end   
+  
+  get '/groups/:slug/calendar', :provides => [:html, :ics] do    
+    @group = Group.find_by(slug: params[:slug])    
+    case content_type   
+    when :ics
+      Event.ical(@group)
+    when :html
+      membership_required!
+      erb :'groups/calendar'
+    end    
+  end   
 
   get '/groups/:slug/calendar/feed', :provides => :json do
     @group = Group.find_by(slug: params[:slug])

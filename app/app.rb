@@ -58,7 +58,7 @@ module ActivateApp
     end
     
     get '/about' do
-      protected!
+      sign_in_required!
       erb :about
     end    
     
@@ -66,8 +66,18 @@ module ActivateApp
       NewsSummary.each { |news_summary| news_summary.fetch! }
     end
     
+    get '/groups/check' do
+      if params[:slug]
+        @group = Group.find_by(slug: params[:slug])
+        @group.check!
+      else
+        Group.check!
+      end
+      Time.now.to_s
+    end    
+    
     get '/analytics' do
-      admins_only!
+      site_admins_only!
       
       @conversation_threshold = ENV['SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD'].to_i     
       @models = [ConversationPost, Conversation, Account, Event, PageView].select { |model|

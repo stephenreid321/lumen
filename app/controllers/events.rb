@@ -5,48 +5,55 @@ ActivateApp::App.controllers do
     when :ics      
       Event.ical(Account.find(params[:token])) if params[:token]
     when :html
-      protected!
+      membership_required!
       partial :'events/calendar', :locals => {:calendar_path => '/calendar', :export_path => "/calendar.ics?token=#{current_account.id}" }, :layout => true
     end     
   end
       
   get '/groups/:slug/calendar', :provides => [:html, :ics] do    
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
     case content_type   
     when :ics
       Event.ical(@group)
     when :html
-      protected!
+      sign_in_required!
       erb :'groups/calendar'
     end    
   end  
   
   get '/calendar/feed' do
-    protected!
+    sign_in_required!
     Event.json(current_account, params[:start], params[:end])
-  end  
-
-  get '/groups/:slug/calendar/feed', :provides => :json do
-    protected!
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
-    Event.json(@group, params[:start], params[:end])
   end  
   
   get '/calendar/add' do
-    protected!
+    sign_in_required!
     erb :'events/build'
-  end
+  end  
   
+  get '/calendar/:id/edit' do
+    @event = current_account.events.find(params[:id])
+    membership_required!(@event.group)
+    redirect "/groups/#{@event.group.slug}/calendar/#{@event.id}/edit"
+  end    
+
+  get '/groups/:slug/calendar/feed', :provides => :json do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    Event.json(@group, params[:start], params[:end])
+  end  
+    
   get '/groups/:slug/calendar/add' do
-    protected!
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
     @event = @group.events.build
     erb :'events/build'
   end
   
   post '/groups/:slug/calendar/add' do
-    protected!
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
     @event = @group.events.build(params[:event])    
     @event.account = current_account
     if @event.save  
@@ -65,23 +72,18 @@ ActivateApp::App.controllers do
     end
   end   
   
-  get '/calendar/:id/edit' do
-    protected!
-    @event = current_account.events.find(params[:id])
-    @group = @event.group
-    redirect "/groups/#{@group.slug}/calendar/#{@event.id}/edit"
-  end  
+
   
   get '/groups/:slug/calendar/:id/edit' do
-    protected!
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
     @event = @group.events.find(params[:id])
     erb :'events/build'
   end
   
   post '/groups/:slug/calendar/:id/edit' do
-    protected!
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
     @event = @group.events.find(params[:id])
     if @event.update_attributes(params[:event])
       flash[:notice] = "<strong>Great!</strong> The event was updated successfully."
@@ -93,22 +95,22 @@ ActivateApp::App.controllers do
   end 
   
   get '/groups/:slug/calendar/:id/destroy' do
-    protected!
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
     @event = @group.events.find(params[:id]).destroy    
     redirect "/groups/#{@group.slug}/calendar/"
   end 
   
   get '/groups/:slug/calendar/:id' do
-    protected!
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
     @event = @group.events.find(params[:id])
     erb :'events/event'
   end  
   
   get '/groups/:slug/calendar/:id/summary' do
-    protected!
-    @group = Group.find_by(slug: params[:slug]) || raise(Mongoid::Errors::DocumentNotFound.new Group, :slug => params[:slug])    
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
     @event = @group.events.find(params[:id])
     partial :'events/summary'
   end    

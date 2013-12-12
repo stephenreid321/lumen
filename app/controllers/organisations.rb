@@ -1,11 +1,12 @@
 ActivateApp::App.controllers do
   
   get '/organisations' do
-    protected!
+    sign_in_required!
     erb :'organisations/index'
   end
   
   get '/organisations/results' do
+    sign_in_required!
     @o = (params[:o] ? params[:o] : 'date').to_sym
     @name = params[:name]
     @sector = params[:sector]
@@ -25,19 +26,19 @@ ActivateApp::App.controllers do
   end  
   
   get '/organisations/:id' do
-    protected!
+    sign_in_required!
     @organisation = Organisation.find(params[:id])
     erb :'organisations/organisation'
   end
   
   get '/organisations/:id/edit' do
-    protected!
+    sign_in_required!
     @organisation = Organisation.find(params[:id])
     erb :'organisations/build'
   end
   
   post'/organisations/:id/edit' do
-    protected!
+    sign_in_required!
     @organisation = Organisation.find(params[:id])
     if @organisation.update_attributes(params[:organisation])      
       flash[:notice] = "<strong>Great!</strong> The organisation was updated successfully."

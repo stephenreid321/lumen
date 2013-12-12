@@ -134,6 +134,10 @@ class Account
     ['user','admin']
   end    
   
+  def admin?
+    role == 'admin'
+  end
+  
   def self.lookup
     :name
   end  
@@ -156,6 +160,11 @@ class Account
   def has_password?(password)
     ::BCrypt::Password.new(crypted_password) == password
   end
+  
+  def self.generate_password(len)
+    chars = ("a".."z").to_a + ("0".."9").to_a
+    return Array.new(len) { chars[rand(chars.size)] }.join
+  end 
 
   private
   def encrypt_password

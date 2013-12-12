@@ -3,13 +3,13 @@
     <a title="Leave group" data-confirm="Are you sure you want to leave this group?" class="edit restore-opacity" href="/groups/<%=@group.slug%>/leave"><i class="fa fa-sign-out"></i> Leave group</a>          
   </li>  
   <li>
-    <% if @current_membership.notification_level == 'each' %>
+    <% if @group.memberships.find_by(account: current_account).notification_level == 'each' %>
       <a title="Email notifications on; click to turn off" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/notification_level/none"><i class="fa fa-envelope"></i> Email notifications on</a>
     <% else %>
       <a title="Email notifications off; click to turn on" class="edit restore-opacity" href="/groups/<%=@group.slug%>/notification_level/each"><i class="fa fa-envelope"></i> Email notifications off</a>
     <% end %>
   </li> 
-  <% if @current_membership.admin? %>        
+  <% if @group.memberships.find_by(account: current_account).admin? %>        
     <li>
       <a title="Did you know..." class="edit restore-opacity" href="/groups/<%=@group.slug%>/didyouknows"><i class="fa fa-question"></i> Did you know&hellip;</a>
     </li>  

@@ -1,3 +1,9 @@
+<ul class="page-options">
+  <li>
+    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
+  </li>  
+</ul>
+
 <ol class="breadcrumb">
   <li><a href="/">Groups</a></li>
   <li>
@@ -8,10 +14,7 @@
   </li>  
   <li class="active">
     <%= @event.name %>
-  </li>
-  <li style="float: right; width: 7em">
-    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
-  </li>       
+  </li>     
 </ol>
 
 <div class="row">

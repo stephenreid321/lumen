@@ -24,7 +24,6 @@ class ConversationPostBcc
   
   def didyouknow_replacements(string)
     group = conversation_post.conversation.group    
-    string.gsub!('[group_url]', "http://#{ENV['DOMAIN']}/groups/#{group.slug}")
     string.gsub!('[conversation_url]', "http://#{ENV['DOMAIN']}/conversations/#{conversation_post.conversation.slug}")
     string.gsub!('[members]', "#{m = group.memberships.count} #{m == 1 ? 'member' : 'members'}")
     string.gsub!('[upcoming_events]', "#{e = group.events.where(:start_time.gt => Time.now).count} #{e == 1 ? 'upcoming event' : 'upcoming events'}")
@@ -38,6 +37,8 @@ class ConversationPostBcc
     group = conversation_post.conversation.group
     if group.didyouknows.count > 0
       %Q{<span style="font-size: 80%"><strong>Did you know&hellip;</strong> #{didyouknow_replacements(group.didyouknows.all.sample.body)}</span><br />}
+    else
+      nil
     end
   end
     

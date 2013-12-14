@@ -70,6 +70,8 @@ class Account
     self.updated_profile = true if self.updated_profile == 'true'
     self.updated_profile = false if self.updated_profile == 'false'
   end
+  
+  attr_protected :role
     
   field :phone, :type => String 
   field :location, :type => String 

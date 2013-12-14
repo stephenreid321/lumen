@@ -6,6 +6,8 @@ class Membership
   field :notification_level, :type => String, :default => 'each'
   field :reminder_sent, :type => Time
   
+  attr_protected :role
+  
   belongs_to :account
   belongs_to :group
         

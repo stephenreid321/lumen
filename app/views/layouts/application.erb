@@ -103,7 +103,7 @@
               </li>                
               <li><a href="/organisations"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Organisations</a></li>
               <li><a href="/sectors"><i class="fa fa-th-list"></i>&nbsp;&nbsp;Sectors</a></li>
-              <% if current_account.role == 'admin' %>
+              <% if current_account.admin? %>
                 <li class="admin"><a href="/analytics"><i class="fa fa-dashboard"></i>&nbsp;&nbsp;Sitewide analytics</a></li>        
               <% end %>
             <%  end %>

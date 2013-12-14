@@ -14,11 +14,6 @@ class Account
       
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank
-  
-  before_validation :check_at_least_one_affiliation
-  def check_at_least_one_affiliation
-    errors.add(:affiliations, "must be present") if sign_ins.count > 0 and affiliations.empty?
-  end  
 
   def network    
     Account.where(:id.in => memberships.map(&:group).map(&:memberships).flatten.map(&:account_id))

@@ -17,8 +17,15 @@ ActivateApp::App.controllers do
       @group.memberships.select { |membership| membership.account.affiliations.count == 0 }          
     when :notification_level_none
       @group.memberships.where(:notification_level => 'none')
+    when :connected_to_twitter
+      @group.memberships.select { |membership| membership.account.connections.find_by(provider: 'Twitter') }
     end
-    @memberships = @memberships.sort_by { |membership| membership.account.name }
+    @memberships = case @view
+    when :connected_to_twitter
+      @memberships.sort_by { |membership| membership.account.connections.find_by(provider: 'Twitter').created_at }.reverse
+    else
+      @memberships.sort_by { |membership| membership.account.name }
+    end
     erb :'groups/members'
   end
    

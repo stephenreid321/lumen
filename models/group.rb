@@ -197,5 +197,9 @@ Best,
     imap.expunge
     imap.disconnect
   end
-
+  
+  def twitter_handles
+    memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
+  end
+  
 end

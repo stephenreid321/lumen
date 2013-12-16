@@ -70,9 +70,7 @@ class Account
     self.updated_profile = true if self.updated_profile == 'true'
     self.updated_profile = false if self.updated_profile == 'false'
   end
-  
-  attr_protected :role
-    
+      
   field :phone, :type => String 
   field :location, :type => String 
   field :expertise, :type => String  
@@ -148,7 +146,7 @@ class Account
   end
   
   def self.authenticate(email, password)
-    account = find_by(email: /#{Regexp.escape(email)}/i) if email.present?
+    account = find_by(email: /^#{Regexp.escape(email)}$/i) if email.present?
     account && account.has_password?(password) ? account : nil
   end
   

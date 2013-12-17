@@ -26,6 +26,15 @@ ActivateApp::App.controllers do
     membership_required!
     @from = params[:from] ? params[:from].to_date : 1.week.ago.to_date
     @to = params[:to] ? params[:to].to_date : Date.today
+    
+    @top_stories = @group.top_stories(@from, @to)[0..4]
+    @accounts = @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map(&:account).select { |account| account.updated_profile }
+    @conversations = @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= @group.analytics_conversation_threshold }
+    @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
+    
+    @cols = [@top_stories, @accounts, @conversations, @events].select { |collection| collection.length > 0 }.length
+    @md = 12/@cols
+    
     erb :'groups/week'
   end
   

@@ -60,7 +60,7 @@ ActivateApp::App.controllers do
       if @event.start_conversation == '1'
         conversation = @event.group.conversations.create!(subject: "New event: #{@event.name}")
         conversation_post = conversation.conversation_posts.create!(
-          :body => %Q{<h1><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/calendar/#{@event.id}">#{@event.name}</a></h1>#{partial('events/summary')}},
+          :body => %Q{<h2><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/calendar/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
           :account => @event.account)
         conversation_post.send_notifications!  
       end
@@ -111,7 +111,7 @@ ActivateApp::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @event = @group.events.find(params[:id])
-    partial :'events/summary'
+    partial :'events/summary', :locals => {:event => @event, :read_more => true}
   end    
   
 end

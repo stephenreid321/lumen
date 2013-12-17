@@ -22,7 +22,7 @@
 
     <h1><%= @event.name %></h1>
 
-    <%= partial 'events/summary' %>
+    <%= partial 'events/summary', :locals => {:event => @event} %>
 
   </div>
   <div class="col-md-6">

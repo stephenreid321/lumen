@@ -196,4 +196,20 @@ Best,
     memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
   end
   
+  def top_stories(from,to)
+    x = []
+    news_summaries.each { |news_summary|
+      news_summary.daily_digests.each { |daily_digest|
+        if daily_digest.date >= from and daily_digest.date < to+1
+          Nokogiri::HTML(daily_digest.body).css('.story-content').each { |story|
+            x << {:news_summary => news_summary, :daily_digest => daily_digest, :story => story}
+          }
+        end
+      }
+    }
+    x.sort_by! { |e| e[:story].css('.story-tweeters a').length }    
+    x.reverse!
+    x
+  end
+  
 end

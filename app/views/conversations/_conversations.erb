@@ -16,18 +16,7 @@
   </div>
 </div>
 
-<table class="table" style="margin-top: 10px">
-  <% @conversations.order_by(:updated_at.desc).each { |conversation| %>
-    <tr>
-      <td><a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a></td>
-      <td><span style="opacity: <%=(o = (0.3 + 0.7*(conversation.conversation_posts.count.to_f/3))) > 1 ? 1 : o%>"class="badge"><%=conversation.conversation_posts.count%></span></td>
-      <td>
-        Last post <%= time_ago_in_words(conversation.last_conversation_post.created_at) %> ago
-        by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>
-      </td>
-    </tr>
-  <% } %>      
-</table>
+<%= partial :'conversations/conversations_table', :locals => {:conversations => @conversations}  %>
 
 <%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 

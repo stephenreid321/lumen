@@ -21,6 +21,14 @@ ActivateApp::App.controllers do
     erb :'groups/group'
   end  
   
+  get '/groups/:slug/week' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    @from = params[:from] ? params[:from].to_date : 1.week.ago.to_date
+    @to = params[:to] ? params[:to].to_date : Date.today
+    erb :'groups/week'
+  end
+  
   get '/groups/:slug/leave' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!

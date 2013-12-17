@@ -51,7 +51,7 @@
           $(this).data('popover', false);
         } else {
           el = $(this);
-          $.get('/groups/' + event.group_slug + '/calendar/' + event.id + '/summary?read_more=true', function(response) {
+          $.get('/groups/' + event.group_slug + '/calendar/' + event.id + '/summary', function(response) {
             el.popover({
               content: response,
               trigger: 'manual',

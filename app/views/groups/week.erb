@@ -1,0 +1,58 @@
+
+<h1><%=@group.slug%> in review
+  <small>
+    <% if @from.strftime("%b %Y") == @to.strftime("%b %Y") %>
+      <%=@from.day.ordinalize%> &mdash; <%=(d = @to).strftime("#{d.day.ordinalize} %b %Y")%>
+    <% else %>
+      <%=(d = @from).strftime("#{d.day.ordinalize} %b %Y")%> &mdash; <%=(d = @to).strftime("#{d.day.ordinalize} %b %Y")%>
+    <% end  %>
+  </small>
+</h1>
+
+<div class="row">
+
+  <div class="col-md-3">
+    <h2>Top stories</h2>
+
+    <div class="news-summary">
+      <ol class="top-stories stories-list">
+        <% @group.top_stories(@from, @to)[0..4].each_with_index { |e,i| %>
+          <li class="stories-list-item" id="story-<%=i%>">
+            <%=e[:story].to_s %>
+            <script>
+              $(function() {
+                $('#story-<%=i%>').find('h5').append(' <small><em><%=e[:news_summary].title%> on <%=e[:daily_digest].date.strftime("%a #{d.day.ordinalize} %b") %></em></small>')
+              });
+            </script>
+          </li>
+        <% } %>
+      </ol>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <h2>New people</h2>
+    <ul class="list-unstyled clearfix" style="margin-top: 26px">    
+      <% @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).each { |membership| %>
+        <li style="display: block; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; padding: 5px">      
+          <%= partial :'accounts/account', :locals => {:account => membership.account}  %>
+        </li>
+      <% } %>    
+    </ul>
+  </div>
+
+  <div class="col-md-3">
+    <h2>New conversations</h2>
+    <%= partial :'conversations/conversations_table', :locals => {:conversations => @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1)} %>
+  </div>
+
+  <div class="col-md-3">
+    <style>.read-more { display: none }</style>
+    <h2>New events</h2>
+    <% @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1).each { |event| %>
+      <h3><a href="/groups/<%=@group.slug%>/calendar/<%=event.id%>"><%=event.name%></a></h3>
+      <%= partial :'events/summary', :locals => {:event => event, :read_more => true} %>
+    <% } %>
+  </div>  
+
+</div>

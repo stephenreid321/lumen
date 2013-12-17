@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<%= partial :'conversations/conversations_table', :locals => {:conversations => @conversations}  %>
+<%= partial :'conversations/conversations_table', :locals => {:conversations => @conversations.order_by(:updated_at.desc)}  %>
 
 <%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 

@@ -1,5 +1,5 @@
 <table class="table" style="margin-top: 10px">
-  <% conversations.order_by(:updated_at.desc).each { |conversation| %>
+  <% conversations.each { |conversation| %>
     <tr>
       <td><a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a></td>
       <td><span style="opacity: <%=(o = (0.3 + 0.7*(conversation.conversation_posts.count.to_f/3))) > 1 ? 1 : o%>"class="badge"><%=conversation.conversation_posts.count%></span></td>

@@ -33,9 +33,9 @@
   <div class="col-md-3">
     <h2>New people</h2>
     <ul class="list-unstyled clearfix" style="margin-top: 26px">    
-      <% @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).each { |membership| %>
+      <% @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map(&:account).sort_by { |account| account.updated_profile ? 0 : 1 }.each { |account| %>
         <li style="display: block; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; padding: 5px">      
-          <%= partial :'accounts/account', :locals => {:account => membership.account.order_by([:updated_profile.desc, :updated_at.desc])} %>
+          <%= partial :'accounts/account', :locals => {:account => account} %>
         </li>
       <% } %>    
     </ul>
@@ -43,7 +43,7 @@
 
   <div class="col-md-3">
     <h2>Hot conversations</h2>
-    <%= partial :'conversations/conversations_table', :locals => {:conversations => @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1)}.select { |conversation| conversation.conversation_posts.count >= @group.analytics_conversation_threshold } %>
+    <%= partial :'conversations/conversations_table', :locals => {:conversations => @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= @group.analytics_conversation_threshold }} %>
   </div>
 
   <div class="col-md-3">

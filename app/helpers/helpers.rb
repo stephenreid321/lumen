@@ -1,21 +1,25 @@
 ActivateApp::App.helpers do
   
   def current_account
-    @current_account ||= Account.find(session[:account_id]) if session[:account_id]
+    @current_account ||= if session[:account_id]
+      Account.find(session[:account_id])
+    elsif params[:token]
+      Account.find_by(secret_token: params[:token]) 
+    end
   end
   
   def sign_in_required!
     unless current_account
       flash[:notice] = 'You must sign in to access that page'
       session[:return_to] = request.url
-      redirect '/sign_in' 
+      request.xhr? ? halt : redirect('/sign_in')
     end
   end
   
   def site_admins_only!
     unless current_account and current_account.admin?
       flash[:notice] = 'You must be a site admin to access that page'
-      redirect '/' 
+      request.xhr? ? halt : redirect('/')
     end    
   end
   
@@ -23,7 +27,7 @@ ActivateApp::App.helpers do
     group = @group if !group
     unless current_account and group and group.memberships.find_by(account: current_account)
       flash[:notice] = 'You must be a member of that group to access that page'
-      redirect '/' 
+      request.xhr? ? halt : redirect('/')
     end        
   end
   
@@ -31,7 +35,7 @@ ActivateApp::App.helpers do
     group = @group if !group
     unless current_account and group and (membership = group.memberships.find_by(account: current_account)) and membership.admin?
       flash[:notice] = 'You must be an admin of that group to access that page'
-      redirect '/' 
+      request.xhr? ? halt : redirect('/')
     end     
   end
     

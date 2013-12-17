@@ -97,6 +97,6 @@
 
 <p style="text-align: center; margin-top: 10px">
   Add this calendar to your Google Calendar (<a href="https://support.google.com/calendar/answer/37100?hl=en">instructions</a>), Apple Calendar, etc:<br />
-  <input class="form-control" style="width: 20em; display: inline" type="text" value="http://<%=ENV['DOMAIN']%><%=export_path ||= "#{calendar_path}.ics"%>">
+  <input class="form-control" style="width: 20em; display: inline" type="text" value="http://<%=ENV['DOMAIN']%><%="#{calendar_path}.ics"%>?token=<%=current_account.generate_secret_token%>">
 </p>
 

@@ -61,6 +61,7 @@ class Account
   # Fields  
   field :name, :type => String
   field :email, :type => String
+  field :secret_token, :type => String
   field :crypted_password, :type => String
   field :role, :type => String, :default => 'user'
   field :time_zone, :type => String, :default => 'London'
@@ -69,6 +70,11 @@ class Account
   def updated_profile_to_boolean
     self.updated_profile = true if self.updated_profile == 'true'
     self.updated_profile = false if self.updated_profile == 'false'
+  end
+  
+  def generate_secret_token
+    update_attribute(:secret_token, ::BCrypt::Password.create(self.id)) if !self.secret_token
+    self.secret_token
   end
       
   field :phone, :type => String 
@@ -96,6 +102,7 @@ class Account
     {
       :name => :text,
       :email => :text,
+      :secret_token => :text,
       :phone => :text,      
       :picture => :image,
       :role => :select,

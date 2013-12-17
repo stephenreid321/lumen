@@ -32,8 +32,4 @@ class NewsSummary
     end
   end
   
-  def fetch!
-    set_body; save
-  end
-  
 end

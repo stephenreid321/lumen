@@ -10,7 +10,7 @@ ActivateApp::App.helpers do
   
   def sign_in_required!
     unless current_account
-      flash[:notice] = 'You must sign in to access that page'
+      flash[:notice] = 'You must sign in to access that page' unless request.path == '/'
       session[:return_to] = request.url
       request.xhr? ? halt : redirect('/sign_in')
     end

@@ -47,14 +47,13 @@ module ActivateApp
     get '/airbrake' do
       raise StandardError
     end
+        
+    ############
   
     get '/' do
-      if current_account
-        @o = :updated
-        erb :home
-      else
-        redirect '/sign_in'
-      end
+      sign_in_required!
+      @o = :updated
+      erb :home
     end
     
     get '/about' do
@@ -63,22 +62,12 @@ module ActivateApp
     end    
     
     get '/update_news' do
-      NewsSummary.each { |news_summary| news_summary.fetch! }
-    end
-    
-    get '/groups/check' do
-      if params[:slug]
-        @group = Group.find_by(slug: params[:slug])
-        @group.check!
-      else
-        Group.check!
-      end
-      Time.now.to_s
-    end    
-    
-    get '/analytics' do
       site_admins_only!
-      
+      NewsSummary.each { |news_summary| news_summary.save }
+    end
+        
+    get '/analytics' do
+      site_admins_only!      
       @conversation_threshold = ENV['SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD'].to_i     
       @models = [ConversationPost, Conversation, Account, Event, PageView].select { |model|
         model.count > 0
@@ -88,16 +77,14 @@ module ActivateApp
         else
           true
         end
-      }
-      
+      }      
       @collections = @models.map { |model|
         resources = model.order_by(:created_at.asc) 
         if model == Conversation
           resources = resources.select { |conversation| conversation.conversation_posts.count >= @conversation_threshold }
         end
         resources
-      }      
-      
+      }            
       erb :'groups/analytics'
     end
               

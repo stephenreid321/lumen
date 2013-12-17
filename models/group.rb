@@ -77,13 +77,7 @@ class Group
       agent.post(session_path + "mail/doaddfwd.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :fwdopt => 'pipe', :fwdsystem => ENV['CPANEL_USERNAME'], :pipefwd => "#{ENV['CPANEL_NOTIFICATION_SCRIPT']} #{slug}")
     end
   end  
-   
-  def self.check!
-    Group.each { |group|
-      group.check!
-    }
-  end
-    
+       
   def check!
     group = self
     logger.info "Attempting to log in as #{group.imap_username}"

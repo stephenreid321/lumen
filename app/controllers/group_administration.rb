@@ -1,5 +1,10 @@
 ActivateApp::App.controllers do
   
+  get '/groups/:slug/check' do
+    site_admins_only!
+    Group.find_by(slug: params[:slug]).check!
+  end   
+  
   get '/groups/:slug/members' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!

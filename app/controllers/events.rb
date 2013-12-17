@@ -4,7 +4,7 @@ ActivateApp::App.controllers do
     sign_in_required!
     case content_type   
     when :ics      
-      Event.ical(Account.find(params[:token])) if params[:token]
+      Event.ical(current_account)
     when :html      
       partial :'events/calendar', :locals => {:calendar_path => '/calendar'}, :layout => true
     end     

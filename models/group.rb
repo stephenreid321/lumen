@@ -199,12 +199,10 @@ Best,
   def top_stories(from,to)
     x = []
     news_summaries.each { |news_summary|
-      news_summary.daily_digests.each { |daily_digest|
-        if daily_digest.date >= from and daily_digest.date < to+1
-          Nokogiri::HTML(daily_digest.body).css('.story-content').each { |story|
-            x << {:news_summary => news_summary, :daily_digest => daily_digest, :story => story}
-          }
-        end
+      news_summary.daily_digests.where(:date.gte => from).where(:date.lt => to+1).each { |daily_digest|
+        Nokogiri::HTML(daily_digest.body).css('.story-content').each { |story|
+          x << {:news_summary => news_summary, :daily_digest => daily_digest, :story => story}
+        }
       }
     }
     x.sort_by! { |e| e[:story].css('.story-tweeters a').length }    

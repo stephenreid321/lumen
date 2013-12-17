@@ -4,7 +4,7 @@
     <div class="col-md-<%=news_summaries.count == 1 ? 12 : 6%> <% if news_summaries.count > 2 %>many-summaries<% end %>">
       <div class="news-summary">
         <h3 style="color: #aaa; font-style: italic"><%=news_summary.title%> <% if !@group %><small><%=news_summary.group.slug%></small><% end%></h3>
-        <%= news_summary.daily_digests.order_by(:date.desc).first.body %>
+        <%= news_summary.daily_digests.order_by(:date.desc).first.try(:body) %>
       </div>
     </div>
   <% } %>

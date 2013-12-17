@@ -48,12 +48,13 @@ class Group
   end
       
   def self.fields_for_index
-    [:slug]
+    [:slug, :analytics_conversation_threshold]
   end
   
   def self.fields_for_form
     {
       :slug => :text,
+      :analytics_conversation_threshold => :text,
       :conversations => :collection
     }
   end

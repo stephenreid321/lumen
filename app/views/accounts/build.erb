@@ -15,8 +15,6 @@
 
     <% form_for @account, @account.new_record? ? '/account/new' : '/account/edit', :class => 'form-horizontal', :multipart => true do |f| %>
 
-      <%= f.hidden_field :updated_profile, :value => true %>
-
       <div class="form-group <%= 'has-error' if !f.error_message_on(:name).blank? %>">
         <label class="control-label col-md-3">Name</label>
         <div class="col-md-6">      

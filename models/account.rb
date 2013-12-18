@@ -68,12 +68,11 @@ class Account
   field :secret_token, :type => String
   field :crypted_password, :type => String
   field :role, :type => String, :default => 'user'
-  field :time_zone, :type => String, :default => 'London'
-  field :updated_profile, :type => Boolean, :default => false
-  before_validation :updated_profile_to_boolean
-  def updated_profile_to_boolean
-    self.updated_profile = true if self.updated_profile == 'true'
-    self.updated_profile = false if self.updated_profile == 'false'
+  field :time_zone, :type => String, :default => 'London'  
+  field :affiliated, :type => Boolean
+  
+  def update_affiliated!
+    update_attribute(:affiliated, affiliations.count > 0)
   end
   
   def generate_secret_token
@@ -115,6 +114,7 @@ class Account
       :password_confirmation => :password,
       :location => :text,
       :expertise => :text,
+      :affiliated => :check_box,
       :affiliations => :collection
     }
   end

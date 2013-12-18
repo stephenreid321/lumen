@@ -18,6 +18,12 @@ class Affiliation
     end
   end
   
+  after_save :update_affiliated_on_account
+  after_destroy :update_affiliated_on_account
+  def update_affiliated_on_account
+    account.update_affiliated!
+  end
+   
   validates_presence_of :title, :organisation, :account
       
   def self.fields_for_index

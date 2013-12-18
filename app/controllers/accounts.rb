@@ -35,7 +35,7 @@ ActivateApp::App.controller do
     when :date
       @accounts.order_by(:created_at.desc)
     when :updated
-      @accounts.order_by([:updated_profile.desc, :updated_at.desc])
+      @accounts.order_by([:affiliated.desc, :picture.desc, :updated_at.desc])
     end
     @accounts = @accounts.per_page(10).page(params[:page])
     partial :'accounts/results'
@@ -102,7 +102,7 @@ ActivateApp::App.controller do
     @to = params[:to] ? params[:to].to_date : Date.today
     
     @top_stories = NewsSummary.top_stories(current_account.news_summaries, @from, @to)[0..4]
-    @accounts = current_account.network.where(:created_at.gte => @from).where(:created_at.lt => @to+1).select { |account| account.updated_profile && account.picture }
+    @accounts = current_account.network.where(:created_at.gte => @from).where(:created_at.lt => @to+1).select { |account| account.affiliated && account.picture }
     @conversations = current_account.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= 3 }
     @events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
         

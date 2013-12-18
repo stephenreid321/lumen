@@ -55,7 +55,7 @@
             el.popover({
               content: response,
               trigger: 'manual',
-              title: event.title,
+              title: event.title <% if !@group %> + ' <span style="font-size: 0.85em; color: #999999"><i class="fa fa-group"></i> ' + event.group_slug + '</span>' <% end%>  ,
               placement:'auto top',
               container:'body',
               html: true          

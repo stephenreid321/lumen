@@ -7,16 +7,20 @@ class Account
   has_many :memberships, :dependent => :destroy    
   has_many :conversation_posts, :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
-  
-  def events
-    Event.where(:id.in => memberships.map(&:group).map(&:events).flatten.map(&:id))
-  end
-      
+        
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank
 
   def network    
     Account.where(:id.in => memberships.map(&:group).map(&:memberships).flatten.map(&:account_id))
+  end
+  
+  def events
+    Event.where(:id.in => memberships.map(&:group).map(&:events).flatten.map(&:id))
+  end  
+  
+  def conversations
+    Conversation.where(:id.in => memberships.map(&:group).map(&:conversations).flatten.map(&:_id))
   end
   
   def news_summaries

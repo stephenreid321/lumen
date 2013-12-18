@@ -94,6 +94,19 @@ ActivateApp::App.controller do
       flash.now[:error] = "<strong>Oops.</strong> The disconnect wasn't successful."
       erb :'accounts/build'
     end
-  end    
+  end  
+
+  get '/account/week' do
+    sign_in_required!    
+    @from = params[:from] ? params[:from].to_date : 1.week.ago.to_date
+    @to = params[:to] ? params[:to].to_date : Date.today
+    
+    @top_stories = NewsSummary.top_stories(current_account.news_summaries, @from, @to)[0..4]
+    @accounts = current_account.network.where(:created_at.gte => @from).where(:created_at.lt => @to+1).select { |account| account.updated_profile && account.picture }
+    @conversations = current_account.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= 3 }
+    @events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
+        
+    erb :'groups/week'    
+  end
         
 end

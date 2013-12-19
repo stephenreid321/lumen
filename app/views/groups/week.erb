@@ -48,7 +48,7 @@
     <% end %>     
 
     <% if @accounts.length > 0 %>
-      <h2>New people <a class="btn btn-default btn-sm" href="<%= @group ? "/groups/#{@group.slug}" : "/"%>"><i class="fa fa-group"></i> View all members</a></h2>
+      <h2>New people <a class="btn btn-default btn-sm" href="<%= @group ? "/groups/#{@group.slug}" : "/"%>"><i class="fa fa-group"></i> View all people</a></h2>
       <ul class="list-unstyled clearfix" style="margin-top: 26px">    
         <% @accounts.each { |account| %>
           <li style="display: block; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; padding: 5px">      

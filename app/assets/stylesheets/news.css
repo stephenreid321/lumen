@@ -1,0 +1,10 @@
+.news-summary ol.top-stories.stories-list { list-style-type: none; margin: 0; padding: 0 }
+.news-summary .stories-list-item { margin-top: 26px }
+.news-summary h5.story-header { font-size: 18px; margin: 0;  line-height: 100% }
+.news-summary .story-meta { font-size: 13px; margin: 8px 0 }
+.news-summary .pipe, .story-tweeter-names, .story-tweeter-names a { color: #888 }
+.news-summary a.top-stories-domain { color: #333; font-weight: bold; }
+.news-summary a.top_stories_body { color: #666 }
+.news-summary .story-tweeters { margin-top: 8px }
+.news-summary .story-tweeters img { border-radius: 2px }    
+.many-summaries .news-summary .top_stories_body { display: none }

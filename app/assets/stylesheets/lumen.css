@@ -1,0 +1,25 @@
+
+body { padding: 60px 20px 20px 20px; }
+
+body, p, input, select, textarea, button, h1,h2,h3,h4,h5,h6 { font-family: 'Lato', 'Helvetica', 'Arial', sans-serif }
+
+.restore-opacity { opacity: 0.5; }
+.restore-opacity:hover { opacity: 1 !important  }
+
+a.edit { color: black; text-decoration: none; opacity: 0.25 }
+a.edit:hover { opacity: 1 }      
+
+ol.breadcrumb { margin-bottom: 0 }
+ol.breadcrumb li[style*=float]:before { content: '' }
+
+select[name*=day], select[name*=month], select[name*=year], select[name*=hour], select[name*=min] { display:inline; width: auto } 
+
+.popover { z-index: 1040 }
+.tooltip { z-index: 1020 }  
+
+.page-options { margin: 0; padding: 0; float: right }
+.page-options li { display:inline-block; padding: 0.5em }
+
+.chosen-container-single .chosen-single abbr { top: 10px }
+.chosen-container { margin-bottom: 5px; }
+.chosen-default span { opacity: 0.5 }

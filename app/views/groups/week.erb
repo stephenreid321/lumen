@@ -1,20 +1,22 @@
-<% if @group %>
-  <ol class="breadcrumb">
-    <li><a href="/">Groups</a></li>
-    <li>
-      <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
-    </li>
-    <li class="active">
-      Week in review
-    </li>
-  </ol>
-<% else %>
-  <ol class="breadcrumb">
-    <li><a href="/"><%=current_account.name%></a></li>
-    <li class="active">
-      Week in review
-    </li>
-  </ol>
+<% if !params[:email] %>
+  <% if @group %>
+    <ol class="breadcrumb">
+      <li><a href="/">Groups</a></li>
+      <li>
+        <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+      </li>
+      <li class="active">
+        Week in review
+      </li>
+    </ol>
+  <% else %>
+    <ol class="breadcrumb">
+      <li><a href="/"><%=current_account.name%></a></li>
+      <li class="active">
+        Week in review
+      </li>
+    </ol>
+  <% end %>
 <% end %>
 
 <style>h2 a.btn { float: right }</style>
@@ -62,12 +64,16 @@
         <ol class="top-stories stories-list">
           <% @top_stories.each_with_index { |e,i| %>
             <li class="stories-list-item" id="story-<%=i%>">
-              <%=e[:story].to_s %>
-              <script>
-                $(function() {
-                  $('#story-<%=i%>').find('h5').append(' <small><%=e[:news_summary].title%> <% if !@group %><small><i class="fa fa-group"></i> <%=e[:news_summary].group.slug%></small><% end%> on <%=e[:daily_digest].date.strftime("%a #{d.day.ordinalize} %b") %></small>')
-                });
-              </script>
+              <%               
+              a = []
+              a << "<small>"
+              a << "#{e[:news_summary].title} on #{e[:daily_digest].date.strftime("%a #{d.day.ordinalize} %b")}"
+              a << %Q{<small><i class="fa fa-group"></i> #{e[:news_summary].group.slug}</small>} if !@group
+              a << %Q{</small>}
+              h5 = e[:story].at_css('h5')
+              h5.inner_html = h5.inner_html + a.join(' ')
+            %>
+              <%= e[:story] %>
             </li>
           <% } %>
         </ol>

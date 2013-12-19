@@ -65,10 +65,10 @@ ActivateApp::App.controller do
     @events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
         
     if params[:email]
-      Premailer.new((erb :'groups/week', :layout => :email), :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+      Premailer.new((erb :'groups/week', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
     else
       erb :'groups/week'
     end
   end
-  
+    
 end

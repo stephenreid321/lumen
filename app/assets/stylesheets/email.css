@@ -319,4 +319,4 @@ a.badge:focus {
   top: -1px;
 }
 
-img { line-height: 1 }
+.media > .pull-left { line-height: 1 }

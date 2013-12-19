@@ -73,14 +73,14 @@ Best,
           current_account.picture_url = @provider.image.call(env['omniauth.auth']) unless current_account.picture
           current_account.save
         end
-        redirect '/account/edit'
+        redirect '/me/edit'
       else # not signed in
         if account # sign in
           SignIn.create(account: account)
           session['account_id'] = account.id
           flash[:notice] = "Signed in!"
           if account.sign_ins.count == 1
-            redirect '/account/edit'
+            redirect '/me/edit'
           elsif session[:return_to]
             redirect session[:return_to]
           else

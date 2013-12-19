@@ -111,7 +111,7 @@
           <style>li.admin { background: #F5F2EB;  }</style>
           <ul class="nav navbar-nav navbar-right">
             <% if current_account %>
-              <li><a href="/account/edit">
+              <li><a href="/me/edit">
                   Edit profile & connect accounts
                   <% if current_account.connections.count < 3 %>
                     (<%=current_account.connections.count%>/4 connected)

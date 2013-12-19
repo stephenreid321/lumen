@@ -165,19 +165,15 @@ th {
   margin-bottom: 20px;
 }
 
-.table thead tr th,
-.table tbody tr th,
-.table tfoot tr th,
-.table thead tr td,
-.table tbody tr td,
-.table tfoot tr td {
+.table th,
+.table td {
   padding: 8px;
   line-height: 1.428571429;
   vertical-align: top;
   border-top: 1px solid #dddddd;
 }
 
-.table thead tr th {
+.table thead th {
   vertical-align: bottom;
   border-bottom: 2px solid #dddddd;
 }

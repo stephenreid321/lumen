@@ -3,9 +3,9 @@
     <tr>
       <td><a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a></td>
       <% if !@group %>
-        <td><i class="fa fa-group"></i> <%=conversation.group.slug%></td>
+        <td><span style="color: #999999;"><i class="fa fa-group"></i> <%=conversation.group.slug%></span></td>
       <% end %>
-      <td><span style="color: #999999; opacity: <%=(o = (0.3 + 0.7*(conversation.conversation_posts.count.to_f/3))) > 1 ? 1 : o%>"class="badge"><%=conversation.conversation_posts.count%></span></td>
+      <td><span style="opacity: <%=(o = (0.3 + 0.7*(conversation.conversation_posts.count.to_f/3))) > 1 ? 1 : o%>"class="badge"><%=conversation.conversation_posts.count%></span></td>
       <td>
         Last post <%= time_ago_in_words(conversation.last_conversation_post.created_at) %> ago
         by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>

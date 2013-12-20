@@ -29,7 +29,7 @@ ActivateApp::App.controllers do
     
     @top_stories = NewsSummary.top_stories(@group.news_summaries, @from, @to)[0..4]
     @accounts = @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map(&:account).select { |account| account.affiliated && account.picture }
-    @conversations = @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= 3 }
+    @conversations = @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.count >= 3 }
     @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
         
     if request.xhr?

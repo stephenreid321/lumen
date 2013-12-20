@@ -1,6 +1,9 @@
-body { padding: 0 20px; }
 
+body { padding: 0 20px; }
 body, p, input, select, textarea, button, h1,h2,h3,h4,h5,h6, table { font-family: 'Lato', 'Helvetica', 'Arial', sans-serif }
+.media > .pull-left { line-height: 1 }
+
+/* Selected styles from Bootstrap */
 
 h1,h2,h3,h4,h5,h6 { font-weight: normal }
 h1,
@@ -206,6 +209,11 @@ table th[class*="col-"] {
   float: none;
 }
 
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 .pull-right {
   float: right !important;
 }
@@ -326,5 +334,3 @@ a.badge:focus {
   position: relative;
   top: -1px;
 }
-
-.media > .pull-left { line-height: 1 }

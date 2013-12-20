@@ -8,10 +8,13 @@
 
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>    
 
-    <style>              
-<%= File.open("#{Padrino.root}/app/assets/stylesheets/email.css", "r").read %>
-<%= File.open("#{Padrino.root}/app/assets/stylesheets/news.css", "r").read %>
-    </style>         
+    <%
+    [
+      'email.css',
+      'news.css'
+    ].each { |file| %> 
+      <%= "<style>#{File.open("#{Padrino.root}/app/assets/stylesheets/#{file}", "r").read}</style>" %>
+    <% } %>         
 
   </head>
   <body>

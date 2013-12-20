@@ -206,6 +206,14 @@ table th[class*="col-"] {
   float: none;
 }
 
+.pull-right {
+  float: right !important;
+}
+
+.pull-left {
+  float: left !important;
+}
+
 .media,
 .media-body {
   overflow: hidden;

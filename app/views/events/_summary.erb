@@ -23,19 +23,21 @@
   <% end %>    
 </ul>
 
-<% if defined? read_more %>
-  <a class="read-more" href="/groups/<%=event.group.slug%>/calendar/<%=event.id%>">Read more&hellip;</a>
-<% else %>  
-  <%= event.details  %>
-  <% if event.reason %>
-    <br />
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Members of <%=event.group.slug%> should come because&hellip;</h3>
-      </div>      
-      <div class="panel-body">  
-        <%= event.reason %>
+<% if !(defined? no_more) %>
+  <% if defined? read_more %>
+    <a class="read-more" href="/groups/<%=event.group.slug%>/calendar/<%=event.id%>">Read more&hellip;</a>
+  <% else %>  
+    <%= event.details  %>
+    <% if event.reason %>
+      <br />
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Members of <%=event.group.slug%> should come because&hellip;</h3>
+        </div>      
+        <div class="panel-body">  
+          <%= event.reason %>
+        </div>
       </div>
-    </div>
-  <% end %>  
+    <% end %>  
+  <% end %>
 <% end %>

@@ -14,7 +14,7 @@
       <a title="Did you know..." class="edit restore-opacity" href="/groups/<%=@group.slug%>/didyouknows"><i class="fa fa-question"></i> Did you know&hellip;</a>
     </li>  
     <li>
-      <a title="News summaries" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-fire"></i> News summaries</a>
+      <a title="News summaries" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-twitter"></i> News summaries</a>
     </li>
     <li>
       <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
@@ -43,7 +43,7 @@
       <ul class="nav nav-tabs">
         <li class="active"><a title="Conversations" href="#conversations-tab" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
         <% if @group.news_summaries.count > 0 %>
-          <li><a title="News" href="#news-tab" data-toggle="tab"><i class="fa fa-fire"></i></a></li>
+          <li><a title="News" href="#news-tab" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
         <% end %>
         <li><a href="#review-tab" title="Week in review" data-toggle="tab"><i class="fa fa-star"></i></a></li>
         <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>

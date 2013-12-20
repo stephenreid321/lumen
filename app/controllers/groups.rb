@@ -33,7 +33,7 @@ ActivateApp::App.controllers do
     @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
         
     if request.xhr?
-      partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @hot_conversations, :events => @events}
+      partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :events => @events}
     else
       erb :'groups/review'
     end

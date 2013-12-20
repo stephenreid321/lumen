@@ -11,7 +11,7 @@ ActivateApp::App.controller do
     erb :'accounts/build'
   end
   
-  post'/me/edit' do
+  post '/me/edit' do
     sign_in_required!
     @account = current_account
     if @account.update_attributes(params[:account])      
@@ -63,8 +63,12 @@ ActivateApp::App.controller do
     @accounts = current_account.network.where(:created_at.gte => @from).where(:created_at.lt => @to+1).select { |account| account.affiliated && account.picture }
     @conversations = current_account.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= 3 }
     @events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
-        
-    erb :'groups/review'
+    
+    if request.xhr?
+      partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :events => @events}
+    else
+      erb :'groups/review'
+    end
   end
     
 end

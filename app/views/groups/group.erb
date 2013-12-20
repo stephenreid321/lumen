@@ -67,6 +67,9 @@
         trigger: 'manual'
       }).tooltip('show');        
 <% end %>
+    $("a[href='#review-tab']").on('shown.bs.tab', function (e) {
+      $('#review-tab').load('/groups/<%=@group.slug%>/review')
+    });
     $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
       $('#calendar').fullCalendar('render')
     });
@@ -89,7 +92,6 @@
         </div>      
       <% end %>  
       <div class="tab-pane" id="review-tab">
-        <%= partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @hot_conversations, :events => @events} %>
       </div> 
       <div class="tab-pane" id="calendar-tab">
         <style>#calendar { margin-top: 20px }</style>

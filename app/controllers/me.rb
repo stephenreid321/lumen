@@ -54,7 +54,7 @@ ActivateApp::App.controller do
     end
   end  
 
-  get '/me/week' do
+  get '/me/review' do
     sign_in_required!    
     @from = params[:from] ? params[:from].to_date : 1.week.ago.to_date
     @to = params[:to] ? params[:to].to_date : Date.today
@@ -64,11 +64,7 @@ ActivateApp::App.controller do
     @conversations = current_account.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= 3 }
     @events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
         
-    if params[:email]
-      Premailer.new((erb :'groups/week', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-    else
-      erb :'groups/week'
-    end
+    erb :'groups/review'
   end
     
 end

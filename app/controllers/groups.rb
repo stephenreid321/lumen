@@ -2,7 +2,7 @@ ActivateApp::App.controllers do
                         
   get '/groups/:slug' do
     @group = Group.find_by(slug: params[:slug])
-    membership_required!
+    membership_required!        
     @conversations = @group.conversations
     @q = params[:q] if params[:q]        
     if @q
@@ -18,10 +18,19 @@ ActivateApp::App.controllers do
       @conversations = @conversations.where(:id.in => @conversation_posts.only(:conversation_id).map(&:conversation_id))
     end                         
     @conversations = @conversations.per_page(10).page(params[:page])
+    
+    @from = params[:from] ? params[:from].to_date : 1.week.ago.to_date
+    @to = params[:to] ? params[:to].to_date : Date.today
+    
+    @top_stories = NewsSummary.top_stories(@group.news_summaries, @from, @to)[0..4]
+    @accounts = @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map(&:account).select { |account| account.affiliated && account.picture }
+    @hot_conversations = @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= 3 }
+    @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
+    
     erb :'groups/group'
   end  
   
-  get '/groups/:slug/week' do
+  get '/groups/:slug/review' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @from = params[:from] ? params[:from].to_date : 1.week.ago.to_date
@@ -32,7 +41,7 @@ ActivateApp::App.controllers do
     @conversations = @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).select { |conversation| conversation.conversation_posts.count >= 3 }
     @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
         
-    erb :'groups/week'
+    erb :'groups/review'
   end
   
   get '/groups/:slug/leave' do

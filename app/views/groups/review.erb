@@ -1,0 +1,26 @@
+<% if !params[:email] %>
+  <% if @group %>
+    <ol class="breadcrumb">
+      <li><a href="/">Groups</a></li>
+      <li>
+        <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+      </li>
+      <li class="active">
+        Week in review
+      </li>
+    </ol>
+  <% else %>
+    <ol class="breadcrumb">
+      <li><a href="/"><%=current_account.name%></a></li>
+      <li class="active">
+        Week in review
+      </li>
+    </ol>
+  <% end %>
+<% end %>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :events => @events} %>
+  </div>
+</div>

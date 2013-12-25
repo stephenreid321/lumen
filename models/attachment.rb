@@ -11,7 +11,7 @@ class Attachment
         
   validates_presence_of :file, :conversation_post
  
-    dragonfly_accessor :image, :app => :files
+  dragonfly_accessor :file, :app => :files
       
   def self.fields_for_index
     [:conversation_post_id]

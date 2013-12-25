@@ -27,7 +27,7 @@ class ConversationPostBcc
     string.gsub!('[conversation_url]', "http://#{ENV['DOMAIN']}/conversations/#{conversation_post.conversation.slug}")
     string.gsub!('[members]', "#{m = group.memberships.count} #{m == 1 ? 'member' : 'members'}")
     string.gsub!('[upcoming_events]', "#{e = group.events.where(:start_time.gt => Time.now).count} #{e == 1 ? 'upcoming event' : 'upcoming events'}")
-    most_recently_updated_account = group.memberships.map(&:account).select { |account| account.affiliated && account.picture }.sort_by { |account| account.updated_at }.reverse.first
+    most_recently_updated_account = group.memberships.map(&:account).select { |account| account.affiliated && account.picture }.sort_by { |account| account.updated_at }.reverse.first || group.memberships.map(&:account).sort_by { |account| account.updated_at }.reverse.first
     string.gsub!('[most_recently_updated_url]', "http://#{ENV['DOMAIN']}/accounts/#{most_recently_updated_account.id}")
     string.gsub!('[most_recently_updated_name]', most_recently_updated_account.name)
     string
@@ -73,7 +73,7 @@ class ConversationPostBcc
   <head>
     <meta charset="utf-8">
     <style>
-      body, p \{ font-family: "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif; \}
+      body, p, span \{ font-family: Lato, "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif; \}
       p.MsoNormal \{ margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important \}
     </style>
 </head>
@@ -85,8 +85,9 @@ class ConversationPostBcc
     <br />
     #{conversation_post.body_with_inline_images}
     #{thread}
-    <hr style="border: 0; background-color: #ddd" />  
-    <span style="font-size: 80%"><a href="http://#{ENV['DOMAIN']}/groups/#{group.slug}/notification_level/none">Stop receiving email notifications from #{group.imap_address}</a></span>
+    <div style="margin-top: 1em">
+      <span style="font-size: 80%"><a href="http://#{ENV['DOMAIN']}/groups/#{group.slug}/notification_level/none">Stop receiving email notifications from #{group.imap_address}</a></span>
+    </div>
 </body>
 </html>
     }

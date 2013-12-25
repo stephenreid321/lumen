@@ -2,9 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title><%=ENV['SITE_NAME']%></title>
+    
+    <title><%=@title || ENV['SITE_NAME']%></title>
 
     <%
     [
@@ -18,8 +17,6 @@
   <body>
 
     <%= yield %>
-
-    <%= partial :footer %>
-
+    
   </body>
 </html>

@@ -1,0 +1,22 @@
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+
+    <h2>1. Add a message</h2>
+    <textarea style="margin-bottom: 10px" class="form-control" rows="10" id="message-textarea"></textarea>
+    <script>$(function() {
+          $('#message-textarea').wysihtml5();
+        });</script>
+    <button class="btn btn-default" onclick="$('#message-iframe').attr('src', '/groups/<%=@group.slug%>/review?email=true&message=' + encodeURIComponent($('#message-textarea').val()))">Add message</button>
+
+    <h2>2. Preview</h2>
+    <iframe id="message-iframe" style="width: 100%; height: 500px; border: 1px solid #ccc" src="/groups/<%=@group.slug%>/review?email=true"></iframe>
+
+    <h2>3. Send</h2>
+    <form method="post" action="/groups/<%=@group.slug%>/send_review" onsubmit="$('input[name=message]').val($('#message-textarea').val())"> 
+      <input type="hidden" name="message">     
+      <button class="btn btn-default">Send</button>
+    </form>
+
+  </div>
+</div>

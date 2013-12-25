@@ -31,11 +31,16 @@ ActivateApp::App.controllers do
     @accounts = @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map(&:account).select { |account| account.affiliated && account.picture }
     @conversations = @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.count >= 3 }
     @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
-        
+           
     if request.xhr?
       partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :events => @events}
-    else
-      erb :'groups/review'
+    else    
+      if params[:email]
+        @title = Nokogiri::HTML(params[:message].gsub('<br>',"\n")).text[0..149] if params[:message] # for Gmail snippet
+        Premailer.new(partial(:'review/review', :layout => :email, :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :events => @events}), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+      else
+        erb :'groups/review'
+      end
     end
   end
   

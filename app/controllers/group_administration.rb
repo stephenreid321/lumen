@@ -247,4 +247,23 @@ Best,
     redirect back
   end  
   
+  get '/groups/:slug/send_review' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    erb :'groups/send_review'
+  end  
+  
+  post '/groups/:slug/send_review' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    conversation = @group.conversations.create!(subject: "#{@group.slug}'s week in review")
+    conversation_post = conversation.conversation_posts.create!(      
+      :body => Mechanize.new.get("http://#{ENV['DOMAIN']}/groups/#{@group.slug}/review?email=true&message=#{params[:message]}&token=#{current_account.generate_secret_token}").content, # slightly mad? but repeating the code in /groups/:slug/review isn't very DRY
+      :account => current_account
+    )
+    conversation_post.send_notifications!
+    flash[:notice] = 'The review was sent.'
+    redirect "/groups/#{@group.slug}"
+  end    
+  
 end

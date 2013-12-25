@@ -1,6 +1,19 @@
 class Account
   include Mongoid::Document
   include Mongoid::Timestamps
+  
+  field :name, :type => String
+  field :email, :type => String
+  field :secret_token, :type => String
+  field :crypted_password, :type => String
+  field :role, :type => String, :default => 'user'
+  field :time_zone, :type => String, :default => 'London'  
+  field :affiliated, :type => Boolean
+  field :has_picture, :type => Boolean
+  field :picture_uid  
+  field :phone, :type => String 
+  field :location, :type => String 
+  field :expertise, :type => String    
     
   has_many :sign_ins, :dependent => :destroy  
   has_many :page_views, :dependent => :destroy  
@@ -32,7 +45,6 @@ class Account
   end
            
   # Picture
-  field :picture_uid
   pictures_accessor :picture do
     after_assign :resize_picture
   end
@@ -61,35 +73,7 @@ class Account
   def self.provider_object(omniauth_name)    
     providers.find { |provider| provider.omniauth_name == omniauth_name }
   end  
-    
-  # Fields  
-  field :name, :type => String
-  field :email, :type => String
-  field :secret_token, :type => String
-  field :crypted_password, :type => String
-  field :role, :type => String, :default => 'user'
-  field :time_zone, :type => String, :default => 'London'  
-  field :affiliated, :type => Boolean
-  field :has_picture, :type => Boolean
-  
-  def update_affiliated!
-    update_attribute(:affiliated, affiliations.count > 0)
-  end
-  
-  before_validation :set_has_picture
-  def set_has_picture
-    self.has_picture = (self.picture ? true : false)
-  end
-    
-  def generate_secret_token
-    update_attribute(:secret_token, ::BCrypt::Password.create(self.id)) if !self.secret_token
-    self.secret_token
-  end
-      
-  field :phone, :type => String 
-  field :location, :type => String 
-  field :expertise, :type => String  
-                 
+                       
   attr_accessor :password, :password_confirmation 
 
   validates_presence_of :name, :email
@@ -101,7 +85,21 @@ class Account
   validates_uniqueness_of :email, :case_sensitive => false
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i  
   validates_length_of :password, :within => 4..40, :if => :password_required
-  validates_confirmation_of :password, :if => :password_required  
+  validates_confirmation_of :password, :if => :password_required 
+    
+  before_validation :set_has_picture
+  def set_has_picture
+    self.has_picture = (self.picture ? true : false)
+  end
+    
+  def generate_secret_token
+    update_attribute(:secret_token, ::BCrypt::Password.create(self.id)) if !self.secret_token
+    self.secret_token
+  end  
+  
+  def update_affiliated!
+    update_attribute(:affiliated, affiliations.count > 0)
+  end  
       
   def self.fields_for_index
     [:name, :email, :phone, :created_at]

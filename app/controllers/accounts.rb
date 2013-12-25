@@ -35,7 +35,7 @@ Lumen::App.controller do
     when :date
       @accounts.order_by(:created_at.desc)
     when :updated
-      @accounts.order_by([:affiliated.desc, :picture.desc, :updated_at.desc])
+      @accounts.order_by([:affiliated.desc, :has_picture.desc, :updated_at.desc])
     end
     @accounts = @accounts.per_page(10).page(params[:page])
     partial :'accounts/results'

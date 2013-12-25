@@ -70,11 +70,17 @@ class Account
   field :role, :type => String, :default => 'user'
   field :time_zone, :type => String, :default => 'London'  
   field :affiliated, :type => Boolean
+  field :has_picture, :type => Boolean
   
   def update_affiliated!
     update_attribute(:affiliated, affiliations.count > 0)
   end
   
+  before_validation :set_has_picture
+  def set_has_picture
+    self.has_picture = (self.picture ? true : false)
+  end
+    
   def generate_secret_token
     update_attribute(:secret_token, ::BCrypt::Password.create(self.id)) if !self.secret_token
     self.secret_token

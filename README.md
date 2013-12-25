@@ -58,6 +58,8 @@ SESSION_SECRET=
 <?php
 require_once('PlancakeEmailParser.php');
 
+$token = '\$2a\$10\$n8Nnxy0by82f3f20by3sbspe0V5AOyqM9.i.qp0whS';
+
 $fd = fopen("php://stdin", "r");
 $email = "";
 while (!feof($fd))
@@ -70,7 +72,7 @@ $emailParser = new PlancakeEmailParser($email);
 
 $sender = $emailParser->getHeader('Sender');
 if ($sender != $argv[1].'-noreply@neweconomyorganisersnetwork.org') { 
-	exec("curl --silent http://www.neweconomyorganisersnetwork.org/groups/check?slug=".$argv[1]);
+	exec('curl --silent http://www.neweconomyorganisersnetwork.org/groups/'.$argv[1].'/check?token='.$token);
 }
 
 ?>

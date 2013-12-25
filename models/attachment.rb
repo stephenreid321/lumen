@@ -1,6 +1,7 @@
 class Attachment
   include Mongoid::Document
   include Mongoid::Timestamps
+  extend Dragonfly::Model
   
   field :file_uid, :type => String
   field :file_name, :type => String
@@ -10,7 +11,7 @@ class Attachment
         
   validates_presence_of :file, :conversation_post
  
-  files_accessor :file
+    dragonfly_accessor :image, :app => :files
       
   def self.fields_for_index
     [:conversation_post_id]

@@ -1,6 +1,7 @@
 class Organisation
   include Mongoid::Document
   include Mongoid::Timestamps
+  extend Dragonfly::Model
 
   field :name, :type => String
   field :address, :type => String
@@ -52,7 +53,7 @@ class Organisation
   end
   
   # Picture
-  pictures_accessor :picture do
+  dragonfly_accessor :picture, :app => :pictures do
     after_assign :resize_picture
   end
   def resize_picture

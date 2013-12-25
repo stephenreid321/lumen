@@ -23,7 +23,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 8bef601100c5045d89fa6057b7710ba9299cfeed
+  revision: 5d5b48a6a8fa9fb2c8b1c0799617f1e4295c2dc2
   specs:
     activate-admin (0.0.1)
       padrino (= 0.11.1)

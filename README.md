@@ -47,6 +47,8 @@ TWITTER_KEY=
 TWITTER_SECRET=
 
 AIRBRAKE_API_KEY=
+
+SESSION_SECRET=
 ```
 
 #### Example cPanel notification script

@@ -1,5 +1,5 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
-    <%= Fragment.find_by(slug: 'about').try(:body).try(:html_safe) %>
+    <%= Fragment.find_by(slug: 'about').try(:body) %>
   </div>
 </div>

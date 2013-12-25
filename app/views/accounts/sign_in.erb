@@ -36,7 +36,7 @@
         <% } %>
       </p>            
 
-      <%= Fragment.find_by(slug: 'sign-in').try(:body).try(:html_safe) %>
+      <%= Fragment.find_by(slug: 'sign-in').try(:body) %>
 
     </div>
 

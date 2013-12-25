@@ -32,7 +32,7 @@
               <% } %>
             </ul>
 
-            <div id="conversation-post-<%=conversation_post.id%>"><%= Rinku.auto_link(conversation_post.body_with_inline_images).html_safe %></div>
+            <div id="conversation-post-<%=conversation_post.id%>"><%= Rinku.auto_link(conversation_post.body_with_inline_images) %></div>
           </div>
           <div title="<%=conversation_post.created_at%>" style="font-size: 12px; opacity: 0.5"><%=time_ago_in_words(conversation_post.created_at)%> ago</div>
         </div>

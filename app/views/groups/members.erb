@@ -12,7 +12,7 @@
   <div class="col-md-8">
     <ul class="nav nav-pills" style="margin-top: 10px">
       <% {:admins => 'Admins', :others => 'Others', :notification_level_none => 'Notifications off', :never_signed_in => 'Never signed in', :no_affiliations => 'No affiliations', :no_picture => 'No picture', :connected_to_twitter => 'Connected to Twitter'}.each { |k,v| %>
-        <li <%= 'class="active"'.html_safe if @view == k %>>
+        <li <%= 'class="active"' if @view == k %>>
           <a href="?view=<%=k%>"><%=v%></a>
         </li>
       <% } %> 

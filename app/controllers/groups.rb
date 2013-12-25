@@ -10,9 +10,9 @@ ActivateApp::App.controllers do
       ConversationPost.fields.each { |fieldstring, fieldobj|
         if fieldobj.type == String and !fieldstring.starts_with?('_')          
           q << {fieldstring.to_sym => /#{@q}/i }
-        elsif fieldstring.ends_with?('_id') && fieldstring != '_id' && Object.const_defined?((assoc_name = ConversationPost.fields[fieldstring].metadata.class_name))          
+        elsif fieldstring.ends_with?('_id') && (assoc_name = ConversationPost.fields[fieldstring].metadata.try(:class_name))          
           q << {"#{assoc_name.underscore}_id".to_sym.in => assoc_name.constantize.where(assoc_name.constantize.send(:lookup) => /#{@q}/i).only(:_id).map(&:_id) }
-        end          
+        end
       }   
       @conversation_posts = @group.conversation_posts.or(q)
       @conversations = @conversations.where(:id.in => @conversation_posts.only(:conversation_id).map(&:conversation_id))

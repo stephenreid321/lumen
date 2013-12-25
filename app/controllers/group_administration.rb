@@ -262,7 +262,7 @@ Best,
       :account => current_account
     )
     conversation_post.send_notifications!
-    flash[:notice] = 'The review was sent.'
+    flash[:notice] = "The review was sent."
     redirect "/groups/#{@group.slug}"
   end    
   

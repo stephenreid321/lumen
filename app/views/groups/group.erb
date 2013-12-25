@@ -11,8 +11,11 @@
   </li> 
   <% if @group.memberships.find_by(account: current_account).admin? %>        
     <li>
+      <a title="Post week in review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/send_review"><i class="fa fa-star"></i> Post week in review</a>
+    </li>      
+    <li>
       <a title="Did you know..." class="edit restore-opacity" href="/groups/<%=@group.slug%>/didyouknows"><i class="fa fa-question"></i> Did you know&hellip;</a>
-    </li>  
+    </li>    
     <li>
       <a title="News summaries" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-twitter"></i> News summaries</a>
     </li>

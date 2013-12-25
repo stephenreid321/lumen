@@ -1,3 +1,12 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    Post week in review
+  </li>
+</ol>
 
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
@@ -5,8 +14,8 @@
     <h2>1. Add a message</h2>
     <textarea style="margin-bottom: 10px" class="form-control" rows="10" id="message-textarea"></textarea>
     <script>$(function() {
-          $('#message-textarea').wysihtml5();
-        });</script>
+        $('#message-textarea').wysihtml5();
+      });</script>
     <button class="btn btn-default" onclick="$('#message-iframe').attr('src', '/groups/<%=@group.slug%>/review?email=true&message=' + encodeURIComponent($('#message-textarea').val()))">Add message</button>
 
     <h2>2. Preview</h2>

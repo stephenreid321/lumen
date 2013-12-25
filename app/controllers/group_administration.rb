@@ -1,4 +1,4 @@
-ActivateApp::App.controllers do
+Lumen::App.controllers do
   
   get '/groups/:slug/check' do
     site_admins_only!

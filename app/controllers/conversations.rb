@@ -1,4 +1,4 @@
-ActivateApp::App.controllers do
+Lumen::App.controllers do
   
   post '/groups/:slug/new_conversation' do
     @group = Group.find_by(slug: params[:slug])

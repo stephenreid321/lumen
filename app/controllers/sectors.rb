@@ -1,4 +1,4 @@
-ActivateApp::App.controllers do
+Lumen::App.controllers do
   
   get '/sectors' do
     sign_in_required!

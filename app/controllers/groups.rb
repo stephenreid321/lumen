@@ -1,4 +1,4 @@
-ActivateApp::App.controllers do
+Lumen::App.controllers do
                         
   get '/groups/:slug' do
     @group = Group.find_by(slug: params[:slug])

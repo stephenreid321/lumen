@@ -1,24 +1,14 @@
-module ActivateApp
+module Lumen
   class App < Padrino::Application
     register Padrino::Rendering
     register Padrino::Helpers
     register WillPaginate::Sinatra
     helpers Activate::DatetimeHelpers
     helpers Activate::ParamHelpers  
+
     use Dragonfly::Middleware, :pictures
     use Dragonfly::Middleware, :files    
-    
-    set :sessions, :expire_after => 1.year
-    # set :show_exceptions, true
-    set :public_folder,  Padrino.root('app', 'assets')
-        
-    before do
-      redirect "http://#{ENV['DOMAIN']}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
-      Time.zone = current_account.time_zone if current_account and current_account.time_zone    
-      fix_params!    
-      PageView.create(:account => current_account, :path => request.path) if current_account and !request.xhr?
-    end     
-      
+    use Airbrake::Rack    
     use OmniAuth::Builder do
       provider :account
       provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
@@ -28,28 +18,32 @@ module ActivateApp
     end  
     OmniAuth.config.on_failure = Proc.new { |env|
       OmniAuth::FailureEndpoint.new(env).redirect_to_failure
-    }
-  
+    }    
     if Padrino.env == :production
       use Rack::Cache, :metastore => Dalli::Client.new, :entitystore => 'file:tmp/cache/rack/body', :allow_reload => false
-    end
+    end    
+    
+    set :sessions, :expire_after => 1.year
+    set :public_folder, Padrino.root('app', 'assets')
+        
+    before do
+      redirect "http://#{ENV['DOMAIN']}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
+      Time.zone = current_account.time_zone if current_account and current_account.time_zone    
+      fix_params!    
+      PageView.create(:account => current_account, :path => request.path) if current_account and !request.xhr?
+    end     
+     
+    error do
+      Airbrake.notify(env['sinatra.error'], :session => session)
+      erb :error, :layout => :application
+    end 
                
     not_found do
       erb :not_found, :layout => :application
     end
-  
-    use Airbrake::Rack  
-    Airbrake.configure do |config| config.api_key = ENV['AIRBRAKE_API_KEY'] end
-    error do
-      Airbrake.notify(env['sinatra.error'], :session => session) if Padrino.env == :production
-      erb :error, :layout => :application
-    end      
-    get '/airbrake' do
-      raise StandardError
-    end
         
     ############
-  
+      
     get '/' do
       sign_in_required!
       @o = :updated        

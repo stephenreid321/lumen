@@ -1,4 +1,4 @@
-ActivateApp::App.helpers do
+Lumen::App.helpers do
   
   def current_account
     @current_account ||= if session[:account_id]

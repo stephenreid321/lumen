@@ -1,4 +1,4 @@
-ActivateApp::App.controller do
+Lumen::App.controller do
   
   get '/me' do
     sign_in_required!

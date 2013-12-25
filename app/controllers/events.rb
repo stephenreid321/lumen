@@ -1,4 +1,4 @@
-ActivateApp::App.controllers do
+Lumen::App.controllers do
   
   get '/calendar', :provides => [:html, :ics] do    
     sign_in_required!

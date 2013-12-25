@@ -4,7 +4,6 @@ ruby '2.0.0'
 gem 'puma', '1.6.3'
 gem 'padrino', '0.11.1'
 gem 'tilt', '1.3.7'
-# gem 'rake'
 
 # Admin
 gem 'will_paginate', github: 'mislav/will_paginate'

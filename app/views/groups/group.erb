@@ -53,16 +53,7 @@
       </ul>
     </div>
     <script>
-      $(function() {
-        
-        $(window).resize(function(){
-          if (document.documentElement.clientWidth < 992) {
-            $('.tabs-left-please').removeClass('tabs-left');
-          } else {
-            $('.tabs-left-please').addClass('tabs-left');
-          }
-        });
-
+      $(function() {       
 <% if (c = @group.events.where(:start_time.gt => Time.now).count) > 0 %>
       $("a[href='#calendar-tab']").tooltip({
         title: '<%=pluralize(c,'upcoming event')%>',
@@ -74,7 +65,8 @@
       $('#review-tab').load('/groups/<%=@group.slug%>/review')
     });
     $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
-      $('#calendar').fullCalendar('render')
+      $("a[href='#calendar-tab']").tooltip('hide');
+      $('#calendar').fullCalendar('render');
     });
     $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
       $('.fc-event').popover('destroy');

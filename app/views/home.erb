@@ -13,16 +13,7 @@
       </ul>
     </div>
     <script>
-      $(function() {
-                
-        $(window).resize(function(){
-          if (document.documentElement.clientWidth < 992) {
-            $('.tabs-left-please').removeClass('tabs-left');
-          } else {
-            $('.tabs-left-please').addClass('tabs-left');
-          }
-        });
-
+      $(function() {                
 <% if (c = current_account.events.where(:start_time.gt => Time.now).count) > 0 %>
       $("a[href='#calendar-tab']").tooltip({
         title: '<%=pluralize(c,'upcoming event')%>',
@@ -31,7 +22,8 @@
       }).tooltip('show');        
 <% end %>
     $("a[href='#review-tab']").on('shown.bs.tab', function (e) {
-      $('#review-tab').load('/me/review')
+      $("a[href='#calendar-tab']").tooltip('hide');
+      $('#review-tab').load('/me/review');
     });
     $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
       $('#calendar').fullCalendar('render')

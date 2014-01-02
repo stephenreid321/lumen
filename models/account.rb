@@ -50,13 +50,13 @@ class Account
     after_assign :resize_picture
   end
   def resize_picture
-    picture.process!(:resize, '500x500>')
+    picture.thumb('500x500>')
   end 
   attr_accessor :rotate_picture_by
   before_validation :rotate_picture
   def rotate_picture
     if self.picture and self.rotate_picture_by
-      picture.process!(:rotate, self.rotate_picture_by)
+      picture.rotate(self.rotate_picture_by)
     end  
   end
   

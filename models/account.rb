@@ -57,7 +57,8 @@ class Account
   def rotate_picture
     if self.picture and self.rotate_picture_by
       picture.rotate(self.rotate_picture_by)
-    end  
+    end
+    return true
   end
   
   # Connections  
@@ -91,6 +92,7 @@ class Account
   before_validation :set_has_picture
   def set_has_picture
     self.has_picture = (self.picture ? true : false)
+    return true
   end
     
   def generate_secret_token

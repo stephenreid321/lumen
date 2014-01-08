@@ -196,7 +196,7 @@
           <div class="form-group <%= 'has-error' if !f.error_message_on(:start_conversation).blank? %>">
             <label class="control-label col-md-3">Notify the group about the addition of this event?</label>
             <div class="col-md-6">      
-              <%=f.check_box :start_conversation, :checked => true %>
+              <%=f.check_box :start_conversation %>
               <% if !f.error_message_on(:start_conversation).blank? %>
                 <p class="help-block"><%= f.error_message_on :start_conversation, :prepend => Event.human_attribute_name(:start_conversation) %></p>
               <% end %>

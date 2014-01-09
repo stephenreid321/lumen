@@ -60,8 +60,8 @@ Lumen::App.controller do
                 
   get '/me/review' do
     sign_in_required!    
-    @from = params[:from] ? params[:from].to_date : 1.week.ago.to_date
-    @to = params[:to] ? params[:to].to_date : Date.today
+    @from = 1.week.ago.to_date + 7*params[:w].to_i
+    @to = Date.today + 7*params[:w].to_i
     
     @top_stories = Hash[current_account.news_summaries.map { |news_summary| [news_summary, news_summary.top_stories(@from, @to)[0..2]] }]
     @accounts = current_account.network.where(:created_at.gte => @from).where(:created_at.lt => @to+1).select { |account| account.affiliated && account.picture }

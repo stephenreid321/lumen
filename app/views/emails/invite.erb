@@ -1,0 +1,8 @@
+Hi <%=@account.name.split(' ').first%>,
+   
+<%=current_account.name%> added you to the '<%=@group.slug%>' group on <%=ENV['SITE_NAME_DEFINITE']%>.
+
+You can sign in at http://<%=ENV['DOMAIN']%>/sign_in<%=@extra%>.
+
+Best,
+<%=@group.smtp_sig%>

@@ -29,18 +29,7 @@ Lumen::App.controller do
         :to => @account.email,
         :from => "#{ENV['NOREPLY_NAME']} <#{ENV['NOREPLY_ADDRESS']}>",
         :subject => "New password",
-        :body => %Q{
-Hi #{@account.name.split(' ').first},
-   
-Someone (hopefully you) requested a new password on #{ENV['DOMAIN']}.
-
-Your new password is: #{@account.password}
-
-You can sign in at http://#{ENV['DOMAIN']}/sign_in.
-
-Best,
-#{ENV['NOREPLY_SIG']}
-        }
+        :body => erb(:'emails/forgot_password', :layout => false)
       )
       mail.deliver! 
       flash[:notice] = "A new password was sent to #{@account.email}"

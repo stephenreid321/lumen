@@ -1,0 +1,10 @@
+Hi <%=@account.name.split(' ').first%>,
+   
+<%=current_account.name%> noticed that you haven't yet <%=@issue%> on <%=ENV['DOMAIN']%>.
+
+Well-maintained profiles help build a stronger community. Will you spare a minute to provide the missing details?
+
+You can sign in at http://<%=ENV['DOMAIN']%>/sign_in.
+
+Best,
+<%=@group.smtp_sig%>

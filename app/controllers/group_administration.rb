@@ -89,25 +89,25 @@ Lumen::App.controllers do
       name.strip!
       email.strip!
     
-      if !(account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))        
-        account = Account.new({
+      if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))        
+        @account = Account.new({
             :name => name,
             :password => Account.generate_password(8),
             :email => email
           })
-        account.password_confirmation = account.password
-        if account.save
-          extra = " with the email address #{account.email} and the password #{account.password}"
+        @account.password_confirmation = @account.password
+        if @account.save
+          @extra = " with the email address #{@account.email} and the password #{@account.password}"
         else
           notices << "Failed to create an account for #{email} - is this a valid email address?"
           next
         end
       end
-      if @group.memberships.find_by(account: account)
+      if @group.memberships.find_by(account: @account)
         notices << "#{email} is already a member of this group."
         next
       else
-        @membership = @group.memberships.build :account => account
+        @membership = @group.memberships.build :account => @account
         @membership.role = 'admin' if params[:role] == 'admin'
         @membership.notification_level = 'none' if params[:notification_level] != 'each'
         @membership.save
@@ -118,19 +118,10 @@ Lumen::App.controllers do
         end      
       
         mail = Mail.new(
-          :to => account.email,
+          :to => @account.email,
           :from => "#{@group.smtp_name} <#{@group.smtp_address}>",
           :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
-          :body => %Q{
-Hi #{account.name.split(' ').first},
-   
-#{current_account.name} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_DEFINITE']}.
-
-You can sign in at http://#{ENV['DOMAIN']}/sign_in#{extra}.
-
-Best,
-#{@group.smtp_sig}
-          }
+          :body => erb(:'emails/invite', :layout => false)
         )
         mail.deliver!
         notices << "#{email} was added to the group."
@@ -144,8 +135,8 @@ Best,
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
     membership = @group.memberships.find_by(account_id: params[:account_id])
-    account = membership.account
-    issue = case params[:issue].to_sym
+    @account = membership.account
+    @issue = case params[:issue].to_sym
     when :never_signed_in
       "signed in to complete your profile"
     when :no_affiliations
@@ -160,22 +151,11 @@ Best,
     end        
     
     mail = Mail.new(
-      :to => account.email,
+      :to => @account.email,
       :from => "#{@group.smtp_name} <#{@group.smtp_address}>",
       :cc => current_account.email,
       :subject => "A reminder from #{current_account.name} to complete your #{ENV['SITE_NAME_SHORT']} profile",
-      :body => %Q{
-Hi #{account.name.split(' ').first},
-   
-#{current_account.name} noticed that you haven't yet #{issue} on #{ENV['DOMAIN']}.
-
-Well-maintained profiles help build a stronger community. Will you spare a minute to provide the missing details?
-
-You can sign in at http://#{ENV['DOMAIN']}/sign_in.
-
-Best,
-#{@group.smtp_sig}
-      }
+      :body => erb(:'emails/reminder', :layout => false)
     )
     mail.deliver!  
     membership.update_attribute(:reminder_sent, Time.now)

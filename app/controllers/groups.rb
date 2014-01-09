@@ -21,6 +21,12 @@ Lumen::App.controllers do
     erb :'groups/group'
   end  
   
+  get '/groups/:slug/news' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!    
+    partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => Date.yesterday  + params[:d].to_i}
+  end  
+  
   get '/groups/:slug/review' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!

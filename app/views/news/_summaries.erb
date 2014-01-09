@@ -1,10 +1,17 @@
-<h2>News summary for <%=(date = Date.yesterday).strftime("%A #{date.day.ordinalize} %b")%></h2>
+<h2>
+  News summary for <%=date.strftime("%A #{date.day.ordinalize} %b")%>
+  <div class="btn-group pull-right">
+    <button type="button" class="btn btn-default" onclick="$('#news-tab').load('<%= @group ? "/groups/#{@group.slug}/news" : "/me/news" %>?d=<%=params[:d].to_i - 1%>')"><i class="fa fa-chevron-left"></i></button>
+    <button type="button" class="btn btn-default" onclick="$('#news-tab').load('<%= @group ? "/groups/#{@group.slug}/news" : "/me/news" %>?d=<%=params[:d].to_i + 1%>')"><i class="fa fa-chevron-right"></i></button>
+  </div>
+</h2>
+
 <div class="row">
   <% news_summaries.each { |news_summary| %>
     <div class="col-md-<%=news_summaries.count == 1 ? 12 : 6%> <% if news_summaries.count > 2 %>many-summaries<% end %>">
       <div class="news-summary">
         <h3 style="color: #999; margin: 0.5em 0;"><%=news_summary.title%> <% if !@group %><small><i class="fa fa-group"></i> <%=news_summary.group.slug%></small><% end%></h3>
-        <%= news_summary.daily_digests.order_by(:date.desc).first.try(:body) %>
+        <%= news_summary.daily_digests.find_by(date: date).try(:body) %>
       </div>
     </div>
   <% } %>

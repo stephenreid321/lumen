@@ -6,32 +6,33 @@
       <style>.nav-tabs li a { color: #aaa }</style>
       <ul class="nav nav-tabs">
         <% if current_account.news_summaries.count > 0 %>        
-          <li class="active"><a href="#news-tab" title="News" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
+          <li><a href="#news-tab" title="News" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
         <% end %>
-        <li <% if current_account.news_summaries.count == 0 %>class="active"<% end %>><a href="#review-tab" title="Week in review" data-toggle="tab"><i class="fa fa-star"></i></a></li>
+        <li><a href="#review-tab" title="Week in review" data-toggle="tab"><i class="fa fa-star"></i></a></li>
         <li class="calendar-li"><a href="#calendar-tab" title="Calendar" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
       </ul>
     </div>
     <script>
-      $(function() {                
+      $(function() {
 <% if (c = current_account.events.where(:start_time.gt => Time.now).count) > 0 %>
-      $("a[href='#calendar-tab']").tooltip({
-        title: '<%=pluralize(c,'upcoming event')%>',
-        placement: 'bottom',
-        trigger: 'manual'
-      }).tooltip('show');        
+          $("a[href='#calendar-tab']").tooltip({
+            title: '<%=pluralize(c,'upcoming event')%>',
+            placement: 'bottom',
+            trigger: 'manual'
+          }).tooltip('show');
 <% end %>
-    $("a[href='#review-tab']").on('shown.bs.tab', function (e) {
-      $('#review-tab').load('/me/review');
-    });
-    $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
-      $("a[href='#calendar-tab']").tooltip('hide');	
-      $('#calendar').fullCalendar('render');
-    });
-    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-      $('.fc-event').popover('destroy');
-    });
-  });
+        $("a[href='#review-tab']").on('shown.bs.tab', function(e) {
+          $('#review-tab').load('/me/review');
+        });
+        $("a[href='#calendar-tab']").on('shown.bs.tab', function(e) {
+          $("a[href='#calendar-tab']").tooltip('hide');
+          $('#calendar').fullCalendar('render');
+        });
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+          $('.fc-event').popover('destroy');
+        });
+        $(".tabs-left a:first").tab('show');
+      });
     </script>
 
   </div>
@@ -39,11 +40,11 @@
 
     <div class="tab-content">
       <% if current_account.news_summaries.count > 0 %>
-        <div class="tab-pane active" id="news-tab">
-          <%= partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries} %>
+        <div class="tab-pane" id="news-tab">
+          <%= partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => Date.yesterday} %>
         </div>
       <% end %>
-      <div class="tab-pane <% if current_account.news_summaries.count == 0 %>active<% end %>" id="review-tab">        
+      <div class="tab-pane" id="review-tab">        
         <h2><i class="fa fa-spin fa-spinner"></i></h2>
       </div>        
       <div class="tab-pane" id="calendar-tab">

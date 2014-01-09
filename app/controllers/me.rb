@@ -53,7 +53,11 @@ Lumen::App.controller do
       erb :'accounts/build'
     end
   end  
-
+  
+  get '/me/news' do
+    partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => Date.yesterday  + params[:d].to_i}
+  end
+                
   get '/me/review' do
     sign_in_required!    
     @from = params[:from] ? params[:from].to_date : 1.week.ago.to_date

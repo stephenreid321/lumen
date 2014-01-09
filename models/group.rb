@@ -67,6 +67,10 @@ class Group
     Account.where(:id.in => memberships.only(:account_id).map(&:account_id))
   end
   
+  def twitter_handles
+    memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
+  end  
+  
   after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
     if ENV['CPANEL_URL']
@@ -183,9 +187,5 @@ class Group
     imap.expunge
     imap.disconnect
   end
-  
-  def twitter_handles
-    memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
-  end
-    
+      
 end

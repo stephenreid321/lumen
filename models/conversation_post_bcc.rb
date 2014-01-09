@@ -33,8 +33,7 @@ class ConversationPostBcc
     string
   end
       
-  after_create do
-    
+  after_create do    
     # set locals for ERB binding
     conversation_post_bcc = self
     conversation_post = conversation_post_bcc.conversation_post

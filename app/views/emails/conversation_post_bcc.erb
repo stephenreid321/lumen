@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body, p, span { font-family: Lato, "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif; }
+      p.MsoNormal { margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important }
+    </style>
+  </head>
+  <body>
+    <span style="display:none !important;visibility: hidden;opacity: 0;font-size: 0"><%=Nokogiri::HTML.parse(conversation_post.body).text[0..149]%><br /></span>
+    <span style="font-size: 80%">Respond by replying above this line or visit <a href="http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>">http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%></a></span>
+    <br />
+
+    <% if group.didyouknows.count > 0 %>
+      <span style="font-size: 80%"><strong>Did you know&hellip;</strong> <%=conversation_post_bcc.didyouknow_replacements(group.didyouknows.all.sample.body)%></span><br />
+    <% end %>
+
+    <br />
+
+    <%=conversation_post.body_with_inline_images%>
+
+    <% close_divs = ''; conversation_post.conversation.conversation_posts.order_by(:created_at.desc)[1..-1].each { |conversation_post| %>
+      <br /><br />        
+      On <%=conversation_post.created_at%>, <%=conversation_post.account.name%> &lt;<a href="mailto:<%=conversation_post.account.email%>"><%=conversation_post.account.email%></a>&gt; wrote:
+      <div style="border-left: 1px solid #ccc; margin-left: 1em; padding-left: 1em">
+        <%=conversation_post.body_with_inline_images%>
+      <% close_divs << '</div>' %>
+    <% } %>
+    <%= close_divs %>     
+
+    <div style="margin-top: 1em">
+      <span style="font-size: 80%"><a href="http://<%=ENV['DOMAIN']%>/groups/<%=group.slug%>/notification_level/none">Stop receiving email notifications from <%=group.imap_address%></a></span>
+    </div>
+  </body>
+</html>

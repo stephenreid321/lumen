@@ -169,16 +169,7 @@ class Group
             :bcc => ENV['HELP_ADDRESS'],
             :from => "#{group.smtp_name} <#{group.smtp_address}>",
             :subject => "Delivery failed: #{envelope.subject}",
-            :body => %Q{
-Hi #{from},
-   
-You tried to send a message to the group '#{group.slug}', but you don't seem to be a member.
-
-If you think you do belong to '#{group.slug}', check that the email address you're sending from matches the one registered to your account on #{ENV['DOMAIN']}.
-
-Best,
-#{group.smtp_sig}
-            }
+            :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
           )
           mail.deliver! 
           imap.store(sequence_id, "+FLAGS", [:Deleted])

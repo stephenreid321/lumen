@@ -16,6 +16,7 @@ class Event
   field :ticketing, :type => String
   field :tickets_link, :type => String
   field :more_info, :type => String
+  field :publicity_tweet, :type => String
   
   attr_accessor :start_conversation
   
@@ -40,6 +41,7 @@ class Event
       :details => :text_area,
       :more_info => :text,
       :reason => :text,
+      :publicity_tweet => :text,
       :ticketing => :select,
       :tickets_link => :text,
       :group_id => :lookup,

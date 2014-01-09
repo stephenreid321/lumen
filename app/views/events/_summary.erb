@@ -20,7 +20,12 @@
     <li><i title="Full details" class="fa-li fa fa-info"></i>
       Full details at <a href="<%=event.more_info%>"><%=event.more_info.split('/')[2].gsub('www.','')%></a>
     </li>
-  <% end %>    
+  <% end %>   
+  <% if event.publicity_tweet %>
+    <li><i title="Tweet this to help publicise this event" class="fa-li fa fa-twitter"></i>
+      <a target="_blank" href="http://twitter.com/intent/tweet?text=<%=CGI::escape(event.publicity_tweet)%>"><%=event.publicity_tweet%></a>
+    </li>
+  <% end %>      
 </ul>
 
 <% if !(defined? no_more) %>

@@ -35,18 +35,16 @@ class NewsSummary
     end
   end
   
-  def self.top_stories(news_summaries,from,to)
+  def top_stories(from,to)
     x = []
-    news_summaries.each { |news_summary|
-      news_summary.daily_digests.where(:date.gte => from).where(:date.lt => to+1).each { |daily_digest|
-        Nokogiri::HTML(daily_digest.body).css('.story-content').each { |story|
-          x << {:news_summary => news_summary, :daily_digest => daily_digest, :story => story}
-        }
+    daily_digests.where(:date.gte => from).where(:date.lt => to+1).each { |daily_digest|
+      Nokogiri::HTML(daily_digest.body).css('.story-content').each { |story|
+        x << {:daily_digest => daily_digest, :story => story}
       }
     }
     x.sort_by! { |e| e[:story].css('.story-tweeters a').length }    
     x.reverse!
-    x
-  end  
+    x    
+  end
   
 end

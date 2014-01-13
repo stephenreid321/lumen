@@ -27,7 +27,7 @@ class NewsSummary
   end
   
   def self.date
-    ENV['NEWSME_SWITCH_HOUR'].to_i > Time.now.hour ? Date.today - 1 : Date.today - 2
+    ENV['NEWSME_SWITCH_HOUR'].to_i >= Time.now.hour ? Date.today - 1 : Date.today - 2
   end
   
   after_save :get_current_digest!

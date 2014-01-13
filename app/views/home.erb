@@ -41,7 +41,7 @@
     <div class="tab-content">
       <% if current_account.news_summaries.count > 0 %>
         <div class="tab-pane" id="news-tab">
-          <%= partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => Date.yesterday} %>
+          <%= partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => NewsSummary.date} %>
         </div>
       <% end %>
       <div class="tab-pane" id="review-tab">        

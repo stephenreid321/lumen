@@ -55,7 +55,7 @@ Lumen::App.controller do
   end  
   
   get '/me/news' do
-    partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => Date.yesterday  + params[:d].to_i}
+    partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => NewsSummary.date + params[:d].to_i}
   end
                 
   get '/me/review' do

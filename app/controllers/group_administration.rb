@@ -31,7 +31,7 @@ Lumen::App.controllers do
     else
       @memberships.sort_by { |membership| membership.account.name }
     end
-    erb :'groups/members'
+    erb :'group_administration/members'
   end
    
   get '/groups/:slug/remove_member/:account_id' do
@@ -184,13 +184,13 @@ Lumen::App.controllers do
       resources
     }
       
-    erb :'groups/analytics'
+    erb :'group_administration/analytics'
   end  
   
   get '/groups/:slug/news_summaries' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
-    erb :'groups/news_summaries'    
+    erb :'group_administration/news_summaries'    
   end  
   
   post '/groups/:slug/news_summaries/add' do
@@ -210,7 +210,7 @@ Lumen::App.controllers do
   get '/groups/:slug/didyouknows' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!       
-    erb :'groups/didyouknows'
+    erb :'group_administration/didyouknows'
   end  
   
   post '/groups/:slug/didyouknows/add' do
@@ -230,7 +230,7 @@ Lumen::App.controllers do
   get '/groups/:slug/send_review' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
-    erb :'groups/send_review'
+    erb :'group_administration/send_review'
   end  
   
   post '/groups/:slug/send_review' do

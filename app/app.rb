@@ -79,7 +79,7 @@ module Lumen
         end
         resources
       }            
-      erb :'groups/analytics'
+      erb :'group_administration/analytics'
     end
               
   end

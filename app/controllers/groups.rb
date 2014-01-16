@@ -36,7 +36,7 @@ Lumen::App.controllers do
     @top_stories = Hash[@group.news_summaries.map { |news_summary| [news_summary, news_summary.top_stories(@from, @to)[0..2]] }]
     @accounts = @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map(&:account).select { |account| account.affiliated && account.picture }
     @conversations = @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.count >= 3 }
-    @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
+    @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1).where(:start_time.gt => Time.now)
            
     if request.xhr?
       partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :events => @events}

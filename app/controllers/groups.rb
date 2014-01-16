@@ -36,14 +36,15 @@ Lumen::App.controllers do
     @top_stories = Hash[@group.news_summaries.map { |news_summary| [news_summary, news_summary.top_stories(@from, @to)[0..2]] }]
     @accounts = @group.memberships.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map(&:account).select { |account| account.affiliated && account.picture }
     @conversations = @group.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.count >= 3 }
-    @events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1).where(:start_time.gt => Time.now)
+    @new_events = @group.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1).where(:start_time.gte => @from).order_by(:start_time.asc)
+    @period_events = @group.events.where(:start_time.gte => @from).where(:start_time.lt => @to+1).order_by(:start_time.asc)
            
     if request.xhr?
-      partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :events => @events}
+      partial :'review/review', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :new_events => @new_events, :period_events => @period_events}
     else    
       if params[:email]
         @title = Nokogiri::HTML(params[:message].gsub('<br>',"\n")).text[0..149] if params[:message] # for Gmail snippet
-        Premailer.new(partial(:'review/review', :layout => :email, :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :events => @events}), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+        Premailer.new(partial(:'review/review', :layout => :email, :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :new_events => @new_events, :period_events => @period_events}), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
       else
         erb :'groups/review'
       end

@@ -42,7 +42,11 @@
   <div class="col-md-1">
 
     <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
-      <style>.nav-tabs li a { color: #aaa }</style>
+      <style>
+        .nav-tabs li a { color: #aaa }
+        #map-tab { padding-top: 20px }
+        #map-tab iframe { height: 70vh }
+      </style>
       <ul class="nav nav-tabs">
         <li class="active"><a title="Conversations" href="#conversations-tab" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
         <% if @group.news_summaries.count > 0 %>
@@ -50,6 +54,7 @@
         <% end %>
         <li><a href="#review-tab" title="Week in review" data-toggle="tab"><i class="fa fa-star"></i></a></li>
         <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
+        <li><a href="#map-tab" title="Map" data-toggle="tab"><i class="fa fa-map-marker"></i></a></li>
       </ul>
     </div>
     <script>
@@ -64,6 +69,9 @@
     $("a[href='#review-tab']").on('shown.bs.tab', function (e) {
       $('#review-tab').load('/groups/<%=@group.slug%>/review')
     });
+    $("a[href='#map-tab']").on('shown.bs.tab', function (e) {
+      $('#map-tab').html('<iframe class="map" src="/groups/<%=@group.slug%>/map"></iframe>')
+    });    
     $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
       $("a[href='#calendar-tab']").tooltip('hide');
       $('#calendar').fullCalendar('render');
@@ -93,6 +101,9 @@
         <style>#calendar { margin-top: 20px }</style>
         <%= partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar", :mini => true} %>
       </div>
+      <div class="tab-pane" id="map-tab">
+        <h2><i class="fa fa-spin fa-spinner"></i></h2>
+      </div>       
     </div>
 
   </div>

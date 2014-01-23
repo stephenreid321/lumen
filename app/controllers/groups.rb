@@ -21,6 +21,12 @@ Lumen::App.controllers do
     erb :'groups/group'
   end  
   
+  get '/groups/:slug/map' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!    
+    partial :map, :locals => {:points => @group.memberships.map(&:account).map(&:affiliations).flatten.map(&:organisation).uniq, :path => ->(organisation){ "/organisations/#{organisation.id}" }}    
+  end
+  
   get '/groups/:slug/news' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!    

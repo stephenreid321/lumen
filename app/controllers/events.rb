@@ -21,7 +21,7 @@ Lumen::App.controllers do
   end  
   
   get '/calendar/:id/edit' do
-    @event = current_account.events.find(params[:id])
+    @event = current_account.events.find(params[:id]) || halt
     membership_required!(@event.group)
     redirect "/groups/#{@event.group.slug}/calendar/#{@event.id}/edit"
   end   
@@ -76,14 +76,14 @@ Lumen::App.controllers do
   get '/groups/:slug/calendar/:id/edit' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @event = @group.events.find(params[:id])
+    @event = @group.events.find(params[:id]) || halt
     erb :'events/build'
   end
   
   post '/groups/:slug/calendar/:id/edit' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @event = @group.events.find(params[:id])
+    @event = @group.events.find(params[:id]) || halt
     if @event.update_attributes(params[:event])
       flash[:notice] = "<strong>Great!</strong> The event was updated successfully."
       redirect "/groups/#{@group.slug}/calendar/#{@event.id}"
@@ -96,21 +96,21 @@ Lumen::App.controllers do
   get '/groups/:slug/calendar/:id/destroy' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @event = @group.events.find(params[:id]).destroy    
+    (@event = @group.events.find(params[:id]) || halt).destroy    
     redirect "/groups/#{@group.slug}/calendar/"
   end 
   
   get '/groups/:slug/calendar/:id' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @event = @group.events.find(params[:id])
+    @event = @group.events.find(params[:id]) || halt
     erb :'events/event'
   end  
   
   get '/groups/:slug/calendar/:id/summary' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @event = @group.events.find(params[:id])
+    @event = @group.events.find(params[:id]) || halt
     partial :'events/summary', :locals => {:event => @event, :read_more => true}
   end    
   

@@ -32,7 +32,7 @@
 
         var points = []
 <% points.each { |point| if [:lat, :lng, :name].all? { |m| point.respond_to?(m) and point.send(m) } %>
-          points.push({id: '<%=point.id%>', lat: <%=point.lat%>, lng: <%=point.lng%>, name: "<%=point.name%>"})
+          points.push({id: '<%=point.id%>', lat: <%=point.lat%>, lng: <%=point.lng%>, name: "<%=point.name%>", path: "<%=path.call(point)%>"})
 <% end } %>
 
         var infowindow = new google.maps.InfoWindow();
@@ -46,7 +46,7 @@
 
           google.maps.event.addListener(marker, 'click', function(point, marker) {
             return function() {
-              infowindow.setContent(point.name);
+              infowindow.setContent('<a target="_parent" href="'+point.path+'">'+point.name+'</a>');
               infowindow.open(map, marker);
             }
           }(point, marker));

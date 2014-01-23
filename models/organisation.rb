@@ -7,6 +7,18 @@ class Organisation
   field :address, :type => String
   field :website, :type => String
   field :picture_uid  
+  field :coordinates, :type => Array
+  
+  include Geocoder::Model::Mongoid
+  geocoded_by :address  
+#  attr_writer :lat, :lng    
+  def lat; @lat or (coordinates[1] if coordinates); end  
+  def lng; @lng or (coordinates[0] if coordinates); end  
+#  before_validation :set_coordinates_from_lat_lng
+#  def set_coordinates_from_lat_lng
+#    self.coordinates = [self.lng.to_f, self.lat.to_f]
+#  end  
+  after_validation :geocode
   
   has_many :events, :dependent => :destroy
   has_many :sectorships, :dependent => :destroy

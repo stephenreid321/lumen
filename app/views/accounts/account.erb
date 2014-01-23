@@ -2,12 +2,12 @@
   <div class="col-md-3">
     <img style="width: 100%" src="<%=@account.picture.try(:url) || '/images/silhouette.png' %>" />
   </div>
-  <div class="col-md-9">
+  <div class="col-md-5">
     <h2 style="margin-top: 0"><%=@account.name%></h2>        
     <ul class="fa-ul">
       <% @account.affiliations.each { |affiliation|%>
         <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
-      <% } %>
+      <% } %>          
       <% if @account.location %>
         <li><i title="Location" class="fa fa-li fa-location-arrow"></i>Based in <%=@account.location%></li>
       <% else %>
@@ -34,6 +34,9 @@
         </li>
       <% } %>
     </ul>
+  </div>
+  <div class="col-md-4">
+    <iframe class="map" src="/accounts/<%=@account.id%>/map"></iframe>
   </div>
 </div>
 

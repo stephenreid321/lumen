@@ -27,7 +27,9 @@
             <li><i style="opacity: 0.25" class="fa fa-li fa-globe"></i></li> &nbsp;
           <% end %>                  
           <% if @organisation.address%>
-            <li><i title="Address" class="fa fa-li fa-location-arrow"></i><a target="new" href="http://www.google.co.uk/maps?q=<%=URI.escape(@organisation.address)%>"><%=@organisation.address%></a></li>
+            <li>
+              <i title="Address" class="fa fa-li fa-location-arrow"></i><a target="new" href="http://www.google.co.uk/maps?q=<%=URI.escape(@organisation.address)%>"><%=@organisation.address%></a>
+            </li>
           <% else %>
             <li><i style="opacity: 0.25" class="fa fa-li fa-location-arrow"></i></li> &nbsp;
           <% end %>           
@@ -37,6 +39,7 @@
             <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
           <% end %>             
         </ul>
+        <iframe class="map" src="/organisations/<%=@organisation.id%>/map"></iframe>
       </div>
     </div>
 

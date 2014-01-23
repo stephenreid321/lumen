@@ -49,7 +49,7 @@ module Lumen
       @o = :updated        
       erb :home
     end
-    
+        
     get '/about' do
       sign_in_required!
       erb :about

@@ -23,3 +23,5 @@ select[name*=day], select[name*=month], select[name*=year], select[name*=hour], 
 .chosen-container-single .chosen-single abbr { top: 10px }
 .chosen-container { margin-bottom: 5px; }
 .chosen-default span { opacity: 0.5 }
+
+iframe.map { border: 0; width: 100%; height: 50vh }

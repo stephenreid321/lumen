@@ -31,13 +31,19 @@ Lumen::App.controllers do
     erb :'organisations/organisation'
   end
   
+  get '/organisations/:id/map' do
+    sign_in_required!
+    @organisation = Organisation.find(params[:id])
+    partial :map, :locals => {:points => [@organisation]}
+  end      
+  
   get '/organisations/:id/edit' do
     sign_in_required!
     @organisation = Organisation.find(params[:id])
     erb :'organisations/build'
   end
   
-  post'/organisations/:id/edit' do
+  post '/organisations/:id/edit' do
     sign_in_required!
     @organisation = Organisation.find(params[:id])
     if @organisation.update_attributes(params[:organisation])      

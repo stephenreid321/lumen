@@ -40,11 +40,17 @@ Lumen::App.controller do
     @accounts = @accounts.per_page(10).page(params[:page])
     partial :'accounts/results'
   end  
-  
+    
   get '/accounts/:id' do
     sign_in_required!
     @account = Account.find(params[:id])
     erb :'accounts/account'
+  end    
+  
+  get '/accounts/:id/map' do
+    sign_in_required!
+    @account = Account.find(params[:id])
+    partial :map, :locals => {:points => @account.affiliations.map(&:organisation)}
   end    
             
 end

@@ -14,12 +14,12 @@
 <div class="row">
   <div class="col-md-8">
 
-    <div class="media" style="margin-top: 10px">
-      <a class="pull-left">
-        <img style="max-width: 300px" src="<%=@organisation.picture.try(:url) || '/images/square.png' %>" />
-      </a>
-      <div class="media-body">
-        <h2 class="media-heading"><%=@organisation.name%></h2>      
+    <div class="row" style="margin-top: 20px">
+      <div class="col-md-3">
+        <img style="width: 100%" src="<%=@organisation.picture.try(:url) || '/images/square.png' %>" />
+      </div>
+      <div class="col-md-9">
+        <h2 style="margin-top: 0"><%=@organisation.name%></h2>          
         <ul class="fa-ul">
           <% if @organisation.website%>
             <li><i title="Website" class="fa fa-li fa-globe"></i><a target="new" href="http://<%=@organisation.website%>"><%=@organisation.website%></a></li>

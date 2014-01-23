@@ -39,7 +39,9 @@
             <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
           <% end %>             
         </ul>
-        <iframe class="map" src="/organisations/<%=@organisation.id%>/map"></iframe>
+        <% if @organisation.address %>
+          <iframe class="map" src="/organisations/<%=@organisation.id%>/map"></iframe>
+        <% end %>
       </div>
     </div>
 

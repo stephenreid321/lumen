@@ -36,7 +36,9 @@
     </ul>
   </div>
   <div class="col-md-4">
-    <iframe class="map" src="/accounts/<%=@account.id%>/map"></iframe>
+    <% if @account.affiliations.any? { |affiliation| affiliation.organisation.address } %>
+      <iframe class="map" src="/accounts/<%=@account.id%>/map"></iframe>
+    <% end %>
   </div>
 </div>
 

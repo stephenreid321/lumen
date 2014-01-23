@@ -140,7 +140,7 @@
         <div class="form-group <%= 'has-error' if !f.error_message_on(:ticketing).blank? %>">
           <label class="control-label col-md-3">Ticketing</label>
           <div class="col-md-6">    
-            <% Event.ticketing.each { |option| %>
+            <% Event.ticketings.each { |option| %>
               <div class="radio">
                 <label>
                   <%=f.radio_button :ticketing, :value => option, :checked => (option == @event.ticketing) %>

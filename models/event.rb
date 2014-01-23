@@ -50,7 +50,7 @@ class Event
     }
   end
   
-  def self.ticketing
+  def self.ticketings
     ['No ticket required','Free, but please RSVP', 'Ticket required']
   end
   

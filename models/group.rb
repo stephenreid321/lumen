@@ -126,7 +126,10 @@ class Group
             html = html.gsub("\n", "<br>\n") if nl2br
             html = html.gsub(/<o:p>/, '')
             html = html.gsub(/<\/o:p>/, '')
-            html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+            begin
+              html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+            rescue; end
+              
               
             if html.include?('Respond by replying above this line')                
               if slugs = html.match(/http:\/\/.+\/conversations\/(\w+)/)

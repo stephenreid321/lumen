@@ -14,8 +14,8 @@ class Account
   field :picture_uid  
   field :phone, :type => String 
   field :location, :type => String 
-  field :expertise, :type => String    
-    
+  field :expertise, :type => String
+
   has_many :sign_ins, :dependent => :destroy  
   has_many :page_views, :dependent => :destroy  
   has_many :memberships, :dependent => :destroy    
@@ -102,8 +102,8 @@ class Account
   
   def update_affiliated!
     update_attribute(:affiliated, affiliations.count > 0)
-  end  
-      
+  end 
+        
   def self.fields_for_index
     [:name, :email, :phone, :created_at]
   end

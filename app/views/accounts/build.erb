@@ -34,7 +34,7 @@
                 <%= o.text_field :title, :class => 'form-control', :placeholder => 'Position' %><span class="at"> at </span><%= o.text_field :organisation_name, :class => 'form-control typeahead', :value => o.object.try(:organisation).try(:name), :placeholder => 'Organisation', :autocomplete => 'off' %>
                 <% unless o.object.new_record? %>
                   <span>
-                    <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked',true).closest('.affiliation').hide()" class="fa fa-times"></i>
+                    <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked', true).closest('.affiliation').hide()" class="fa fa-times"></i>
                     <%= o.check_box '_destroy', :style => 'display: none' %>
                   </span>
                 <% end %>
@@ -52,13 +52,13 @@
               $(icon).click(function() {
                 var c = $('.affiliation').length
                 var i = $('<input type="text" />');
-                i.attr('name', 'account[affiliations_attributes]['+c+'][title]');
-                i.attr('id', 'account_affiliations_attributes_'+c+'_title');
+                i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
+                i.attr('id', 'account_affiliations_attributes_' + c + '_title');
                 i.attr('placeholder', 'Position');
                 i.addClass('form-control');
                 var j = $('<input type="text" />');
-                j.attr('name', 'account[affiliations_attributes]['+c+'][organisation_name]');
-                j.attr('id', 'account_affiliations_attributes_'+c+'_organisation_name');
+                j.attr('name', 'account[affiliations_attributes][' + c + '][organisation_name]');
+                j.attr('id', 'account_affiliations_attributes_' + c + '_organisation_name');
                 j.attr('placeholder', 'Organisation');
                 j.addClass('form-control');
                 j.addClass('typeahead');
@@ -69,12 +69,12 @@
                 $('<span class="at"> at </span>').appendTo(d);
                 j.appendTo(d);
                 d.appendTo('#affiliations');
-                i.focus();                
+                i.focus();
               });
               icon.insertAfter('#affiliations');
               var organisations = <%=Organisation.all.select { |o| o.affiliations.count > 0 }.map { |o| o.name }.to_json %>;
-              $('.typeahead').typeahead({source: organisations});                
-              if($('.affiliation').length == 0)
+              $('.typeahead').typeahead({source: organisations});
+              if ($('.affiliation').length == 0)
                 $(icon).click();
             });
           </script>
@@ -90,7 +90,7 @@
           <% end %>
         </div>
       </div>      
-
+       
       <div class="form-group <%= 'has-error' if !f.error_message_on(:email).blank? %>">
         <label class="control-label col-md-3">
           Email

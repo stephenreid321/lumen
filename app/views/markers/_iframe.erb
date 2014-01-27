@@ -36,7 +36,7 @@
         var bounds = new google.maps.LatLngBounds();
 
         var points = []
-<% points.each { |point| if [:lat, :lng, :name].all? { |m| point.respond_to?(m) and point.send(m) } %>
+<% points.each { |point| if [:address, :lat, :lng, :name].all? { |m| point.respond_to?(m) and point.send(m) } %>
             points.push({
               id: '<%=point.id%>',
               lat: <%=point.lat%>,

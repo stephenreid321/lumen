@@ -1,0 +1,47 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    Post review
+  </li>
+</ol>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+
+    <script>
+      $(function() {
+        $('#message-textarea').wysihtml5();
+        $("#setup .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
+        $('#preview-button').click(function(e) {
+          e.preventDefault();
+          $('#message-iframe').attr('src', '/groups/<%=@group.slug%>/digest?' + $(this.form).serialize())
+          return false;
+        });
+      });
+    </script>
+    <form method="post" style="display: inline" id="setup">
+      <input type="hidden" name="email" value="true" />
+
+      <h2>1. Pick your dates</h2>
+      <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=1.week.ago.to_date.strftime('%d-%b-%Y')%>"/>
+      &mdash;
+      <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=Date.today.strftime('%d-%b-%Y')%>"/>
+
+      <h2>2. Set a title</h2>
+      <input type="text" class="form-control" name="title" value="<%=@group.slug%>'s week in review" />
+
+      <h2>3. Add a message</h2>
+      <textarea name="message" style="margin-bottom: 10px" class="form-control" rows="6" id="message-textarea"></textarea>
+    
+      <h2>4. Preview <button id="preview-button" class="btn btn-default"><i title="Preview" class="fa fa-refresh"></i></button></h2>      
+      <iframe id="message-iframe" style="width: 100%; height: 500px; border: 1px solid #ccc" src="/groups/<%=@group.slug%>/digest?email=true"></iframe>
+
+      <h2>5. Send <button class="btn btn-default"><i title="Send" class="fa fa-envelope"></i></button></h2>      
+      
+    </form>
+
+  </div>
+</div>

@@ -4,7 +4,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required! 
     if request.xhr?
-      partial :'groups/map'
+      partial :'markers/map'
     else    
       erb :'groups/map'  
     end   

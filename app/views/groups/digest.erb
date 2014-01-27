@@ -1,0 +1,15 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    Digest
+  </li>
+</ol>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= partial :'digest/digest', :locals => {:from => @from, :to => @to, :top_stories => @top_stories, :accounts => @accounts, :conversations => @conversations, :new_events => @new_events, :period_events => @period_events, :message => @message} %>
+  </div>
+</div>

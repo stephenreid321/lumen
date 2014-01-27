@@ -54,12 +54,7 @@ module Lumen
       sign_in_required!
       erb :about
     end    
-    
-    get '/update_news' do
-      site_admins_only!
-      NewsSummary.each { |news_summary| news_summary.get_current_digest! }
-    end
-        
+            
     get '/analytics' do
       site_admins_only!      
       @conversation_threshold = ENV['SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD'].to_i     

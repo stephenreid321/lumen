@@ -1,8 +1,8 @@
 <h2>
   News summary for <%=date.strftime("%A #{date.day.ordinalize} %b")%>
   <div class="btn-group pull-right">
-    <button type="button" class="btn btn-default" onclick="$('#news-tab').load('<%= @group ? "/groups/#{@group.slug}/news" : "/me/news" %>?d=<%=params[:d].to_i - 1%>')"><i class="fa fa-chevron-left"></i></button>
-    <button type="button" class="btn btn-default" onclick="$('#news-tab').load('<%= @group ? "/groups/#{@group.slug}/news" : "/me/news" %>?d=<%=params[:d].to_i + 1%>')"><i class="fa fa-chevron-right"></i></button>
+    <button type="button" class="btn btn-default" onclick="$('#news-tab').load('<%= @group ? "/groups/#{@group.slug}/news" : "/news" %>?d=<%=params[:d].to_i - 1%>')"><i class="fa fa-chevron-left"></i></button>
+    <button type="button" class="btn btn-default" onclick="$('#news-tab').load('<%= @group ? "/groups/#{@group.slug}/news" : "/news" %>?d=<%=params[:d].to_i + 1%>')"><i class="fa fa-chevron-right"></i></button>
   </div>
 </h2>
 

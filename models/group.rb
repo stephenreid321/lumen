@@ -83,7 +83,7 @@ class Group
       agent.post(session_path + "mail/doaddfwd.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :fwdopt => 'pipe', :fwdsystem => ENV['CPANEL_USERNAME'], :pipefwd => "#{ENV['CPANEL_NOTIFICATION_SCRIPT']} #{slug}")
     end
   end  
-       
+  
   def check!
     group = self
     logger.info "Attempting to log in as #{group.imap_username}"
@@ -151,8 +151,8 @@ class Group
                                 
               html = Nokogiri::HTML.parse(html).search('body').inner_html
               if html.blank?
-                html = "(there was an error processing the HTML of this email. Try pasting it in the box below.)"
-                html_fuckup = true
+                html = "(there was an error processing the HTML of this email)"
+                nokogiri_parse_fail = true
               end
                 
               conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id     
@@ -161,7 +161,7 @@ class Group
                 conversation_post.attachments.create! :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
               end          
               
-              if !html_fuckup
+              if !nokogiri_parse_fail
                 conversation_post.send_notifications!((mail.to||[]) + (mail.cc||[]))
               end
 

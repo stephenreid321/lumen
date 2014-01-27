@@ -11,7 +11,7 @@
   </li> 
   <% if @group.memberships.find_by(account: current_account).admin? %>        
     <li>
-      <a title="Post week in review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/send_review"><i class="fa fa-star"></i> Post week in review</a>
+      <a title="Post review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/review"><i class="fa fa-star"></i> Post review</a>
     </li>      
     <li>
       <a title="Did you know..." class="edit restore-opacity" href="/groups/<%=@group.slug%>/didyouknows"><i class="fa fa-question"></i> Did you know&hellip;</a>
@@ -52,7 +52,7 @@
         <% if @group.news_summaries.count > 0 %>
           <li><a title="News" href="#news-tab" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
         <% end %>
-        <li><a href="#review-tab" title="Week in review" data-toggle="tab"><i class="fa fa-star"></i></a></li>
+        <li><a href="#digest-tab" title="Digest" data-toggle="tab"><i class="fa fa-star"></i></a></li>
         <li><a href="#map-tab" title="Map" data-toggle="tab"><i class="fa fa-map-marker"></i></a></li>        
         <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
       </ul>
@@ -66,8 +66,8 @@
         trigger: 'manual'
       }).tooltip('show');        
 <% end %>
-    $("a[href='#review-tab']").on('shown.bs.tab', function (e) {
-      $('#review-tab').load('/groups/<%=@group.slug%>/review')
+    $("a[href='#digest-tab']").on('shown.bs.tab', function (e) {
+      $('#digest-tab').load('/groups/<%=@group.slug%>/digest')
     });
     $("a[href='#map-tab']").on('shown.bs.tab', function (e) {
       $('#map-tab').load('/groups/<%=@group.slug%>/map')
@@ -94,7 +94,7 @@
           <%= partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => NewsSummary.date} %>
         </div>      
       <% end %>  
-      <div class="tab-pane" id="review-tab">
+      <div class="tab-pane" id="digest-tab">
         <h2><i class="fa fa-spin fa-spinner"></i></h2>
       </div> 
       <div class="tab-pane" id="calendar-tab">

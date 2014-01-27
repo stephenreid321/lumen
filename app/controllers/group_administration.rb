@@ -227,23 +227,23 @@ Lumen::App.controllers do
     redirect back
   end  
   
-  get '/groups/:slug/send_review' do
+  get '/groups/:slug/review' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
-    erb :'group_administration/send_review'
+    erb :'group_administration/review'
   end  
   
-  post '/groups/:slug/send_review' do
+  post '/groups/:slug/review' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
-    conversation = @group.conversations.create!(subject: "#{@group.slug}'s week in review")
+    conversation = @group.conversations.create!(subject: "#{params[:title]}: #{compact_daterange(Date.parse(params[:from]),Date.parse(params[:to]))}")
     conversation_post = conversation.conversation_posts.create!(      
-      :body => Mechanize.new.get("http://#{ENV['DOMAIN']}/groups/#{@group.slug}/review?email=true&message=#{params[:message]}&token=#{current_account.generate_secret_token}").content, # slightly mad? but repeating the code in /groups/:slug/review isn't very DRY
+      :body => Mechanize.new.get("http://#{ENV['DOMAIN']}/groups/#{@group.slug}/digest?email=true&title=#{params[:title]}&from=#{params[:from]}&to=#{params[:to]}&message=#{params[:message]}&token=#{current_account.generate_secret_token}").content,
       :account => current_account
     )
     conversation_post.send_notifications!
     flash[:notice] = "The review was sent."
     redirect "/groups/#{@group.slug}"
-  end    
-  
+  end   
+    
 end

@@ -67,15 +67,15 @@ class Event
   def when_details
     if consider_time
       if start_time.to_date == end_time.to_date
-        "#{start_time.to_date.to_s(:no_year)}, #{start_time.to_s(:no_double_zeros)} &mdash; #{end_time.to_s(:no_double_zeros)}"
+        "#{start_time.to_date.to_s(:no_year)}, #{start_time.to_s(:no_double_zeros)} &ndash; #{end_time.to_s(:no_double_zeros)}"
       else
-        "#{start_time.to_date.to_s(:no_year)}, #{start_time.to_s(:no_double_zeros)} &mdash; #{end_time.to_date.to_s(:no_year)}, #{end_time.to_s(:no_double_zeros)}"
+        "#{start_time.to_date.to_s(:no_year)}, #{start_time.to_s(:no_double_zeros)} &ndash; #{end_time.to_date.to_s(:no_year)}, #{end_time.to_s(:no_double_zeros)}"
       end
     else
       if start_time.to_date == end_time.to_date
         start_time.to_date.to_s(:no_year)
       else
-        "#{start_time.to_date.to_s(:no_year)} &mdash; #{end_time.to_date.to_s(:no_year)}"
+        "#{start_time.to_date.to_s(:no_year)} &ndash; #{end_time.to_date.to_s(:no_year)}"
       end
     end
   end

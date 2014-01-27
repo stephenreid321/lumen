@@ -201,6 +201,19 @@ Lumen::App.controllers do
     redirect back
   end     
   
+  get '/groups/:slug/news_summaries/:id/move_up' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    news_summary = @group.news_summaries.find(params[:id])
+    news_summaries = @group.news_summaries.order_by(:order.asc).to_a
+    index = news_summaries.index(news_summary)
+    if index > 0
+      news_summaries[index-1], news_summaries[index] = news_summaries[index], news_summaries[index-1]
+    end
+    news_summaries.each_with_index { |x,i| x.update_attribute(:order, i) }
+    redirect back
+  end   
+  
   get '/groups/:slug/didyouknows' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!       

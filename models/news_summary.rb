@@ -7,11 +7,12 @@ class NewsSummary
 
   field :title, :type => String
   field :newsme_username, :type => String  
+  field :order, :type => Integer
   
   validates_presence_of :group, :title
     
   def self.fields_for_index
-    [:group_id, :title, :newsme_username]
+    [:group_id, :title, :newsme_username, :order]
   end
   
   def self.lookup
@@ -22,7 +23,8 @@ class NewsSummary
     {
       :group_id => :lookup,
       :title => :text,
-      :newsme_username => :text
+      :newsme_username => :text,
+      :order => :text
     }
   end
   
@@ -32,7 +34,7 @@ class NewsSummary
   
   after_save :get_current_digest!
   def get_current_digest!
-    daily_digests.create! :date => Date.yesterday, :body => begin
+    daily_digests.create :date => Date.yesterday, :body => begin
       Mechanize.new.get("http://www.news.me/#{newsme_username}").search('.top-stories.stories-list').to_s
     rescue
       nil

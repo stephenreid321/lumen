@@ -7,7 +7,7 @@
 </h2>
 
 <div class="row">
-  <% news_summaries.each { |news_summary| %>
+  <% news_summaries.order_by(:order.asc).each { |news_summary| %>
     <div class="col-md-<%=news_summaries.count == 1 ? 12 : 6%> <% if news_summaries.count > 2 %>many-summaries<% end %>">
       <div class="news-summary">
         <h3 style="color: #999; margin: 0.5em 0;"><%=news_summary.title%> <% if !@group %><small><i class="fa fa-group"></i> <%=news_summary.group.slug%></small><% end%></h3>

@@ -13,7 +13,7 @@
 
     <style>#news-summaries td { padding: 0.5em }</style>
     <table style="margin-top: 20px" id="news-summaries">
-      <% @group.news_summaries.each { |news_summary| %>
+      <% @group.news_summaries.order_by(:order.asc).each_with_index { |news_summary,i| %>
         <tr>
           <td>
             <%=news_summary.title%> <a href="http://www.news.me/<%=news_summary.newsme_username%>"><%=news_summary.newsme_username%></a>
@@ -21,6 +21,11 @@
           <td>
             <a data-confirm="Are you sure you want to remove this news summary?" class="edit" href="/groups/<%=@group.slug%>/news_summaries/<%=news_summary.id%>/destroy"><i class="fa fa-times"></i></a>
           </td>
+          <td>
+            <% if i > 0 %>
+              <a class="edit" href="/groups/<%=@group.slug%>/news_summaries/<%=news_summary.id%>/move_up"><i title="Move up" class="fa fa-arrow-up"></i></a>
+            <% end %>
+          </td>          
         </tr>
       <% } %>
     </table>

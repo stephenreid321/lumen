@@ -30,7 +30,7 @@ class Group
   has_many :markers, :dependent => :destroy
   
   def top_stories(from,to)
-    Hash[news_summaries.map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
+    Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
   end
   
   def new_people(from,to)

@@ -1,0 +1,4 @@
+<% if @hot_conversations.length > 0 %>
+  <h3>Hot conversations <% if @group %><a class="btn btn-default btn-sm" href="/groups/<%=@group.slug%>"><i class="fa fa-comments"></i> Browse all conversations</a><% end%></h3>
+  <%= partial :'conversations/conversations_table', :locals => {:conversations => @hot_conversations} %>
+<% end %>   

@@ -1,0 +1,8 @@
+<% if @new_events.length > 0 %>
+  <h3>New events <a class="btn btn-default btn-sm" href="<%= @group ? "/groups/#{@group.slug}/calendar/add" : "/calendar/add"%>"><i class="fa fa-plus"></i> Add an event</a></h3>
+  <ul class="list-unstyled">
+    <% @new_events.each { |event| %>
+      <li><a href="/groups/<%=event.group.slug%>/calendar/<%=event.id%>"><%=event.name%></a> <%= event.when_details %> <% if !@group%><span style="color: #999999;"><i class="fa fa-group"></i> <%=event.group.slug%></span><% end%></li>
+      <% } %>
+  </ul>
+<% end %> 

@@ -61,6 +61,7 @@ Lumen::App.controllers do
     @upcoming_events = @group.upcoming_events
     
     @email = true
+    @review = true
     @message = params[:message]
     @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
     @heading = params[:heading]        

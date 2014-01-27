@@ -1,0 +1,12 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    Map
+  </li>
+</ol>
+
+<style>iframe.map { height: 60vh }</style>
+<%= partial :'groups/map' %>

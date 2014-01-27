@@ -34,7 +34,7 @@ Lumen::App.controllers do
   get '/organisations/:id/map' do
     sign_in_required!
     @organisation = Organisation.find(params[:id])
-    partial :map, :locals => {:points => [@organisation], :path => ->(organisation){ "/organisations/#{organisation.id}" }}
+    partial :'markers/iframe', :locals => {:points => [@organisation]}
   end      
   
   get '/organisations/:id/edit' do

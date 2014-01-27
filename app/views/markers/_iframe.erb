@@ -10,6 +10,9 @@
       a { color: #428BCA; text-decoration: none }
       div.infowindow { white-space: nowrap }
     </style>
+
+
+    <link rel="stylesheet" href="/stylesheets/font-awesome.min.css" />         
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="/javascripts/markerclusterer.js"></script>
     <script type="text/javascript">
@@ -34,21 +37,42 @@
 
         var points = []
 <% points.each { |point| if [:lat, :lng, :name].all? { |m| point.respond_to?(m) and point.send(m) } %>
-          points.push({id: '<%=point.id%>', lat: <%=point.lat%>, lng: <%=point.lng%>, name: "<%=point.name%>", path: "<%=path.call(point)%>"})
-<% end } %>
+            points.push({
+              id: '<%=point.id%>',
+              lat: <%=point.lat%>,
+              lng: <%=point.lng%>,
+              color: '<%= case point.class; when Organisation; 'ff0000'; else '00ff00'; end %>',
+              name: "<%=point.name%>",
+              content: '<%=js_escape_html(partial "markers/#{point.class.to_s.underscore}".to_sym, :object => point)%>'
+            })
+  <% end } %>
+
 
         var infowindow = new google.maps.InfoWindow();
         var markers = []
         for (i = 0; i < points.length; i++) {
           var point = points[i];
+
+          var pinColor = point.color;
+          var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                  new google.maps.Size(21, 34),
+                  new google.maps.Point(0, 0),
+                  new google.maps.Point(10, 34));
+          var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                  new google.maps.Size(40, 37),
+                  new google.maps.Point(0, 0),
+                  new google.maps.Point(12, 35));
+
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(point.lat, point.lng),
-            title: point.name
+            title: point.name,
+            icon: pinImage,
+            shadow: pinShadow
           });
 
           google.maps.event.addListener(marker, 'click', function(point, marker) {
             return function() {
-              infowindow.setContent('<div class="infowindow"><a target="_parent" href="'+point.path+'">'+point.name+'</a></div>');
+              infowindow.setContent('<div class="infowindow">' + point.content + '</div>');
               infowindow.open(map, marker);
             }
           }(point, marker));

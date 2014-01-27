@@ -70,7 +70,7 @@
       $('#review-tab').load('/groups/<%=@group.slug%>/review')
     });
     $("a[href='#map-tab']").on('shown.bs.tab', function (e) {
-      $('#map-tab').html('<iframe class="map" src="/groups/<%=@group.slug%>/map"></iframe>')
+      $('#map-tab').load('/groups/<%=@group.slug%>/map')
     });    
     $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
       $("a[href='#calendar-tab']").tooltip('hide');

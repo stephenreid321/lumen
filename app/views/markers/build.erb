@@ -1,0 +1,58 @@
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/map">Map</a>    
+  </li>  
+  <% if @marker.persisted? %>
+    <li>
+      <%= @marker.name %>
+    </li>      
+    <li class="active">
+      Edit
+    </li>
+  <% else %>
+    <li class="active">
+      Add marker
+    </li>    
+  <% end %>
+</ol>
+
+<div class="row" style="margin-top: 10px">
+  <div class="col-md-6 col-md-offset-3">
+
+    <% form_for @marker, @marker.new_record? ? "/groups/#{@group.slug}/map/add" : "/groups/#{@group.slug}/map/#{@marker.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+
+      <div class="form-group <%= 'has-error' if !f.error_message_on(:name).blank? %>">
+        <label class="control-label col-md-3">Marker name</label>
+        <div class="col-md-6">      
+          <%=f.text_field :name, :class => 'form-control' %>
+          <% if !f.error_message_on(:name).blank? %>
+            <p class="help-block"><%= f.error_message_on :name, :prepend => Marker.human_attribute_name(:name) %></p>
+          <% end %>
+        </div>
+      </div>  
+    
+      <div class="form-group <%= 'has-error' if !f.error_message_on(:address).blank? %>">
+        <label class="control-label col-md-3">Address</label>
+        <div class="col-md-6">      
+          <%=f.text_field :address, :class => 'form-control' %>
+          <% if !f.error_message_on(:address).blank? %>
+            <p class="help-block"><%= f.error_message_on :address, :prepend => Marker.human_attribute_name(:address) %></p>
+          <% end %>
+        </div>
+      </div>      
+
+      <div class="form-group">
+        <div class="col-md-offset-3 col-md-8">
+          <button class="btn btn-primary" type="submit"><%= @marker.new_record? ? 'Add marker' : 'Update marker' %></button>
+          <% if @marker.persisted? %><a href="/groups/<%=@group.slug%>/map/<%=@marker.id%>/destroy" data-confirm="Are you sure you want to delete this marker?" class="btn btn-danger" href="">Delete marker</a><% end %>
+        </div>
+      </div>       
+
+    <% end %>
+
+  </div>
+</div>

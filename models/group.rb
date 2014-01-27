@@ -27,6 +27,7 @@ class Group
   has_many :events, :dependent => :destroy
   has_many :news_summaries, :dependent => :destroy
   has_many :didyouknows, :dependent => :destroy
+  has_many :markers, :dependent => :destroy
   
   validates_presence_of :slug
   validates_uniqueness_of :slug

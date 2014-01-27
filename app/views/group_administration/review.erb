@@ -37,7 +37,7 @@
       <textarea name="message" style="margin-bottom: 10px" class="form-control" rows="6" id="message-textarea"></textarea>
     
       <h2>4. Preview <button id="preview-button" class="btn btn-default"><i title="Preview" class="fa fa-refresh"></i></button></h2>      
-      <iframe id="message-iframe" style="width: 100%; height: 500px; border: 1px solid #ccc" src="/groups/<%=@group.slug%>/digest?email=true"></iframe>
+      <iframe id="message-iframe" style="width: 100%; height: 500px; border: 1px solid #ccc" src="/groups/<%=@group.slug%>/digest?email=true&review=true"></iframe>
 
       <h2>5. Send <button class="btn btn-default"><i title="Send" class="fa fa-envelope"></i></button></h2>      
       

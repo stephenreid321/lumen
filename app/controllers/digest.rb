@@ -31,6 +31,7 @@ Lumen::App.controllers do
     else    
       if params[:email]
         @email = true
+        @review = true if params[:review]
         @message = params[:message]
         @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
         @heading = params[:heading]        

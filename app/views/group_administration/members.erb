@@ -47,11 +47,9 @@
               <% end %>
             </td>
             <td>
-              <% if membership.notification_level == 'each' %>
-                <a title="Email notifications on; click to turn off" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/set_notification_level/<%=membership.account_id%>/none"><i class="fa fa-envelope"></i></a>
-              <% else %>
-                <a title="Email notifications off; click to turn on" class="edit restore-opacity" href="/groups/<%=@group.slug%>/set_notification_level/<%=membership.account_id%>/each"><i class="fa fa-envelope"></i></a>
-              <% end %>        
+              <form style="display:inline" method="get" action="/groups/<%=@group.slug%>/set_notification_level/<%=membership.account_id%>">
+                <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => membership.notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto;" %>
+              </form>                       
             </td>
             <% if [:never_signed_in, :no_affiliations, :no_picture].include? @view %>
               <td>
@@ -69,7 +67,8 @@
 
     <h2>Add a member</h2>
     <div id="add-single">
-      <p><a href="javascript:;" onclick="$('#add-single').hide();$('#add-multiple').show();">Add multiple</a></p>
+      <p><a href="javascript:;" onclick="$('#add-single').hide();
+          $('#add-multiple').show();">Add multiple</a></p>
       <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
         <div class="form-group">
           <label class="sr-only">Name</label>
@@ -78,11 +77,6 @@
         <div class="form-group">
           <label class="sr-only">Email</label>    
           <%= text_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
-        </div>
-        <div class="checkbox">
-          <label>
-            Email notifications on <%= check_box_tag :notification_level, :value => 'each', :checked => true %>
-          </label>
         </div>
         <div class="checkbox">
           <label>
@@ -97,11 +91,6 @@
       <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
         <div class="form-group">
           <%= text_area_tag :data, :class => 'form-control' %>
-        </div>
-        <div class="checkbox">
-          <label>
-            Email notifications on <%= check_box_tag :notification_level, :value => 'each', :checked => true %>
-          </label>
         </div>
         <div class="checkbox">
           <label>

@@ -61,17 +61,12 @@ Lumen::App.controllers do
     redirect back
   end   
 
-  get '/groups/:slug/set_notification_level/:account_id/:level' do
+  get '/groups/:slug/set_notification_level/:account_id' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:notification_level, params[:level])
-    flash[:notice] = case @membership.notification_level
-    when 'none'
-      "#{@membership.account.name}'s notifications were turned off"
-    when 'each'
-      "#{@membership.account.name}'s notifications were turned on"
-    end
+    flash[:notice] =  "#{@membership.account.name}'s notification options were updated"
     redirect back
   end   
   
@@ -109,7 +104,6 @@ Lumen::App.controllers do
       else
         @membership = @group.memberships.build :account => @account
         @membership.role = 'admin' if params[:role] == 'admin'
-        @membership.notification_level = 'none' if params[:notification_level] != 'each'
         @membership.save
       
         group = @group # instance var not available in defaults block

@@ -28,7 +28,7 @@ Lumen::App.controllers do
     redirect "/groups/#{@group.slug}"
   end  
   
-  get '/groups/:slug/notification_level/:level' do
+  get '/groups/:slug/notification_level' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @group.memberships.find_by(account: current_account).update_attribute(:notification_level, params[:level]) if Membership.notification_levels.include? params[:level]

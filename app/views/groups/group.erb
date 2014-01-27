@@ -2,12 +2,12 @@
   <li>
     <a title="Leave group" data-confirm="Are you sure you want to leave this group?" class="edit restore-opacity" href="/groups/<%=@group.slug%>/leave"><i class="fa fa-sign-out"></i> Leave group</a>          
   </li>  
-  <li>
-    <% if @group.memberships.find_by(account: current_account).notification_level == 'each' %>
-      <a title="Email notifications on; click to turn off" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/notification_level/none"><i class="fa fa-envelope"></i> Email notifications on</a>
-    <% else %>
-      <a title="Email notifications off; click to turn on" class="edit restore-opacity" href="/groups/<%=@group.slug%>/notification_level/each"><i class="fa fa-envelope"></i> Email notifications off</a>
-    <% end %>
+  <li>    
+    <i class="fa fa-envelope"></i>
+    Notifications
+    <form style="display:inline" method="get" action="/groups/<%=@group.slug%>/notification_level">
+      <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => @group.memberships.find_by(account: current_account).notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto; height: auto; font-size: 12px; padding: 3px; position: relative; top: -1px" %>
+    </form>   
   </li> 
   <% if @group.memberships.find_by(account: current_account).admin? %>        
     <li>
@@ -58,28 +58,28 @@
       </ul>
     </div>
     <script>
-      $(function() {       
+      $(function() {
 <% if (c = @group.events.where(:start_time.gt => Time.now).count) > 0 %>
-      $("a[href='#calendar-tab']").tooltip({
-        title: '<%=pluralize(c,'upcoming event')%>',
-        placement: 'bottom',
-        trigger: 'manual'
-      }).tooltip('show');        
+          $("a[href='#calendar-tab']").tooltip({
+            title: '<%=pluralize(c,'upcoming event')%>',
+            placement: 'bottom',
+            trigger: 'manual'
+          }).tooltip('show');
 <% end %>
-    $("a[href='#digest-tab']").on('shown.bs.tab', function (e) {
-      $('#digest-tab').load('/groups/<%=@group.slug%>/digest')
-    });
-    $("a[href='#map-tab']").on('shown.bs.tab', function (e) {
-      $('#map-tab').load('/groups/<%=@group.slug%>/map')
-    });    
-    $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
-      $("a[href='#calendar-tab']").tooltip('hide');
-      $('#calendar').fullCalendar('render');
-    });
-    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-      $('.fc-event').popover('destroy');
-    });
-  });
+        $("a[href='#digest-tab']").on('shown.bs.tab', function(e) {
+          $('#digest-tab').load('/groups/<%=@group.slug%>/digest')
+        });
+        $("a[href='#map-tab']").on('shown.bs.tab', function(e) {
+          $('#map-tab').load('/groups/<%=@group.slug%>/map')
+        });
+        $("a[href='#calendar-tab']").on('shown.bs.tab', function(e) {
+          $("a[href='#calendar-tab']").tooltip('hide');
+          $('#calendar').fullCalendar('render');
+        });
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+          $('.fc-event').popover('destroy');
+        });
+      });
     </script>
 
   </div>

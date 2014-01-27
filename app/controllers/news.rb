@@ -1,4 +1,9 @@
 Lumen::App.controllers do
+  
+  get '/update_news' do
+    site_admins_only!
+    NewsSummary.each { |news_summary| news_summary.get_current_digest! }
+  end  
 
   get '/news' do
     partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => NewsSummary.date + params[:d].to_i}

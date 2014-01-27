@@ -1,7 +1,7 @@
 .news-summary ol.top-stories.stories-list { list-style-type: none; margin: 0; padding: 0 }
 .news-summary .stories-list-item { margin-top: 26px }
 .news-summary .stories-list-item:first-child { margin-top: 0 }
-.news-summary h5.story-header { font-size: 14px; font-weight: bold; margin: 0;  line-height: 125% }
+.news-summary h5.story-header { font-size: 14px;  margin: 0;  line-height: 125% }
 .news-summary .story-meta { font-size: 13px; margin: 8px 0 }
 .news-summary .pipe, .story-tweeter-names, .story-tweeter-names a { color: #888 }
 .news-summary a.top-stories-domain { color: #333; font-weight: bold; }

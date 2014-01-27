@@ -30,7 +30,7 @@ class Membership
   end
   
   def self.notification_levels
-    ['none', 'each']
+    ['none', 'each', 'daily', 'weekly']
   end
   
   def self.roles

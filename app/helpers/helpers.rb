@@ -15,7 +15,7 @@ Lumen::App.helpers do
       from.strftime("#{from.day.ordinalize} %b %Y") + " – " + to.strftime("#{to.day.ordinalize} %b %Y")
     end
   end
-  
+    
   def sign_in_required!
     unless current_account
       flash[:notice] = 'You must sign in to access that page' unless request.path == '/'

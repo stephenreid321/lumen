@@ -29,6 +29,34 @@ class Group
   has_many :didyouknows, :dependent => :destroy
   has_many :markers, :dependent => :destroy
   
+  def top_stories(from,to)
+    Hash[news_summaries.map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
+  end
+  
+  def new_people(from,to)
+    memberships.where(:created_at.gte => from).where(:created_at.lt => to+1).map(&:account).select { |account| account.affiliated && account.picture }
+  end
+  
+  def hot_conversations(from,to)
+    conversations.where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.count >= 3 }
+  end
+  
+  def new_events(from,to)
+    events.where(:created_at.gte => from).where(:created_at.lt => to+1).where(:start_time.gte => to).order_by(:start_time.asc)
+  end
+  
+  def upcoming_events
+    events.where(:start_time.gte => Date.today).where(:start_time.lt => Date.today+7).order_by(:start_time.asc)
+  end  
+  
+  def members
+    Account.where(:id.in => memberships.only(:account_id).map(&:account_id))
+  end
+  
+  def twitter_handles
+    memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
+  end    
+  
   validates_presence_of :slug
   validates_uniqueness_of :slug
   validates_format_of :slug, :with => /[a-z0-9\-]+/
@@ -42,7 +70,7 @@ class Group
       %Q{The most recent profile update was made by <a href="[most_recently_updated_url]">[most_recently_updated_name]</a>.}
     ]
   end
-  
+       
   after_create :create_default_didyouknows
   def create_default_didyouknows
     default_didyouknows.each { |d| didyouknows.create :body => d }
@@ -63,15 +91,7 @@ class Group
   def self.lookup
     :slug
   end
-  
-  def members
-    Account.where(:id.in => memberships.only(:account_id).map(&:account_id))
-  end
-  
-  def twitter_handles
-    memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
-  end  
-  
+    
   after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
     if ENV['CPANEL_URL']

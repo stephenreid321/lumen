@@ -15,4 +15,37 @@ Lumen::App.controllers do
     partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => NewsSummary.date + params[:d].to_i}
   end  
   
+  get '/groups/:slug/news_summaries' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    erb :'group_administration/news_summaries'    
+  end  
+  
+  post '/groups/:slug/news_summaries/add' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    @group.news_summaries.create :title => params[:title], :newsme_username => params[:newsme_username]
+    redirect back
+  end    
+  
+  get '/groups/:slug/news_summaries/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    @group.news_summaries.find(params[:id]).destroy
+    redirect back
+  end     
+  
+  get '/groups/:slug/news_summaries/:id/move_up' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    news_summary = @group.news_summaries.find(params[:id])
+    news_summaries = @group.news_summaries.order_by(:order.asc).to_a
+    index = news_summaries.index(news_summary)
+    if index > 0
+      news_summaries[index-1], news_summaries[index] = news_summaries[index], news_summaries[index-1]
+    end
+    news_summaries.each_with_index { |x,i| x.update_attribute(:order, i) }
+    redirect back
+  end    
+  
 end

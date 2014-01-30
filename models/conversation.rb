@@ -29,8 +29,9 @@ class Conversation
   
   before_validation :ensure_not_duplicate
   def ensure_not_duplicate
-    most_recent = Conversation.order_by(:created_at.desc).limit(1).first
-    errors.add(:subject, 'is a duplicate') if self.group == most_recent.group and self.subject == most_recent.subject
+    if most_recent = Conversation.order_by(:created_at.desc).limit(1).first
+      errors.add(:subject, 'is a duplicate') if self.group == most_recent.group and self.subject == most_recent.subject
+    end
   end
   
   def self.fields_for_form

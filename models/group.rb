@@ -84,7 +84,18 @@ class Group
     {
       :slug => :text,
       :analytics_conversation_threshold => :text,
-      :conversations => :collection
+      :conversations => :collection,
+      :imap_server => :text,
+      :imap_username => :text,
+      :imap_password => :text,   
+      :smtp_server => :text,
+      :smtp_port => :text,
+      :smtp_authentication => :text,
+      :smtp_ssl => :text,
+      :smtp_username => :text,
+      :smtp_password => :text,
+      :smtp_name => :text,
+      :smtp_sig => :text
     }
   end
   

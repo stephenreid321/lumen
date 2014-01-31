@@ -108,7 +108,7 @@ Lumen::App.controllers do
       
         group = @group # instance var not available in defaults block
         Mail.defaults do
-          delivery_method :smtp, { :address => group.smtp_server, :port => group.smtp_port, :authentication => group.smtp_authentication, :enable_ssl => group.smtp_ssl, :user_name => group.smtp_username, :password => group.smtp_password }
+          delivery_method :smtp, group.smtp_settings
         end      
       
         mail = Mail.new(
@@ -141,7 +141,7 @@ Lumen::App.controllers do
 
     group = @group # instance var not available in defaults block
     Mail.defaults do
-      delivery_method :smtp, { :address => group.smtp_server, :port => group.smtp_port, :authentication => group.smtp_authentication, :enable_ssl => group.smtp_ssl, :user_name => group.smtp_username, :password => group.smtp_password }
+      delivery_method :smtp, group.smtp_settings
     end        
     
     mail = Mail.new(

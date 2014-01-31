@@ -103,7 +103,7 @@ Lumen::App.controllers do
       html = Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
       
       Mail.defaults do
-        delivery_method :smtp, { :address => group.smtp_server, :port => group.smtp_port, :authentication => group.smtp_authentication, :enable_ssl => group.smtp_ssl, :user_name => group.smtp_username, :password => group.smtp_password }
+        delivery_method :smtp, group.smtp_settings
       end    
       
       emails = group.memberships.where(notification_level: params[:notification_level]).map { |membership| membership.account.email }                                

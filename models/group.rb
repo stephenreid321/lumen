@@ -15,11 +15,15 @@ class Group
   field :smtp_server, :type => String, :default => ENV['DEFAULT_SMTP_SERVER']
   field :smtp_port, :type => Integer, :default => 25
   field :smtp_authentication, :type => String, :default => 'login'
-  field :smtp_ssl, :type => Boolean, :default => false
+  field :smtp_enable_starttls_auto, :type => Boolean, :default => false
   field :smtp_username, :type => String, :default => ->{ self.smtp_address }
   field :smtp_password, :type => String, :default => ENV['DEFAULT_SMTP_PASSWORD']
   field :smtp_name, :type => String, :default => ->{ self.smtp_address }  
   field :smtp_sig, :type => String, :default => ->{ self.smtp_address }
+  
+  def smtp_settings
+    {:address => smtp_server, :port => smtp_port, :authentication => smtp_authentication, :enable_starttls_auto => smtp_enable_starttls_auto, :user_name => smtp_username, :password => smtp_password }
+  end
   
   has_many :conversations, :dependent => :destroy
   has_many :conversation_posts, :dependent => :destroy
@@ -29,12 +33,12 @@ class Group
   has_many :didyouknows, :dependent => :destroy
   has_many :markers, :dependent => :destroy
   
-  before_validation :smtp_ssl_to_boolean
-  def smtp_ssl_to_boolean
-    if self.smtp_ssl == '0'
-      self.smtp_ssl = false
-    elsif self.smtp_ssl == '1'
-      self.smtp_ssl = true
+  before_validation :smtp_enable_starttls_auto_to_boolean
+  def smtp_enable_starttls_auto_to_boolean
+    if self.smtp_enable_starttls_auto == '0'
+      self.smtp_enable_starttls_auto = false
+    elsif self.smtp_enable_starttls_auto == '1'
+      self.smtp_enable_starttls_auto = true
     end
     return true
   end  
@@ -101,7 +105,7 @@ class Group
       :smtp_server => :text,
       :smtp_port => :text,
       :smtp_authentication => :text,
-      :smtp_ssl => :check_box,
+      :smtp_enable_starttls_auto => :check_box,
       :smtp_username => :text,
       :smtp_password => :text,
       :smtp_name => :text,
@@ -211,7 +215,7 @@ class Group
         else
     
           Mail.defaults do
-            delivery_method :smtp, { :address => group.smtp_server, :port => group.smtp_port, :authentication => group.smtp_authentication, :enable_ssl => group.smtp_ssl, :user_name => group.smtp_username, :password => group.smtp_password }
+            delivery_method :smtp, group.smtp_settings
           end 
           mail = Mail.new(
             :to => from,

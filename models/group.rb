@@ -29,6 +29,16 @@ class Group
   has_many :didyouknows, :dependent => :destroy
   has_many :markers, :dependent => :destroy
   
+  before_validation :smtp_ssl_to_boolean
+  def smtp_ssl_to_boolean
+    if self.smtp_ssl == '0'
+      self.smtp_ssl = false
+    elsif self.smtp_ssl == '1'
+      self.smtp_ssl = true
+    end
+    return true
+  end  
+  
   def top_stories(from,to)
     Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
   end
@@ -91,7 +101,7 @@ class Group
       :smtp_server => :text,
       :smtp_port => :text,
       :smtp_authentication => :text,
-      :smtp_ssl => :text,
+      :smtp_ssl => :check_box,
       :smtp_username => :text,
       :smtp_password => :text,
       :smtp_name => :text,

@@ -10,7 +10,8 @@ class Group
   
   field :imap_server, :type => String, :default => ENV['DEFAULT_IMAP_SERVER']
   field :imap_username, :type => String, :default => ->{ self.imap_address }
-  field :imap_password, :type => String, :default => ENV['DEFAULT_IMAP_PASSWORD']    
+  field :imap_password, :type => String, :default => ENV['DEFAULT_IMAP_PASSWORD']
+  field :imap_ssl, :type => Boolean, :default => false
   
   field :smtp_server, :type => String, :default => ENV['DEFAULT_SMTP_SERVER']
   field :smtp_port, :type => Integer, :default => 25
@@ -42,6 +43,16 @@ class Group
     end
     return true
   end  
+  
+  before_validation :imap_ssl_to_boolean
+  def imap_ssl_to_boolean
+    if self.imap_ssl == '0'
+      self.imap_ssl = false
+    elsif self.imap_ssl == '1'
+      self.imap_ssl = true
+    end
+    return true
+  end   
   
   def top_stories(from,to)
     Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
@@ -100,6 +111,7 @@ class Group
       :analytics_conversation_threshold => :text,
       :conversations => :collection,
       :imap_server => :text,
+      :imap_ssl => :check_box,
       :imap_username => :text,
       :imap_password => :text,   
       :smtp_server => :text,
@@ -132,7 +144,7 @@ class Group
   def check!
     group = self
     logger.info "Attempting to log in as #{group.imap_username}"
-    imap = Net::IMAP.new(group.imap_server, :ssl => true)
+    imap = Net::IMAP.new(group.imap_server, :ssl => group.imap_ssl)
     imap.authenticate('LOGIN', group.imap_username, group.imap_password)
     imap.select('INBOX')
     imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|

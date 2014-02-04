@@ -1,4 +1,4 @@
-Lumen::App.controller do
+Lumen::App.controllers do
   
   get '/me' do
     sign_in_required!

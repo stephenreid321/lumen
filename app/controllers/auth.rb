@@ -1,4 +1,4 @@
-Lumen::App.controller do
+Lumen::App.controllers do
         
   get '/sign_in' do
     erb :'accounts/sign_in'

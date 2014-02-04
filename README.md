@@ -73,7 +73,7 @@ SESSION_SECRET=
   <dt>head</dt>
   <dd>Extra content for &lt;head&gt;</dd>
 
-  <dt>affiliations-positions</dt>
+  <dt>affiliation-positions</dt>
   <dd>Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master</dd>
 
   <dt>tip-affiliations</dt>

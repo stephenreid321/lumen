@@ -131,13 +131,51 @@ class Group
     
   after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
-    if ENV['CPANEL_URL']
+    case ENV['MAILSERV_INTERFACE']
+    when 'cpanel-11.4'
       agent = Mechanize.new
-      index = agent.post("#{ENV['CPANEL_URL']}/login", :user => ENV['CPANEL_USERNAME'], :pass => ENV['CPANEL_PASSWORD'])
+      index = agent.post("#{ENV['MAILSERV_URL']}/login", :user => ENV['MAILSERV_USERNAME'], :pass => ENV['MAILSERV_PASSWORD'])
       session_path = index.uri.to_s.split('index.html').first
+      # Add inbound user
       agent.post(session_path + "mail/doaddpop.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :password => self.imap_password, :password2 => self.imap_password, :quota => 0)
+      # Add outbound user
       agent.post(session_path + "mail/doaddpop.html", :domain => ENV['MAIL_DOMAIN'], :email => "#{self.slug}-noreply", :password => self.imap_password, :password2 => self.imap_password, :quota => 0)
-      agent.post(session_path + "mail/doaddfwd.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :fwdopt => 'pipe', :fwdsystem => ENV['CPANEL_USERNAME'], :pipefwd => "#{ENV['CPANEL_NOTIFICATION_SCRIPT']} #{slug}")
+      # Add forwarder
+      agent.post(session_path + "mail/doaddfwd.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :fwdopt => 'pipe', :fwdsystem => ENV['MAILSERV_USERNAME'], :pipefwd => "#{ENV['MAILSERV_NOTIFICATION_SCRIPT']} #{slug}")
+    when 'virtualmin-4.04'
+      agent = Mechanize.new
+      agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      index = agent.get(ENV['MAILSERV_URL']).form_with(:action => '/session_login.cgi') do |f|
+        f.user = ENV['MAILSERV_USERNAME']
+        f.pass = ENV['MAILSERV_PASSWORD']
+      end.submit
+      form = index.frame_with(:src => 'left.cgi').click.form_with(:action =>'left.cgi')
+      form.field_with(:name => 'dom').option_with(:text => /#{ENV['MAIL_DOMAIN']}/).click
+      domain_page = form.submit
+      users_page = domain_page.link_with(:text => 'Edit Users').click
+      add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
+      aliases_page = domain_page.link_with(:text => 'Edit Mail Aliases').click
+      add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
+      # Add inbound user
+      form = add_user_page.form_with(:action => 'save_user.cgi')
+      form['mailuser'] = self.slug
+      form['real'] = self.slug
+      form['mailpass'] = self.imap_password
+      form.checkbox_with(:name => /forward/).check
+      form['forwardto'] = "#{self.slug}-pipe@#{ENV['MAIL_DOMAIN']}"
+      form.submit
+      # Add outbound user
+      form = add_user_page.form_with(:action => 'save_user.cgi')
+      form['mailuser'] = "#{self.slug}-noreply"
+      form['real'] = "#{self.slug}-noreply"
+      form['mailpass'] = self.imap_password
+      form.submit
+      # Add forwarder
+      form = add_alias_page.form_with(:action => 'save_alias.cgi')
+      form['complexname'] = "#{self.slug}-pipe"
+      form.field_with(:name => 'type_0').option_with(:text => /Feed to program/).click
+      form['val_0'] = "#{ENV['MAILSERV_NOTIFICATION_SCRIPT']} #{slug}"
+      form.submit        
     end
   end  
   

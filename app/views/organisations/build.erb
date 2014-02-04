@@ -1,5 +1,5 @@
 <ol class="breadcrumb" style="margin-bottom: 10px">
-  <li><a href="/organisations">Organisations</a></li>
+  <li><a href="/organisations"><%=tt("Organisations")%></a></li>
   <li>
     <a href="/organisations/<%=@organisation.id%>"><%=@organisation.name%></a>
   </li>
@@ -112,7 +112,7 @@
 
       <div class="form-group">
         <div class="col-md-offset-3 col-md-8">
-          <button class="btn btn-primary" type="submit"><%= @organisation.new_record? ? 'Create organisation' : 'Update organisation' %></button>
+          <button class="btn btn-primary" type="submit"><%= @organisation.new_record? ? "Create #{tt("organisation")}" : "Update #{tt("organisation")}" %></button>
         </div>
       </div>    
 

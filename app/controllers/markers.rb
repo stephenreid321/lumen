@@ -17,6 +17,7 @@ Lumen::App.controllers do
       :points =>
         [
         @group.memberships.map(&:account).map(&:affiliations).flatten.map(&:organisation).uniq,
+        @group.memberships.map(&:account),
         @group.markers
       ].sum
     }    

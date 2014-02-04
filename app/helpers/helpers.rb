@@ -46,5 +46,16 @@ Lumen::App.helpers do
       request.xhr? ? halt : redirect('/')
     end     
   end
+  
+  def tt(string)
+    if f = Fragment.find_by(slug: "tt-#{string.downcase.singularize}")
+      s = f.body
+      s = s.pluralize if string == string.pluralize
+      s = s.capitalize if string == string.capitalize
+      s
+    else
+      string
+    end
+  end
     
 end

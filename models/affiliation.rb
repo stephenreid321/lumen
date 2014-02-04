@@ -19,7 +19,7 @@ class Affiliation
   end
   
   after_save :update_affiliated_on_account
-  after_destroy :update_affiliated_on_account
+  # after_destroy :update_affiliated_on_account # says account is nil..?
   def update_affiliated_on_account
     account.update_affiliated!
   end

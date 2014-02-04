@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-  <li><a href="/sectors">Sectors</a></li>
+  <li><a href="/sectors"><%=tt('Sectors')%></a></li>
   <li class="active">
     <%=@sector.name%>
   </li> 
@@ -28,7 +28,7 @@
 
   </div>
   <div class="col-md-4">
-    <h2><%=pluralize(@sector.members.count,'person')%> from this sector</h2>
+    <h2><%=pluralize(@sector.members.count,'person')%> from this <%=tt('sector')%></h2>
     <%= partial :'accounts/list', :locals => {:scope => 'sector', :scope_id => @sector.id} %>
   </div>
 </div>

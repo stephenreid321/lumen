@@ -1,11 +1,11 @@
 <ul class="page-options">
   <li>  
-    <a title="Edit organisation" class="edit restore-opacity" href="/organisations/<%=@organisation.id%>/edit"><i class="fa fa-pencil"></i> Edit organisation</a>
+    <a title="Edit organisation" class="edit restore-opacity" href="/organisations/<%=@organisation.id%>/edit"><i class="fa fa-pencil"></i> Edit <%=tt("organisation")%></a>
   </li>   
 </ul>
 
 <ol class="breadcrumb">
-  <li><a href="/organisations">Organisations</a></li>
+  <li><a href="/organisations"><%=tt("Organisations")%></a></li>
   <li class="active">
     <%=@organisation.name%>
   </li>
@@ -47,7 +47,7 @@
 
   </div>
   <div class="col-md-4">
-    <h2><%=pluralize(@organisation.affiliations.count,'person')%> from this organisation</h2>
+    <h2><%=pluralize(@organisation.affiliations.count,'person')%> from this <%=tt("organisation")%></h2>
     <%= partial :'accounts/list', :locals => {:scope => 'organisation', :scope_id => @organisation.id} %>
   </div>
 </div>

@@ -5,6 +5,9 @@
     <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
       <style>.nav-tabs li a { color: #aaa }</style>
       <ul class="nav nav-tabs">
+        <% if Fragment.find_by(slug: 'home') %>        
+          <li><a href="#home-tab" title="Home" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <% end %>        
         <% if current_account.news_summaries.count > 0 %>        
           <li><a href="#news-tab" title="News" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
         <% end %>
@@ -39,6 +42,11 @@
   <div class="col-md-7">        
 
     <div class="tab-content">
+      <% if Fragment.find_by(slug: 'home') %>        
+        <div class="tab-pane" id="home-tab">
+          <%= Fragment.find_by(slug: 'home').body %>
+        </div>      
+      <% end %>
       <% if current_account.news_summaries.count > 0 %>
         <div class="tab-pane" id="news-tab">
           <%= partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => NewsSummary.date} %>

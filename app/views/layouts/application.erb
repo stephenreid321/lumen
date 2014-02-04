@@ -20,7 +20,7 @@
       'datepicker3.css',
       'lumen.css',      
       'news.css'
-    ].each { |file| %> 
+      ].each { |file| %> 
       <link rel="stylesheet" href="/stylesheets/<%=file%>" />    
     <% } %>        
 
@@ -35,9 +35,11 @@
       'chosen.jquery.min.js',
       'bootstrap-datepicker.js',
       'lumen.js'
-    ].each { |file| %>
+      ].each { |file| %>
       <script src="/javascripts/<%=file%>"></script>
-    <% } %>    
+    <% } %>   
+
+    <%= Fragment.find_by(slug: 'head').try(:body) %>
 
   </head>
   <body>
@@ -73,8 +75,12 @@
                   <% } %>  
                 </ul>
               </li>                
-              <li><a href="/organisations"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Organisations</a></li>
-              <li><a href="/sectors"><i class="fa fa-th-list"></i>&nbsp;&nbsp;Sectors</a></li>
+              <% unless Fragment.find_by(slug: 'hide-organisations') %>
+                <li><a href="/organisations"><i class="fa <%=Fragment.find_by(slug: 'organisations-icon').try(:body) || 'fa-bullhorn'%>"></i>&nbsp;&nbsp;<%=tt("Organisations")%></a></li>
+              <% end %>
+              <% unless Fragment.find_by(slug: 'hide-sectors') %>
+                <li><a href="/sectors"><i class="fa fa-th-list"></i>&nbsp;&nbsp;<%=tt("Sectors")%></a></li>
+              <% end %>
               <% if current_account.admin? %>
                 <li class="admin"><a href="/analytics"><i class="fa fa-dashboard"></i>&nbsp;&nbsp;Sitewide analytics</a></li>        
               <% end %>
@@ -109,7 +115,9 @@
     <script>
       $(function() {
         $(".alert").alert();
-        window.setTimeout(function() { $("#top-alert").alert('close'); }, 3000);
+        window.setTimeout(function() {
+          $("#top-alert").alert('close');
+        }, 3000);
       });
     </script>
 
@@ -126,9 +134,12 @@
         _gaq.push(['_trackPageview']);
 
         (function() {
-          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          var ga = document.createElement('script');
+          ga.type = 'text/javascript';
+          ga.async = true;
           ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(ga, s);
         })();
 
       </script>      

@@ -26,12 +26,28 @@
       </div>        
 
       <div class="form-group <%= 'has-error' if !f.error_message_on(:affiliations).blank? %>">
-        <label class="control-label col-md-3">Affiliations</label>
+        <label class="control-label col-md-3">
+          Affiliations
+          <% if fragment = Fragment.find_by(slug: 'affiliations-tip') %>
+            <i id="affiliations-tip" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
+            <script>
+              $(function() {
+                $('#affiliations-tip').tooltip();
+              });
+            </script>
+          <% end %>
+        </label>
         <div class="col-md-9">             
           <div id="affiliations">
             <% f.fields_for :affiliations do |o| %>
               <div class="affiliation">
-                <%= o.text_field :title, :class => 'form-control', :placeholder => 'Position' %><span class="at"> at </span><%= o.text_field :organisation_name, :class => 'form-control typeahead', :value => o.object.try(:organisation).try(:name), :placeholder => 'Organisation', :autocomplete => 'off' %>
+                <% if fragment = Fragment.find_by(slug: 'affiliation-positions') %>
+                  <%= o.select :title, :options => fragment.body.split(','), :class => 'form-control' %>
+                <% else %>
+                  <%= o.text_field :title, :class => 'form-control', :placeholder => 'Position' %>
+                <% end %>
+                <span class="at"> at </span>
+                <%= o.text_field :organisation_name, :class => 'form-control typeahead', :value => o.object.try(:organisation).try(:name), :placeholder => 'Organisation', :autocomplete => 'off' %>
                 <% unless o.object.new_record? %>
                   <span>
                     <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked', true).closest('.affiliation').hide()" class="fa fa-times"></i>
@@ -43,7 +59,7 @@
           </div>
           <style>
             .affiliation { margin-bottom: 10px }
-            .affiliation input { width: 40%; display: inline }
+            .affiliation input, .affiliation select { width: 40%; display: inline }
             .affiliation .at { margin: 0 5px }
           </style>
           <script>
@@ -51,11 +67,21 @@
               var icon = $('<i style="cursor: pointer" class="fa fa-plus-square"></i>');
               $(icon).click(function() {
                 var c = $('.affiliation').length
-                var i = $('<input type="text" />');
-                i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
-                i.attr('id', 'account_affiliations_attributes_' + c + '_title');
-                i.attr('placeholder', 'Position');
-                i.addClass('form-control');
+  <% if fragment = Fragment.find_by(slug: 'affiliation-positions') %>
+                  var i = $('<select/>');
+                  i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
+                  i.attr('id', 'account_affiliations_attributes_' + c + '_title');
+    <% fragment.body.split(',').each { |ap| %>
+                    i.append('<option value="<%=ap%>"><%=ap%></option>')
+    <% } %>
+                  i.addClass('form-control');
+  <% else %>
+                  var i = $('<input type="text" />');
+                  i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
+                  i.attr('id', 'account_affiliations_attributes_' + c + '_title');
+                  i.attr('placeholder', 'Position');
+                  i.addClass('form-control');
+  <% end %>
                 var j = $('<input type="text" />');
                 j.attr('name', 'account[affiliations_attributes][' + c + '][organisation_name]');
                 j.attr('id', 'account_affiliations_attributes_' + c + '_organisation_name');
@@ -82,7 +108,17 @@
       </div>     
 
       <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
-        <label class="control-label col-md-3">Location</label>
+        <label class="control-label col-md-3">
+          Location
+          <% if fragment = Fragment.find_by(slug: 'location-tip') %>
+            <i id="location-tip" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
+            <script>
+              $(function() {
+                $('#location-tip').tooltip();
+              });
+            </script>
+          <% end %>        
+        </label>
         <div class="col-md-6">      
           <%=f.text_field :location, :class => 'form-control' %>
           <% if !f.error_message_on(:location).blank? %>
@@ -90,7 +126,7 @@
           <% end %>
         </div>
       </div>      
-       
+
       <div class="form-group <%= 'has-error' if !f.error_message_on(:email).blank? %>">
         <label class="control-label col-md-3">
           Email

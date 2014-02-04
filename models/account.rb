@@ -14,7 +14,14 @@ class Account
   field :picture_uid  
   field :phone, :type => String 
   field :location, :type => String 
+  field :coordinates, :type => Array
   field :expertise, :type => String
+  
+  include Geocoder::Model::Mongoid
+  geocoded_by :location  
+  def lat; coordinates[1] if coordinates; end  
+  def lng; coordinates[0] if coordinates; end  
+  after_validation :geocode  
 
   has_many :sign_ins, :dependent => :destroy  
   has_many :page_views, :dependent => :destroy  

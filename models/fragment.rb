@@ -19,5 +19,12 @@ class Fragment
       :body => :text_area
     }
   end
+  
+  def self.filter_options
+    {
+      :o => :slug,
+      :d => :asc
+    }
+  end
     
 end

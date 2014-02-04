@@ -28,11 +28,11 @@
       <div class="form-group <%= 'has-error' if !f.error_message_on(:affiliations).blank? %>">
         <label class="control-label col-md-3">
           Affiliations
-          <% if fragment = Fragment.find_by(slug: 'affiliations-tip') %>
-            <i id="affiliations-tip" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
+          <% if fragment = Fragment.find_by(slug: 'tip-affiliations') %>
+            <i id="tip-affiliations" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
             <script>
               $(function() {
-                $('#affiliations-tip').tooltip();
+                $('#tip-affiliations').tooltip();
               });
             </script>
           <% end %>
@@ -110,11 +110,11 @@
       <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
         <label class="control-label col-md-3">
           Location
-          <% if fragment = Fragment.find_by(slug: 'location-tip') %>
-            <i id="location-tip" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
+          <% if fragment = Fragment.find_by(slug: 'tip-location') %>
+            <i id="tip-location" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
             <script>
               $(function() {
-                $('#location-tip').tooltip();
+                $('#tip-location').tooltip();
               });
             </script>
           <% end %>        

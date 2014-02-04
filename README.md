@@ -61,20 +61,11 @@ SESSION_SECRET=
   <dt>about</dt>
   <dd>Text of about page</dd>
 
-  <dt>first-time</dt>
-  <dd>Text displayed on account edit page upon first login</dd>
-
-  <dt>affiliations-tip</dt>
-  <dd>Tip for affiliations field</dd>
-
-  <dt>affiliations-positions</dt>
-  <dd>Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master</dd>
-
-  <dt>location-tip</dt>
-  <dd>Tip text for location field</dd>
-
   <dt>sign-in</dt>
   <dd>Text displayed on sign in page</dd>
+
+  <dt>first-time</dt>
+  <dd>Text displayed on account edit page upon first login</dd>
 
   <dt>home</dt>
   <dd>If defined, creates a default landing tab on the homepage with this text</dd>
@@ -82,6 +73,29 @@ SESSION_SECRET=
   <dt>head</dt>
   <dd>Extra content for &lt;head&gt;</dd>
 
+  <dt>affiliations-positions</dt>
+  <dd>Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master</dd>
+
+  <dt>tip-affiliations</dt>
+  <dd>Tip for affiliations field on account edit page</dd>
+
+  <dt>tip-location</dt>
+  <dd>Tip for location field on account edit page</dd>
+
+  <dt>hide-organisations</dt>
+  <dd>If defined, hides the 'organisations' tab</dd>
+
+  <dt>hide-sectors</dt>
+  <dd>If defined, hides the 'sectors' tab</dd>
+
+  <dt>tt-organisation</dt>
+  <dd>Alternative name for 'Organisation'</dd>
+
+  <dt>tt-sector</dt>
+  <dd>Alternative name for 'Sector'</dd>
+
+  <dt>organisations-icon</dt>
+  <dd>Alternative Font Awesome icon for organisations tab</dd>
 </dl>
 
 

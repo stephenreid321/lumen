@@ -2,7 +2,7 @@
 
 ## Setup
 
-### .env
+### Environment variables
 
 ```
 DOMAIN=neweconomyorganisersnetwork.org
@@ -13,6 +13,7 @@ SITE_NAME_SHORT=NEON
 HELP_ADDRESS=help@neweconomyorganisersnetwork.org
 
 SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD=4
+NEWSME_SWITCH_HOUR=11
 
 DEFAULT_SMTP_SERVER=smtp.neweconomyorganisersnetwork.org
 DEFAULT_SMTP_PASSWORD=
@@ -21,17 +22,18 @@ DEFAULT_IMAP_PASSWORD=
 NOREPLY_SERVER=smtp.neweconomyorganisersnetwork.org
 NOREPLY_PORT=25
 NOREPLY_AUTHENTICATION=login
-NOREPLY_SSL=false
+NOREPLY_STARTTLS_AUTO=false
 NOREPLY_USERNAME=no-reply@neweconomyorganisersnetwork.org
 NOREPLY_PASSWORD=
 NOREPLY_NAME=New Economy Organisers Network
 NOREPLY_ADDRESS=no-reply@neweconomyorganisersnetwork.org
 NOREPLY_SIG=Stephen, Dan, Huw and the rest of the NEON team
 
-CPANEL_URL=https://www.neweconomyorganisersnetwork.org/cpanel
-CPANEL_USERNAME=neon
-CPANEL_PASSWORD=
-CPANEL_NOTIFICATION_SCRIPT=notify.php
+MAILSERV_INTERFACE=cpanel-11.4
+MAILSERV_URL=https://www.neweconomyorganisersnetwork.org/cpanel
+MAILSERV_USERNAME=neon
+MAILSERV_PASSWORD=
+MAILSERV_NOTIFICATION_SCRIPT=notify.php
 
 S3_BUCKET_NAME=
 S3_ACCESS_KEY=
@@ -46,19 +48,53 @@ GOOGLE_SECRET=
 TWITTER_KEY=
 TWITTER_SECRET=
 
+HEROKU_APP_NAME=
+HEROKU_API_KEY=
 AIRBRAKE_API_KEY=
 
 SESSION_SECRET=
 ```
 
-#### Example cPanel notification script
+### Fragments
+
+<dl>
+  <dt>about</dt>
+  <dd>Text of about page</dd>
+
+  <dt>first-time</dt>
+  <dd>Text displayed on account edit page upon first login</dd>
+
+  <dt>affiliations-tip</dt>
+  <dd>Tip for affiliations field</dd>
+
+  <dt>affiliations-positions</dt>
+  <dd>Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master</dd>
+
+  <dt>location-tip</dt>
+  <dd>Tip text for location field</dd>
+
+  <dt>sign-in</dt>
+  <dd>Text displayed on sign in page</dd>
+
+  <dt>home</dt>
+  <dd>If defined, creates a default landing tab on the homepage with this text</dd>
+
+  <dt>head</dt>
+  <dd>Extra content for &lt;head&gt;</dd>
+
+</dl>
+
+
+#### Example notification script
 
 ```php
 #!/usr/local/bin/php -n
 <?php
 require_once('PlancakeEmailParser.php');
 
-$token = '\$2a\$10\$n8Nnxy0by82f3f20by3sbspe0V5AOyqM9.i.qp0whS';
+$domain = 'www.neweconomyorganisersnetwork.org';
+$maildomain = 'neweconomyorganisersnetwork.org';
+$token = '\$2a\$10\$n8NnPYSKmblrLH4fqwAOp.dAK43r3';
 
 $fd = fopen("php://stdin", "r");
 $email = "";
@@ -71,8 +107,8 @@ fclose($fd);
 $emailParser = new PlancakeEmailParser($email);
 
 $sender = $emailParser->getHeader('Sender');
-if ($sender != $argv[1].'-noreply@neweconomyorganisersnetwork.org') { 
-	exec('curl --silent http://www.neweconomyorganisersnetwork.org/groups/'.$argv[1].'/check?token='.$token);
+if ($sender != $argv[1].'-noreply@'.$maildomain) { 
+	exec('curl --silent http://'.$domain.'/groups/'.$argv[1].'/check?token='.$token);
 }
 
 ?>
@@ -81,10 +117,6 @@ if ($sender != $argv[1].'-noreply@neweconomyorganisersnetwork.org') {
 ### Seeding the database
 
 ``` ruby
-Fragment.create!(slug: 'about', body: 'this is the about page')
-Fragment.create!(slug: 'first-time', body: 'this is the message displayed when someone signs in for the first time')
-Fragment.create!(slug: 'sign-in', body: 'this is the message on the sign in page')
-
 account = Account.create!(name: 'Stephen Reid', email: 'admin@neweconomyorganisersnetwork.org', password: 'password', password_confirmation: 'password', role: 'admin')
 group = Group.create!(slug: 'post-keynesian-chat')
 membership = Membership.create!(group: group, account: account, role: 'admin')

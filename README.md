@@ -32,7 +32,5 @@ if ($sender != $argv[1].'-noreply@'.$maildomain) {
 ### Seeding the database
 
 ``` ruby
-account = Account.create!(name: 'Stephen Reid', email: 'admin@neweconomyorganisersnetwork.org', password: 'password', password_confirmation: 'password', role: 'admin')
-group = Group.create!(slug: 'post-keynesian-chat')
-membership = Membership.create!(group: group, account: account, role: 'admin')
+Account.create!(name: 'Stephen Reid', email: 'admin@neweconomyorganisersnetwork.org', password: 'password', password_confirmation: 'password', role: 'admin')
 ```

@@ -13,6 +13,8 @@ namespace :digests do
 
   desc "/send_digests/weekly"
   task :weekly => :environment do
-    Mechanize.new.get("http://#{ENV['DOMAIN']}/send_digests/weekly?#{Account.find_by(role: 'admin').generate_secret_token}")
+    if Date.today.wday == 0
+      Mechanize.new.get("http://#{ENV['DOMAIN']}/send_digests/weekly?#{Account.find_by(role: 'admin').generate_secret_token}")
+    end
   end
 end

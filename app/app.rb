@@ -70,28 +70,6 @@ module Lumen
       sign_in_required!
       erb :about
     end    
-            
-    get '/analytics' do
-      site_admins_only!      
-      @conversation_threshold = ENV['SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD'].to_i     
-      @models = [ConversationPost, Conversation, Account, Event, PageView].select { |model|
-        model.count > 0
-      }.select { |model|
-        if model == Conversation
-          Conversation.all.any? { |conversation| conversation.conversation_posts.count >= @conversation_threshold }
-        else
-          true
-        end
-      }      
-      @collections = @models.map { |model|
-        resources = model.order_by(:created_at.asc) 
-        if model == Conversation
-          resources = resources.select { |conversation| conversation.conversation_posts.count >= @conversation_threshold }
-        end
-        resources
-      }            
-      erb :'group_administration/analytics'
-    end
-              
+                          
   end
 end

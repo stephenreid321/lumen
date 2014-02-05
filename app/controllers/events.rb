@@ -70,9 +70,7 @@ Lumen::App.controllers do
       erb :'events/build'
     end
   end   
-  
-
-  
+    
   get '/groups/:slug/calendar/:id/edit' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!

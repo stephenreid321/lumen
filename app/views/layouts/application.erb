@@ -46,7 +46,7 @@
 
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-top">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -57,16 +57,16 @@
         <% end %>        
       </div>
       <% if current_account %>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">        
+        <div class="collapse navbar-collapse" id="navbar-top">        
           <ul class="nav navbar-nav">
             <% if current_account %>
-              <li><a href="/"><i class="fa fa-home"></i>&nbsp;&nbsp;Home</a></li>
+              <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
               <% if current_account.memberships.count > 1 %>
                 <li class="dropdown">
                   <a class="dropdown-toggle"
                      data-toggle="dropdown"
                      href="#">
-                    <i class="fa fa-group"></i>&nbsp;&nbsp;Groups
+                    <i class="fa fa-group"></i> Groups
                     <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
@@ -77,14 +77,14 @@
                 </li>    
               <% end %>
               <% unless Fragment.find_by(slug: 'hide-organisations') %>
-                <li><a href="/organisations"><i class="fa <%=Fragment.find_by(slug: 'organisations-icon').try(:body) || 'fa-bullhorn'%>"></i>&nbsp;&nbsp;<%=tt("Organisations")%></a></li>
+                <li><a href="/organisations"><i class="fa <%=Fragment.find_by(slug: 'organisations-icon').try(:body) || 'fa-bullhorn'%>"></i> <%=tt("Organisations")%></a></li>
               <% end %>
               <% unless Fragment.find_by(slug: 'hide-sectors') %>
-                <li><a href="/sectors"><i class="fa fa-th-list"></i>&nbsp;&nbsp;<%=tt("Sectors")%></a></li>
+                <li><a href="/sectors"><i class="fa fa-th-list"></i> <%=tt("Sectors")%></a></li>
               <% end %>
               <% if current_account.admin? %>
-                <li class="admin"><a href="/analytics"><i class="fa fa-globe"></i>&nbsp;&nbsp;Sitewide analytics</a></li>
-                <li class="admin"><a href="/config"><i class="fa fa-dashboard"></i>&nbsp;&nbsp;Lumen configuration</a></li>        
+                <li class="admin"><a href="/analytics"><i class="fa fa-globe"></i> Sitewide analytics</a></li>
+                <li class="admin"><a href="/config"><i class="fa fa-dashboard"></i> Lumen configuration</a></li>        
               <% end %>
             <%  end %>
           </ul>  
@@ -125,27 +125,16 @@
 
     <%= yield %>
 
-    <%= partial :footer %>
-
-    <% if Padrino.env == :production %>
-
-      <script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-38168145-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-          var ga = document.createElement('script');
-          ga.type = 'text/javascript';
-          ga.async = true;
-          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0];
-          s.parentNode.insertBefore(ga, s);
-        })();
-
-      </script>      
-    <% end %>
+    <div id="footer" class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <hr />
+        <div class="restore-opacity" style="text-align: center">
+          <a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a>
+          &middot;
+          <a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a>
+        </div>
+      </div>
+    </div>
 
   </body>
 </html>

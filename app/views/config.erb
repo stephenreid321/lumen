@@ -1,0 +1,97 @@
+
+<h2>Environment variables</h2>
+
+<%
+env = {
+:DOMAIN => 'Domain of Lumen install',
+:MAIL_DOMAIN => 'Domain from which mails will be sent and received',
+:SITE_NAME => 'Name of site e.g. Lumen Users Network',
+:SITE_NAME_DEFINITE => "Name of site with 'the' if appropriate e.g. The Lumen Users Network",
+:SITE_NAME_SHORT => 'Short site name e.g. LUN',
+:HELP_ADDRESS => 'Email address for general queries',
+
+:SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD => 'Threshold for conversations to appear in site analytics',
+:NEWSME_SWITCH_HOUR => "Hour to switch over to today's news summaries e.g. 11",
+
+:DEFAULT_SMTP_SERVER => "Default SMTP server address for new groups",
+:DEFAULT_SMTP_PASSWORD => "Default SMTP password for new groups",
+
+:NOREPLY_SERVER => "SMTP server for forgotten password and other emails independent of groups",
+:NOREPLY_PORT => "SMTP port for NOREPLY_SERVER",
+:NOREPLY_AUTHENTICATION => "SMTP authentication type for NOREPLY_SERVER e.g. login",
+:NOREPLY_STARTTLS_AUTO => "Set to 'true', uses STARTTLS when communicating with NOREPLY_SERVER",
+:NOREPLY_USERNAME => "SMTP username for NOREPLY_SERVER",
+:NOREPLY_PASSWORD => "SMTP password for NOREPLY_SERVER",
+:NOREPLY_NAME => "Name of email sender for NOREPLY_SERVER",
+:NOREPLY_ADDRESS => "Address of email sender for NOREPLY_SERVER",
+:NOREPLY_SIG => "Email signature for NOREPLY_SERVER",
+
+:DEFAULT_IMAP_SERVER => "Default IMAP server address for new groups",
+:DEFAULT_IMAP_PASSWORD => "Default IMAP password for new groups",  
+  
+:MAILSERV_INTERFACE => 'One of cpanel-11.4 or virtualmin-4.04',
+:MAILSERV_URL => 'URL for MAILSERV_INTERFACE',
+:MAILSERV_USERNAME => 'Username for MAILSERV_INTERFACE',
+:MAILSERV_PASSWORD => 'Password for MAILSERV_INTERFACE',
+:MAILSERV_NOTIFICATION_SCRIPT => 'Path of notification script to run when new mail received on MAILSERV_INTERFACE',
+:VIRTUALMIN_DOM => 'If using Virtualmin, the DOM id of the virtual server',
+
+:S3_BUCKET_NAME => 'S3 bucket name',
+:S3_ACCESS_KEY => 'S3 access key',
+:S3_SECRET => 'S3 secret',
+
+:FACEBOOK_KEY => 'Facebook API key',
+:FACEBOOK_SECRET => 'Facebook API secret',
+:LINKEDIN_KEY => 'LinkedIn API key',
+:LINKEDIN_SECRET => 'LinkedIn API secret',
+:GOOGLE_KEY => 'Google API key',
+:GOOGLE_SECRET => 'Google API secret',
+:TWITTER_KEY => 'Twitter API key',
+:TWITTER_SECRET => 'Twitter API secret',
+
+:EXTRA_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
+
+:HEROKU_APP_NAME => 'Name of the underlying Heroku app',
+:HEROKU_API_KEY => 'Heroku API key',
+
+:AIRBRAKE_API_KEY => 'Airbrake API key',
+:AIRBRAKE_HOST => 'Airbrake host',
+
+:SESSION_SECRET => 'Session secret'
+} %>
+
+<table class="table table-hover">
+  <% env.each { |k,v| %>
+    <tr>
+      <td style="font-weight:bold"><%=k%></td><td><%=v%></td><td><%=ENV[k.to_s]%></td>    
+    </tr>
+  <% } %>
+</table>
+
+<h2>Fragments</h2>
+
+<% 
+fragments = {
+:about => 'Text of about page',
+:'sign-in' => 'Text displayed on sign in page',
+:'first-time' => 'Text displayed on account edit page upon first login',
+:home => 'If defined, creates a default landing tab on the homepage with this text',
+:head => 'Extra content for &lt;head&gt;',
+:'affiliation-positions' => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
+:'tip-affiliations' => 'Tip for affiliations field on account edit page',
+:'tip-location' => 'Tip for location field on account edit page',
+:'hide-organisations' => 'If defined, hides the \'organisations\' tab',
+:'hide-sectors' => "If defined, hides the 'sectors' tab",
+:'tt-organisation' => "Alternative name for 'Organisation'",
+:'tt-sector' => "Alternative name for 'Sector'",
+:'organisations-icon' => "Alternative Font Awesome icon for organisations tab"
+}
+%>
+
+<table class="table table-hover">
+  <% fragments.each { |k,v| %>
+    <tr>
+      <td style="font-weight:bold"><%=k%></td><td><%=v%></td><td><% if Fragment.find_by(slug: k) %><i class="fa fa-check"></i><% end %></td>    
+    </tr>
+  <% } %>
+</table>

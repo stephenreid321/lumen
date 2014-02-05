@@ -60,6 +60,11 @@ module Lumen
       @o = :updated       
       erb :home      
     end
+    
+    get '/config' do
+      site_admins_only!
+      erb :config
+    end
         
     get '/about' do
       sign_in_required!

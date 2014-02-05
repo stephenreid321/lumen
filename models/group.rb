@@ -255,7 +255,7 @@ class Group
               conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id     
               
               mail.attachments.each do |attachment|
-                conversation_post.attachments.create! :file => attachment.body.decoded, :cid => attachment.cid
+                conversation_post.attachments.create! :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
               end          
               
               if !nokogiri_parse_fail

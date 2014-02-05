@@ -14,13 +14,15 @@ class Attachment
   dragonfly_accessor :file, :app => :files
       
   def self.fields_for_index
-    [:conversation_post_id]
+    [:file_name, :conversation_post_id]
   end
   
   def self.fields_for_form
     {
       :conversation_post_id => :lookup,
-      :file => :file
+      :file => :file,
+      :file_name => :text,
+      :cid => :text
     }
   end
   

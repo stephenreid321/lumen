@@ -1,5 +1,7 @@
 <ol class="breadcrumb">
-  <li><a href="/">Groups</a></li>
+  <% if current_account.memberships.count > 1 %>
+    <li><a href="/">Groups</a></li>
+  <% end %>
   <li>
     <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
   </li>
@@ -34,7 +36,7 @@
           <% end %>
         </div>
       </div>  
-    
+
       <div class="form-group <%= 'has-error' if !f.error_message_on(:address).blank? %>">
         <label class="control-label col-md-3">Address</label>
         <div class="col-md-6">      

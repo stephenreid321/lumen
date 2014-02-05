@@ -1,5 +1,7 @@
 <ol class="breadcrumb" style="margin-bottom: 20px">
-  <li><a href="/">Groups</a></li>
+  <% if current_account.memberships.count > 1 %>
+    <li><a href="/">Groups</a></li>
+  <% end %>
   <li>
     <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
   </li>  

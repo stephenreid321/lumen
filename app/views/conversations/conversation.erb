@@ -7,7 +7,9 @@
 </ul>
 
 <ol class="breadcrumb">
-  <li><a href="/">Groups</a></li>
+  <% if current_account.memberships.count > 1 %>
+    <li><a href="/">Groups</a></li>
+  <% end %>
   <li><a href="/groups/<%=@conversation.group.slug%>"><%=@conversation.group.slug%></a></li>
   <li class="active"><%=@conversation.subject%></li>
 </ol>

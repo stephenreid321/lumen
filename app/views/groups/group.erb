@@ -29,7 +29,9 @@
 </ul>
 
 <ol class="breadcrumb">
-  <li><a href="/">Groups</a></li>
+  <% if current_account.memberships.count > 1 %>
+    <li><a href="/">Groups</a></li>
+  <% end %>
   <li class="active">
     <%=@group.slug%>    
   </li>

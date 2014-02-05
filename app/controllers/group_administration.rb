@@ -2,7 +2,8 @@ Lumen::App.controllers do
   
   get '/groups/:slug/check' do
     site_admins_only!
-    Group.find_by(slug: params[:slug]).check!
+    @group = Group.find_by(slug: params[:slug]) || halt
+    @group.check!
   end   
   
   get '/groups/:slug/members' do

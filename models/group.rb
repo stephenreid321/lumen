@@ -161,6 +161,7 @@ class Group
       form['mailuser'] = self.slug
       form['real'] = self.slug
       form['mailpass'] = self.imap_password
+      form['quota'] = 0
       form.checkbox_with(:name => /forward/).check
       form['forwardto'] = "#{self.slug}-pipe@#{ENV['MAIL_DOMAIN']}"
       form.submit
@@ -169,6 +170,7 @@ class Group
       form['mailuser'] = "#{self.slug}-noreply"
       form['real'] = "#{self.slug}-noreply"
       form['mailpass'] = self.imap_password
+      form['quota'] = 0
       form.submit
       # Add forwarder
       form = add_alias_page.form_with(:action => 'save_alias.cgi')

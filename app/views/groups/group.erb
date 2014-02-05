@@ -48,7 +48,10 @@
         #map-tab iframe { height: 70vh }
       </style>
       <ul class="nav nav-tabs">
-        <li class="active"><a title="Conversations" href="#conversations-tab" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
+        <% if current_account.memberships.count == 1 && Fragment.find_by(slug: 'home') %>        
+          <li><a href="#home-tab" title="Home" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <% end %>          
+        <li><a title="Conversations" href="#conversations-tab" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
         <% if @group.news_summaries.count > 0 %>
           <li><a title="News" href="#news-tab" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
         <% end %>
@@ -79,6 +82,7 @@
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
           $('.fc-event').popover('destroy');
         });
+        $(".tabs-left a:first").tab('show');
       });
     </script>
 
@@ -86,7 +90,12 @@
   <div class="col-md-7">        
 
     <div class="tab-content">
-      <div class="tab-pane active" id="conversations-tab">
+      <% if current_account.memberships.count == 1 && Fragment.find_by(slug: 'home') %>        
+        <div class="tab-pane" id="home-tab">
+          <%= Fragment.find_by(slug: 'home').body %>
+        </div>      
+      <% end %>      
+      <div class="tab-pane" id="conversations-tab">
         <%= partial :'conversations/conversations' %>
       </div>      
       <% if @group.news_summaries.count > 0 %>

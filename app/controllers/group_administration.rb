@@ -25,6 +25,8 @@ Lumen::App.controllers do
       @group.memberships.where(:notification_level => 'none')
     when :connected_to_twitter
       @group.memberships.select { |membership| membership.account.connections.find_by(provider: 'Twitter') }
+    when :geocoding_failed
+      @group.memberships.select { |membership| membership.account.location and !membership.account.coordinates }
     end
     @memberships = case @view
     when :connected_to_twitter

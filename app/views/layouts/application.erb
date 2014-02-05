@@ -61,20 +61,21 @@
           <ul class="nav navbar-nav">
             <% if current_account %>
               <li><a href="/"><i class="fa fa-home"></i>&nbsp;&nbsp;Home</a></li>
-
-              <li class="dropdown">
-                <a class="dropdown-toggle"
-                   data-toggle="dropdown"
-                   href="#">
-                  <i class="fa fa-group"></i>&nbsp;&nbsp;Groups
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
-                    <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
-                  <% } %>  
-                </ul>
-              </li>                
+              <% if current_account.memberships.count > 1 %>
+                <li class="dropdown">
+                  <a class="dropdown-toggle"
+                     data-toggle="dropdown"
+                     href="#">
+                    <i class="fa fa-group"></i>&nbsp;&nbsp;Groups
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
+                      <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
+                    <% } %>  
+                  </ul>        
+                </li>    
+              <% end %>
               <% unless Fragment.find_by(slug: 'hide-organisations') %>
                 <li><a href="/organisations"><i class="fa <%=Fragment.find_by(slug: 'organisations-icon').try(:body) || 'fa-bullhorn'%>"></i>&nbsp;&nbsp;<%=tt("Organisations")%></a></li>
               <% end %>

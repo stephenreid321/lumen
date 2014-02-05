@@ -7,7 +7,7 @@
 
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-8 col-md-offset-2">
 
     <% if @account.sign_ins.count == 1 %>
       <%= Fragment.find_by(slug: 'first-time').try(:body) %>
@@ -28,7 +28,7 @@
       <%= f.password_block :password %>
       <%= f.text_block :password_confirmation %>
       <%= f.submit_block %>
-      
+
     <% end %>
 
     <script>

@@ -44,11 +44,21 @@ module Lumen
     end
         
     ############
-      
+          
     get '/' do
       sign_in_required!
-      @o = :updated        
-      erb :home
+      if current_account.memberships.count == 1
+        redirect "/groups/#{current_account.memberships.first.group.slug}"
+      else
+        @o = :updated       
+        erb :home
+      end
+    end
+    
+    get '/home' do
+      sign_in_required!
+      @o = :updated       
+      erb :home      
     end
         
     get '/about' do

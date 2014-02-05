@@ -46,11 +46,5 @@ Lumen::App.controllers do
     @account = Account.find(params[:id])
     erb :'accounts/account'
   end    
-  
-  get '/accounts/:id/map' do
-    sign_in_required!
-    @account = Account.find(params[:id])
-    partial :'markers/iframe', :locals => {:points => @account.affiliations.map(&:organisation)}
-  end    
-            
+              
 end

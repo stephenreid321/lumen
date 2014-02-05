@@ -13,7 +13,9 @@ class Organisation
   geocoded_by :address  
   def lat; coordinates[1] if coordinates; end  
   def lng; coordinates[0] if coordinates; end  
-  after_validation :geocode
+  after_validation do
+    self.geocode || (self.coordinates = nil)
+  end
   
   has_many :events, :dependent => :destroy
   has_many :sectorships, :dependent => :destroy

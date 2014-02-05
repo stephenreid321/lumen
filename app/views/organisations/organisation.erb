@@ -39,7 +39,7 @@
             <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
           <% end %>             
         </ul>
-        <% if @organisation.address %>
+        <% if @organisation.coordinates or @organisation.affiliations.any? { |affiliation| affiliation.account.coordinates } %>
           <iframe class="map" src="/organisations/<%=@organisation.id%>/map"></iframe>
         <% end %>
       </div>

@@ -1,5 +1,28 @@
 Lumen::App.controllers do
   
+  get '/accounts/:id/map' do
+    sign_in_required!
+    @account = Account.find(params[:id])
+    partial :'markers/iframe', :locals => {
+      :points => [
+        [@account],
+        @account.affiliations.map(&:organisation)
+      ].sum
+    }
+  end    
+  
+  get '/organisations/:id/map' do
+    sign_in_required!
+    @organisation = Organisation.find(params[:id])
+    partial :'markers/iframe', :locals => {
+      :points =>
+        [
+        [@organisation],
+        @organisation.affiliations.map(&:account)
+      ].sum      
+    }
+  end   
+  
   get '/groups/:slug/map' do
     @group = Group.find_by(slug: params[:slug])
     membership_required! 

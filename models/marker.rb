@@ -10,7 +10,9 @@ class Marker
   geocoded_by :address  
   def lat; coordinates[1] if coordinates; end  
   def lng; coordinates[0] if coordinates; end  
-  after_validation :geocode
+  after_validation do
+    self.geocode || (self.coordinates = nil)
+  end
   
   belongs_to :group
   belongs_to :account

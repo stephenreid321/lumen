@@ -9,14 +9,20 @@
 </ol>
 
 <div class="row">
-  <div class="col-md-8">
-    <ul class="nav nav-pills" style="margin-top: 10px">
-      <% {:admins => 'Admins', :others => 'Others', :notification_level_none => 'Notifications off', :never_signed_in => 'Never signed in', :no_affiliations => 'No affiliations', :no_picture => 'No picture', :connected_to_twitter => 'Connected to Twitter'}.each { |k,v| %>
-        <li <%= 'class="active"' if @view == k %>>
-          <a href="?view=<%=k%>"><%=v%></a>
-        </li>
-      <% } %> 
-    </ul>
+  <div class="col-md-1" style="margin-top: 20px">
+
+    <div class="tabbable tabs-left tabs-left-please">
+      <ul class="nav nav-tabs" style="margin-top: 10px; font-size: 12px">
+        <% {:admins => 'Admins', :others => 'Others', :notification_level_none => 'Notifications off', :never_signed_in => 'Never signed in', :no_affiliations => 'No affiliations', :no_picture => 'No picture', :connected_to_twitter => 'Connected to Twitter', :geocoding_failed => 'Geocoding failed'}.each { |k,v| %>
+          <li <%= 'class="active"' if @view == k %>>
+            <a href="?view=<%=k%>"><%=v%></a>
+          </li>
+        <% } %> 
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-7" style="margin-top: 20px">
 
     <style>#members td { padding: 0.5em }</style>
     <table id="members" >
@@ -68,8 +74,8 @@
     <h2>Add a member</h2>
     <div id="add-single">
       <p><a href="javascript:;" onclick="$('#add-single').hide();
-          $('#add-multiple').show();">Add multiple</a></p>
-      <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
+            $('#add-multiple').show();">Add multiple</a></p>
+        <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
         <div class="form-group">
           <label class="sr-only">Name</label>
           <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>

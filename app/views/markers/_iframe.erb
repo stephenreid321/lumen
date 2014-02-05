@@ -36,12 +36,12 @@
         var bounds = new google.maps.LatLngBounds();
 
         var points = []
-<% points.each { |point| if [:lat, :lng, :name].all? { |m| point.respond_to?(m) and point.send(m) } %>
+<% points.each { |point| if point.coordinates and point.name %>
             points.push({
               id: '<%=point.id%>',
               lat: <%=point.lat%>,
               lng: <%=point.lng%>,
-              color: '<%= case point.class; when Organisation; 'E43D3D'; when Account; '3DA2E4'; else '3DE472'; end %>',
+              color: '<%= {:organisation => 'E43D3D', :account => '3DA2E4', :marker => '3DE472'}[point.class.to_s.downcase.to_sym] %>',
               name: "<%=point.name%>",
               content: '<%=js_escape_html(partial "markers/#{point.class.to_s.underscore}".to_sym, :object => point)%>'
             })

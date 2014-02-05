@@ -15,208 +15,20 @@
 
     <% form_for @account, @account.new_record? ? '/me/new' : '/me/edit', :class => 'form-horizontal', :multipart => true do |f| %>
 
-      <div class="form-group <%= 'has-error' if !f.error_message_on(:name).blank? %>">
-        <label class="control-label col-md-3">Name</label>
-        <div class="col-md-6">      
-          <%=f.text_field :name, :class => 'form-control' %>
-          <% if !f.error_message_on(:name).blank? %>
-            <p class="help-block"><%= f.error_message_on :name, :prepend => 'Name' %></p>
-          <% end %>
-        </div>
-      </div>        
-
-      <div class="form-group <%= 'has-error' if !f.error_message_on(:affiliations).blank? %>">
-        <label class="control-label col-md-3">
-          Affiliations
-          <% if fragment = Fragment.find_by(slug: 'tip-affiliations') %>
-            <i id="tip-affiliations" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
-            <script>
-              $(function() {
-                $('#tip-affiliations').tooltip({placement: 'right'});
-              });
-            </script>
-          <% end %>
-        </label>
-        <div class="col-md-9">             
-          <div id="affiliations">
-            <% f.fields_for :affiliations do |o| %>
-              <div class="affiliation">
-                <% if fragment = Fragment.find_by(slug: 'affiliation-positions') %>
-                  <%= o.select :title, :options => fragment.body.split(','), :class => 'form-control' %>
-                <% else %>
-                  <%= o.text_field :title, :class => 'form-control', :placeholder => 'Position' %>
-                <% end %>
-                <span class="at"> at </span>
-                <%= o.text_field :organisation_name, :class => 'form-control typeahead', :value => o.object.try(:organisation).try(:name), :placeholder => tt('Organisation'), :autocomplete => 'off' %>
-                <% unless o.object.new_record? %>
-                  <span>
-                    <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked', true).closest('.affiliation').hide()" class="fa fa-times"></i>
-                    <%= o.check_box '_destroy', :style => 'display: none' %>
-                  </span>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
-          <style>
-            .affiliation { margin-bottom: 10px }
-            .affiliation input, .affiliation select { width: 40%; display: inline }
-            .affiliation .at { margin: 0 5px }
-          </style>
-          <script>
-            $(function() {
-              var icon = $('<i style="cursor: pointer" class="fa fa-plus-square"></i>');
-              $(icon).click(function() {
-                var c = $('.affiliation').length
-  <% if fragment = Fragment.find_by(slug: 'affiliation-positions') %>
-                  var i = $('<select/>');
-                  i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
-                  i.attr('id', 'account_affiliations_attributes_' + c + '_title');
-    <% fragment.body.split(',').each { |ap| %>
-                    i.append('<option value="<%=ap%>"><%=ap%></option>')
-    <% } %>
-                  i.addClass('form-control');
-  <% else %>
-                  var i = $('<input type="text" />');
-                  i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
-                  i.attr('id', 'account_affiliations_attributes_' + c + '_title');
-                  i.attr('placeholder', 'Position');
-                  i.addClass('form-control');
-  <% end %>
-                var j = $('<input type="text" />');
-                j.attr('name', 'account[affiliations_attributes][' + c + '][organisation_name]');
-                j.attr('id', 'account_affiliations_attributes_' + c + '_organisation_name');
-                j.attr('placeholder', '<%=tt('Organisation')%>');
-                j.addClass('form-control');
-                j.addClass('typeahead');
-                j.prop('autocomplete', 'off');
-                j.typeahead({source: organisations});
-                var d = $('<div class="affiliation"/>');
-                i.appendTo(d);
-                $('<span class="at"> at </span>').appendTo(d);
-                j.appendTo(d);
-                d.appendTo('#affiliations');
-                i.focus();
-              });
-              icon.insertAfter('#affiliations');
-              var organisations = <%=Organisation.all.select { |o| o.affiliations.count > 0 }.map { |o| o.name }.to_json %>;
-              $('.typeahead').typeahead({source: organisations});
-              if ($('.affiliation').length == 0)
-                $(icon).click();
-            });
-          </script>
-        </div>
-      </div>     
-
-      <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
-        <label class="control-label col-md-3">
-          Location
-          <% if fragment = Fragment.find_by(slug: 'tip-location') %>
-            <i id="tip-location" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
-            <script>
-              $(function() {
-                $('#tip-location').tooltip({placement: 'right'});
-              });
-            </script>
-          <% end %>        
-        </label>
-        <div class="col-md-6">      
-          <%=f.text_field :location, :class => 'form-control' %>
-          <% if !f.error_message_on(:location).blank? %>
-            <p class="help-block"><%= f.error_message_on :location, :prepend => 'Location' %></p>
-          <% end %>
-        </div>
-      </div>      
-
-      <div class="form-group <%= 'has-error' if !f.error_message_on(:email).blank? %>">
-        <label class="control-label col-md-3">
-          Email
-        </label>        
-        <div class="col-md-6">      
-          <%=f.text_field :email, :class => 'form-control' %>
-          <% if !f.error_message_on(:email).blank? %>
-            <p class="help-block"><%= f.error_message_on :email, :prepend => 'Email' %></p>
-          <% end %>
-        </div>
-      </div>  
-
-      <div class="form-group <%= 'has-error' if !f.error_message_on(:phone).blank? %>">
-        <label class="control-label col-md-3">Phone</label>
-        <div class="col-md-6">      
-          <%=f.text_field :phone, :class => 'form-control' %>
-          <% if !f.error_message_on(:phone).blank? %>
-            <p class="help-block"><%= f.error_message_on :phone, :prepend => 'Phone' %></p>
-          <% end %>
-        </div>
-      </div>    
-
-      <div class="form-group <%= 'has-error' if !f.error_message_on(:expertise).blank? %>">
-        <label class="control-label col-md-3">
-          Areas of expertise
-        </label>
-        <div class="col-md-6">      
-          <%=f.text_field :expertise, :class => 'form-control', :placeholder => 'e.g. talking to the media, fundraising' %>
-          <% if !f.error_message_on(:expertise).blank? %>
-            <p class="help-block"><%= f.error_message_on :expertise, :prepend => 'Expertise' %></p>
-          <% end %>
-        </div>
-      </div>     
-
-      <div class="form-group <%= 'has-error' if !f.error_message_on(:picture).blank? %>">
-        <label class="control-label col-md-3">Picture</label>
-        <div class="col-md-8">       
-          <% if !@account.picture or (!@account.persisted? and !@provider) %>
-            <%= f.file_field :picture %>  
-          <% else %>            
-            <img style="display: block; max-height: 200px; margin-bottom: 10px" src="<%= @account.persisted? ? @account.picture.url : @provider.image.call(session['omniauth.auth'])%>">
-            <div>
-              <%= f.file_field :picture, :style => 'display: inline' %>  
-            </div>
-            <div>
-              <span class="file-option">Remove</span> <%= f.check_box :remove_picture %>
-            </div>
-          <% end %>    
-          <% if @account.persisted? and !@account.picture %>
-            <p class="hint help-block">Connect an account below to automatically grab a picture</p>
-          <% end %>               
-          <% if !f.error_message_on(:picture).blank? %>
-            <p class="help-block"><%= f.error_message_on :picture, :prepend => 'Picture' %></p>
-          <% end %>            
-        </div>
-      </div>
-
-      <% if @account.persisted? or !session['omniauth.auth'] %>
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:password).blank? %>">
-          <label class="control-label col-md-3">Password</label>
-          <div class="col-md-6">      
-            <%=f.password_field :password, :class => 'form-control' %>
-            <% if @account.persisted? %>
-              <p class="hint help-block">Leave blank to keep existing password</p>
-            <% elsif @provider %>          
-              <p class="hint help-block">Set a password in case you ever have problems signing in with your <%=@provider.display_name%> account</p>
-            <% end %>
-            <% if !f.error_message_on(:password).blank? %>
-              <p class="help-block"><%= f.error_message_on :password, :prepend => 'Password' %></p>
-            <% end %>
-          </div>
-        </div>  
-
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:password_confirmation).blank? %>">
-          <label class="control-label col-md-3">Password again</label>
-          <div class="col-md-6">      
-            <%=f.password_field :password_confirmation, :class => 'form-control' %>
-            <% if !f.error_message_on(:password_confirmation).blank? %>
-              <p class="help-block"><%= f.error_message_on :password_confirmation, :prepend => 'Password' %></p>
-            <% end %>
-          </div>
-        </div>  
-      <% end %>
-
-      <div class="form-group">
-        <div class="col-md-offset-3 col-md-8">
-          <button class="btn btn-primary" type="submit"><%= @account.new_record? ? 'Create account' : 'Update account' %></button>
-        </div>
-      </div>       
-
+      <%= f.text_block :name %>
+      <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
+      <%= f.text_block :location, tip: Fragment.find_by(slug: 'tip-location').try(:body) %>
+      <%= f.text_block :email %>
+      <%= f.text_block :phone %>
+      <%= f.text_block :expertise, placeholder: 'e.g. talking to the media, fundraising' %>
+      <% ExtraFields.fields(Account).each { |fieldname, fieldtype| %> 
+        <%= f.send("#{fieldtype}_block", fieldname) %>
+      <% } %>        
+      <%= f.image_block :picture, rotate: false, hint: ('Connect an account below to automatically grab a picture' if !@account.picture) %>
+      <%= f.password_block :password %>
+      <%= f.text_block :password_confirmation %>
+      <%= f.submit_block %>
+      
     <% end %>
 
     <script>
@@ -225,34 +37,29 @@
       });
     </script>
     <% Account.providers.each { |provider| %>
-      <% if @account.persisted? or (session['omniauth.auth'] and session['omniauth.auth']['provider'] == provider.omniauth_name) %>
-        <div class="row" style="margin-bottom: 10px">
-          <div class="col-md-3" style="text-align: right"><i class="fa fa-<%=provider.icon%>"></i></div>
-          <div class="col-md-8">   
-            <div class="row">
-              <% if connection = @account.connections.select { |connection| connection.provider == provider.display_name }[0] %>
-                <a class="col-md-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(connection.omniauth_hash) %>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
-                <% if current_account %>
-                  <div class="col-md-3">
-                    <a class="use-picture btn btn-default" href="/me/<%=provider.omniauth_name%>/use_picture" data-content="<img src='<%=provider.image.call(connection.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
-                  </div>
-                  <div class="col-md-3">
-                    <a class="btn btn-default" href="/me/<%=provider.omniauth_name%>/disconnect">Disconnect</a>
-                  </div>
-                <% end %>                
-              <% else %>
-                <span class="col-md-4" style="margin-top: 5px">Not connected</span>
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-md-3" style="text-align: right"><i class="fa fa-<%=provider.icon%>"></i></div>
+        <div class="col-md-8">   
+          <div class="row">
+            <% if connection = @account.connections.select { |connection| connection.provider == provider.display_name }[0] %>
+              <a class="col-md-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(connection.omniauth_hash) %>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
+              <% if current_account %>
                 <div class="col-md-3">
-                  <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+                  <a class="use-picture btn btn-default" href="/me/<%=provider.omniauth_name%>/use_picture" data-content="<img src='<%=provider.image.call(connection.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
                 </div>
-              <% end %>
-              <% if !@account.persisted? %>
-                <p style="clear:both" class="hint help-block">You can connect other accounts after signing up</p>
-              <% end %>
-            </div>
+                <div class="col-md-3">
+                  <a class="btn btn-default" href="/me/<%=provider.omniauth_name%>/disconnect">Disconnect</a>
+                </div>
+              <% end %>                
+            <% else %>
+              <span class="col-md-4" style="margin-top: 5px">Not connected</span>
+              <div class="col-md-3">
+                <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+              </div>
+            <% end %>
           </div>
         </div>
-      <% end %>
+      </div>
     <% } %>    
 
   </div>

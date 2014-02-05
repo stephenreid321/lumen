@@ -34,6 +34,14 @@
         </li>
       <% } %>
     </ul>
+    
+    <dl class="dl-horizontal">
+      <% ExtraFields.fields(Account).each { |fieldname, fieldtype| %>
+        <dt><%=Account.human_attribute_name(fieldname)%></dt>
+        <dd><%=ExtraFields.display(fieldtype, @account.send(fieldname)) %></dd> 
+      <% } %>
+    </dl>
+
   </div>
   <div class="col-md-4">
     <% if @account.affiliations.any? { |affiliation| affiliation.organisation.address } %>

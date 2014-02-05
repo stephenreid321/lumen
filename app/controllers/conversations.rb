@@ -6,7 +6,7 @@ Lumen::App.controllers do
     @conversation = @group.conversations.create!(subject: params[:subject])
     @conversation_post = @conversation.conversation_posts.create!(:body => params[:body], :account => current_account)        
     if params[:attachment]
-      @conversation_post.attachments.create! :file => params[:attachment], :file_name => request.POST['attachment'][:filename]
+      @conversation_post.attachments.create! :file => params[:attachment]
     end    
     @conversation_post.send_notifications!
     redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
@@ -23,7 +23,7 @@ Lumen::App.controllers do
     membership_required!(@conversation.group)
     @conversation_post = @conversation.conversation_posts.create!(:body => params[:body], :account => current_account)
     if params[:attachment]
-      @conversation_post.attachments.create! :file => params[:attachment], :file_name => request.POST['attachment'][:filename]
+      @conversation_post.attachments.create! :file => params[:attachment]
     end
     @conversation_post.send_notifications!
     redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"

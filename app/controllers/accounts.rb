@@ -10,7 +10,7 @@ Lumen::App.controllers do
     @org = params[:org]
     @q = []
     @q << {:name => /#{@name}/i} if @name
-    @q << {:expertise => /#{@exp}/i} if @exp    
+    @q << {:expertise => /#{@exp}/i} if @exp 
     @q << {:id.in => Affiliation.where(organisation_id: Organisation.find_by(name: @org)).only(:account_id).map(&:account_id)} if @org        
     @accounts = case scope
     when 'network'

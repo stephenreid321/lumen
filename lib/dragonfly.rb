@@ -1,7 +1,7 @@
     
 Dragonfly.app(:files).configure do
   plugin :imagemagick
-  url_format '/media/:job/:basename.:format'
+  url_format '/media/:job/:name'
   
   case Padrino.env
   when :development

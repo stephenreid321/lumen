@@ -25,6 +25,7 @@ module Lumen
     
     set :sessions, :expire_after => 1.year
     set :public_folder, Padrino.root('app', 'assets')
+    set :default_builder, 'ActivateFormBuilder'
         
     before do
       redirect "http://#{ENV['DOMAIN']}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']

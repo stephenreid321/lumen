@@ -28,7 +28,7 @@
             <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>            
             <ul class="fa-ul">
               <% conversation_post.attachments.each { |attachment| %>
-                <li><i class="fa fa-li fa-paperclip"></i><a href="<%=attachment.file.url%>"><%=attachment.file_name%></a></li>
+                <li><i class="fa fa-li fa-paperclip"></i><a href="<%=attachment.file.url%>"><%=attachment.file.name%></a></li>
               <% } %>
             </ul>
 

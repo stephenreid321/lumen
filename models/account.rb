@@ -17,6 +17,8 @@ class Account
   field :coordinates, :type => Array
   field :expertise, :type => String
   
+  ExtraFields.set(self)
+  
   include Geocoder::Model::Mongoid
   geocoded_by :location  
   def lat; coordinates[1] if coordinates; end  
@@ -130,7 +132,7 @@ class Account
       :expertise => :text,
       :affiliated => :check_box,
       :affiliations => :collection
-    }
+    }.merge(ExtraFields.fields(self))
   end
   
   def self.filter_options
@@ -145,6 +147,13 @@ class Account
       :password => 'Leave blank to keep existing password'      
     }
   end   
+  
+  def self.human_attribute_name(attr, options={})  
+    {
+      :expertise => 'Areas of expertise',
+      :password_confirmation => "Password again"
+    }[attr.to_sym] || super  
+  end     
            
   def self.time_zones
     ['']+ActiveSupport::TimeZone::MAPPING.keys.sort

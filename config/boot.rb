@@ -10,6 +10,6 @@ Bundler.require(:default, PADRINO_ENV)
 require 'net/imap'
 
 Padrino.load!
-
+  
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")
 Mongoid.raise_not_found_error = false

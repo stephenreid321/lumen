@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/mislav/will_paginate.git
-  revision: 217b1a0212d378ddfd4268707e4ea732a1732971
+  revision: ca7d45f955066f0a01d500769a8efbb6acc4032c
   specs:
     will_paginate (3.0.4)
 
@@ -23,7 +23,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: fa8dc0c223e259d36fe4ed31f5117faa1b181f81
+  revision: f675a50e6c96909eff1764ff17931ca53eee44df
   specs:
     activate-admin (0.0.1)
       heroku-api
@@ -117,7 +117,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     net-http-digest_auth (1.4)
-    net-http-persistent (2.9.1)
+    net-http-persistent (2.9.2)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.8.0)

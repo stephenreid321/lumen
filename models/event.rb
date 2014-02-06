@@ -50,6 +50,20 @@ class Event
     }
   end
   
+  def self.human_attribute_name(attr, options={})  
+    {
+      :name => 'Event name',
+      :organisation_id => 'Host organisation',
+      :start_time => 'From',
+      :end_time => 'To',
+      :location => 'Where',
+      :more_info => 'Link to full event details',
+      :reason => 'Members of this group should come because… (optional)',
+      :publicity_tweet => 'What should people tweet to publicise this event?',
+      :start_conversation => 'Notify the group about the addition of this event?'
+    }[attr.to_sym] || super  
+  end    
+  
   def self.ticketings
     ['No ticket required','Free, but please RSVP', 'Ticket required']
   end

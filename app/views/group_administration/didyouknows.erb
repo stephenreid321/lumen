@@ -35,23 +35,23 @@
       <div class="form-group">
         <%= text_area_tag :body, :class => 'form-control' %>
       </div>    
-      <%= submit_tag 'Add', :class => 'btn btn-default' %>   
+      <button type="submit" class="btn btn-default">Add</button>
     <% end %> 
-      <p style="margin-top: 10px">
-        The following patterns are recognised and replaced:
-      </p>
-      <dl>
-        <dt>[conversation_url]</dt>
-        <dd>URL of the conversation</dd>
-        <dt>[members]</dt>
-        <dd>Number of members of the group <em>e.g. <%=pluralize(@group.memberships.count,'member')%></em></dd>
-        <dt>[upcoming_events]</dt>
-        <dd>Number of upcoming events <em>e.g. <%=pluralize(@group.events.where(:start_time.gt => Time.now).count,'upcoming event')%></em></dd>  
-        <dt>[most_recently_updated_url]</dt>
-        <dd>URL of the member with the most recently updated profile</dd>  
-        <dt>[most_recently_updated_name]</dt>
-        <dd>Name of the member with the most recently updated profile</dd>  
-      </dl>      
+    <p style="margin-top: 10px">
+      The following patterns are recognised and replaced:
+    </p>
+    <dl>
+      <dt>[conversation_url]</dt>
+      <dd>URL of the conversation</dd>
+      <dt>[members]</dt>
+      <dd>Number of members of the group <em>e.g. <%=pluralize(@group.memberships.count,'member')%></em></dd>
+      <dt>[upcoming_events]</dt>
+      <dd>Number of upcoming events <em>e.g. <%=pluralize(@group.events.where(:start_time.gt => Time.now).count,'upcoming event')%></em></dd>  
+      <dt>[most_recently_updated_url]</dt>
+      <dd>URL of the member with the most recently updated profile</dd>  
+      <dt>[most_recently_updated_name]</dt>
+      <dd>Name of the member with the most recently updated profile</dd>  
+    </dl>      
 
 
   </div>

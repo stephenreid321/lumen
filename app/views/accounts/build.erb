@@ -7,7 +7,7 @@
 
 
 <div class="row">
-  <div class="col-md-8 col-md-offset-2">
+  <div class="col-md-6 col-md-offset-3">
 
     <% if @account.sign_ins.count == 1 %>
       <%= Fragment.find_by(slug: 'first-time').try(:body) %>
@@ -22,7 +22,7 @@
       <%= f.text_block :phone %>
       <%= f.text_block :expertise, placeholder: 'e.g. talking to the media, fundraising' %>
       <% ExtraFields.fields(Account).each { |fieldname, fieldtype| %> 
-        <%= f.send("#{fieldtype}_block", fieldname) %>
+        <%= f.send("#{fieldtype}_block", fieldname, div_class: ('col-md-9' if [:wysiwyg, :textarea].include?(fieldtype))) %>
       <% } %>        
       <%= f.image_block :picture, rotate: false, hint: ('Connect an account below to automatically grab a picture' if !@account.picture) %>
       <%= f.password_block :password %>

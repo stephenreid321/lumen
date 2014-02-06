@@ -1,7 +1,7 @@
 $(function() {
 
   $("select.chosen").chosen({allow_single_deselect: true});
-  
+
   $('textarea.wysiwyg').wysihtml5({html: true});
 
   $(window).resize(function() {
@@ -12,5 +12,9 @@ $(function() {
     }
   });
   $(window).resize();
+
+  $('form').submit(function() {
+    $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
+  });
 
 });

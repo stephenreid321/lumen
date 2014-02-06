@@ -14,9 +14,9 @@
 <% else %>
 
   <ol class="breadcrumb">
-  <% if current_account.memberships.count > 1 %>
-    <li><a href="/">Groups</a></li>
-  <% end %>
+    <% if current_account.memberships.count > 1 %>
+      <li><a href="/">Groups</a></li>
+    <% end %>
     <li>
       <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
     </li>
@@ -40,191 +40,63 @@
 
   <div class="row" style="margin-top: 10px">
     <div class="col-md-6 col-md-offset-3">
+      
+      <style>
+        .time { display: none }
+        #event_publicity_tweet { height: 8em }
+      </style>
+      <script>
+        $(function() {
+          var add = $('<a href="javascript:;" style="margin-left: 5px">Add a time</a>');
+          $(add).click(function() {
+            $('.time').show();
+            $('#event_consider_time').prop('checked', true);
+            $(this).hide();
+          });
+          $(add).insertBefore($('.time').first());
+          if ($('#event_consider_time').prop('checked'))
+            $(add).click();
+
+          $("input[name='event[ticketing]']").click(function() {
+            if ($(this).val() == 'No ticket required') {
+              $('#tickets-link-div').hide();
+              $('#tickets-link-div input').val('');
+            } else if ($(this).val() == 'Free, but please RSVP') {
+              $('#tickets-link-div').show();
+              $('#tickets-link-div .control-label').html('Link/email to RSVP');
+            } else if ($(this).val() == 'Ticket required') {
+              $('#tickets-link-div').show();
+              $('#tickets-link-div .control-label').html('Link/email for tickets');
+            }
+          });
+          $("input[name='event[ticketing]']:checked").click();
+        });
+      </script>        
 
       <% form_for @event, @event.new_record? ? "/groups/#{@group.slug}/calendar/add" : "/groups/#{@group.slug}/calendar/#{@event.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:name).blank? %>">
-          <label class="control-label col-md-3">Event name</label>
-          <div class="col-md-6">      
-            <%=f.text_field :name, :class => 'form-control' %>
-            <% if !f.error_message_on(:name).blank? %>
-              <p class="help-block"><%= f.error_message_on :name, :prepend => Event.human_attribute_name(:name) %></p>
-            <% end %>
-          </div>
-        </div>  
-      
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:start_time).blank? %>">
-          <label class="control-label col-md-3">From</label>
-          <div class="col-md-9">      
-            <%= date_select_tags 'event[start_time]', :class => 'form-control', :value => @event.start_time %>
-            <span class="time">
-              @ <%= time_select_tags 'event[start_time]', :class => 'form-control', :fives => true, :value => @event.start_time %>
-            </span>          
-            <% if !f.error_message_on(:start_time).blank? %>
-              <p class="help-block"><%= f.error_message_on :start_time, :prepend => Event.human_attribute_name(:start_time) %></p>
-            <% end %>
-          </div>
-        </div>           
-
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:end_time).blank? %>">
-          <label class="control-label col-md-3">To</label>
-          <div class="col-md-9">      
-            <%= date_select_tags 'event[end_time]', :class => 'form-control', :value => @event.end_time %>
-            <span class="time">
-              @ <%= time_select_tags 'event[end_time]', :class => 'form-control', :fives => true, :value => @event.end_time %>
-            </span>
-            <% if !f.error_message_on(:end_time).blank? %>
-              <p class="help-block"><%= f.error_message_on :end_time, :prepend => Event.human_attribute_name(:end_time) %></p>
-            <% end %>          
-          </div>
-        </div>     
-
+        <%= f.text_block :name %>
+        <%= f.datetime_block :start_time, div_class: 'col-md-9', fives: true %>
+        <%= f.datetime_block :end_time, div_class: 'col-md-9', fives: true %>
         <%= f.check_box :consider_time, :style => 'display: none'%>
-
-        <style>
-          .time { display: none }
-        </style>
-        <script>
-          $(function() {          
-            var add = $('<a href="javascript:;" style="margin-left: 5px">Add a time</a>');         
-            $(add).click(function() {
-              $('.time').show();
-              $('#event_consider_time').prop('checked',true);
-              $(this).hide();
-            });
-            $(add).insertBefore($('.time').first());
-            if ($('#event_consider_time').prop('checked'))
-              $(add).click();
-          });
-        </script> 
-        
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:location).blank? %>">
-          <label class="control-label col-md-3">Where</label>
-          <div class="col-md-6">      
-            <%=f.text_field :location, :class => 'form-control' %>
-            <% if !f.error_message_on(:location).blank? %>
-              <p class="help-block"><%= f.error_message_on :location, :prepend => Event.human_attribute_name(:location) %></p>
-            <% end %>
-          </div>
-        </div>      
-
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:organisation_id).blank? %>">
-          <label class="control-label col-md-3">Host organisation</label>
-          <div class="col-md-6">      
-            <%=f.select :organisation_id, :options => ['']+Organisation.order_by(:name.asc).map { |organisation| [organisation.name, organisation.id] }, :class => 'form-control' %>
-            <% if !f.error_message_on(:organisation_id).blank? %>
-              <p class="help-block"><%= f.error_message_on :organisation_id, :prepend => Event.human_attribute_name(:organisation_id) %></p>
-            <% end %>
-          </div>
-        </div>      
-
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:details).blank? %>">
-          <label class="control-label col-md-3"><%= Event.human_attribute_name(:details) %></label>
-          <div class="col-md-9">   
-            <script>$(function() { $('#event_details').wysihtml5(); });</script>
-            <%=f.text_area :details, :class => 'form-control', :style => 'height: 8em' %>
-            <% if !f.error_message_on(:details).blank? %>
-              <p class="help-block"><%= f.error_message_on :details, :prepend => Event.human_attribute_name(:details) %></p>
-            <% end %>
-          </div>
-        </div> 
-
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:more_info).blank? %>">
-          <label class="control-label col-md-3">Link to full event details</label>
-          <div class="col-md-6">      
-            <%=f.text_field :more_info, :class => 'form-control' %>
-            <% if !f.error_message_on(:more_info).blank? %>
-              <p class="help-block"><%= f.error_message_on :more_info, :prepend => Event.human_attribute_name(:more_info) %></p>
-            <% end %>
-          </div>
-        </div>       
-
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:ticketing).blank? %>">
-          <label class="control-label col-md-3">Ticketing</label>
-          <div class="col-md-6">    
-            <% Event.ticketings.each { |option| %>
-              <div class="radio">
-                <label>
-                  <%=f.radio_button :ticketing, :value => option, :checked => (option == @event.ticketing) %>
-                  <%=option%>
-                </label>
-              </div>            
-            <% } %>
-            <% if !f.error_message_on(:ticketing).blank? %>
-              <p class="help-block"><%= f.error_message_on :ticketing, :prepend => Event.human_attribute_name(:ticketing) %></p>
-            <% end %>
-          </div>
-        </div>    
-
-        <script>
-          $(function() {
-            $("input[name='event[ticketing]']").click(function() {
-              if($(this).val() == 'No ticket required') {
-                $('#tickets-link-div').hide()
-                $('#tickets-link-div input').val('')
-              } else if($(this).val() == 'Free, but please RSVP') {
-                $('#tickets-link-div').show();
-                $('#tickets-link-div > .control-label').html('Link/email to RSVP')
-              } else if($(this).val() == 'Ticket required') {
-                $('#tickets-link-div').show();
-                $('#tickets-link-div > .control-label').html('Link/email for tickets')
-              }
-            });
-            $("input[name='event[ticketing]']:checked").click();
-          });
-        </script>
-
-        <div id="tickets-link-div" style="display:none" class="form-group <%= 'has-error' if !f.error_message_on(:tickets_link).blank? %>">
-          <label class="control-label col-md-3"></label>
-          <div class="col-md-6">      
-            <%=f.text_field :tickets_link, :class => 'form-control' %>
-            <% if !f.error_message_on(:tickets_link).blank? %>
-              <p class="help-block"><%= f.error_message_on :tickets_link, :prepend => Event.human_attribute_name(:tickets_link) %></p>
-            <% end %>
-          </div>
-        </div>          
-                                
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:reason).blank? %>">
-          <label class="control-label col-md-3">Members of this group should come because&hellip; (optional)</label>
-          <div class="col-md-6">      
-            <%=f.text_field :reason, :class => 'form-control' %>
-            <% if !f.error_message_on(:reason).blank? %>
-              <p class="help-block"><%= f.error_message_on :reason, :prepend => Event.human_attribute_name(:reason) %></p>
-            <% end %>
-          </div>
-        </div> 
-        
-        <div class="form-group <%= 'has-error' if !f.error_message_on(:publicity_tweet).blank? %>">
-          <label class="control-label col-md-3">What should people tweet if they want to publicise this event?</label>
-          <div class="col-md-6">      
-            <%=f.text_area :publicity_tweet, :class => 'form-control', :rows => 3 %>
-            <% if !f.error_message_on(:publicity_tweet).blank? %>
-              <p class="help-block"><%= f.error_message_on :publicity_tweet, :prepend => Event.human_attribute_name(:publicity_tweet) %></p>
-            <% end %>
-          </div>
-        </div>           
-
+        <%= f.text_block :location %>           
+        <%= f.select_block :organisation_id, options: ['']+Organisation.order_by(:name.asc).map { |organisation| [organisation.name, organisation.id] } %>
+        <%= f.wysiwyg_block :details, div_class: 'col-md-9' %>        
+        <%= f.text_block :more_info %>        
+        <%= f.radio_block :ticketing %>
+        <div id="tickets-link-div" style="display:none">
+          <%= f.text_block :tickets_link %>
+        </div>
+        <%= f.text_block :reason %>        
+        <%= f.text_area_block :publicity_tweet, div_class: 'col-md-9' %>
         <% if @event.new_record? %>
-          <div class="form-group <%= 'has-error' if !f.error_message_on(:start_conversation).blank? %>">
-            <label class="control-label col-md-3">Notify the group about the addition of this event?</label>
-            <div class="col-md-6">      
-              <%=f.check_box :start_conversation %>
-              <% if !f.error_message_on(:start_conversation).blank? %>
-                <p class="help-block"><%= f.error_message_on :start_conversation, :prepend => Event.human_attribute_name(:start_conversation) %></p>
-              <% end %>
-            </div>
-          </div>     
+          <%= f.check_box_block :start_conversation %>    
         <% end %>
 
-        <div class="form-group">
-          <div class="col-md-offset-3 col-md-8">
-            <button class="btn btn-primary" type="submit"><%= @event.new_record? ? 'Add event' : 'Update event' %></button>
-            <% if @event.persisted? %><a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/destroy" data-confirm="Are you sure you want to delete this event?" class="btn btn-danger" href="">Delete event</a><% end %>
-          </div>
-        </div>       
+        <%= f.submit_block destroy_url: "/groups/#{@group.slug}/calendar/#{@event.id}/destroy" %>
 
       <% end %>
-
+   
     </div>
   </div>
 

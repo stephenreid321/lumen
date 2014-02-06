@@ -39,10 +39,10 @@
       <h2>3. Add a message</h2>
       <textarea name="message" style="margin-bottom: 10px" class="form-control" rows="6" id="message-textarea"></textarea>
     
-      <h2>4. Preview <button id="preview-button" class="btn btn-default"><i title="Preview" class="fa fa-refresh"></i></button></h2>      
+      <h2>4. <button id="preview-button" class="btn btn-default"><h2 style="padding:0; margin:0">Preview</h2></button></h2>      
       <iframe id="message-iframe" style="width: 100%; height: 500px; border: 1px solid #ccc" src="/groups/<%=@group.slug%>/digest?email=true&review=true"></iframe>
 
-      <h2>5. Send <button class="btn btn-default"><i title="Send" class="fa fa-envelope"></i></button></h2>      
+      <h2>5. <button type="submit" class="btn btn-default"><h2 style="padding:0; margin:0">Send</h2></button></h2>      
       
     </form>
 

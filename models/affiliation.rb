@@ -18,10 +18,14 @@ class Affiliation
     end
   end
   
-  after_save :update_affiliated_on_account
-  # after_destroy :update_affiliated_on_account # says account is nil..?
-  def update_affiliated_on_account
-    account.update_affiliated!
+  after_create do
+    account.update_attribute(:affiliated, true)
+  end
+  before_destroy do
+    account.update_attribute(:affiliated, false) if account.affiliations.count == 1
+  end
+  before_destroy do
+    organisation.destroy if organisation.affiliations.count == 1
   end
    
   validates_presence_of :title, :organisation, :account

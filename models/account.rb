@@ -110,11 +110,7 @@ class Account
     update_attribute(:secret_token, ::BCrypt::Password.create(self.id)) if !self.secret_token
     self.secret_token
   end  
-  
-  def update_affiliated!
-    update_attribute(:affiliated, affiliations.count > 0)
-  end 
-        
+          
   def self.fields_for_index
     [:name, :email, :phone, :created_at]
   end

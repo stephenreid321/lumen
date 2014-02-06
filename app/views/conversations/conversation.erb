@@ -46,8 +46,7 @@
       </span>
       <div class="media-body">
         <% form_tag "/conversations/#{@conversation.slug}/post", :multipart => true do |f| %>        
-          <script>$(function() { $('#post').wysihtml5(); });</script>
-          <%= text_area_tag :body, :class => 'form-control', :id => 'post', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10  %>        
+          <%= text_area_tag :body, :class => 'wysiwyg form-control', :id => 'post', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10  %>        
           <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();$('#attach').show();$('#attach input').click();">Attach a file</a>
           <div style="display:none; margin-bottom: 10px" id="attach">
             <%= file_field_tag :attachment %>

@@ -21,7 +21,7 @@ class Organisation
   has_many :sectorships, :dependent => :destroy
   accepts_nested_attributes_for :sectorships, allow_destroy: true, reject_if: :all_blank
   
-  has_many :affiliations, :dependent => :destroy
+  has_many :affiliations, :dependent => :restrict
   
   def members
     Account.where(:id.in => affiliations.only(:account_id).map(&:account_id))

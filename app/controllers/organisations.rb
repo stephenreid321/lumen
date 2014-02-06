@@ -49,4 +49,10 @@ Lumen::App.controllers do
     end
   end  
   
+  get '/organisations/:id/destroy' do
+    sign_in_required!
+    @organisation = Organisation.find(params[:id]).destroy    
+    redirect '/organisations'
+  end   
+  
 end

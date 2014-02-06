@@ -29,5 +29,11 @@ class Marker
       :address => :text_area
     }
   end
+  
+  def self.human_attribute_name(attr, options={})  
+    {
+      :name => 'Marker name'
+    }[attr.to_sym] || super  
+  end   
     
 end

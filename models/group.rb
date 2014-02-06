@@ -19,7 +19,7 @@ class Group
   field :smtp_sig, :type => String
   
   def smtp_settings
-    {:address => smtp_server, :user_name => smtp_username, :password => smtp_password }
+    {:address => smtp_server, :user_name => smtp_username, :password => smtp_password, :port => 25, :authentication => 'login', :enable_starttls_auto => false}
   end
   
   has_many :conversations, :dependent => :destroy

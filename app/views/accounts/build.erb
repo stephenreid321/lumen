@@ -26,7 +26,7 @@
       <% } %>        
       <%= f.image_block :picture, rotate: false, hint: ('Connect an account below to automatically grab a picture' if !@account.picture) %>
       <%= f.password_block :password %>
-      <%= f.text_block :password_confirmation %>
+      <%= f.password_block :password_confirmation %>
       <%= f.submit_block %>
 
     <% end %>

@@ -11,19 +11,15 @@ class Group
   field :imap_server, :type => String, :default => ENV['DEFAULT_IMAP_SERVER']
   field :imap_username, :type => String
   field :imap_password, :type => String, :default => ENV['DEFAULT_IMAP_PASSWORD']
-  field :imap_ssl, :type => Boolean, :default => false
   
   field :smtp_server, :type => String, :default => ENV['DEFAULT_SMTP_SERVER']
-  field :smtp_port, :type => Integer, :default => 25
-  field :smtp_authentication, :type => String, :default => 'login'
-  field :smtp_enable_starttls_auto, :type => Boolean, :default => false
   field :smtp_username, :type => String
   field :smtp_password, :type => String, :default => ENV['DEFAULT_SMTP_PASSWORD']
   field :smtp_name, :type => String
   field :smtp_sig, :type => String
   
   def smtp_settings
-    {:address => smtp_server, :port => smtp_port, :authentication => smtp_authentication, :enable_starttls_auto => smtp_enable_starttls_auto, :user_name => smtp_username, :password => smtp_password }
+    {:address => smtp_server, :user_name => smtp_username, :password => smtp_password }
   end
   
   has_many :conversations, :dependent => :destroy
@@ -33,27 +29,7 @@ class Group
   has_many :news_summaries, :dependent => :destroy
   has_many :didyouknows, :dependent => :destroy
   has_many :markers, :dependent => :destroy
-  
-  before_validation :smtp_enable_starttls_auto_to_boolean
-  def smtp_enable_starttls_auto_to_boolean
-    if self.smtp_enable_starttls_auto == '0'
-      self.smtp_enable_starttls_auto = false
-    elsif self.smtp_enable_starttls_auto == '1'
-      self.smtp_enable_starttls_auto = true
-    end
-    return true
-  end  
-  
-  before_validation :imap_ssl_to_boolean
-  def imap_ssl_to_boolean
-    if self.imap_ssl == '0'
-      self.imap_ssl = false
-    elsif self.imap_ssl == '1'
-      self.imap_ssl = true
-    end
-    return true
-  end   
-  
+    
   def top_stories(from,to)
     Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
   end
@@ -110,13 +86,9 @@ class Group
       :slug => :text,
       :analytics_conversation_threshold => :text,
       :imap_server => :text,
-      :imap_ssl => :check_box,
       :imap_username => :text,
       :imap_password => :text,   
       :smtp_server => :text,
-      :smtp_port => :text,
-      :smtp_authentication => :text,
-      :smtp_enable_starttls_auto => :check_box,
       :smtp_username => :text,
       :smtp_password => :text,
       :smtp_name => :text,
@@ -184,7 +156,7 @@ class Group
   def check!
     group = self
     logger.info "Attempting to log in as #{group.imap_username}"
-    imap = Net::IMAP.new(group.imap_server, :ssl => group.imap_ssl)
+    imap = Net::IMAP.new(group.imap_server)
     imap.authenticate('LOGIN', group.imap_username, group.imap_password)
     imap.select('INBOX')
     imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|

@@ -18,9 +18,6 @@ Lumen::App.controllers do
       Mail.defaults do
         delivery_method :smtp, {
           :address => ENV['NOREPLY_SERVER'],
-          :port => ENV['NOREPLY_PORT'].to_i,
-          :authentication => ENV['NOREPLY_AUTHENTICATION'],
-          :enable_starttls_auto => (ENV['NOREPLY_STARTTLS_AUTO'] == 'true'),
           :user_name => ENV['NOREPLY_USERNAME'],
           :password => ENV['NOREPLY_PASSWORD']
         }

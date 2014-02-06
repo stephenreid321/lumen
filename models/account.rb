@@ -57,11 +57,8 @@ class Account
            
   # Picture
   dragonfly_accessor :picture, :app => :pictures do
-    after_assign :resize_picture
+    after_assign { |picture| self.picture = picture.thumb('500x500>') }
   end
-  def resize_picture
-    picture.thumb('500x500>')
-  end 
   attr_accessor :rotate_picture_by
   before_validation :rotate_picture
   def rotate_picture

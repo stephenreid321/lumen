@@ -10,7 +10,7 @@ class Account
   field :role, :type => String, :default => 'user'
   field :time_zone, :type => String, :default => 'London'  
   field :has_picture, :type => Boolean
-  field :picture_uid  
+  field :picture_uid, :type => String  
   field :phone, :type => String 
   field :location, :type => String 
   field :coordinates, :type => Array

@@ -6,7 +6,7 @@ class Organisation
   field :name, :type => String
   field :address, :type => String
   field :website, :type => String
-  field :picture_uid  
+  field :picture_uid, :type => String  
   field :coordinates, :type => Array
   
   include Geocoder::Model::Mongoid

@@ -19,7 +19,10 @@ Lumen::App.controllers do
         delivery_method :smtp, {
           :address => ENV['NOREPLY_SERVER'],
           :user_name => ENV['NOREPLY_USERNAME'],
-          :password => ENV['NOREPLY_PASSWORD']
+          :password => ENV['NOREPLY_PASSWORD'],
+          :port => 25,
+          :authentication => 'login',
+          :enable_starttls_auto => false          
         }
       end
       mail = Mail.new(

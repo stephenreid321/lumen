@@ -9,7 +9,6 @@ class Account
   field :crypted_password, :type => String
   field :role, :type => String, :default => 'user'
   field :time_zone, :type => String, :default => 'London'  
-  field :affiliated, :type => Boolean
   field :has_picture, :type => Boolean
   field :picture_uid  
   field :phone, :type => String 
@@ -128,7 +127,6 @@ class Account
       :password_confirmation => :password,
       :location => :text,
       :expertise => :text,
-      :affiliated => :check_box,
       :affiliations => :collection
     }.merge(ExtraFields.fields(self))
   end

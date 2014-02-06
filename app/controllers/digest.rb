@@ -6,7 +6,7 @@ Lumen::App.controllers do
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today
     
     @top_stories = Hash[current_account.news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(@from, @to)[0..2]] }]
-    @new_people = current_account.network.where(:created_at.gte => @from).where(:created_at.lt => @to+1).select { |account| account.affiliated && account.picture }
+    @new_people = current_account.network.where(:created_at.gte => @from).where(:created_at.lt => @to+1).select { |account| account.has_picture }
     @hot_conversations = current_account.conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.count >= 3 }
     @new_events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1).where(:start_time.gte => @to).order_by(:start_time.asc)
     @upcoming_events = current_account.events.where(:start_time.gte => Date.today).where(:start_time.lt => Date.today+7).order_by(:start_time.asc)

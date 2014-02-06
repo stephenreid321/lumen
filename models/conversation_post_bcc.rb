@@ -27,7 +27,7 @@ class ConversationPostBcc
     string.gsub!('[conversation_url]', "http://#{ENV['DOMAIN']}/conversations/#{conversation_post.conversation.slug}")
     string.gsub!('[members]', "#{m = group.memberships.count} #{m == 1 ? 'member' : 'members'}")
     string.gsub!('[upcoming_events]', "#{e = group.events.where(:start_time.gt => Time.now).count} #{e == 1 ? 'upcoming event' : 'upcoming events'}")
-    most_recently_updated_account = group.memberships.map(&:account).select { |account| account.affiliated && account.picture }.sort_by { |account| account.updated_at }.reverse.first || group.memberships.map(&:account).sort_by { |account| account.updated_at }.reverse.first
+    most_recently_updated_account = group.memberships.map(&:account).select { |account| account.has_picture }.sort_by { |account| account.updated_at }.reverse.first || group.memberships.map(&:account).sort_by { |account| account.updated_at }.reverse.first
     string.gsub!('[most_recently_updated_url]', "http://#{ENV['DOMAIN']}/accounts/#{most_recently_updated_account.id}")
     string.gsub!('[most_recently_updated_name]', most_recently_updated_account.name)
     string

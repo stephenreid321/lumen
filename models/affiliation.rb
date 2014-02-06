@@ -17,17 +17,7 @@ class Affiliation
       end
     end
   end
-  
-  after_create do
-    account.update_attribute(:affiliated, true)
-  end
-  before_destroy do
-    account.update_attribute(:affiliated, false) if account.affiliations.count == 1
-  end
-  before_destroy do
-    organisation.destroy if organisation.affiliations.count == 1
-  end
-   
+     
   validates_presence_of :title, :organisation, :account
       
   def self.fields_for_index

@@ -109,7 +109,6 @@ class Group
     {
       :slug => :text,
       :analytics_conversation_threshold => :text,
-      :conversations => :collection,
       :imap_server => :text,
       :imap_ssl => :check_box,
       :imap_username => :text,
@@ -121,7 +120,8 @@ class Group
       :smtp_username => :text,
       :smtp_password => :text,
       :smtp_name => :text,
-      :smtp_sig => :text
+      :smtp_sig => :text,
+      :conversations => :collection
     }
   end
   
@@ -140,7 +140,7 @@ class Group
       agent.post(session_path + "mail/doaddpop.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :password => self.imap_password, :password2 => self.imap_password, :quota => 0)
       # Add outbound user
       agent.post(session_path + "mail/doaddpop.html", :domain => ENV['MAIL_DOMAIN'], :email => "#{self.slug}-noreply", :password => self.imap_password, :password2 => self.imap_password, :quota => 0)
-      # Add forwarder
+      # Add pipe
       agent.post(session_path + "mail/doaddfwd.html", :domain => ENV['MAIL_DOMAIN'], :email => self.slug, :fwdopt => 'pipe', :fwdsystem => ENV['MAILSERV_USERNAME'], :pipefwd => "#{ENV['MAILSERV_NOTIFICATION_SCRIPT']} #{slug}")
     when 'virtualmin-4.04'
       agent = Mechanize.new
@@ -172,7 +172,7 @@ class Group
       form['mailpass'] = self.imap_password
       form['quota'] = 0
       form.submit
-      # Add forwarder
+      # Add pipe
       form = add_alias_page.form_with(:action => 'save_alias.cgi')
       form['complexname'] = "#{self.slug}-pipe"
       form.field_with(:name => 'type_0').option_with(:text => /Feed to program/).click

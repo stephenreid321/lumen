@@ -231,7 +231,7 @@ class Group
               end          
               
               if !nokogiri_parse_fail
-                conversation_post.send_notifications!((mail.to||[]) + (mail.cc||[]))
+                conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)
               end
 
             end

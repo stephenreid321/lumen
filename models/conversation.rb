@@ -35,10 +35,16 @@ class Conversation
     end
   end
   
+  before_validation :hidden_to_boolean
+  def hidden_to_boolean
+    if self.hidden == '0'; self.hidden = false; elsif self.hidden == '1'; self.hidden = true; end; return true
+  end  
+  
   def self.fields_for_form
     {
       :subject => :text,
       :slug => :text,
+      :hidden => :check_box,
       :group_id => :lookup,      
       :conversation_posts => :collection
     }
@@ -53,7 +59,7 @@ class Conversation
   end
   
   def participants
-    Account.where(:id.in => conversation_posts.map(&:account_id))
+    Account.where(:id.in => conversation_posts.where(:hidden.ne => true).map(&:account_id))
   end
 
 end

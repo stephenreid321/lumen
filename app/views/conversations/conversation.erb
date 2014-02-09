@@ -1,7 +1,7 @@
 <ul class="page-options">
   <% if @conversation.group.memberships.find_by(account: current_account).admin? %>
     <li>
-      <a title="Delete conversation" data-confirm="Are you sure you want to delete this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide"><i class="fa fa-times"></i> Delete conversation</a>
+      <a title="Hide conversation" data-confirm="Are you sure you want to hide this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide"><i class="fa fa-times"></i> Hide conversation</a>
     </li>    
   <% end %>
 </ul>
@@ -20,13 +20,16 @@
 
     <h2><%=@conversation.subject%></h2>
 
-    <% @conversation.conversation_posts.order_by(:created_at.asc).each { |conversation_post|  %>
+    <% @conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
       <div class="media">
         <span class="pull-left">
           <img class="media-object" style="width: 32px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
         </span>
         <div class="media-body">
           <div>
+            <% if i > 0 and @conversation.group.memberships.find_by(account: current_account).admin? %>
+              <a style="float: right" title="Hide post" data-confirm="Are you sure you want to hide this post?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide_post/<%=conversation_post.id%>"><i class="fa fa-times"></i> Hide post</a>
+            <% end %>
             <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>            
             <ul class="fa-ul">
               <% conversation_post.attachments.each { |attachment| %>

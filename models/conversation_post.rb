@@ -4,6 +4,7 @@ class ConversationPost
 
   field :body, :type => String
   field :mid, :type => String
+  field :hidden, :type => Boolean, :default => false
   
   belongs_to :conversation
   belongs_to :group
@@ -22,13 +23,14 @@ class ConversationPost
   end
       
   def self.fields_for_index
-    [:body, :mid, :conversation_id, :account_id, :created_at]
+    [:body, :mid, :hidden, :conversation_id, :account_id, :created_at]
   end
    
   def self.fields_for_form
     {
       :body => :text_area,
       :mid => :text,
+      :hidden => :check_box,
       :conversation_id => :lookup,
       :account_id => :lookup,
       :conversation_post_bccs => :collection   
@@ -43,6 +45,11 @@ class ConversationPost
   def touch_conversation
     conversation.update_attribute(:updated_at, Time.now)
   end
+  
+  before_validation :hidden_to_boolean
+  def hidden_to_boolean
+    if self.hidden == '0'; self.hidden = false; elsif self.hidden == '1'; self.hidden = true; end; return true
+  end  
     
   def send_notifications!(exclude = [])
     unless conversation.hidden

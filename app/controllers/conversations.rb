@@ -36,10 +36,18 @@ Lumen::App.controllers do
   
   get '/conversations/:slug/hide' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
-    membership_required!(@conversation.group)
+    group_admins_only!(@conversation.group)
     @conversation.update_attribute(:hidden, true)
-    flash[:notice] = "The conversation was deleted."
+    flash[:notice] = "The conversation was hidden."
     redirect "/groups/#{@conversation.group.slug}"
   end  
+  
+  get '/conversations/:slug/hide_post/:id' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    group_admins_only!(@conversation.group)
+    @conversation.conversation_posts.find(params[:id]).update_attribute(:hidden, true)
+    flash[:notice] = "The post was hidden."
+    redirect "/conversations/#{@conversation.slug}"
+  end    
     
 end

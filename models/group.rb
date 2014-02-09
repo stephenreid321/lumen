@@ -202,7 +202,7 @@ class Group
               
               
             if html.include?('Respond by replying above this line')                
-              if slugs = html.match(/http:\/\/.+\/conversations\/(\w+)/)
+              if slugs = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)
                 conversation = group.conversations.find_by(slug: slugs[-1])
                 html = html.split('Respond by replying above this line')[0]
                 html = html.split(/On.+, .+ wrote:/)[0]

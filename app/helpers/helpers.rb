@@ -49,8 +49,8 @@ Lumen::App.helpers do
   
   def tt(string)
     if f = Fragment.find_by(slug: "tt-#{string.downcase.singularize}")
-      s = f.body
-      s = s.pluralize if string == string.pluralize
+      s = f.body      
+      s = s.split('/').map { |x| x.pluralize }.join('/') if string == string.pluralize
       s = s.capitalize if string == string.capitalize
       s
     else

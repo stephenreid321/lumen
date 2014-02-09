@@ -4,7 +4,6 @@ ruby '2.0.0'
 gem 'puma', '1.6.3'
 gem 'padrino', '0.11.1'
 gem 'tilt', '1.3.7'
-gem 'net-http-persistent', '2.9.1'
 gem 'rake'
 
 # Admin
@@ -37,6 +36,7 @@ gem 'mail'
 gem 'premailer'
 
 # Interacting with other websites
+gem 'net-http-persistent', '2.9.1'
 gem 'mechanize'
 
 # Caching

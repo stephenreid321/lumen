@@ -8,12 +8,13 @@ class Conversation
   
   field :subject, :type => String
   field :slug, :type => Integer
+  field :hidden, :type => Boolean, :default => false
   
   validates_presence_of :subject, :slug, :group
   validates_uniqueness_of :slug
       
   def self.fields_for_index
-    [:subject, :slug, :group_id]
+    [:subject, :hidden, :slug, :group_id]
   end
   
   before_validation :set_slug
@@ -38,7 +39,7 @@ class Conversation
     {
       :subject => :text,
       :slug => :text,
-      :group_id => :lookup,
+      :group_id => :lookup,      
       :conversation_posts => :collection
     }
   end

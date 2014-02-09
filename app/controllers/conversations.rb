@@ -15,7 +15,12 @@ Lumen::App.controllers do
   get '/conversations/:slug' do
     @conversation = Conversation.find_by(slug: params[:slug])
     membership_required!(@conversation.group)
-    erb :'conversations/conversation'
+    if @conversation.hidden
+      flash[:notice] = "That conversation has been deleted."
+      redirect "/groups/#{@conversation.group.slug}"
+    else
+      erb :'conversations/conversation'
+    end
   end
   
   post '/conversations/:slug/post' do
@@ -29,10 +34,10 @@ Lumen::App.controllers do
     redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
   end
   
-  get '/conversations/:slug/destroy' do
+  get '/conversations/:slug/hide' do
     @conversation = Conversation.find_by(slug: params[:slug])
     membership_required!(@conversation.group)
-    @conversation.destroy
+    @conversation.update_attribute(:hidden, true)
     flash[:notice] = "The conversation was deleted."
     redirect "/groups/#{@conversation.group.slug}"
   end  

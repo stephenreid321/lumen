@@ -44,10 +44,12 @@ class ConversationPost
     conversation.update_attribute(:updated_at, Time.now)
   end
     
-  def send_notifications!(exclude = [])    
-    emails = self.conversation.group.memberships.where(:notification_level => 'each').map { |membership| membership.account.email.downcase }
-    emails = emails - exclude.map(&:downcase)
-    self.conversation_post_bccs.create(emails: emails)        
+  def send_notifications!(exclude = [])
+    unless conversation.hidden
+      emails = self.conversation.group.memberships.where(:notification_level => 'each').map { |membership| membership.account.email.downcase }
+      emails = emails - exclude.map(&:downcase)
+      self.conversation_post_bccs.create(emails: emails)
+    end
   end
     
   def body_with_inline_images

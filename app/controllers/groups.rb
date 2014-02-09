@@ -3,7 +3,7 @@ Lumen::App.controllers do
   get '/groups/:slug' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!        
-    @conversations = @group.conversations
+    @conversations = @group.conversations.where(:hidden.ne => true)
     @q = params[:q] if params[:q]        
     if @q
       q = []

@@ -39,7 +39,7 @@ class Group
   end
   
   def hot_conversations(from,to)
-    conversations.where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.count >= 3 }
+    conversations.where(:hidden.ne => true).where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.count >= 3 }
   end
   
   def new_events(from,to)

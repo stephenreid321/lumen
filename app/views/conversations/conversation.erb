@@ -1,7 +1,7 @@
 <ul class="page-options">
   <% if @conversation.group.memberships.find_by(account: current_account).admin? %>
     <li>
-      <a title="Delete conversation" data-confirm="Are you sure you want to delete this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/destroy"><i class="fa fa-times"></i> Delete conversation</a>
+      <a title="Delete conversation" data-confirm="Are you sure you want to delete this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide"><i class="fa fa-times"></i> Delete conversation</a>
     </li>    
   <% end %>
 </ul>

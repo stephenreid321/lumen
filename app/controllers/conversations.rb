@@ -13,7 +13,7 @@ Lumen::App.controllers do
   end   
     
   get '/conversations/:slug' do
-    @conversation = Conversation.find_by(slug: params[:slug])
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     membership_required!(@conversation.group)
     if @conversation.hidden
       flash[:notice] = "That conversation has been deleted."
@@ -24,7 +24,7 @@ Lumen::App.controllers do
   end
   
   post '/conversations/:slug/post' do
-    @conversation = Conversation.find_by(slug: params[:slug])
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     membership_required!(@conversation.group)
     @conversation_post = @conversation.conversation_posts.create!(:body => params[:body], :account => current_account)
     if params[:attachment]
@@ -35,7 +35,7 @@ Lumen::App.controllers do
   end
   
   get '/conversations/:slug/hide' do
-    @conversation = Conversation.find_by(slug: params[:slug])
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     membership_required!(@conversation.group)
     @conversation.update_attribute(:hidden, true)
     flash[:notice] = "The conversation was deleted."

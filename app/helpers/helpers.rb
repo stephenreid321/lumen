@@ -20,14 +20,14 @@ Lumen::App.helpers do
     unless current_account
       flash[:notice] = 'You must sign in to access that page' unless request.path == '/'
       session[:return_to] = request.url
-      request.xhr? ? halt : redirect('/sign_in')
+      request.xhr? ? halt(403, "Not Authorized") : redirect('/sign_in')
     end
   end
   
   def site_admins_only!
     unless current_account and current_account.admin?
       flash[:notice] = 'You must be a site admin to access that page'
-      request.xhr? ? halt : redirect('/')
+      request.xhr? ? halt(403, "Not Authorized") : redirect('/')
     end    
   end
   
@@ -35,7 +35,7 @@ Lumen::App.helpers do
     group = @group if !group
     unless current_account and group and group.memberships.find_by(account: current_account)
       flash[:notice] = 'You must be a member of that group to access that page'
-      request.xhr? ? halt : redirect('/')
+      request.xhr? ? halt(403, "Not Authorized") : redirect('/')
     end        
   end
   
@@ -43,7 +43,7 @@ Lumen::App.helpers do
     group = @group if !group
     unless current_account and group and (membership = group.memberships.find_by(account: current_account)) and membership.admin?
       flash[:notice] = 'You must be an admin of that group to access that page'
-      request.xhr? ? halt : redirect('/')
+      request.xhr? ? halt(403, "Not Authorized") : redirect('/')
     end     
   end
   

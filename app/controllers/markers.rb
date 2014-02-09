@@ -70,14 +70,14 @@ Lumen::App.controllers do
   get '/groups/:slug/map/:id/edit' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @marker = @group.markers.find(params[:id]) || halt
+    @marker = @group.markers.find(params[:id]) || not_found
     erb :'markers/build'
   end
   
   post '/groups/:slug/map/:id/edit' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @marker = @group.markers.find(params[:id]) || halt
+    @marker = @group.markers.find(params[:id]) || not_found
     if @marker.update_attributes(params[:marker])
       flash[:notice] = "<strong>Great!</strong> The marker was updated successfully."
       redirect "/groups/#{@group.slug}/map"
@@ -90,7 +90,8 @@ Lumen::App.controllers do
   get '/groups/:slug/map/:id/destroy' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    (@marker = @group.markers.find(params[:id]) || halt).destroy    
+    @marker = @group.markers.find(params[:id]) || not_found
+    @marker.destroy    
     redirect "/groups/#{@group.slug}/map"
   end 
       

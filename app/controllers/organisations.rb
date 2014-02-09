@@ -27,19 +27,19 @@ Lumen::App.controllers do
   
   get '/organisations/:id' do
     sign_in_required!
-    @organisation = Organisation.find(params[:id])
+    @organisation = Organisation.find(params[:id]) || not_found
     erb :'organisations/organisation'
   end
        
   get '/organisations/:id/edit' do
     sign_in_required!
-    @organisation = Organisation.find(params[:id])
+    @organisation = Organisation.find(params[:id]) || not_found
     erb :'organisations/build'
   end
   
   post '/organisations/:id/edit' do
     sign_in_required!
-    @organisation = Organisation.find(params[:id])
+    @organisation = Organisation.find(params[:id]) || not_found
     if @organisation.update_attributes(params[:organisation])      
       flash[:notice] = "<strong>Great!</strong> The organisation was updated successfully."
       redirect "/organisations/#{@organisation.id}/edit"
@@ -51,7 +51,8 @@ Lumen::App.controllers do
   
   get '/organisations/:id/destroy' do
     sign_in_required!
-    @organisation = Organisation.find(params[:id]).destroy    
+    @organisation = Organisation.find(params[:id]) || not_found
+    @organisation.destroy    
     redirect '/organisations'
   end   
   

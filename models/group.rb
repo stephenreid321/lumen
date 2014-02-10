@@ -165,98 +165,90 @@ class Group
       sender = "#{envelope.sender[0].mailbox}@#{envelope.sender[0].host}"
       from = "#{envelope.from[0].mailbox}@#{envelope.from[0].host}"
                                   
-      # check this isn't a notification sent by the group         
-      if sender != group.smtp_address
-        # check the person that sent the message is a member of this group            
-        if group.memberships.map { |membership| membership.account.email.downcase }.include? from.downcase
-          # check this is a message we haven't seen before  
-          message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
-          if !group.conversation_posts.find_by(mid: message_id)
-              
-            msg = imap.fetch(sequence_id,'RFC822')[0].attr['RFC822']          
-            mail = Mail.read_from_string msg
-              
-            account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)
-              
-            if mail.html_part
-              body = mail.html_part.body
-              charset = mail.html_part.charset
-              nl2br = false
-            elsif mail.text_part                
-              body = mail.text_part.body
-              charset = mail.text_part.charset
-              nl2br = true
-            else
-              body = mail.body
-              charset = mail.charset
-              nl2br = true
-            end                            
-              
-            html = body.decoded.force_encoding(charset).encode('UTF-8')              
-            html = html.gsub("\n", "<br>\n") if nl2br
-            html = html.gsub(/<o:p>/, '')
-            html = html.gsub(/<\/o:p>/, '')
-            begin
-              html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-            rescue; end
-              
-              
-            if html.include?('Respond by replying above this line')                
-              if slugs = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)
-                conversation = group.conversations.find_by(slug: slugs[-1])
-                html = html.split('Respond by replying above this line')[0]
-                html = html.split(/On.+, .+ wrote:/)[0]
-                html = html.split(/<span.*>From:<\/span>/)[0]      
-                html = html.split('___________')[0]
-                html = html.split(/<div.*#B5C4DF.*>/)[0]
-              end
-            else
-              conversation = group.conversations.create! :subject => mail.subject
-              html = html.split('DISCLAIMER: This e-mail is confidential')[0]
-            end                
-                                
-            # if there's no conversation here, it means slugs[-1] was bad
-            if conversation
-                                
-              html = Nokogiri::HTML.parse(html).search('body').inner_html
-              if html.blank?
-                html = "(there was an error processing the HTML of this email)"
-                nokogiri_parse_fail = true
-              end
-                
-              conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id     
-              
-              mail.attachments.each do |attachment|
-                conversation_post.attachments.create! :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
-              end          
-              
-              if !nokogiri_parse_fail
-                conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)
-              end
-
-            end
-          end
-        else
-    
-          Mail.defaults do
-            delivery_method :smtp, group.smtp_settings
-          end 
-          mail = Mail.new(
-            :to => from,
-            :bcc => ENV['HELP_ADDRESS'],
-            :from => "#{group.smtp_name} <#{group.smtp_address}>",
-            :subject => "Delivery failed: #{envelope.subject}",
-            :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
-          )
-          mail.deliver! 
-          imap.store(sequence_id, "+FLAGS", [:Deleted])
-              
-        end
-      else
+      # delete notifications sent by/to the group        
+      if sender == group.smtp_address
         imap.store(sequence_id, "+FLAGS", [:Deleted])
+        next
       end
-      imap.store(sequence_id, "+FLAGS", [:Seen])
-    end     
+      
+      # skip messages we've already dealt with
+      message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
+      if group.conversation_posts.find_by(mid: message_id)
+        next
+      end
+      
+      # delete messages from people that aren't in the group
+      if !group.memberships.map { |membership| membership.account.email.downcase }.include?(from.downcase)        
+        Mail.defaults do
+          delivery_method :smtp, group.smtp_settings
+        end 
+        mail = Mail.new(
+          :to => from,
+          :bcc => ENV['HELP_ADDRESS'],
+          :from => "#{group.smtp_name} <#{group.smtp_address}>",
+          :subject => "Delivery failed: #{envelope.subject}",
+          :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
+        )
+        mail.deliver! 
+        imap.store(sequence_id, "+FLAGS", [:Deleted])
+        next
+      end          
+              
+      msg = imap.fetch(sequence_id,'RFC822')[0].attr['RFC822']          
+      mail = Mail.read_from_string msg
+              
+      account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)
+              
+      if mail.html_part
+        body = mail.html_part.body
+        charset = mail.html_part.charset
+        nl2br = false
+      elsif mail.text_part                
+        body = mail.text_part.body
+        charset = mail.text_part.charset
+        nl2br = true
+      else
+        body = mail.body
+        charset = mail.charset
+        nl2br = true
+      end                            
+              
+      html = body.decoded.force_encoding(charset).encode('UTF-8')              
+      html = html.gsub("\n", "<br>\n") if nl2br
+      html = html.gsub(/<o:p>/, '')
+      html = html.gsub(/<\/o:p>/, '')
+      begin
+        html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+      rescue; end
+                             
+      if html.include?('Respond by replying above this line') and (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/))
+        conversation = group.conversations.find_by(slug: conversation_url_match[-1])
+        ['Respond by replying above this line', /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________', '<div.*#B5C4DF.*>'].each { |pattern|
+          html = html.split(pattern).first
+        }
+      else
+        conversation = group.conversations.create! :subject => mail.subject
+        ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
+          html = html.split(pattern).first
+        }
+      end                
+                                                                
+      html = Nokogiri::HTML.parse(html).search('body').inner_html
+      if html.blank?
+        html = "(there was an error processing the HTML of this email)"
+        nokogiri_parse_fail = true
+      end
+                
+      conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id     
+              
+      mail.attachments.each do |attachment|
+        conversation_post.attachments.create! :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
+      end          
+              
+      if !nokogiri_parse_fail
+        conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)
+      end
+    end 
     imap.expunge
     imap.disconnect
   end

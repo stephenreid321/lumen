@@ -231,10 +231,8 @@ class Group
         ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
           html = html.split(pattern).first
         }
-      end                
-                                                                
+      end                                                                                
       html = Nokogiri::HTML.parse(html).search('body').inner_html
-      raise "there was an error processing the HTML of this email: #{mail.subject} from #{from}" if html.blank?
                 
       conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id                   
       mail.attachments.each do |attachment|

@@ -234,20 +234,15 @@ class Group
       end                
                                                                 
       html = Nokogiri::HTML.parse(html).search('body').inner_html
-      if html.blank?
-        html = "(there was an error processing the HTML of this email)"
-        nokogiri_parse_fail = true
-      end
+      raise "there was an error processing the HTML of this email: #{mail.subject} from #{from}"
                 
-      conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id     
-              
+      conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id                   
       mail.attachments.each do |attachment|
         conversation_post.attachments.create! :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
-      end          
-              
-      if !nokogiri_parse_fail
-        conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)
-      end
+      end                        
+      conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)
+      
+      imap.store(sequence_id, "+FLAGS", [:Seen])
     end 
     imap.expunge
     imap.disconnect

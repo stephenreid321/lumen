@@ -11,10 +11,11 @@ module Lumen
     use Airbrake::Rack    
     use OmniAuth::Builder do
       provider :account
-      provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-      provider :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET']
-      provider :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET']
-      provider :linkedin, ENV['LINKEDIN_KEY'], ENV['LINKEDIN_SECRET']
+      Provider.all.each { |provider|
+        if provider.registered?
+          provider provider.omniauth_name, ENV["#{provider.display_name.upcase}_KEY"], ENV["#{provider.display_name.upcase}_SECRET"]
+        end
+      }
     end  
     OmniAuth.config.on_failure = Proc.new { |env|
       OmniAuth::FailureEndpoint.new(env).redirect_to_failure

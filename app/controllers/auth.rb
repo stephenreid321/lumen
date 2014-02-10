@@ -50,7 +50,7 @@ Lumen::App.controllers do
         Account.find(env['omniauth.auth']['uid'])
       else
         env['omniauth.auth'].delete('extra')
-        @provider = Account.provider_object(env['omniauth.auth']['provider'])
+        @provider = Provider.object(env['omniauth.auth']['provider'])
         Connection.find_by(provider: @provider.display_name, provider_uid: env['omniauth.auth']['uid']).try(:account)
       end
       if current_account # already signed in            

@@ -29,7 +29,7 @@ Lumen::App.controllers do
   
   get '/me/:provider/use_picture' do
     sign_in_required!
-    @provider = Account.provider_object(params[:provider])
+    @provider = Provider.object(params[:provider])
     @account = current_account
     @account.picture_url = @provider.image.call(@account.connections.find_by(provider: @provider.display_name).omniauth_hash)
     if @account.save
@@ -43,7 +43,7 @@ Lumen::App.controllers do
   
   get '/me/:provider/disconnect' do
     sign_in_required!
-    @provider = Account.provider_object(params[:provider])    
+    @provider = Provider.object(params[:provider])    
     @account = current_account
     if @account.connections.find_by(provider: @provider.display_name).destroy
       flash[:notice] = "<i class=\"fa fa-#{@provider.icon}\"></i> Disconnected!"

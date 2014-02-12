@@ -1,0 +1,16 @@
+<% if @hot_conversations.length > 0 %>
+  <% @hot_conversations.each { |conversation| %>
+    <h3 id="conversation-<%=conversation.id%>">
+      First and last posts from <a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a>
+      <% if !@group %>
+        <small>
+          <i class="fa fa-group"></i> <%=conversation.group.slug%></span>
+        </small>
+      <% end %>
+    </h3>
+
+    <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).first} %>
+    <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).last} %>
+
+  <% } %>
+<% end %> 

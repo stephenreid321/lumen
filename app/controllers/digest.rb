@@ -14,7 +14,7 @@ Lumen::App.controllers do
     partial :'digest/digest', :layout => !request.xhr?
   end
   
-  get '/groups/:slug/digest' do
+  digest = lambda do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
@@ -39,7 +39,9 @@ Lumen::App.controllers do
     else    
       erb :'groups/digest'
     end
-  end
+  end  
+  get  '/groups/:slug/digest', &digest
+  post '/groups/:slug/digest', &digest
   
   get '/groups/:slug/review' do
     @group = Group.find_by(slug: params[:slug])

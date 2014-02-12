@@ -21,28 +21,9 @@
     <h2><%=@conversation.subject%></h2>
 
     <% @conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
-      <div class="media">
-        <span class="pull-left">
-          <img class="media-object" style="width: 32px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
-        </span>
-        <div class="media-body">
-          <div>
-            <% if i > 0 and @conversation.group.memberships.find_by(account: current_account).admin? %>
-              <a style="float: right" title="Hide post" data-confirm="Are you sure you want to hide this post?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide_post/<%=conversation_post.id%>"><i class="fa fa-times"></i> Hide post</a>
-            <% end %>
-            <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>            
-            <ul class="fa-ul">
-              <% conversation_post.attachments.each { |attachment| %>
-                <li><i class="fa fa-li fa-paperclip"></i><a href="<%=attachment.file.url%>"><%=attachment.file_name%></a></li>
-              <% } %>
-            </ul>
-
-            <div id="conversation-post-<%=conversation_post.id%>"><%= Rinku.auto_link(conversation_post.body_with_inline_images) %></div>
-          </div>
-          <div title="<%=conversation_post.created_at%>" style="font-size: 12px; opacity: 0.5"><%=time_ago_in_words(conversation_post.created_at)%> ago</div>
-        </div>
-      </div> 
+      <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post, :i => i} %>
     <% } %>
+
     <div class="media">
       <span class="pull-left">
         <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
@@ -50,7 +31,9 @@
       <div class="media-body">
         <% form_tag "/conversations/#{@conversation.slug}/post", :multipart => true do |f| %>        
           <%= text_area_tag :body, :class => 'wysiwyg form-control', :id => 'post', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10  %>        
-          <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();$('#attach').show();$('#attach input').click();">Attach a file</a>
+          <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
+                $('#attach').show();
+                $('#attach input').click();">Attach a file</a>
           <div style="display:none; margin-bottom: 10px" id="attach">
             <%= file_field_tag :attachment %>
           </div>

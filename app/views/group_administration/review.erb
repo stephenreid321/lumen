@@ -19,7 +19,7 @@
 
         $('#grab-button').click(function(e) {
           e.preventDefault();
-          $.get('/groups/<%=@group.slug%>/digest?' + $(this.form).serialize(), function(data) {
+          $.post('/groups/<%=@group.slug%>/digest', $(this.form).serialize(), function(data) {
             $('textarea[name=customised_html]').val(data);
             open_preview();
           });

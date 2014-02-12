@@ -110,10 +110,10 @@ class Event
     cal.export
   end
   
-  def self.json(eventable, start_time=nil, end_time=nil)
+  def self.json(eventable, period_start, period_end)
     events = eventable.events
-    events = events.where(:start_time.gte => Time.zone.at(start_time.to_i)) if start_time
-    events = events.where(:end_time.lte => Time.zone.at(end_time.to_i)) if end_time
+    events = events.where(:start_time.lte => Time.zone.at(period_end.to_i))
+    events = events.where(:end_time.gte => Time.zone.at(period_start.to_i))
     JSON.pretty_generate events.map { |event| 
       {
         :title => event.name,

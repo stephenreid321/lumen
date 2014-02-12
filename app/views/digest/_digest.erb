@@ -8,8 +8,8 @@
   <% end %>
 
   <h2>       
-    <% if @email %>
-      <%=@heading%> <small><%=compact_daterange(@from,@to)%></small>      
+    <% if @h2 %>
+      <%=@h2%> <small><%=compact_daterange(@from,@to)%></small>      
     <% else %>
       Digest for <%= @group ? "#{@group.slug}" : 'your groups' %>
       <small>

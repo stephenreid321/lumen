@@ -27,18 +27,17 @@ Lumen::App.controllers do
     @upcoming_events = @group.upcoming_events
            
     if request.xhr?
-      partial :'digest/digest'
-    else    
-      if params[:email]
-        @email = true
-        @review = true if params[:review]
+      if params[:review]
+        @review = true
+        @h2 = params[:h2]
         @message = params[:message]
         @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
-        @heading = params[:heading]        
         Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
       else
-        erb :'groups/digest'
+        partial :'digest/digest'
       end
+    else    
+      erb :'groups/digest'
     end
   end
   
@@ -51,25 +50,13 @@ Lumen::App.controllers do
   post '/groups/:slug/review' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
-    @from = Date.parse(params[:from])    
-    @to = Date.parse(params[:to])
-    
-    @top_stories = @group.top_stories(@from,@to)
-    @new_people = @group.new_people(@from,@to)
-    @hot_conversations = @group.hot_conversations(@from,@to)
-    @new_events = @group.new_events(@from,@to)
-    @upcoming_events = @group.upcoming_events
-    
-    @email = true
-    @review = true
-    @message = params[:message]
-    @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
-    @heading = params[:heading]        
-    html = Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-                  
-    conversation = @group.conversations.create!(subject: "#{@heading}: #{compact_daterange(@from,@to)}")
+    @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
+    @to =  params[:to] ? Date.parse(params[:to]) : Date.today    
+    @h2 = params[:h2]
+    @customised_html = params[:customised_html]
+    conversation = @group.conversations.create!(subject: "#{@h2}: #{compact_daterange(@from,@to)}")
     conversation_post = conversation.conversation_posts.create!(      
-      :body => html,
+      :body => @customised_html,
       :account => current_account
     )
     conversation_post.send_notifications!
@@ -91,27 +78,26 @@ Lumen::App.controllers do
     
     Group.each { |group|  
       @group = group
+      emails = group.memberships.where(notification_level: params[:notification_level]).map { |membership| membership.account.email }
+      if emails.length > 0        
 
-      @top_stories = @group.top_stories(@from,@to)
-      @new_people = @group.new_people(@from,@to)
-      @hot_conversations = @group.hot_conversations(@from,@to)
-      @new_events = @group.new_events(@from,@to)
-      @upcoming_events = @group.upcoming_events      
+        @top_stories = @group.top_stories(@from,@to)
+        @new_people = @group.new_people(@from,@to)
+        @hot_conversations = @group.hot_conversations(@from,@to)
+        @new_events = @group.new_events(@from,@to)
+        @upcoming_events = @group.upcoming_events      
       
-      @email = true
-      @heading = "Digest for #{group.slug}"
-      html = Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+        @h2 = "Digest for #{group.slug}"
+        html = Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
       
-      Mail.defaults do
-        delivery_method :smtp, group.smtp_settings
-      end    
+        Mail.defaults do
+          delivery_method :smtp, group.smtp_settings
+        end    
       
-      emails = group.memberships.where(notification_level: params[:notification_level]).map { |membership| membership.account.email }                                
-      if emails.length > 0
         mail = Mail.new
         mail.bcc = emails
         mail.from = "#{group.smtp_name} <#{group.smtp_address}>"
-        mail.subject = "#{@heading}: #{compact_daterange(@from,@to)}"
+        mail.subject = "#{@h2}: #{compact_daterange(@from,@to)}"
         mail.html_part do
           content_type 'text/html; charset=UTF-8'
           body html

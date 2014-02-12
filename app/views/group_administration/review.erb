@@ -15,16 +15,30 @@
 
     <script>
       $(function() {
-        $("#setup .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
-        $('#preview-button').click(function(e) {
+        $("form .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
+
+        $('#grab-button').click(function(e) {
           e.preventDefault();
-          $('#message-iframe').attr('src', '/groups/<%=@group.slug%>/digest?' + $(this.form).serialize())
+          $.get('/groups/<%=@group.slug%>/digest?' + $(this.form).serialize(), function(data) {
+            $('textarea[name=customised_html]').val(data);
+            open_preview();
+          });
           return false;
         });
+
+        $('#preview-button').click(function(e) {
+          e.preventDefault();
+          open_preview();
+          return false;
+        });
+
+        function open_preview() {
+          var w = window.open('', '', 'width=800,height=600,scrollbars=yes');
+          $(w.document.body).html($('textarea[name=customised_html]').val());
+        }
       });
     </script>
-    <form method="post" style="display: inline" id="setup">
-      <input type="hidden" name="email" value="true" />
+    <form method="post" style="display: inline">
       <input type="hidden" name="review" value="true" />
 
       <h2>1. Pick your dates</h2>
@@ -33,16 +47,19 @@
       <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=Date.today.strftime('%d-%b-%Y')%>"/>
 
       <h2>2. Set a title</h2>
-      <input type="text" class="form-control" name="heading" value="<%=@group.slug%>'s week in review" />
+      <input type="text" class="form-control" name="h2" value="<%=@group.slug%>'s week in review" />
 
       <h2>3. Add a message</h2>
       <textarea name="message" style="margin-bottom: 10px" class="wysiwyg form-control" rows="6"></textarea>
-    
-      <h2>4. <button id="preview-button" class="btn btn-default"><h2 style="padding:0; margin:0">Preview</h2></button></h2>      
-      <iframe id="message-iframe" style="width: 100%; height: 500px; border: 1px solid #ccc" src="/groups/<%=@group.slug%>/digest?email=true&review=true"></iframe>
+      <button id="grab-button" class="btn btn-default">Grab HTML</button>   
 
-      <h2>5. <button type="submit" class="btn btn-default"><h2 style="padding:0; margin:0">Send</h2></button></h2>      
-      
+      <h2>4. Customise HTML</h2>
+      <textarea name="customised_html" style="margin-bottom: 10px" class="form-control" rows="10"></textarea>
+      <button id="preview-button" class="btn btn-default">Preview</button> (opens in new window)
+
+      <h2>5. Send</h2>
+      <button type="submit" class="btn btn-default">Send</button>
+
     </form>
 
   </div>

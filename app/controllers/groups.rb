@@ -17,7 +17,7 @@ Lumen::App.controllers do
       @conversation_posts = @group.conversation_posts.where(:hidden.ne => true).or(q)
       @conversations = @conversations.where(:id.in => @conversation_posts.only(:conversation_id).map(&:conversation_id))
     end                         
-    @conversations = @conversations.per_page(10).page(params[:page])        
+    @conversations = @conversations.order_by(:updated_at.desc).per_page(10).page(params[:page])        
     erb :'groups/group'
   end  
       

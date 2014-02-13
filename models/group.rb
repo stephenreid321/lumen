@@ -29,6 +29,7 @@ class Group
   has_many :news_summaries, :dependent => :destroy
   has_many :didyouknows, :dependent => :destroy
   has_many :markers, :dependent => :destroy
+  has_many :lists, :dependent => :destroy
     
   def top_stories(from,to)
     Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]

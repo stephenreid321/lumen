@@ -43,7 +43,7 @@ class ConversationPost
   
   after_create :touch_conversation
   def touch_conversation
-    conversation.update_attribute(:updated_at, Time.now)  unless conversation.hidden
+    conversation.update_attribute(:updated_at, Time.now) unless conversation.hidden
   end
   
   before_validation :hidden_to_boolean

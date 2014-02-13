@@ -1,10 +1,12 @@
 
-<% if request.xhr? %>
-  <div class="pull-right">
-    <a href="/groups/<%=@group.slug%>/lists" class="btn btn-default"><i class="fa fa-plus"></i> Create a new list</a>
-  </div>
-<% end %>
+<div style="margin-top: 10px">
+  <% if request.xhr? %>
+    <div class="pull-right">
+      <a href="/groups/<%=@group.slug%>/lists" class="btn btn-default"><i class="fa fa-plus"></i> Create a new list</a>
+    </div>
+  <% end %>
 
-<% lists.each { |list| %>
-  <h2><a href="/groups/<%=list.group.slug%>/lists/<%=list.id%>"><%=list.title%></a> <small><%=pluralize(list.list_items.count, 'item')%></small></h2>
-<% } %>
+  <% lists.each { |list| %>
+    <h2><a href="/groups/<%=list.group.slug%>/lists/<%=list.id%>"><%=list.title%></a> <small><%=pluralize(list.list_items.count, 'item')%></small></h2>
+  <% } %>
+</div>

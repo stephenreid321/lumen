@@ -1,4 +1,34 @@
 Lumen::App.controllers do
+  
+  get '/groups/:slug/lists' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    @lists = @group.lists.order_by(:title.asc)
+    if request.xhr?
+      partial :'lists/lists', :locals => {:lists => @lists}
+    else
+      erb :'groups/lists'
+    end
+  end
+  
+  post '/groups/:slug/lists/create' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    if params[:title]
+      @list = @group.lists.create :title => params[:title], :account => current_account
+      redirect "/groups/#{@group.slug}/lists/#{@list.id}"
+    else
+      redirect back
+    end
+  end  
+  
+  get '/groups/:slug/lists/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    @group.lists.find(params[:id]).destroy
+    flash[:notice] = 'The list was deleted.'
+    redirect "/groups/#{@group.slug}/lists"
+  end   
    
   get '/groups/:slug/lists/:id' do
     @group = Group.find_by(slug: params[:slug])

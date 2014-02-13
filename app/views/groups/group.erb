@@ -55,7 +55,8 @@
           <li><a title="News" href="#news-tab" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
         <% end %>
         <li><a href="#digest-tab" title="Digest" data-toggle="tab"><i class="fa fa-star"></i></a></li>
-        <li><a href="#map-tab" title="Map" data-toggle="tab"><i class="fa fa-map-marker"></i></a></li>        
+        <li><a href="#map-tab" title="Map" data-toggle="tab"><i class="fa fa-map-marker"></i></a></li>
+        <li><a href="#lists-tab" title="Lists" data-toggle="tab"><i class="fa fa-list"></i></a></li>
         <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
       </ul>
     </div>
@@ -74,6 +75,9 @@
         $("a[href='#map-tab']").on('shown.bs.tab', function(e) {
           $('#map-tab').load('/groups/<%=@group.slug%>/map')
         });
+        $("a[href='#lists-tab']").on('shown.bs.tab', function(e) {
+          $('#lists-tab').load('/groups/<%=@group.slug%>/lists')
+        });        
         $("a[href='#calendar-tab']").on('shown.bs.tab', function(e) {
           $("a[href='#calendar-tab']").tooltip('hide');
           $('#calendar').fullCalendar('render');
@@ -104,14 +108,17 @@
       <% end %>  
       <div class="tab-pane" id="digest-tab">
         <h2><i class="fa fa-spin fa-spinner"></i></h2>
-      </div> 
-      <div class="tab-pane" id="calendar-tab">
-        <style>#calendar { margin-top: 20px }</style>
-        <%= partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar", :mini => true} %>
       </div>
       <div class="tab-pane" id="map-tab">
         <h2><i class="fa fa-spin fa-spinner"></i></h2>
-      </div>       
+      </div>     
+      <div class="tab-pane" id="lists-tab">
+        <h2><i class="fa fa-spin fa-spinner"></i></h2>
+      </div>           
+      <div class="tab-pane" id="calendar-tab">
+        <style>#calendar { margin-top: 20px }</style>
+        <%= partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar", :mini => true} %>
+      </div>  
     </div>
 
   </div>

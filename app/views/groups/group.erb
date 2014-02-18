@@ -7,34 +7,52 @@
         <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => @membership.notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto; height: auto; font-size: 12px; padding: 3px; position: relative; top: -1px" %>
       </form>   
     </li> 
-    <% if @membership.admin? %>        
+    <% if @membership.admin? %>             
       <li>
-        <a title="Post review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/review"><i class="fa fa-star"></i> Post review</a>
+        <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
+      </li>  
+      <li>
+        <a title="Description" class="edit restore-opacity" href="/groups/<%=@group.slug%>/edit"><i class="fa fa-pencil"></i> Description</a>
       </li>      
       <li>
         <a title="Did you know..." class="edit restore-opacity" href="/groups/<%=@group.slug%>/didyouknows"><i class="fa fa-question"></i> Did you know&hellip;</a>
       </li>    
       <li>
         <a title="News summaries" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-twitter"></i> News summaries</a>
-      </li>
+      </li>      
       <li>
-        <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
-      </li>
+        <a title="Post review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/review"><i class="fa fa-star"></i> Post review</a>
+      </li>       
       <li>
         <a title="Analytics" class="edit restore-opacity" href="/groups/<%=@group.slug%>/analytics"><i class="fa fa-dashboard"></i> Analytics</a>
-      </li>  
-      <li>
-        <a title="Description" class="edit restore-opacity" href="/groups/<%=@group.slug%>/edit"><i class="fa fa-pencil"></i> Description</a>
-      </li>      
+      </li>        
     <% end %>     
+  <% else %>
+    <li>
+      <% if @group.membership_requests.find_by(account: current_account) %>  
+        <a class="edit restore-opacity">
+          <i class="fa fa-check"></i>
+          Membership requested
+        </a>
+      <% else %>
+        <form style="display:inline" method="post" id="request-membership" action="/groups/<%=@group.slug%>/request_membership">          
+          <a class="edit restore-opacity" href="javascript:;" onclick="$('#request-membership').submit();">
+            <i class="fa fa-bell"></i>
+            Request membership
+          </a>
+        </form>
+      <% end %>      
+    </li>
   <% end %>
 </ul>
 
 <ol class="breadcrumb">
   <% if !@membership or (@membership and current_account.memberships.count > 1) %>  
     <li><a href="/">Groups</a></li>
+    <li class="active"><%=@group.slug%></li>
+  <% else %>  
+    <li></li>
   <% end %>
-  <li class="active"><%=@group.slug%></li>
 </ol>
 
 

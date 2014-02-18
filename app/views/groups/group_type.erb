@@ -1,7 +1,7 @@
 <ul class="page-options">        
-    <li>
-      <a title="Create a group" class="edit restore-opacity" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
-    </li>        
+  <li>
+    <a title="Create a group" class="edit restore-opacity" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
+  </li>        
 </ul>
 
 <ol class="breadcrumb">
@@ -11,5 +11,13 @@
 
 
 <% @group_type.groups.where(:privacy.ne => 'secret').each { |group| %>
-  <h2><a href="/groups/<%=group.slug%>"><%=group.slug%></a> <small><%=pluralize(group.memberships.count, 'member')%></small></h2>
+  <h2>
+    <% if group.closed? and !(membership = group.memberships.find_by(account: current_account)) %><%=group.slug%><% else %><a href="/groups/<%=group.slug%>"><%=group.slug%></a><% end%>
+    <small>
+      <%=pluralize(group.memberships.count, 'member')%>
+    </small>
+    <% if !membership %>  
+      <%= partial :'groups/request_membership', :locals => {:group => group} %>
+    <% end %>
+  </h2>
 <% } %>

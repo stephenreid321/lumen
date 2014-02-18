@@ -28,7 +28,8 @@ class Account
 
   has_many :sign_ins, :dependent => :destroy  
   has_many :page_views, :dependent => :destroy  
-  has_many :memberships, :dependent => :destroy    
+  has_many :memberships, :dependent => :destroy
+  has_many :membership_requests, :dependent => :destroy
   has_many :conversation_posts, :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
         

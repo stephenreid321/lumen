@@ -26,9 +26,10 @@ Lumen::App.controllers do
   end  
                           
   get '/groups/:slug' do
-    @group = Group.find_by(slug: params[:slug])
-    membership_required! unless @group.open?
-    @membership = @group.memberships.find_by(account: current_account)
+    @group = Group.find_by(slug: params[:slug])    
+    @membership = @group.memberships.find_by(account: current_account)    
+    redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
+    membership_required! if @group.secret?
     @conversations = @group.conversations.where(:hidden.ne => true)
     @q = params[:q] if params[:q]        
     if @q
@@ -45,7 +46,39 @@ Lumen::App.controllers do
     end                         
     @conversations = @conversations.order_by(:updated_at.desc).per_page(10).page(params[:page])        
     erb :'groups/group'
-  end  
+  end
+  
+  get '/groups/:slug/request_membership' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    erb :'groups/request_membership'
+  end
+
+  post '/groups/:slug/request_membership' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    if @group.memberships.find_by(account: current_account)
+      flash[:notice] = "You're already a member of that group!"
+    elsif @group.membership_requests.find_by(account: current_account)
+      flash[:notice] = "You've already requested membership of that group."
+    else
+      @group.membership_requests.create :account => current_account
+      
+      group = @group
+      Mail.defaults do
+        delivery_method :smtp, group.smtp_settings
+      end      
+      
+      mail = Mail.new(
+        :to => @group.admins.map(&:email),
+        :from => "#{@group.slug} <#{@group.email('-noreply')}>",
+        :subject => "#{current_account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
+        :body => erb(:'emails/membership_request', :layout => false)
+      )
+      mail.deliver!      
+      
+      flash[:notice] = 'Your request was sent.'
+    end
+    redirect back
+  end
       
   get '/groups/:slug/leave' do
     @group = Group.find_by(slug: params[:slug])

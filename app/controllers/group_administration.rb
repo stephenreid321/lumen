@@ -45,6 +45,8 @@ Lumen::App.controllers do
       @group.memberships.select { |membership| membership.account.connections.find_by(provider: 'Twitter') }
     when :geocoding_failed
       @group.memberships.select { |membership| membership.account.location and !membership.account.coordinates }
+    when :requests
+      @group.membership_requests # quacks like a membership
     end
     @memberships = case @view
     when :connected_to_twitter
@@ -195,6 +197,15 @@ Lumen::App.controllers do
     group_admins_only!
     @group.didyouknows.find(params[:id]).destroy
     redirect back
-  end  
+  end 
+  
+  get '/groups/:slug/process_membership_request/:id' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    membership_request = @group.membership_requests.find(params[:id])    
+    @group.memberships.create(:account => membership_request.account) if params[:accept]
+    membership_request.destroy
+    redirect back
+  end
       
 end

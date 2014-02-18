@@ -1,0 +1,5 @@
+<% if group.membership_requests.find_by(account: current_account) %>  
+  <a class="btn btn-default btn-sm disabled">Membership requested</a>
+<% else %>
+  <form style="display:inline" method="post" action="/groups/<%=group.slug%>/request_membership"><button class="btn btn-default btn-sm">Request membership</button></form>
+<% end %>

@@ -21,6 +21,7 @@ class Group
   has_many :conversations, :dependent => :destroy
   has_many :conversation_posts, :dependent => :destroy
   has_many :memberships, :dependent => :destroy
+  has_many :membership_requests, :dependent => :destroy
   has_many :events, :dependent => :destroy
   has_many :news_summaries, :dependent => :destroy
   has_many :didyouknows, :dependent => :destroy
@@ -51,6 +52,10 @@ class Group
   
   def members
     Account.where(:id.in => memberships.only(:account_id).map(&:account_id))
+  end
+  
+  def admins
+    members.where(:role => 'admin')
   end
   
   def twitter_handles

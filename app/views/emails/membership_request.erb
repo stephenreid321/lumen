@@ -1,0 +1,5 @@
+Hi admins of <%=@group.slug%>,
+   
+<%=current_account.name%> requested membership of <%=@group.slug%> on <%=ENV['SITE_NAME_DEFINITE']%>.
+
+You can accept or silently reject the request at http://<%=ENV['DOMAIN']%>/groups/<%=@group.slug%>/members?view=requests

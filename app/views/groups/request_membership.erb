@@ -1,0 +1,13 @@
+
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li><a href="/groups/<%=@group.slug%>"><%=@group.slug%></a></li>
+  <li class="active">Request membership</li>
+</ol>
+
+<div style="text-align: center; margin-top: 20px">
+  You must be a member to access <strong><%=@group.slug%></strong>.
+</div>
+<div style="text-align: center; margin-top: 10px">
+  <%= partial :'groups/request_membership', :locals => {:group => @group} %>
+</div>

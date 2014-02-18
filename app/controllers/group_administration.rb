@@ -116,7 +116,7 @@ Lumen::App.controllers do
       
         mail = Mail.new(
           :to => @account.email,
-          :from => "#{@group.smtp_name} <#{@group.smtp_address}>",
+          :from => "#{@group.noreply_name} <#{@group.noreply_email}>",
           :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
           :body => erb(:'emails/invite', :layout => false)
         )
@@ -149,7 +149,7 @@ Lumen::App.controllers do
     
     mail = Mail.new(
       :to => @account.email,
-      :from => "#{@group.smtp_name} <#{@group.smtp_address}>",
+      :from => "#{@group.noreply_name} <#{@group.noreply_email}>",
       :cc => current_account.email,
       :subject => "A reminder from #{current_account.name} to complete your #{ENV['SITE_NAME_SHORT']} profile",
       :body => erb(:'emails/reminder', :layout => false)

@@ -14,25 +14,16 @@ env = {
 :SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD => 'Threshold for conversations to appear in site analytics',
 :NEWSME_SWITCH_HOUR => "Hour to switch over to today's news summaries e.g. 11",
 
-:DEFAULT_SMTP_SERVER => "Default SMTP server address for new groups",
-:DEFAULT_SMTP_PASSWORD => "Default SMTP password for new groups",
+:VIRTUALMIN_URL => 'URL for Virtualmin',
+:VIRTUALMIN_USERNAME => 'Username for Virtualmin',
+:VIRTUALMIN_PASSWORD => 'Password for Virtualmin',
+:VIRTUALMIN_DOM => 'DOM id of the virtual server',
+:VIRTUALMIN_NOTIFICATION_SCRIPT => 'Path of notification script to run when new mail received',
+:VIRTUALMIN_SAME_DOMAIN => 'Set to true if the mailserver is part of the same domain as the Lumen instance (e.g. mail.example.com and lumen.example.com)',
 
-:NOREPLY_SERVER => "SMTP server for forgotten password and other emails independent of groups",
-:NOREPLY_USERNAME => "SMTP username for NOREPLY_SERVER",
-:NOREPLY_PASSWORD => "SMTP password for NOREPLY_SERVER",
-:NOREPLY_NAME => "Name of email sender for NOREPLY_SERVER",
-:NOREPLY_ADDRESS => "Address of email sender for NOREPLY_SERVER",
-:NOREPLY_SIG => "Email signature for NOREPLY_SERVER",
-
-:DEFAULT_IMAP_SERVER => "Default IMAP server address for new groups",
-:DEFAULT_IMAP_PASSWORD => "Default IMAP password for new groups",  
-  
-:MAILSERV_INTERFACE => 'One of cpanel-11.4 or virtualmin-4.04',
-:MAILSERV_URL => 'URL for MAILSERV_INTERFACE',
-:MAILSERV_USERNAME => 'Username for MAILSERV_INTERFACE',
-:MAILSERV_PASSWORD => 'Password for MAILSERV_INTERFACE',
-:MAILSERV_NOTIFICATION_SCRIPT => 'Path of notification script to run when new mail received on MAILSERV_INTERFACE',
-:VIRTUALMIN_DOM => 'If using Virtualmin, the DOM id of the virtual server',
+:NOREPLY_USERNAME => "Username of email account for general emails",
+:NOREPLY_NAME => "Name of email sender for general emails",
+:NOREPLY_SIG => "Email signature for general emails",
 
 :S3_BUCKET_NAME => 'S3 bucket name',
 :S3_ACCESS_KEY => 'S3 access key',
@@ -80,7 +71,8 @@ fragments = {
 :'hide-sectors' => "If defined, hides the 'sectors' tab",
 :'tt-organisation' => "Alternative name for 'Organisation'",
 :'tt-sector' => "Alternative name for 'Sector'",
-:'organisations-icon' => "Alternative Font Awesome icon for organisations tab"
+:'organisations-icon' => "Alternative Font Awesome icon for organisations tab",
+:'sectors-icon' => "Alternative Font Awesome icon for sectors tab"
 }
 %>
 

@@ -98,7 +98,7 @@ Lumen::App.controllers do
       
         mail = Mail.new
         mail.bcc = emails
-        mail.from = "#{group.smtp_name} <#{group.smtp_address}>"
+        mail.from = "#{group.noreply_name} <#{group.noreply_email}>"
         mail.subject = "#{@h2}: #{compact_daterange(@from,@to)}"
         mail.html_part do
           content_type 'text/html; charset=UTF-8'

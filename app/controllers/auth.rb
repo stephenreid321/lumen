@@ -17,9 +17,9 @@ Lumen::App.controllers do
          
       Mail.defaults do
         delivery_method :smtp, {
-          :address => ENV['NOREPLY_SERVER'],
+          :address => ENV['VIRTUALMIN_URL'],
           :user_name => ENV['NOREPLY_USERNAME'],
-          :password => ENV['NOREPLY_PASSWORD'],
+          :password => ENV['VIRTUALMIN_PASSWORD'],
           :port => 25,
           :authentication => 'login',
           :enable_starttls_auto => false          
@@ -27,7 +27,7 @@ Lumen::App.controllers do
       end
       mail = Mail.new(
         :to => @account.email,
-        :from => "#{ENV['NOREPLY_NAME']} <#{ENV['NOREPLY_ADDRESS']}>",
+        :from => "#{ENV['NOREPLY_NAME']} <no-reply@#{ENV['MAIL_DOMAIN']}>",
         :subject => "New password",
         :body => erb(:'emails/forgot_password', :layout => false)
       )

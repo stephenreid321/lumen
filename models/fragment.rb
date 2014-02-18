@@ -7,7 +7,7 @@ class Fragment
   
   validates_presence_of :slug
   validates_uniqueness_of :slug
-  validates_format_of :slug, :with => /[a-z0-9\-]+/
+  validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
     
   def self.fields_for_index
     [:slug, :body]

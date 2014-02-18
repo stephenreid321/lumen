@@ -1,4 +1,23 @@
 Lumen::App.controllers do
+  
+  get '/groups/new' do
+    sign_in_required!
+    @group = Group.new
+    erb :'groups/build'
+  end
+  
+  post '/groups/new' do
+    sign_in_required!
+    @group = Group.new(params[:group])    
+    if @group.save  
+      flash[:notice] = "<strong>Great!</strong> The group was created successfully."
+      @group.memberships.create! :account => current_account, :role => 'admin'
+      redirect "/groups/#{@group.slug}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the group from being saved."
+      erb :'groups/build'
+    end    
+  end
                         
   get '/groups/:slug' do
     @group = Group.find_by(slug: params[:slug])
@@ -35,5 +54,11 @@ Lumen::App.controllers do
     flash[:notice] = 'Notification options updated!'
     redirect "/groups/#{@group.slug}"
   end   
+  
+  get '/category/:slug' do
+    sign_in_required!
+    @group_category = GroupCategory.find_by(slug: params[:slug])
+    erb :'/group_categories/group_category'
+  end
         
 end

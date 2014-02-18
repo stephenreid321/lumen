@@ -96,7 +96,7 @@ class Event
   
   def self.ical(eventable)
     cal = RiCal.Calendar do |rcal|
-      rcal.add_x_property('X-WR-CALNAME', eventable.is_a?(Group) ? eventable.imap_address : ENV['DOMAIN'])
+      rcal.add_x_property('X-WR-CALNAME', eventable.is_a?(Group) ? eventable.email : ENV['DOMAIN'])
       eventable.events.each { |event|
         rcal.event do |revent|
           revent.summary = event.name

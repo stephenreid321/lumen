@@ -23,7 +23,7 @@
 
 <h3>New conversation</h3>
 
-<p>Fill out the form below or send an email to <a href="mailto:<%=@group.imap_address%>"><%=@group.imap_address%></a></p>
+<p>Fill out the form below or send an email to <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
 <div class="media">
   <span class="pull-left">
     <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">

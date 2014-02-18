@@ -66,7 +66,7 @@
                   <a class="dropdown-toggle"
                      data-toggle="dropdown"
                      href="#">
-                    <i class="fa fa-group"></i> Groups
+                    <i class="fa fa-group"></i> My groups
                     <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
@@ -76,11 +76,16 @@
                   </ul>        
                 </li>    
               <% end %>
+              <% if GroupCategory.count > 0 %>
+                <% GroupCategory.all.each { |group_category| %>
+                 <li><a href="/category/<%=group_category.slug%>"><i class="fa <%=group_category.icon%>"></i> <%=group_category.name%> groups</a></li>
+                <% } %>
+              <% end %>
               <% unless Fragment.find_by(slug: 'hide-organisations') %>
                 <li><a href="/organisations"><i class="fa <%=Fragment.find_by(slug: 'organisations-icon').try(:body) || 'fa-bullhorn'%>"></i> <%=tt("Organisations")%></a></li>
               <% end %>
               <% unless Fragment.find_by(slug: 'hide-sectors') %>
-                <li><a href="/sectors"><i class="fa fa-th-list"></i> <%=tt("Sectors")%></a></li>
+                <li><a href="/sectors"><i class="fa <%=Fragment.find_by(slug: 'sectors-icon').try(:body) || 'fa-th-list'%>"></i> <%=tt("Sectors")%></a></li>
               <% end %>
               <% if current_account.admin? %>
                 <li class="admin"><a href="/analytics"><i class="fa fa-globe"></i> Sitewide analytics</a></li>

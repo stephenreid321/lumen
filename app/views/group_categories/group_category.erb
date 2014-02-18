@@ -1,0 +1,15 @@
+<ul class="page-options">        
+    <li>
+      <a title="Create a group" class="edit restore-opacity" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
+    </li>        
+</ul>
+
+<ol class="breadcrumb">
+  <li><a href="/">Groups</a></li>
+  <li class="active"><%=@group_category.name%> groups</li>
+</ol>
+
+
+<% @group_category.groups.each { |group| %>
+  <h2><a href="/group/<%=group.slug%>"><%=group.slug%></a> <small><%=pluralize(group.memberships.count, 'members')%></small></h2>
+<% } %>

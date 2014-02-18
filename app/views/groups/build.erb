@@ -1,0 +1,24 @@
+<ol class="breadcrumb" style="margin-bottom: 10px">
+  <li><a href="/groups">Groups</a></li>
+  <li class="active">
+    New group
+  </li>
+</ol>
+
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <% form_for @group, @group.new_record? ? '/groups/new' : "/groups/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+
+      <%= f.text_block :slug %>
+      <% if GroupCategory.count > 0 %>
+        <%= f.select_block :group_category_id, :options => GroupCategory.all.map { |group_category| [group_category.name,group_category.id] } %>
+      <% end %>
+      <%= f.submit_block %>
+
+    <% end %> 
+
+  </div>
+</div>
+

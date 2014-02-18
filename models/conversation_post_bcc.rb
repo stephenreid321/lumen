@@ -44,9 +44,9 @@ class ConversationPostBcc
     end    
                 
     mail = Mail.new
-    mail.to = group.imap_address
+    mail.to = group.email
     mail.from = "#{conversation_post.account.name} <#{conversation_post.account.email}>"
-    mail.sender = group.smtp_address
+    mail.sender = group.noreply_email
     mail.subject = conversation_post.conversation.conversation_posts.count == 1 ? "[#{group.slug}] #{conversation_post.conversation.subject}" : "Re: [#{group.slug}] #{conversation_post.conversation.subject}"
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
     mail.html_part do

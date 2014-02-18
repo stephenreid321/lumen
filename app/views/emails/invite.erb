@@ -5,4 +5,4 @@ Hi <%=@account.name.split(' ').first%>,
 You can sign in at http://<%=ENV['DOMAIN']%>/sign_in<%=@extra%>.
 
 Best,
-<%=@group.smtp_sig%>
+<%=@group.noreply_sig%>

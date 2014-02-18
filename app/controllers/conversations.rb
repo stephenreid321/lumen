@@ -3,6 +3,7 @@ Lumen::App.controllers do
   post '/groups/:slug/new_conversation' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
+    ((flash[:error] = %Q{Please provide a subject and body}) and redirect back) unless (params[:subject] and params[:body])
     @conversation = @group.conversations.create!(subject: params[:subject])
     @conversation_post = @conversation.conversation_posts.create!(:body => params[:body], :account => current_account)        
     if params[:attachment]
@@ -26,6 +27,7 @@ Lumen::App.controllers do
   post '/conversations/:slug/post' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     membership_required!(@conversation.group)
+    ((flash[:error] = %Q{Please provide a body}) and redirect back) unless params[:body]
     @conversation_post = @conversation.conversation_posts.create!(:body => params[:body], :account => current_account)
     if params[:attachment]
       @conversation_post.attachments.create! :file => params[:attachment]

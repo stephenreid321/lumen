@@ -14,7 +14,7 @@ Lumen::App.helpers do
       when 0
         "No #{model.pluralize.downcase} found"
       when 1
-        "Displaying <b>1</b> #{model.pluralize.downcase}"
+        "Displaying <b>1</b> #{model.downcase}"
       else
         "Displaying <b>all #{collection.count}</b> #{model.pluralize.downcase}"
       end

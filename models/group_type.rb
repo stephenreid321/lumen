@@ -1,4 +1,4 @@
-class GroupCategory
+class GroupType
   include Mongoid::Document
   include Mongoid::Timestamps
 

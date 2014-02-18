@@ -6,10 +6,10 @@
 
 <ol class="breadcrumb">
   <li><a href="/">Groups</a></li>
-  <li class="active"><%=@group_category.name%> groups</li>
+  <li class="active"><%=@group_type.name%> groups</li>
 </ol>
 
 
-<% @group_category.groups.each { |group| %>
-  <h2><a href="/group/<%=group.slug%>"><%=group.slug%></a> <small><%=pluralize(group.memberships.count, 'members')%></small></h2>
+<% @group_type.groups.where(:privacy.ne => 'secret').each { |group| %>
+  <h2><a href="/groups/<%=group.slug%>"><%=group.slug%></a> <small><%=pluralize(group.memberships.count, 'member')%></small></h2>
 <% } %>

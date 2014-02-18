@@ -15,7 +15,8 @@ Lumen::App.controllers do
     
   get '/conversations/:slug' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
-    membership_required!(@conversation.group)
+    membership_required!(@conversation.group) unless @conversation.group.open?
+    @membership = @conversation.group.memberships.find_by(account: current_account)
     if @conversation.hidden
       flash[:notice] = "That conversation has been deleted."
       redirect "/groups/#{@conversation.group.slug}"

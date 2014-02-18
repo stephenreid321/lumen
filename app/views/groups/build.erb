@@ -1,23 +1,48 @@
 <ol class="breadcrumb" style="margin-bottom: 10px">
   <li><a href="/groups">Groups</a></li>
-  <li class="active">
-    New group
-  </li>
+  <% if @group.persisted? %>
+    <li>
+      <a href="/groups/<%=@group.slug%>/"><%= @group.slug%></a>    
+    </li>      
+    <li class="active">
+      Edit
+    </li>
+  <% else %>
+    <li class="active">
+      New group
+    </li>    
+  <% end %>
 </ol>
 
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-8 col-md-offset-2" id="group-form">
 
     <% form_for @group, @group.new_record? ? '/groups/new' : "/groups/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
-      <%= f.text_block :slug %>
-      <% if GroupCategory.count > 0 %>
-        <%= f.select_block :group_category_id, :options => GroupCategory.all.map { |group_category| [group_category.name,group_category.id] } %>
+      <%= f.text_block :slug, :disabled => !@group.new_record?, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>} %>     
+      <%= f.text_area_block :description %>
+      <%= f.radio_block :privacy %>
+      <% if GroupType.count > 0 %>
+        <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [group_type.name,group_type.id] } %>
       <% end %>
       <%= f.submit_block %>
 
     <% end %> 
+
+    <script>
+      $(function() {
+        $('#group_slug').keyup(function() {
+          $('.slug-replace').text($(this).val());
+        });
+      }).keyup();
+
+<% if @group.new_record? %>
+        $('form').submit(function() {
+          $('#group-form button[type=submit]').after(' <span><i class="fa fa-warning"></i> Please be patient, this could take a minute...</span>')
+        });
+<% end %>
+    </script>     
 
   </div>
 </div>

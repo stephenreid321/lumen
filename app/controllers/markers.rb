@@ -25,7 +25,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/map' do
     @group = Group.find_by(slug: params[:slug])
-    membership_required! 
+    membership_required! unless @group.open?
     if request.xhr?
       partial :'markers/map'
     else    
@@ -35,7 +35,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/iframe' do
     @group = Group.find_by(slug: params[:slug])
-    membership_required!     
+    membership_required! unless @group.open?  
     partial :'markers/iframe', :locals => {
       :points =>
         [

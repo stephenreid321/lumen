@@ -16,7 +16,7 @@ Lumen::App.controllers do
   
   digest = lambda do
     @group = Group.find_by(slug: params[:slug])
-    membership_required!
+    membership_required! unless @group.open?
     @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today
 
@@ -98,7 +98,7 @@ Lumen::App.controllers do
       
         mail = Mail.new
         mail.bcc = emails
-        mail.from = "#{group.noreply_name} <#{group.noreply_email}>"
+        mail.from = "#{group.slug} <#{group.email('-noreply')}>"
         mail.subject = "#{@h2}: #{compact_daterange(@from,@to)}"
         mail.html_part do
           content_type 'text/html; charset=UTF-8'

@@ -5,7 +5,7 @@
   </span>
   <div class="media-body">
     <div>
-      <% if defined? i and i > 0 and conversation_post.group.memberships.find_by(account: current_account).admin? %>
+      <% if @membership and @membership.admin? and defined? i and i > 0 %>
         <a style="float: right" title="Hide post" data-confirm="Are you sure you want to hide this post?" class="edit restore-opacity" href="/conversations/<%=conversation_post.conversation.slug%>/hide_post/<%=conversation_post.id%>"><i class="fa fa-times"></i> Hide post</a>
       <% end %>
       <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>            

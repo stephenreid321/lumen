@@ -1,37 +1,40 @@
 <ul class="page-options">  
-  <li>    
-    <i class="fa fa-envelope"></i>
-    Notifications
-    <form style="display:inline" method="get" action="/groups/<%=@group.slug%>/notification_level">
-      <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => @group.memberships.find_by(account: current_account).notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto; height: auto; font-size: 12px; padding: 3px; position: relative; top: -1px" %>
-    </form>   
-  </li> 
-  <% if @group.memberships.find_by(account: current_account).admin? %>        
-    <li>
-      <a title="Post review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/review"><i class="fa fa-star"></i> Post review</a>
-    </li>      
-    <li>
-      <a title="Did you know..." class="edit restore-opacity" href="/groups/<%=@group.slug%>/didyouknows"><i class="fa fa-question"></i> Did you know&hellip;</a>
-    </li>    
-    <li>
-      <a title="News summaries" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-twitter"></i> News summaries</a>
-    </li>
-    <li>
-      <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
-    </li>
-    <li>
-      <a title="Analytics" class="edit restore-opacity" href="/groups/<%=@group.slug%>/analytics"><i class="fa fa-dashboard"></i> Analytics</a>
-    </li>  
-  <% end %>     
+  <% if @membership %>
+    <li>    
+      <i class="fa fa-envelope"></i>
+      Notifications
+      <form style="display:inline" method="get" action="/groups/<%=@group.slug%>/notification_level">
+        <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => @membership.notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto; height: auto; font-size: 12px; padding: 3px; position: relative; top: -1px" %>
+      </form>   
+    </li> 
+    <% if @membership.admin? %>        
+      <li>
+        <a title="Post review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/review"><i class="fa fa-star"></i> Post review</a>
+      </li>      
+      <li>
+        <a title="Did you know..." class="edit restore-opacity" href="/groups/<%=@group.slug%>/didyouknows"><i class="fa fa-question"></i> Did you know&hellip;</a>
+      </li>    
+      <li>
+        <a title="News summaries" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-twitter"></i> News summaries</a>
+      </li>
+      <li>
+        <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
+      </li>
+      <li>
+        <a title="Analytics" class="edit restore-opacity" href="/groups/<%=@group.slug%>/analytics"><i class="fa fa-dashboard"></i> Analytics</a>
+      </li>  
+      <li>
+        <a title="Description" class="edit restore-opacity" href="/groups/<%=@group.slug%>/edit"><i class="fa fa-pencil"></i> Description</a>
+      </li>      
+    <% end %>     
+  <% end %>
 </ul>
 
 <ol class="breadcrumb">
-  <% if current_account.memberships.count > 1 %>
+  <% if !@membership or (@membership and current_account.memberships.count > 1) %>  
     <li><a href="/">Groups</a></li>
   <% end %>
-  <li class="active">
-    <%=@group.slug%>    
-  </li>
+  <li class="active"><%=@group.slug%></li>
 </ol>
 
 
@@ -47,7 +50,7 @@
         #map-tab iframe { height: 70vh }
       </style>
       <ul class="nav nav-tabs">
-        <% if current_account.memberships.count == 1 && Fragment.find_by(slug: 'home') %>        
+        <% if @membership and current_account.memberships.count == 1 and Fragment.find_by(slug: 'home') %>        
           <li><a href="#home-tab" title="Home" data-toggle="tab"><i class="fa fa-home"></i></a></li>
         <% end %>          
         <li><a title="Conversations" href="#conversations-tab" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
@@ -77,7 +80,7 @@
         });
         $("a[href='#lists-tab']").on('shown.bs.tab', function(e) {
           $('#lists-tab').load('/groups/<%=@group.slug%>/lists')
-        });        
+        });
         $("a[href='#calendar-tab']").on('shown.bs.tab', function(e) {
           $("a[href='#calendar-tab']").tooltip('hide');
           $('#calendar').fullCalendar('render');
@@ -93,7 +96,7 @@
   <div class="col-md-7">        
 
     <div class="tab-content">
-      <% if current_account.memberships.count == 1 && Fragment.find_by(slug: 'home') %>        
+      <% if @membership and current_account.memberships.count == 1 and Fragment.find_by(slug: 'home') %>        
         <div class="tab-pane" id="home-tab">
           <%= Fragment.find_by(slug: 'home').body %>
         </div>      

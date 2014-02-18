@@ -6,6 +6,24 @@ Lumen::App.controllers do
     @group.check!
   end   
   
+  get '/groups/:slug/edit' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    erb :'groups/build'
+  end
+  
+  post '/groups/:slug/edit' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    if @group.update_attributes(params[:group])
+      flash[:notice] = "<strong>Great!</strong> The group was updated successfully."
+      redirect "/groups/#{@group.slug}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the group from being saved."
+      erb :'groups/build'
+    end    
+  end   
+  
   get '/groups/:slug/members' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
@@ -116,7 +134,7 @@ Lumen::App.controllers do
       
         mail = Mail.new(
           :to => @account.email,
-          :from => "#{@group.noreply_name} <#{@group.noreply_email}>",
+          :from => "#{@group.slug} <#{@group.email('-noreply')}>",
           :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
           :body => erb(:'emails/invite', :layout => false)
         )
@@ -149,7 +167,7 @@ Lumen::App.controllers do
     
     mail = Mail.new(
       :to => @account.email,
-      :from => "#{@group.noreply_name} <#{@group.noreply_email}>",
+      :from => "#{@group.slug} <#{@group.email('-noreply')}>",
       :cc => current_account.email,
       :subject => "A reminder from #{current_account.name} to complete your #{ENV['SITE_NAME_SHORT']} profile",
       :body => erb(:'emails/reminder', :layout => false)

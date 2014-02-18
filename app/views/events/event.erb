@@ -1,13 +1,13 @@
-<ul class="page-options">
-  <li>
-    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
-  </li>  
-</ul>
+<% if @membership %>
+  <ul class="page-options">  
+    <li>
+      <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
+    </li>    
+  </ul>
+<% end %>
 
 <ol class="breadcrumb">
-  <% if current_account.memberships.count > 1 %>
-    <li><a href="/">Groups</a></li>
-  <% end %>
+  <li><a href="/">Groups</a></li>
   <li>
     <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
   </li>

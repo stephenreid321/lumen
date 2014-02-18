@@ -3,24 +3,19 @@ class Group
   include Mongoid::Timestamps
 
   field :slug, :type => String
-  field :analytics_conversation_threshold, :type => Integer, :default => ENV['SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD']
-  field :noreply_name, :type => String
-  field :noreply_sig, :type => String  
+  field :description, :type => String
+  field :privacy, :type => String
   
-  def email
-    "#{self.slug}@#{ENV['MAIL_DOMAIN']}"
+  def email(suffix = '')
+    "#{self.slug}#{suffix}@#{ENV['MAIL_DOMAIN']}"
   end
       
   def username
     ENV['VIRTUALMIN_SAME_DOMAIN'] ?  "#{slug}.#{ENV['MAIL_DOMAIN']}" : "#{slug}.#{ENV['MAIL_DOMAIN'].split('.').first}"
   end
-  
-  def noreply_email
-    "#{self.slug}-noreply@#{ENV['MAIL_DOMAIN']}"
-  end  
-           
+             
   def smtp_settings
-    {:address => ENV['VIRTUALMIN_SERVER'], :user_name => username, :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
+    {:address => ENV['VIRTUALMIN_IP'], :user_name => username, :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
   end  
   
   has_many :conversations, :dependent => :destroy
@@ -32,7 +27,7 @@ class Group
   has_many :markers, :dependent => :destroy
   has_many :lists, :dependent => :destroy
   
-  belongs_to :group_category
+  belongs_to :group_type
     
   def top_stories(from,to)
     Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
@@ -82,16 +77,16 @@ class Group
   end
       
   def self.fields_for_index
-    [:slug, :analytics_conversation_threshold, :group_category_id]
+    [:slug, :privacy, :group_type_id]
   end
   
   def self.fields_for_form
     {
       :slug => :text,
-      :analytics_conversation_threshold => :text,
-      :noreply_name => :text,
-      :noreply_sig => :text,
-      :group_category_id => :lookup,
+      :description => :text_area,
+      :privacy => :radio,
+      :group_type_id => :lookup,
+      :memberships => :collection,
       :conversations => :collection
     }
   end
@@ -99,12 +94,28 @@ class Group
   def self.lookup
     :slug
   end
-    
+  
+  def self.privacies
+    {'Open' => 'open', 'Closed' => 'closed', 'Secret' => 'secret'}
+  end
+  
+  def open?
+    privacy == 'open'
+  end
+  
+  def closed?
+    privacy == 'closed'
+  end
+  
+  def secret?
+    privacy == 'secret'
+  end
+      
   after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
     agent = Mechanize.new
     agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    index = agent.get(ENV['VIRTUALMIN_URL']).form_with(:action => '/session_login.cgi') do |f|
+    index = agent.get("https://#{ENV['VIRTUALMIN_IP']}:10000").form_with(:action => '/session_login.cgi') do |f|
       f.user = ENV['VIRTUALMIN_USERNAME']
       f.pass = ENV['VIRTUALMIN_PASSWORD']
     end.submit
@@ -115,34 +126,26 @@ class Group
     add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
     aliases_page = domain_page.link_with(:text => 'Edit Mail Aliases').click
     add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
-    # Add inbound user
+    # Add mail user
     form = add_user_page.form_with(:action => 'save_user.cgi')
     form['mailuser'] = self.slug
-    form['real'] = self.slug
     form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
     form['quota'] = 0
     form.checkbox_with(:name => /forward/).check
     form['forwardto'] = "#{self.slug}-pipe@#{ENV['MAIL_DOMAIN']}"
-    form.submit
-    # Add outbound user
-    form = add_user_page.form_with(:action => 'save_user.cgi')
-    form['mailuser'] = "#{self.slug}-noreply"
-    form['real'] = "#{self.slug}-noreply"
-    form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
-    form['quota'] = 0
     form.submit
     # Add pipe
     form = add_alias_page.form_with(:action => 'save_alias.cgi')
     form['complexname'] = "#{self.slug}-pipe"
     form.field_with(:name => 'type_0').option_with(:text => /Feed to program/).click
     form['val_0'] = "#{ENV['VIRTUALMIN_NOTIFICATION_SCRIPT']} #{slug}"
-    form.submit        
+    form.submit      
   end  
   
   def check!
     group = self
     logger.info "Attempting to log in as #{group.username}"
-    imap = Net::IMAP.new(ENV['VIRTUALMIN_SERVER'])
+    imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
     imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
     imap.select('INBOX')
     imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
@@ -152,7 +155,7 @@ class Group
       from = "#{envelope.from[0].mailbox}@#{envelope.from[0].host}"
                                   
       # delete notifications sent by/to the group        
-      if sender == group.noreply_email
+      if sender == group.email('-noreply')
         imap.store(sequence_id, "+FLAGS", [:Deleted])
         next
       end
@@ -171,7 +174,7 @@ class Group
         mail = Mail.new(
           :to => from,
           :bcc => ENV['HELP_ADDRESS'],
-          :from => "#{group.noreply_name} <#{group.noreply_email}>",
+          :from => "#{group.slug} <#{group.email('-noreply')}>",
           :subject => "Delivery failed: #{envelope.subject}",
           :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
         )

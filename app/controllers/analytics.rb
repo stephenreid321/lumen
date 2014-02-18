@@ -2,7 +2,7 @@ Lumen::App.controllers do
 
   get '/analytics' do
     site_admins_only!      
-    @conversation_threshold = ENV['SITEWIDE_ANALYTICS_CONVERSATION_THRESHOLD'].to_i     
+    @conversation_threshold = 3     
     @models = [ConversationPost, Conversation, Account, Event, PageView].select { |model|
       model.count > 0
     }.select { |model|
@@ -25,7 +25,7 @@ Lumen::App.controllers do
   get '/groups/:slug/analytics' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!      
-    @conversation_threshold = @group.analytics_conversation_threshold
+    @conversation_threshold = 3
     @collection_names = [:conversation_posts, :conversations, :memberships, :events].select { |collection_name|
       @group.send(collection_name).count > 0
     }.select { |collection_name|

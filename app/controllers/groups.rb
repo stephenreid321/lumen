@@ -18,10 +18,17 @@ Lumen::App.controllers do
       erb :'groups/build'
     end    
   end
-                        
+  
+  get '/groups/type/:slug' do
+    sign_in_required!
+    @group_type = GroupType.find_by(slug: params[:slug])
+    erb :'/groups/group_type'
+  end  
+                          
   get '/groups/:slug' do
     @group = Group.find_by(slug: params[:slug])
-    membership_required!        
+    membership_required! unless @group.open?
+    @membership = @group.memberships.find_by(account: current_account)
     @conversations = @group.conversations.where(:hidden.ne => true)
     @q = params[:q] if params[:q]        
     if @q
@@ -54,11 +61,5 @@ Lumen::App.controllers do
     flash[:notice] = 'Notification options updated!'
     redirect "/groups/#{@group.slug}"
   end   
-  
-  get '/category/:slug' do
-    sign_in_required!
-    @group_category = GroupCategory.find_by(slug: params[:slug])
-    erb :'/group_categories/group_category'
-  end
-        
+          
 end

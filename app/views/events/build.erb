@@ -14,9 +14,7 @@
 <% else %>
 
   <ol class="breadcrumb">
-    <% if current_account.memberships.count > 1 %>
-      <li><a href="/">Groups</a></li>
-    <% end %>
+    <li><a href="/">Groups</a></li>
     <li>
       <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
     </li>

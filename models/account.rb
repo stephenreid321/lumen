@@ -54,6 +54,10 @@ class Account
   def expertises
     expertise ? expertise.split(',').map { |x| x.split(';') }.flatten.map(&:downcase).map(&:strip) : []
   end
+  
+  def public_memberships
+    Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))
+  end
            
   # Picture
   dragonfly_accessor :picture, :app => :pictures do

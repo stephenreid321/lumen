@@ -76,9 +76,9 @@
                   </ul>        
                 </li>    
               <% end %>
-              <% if GroupCategory.count > 0 %>
-                <% GroupCategory.all.each { |group_category| %>
-                 <li><a href="/category/<%=group_category.slug%>"><i class="fa <%=group_category.icon%>"></i> <%=group_category.name%> groups</a></li>
+              <% if GroupType.count > 0 %>
+                <% GroupType.all.each { |group_type| %>
+                 <li><a href="/groups/type/<%=group_type.slug%>"><i class="fa <%=group_type.icon%>"></i> <%=group_type.name%> groups</a></li>
                 <% } %>
               <% end %>
               <% unless Fragment.find_by(slug: 'hide-organisations') %>

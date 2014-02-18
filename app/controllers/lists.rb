@@ -2,11 +2,12 @@ Lumen::App.controllers do
   
   get '/groups/:slug/lists' do
     @group = Group.find_by(slug: params[:slug])
-    membership_required!
+    membership_required! unless @group.open?
     @lists = @group.lists.order_by(:title.asc)
     if request.xhr?
       partial :'lists/lists', :locals => {:lists => @lists}
     else
+      membership_required!
       erb :'groups/lists'
     end
   end
@@ -32,7 +33,7 @@ Lumen::App.controllers do
    
   get '/groups/:slug/lists/:id' do
     @group = Group.find_by(slug: params[:slug])
-    membership_required!
+    membership_required! unless @group.open?
     @list = @group.lists.find(params[:id])
     erb :'lists/list'
   end

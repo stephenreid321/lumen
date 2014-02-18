@@ -5,10 +5,12 @@
   <div class="col-md-5">
     <h2 style="margin-top: 0"><%=@account.name%></h2>        
     <ul class="fa-ul">
-      <li>
-        <i title="Groups" class="fa fa-li fa-group"></i>
-        Member of <%= @account.memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %>
-      </li>
+      <% if @account.public_memberships.count > 0 %>
+        <li>
+          <i title="Groups" class="fa fa-li fa-group"></i>
+          Member of <%= @account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %>
+        </li>
+      <% end %>
       <% @account.affiliations.each { |affiliation|%>
         <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
       <% } %>          

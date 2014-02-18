@@ -50,16 +50,18 @@ Lumen::App.controllers do
   
   get '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
+    not_found if @group.secret?
     erb :'groups/request_membership'
   end
 
   post '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
+    not_found if @group.secret?
     if @group.memberships.find_by(account: current_account)
       flash[:notice] = "You're already a member of that group!"
     elsif @group.membership_requests.find_by(account: current_account)
       flash[:notice] = "You've already requested membership of that group."
-    else
+    elsif @group.closed?
       @group.membership_requests.create :account => current_account
       
       group = @group
@@ -79,7 +81,13 @@ Lumen::App.controllers do
     end
     redirect back
   end
-      
+  
+  get '/groups/:slug/join' do
+    @group = Group.find_by(slug: params[:slug])    
+    @group.memberships.create :account => current_account if @group.open?
+    redirect "/groups/#{@group.slug}"    
+  end  
+  
   get '/groups/:slug/leave' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!

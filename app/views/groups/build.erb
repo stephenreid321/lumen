@@ -1,5 +1,5 @@
 <ol class="breadcrumb" style="margin-bottom: 10px">
-  <li><a href="/groups">Groups</a></li>
+  <li><a href="/">Groups</a></li>
   <% if @group.persisted? %>
     <li>
       <a href="/groups/<%=@group.slug%>/"><%= @group.slug%></a>    
@@ -20,7 +20,7 @@
 
     <% form_for @group, @group.new_record? ? '/groups/new' : "/groups/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
-      <%= f.text_block :slug, :disabled => !@group.new_record?, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>} %>     
+      <%= f.text_block :slug, :disabled => !@group.new_record?, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>}, :tip => 'Letters, numbers and dashes (no spaces)' %>     
       <%= f.text_area_block :description %>
       <%= f.radio_block :privacy %>
       <% if GroupType.count > 0 %>

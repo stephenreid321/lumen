@@ -55,7 +55,7 @@ class Group
   end
   
   def admins
-    members.where(:role => 'admin')
+    Account.where(:id.in => memberships.where(:role => 'admin').only(:account_id).map(&:account_id))
   end
   
   def twitter_handles

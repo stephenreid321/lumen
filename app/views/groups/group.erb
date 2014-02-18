@@ -7,6 +7,9 @@
         <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => @membership.notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto; height: auto; font-size: 12px; padding: 3px; position: relative; top: -1px" %>
       </form>   
     </li> 
+    <li>
+      <a title="Leave group" class="edit restore-opacity" href="/groups/<%=@group.slug%>/leave"><i class="fa fa-sign-out"></i> Leave group</a>
+    </li>    
     <% if @membership.admin? %>             
       <li>
         <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
@@ -27,7 +30,11 @@
         <a title="Analytics" class="edit restore-opacity" href="/groups/<%=@group.slug%>/analytics"><i class="fa fa-dashboard"></i> Analytics</a>
       </li>        
     <% end %>     
-  <% else %>
+  <% elsif @group.open? %>
+    <li>
+      <a title="Join group" class="edit restore-opacity" href="/groups/<%=@group.slug%>/join"><i class="fa fa-sign-in"></i> Join group</a>
+    </li>
+  <% elsif @group.closed? %>
     <li>
       <% if @group.membership_requests.find_by(account: current_account) %>  
         <a class="edit restore-opacity">

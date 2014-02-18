@@ -8,7 +8,7 @@
       </form>   
     </li> 
     <li>
-      <a title="Leave group" class="edit restore-opacity" href="/groups/<%=@group.slug%>/leave"><i class="fa fa-sign-out"></i> Leave group</a>
+      <a title="Leave group" data-confirm="Are you sure you want to leave this group?" class="edit restore-opacity" href="/groups/<%=@group.slug%>/leave"><i class="fa fa-sign-out"></i> Leave group</a>
     </li>    
     <% if @membership.admin? %>             
       <li>

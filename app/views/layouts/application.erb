@@ -76,9 +76,12 @@
                   </ul>        
                 </li>    
               <% end %>
+              <% unless Fragment.find_by(slug: 'hide-directory') %>
+                <li><a href="/groups/directory"><i class="fa <%=Fragment.find_by(slug: 'directory-icon').try(:body) || 'fa-book'%>"></i> All groups</a></li>
+              <% end %>                
               <% if GroupType.count > 0 %>
                 <% GroupType.all.each { |group_type| %>
-                 <li><a href="/groups/type/<%=group_type.slug%>"><i class="fa <%=group_type.icon%>"></i> <%=group_type.name%> groups</a></li>
+                 <li><a href="/groups/directory/<%=group_type.slug%>"><i class="fa <%=group_type.icon%>"></i> <%=group_type.name%> groups</a></li>
                 <% } %>
               <% end %>
               <% unless Fragment.find_by(slug: 'hide-organisations') %>

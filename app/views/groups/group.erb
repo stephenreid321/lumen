@@ -55,7 +55,7 @@
 
 <ol class="breadcrumb">
   <% if !@membership or (@membership and current_account.memberships.count > 1) %>  
-    <li><a href="/">Groups</a></li>
+    <li><a href="/groups">Groups</a></li>
     <li class="active"><%=@group.slug%></li>
   <% else %>  
     <li></li>

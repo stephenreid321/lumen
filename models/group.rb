@@ -6,6 +6,10 @@ class Group
   field :description, :type => String
   field :privacy, :type => String
   
+  validates_presence_of :slug, :privacy
+  validates_uniqueness_of :slug
+  validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/  
+  
   def email(suffix = '')
     "#{self.slug}#{suffix}@#{ENV['MAIL_DOMAIN']}"
   end
@@ -61,11 +65,7 @@ class Group
   def twitter_handles
     memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
   end    
-  
-  validates_presence_of :slug
-  validates_uniqueness_of :slug
-  validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
-  
+    
   def default_didyouknows
     [
       %Q{Every group has its own <a href="http://#{ENV['DOMAIN']}/groups/#{slug}/calendar">events calendar</a>, and #{slug} has [upcoming_events].},

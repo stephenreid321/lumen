@@ -1,13 +1,13 @@
 <ol class="breadcrumb">
-  <li><a href="/">Groups</a></li>
-  <li class="active"><%=@group_type.name%> groups</li>
+  <li><a href="/groups">Groups</a></li>
+  <li class="active"><%=@group_type ? @group_type.name : 'All'%> groups</li>
 </ol>
 
 <div style="text-align: center; margin-top: 20px">
   <a title="Create a group" class="btn btn-default" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
 </div>
 
-<% @group_type.groups.where(:privacy.ne => 'secret').each { |group| %>
+<% @groups.where(:privacy.ne => 'secret').each { |group| %>
   <h2>
     <% if group.closed? and !(membership = group.memberships.find_by(account: current_account)) %><%=group.slug%><% else %><a href="/groups/<%=group.slug%>"><%=group.slug%></a><% end%>
     <small>

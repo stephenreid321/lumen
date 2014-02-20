@@ -19,10 +19,21 @@ Lumen::App.controllers do
     end    
   end
   
-  get '/groups/type/:slug' do
+  get '/groups' do
+    redirect '/groups/directory'
+  end
+  
+  get '/groups/directory' do
+    sign_in_required!
+    @groups = Group.all
+    erb :'/groups/directory'
+  end    
+  
+  get '/groups/directory/:slug' do
     sign_in_required!
     @group_type = GroupType.find_by(slug: params[:slug])
-    erb :'/groups/group_type'
+    @groups = @group_type.groups
+    erb :'/groups/directory'
   end  
                           
   get '/groups/:slug' do

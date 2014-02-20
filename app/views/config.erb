@@ -19,7 +19,7 @@ env = {
 
   :NOREPLY_NAME => "Name of email sender for general emails",
   :NOREPLY_SIG => "Email signature for general emails",
-  
+
   :EXTRA_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
   :NEWSME_SWITCH_HOUR => "Hour to switch over to today's news summaries e.g. 11",  
 
@@ -54,12 +54,14 @@ env = {
       <td>
         <%=v%></td>
       <td>
-        <% if k.to_s.ends_with?('PASSWORD') %>
-          <% ENV[k.to_s].length.times do %>
-            &bull;
+        <% if ENV[k.to_s] %>
+          <% if k.to_s.ends_with?('PASSWORD') %>
+            <% ENV[k.to_s].length.times do %>
+              &bull;
+            <% end %>
+          <% else %>
+            <%=ENV[k.to_s]%>
           <% end %>
-        <% else %>
-          <%=ENV[k.to_s]%>
         <% end %>
       </td>    
     </tr>

@@ -105,8 +105,9 @@ Lumen::App.controllers do
         next
       end
       name.strip!
-      email.strip!
-    
+      email.strip!    
+      @extra = ''
+      
       if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))        
         @account = Account.new({
             :name => name,

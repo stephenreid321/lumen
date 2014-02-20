@@ -7,7 +7,7 @@
   <a title="Create a group" class="btn btn-default" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
 </div>
 
-<% @groups.where(:privacy.ne => 'secret').each { |group| %>
+<% @groups.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
   <h2>
     <% if group.closed? and !(membership = group.memberships.find_by(account: current_account)) %><%=group.slug%><% else %><a href="/groups/<%=group.slug%>"><%=group.slug%></a><% end%>
     <small>

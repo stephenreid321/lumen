@@ -2,9 +2,42 @@ module Lumen
   class App < Padrino::Application
     register Padrino::Rendering
     register Padrino::Helpers
+    register Sinatra::AssetPack
     register WillPaginate::Sinatra
     helpers Activate::DatetimeHelpers
     helpers Activate::ParamHelpers  
+    
+    assets {
+      prebuild true
+      serve '/js',     from: 'assets/javascripts'
+      serve '/css',    from: 'assets/stylesheets'
+
+      css :application, [
+        'bootstrap.min.css',
+        'bootstrap-theme.min.css',
+        'font-awesome.min.css',
+        'bootstrap-wysihtml5-0.0.3.css',
+        'chosen.min.css',
+        'chosen-bootstrap.css',
+        'bootstrap-stacked-tabs.css',      
+        'datepicker3.css',
+        'app.css',      
+        'news.css'
+      ].map { |x| "/css/#{x}" }
+
+      js :application, [
+        'jquery-1.9.1.min.js',
+        'bootstrap.min.js',
+        'bootstrap3-typeahead.min.js',
+        'wysihtml5-0.3.0.js',
+        'bootstrap-wysihtml5-0.0.3.js',
+        'jquery.confirm.js',
+        'jquery.deparam.js',
+        'chosen.jquery.min.js',
+        'bootstrap-datepicker.js',
+        'app.js'
+      ].map { |x| "/js/#{x}" }    
+    }
 
     use Dragonfly::Middleware, :pictures
     use Dragonfly::Middleware, :files    
@@ -21,7 +54,8 @@ module Lumen
       OmniAuth::FailureEndpoint.new(env).redirect_to_failure
     }    
     if Padrino.env == :production
-      use Rack::Cache, :metastore => Dalli::Client.new, :entitystore => 'file:tmp/cache/rack/body', :allow_reload => false
+      client = Dalli::Client.new
+      use Rack::Cache, :metastore => client, :entitystore => client
     end    
     
     set :sessions, :expire_after => 1.year

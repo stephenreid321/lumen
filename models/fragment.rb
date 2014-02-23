@@ -5,6 +5,8 @@ class Fragment
   field :slug, :type => String
   field :body, :type => String  
   
+  index({slug: 1 }, {unique: true})
+  
   validates_presence_of :slug
   validates_uniqueness_of :slug
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/

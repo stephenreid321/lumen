@@ -7,6 +7,8 @@ class GroupType
   field :icon, :type => String
   field :description, :type => String  
   
+  index({slug: 1 }, {unique: true})
+  
   has_many :groups, :dependent => :nullify
   
   validates_presence_of :name, :slug

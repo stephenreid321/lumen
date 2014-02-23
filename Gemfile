@@ -17,7 +17,7 @@ gem 'bson_ext' # mongo
 gem 'dragonfly-s3_data_store' # s3
 
 # Authentication
-gem 'bcrypt-ruby', require: 'bcrypt'
+gem 'bcrypt'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
@@ -42,6 +42,7 @@ gem 'mechanize'
 gem 'rack-cache'
 gem 'memcachier'
 gem 'dalli'
+gem 'sinatra-assetpack', require: 'sinatra/assetpack'
 
 # Extras
 gem 'ri_cal', github: 'espen/ri_cal'

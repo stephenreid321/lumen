@@ -17,6 +17,8 @@ class ConversationPost
   validates_presence_of :body, :account, :conversation, :group
   validates_uniqueness_of :mid, :scope => :group, :allow_nil => true
   
+  index({mid: 1 }, {unique: true})
+  
   before_validation :set_group
   def set_group
     self.group = self.conversation.try(:group)

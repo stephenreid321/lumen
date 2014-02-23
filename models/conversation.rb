@@ -10,6 +10,8 @@ class Conversation
   field :slug, :type => Integer
   field :hidden, :type => Boolean, :default => false
   
+  index({slug: 1 }, {unique: true})
+  
   validates_presence_of :subject, :slug, :group
   validates_uniqueness_of :slug
       

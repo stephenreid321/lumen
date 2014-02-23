@@ -89,6 +89,8 @@ class Account
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i  
   validates_length_of :password, :within => 4..40, :if => :password_required
   validates_confirmation_of :password, :if => :password_required 
+  
+  index({email: 1 }, {unique: true})
     
   before_validation :set_has_picture
   def set_has_picture

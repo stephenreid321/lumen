@@ -42,7 +42,6 @@ gem 'mechanize'
 gem 'rack-cache'
 gem 'memcachier'
 gem 'dalli'
-gem 'sinatra-assetpack', require: 'sinatra/assetpack'
 
 # Extras
 gem 'ri_cal', github: 'espen/ri_cal'

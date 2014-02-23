@@ -3,11 +3,44 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title><%=ENV['SITE_NAME']%></title>
+
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <%= css :application %>
-    <%= js  :application %>     
+
+    <%
+    [
+      'bootstrap.min.css',
+      'bootstrap-theme.min.css',
+      'font-awesome.min.css',
+      'bootstrap-wysihtml5-0.0.3.css',
+      'chosen.min.css',
+      'chosen-bootstrap.css',
+      'bootstrap-stacked-tabs.css',      
+      'datepicker3.css',
+      'app.css',      
+      'news.css'
+      ].each { |file| %> 
+      <link rel="stylesheet" href="/stylesheets/<%=file%>" />    
+    <% } %>        
+
+    <% [
+      'jquery-1.9.1.min.js',
+      'bootstrap.min.js',
+      'bootstrap3-typeahead.min.js',
+      'wysihtml5-0.3.0.js',
+      'bootstrap-wysihtml5-0.0.3.js',
+      'jquery.confirm.js',
+      'jquery.deparam.js',
+      'chosen.jquery.min.js',
+      'bootstrap-datepicker.js',
+      'app.js'
+      ].each { |file| %>
+      <script src="/javascripts/<%=file%>"></script>
+    <% } %>   
+
     <%= Fragment.find_by(slug: 'head').try(:body) %>
+
   </head>
   <body>
 
@@ -48,7 +81,7 @@
               <% end %>                
               <% if GroupType.count > 0 %>
                 <% GroupType.all.each { |group_type| %>
-                  <li><a href="/groups/directory/<%=group_type.slug%>"><i class="fa <%=group_type.icon%>"></i> <%=group_type.name%> groups</a></li>
+                 <li><a href="/groups/directory/<%=group_type.slug%>"><i class="fa <%=group_type.icon%>"></i> <%=group_type.name%> groups</a></li>
                 <% } %>
               <% end %>
               <% unless Fragment.find_by(slug: 'hide-organisations') %>

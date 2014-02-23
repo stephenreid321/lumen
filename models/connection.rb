@@ -2,7 +2,7 @@ class Connection
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :account
+  belongs_to :account, index: true
     
   def self.lookup
     :provider

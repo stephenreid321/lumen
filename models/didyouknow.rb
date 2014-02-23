@@ -2,7 +2,7 @@ class Didyouknow
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :group   
+  belongs_to :group, index: true   
   
   field :body, :type => String  
   

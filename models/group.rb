@@ -34,7 +34,7 @@ class Group
   has_many :markers, :dependent => :destroy
   has_many :lists, :dependent => :destroy
   
-  belongs_to :group_type
+  belongs_to :group_type, index: true
     
   def top_stories(from,to)
     Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]

@@ -2,8 +2,8 @@ class Sectorship
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  belongs_to :organisation  
-  belongs_to :sector
+  belongs_to :organisation, index: true  
+  belongs_to :sector, index: true
   
   attr_accessor :sector_name
   before_validation :find_or_create_sector

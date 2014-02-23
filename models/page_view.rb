@@ -2,7 +2,7 @@ class PageView
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :account
+  belongs_to :account, index: true
   
   field :path
     

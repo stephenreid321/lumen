@@ -14,8 +14,8 @@ class Marker
     self.geocode || (self.coordinates = nil)
   end
   
-  belongs_to :group
-  belongs_to :account
+  belongs_to :group, index: true
+  belongs_to :account, index: true
   
   validates_presence_of :name, :address, :group, :account
     

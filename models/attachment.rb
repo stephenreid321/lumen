@@ -7,7 +7,7 @@ class Attachment
   field :file_name, :type => String
   field :cid, :type => String
   
-  belongs_to :conversation_post
+  belongs_to :conversation_post, index: true
         
   validates_presence_of :file, :conversation_post
  

@@ -4,8 +4,8 @@ class List
 
   field :title, :type => String  
   
-  belongs_to :group
-  belongs_to :account
+  belongs_to :group, index: true
+  belongs_to :account, index: true
   
   has_many :list_items, :dependent => :destroy
   

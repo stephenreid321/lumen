@@ -6,8 +6,8 @@ class ListItem
   field :link, :type => String
   field :content, :type => String
   
-  belongs_to :list
-  belongs_to :account
+  belongs_to :list, index: true
+  belongs_to :account, index: true
   
   has_many :list_item_votes, :dependent => :destroy
   

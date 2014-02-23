@@ -4,8 +4,8 @@ class ListItemVote
 
   field :value, :type => Integer
   
-  belongs_to :list_item
-  belongs_to :account
+  belongs_to :list_item, index: true
+  belongs_to :account, index: true
   
   validates_presence_of :value, :list_item, :account
     

@@ -2,7 +2,7 @@ class DailyDigest
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  belongs_to :news_summary
+  belongs_to :news_summary, index: true
 
   field :body, :type => String  
   field :date, :type => Date

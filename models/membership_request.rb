@@ -2,8 +2,8 @@ class MembershipRequest
   include Mongoid::Document
   include Mongoid::Timestamps
     
-  belongs_to :account
-  belongs_to :group
+  belongs_to :account, index: true
+  belongs_to :group, index: true
         
   validates_presence_of :account, :group
   validates_uniqueness_of :account, :scope => :group

@@ -2,7 +2,7 @@ class ConversationPostBcc
   include Mongoid::Document
   include Mongoid::Timestamps
    
-  belongs_to :conversation_post
+  belongs_to :conversation_post, index: true
   
   field :emails, :type => Array
   

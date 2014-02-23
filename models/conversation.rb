@@ -2,7 +2,7 @@ class Conversation
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  belongs_to :group  
+  belongs_to :group, index: true  
     
   has_many :conversation_posts, :dependent => :destroy
   

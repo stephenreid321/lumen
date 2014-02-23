@@ -4,8 +4,8 @@ class Affiliation
 
   field :title, :type => String
   
-  belongs_to :account
-  belongs_to :organisation  
+  belongs_to :account, index: true
+  belongs_to :organisation, index: true  
   
   attr_accessor :organisation_name
   before_validation :find_or_create_organisation

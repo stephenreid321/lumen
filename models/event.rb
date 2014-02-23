@@ -2,9 +2,9 @@ class Event
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  belongs_to :group
-  belongs_to :account
-  belongs_to :organisation
+  belongs_to :group, index: true
+  belongs_to :account, index: true
+  belongs_to :organisation, index: true
 
   field :name, :type => String
   field :start_time, :type => ActiveSupport::TimeWithZone

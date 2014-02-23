@@ -26,6 +26,10 @@ class Event
   def ensure_end_after_start
     errors.add(:end_time, 'must be after the start time') unless end_time >= start_time
   end
+  
+  before_validation do
+    self.more_info = "http://#{self.more_info}" if self.more_info and !self.more_info.start_with?('http://')
+  end  
     
   def self.fields_for_index
     [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :more_info, :ticketing, :tickets_link, :group_id, :account_id, :organisation_id]

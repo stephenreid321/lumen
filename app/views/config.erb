@@ -35,37 +35,42 @@ env = {
   :TWITTER_KEY => 'Twitter API key',
   :TWITTER_SECRET => 'Twitter API secret',
 
-  :HEROKU_APP_NAME => 'Name of the underlying Heroku app',
-  :HEROKU_API_KEY => 'Heroku API key',
-
   :AIRBRAKE_HOST => 'Airbrake host (no http://)',
   :AIRBRAKE_API_KEY => 'Airbrake API key',
 
-  :SESSION_SECRET => 'Session secret'
+  :SESSION_SECRET => 'Session secret',
+
+  :HEROKU_APP_NAME => 'Name of the underlying Heroku app',
+  :HEROKU_API_KEY => 'Heroku API key'  
   } %>
 
-<table class="table table-hover">
+<script>
+  $(function() {
+    $('#env input[type=text]').focus(function() {
+      $('#env input[name="options[' + this.name + ']"][value=edit]').prop('checked', true);
+    });
+  });
+</script>
+
+<% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
   <% env.each { |k,v| %>
-    <tr>
-      <td style="font-weight:bold">
+    <div class="form-group">
+      <label class="control-label col-md-3">
         <%=k%>
-      </td>
-      <td>
-        <%=v%></td>
-      <td>
-        <% if ENV[k.to_s] %>
-          <% if k.to_s.ends_with?('PASSWORD') %>
-            <% ENV[k.to_s].length.times do %>
-              &bull;
-            <% end %>
-          <% else %>
-            <%=ENV[k.to_s]%>
-          <% end %>
-        <% end %>
-      </td>    
-    </tr>
+      </label>
+      <div class="col-md-6">
+        <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_APP_NAME'] %>
+        <%= radio_button_tag "options[#{k}]", :value => 'edit', :style => 'display: none' %>
+        <p class="help-block"><%=v%></p>
+      </div>
+    </div>
   <% } %>
-</table>
+  <div class="form-group">
+    <div class="col-md-offset-3 col-md-6">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+<% end %>
 
 <h2>Fragments</h2>
 
@@ -88,10 +93,22 @@ fragments = {
   }
 %>
 
-<table class="table table-hover">
+<form class="form-horizontal">
   <% fragments.each { |k,v| %>
-    <tr>
-      <td style="font-weight:bold"><%=k%></td><td><%=v%></td><td><% if Fragment.find_by(slug: k) %><i class="fa fa-check"></i><% end %></td>    
-    </tr>
+    <div class="form-group">
+      <label class="control-label col-md-3">
+        <%=k%>
+      </label>
+      <div class="col-md-6">
+        <p class="help-block"><%=v%></p>
+      </div>
+      <div class="col-md-2">
+        <% if f = Fragment.find_by(slug: k) %>
+          <a href="/admin/edit/Fragment/<%=f.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
+        <% else %>
+          <a href="/admin/new/Fragment" class="btn btn-default"><i class="fa fa-pencil"></i> Create</a>
+        <% end %>        
+      </div>
+    </div>
   <% } %>
-</table>
+</form>

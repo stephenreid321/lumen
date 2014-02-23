@@ -67,6 +67,19 @@ module Lumen
       site_admins_only!
       erb :config
     end
+    
+    post '/config' do
+      site_admins_only!
+      heroku = Heroku::API.new
+      params[:options].each { |k,v|
+        case v
+        when 'edit'
+          heroku.put_config_vars(ENV['HEROKU_APP_NAME'], k => params[k])
+        end
+      }
+      flash[:notice] = "<strong>Sweet.</strong> Your config vars were updated."
+      redirect '/config'
+    end    
         
     get '/about' do
       sign_in_required!

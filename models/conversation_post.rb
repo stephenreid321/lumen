@@ -6,9 +6,9 @@ class ConversationPost
   field :mid, :type => String
   field :hidden, :type => Boolean, :default => false
   
-  belongs_to :conversation
-  belongs_to :group
-  belongs_to :account
+  belongs_to :conversation, index: true
+  belongs_to :group, index: true
+  belongs_to :account, index: true
   
   has_many :conversation_post_bccs, :dependent => :destroy
   

@@ -55,18 +55,18 @@ env = {
 <% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
   <% env.each { |k,v| %>
     <div class="form-group">
-      <label class="control-label col-md-3">
+      <label class="control-label col-md-4">
         <%=k%>
+        <p style="font-weight: normal" class="help-block"><%=v%></p>
       </label>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_APP_NAME'] %>
-        <%= radio_button_tag "options[#{k}]", :value => 'edit', :style => 'display: none' %>
-        <p class="help-block"><%=v%></p>
+        <%= radio_button_tag "options[#{k}]", :value => 'edit', :style => 'display: none' %>        
       </div>
     </div>
   <% } %>
   <div class="form-group">
-    <div class="col-md-offset-3 col-md-6">
+    <div class="col-md-offset-4 col-md-6">
       <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
@@ -96,12 +96,10 @@ fragments = {
 <form class="form-horizontal">
   <% fragments.each { |k,v| %>
     <div class="form-group">
-      <label class="control-label col-md-3">
+      <label class="control-label col-md-4">
         <%=k%>
+        <p style="font-weight: normal" class="help-block"><%=v%></p>
       </label>
-      <div class="col-md-6">
-        <p class="help-block"><%=v%></p>
-      </div>
       <div class="col-md-2">
         <% if f = Fragment.find_by(slug: k) %>
           <a href="/admin/edit/Fragment/<%=f.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>

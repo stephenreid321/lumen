@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
 
 ruby '2.0.0'
-gem 'puma', '1.6.3'
-gem 'padrino', '0.11.1'
-gem 'tilt', '1.3.7'
+gem 'puma'
+gem 'padrino', '0.12.0'
 gem 'rake'
 
 # Admin

@@ -18,7 +18,7 @@ Lumen::App.controllers do
       Mail.defaults do
         delivery_method :smtp, {
           :address => ENV['VIRTUALMIN_IP'],
-          :user_name => (ENV['VIRTUALMIN_SAME_DOMAIN'] ?  ENV['MAIL_DOMAIN'] : ENV['MAIL_DOMAIN'].split('.').first),
+          :user_name => ENV['MAIL_DOMAIN'].split('.').first,
           :password => ENV['VIRTUALMIN_PASSWORD'],
           :port => 25,
           :authentication => 'login',

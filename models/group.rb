@@ -15,7 +15,7 @@ class Group
   end
       
   def username(suffix = '')
-    ENV['VIRTUALMIN_SAME_DOMAIN'] ?  "#{slug}#{suffix}.#{ENV['MAIL_DOMAIN']}" : "#{slug}#{suffix}.#{ENV['MAIL_DOMAIN'].split('.').first}"
+    "#{slug}#{suffix}.#{ENV['MAIL_DOMAIN'].split('.').first}"
   end
              
   def smtp_settings
@@ -221,9 +221,9 @@ class Group
         html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
       rescue; end
                              
-      if html.include?('Respond by replying above this line') and (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/))
+      if html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/))
         conversation = group.conversations.find_by(slug: conversation_url_match[-1])
-        ['Respond by replying above this line', /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________', '<div.*#B5C4DF.*>'].each { |pattern|
+        [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________', '<div.*#B5C4DF.*>'].each { |pattern|
           html = html.split(pattern).first
         }
       else

@@ -95,7 +95,8 @@ Lumen::App.controllers do
         Mail.defaults do
           delivery_method :smtp, group.smtp_settings
         end    
-      
+              
+        logger.info "Delivering #{@group.slug} #{params[:notification_level]} summary to #{emails}"
         mail = Mail.new
         mail.bcc = emails
         mail.from = "#{group.slug} <#{group.email('-noreply')}>"

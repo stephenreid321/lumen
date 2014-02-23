@@ -1,20 +1,32 @@
 
+def path(x)
+  open("http://#{ENV['DOMAIN']}#{x}?token=#{Account.find_by(role: 'admin').generate_secret_token}")
+end
 
-desc "/update_news"
-task :update_news => :environment do
-  open("http://#{ENV['DOMAIN']}/update_news?token=#{Account.find_by(role: 'admin').generate_secret_token}")
+namespace :cleanup do
+  task :organisations => :environment do
+    path '/organisations/cleanup'
+  end
+  task :sectors => :environment do
+    path '/sectors/cleanup'
+  end      
+end
+
+task :cleanup => ['cleanup:organisations', 'cleanup:sectors']
+
+namespace :news do
+  task :update => :environment do
+    path '/update_news'
+  end
 end
 
 namespace :digests do
-  desc "/send_digests/daily"
   task :daily => :environment do
-    open("http://#{ENV['DOMAIN']}/send_digests/daily?token=#{Account.find_by(role: 'admin').generate_secret_token}")
+    path '/send_digests/daily'
   end
-
-  desc "/send_digests/weekly"
   task :weekly => :environment do
     if Date.today.wday == 0
-      open("http://#{ENV['DOMAIN']}/send_digests/weekly?#{Account.find_by(role: 'admin').generate_secret_token}")
+      path '/send_digests/weekly'
     end
   end
 end

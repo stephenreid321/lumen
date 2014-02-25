@@ -108,6 +108,7 @@ Lumen::App.controllers do
         mail.deliver!                      
       end             
     }
+    halt 200
   end  
   
 end

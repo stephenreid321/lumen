@@ -3,6 +3,7 @@ Lumen::App.controllers do
   get '/update_news' do
     site_admins_only!
     NewsSummary.each { |news_summary| news_summary.get_current_digest! }
+    halt 200
   end  
 
   get '/news' do

@@ -4,6 +4,7 @@ Lumen::App.controllers do
     site_admins_only!
     @group = Group.find_by(slug: params[:slug]) || not_found
     @group.check!
+    redirect "/groups/#{@group.slug}"
   end   
   
   get '/groups/:slug/edit' do

@@ -3,7 +3,7 @@
 ### Example notification script
 
 ```php
-#!/usr/local/bin/php -n
+#!/usr/bin/php -n
 <?php
 require_once('PlancakeEmailParser.php');
 

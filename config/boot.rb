@@ -11,7 +11,5 @@ require 'net/imap'
 
 Padrino.load!
 
-Padrino::Logger::Config[:production] = { :log_level => :info, :stream => :to_file }
-
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")
 Mongoid.raise_not_found_error = false

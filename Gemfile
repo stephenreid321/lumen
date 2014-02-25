@@ -46,3 +46,4 @@ gem 'dalli'
 # Extras
 gem 'ri_cal', github: 'espen/ri_cal'
 gem 'geocoder'
+gem 'mail-logger'

@@ -9,6 +9,8 @@ Bundler.require(:default, RACK_ENV)
 
 require 'net/imap'
 
+Padrino::Logger::Config[:production] = { :log_level => :info, :stream => :to_file }
+
 Padrino.load!
 
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")

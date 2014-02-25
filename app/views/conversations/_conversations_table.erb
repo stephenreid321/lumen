@@ -7,8 +7,10 @@
       <% end %>
       <td><span style="opacity: <%=(o = (0.3 + 0.7*((c = conversation.conversation_posts.where(:hidden.ne => true).count).to_f/3))) > 1 ? 1 : o%>"class="badge"><%=c%></span></td>
       <td>
-        Last post <%= time_ago_in_words(conversation.last_conversation_post.created_at) %> ago
-        by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>
+        <% if conversation.last_conversation_post %>
+          Last post <%= time_ago_in_words(conversation.last_conversation_post.created_at) %> ago
+          by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>
+        <% end %>
       </td>
     </tr>
   <% } %>      

@@ -55,10 +55,8 @@ class ConversationPostBcc
     end
     conversation_post.attachments.each { |attachment|        
       mail.add_file(:filename => attachment.file_name, :content => attachment.file.data)
-    }
-    
+    }    
     mail.bcc = emails
-    logger.info "Delivering #{mail.subject} to #{mail.bcc}"  
     mail.deliver!   
   end  
   

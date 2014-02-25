@@ -157,7 +157,6 @@ class Group
   
   def check!
     group = self
-    logger.info "Attempting to log in as #{group.username}"
     imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
     imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
     imap.select('INBOX')

@@ -89,23 +89,25 @@ Lumen::App.controllers do
         @new_events = @group.new_events(@from,@to)
         @upcoming_events = @group.upcoming_events      
       
-        @h2 = "Digest for #{group.slug}"
-        html = Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+        if @top_stories.any? { |news_summary,stories| stories.length > 0 } or [@new_people, @hot_conversations, @new_events, @upcoming_events].any? { |x| x.length > 0 }
+          @h2 = "Digest for #{group.slug}"
+          html = Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
       
-        Mail.defaults do
-          delivery_method :smtp, group.smtp_settings
-        end    
+          Mail.defaults do
+            delivery_method :smtp, group.smtp_settings
+          end    
               
-        logger.info "Delivering #{@group.slug} #{params[:notification_level]} summary to #{emails}"
-        mail = Mail.new
-        mail.bcc = emails
-        mail.from = "#{group.slug} <#{group.email('-noreply')}>"
-        mail.subject = "#{@h2}: #{compact_daterange(@from,@to)}"
-        mail.html_part do
-          content_type 'text/html; charset=UTF-8'
-          body html
+          logger.info "Delivering #{@group.slug} #{params[:notification_level]} summary to #{emails}"
+          mail = Mail.new
+          mail.bcc = emails
+          mail.from = "#{group.slug} <#{group.email('-noreply')}>"
+          mail.subject = "#{@h2}: #{compact_daterange(@from,@to)}"
+          mail.html_part do
+            content_type 'text/html; charset=UTF-8'
+            body html
+          end
+          mail.deliver!                      
         end
-        mail.deliver!                      
       end             
     }
     halt 200

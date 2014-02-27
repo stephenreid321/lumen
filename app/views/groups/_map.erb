@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-10">
+    <iframe class="map"></iframe>
+  </div>
+  <div class="col-md-2">
+    <script>
+      $(function() {
+        $('#map-form input').click(function() {
+          $('iframe.map').attr('src', '/groups/<%=@group.slug%>/iframe?' + $(this.form).serialize())
+        });
+        $('iframe.map').attr('src', '/groups/<%=@group.slug%>/iframe?' + $('#map-form').serialize())
+      });
+    </script>
+    <form id="map-form">
+      <div class="checkbox">
+        <label>
+          <%= check_box_tag :accounts, :value => true, :checked => true %> People
+        </label>
+      </div>  
+      <div class="checkbox">
+        <label>
+          <%= check_box_tag :organisations, :value => true, :checked => true %> Organisations
+        </label>
+      </div>  
+      <% if lists = @group.lists.select { |list| list.list_items.any?(&:coordinates) } %>
+        <h3>Lists</h3>
+        <% lists.each { |list| %>
+          <div class="checkbox">
+            <label>
+              <%= check_box_tag :'lists[]', :value => list.id %> <%=list.title%>
+            </label>
+          </div>      
+        <% } %>
+      <% end %>
+    </form>
+  </div>  
+</div>

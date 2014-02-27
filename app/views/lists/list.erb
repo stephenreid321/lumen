@@ -12,14 +12,14 @@
 </ol>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="<% if @list.list_items.any?(&:coordinates) %>col-md-4<% else %>col-md-8<% end %>">
 
     <h1><%=@list.title%> <small><%=pluralize(@list.list_items.count, 'item')%></small></h1>
 
     <ol>
       <% @list.list_items.all.sort_by(&:score).reverse.each { |list_item| %>
-        <li style="font-size: 24px">
-          <h2 style="display:inline; font-size:24px; line-height: 100%">
+        <li style="font-size: 20px">
+          <h2 style="display:inline; font-size:20px; line-height: 100%">
             <% if list_item.link %>
               <a href="<%=list_item.link%>"><%=list_item.title%></a>
             <% else %>
@@ -39,7 +39,12 @@
     </ol>
 
   </div>
-  <div class="col-md-4 col-md-offset-2">
+  <div class="col-md-4" style="margin-top: 30px">
+    <% if @list.list_items.any?(&:coordinates) %>
+      <iframe style="height: 70vh" class="map" src="/groups/<%=@group.slug%>/lists/<%=@list.id%>/map"></iframe>
+    <% end %>
+  </div>
+  <div class="col-md-4">
     <h2>Add an item to this list</h2>
     <% form_tag "/groups/#{@group.slug}/lists/#{@list.id}/add_item", :method => 'post' do %>
       <div class="form-group">
@@ -47,7 +52,10 @@
       </div>    
       <div class="form-group">
         <%= text_field_tag :link, :class => 'form-control', :placeholder => 'Link (optional)' %>
-      </div>        
+      </div>    
+      <div class="form-group">
+        <%= text_field_tag :address, :class => 'form-control', :placeholder => 'Address (if you want this item displayed on a map; optional)' %>
+      </div>       
       <div class="form-group">
         <%= text_area_tag :content, :class => 'form-control', :placeholder => 'Content (optional)' %>
       </div>

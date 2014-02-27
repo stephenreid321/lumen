@@ -1,3 +1,11 @@
+<ul class="page-options">  
+  <li>        
+    <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/edit">
+      <i class="fa fa-pencil"></i> Edit
+    </a>
+  </li> 
+</ul>
+
 <ol class="breadcrumb">
   <li><a href="/groups">Groups</a></li>
   <li>
@@ -20,7 +28,7 @@
     </h1>
 
     <ol>
-      <% @list.list_items.all.sort_by(&:score).reverse.each { |list_item| %>
+      <% list_items = @list.list_items.all.sort_by(&:"#{@list.order}"); list_items.reverse! if @list.order == 'score'; list_items.each { |list_item| %>
         <li style="font-size: 20px">
           <h2 style="display:inline; font-size:20px; line-height: 100%">
             <% if list_item.link %>
@@ -30,9 +38,11 @@
             <% end %>
           </h2>
           <span style="float: right">
-            <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/vote/<%=list_item.id%>/1"><i class="fa fa-chevron-up"></i></a>
-            <%=list_item.score%>
-            <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/vote/<%=list_item.id%>/-1"><i class="fa fa-chevron-down"></i></a>      
+            <% if @list.order == 'score' %>
+              <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/vote/<%=list_item.id%>/1"><i class="fa fa-chevron-up"></i></a>
+              <%=list_item.score%>
+              <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/vote/<%=list_item.id%>/-1"><i class="fa fa-chevron-down"></i></a>      
+            <% end %>
             <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/edit/<%=list_item.id%>"><i class="fa fa-pencil"></i></a>
             <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/destroy/<%=list_item.id%>" data-confirm="Are you sure you want to remove this item?"><i class="fa fa-times"></i></a>            
           </span>          

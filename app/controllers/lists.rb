@@ -11,7 +11,7 @@ Lumen::App.controllers do
       erb :'groups/lists'
     end        
   end
-  
+    
   post '/groups/:slug/lists/create' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
@@ -21,6 +21,26 @@ Lumen::App.controllers do
     else
       redirect back
     end
+  end  
+  
+  get '/groups/:slug/lists/:id/edit' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    @list = @group.lists.find(params[:id])
+    erb :'lists/build'    
+  end
+  
+  post '/groups/:slug/lists/:id/edit' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    @list = @group.lists.find(params[:id])
+    if @list.update_attributes(params[:list])
+      flash[:notice] = "<strong>Great!</strong> The list was updated successfully."
+      redirect "/groups/#{@group.slug}/lists/#{@list.id}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the list from being saved."
+      erb :'lists/build'
+    end 
   end  
   
   get '/groups/:slug/lists/:id/destroy' do
@@ -40,8 +60,10 @@ Lumen::App.controllers do
       erb :'lists/list'     
     when :csv
       CSV.generate do |csv|
-        csv << (fields = [:title,:link,:address,:content])
-        @list.list_items.each do |list_item|
+        csv << (fields = [:title,:link,:address,:content, :score])
+        list_items = @list.list_items.all.sort_by(&:"#{@list.order}")
+        list_items.reverse! if @list.order == 'score';
+        list_items.each do |list_item|
           csv << fields.map { |f| list_item.send(f) }
         end
       end      

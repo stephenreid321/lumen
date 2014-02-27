@@ -1,0 +1,35 @@
+<ol class="breadcrumb">
+  <li><a href="/groups">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/lists">Lists</a>    
+  </li>  
+  <% if @list.persisted? %>
+    <li>
+      <a href="/groups/<%=@group.slug%>/lists/<%=@list.id%>"><%=@list.title%></a>    
+    </li>        
+    <li class="active">
+      Edit
+    </li>
+  <% else %>
+    <li class="active">
+      New list
+    </li>    
+  <% end %>
+</ol>
+
+<div class="row" style="margin-top: 10px">
+  <div class="col-md-6 col-md-offset-3">
+
+    <% form_for @list, @list.new_record? ? "/groups/#{@group.slug}/lists/new" : "/groups/#{@group.slug}/lists/#{@list.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+
+      <%= f.text_block :title %>
+      <%= f.radio_block :order %>
+      <%= f.submit_block destroy_url: "/groups/#{@group.slug}/lists/#{@list.id}/destroy" %>
+
+    <% end %>
+
+  </div>
+</div>

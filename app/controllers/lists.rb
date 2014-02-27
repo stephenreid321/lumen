@@ -38,14 +38,18 @@ Lumen::App.controllers do
     erb :'lists/list'
   end
     
-  post '/groups/:slug/lists/:id/add_item' do
+  post '/groups/:slug/lists/:id/add' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @list = @group.lists.find(params[:id])
-    @list.list_items.create :title => params[:title], :link => params[:link], :content => params[:content], :address => params[:address], :account => current_account
+    data = params[:data] || "#{params[:title]}\t#{params[:link]}\t#{params[:address]}\t#{params[:content]}"
+    data.split("\n").reject { |line| line.blank? }.each { |line|      
+      title, link, address, content = line.split("\t")
+      @list.list_items.create :title => title, :link => link, :address => address, :content => content, :account => current_account
+    }
     redirect "/groups/#{@group.slug}/lists/#{@list.id}"
   end
-  
+    
   get '/groups/:slug/lists/:id/vote/:list_item_id/:val' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!

@@ -26,14 +26,14 @@ Lumen::App.controllers do
   get '/groups/:slug/lists/:id/edit' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     erb :'lists/build'    
   end
   
   post '/groups/:slug/lists/:id/edit' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     if @list.update_attributes(params[:list])
       flash[:notice] = "<strong>Great!</strong> The list was updated successfully."
       redirect "/groups/#{@group.slug}/lists/#{@list.id}"
@@ -54,7 +54,7 @@ Lumen::App.controllers do
   get '/groups/:slug/lists/:id', :provides => [:html, :csv] do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     case content_type
     when :html
       erb :'lists/list'     
@@ -71,7 +71,7 @@ Lumen::App.controllers do
   post '/groups/:slug/lists/:id/add' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     data = params[:data] || "#{params[:title]}\t#{params[:link]}\t#{params[:address]}\t#{params[:content]}"
     data.split("\n").reject { |line| line.blank? }.each { |line|      
       title, link, address, content = line.split("\t").map { |x| x.blank? ? nil : x.strip }
@@ -83,7 +83,7 @@ Lumen::App.controllers do
   get '/groups/:slug/lists/:id/vote/:list_item_id/:val' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     @list_item = @list.list_items.find(params[:list_item_id])
     @list_item.list_item_votes.create(value: params[:val], account: current_account)
     redirect "/groups/#{@group.slug}/lists/#{@list.id}"
@@ -92,7 +92,7 @@ Lumen::App.controllers do
   get '/groups/:slug/lists/:id/destroy/:list_item_id' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     @list_item = @list.list_items.find(params[:list_item_id])
     @list_item.destroy
     redirect "/groups/#{@group.slug}/lists/#{@list.id}"
@@ -101,7 +101,7 @@ Lumen::App.controllers do
   get '/groups/:slug/lists/:id/new' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     @list_item = @list.list_items.build
     erb :'lists/list_item'
   end
@@ -109,7 +109,7 @@ Lumen::App.controllers do
   post '/groups/:slug/lists/:id/new' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     @list_item = @list.list_items.build(params[:list_item])
     @list_item.account = current_account
     if @list_item.save  
@@ -124,7 +124,7 @@ Lumen::App.controllers do
   get '/groups/:slug/lists/:id/edit/:list_item_id' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     @list_item = @list.list_items.find(params[:list_item_id])
     erb :'lists/list_item'
   end
@@ -132,7 +132,7 @@ Lumen::App.controllers do
   post '/groups/:slug/lists/:id/edit/:list_item_id' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @list = @group.lists.find(params[:id])
+    @list = @group.lists.find(params[:id]) || not_found
     @list_item = @list.list_items.find(params[:list_item_id])
     if @list_item.update_attributes(params[:list_item])
       flash[:notice] = "<strong>Great!</strong> The item was updated successfully."

@@ -3,13 +3,13 @@ Lumen::App.controllers do
   get '/groups/:slug/lists' do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
-    @lists = @group.lists.order_by(:title.asc)
+    @lists = @group.lists.order_by(:title.asc)      
     if request.xhr?
       partial :'lists/lists', :locals => {:lists => @lists}
     else
       membership_required!
       erb :'groups/lists'
-    end
+    end        
   end
   
   post '/groups/:slug/lists/create' do
@@ -31,11 +31,21 @@ Lumen::App.controllers do
     redirect "/groups/#{@group.slug}/lists"
   end   
    
-  get '/groups/:slug/lists/:id' do
+  get '/groups/:slug/lists/:id', :provides => [:html, :csv] do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
     @list = @group.lists.find(params[:id])
-    erb :'lists/list'
+    case content_type
+    when :html
+      erb :'lists/list'     
+    when :csv
+      CSV.generate do |csv|
+        csv << (fields = [:title,:link,:address,:content])
+        @list.list_items.each do |list_item|
+          csv << fields.map { |f| list_item.send(f) }
+        end
+      end      
+    end
   end
     
   post '/groups/:slug/lists/:id/add' do

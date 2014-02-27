@@ -14,7 +14,10 @@
 <div class="row">
   <div class="<% if @list.list_items.any?(&:coordinates) %>col-md-4<% else %>col-md-8<% end %>">
 
-    <h1><%=@list.title%> <small><%=pluralize(@list.list_items.count, 'item')%></small></h1>
+    <h1>
+      <%=@list.title%> <small><%=pluralize(@list.list_items.count, 'item')%></small>
+      <a style="float: right" title="Download" class="btn btn-default" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>.csv"><i class="fa fa-download"></i></a>
+    </h1>
 
     <ol>
       <% @list.list_items.all.sort_by(&:score).reverse.each { |list_item| %>

@@ -10,8 +10,11 @@ class List
   
   has_many :list_items, :dependent => :destroy
   
+  def number_content
+    order == 'content' and list_items.all? { |list_item| list_item.content && list_item.content.to_i.to_s == list_item.content }
+  end
+  
   def list_items_sorted
-    number_content = (order == 'content' and list_items.all? { |list_item| list_item.content && list_item.content.to_i.to_s == list_item.content })
     items = list_items.sort { |a,b|
       x = a.send(:"#{order}")      
       y = b.send(:"#{order}")

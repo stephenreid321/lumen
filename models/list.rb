@@ -21,7 +21,7 @@ class List
       (x = x.to_i; y = y.to_i) if number_content
       x && y ? x <=> y : x ? -1 : 1
     }
-    items.reverse! if order == 'score'
+    items.reverse! if order == 'score' or number_content
     items
   end
   

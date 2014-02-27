@@ -3,7 +3,7 @@ class List
   include Mongoid::Timestamps
 
   field :title, :type => String
-  field :order, :type => String
+  field :order, :type => String, :default => 'score'
   
   belongs_to :group, index: true
   belongs_to :account, index: true

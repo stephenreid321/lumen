@@ -74,11 +74,7 @@ Lumen::App.controllers do
     @list = @group.lists.find(params[:id])
     data = params[:data] || "#{params[:title]}\t#{params[:link]}\t#{params[:address]}\t#{params[:content]}"
     data.split("\n").reject { |line| line.blank? }.each { |line|      
-      title, link, address, content = line.split("\t")
-      title.strip! if title
-      link.strip! if link
-      address.strip! if address
-      content.strip! if content
+      title, link, address, content = line.split("\t").map { |x| x.blank? ? nil : x.strip }
       @list.list_items.create :title => title, :link => link, :address => address, :content => content, :account => current_account
     }
     redirect "/groups/#{@group.slug}/lists/#{@list.id}"

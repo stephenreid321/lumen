@@ -10,6 +10,12 @@ class List
   
   has_many :list_items, :dependent => :destroy
   
+  def list_items_sorted
+    items = list_items.sort { |a,b| a.send(:"#{order}") && b.send(:"#{order}") ? a.send(:"#{order}") <=> b.send(:"#{order}") : a.send(:"#{order}") ? -1 : 1 }
+    items.reverse! if order == 'score'
+    items
+  end
+  
   validates_presence_of :title, :group, :account
     
   def self.fields_for_index

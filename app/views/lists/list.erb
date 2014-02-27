@@ -20,23 +20,19 @@
 </ol>
 
 <div class="row">
-  <div class="<% if @list.list_items.any?(&:coordinates) %>col-md-4<% else %>col-md-8<% end %>">
+  <div class="<% if map = @list.list_items.any?(&:coordinates) %>col-md-4<% else %>col-md-8<% end %>">
 
     <h1>
       <%=@list.title%> <small><%=pluralize(@list.list_items.count, 'item')%></small>
       <a style="float: right" title="Download" class="btn btn-default" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>.csv"><i class="fa fa-download"></i></a>
     </h1>
 
+    <style>
+      .list-item-li, .list-item-h2 { font-size: <% if map %>16<% else %>20<% end %>px !important }
+    </style>
     <ol>
-      <% list_items = @list.list_items.all.sort_by(&:"#{@list.order}"); list_items.reverse! if @list.order == 'score'; list_items.each { |list_item| %>
-        <li style="font-size: 20px">
-          <h2 style="display:inline; font-size:20px; line-height: 100%">
-            <% if list_item.link %>
-              <a href="<%=list_item.link%>"><%=list_item.title%></a>
-            <% else %>
-              <%=list_item.title%>
-            <% end %>
-          </h2>
+      <% @list.list_items_sorted.each { |list_item| %>
+        <li class="list-item-li">
           <span style="float: right">
             <% if @list.order == 'score' %>
               <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/vote/<%=list_item.id%>/1"><i class="fa fa-chevron-up"></i></a>
@@ -45,14 +41,24 @@
             <% end %>
             <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/edit/<%=list_item.id%>"><i class="fa fa-pencil"></i></a>
             <a class="edit" href="/groups/<%=@group.slug%>/lists/<%=@list.id%>/destroy/<%=list_item.id%>" data-confirm="Are you sure you want to remove this item?"><i class="fa fa-times"></i></a>            
-          </span>          
-          <p style="font-size: 14px"><%=list_item.content%></p>          
+          </span>            
+          <h2 style="display:inline; line-height: 100%" class="list-item-h2">
+            <% if list_item.link %>
+              <a href="<%=list_item.link%>"><%=list_item.title%></a>
+            <% else %>
+              <%=list_item.title%>
+            <% end %>
+          <% if list_item.address %>
+            <small style="font-size: 80%"><i class="fa fa-map-marker"></i> <%=list_item.address%></small>
+          <% end %>              
+          </h2>       
+          <p style="font-size: 14px"><% if list_item.content%><%=list_item.content.gsub("\n","<br />\n")%><% end %></p>
         </li>
       <% } %>
     </ol>
 
   </div>
-  <% if @list.list_items.any?(&:coordinates) %>
+  <% if map %>
     <div class="col-md-4">    
       <div style="margin-top: 30px">
         <iframe style="height: 70vh" class="map" src="/groups/<%=@group.slug%>/lists/<%=@list.id%>/map"></iframe>

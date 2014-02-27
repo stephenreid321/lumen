@@ -61,9 +61,7 @@ Lumen::App.controllers do
     when :csv
       CSV.generate do |csv|
         csv << (fields = [:title,:link,:address,:content, :score])
-        list_items = @list.list_items.all.sort_by(&:"#{@list.order}")
-        list_items.reverse! if @list.order == 'score';
-        list_items.each do |list_item|
+        @list.list_items_sorted.each do |list_item|
           csv << fields.map { |f| list_item.send(f) }
         end
       end      

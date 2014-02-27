@@ -42,7 +42,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @list = @group.lists.find(params[:id])
-    @list.list_items.create :title => params[:title], :link => params[:link], :content => params[:content], :account => current_account
+    @list.list_items.create :title => params[:title], :link => params[:link], :content => params[:content], :address => params[:address], :account => current_account
     redirect "/groups/#{@group.slug}/lists/#{@list.id}"
   end
   

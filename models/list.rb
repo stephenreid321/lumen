@@ -11,7 +11,13 @@ class List
   has_many :list_items, :dependent => :destroy
   
   def list_items_sorted
-    items = list_items.sort { |a,b| a.send(:"#{order}") && b.send(:"#{order}") ? a.send(:"#{order}") <=> b.send(:"#{order}") : a.send(:"#{order}") ? -1 : 1 }
+    number_content = (order == 'content' and list_items.all? { |list_item| list_item.content && list_item.content.to_i.to_s == list_item.content })
+    items = list_items.sort { |a,b|
+      x = a.send(:"#{order}")      
+      y = b.send(:"#{order}")
+      (x = x.to_i; y = y.to_i) if number_content
+      x && y ? x <=> y : x ? -1 : 1
+    }
     items.reverse! if order == 'score'
     items
   end

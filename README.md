@@ -26,7 +26,7 @@ See below for more images.
 
 We'll add the DNS records shortly.
 
-### 2. Pull and push code to Heroku
+### 2. Push code to Heroku
 
 ```
 git clone https://github.com/wordsandwriting/lumen.git

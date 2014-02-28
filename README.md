@@ -16,14 +16,6 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 
 Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework.
 
-[![Homepage](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/home.jpg)
-[![Calendar](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/calendar.jpg)
-[![Digest](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/digest.jpg)
-[![A Lumen group](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)
-[![Map](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/map.jpg)
-[![A list](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/list.jpg)
-[![A profile](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/profile.jpg)
-
 ## Getting up and running
 
 ### 1. Register a domain
@@ -93,3 +85,27 @@ If you switch your mail server, you'll need to re-setup the group mail accounts 
 Group.all.each { |g| g.setup_mail_accounts_and_forwarder }
 ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 ```
+
+## Gallery
+
+### Homepage (amalgamates newsfeeds from all groups)
+[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/home.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/home.jpg)
+
+### Home calendar (amalgamates events from all groups)
+[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/calendar.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/calendar.jpg)
+
+### A group
+[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)
+
+### A group digest
+[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/digest.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/digest.jpg)
+
+### A group's map
+[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/map.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/map.jpg)
+
+### A list
+[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/list.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/list.jpg)
+
+### A profile 
+[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/profile.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/profile.jpg)
+

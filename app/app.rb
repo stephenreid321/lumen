@@ -50,6 +50,7 @@ module Lumen
     get '/' do
       if Account.count == 0       
         account = Account.create!(:name => 'Lumen Admin', :password => 'lumen', :password_confirmation => 'lumen', :email => 'admin@example.com', :role => 'admin')
+        account.generate_secret_token
         SignIn.create(account: account)
         session['account_id'] = account.id
         flash[:notice] = %Q{<strong>Welcome to Lumen!</strong> An admin account has been created. You'll want to change the name, email address and password.}

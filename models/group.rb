@@ -219,7 +219,9 @@ class Group
       html = html.gsub(/<\/o:p>/, '')
       begin
         html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-      rescue; end
+      rescue => e
+          Airbrake.notify(e)
+      end
                              
       if html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/))
         conversation = group.conversations.find_by(slug: conversation_url_match[-1])

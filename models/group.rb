@@ -126,7 +126,7 @@ class Group
       f.pass = ENV['VIRTUALMIN_PASSWORD']
     end.submit
     form = index.frame_with(:src => 'left.cgi').click.form_with(:action =>'left.cgi')
-    form.field_with(:name => 'dom').option_with(:value => /#{ENV['VIRTUALMIN_DOM']}/).click
+    form.field_with(:name => 'dom').option_with(:value => /#{ENV['MAIL_DOMAIN'][0..9]}/).click
     domain_page = form.submit
     users_page = domain_page.link_with(:text => 'Edit Users').click
     add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
@@ -150,7 +150,7 @@ class Group
     form = add_alias_page.form_with(:action => 'save_alias.cgi')
     form['complexname'] = "#{self.slug}-pipe"
     form.field_with(:name => 'type_0').option_with(:text => /Feed to program/).click
-    form['val_0'] = "#{ENV['VIRTUALMIN_NOTIFICATION_SCRIPT']} #{slug}"
+    form['val_0'] = "/notify/#{ENV['HEROKU_APP_NAME']}.php #{slug}"
     form.submit      
   end  
   

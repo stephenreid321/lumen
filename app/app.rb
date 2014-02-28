@@ -73,7 +73,30 @@ module Lumen
     
     get '/config' do
       site_admins_only!
+      if ENV['HEROKU_APP_NAME'] and ENV['VIRTUALMIN_IP']
+        Net::SSH.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do |ssh|
+          result = ''
+          ssh.exec!("ls /notify") do |channel, stream, data|
+            result << data
+          end
+          @notification_script = result.include?("#{ENV['HEROKU_APP_NAME']}.php")      
+        end
+      end
       erb :config
+    end
+    
+    get '/config/create_notification_script' do
+      require 'net/scp'
+      Net::SSH.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do  |ssh|
+        ssh.exec!("mkdir /notify")
+        ssh.exec!("chmod 777 /notify")
+        Net::SCP.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do |scp|
+          scp.upload! StringIO.new(erb(:'notify/notify.php', :layout => false)), "/notify/#{ENV['HEROKU_APP_NAME']}.php"
+          scp.upload! Padrino.root('app','views','notify','PlancakeEmailParser.php'), "/notify"
+        end
+        ssh.exec!("chmod 777 /notify/*")
+      end
+      redirect '/config'
     end
     
     post '/config' do

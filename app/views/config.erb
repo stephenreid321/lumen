@@ -3,6 +3,9 @@
 
 <%
 env = {
+  :HEROKU_APP_NAME => 'Name of the underlying Heroku app',
+  :HEROKU_API_KEY => 'Heroku API key',
+
   :DOMAIN => 'Domain of Lumen install',
   :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
   :SITE_NAME => 'Name of site e.g. Lumen Users Network',
@@ -13,8 +16,6 @@ env = {
   :VIRTUALMIN_IP => 'IP for Virtualmin installation',
   :VIRTUALMIN_USERNAME => 'Username for Virtualmin',
   :VIRTUALMIN_PASSWORD => 'Password for Virtualmin',
-  :VIRTUALMIN_DOM => 'DOM id of the virtual server',
-  :VIRTUALMIN_NOTIFICATION_SCRIPT => 'Path of notification script to run when new mail received',
 
   :NOREPLY_NAME => "Name of email sender for general emails",
   :NOREPLY_SIG => "Email signature for general emails",
@@ -36,12 +37,7 @@ env = {
   :TWITTER_SECRET => 'Twitter API secret',
 
   :AIRBRAKE_HOST => 'Airbrake host (no http://)',
-  :AIRBRAKE_API_KEY => 'Airbrake API key',
-
-  :SESSION_SECRET => 'Session secret (rake secret)',
-
-  :HEROKU_APP_NAME => 'Name of the underlying Heroku app',
-  :HEROKU_API_KEY => 'Heroku API key'  
+  :AIRBRAKE_API_KEY => 'Airbrake API key'  
   } %>
 
 <script>
@@ -71,6 +67,33 @@ env = {
     </div>
   </div>
 <% end %>
+
+<h2>Notification script check</h2>
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="control-label col-md-4">
+      Notification script
+    </label>
+    <div class="col-md-2">
+      <% if ENV['HEROKU_APP_NAME'] %>
+        <% if ENV['VIRTUALMIN_IP'] %>
+          <% if @notification_script %>
+            <i class="fa fa-check"></i> Present
+            <a class="btn btn-default" href="/config/create_notification_script">Recreate notification script</a>
+          <% else %>
+            <i class="fa fa-warning"></i> Missing
+            <a class="btn btn-primary" href="/config/create_notification_script">Create notification script</a>
+          <% end %>
+        <% else %>
+          <i class="fa fa-warning"></i> Set Virtualmin details first
+        <% end %>
+      <% else %>
+        <i class="fa fa-warning"></i> Set app name first
+      <% end %>
+    </div>
+  </div>
+</form>
 
 <h2>Fragments</h2>
 

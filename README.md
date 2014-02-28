@@ -34,6 +34,8 @@ heroku config:set HEROKU_APP_NAME=yourappname
 heroku config:set HEROKU_API_KEY=yourapikey
 ```
 
+(You can find your Heroku API key at https://dashboard.heroku.com/account.)
+
 ###  3. Set up Virtualmin
 
 Purchase a VPS (check out [http://lowendbox.com/](http://lowendbox.com/), 512mb RAM should do) and follow [this guide](http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/) to set up Virtualmin. 

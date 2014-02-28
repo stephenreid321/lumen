@@ -6,6 +6,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 * Open-source
 * Self-hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies/cents per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of around £20/$40 per year)
 * Designed for custom domains (group email addresses of the form yourgroup@yourdomain.org)
+* Sends and receives mail via regular SMTP and IMAP accounts on Virtualmin
 * Dual web/email access
 * Extensible member profiles with maps
 * Flexible digest engine
@@ -25,7 +26,7 @@ We'll add the DNS records shortly.
 git clone https://github.com/wordsandwriting/lumen.git
 cd lumen
 heroku create yourappname
-git push yourappname master
+git push heroku master
 heroku addons:add mongohq
 heroku addons:add memcachier
 heroku addons:add papertrail
@@ -77,8 +78,8 @@ rake cleanup 4am
 
 ## Switching mail servers
 
-If you switch your mail server, you'll need to re-setup your mail accounts on the new server. Fire up a console (`heroku run bash; padrino c`) and run:
-`
+If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (`heroku run bash; padrino c`) and run:
+```
 Group.all.each { |g| g.setup_mail_accounts_and_forwarder }
 ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
-`
+```

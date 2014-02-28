@@ -16,6 +16,10 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 
 Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework.
 
+[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/top.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/top.jpg)
+
+See below for more images.
+
 ## Getting up and running
 
 ### 1. Register a domain

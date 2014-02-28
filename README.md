@@ -49,7 +49,7 @@ Supposing the IP of your VPS is 11.22.33.44:
 
 * Point www. to Heroku `www.yourdomain.org CNAME yourappname.herokuapp.com`
 * Naked domain redirect via [wwwizer.com](http://wwwizer.com) `yourdomain.org A 174.129.25.170` 
-* For mail delivery `yourdomain.org MX mail.yourdomain.org` `mail.yourdomain.org A 11.22.33.44`
+* For mail delivery `yourdomain.org MX mail.yourdomain.org` and `mail.yourdomain.org A 11.22.33.44`
 * SPF `yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:11.22.33.44 ?all"`
 * DKIM: Visit Email Messages > DomainKeys Identified Mail in Virtualmin. Set 'Reject incoming email with invalid DKIM signature?' to 'No' and enter yourdomain.org to 'Additional domains to sign for'. Then add the record under 'DNS records for additional domains'.
 
@@ -57,21 +57,23 @@ Supposing the IP of your VPS is 11.22.33.44:
 
 Visit www.yourdomain.org and complete the configuration (don't forget your S3 details).
 
-You can find an example notification script (VIRTUALMIN_NOTIFICATION_SCRIPT) in /notify.
+You can find an example notification script (VIRTUALMIN_NOTIFICATION_SCRIPT) in `/notify`. Visit http://www.yourdomain.org/admin/index/Account and click 'Edit' to
+find your secret token.
 
 ### 6. Rake tasks
 
-`
+```
 heroku run rake mi:create_indexes
 heroku addons:open scheduler
+```
 
 Add the following tasks to the scheduler:
-`
+```
 rake news:update 7am
 rake digests:daily 7.30am
 rake digests:weekly 11pm (only runs on Sunday)
-rake cleanup
-`
+rake cleanup 4am
+```
 
 ## Switching mail servers
 

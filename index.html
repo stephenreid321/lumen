@@ -16,7 +16,7 @@
     <div class="wrapper">
       <header>
         <h1>Lumen</h1>
-        <p>Group email lists @yourdomain.org with added sparkle</p>
+        <p>Open-source group discussion platform. Written in Ruby (Padrino), uses Heroku (web) and Virtualmin (email)</p>
 
         <p class="view"><a href="https://github.com/wordsandwriting/lumen">View the Project on GitHub <small>wordsandwriting/lumen</small></a></p>
 
@@ -28,14 +28,102 @@
         </ul>
       </header>
       <section>
-        <h3>
-<a name="group-email-lists-yourdomainorg-with-added-sparkle" class="anchor" href="#group-email-lists-yourdomainorg-with-added-sparkle"><span class="octicon octicon-link"></span></a>Group email lists @yourdomain.org with added sparkle</h3>
+        <h1>
+<a name="lumen" class="anchor" href="#lumen"><span class="octicon octicon-link"></span></a>Lumen</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Lumen started life as a group discussion platform akin to <a href="http://groups.google.com">Google Groups</a>, <a href="http://groupserver.org/">GroupServer</a>, 
+<a href="http://www.list.org/">Mailman</a> or <a href="http://www.sympa.org/">Sympa</a>. Since then, it's gained some powerful extras. An outline of its features:</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<ul>
+<li>Open-source</li>
+<li>Self-hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies/cents per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of around £20/$40 per year)</li>
+<li>Designed for custom domains (group email addresses of the form <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>)</li>
+<li>Sends and receives mail via regular SMTP and IMAP accounts on Virtualmin</li>
+<li>Dual web/email access</li>
+<li>Extensible member profiles</li>
+<li>Flexible digest engine</li>
+<li>Events calendar</li>
+<li>Daily summaries of news stories tweeted by group members via news.me integration</li>
+<li>Geographically-aware lists feature for maintaining lists of venues, contacts etc</li>
+</ul><p><img src="https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg" alt="A Lumen group"></p>
+
+<h2>
+<a name="getting-up-and-running" class="anchor" href="#getting-up-and-running"><span class="octicon octicon-link"></span></a>Getting up and running</h2>
+
+<h3>
+<a name="1-register-a-domain" class="anchor" href="#1-register-a-domain"><span class="octicon octicon-link"></span></a>1. Register a domain</h3>
+
+<p>We'll add the DNS records shortly.</p>
+
+<h3>
+<a name="2-pull-and-push-code-to-heroku" class="anchor" href="#2-pull-and-push-code-to-heroku"><span class="octicon octicon-link"></span></a>2. Pull and push code to Heroku</h3>
+
+<pre><code>git clone https://github.com/wordsandwriting/lumen.git
+cd lumen
+heroku create yourappname
+git push heroku master
+heroku addons:add mongohq
+heroku addons:add memcachier
+heroku addons:add papertrail
+heroku addons:add scheduler
+heroku config:set HEROKU_APP_NAME=yourappname
+heroku config:set HEROKU_API_KEY=yourapikey
+</code></pre>
+
+<p>(You can find your Heroku API key at <a href="http://dashboard.heroku.com/account">http://dashboard.heroku.com/account</a>.)</p>
+
+<h3>
+<a name="3-set-up-virtualmin" class="anchor" href="#3-set-up-virtualmin"><span class="octicon octicon-link"></span></a>3. Set up Virtualmin</h3>
+
+<p>Purchase a VPS (check out <a href="http://lowendbox.com/">http://lowendbox.com/</a>, 512mb RAM should do) and follow <a href="http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/">this guide</a> to set up Virtualmin. 
+You probably don't need ClamAV or SpamAssassin, and so you can untick Spam and Virus filtering from the 'Features and Plugins' screen.</p>
+
+<p>Create an email address <a href="mailto:no-reply@yourdomain.org">no-reply@yourdomain.org</a> with the same password as the Virtualmin user.</p>
+
+<h3>
+<a name="4-set-dns" class="anchor" href="#4-set-dns"><span class="octicon octicon-link"></span></a>4. Set DNS</h3>
+
+<p>Supposing the IP of your VPS is 11.22.33.44:</p>
+
+<ul>
+<li>Point <a href="http://www">www</a>. to Heroku <code>www.yourdomain.org CNAME yourappname.herokuapp.com</code>
+</li>
+<li>Naked domain redirect via <a href="http://wwwizer.com">wwwizer.com</a> <code>yourdomain.org A 174.129.25.170</code> </li>
+<li>For mail delivery <code>yourdomain.org MX mail.yourdomain.org</code> and <code>mail.yourdomain.org A 11.22.33.44</code>
+</li>
+<li>SPF <code>yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:11.22.33.44 ?all"</code>
+</li>
+<li>DKIM: Visit Email Messages &gt; DomainKeys Identified Mail in Virtualmin. Set 'Reject incoming email with invalid DKIM signature?' to 'No' and enter yourdomain.org to 'Additional domains to sign for'. Then add the record under 'DNS records for additional domains'.</li>
+</ul><h3>
+<a name="5-configuration" class="anchor" href="#5-configuration"><span class="octicon octicon-link"></span></a>5. Configuration</h3>
+
+<p>Visit <a href="http://www.yourdomain.org">www.yourdomain.org</a> and complete the configuration (don't forget your S3 details).</p>
+
+<p>You can find an example notification script (VIRTUALMIN_NOTIFICATION_SCRIPT) in <code>/notify</code>. Visit <a href="http://www.yourdomain.org/admin/index/Account">http://www.yourdomain.org/admin/index/Account</a> and click 'Edit' to
+find your secret token.</p>
+
+<h3>
+<a name="6-rake-tasks" class="anchor" href="#6-rake-tasks"><span class="octicon octicon-link"></span></a>6. Rake tasks</h3>
+
+<pre><code>heroku run rake mi:create_indexes
+heroku addons:open scheduler
+</code></pre>
+
+<p>Add the following tasks to the scheduler:</p>
+
+<pre><code>rake news:update 7am
+rake digests:daily 7.30am
+rake digests:weekly 11pm (only runs on Sunday)
+rake cleanup 4am
+</code></pre>
+
+<h2>
+<a name="switching-mail-servers" class="anchor" href="#switching-mail-servers"><span class="octicon octicon-link"></span></a>Switching mail servers</h2>
+
+<p>If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (<code>heroku run bash; padrino c</code>) and run:</p>
+
+<pre><code>Group.all.each { |g| g.setup_mail_accounts_and_forwarder }
+ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 </code></pre>
       </section>
       <footer>

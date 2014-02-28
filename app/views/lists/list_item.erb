@@ -31,7 +31,7 @@
       <%= f.text_block :title %>
       <%= f.text_block :link %>
       <%= f.text_block :address %>
-      <%= f.text_area_block :content %>
+      <%= f.text_field_block :content %>
       <%= f.submit_block destroy_url: "/groups/#{@group.slug}/lists/#{@list.id}/destroy/#{@list_item.id}" %>
 
     <% end %>

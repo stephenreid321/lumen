@@ -16,7 +16,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 
 Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework.
 
-[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/top.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/top.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/top.jpg">](http://wordsandwriting.github.io/lumen/images/top.jpg)
 
 See below for more images.
 
@@ -93,23 +93,23 @@ ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 ## Gallery
 
 ### Homepage (amalgamates newsfeeds from all groups)
-[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/home.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/home.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/home.jpg">](http://wordsandwriting.github.io/lumen/images/home.jpg)
 
 ### Home calendar (amalgamates events from all groups)
-[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/calendar.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/calendar.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/calendar.jpg">](http://wordsandwriting.github.io/lumen/images/calendar.jpg)
 
 ### A group
-[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/group.jpg">](http://wordsandwriting.github.io/lumen/images/group.jpg)
 
 ### A group digest
-[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/digest.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/digest.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/digest.jpg">](http://wordsandwriting.github.io/lumen/images/digest.jpg)
 
 ### A group's map
-[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/map.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/map.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/map.jpg">](http://wordsandwriting.github.io/lumen/images/map.jpg)
 
 ### A list
-[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/list.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/list.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/list.jpg">](http://wordsandwriting.github.io/lumen/images/list.jpg)
 
 ### A profile 
-[<img src="https://dl.dropboxusercontent.com/u/136370/lumen/profile.jpg">](https://dl.dropboxusercontent.com/u/136370/lumen/profile.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/profile.jpg">](http://wordsandwriting.github.io/lumen/images/profile.jpg)
 

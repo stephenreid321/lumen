@@ -4,7 +4,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 [Mailman](http://www.list.org/) or [Sympa](http://www.sympa.org/). Since then, it's gained some powerful extras. To give an outline of its features:
 
 * Open-source
-* Self-hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, free or a few pennies/cents per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of around £20/$40 per year)
+* Self-hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies/cents per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of around £20/$40 per year)
 * Designed for custom domains (group email addresses of the form yourgroup@yourdomain.org)
 * Dual web/email access
 * Extensible member profiles with maps
@@ -21,7 +21,7 @@ We'll add the DNS records shortly.
 
 ### 2. Pull and push code to Heroku
 
-`
+```
 git clone https://github.com/wordsandwriting/lumen.git
 cd lumen
 heroku create yourappname
@@ -32,7 +32,7 @@ heroku addons:add papertrail
 heroku addons:add scheduler
 heroku config:set HEROKU_APP_NAME=yourappname
 heroku config:set HEROKU_API_KEY=yourapikey
-`
+```
 
 ###  3. Set up Virtualmin
 

@@ -24,31 +24,32 @@ See below for more images.
 
 ### 1. Register a domain
 
-We'll add the DNS records shortly.
+For the purposes of this guide we'll refer to the domain you've registered as yourdomain.org. We'll add the DNS records shortly.
 
-### 2. Push code to Heroku
+###  2. Purchase a VPS and set up Virtualmin
+
+Purchase a VPS (check out [http://lowendbox.com/](http://lowendbox.com/), 512mb RAM should do). Enter `mail.yourdomain.org` as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. Follow [this guide](http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/) to set up Virtualmin. You probably don't need ClamAV or SpamAssassin, and so you can untick Spam and Virus filtering from the 'Features and Plugins' screen.
+
+Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password. Create an email address no-reply@yourdomain.org also with the same password.
+
+### 3. Push code to Heroku
 
 ```
 git clone https://github.com/wordsandwriting/lumen.git
 cd lumen
 heroku create yourappname
 git push heroku master
+heroku domains:add www.yourdomain.org
 heroku addons:add mongohq
 heroku addons:add memcachier
 heroku addons:add papertrail
 heroku addons:add scheduler
+heroku config:set SESSION_SECRET=`rake secret`
 heroku config:set HEROKU_APP_NAME=yourappname
 heroku config:set HEROKU_API_KEY=yourapikey
 ```
 
 (You can find your Heroku API key at [http://dashboard.heroku.com/account](http://dashboard.heroku.com/account).)
-
-###  3. Set up Virtualmin
-
-Purchase a VPS (check out [http://lowendbox.com/](http://lowendbox.com/), 512mb RAM should do). Enter `mail.yourdomain.org` as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. Follow [this guide](http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/) to set up Virtualmin. 
-You probably don't need ClamAV or SpamAssassin, and so you can untick Spam and Virus filtering from the 'Features and Plugins' screen.
-
-Create an email address no-reply@yourdomain.org with the same password as the Virtualmin user.
 
 ### 4. Set DNS
 
@@ -62,10 +63,7 @@ Supposing the IP of your VPS is 11.22.33.44:
 
 ### 5. Configuration
 
-Visit www.yourdomain.org and complete the configuration (don't forget your S3 details).
-
-You can find an example notification script (VIRTUALMIN_NOTIFICATION_SCRIPT) in `/notify`. Visit http://www.yourdomain.org/admin/index/Account and click 'Edit' to
-find your secret token.
+Visit www.yourdomain.org and change the admin name, email address and password. Click 'Lumen configuration' to complete the configuration.
 
 ### 6. Rake tasks
 

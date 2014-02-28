@@ -14,6 +14,8 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 * Daily summaries of news stories tweeted by group members via news.me integration
 * Geographically-aware lists feature for maintaining lists of venues, contacts etc
 
+Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework.
+
 ![A Lumen group](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)
 
 ## Getting up and running

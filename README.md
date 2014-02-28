@@ -8,11 +8,13 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 * Designed for custom domains (group email addresses of the form yourgroup@yourdomain.org)
 * Sends and receives mail via regular SMTP and IMAP accounts on Virtualmin
 * Dual web/email access
-* Extensible member profiles with maps
+* Extensible member profiles
 * Flexible digest engine
 * Events calendar
 * Daily summaries of news stories tweeted by group members via news.me integration
 * Geographically-aware lists feature for maintaining lists of venues, contacts etc
+
+![A Lumen group](https://dl.dropboxusercontent.com/u/136370/lumen/group.png)
 
 ## Getting up and running
 

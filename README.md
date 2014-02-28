@@ -16,7 +16,13 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 
 Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework.
 
-![A Lumen group](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)
+[![Homepage](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/home.jpg)
+[![Calendar](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/calendar.jpg)
+[![Digest](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/digest.jpg)
+[![A Lumen group](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)
+[![Map](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/map.jpg)
+[![A list](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/list.jpg)
+[![A profile](https://dl.dropboxusercontent.com/u/136370/lumen/group.jpg)](https://dl.dropboxusercontent.com/u/136370/lumen/profile.jpg)
 
 ## Getting up and running
 

@@ -39,6 +39,7 @@ heroku config:set HEROKU_API_KEY=yourapikey
 ###  3. Set up Virtualmin
 
 Purchase a VPS (check out [http://lowendbox.com/](http://lowendbox.com/), 512mb RAM should do) and follow [this guide](http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/) to set up Virtualmin. 
+You probably don't need ClamAV or SpamAssassin, and so you can untick Spam and Virus filtering from the 'Features and Plugins' screen.
 
 Create an email address no-reply@yourdomain.org with the same password as the Virtualmin user.
 

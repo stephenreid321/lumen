@@ -126,7 +126,7 @@ class Group
       f.pass = ENV['VIRTUALMIN_PASSWORD']
     end.submit
     form = index.frame_with(:src => 'left.cgi').click.form_with(:action =>'left.cgi')
-    form.field_with(:name => 'dom').option_with(:value => /#{ENV['MAIL_DOMAIN'][0..9]}/).click
+    form.field_with(:name => 'dom').option_with(:text => /#{ENV['MAIL_DOMAIN'][0..9]}/).click
     domain_page = form.submit
     users_page = domain_page.link_with(:text => 'Edit Users').click
     add_user_page = users_page.link_with(:text => 'Add a user to this server.').click

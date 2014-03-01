@@ -4,7 +4,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 [Mailman](http://www.list.org/) or [Sympa](http://www.sympa.org/). Since then, it's gained some powerful extras. An outline of its features:
 
 * Open-source (under [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported](http://creativecommons.org/licenses/by-nc-sa/3.0/))
-* Hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies/cents per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of around £20/$40 per year)
+* Hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of a few pounds a month)
 * Designed for custom domains (group email addresses of the form yourgroup@yourdomain.org)
 * Sends and receives mail via regular SMTP and IMAP accounts on Virtualmin
 * Dual web/email access

@@ -121,3 +121,6 @@ ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 ### A profile 
 [<img src="http://wordsandwriting.github.io/lumen/images/profile.jpg">](http://wordsandwriting.github.io/lumen/images/profile.jpg)
 
+### Email accounts on Virtualmin corresponding to groups 
+[<img src="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg">](http://wordsandwriting.github.io/lumen/images/virtualmin.jpg)
+

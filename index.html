@@ -36,7 +36,7 @@
 
 <ul>
 <li>Open-source (under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported</a>)</li>
-<li>Self-hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies/cents per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of around £20/$40 per year)</li>
+<li>Hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies/cents per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of around £20/$40 per year)</li>
 <li>Designed for custom domains (group email addresses of the form <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>)</li>
 <li>Sends and receives mail via regular SMTP and IMAP accounts on Virtualmin</li>
 <li>Dual web/email access</li>
@@ -52,6 +52,15 @@
 <p>See below for more images.</p>
 
 <h2>
+<a name="how-the-mailing-lists-work-in-brief" class="anchor" href="#how-the-mailing-lists-work-in-brief"><span class="octicon octicon-link"></span></a> How the mailing lists work, in brief</h2>
+
+<ol>
+<li>Your VPS (running Postfix/Virtualmin) receives a mail to <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>
+</li>
+<li>The mail triggers a simple notification script on the VPS that in turn alerts your Heroku app to the fact there's a new message for the group</li>
+<li>Your Heroku app connects to the VPS via IMAP to fetch the new mail</li>
+<li>Your Heroku app distributes the message to group members via SMTP</li>
+</ol><h2>
 <a name="getting-up-and-running" class="anchor" href="#getting-up-and-running"><span class="octicon octicon-link"></span></a>Getting up and running</h2>
 
 <h3>
@@ -60,66 +69,67 @@
 <p>We'll add the DNS records shortly.</p>
 
 <h3>
-<a name="2-push-code-to-heroku" class="anchor" href="#2-push-code-to-heroku"><span class="octicon octicon-link"></span></a>2. Push code to Heroku</h3>
+<a name="2-purchase-a-vps-and-set-up-virtualmin" class="anchor" href="#2-purchase-a-vps-and-set-up-virtualmin"><span class="octicon octicon-link"></span></a>2. Purchase a VPS and set up Virtualmin</h3>
+
+<p>Purchase a VPS (check out <a href="http://lowendbox.com/">http://lowendbox.com/</a>, 512mb RAM should do). Use <code>mail.yourdomain.org</code> as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. SSH into the VPS and install Virtualmin with:</p>
+
+<pre><code>wget http://software.virtualmin.com/gpl/scripts/install.sh
+chmod +x install.sh
+./install.sh
+</code></pre>
+
+<p>When the install is finished, visit https://{your VPS IP}:10000. Step through the post-install wizard, turning on the email domain lookup server, turning off MySQL, and choosing to only store hashed passwords. Go to System Settings &gt; Features and Plugins leave only 'Mail for domain', 'Log file rotation' and 'Webmin login' checked. Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password. Go to 'Edit Users' an create a user <a href="mailto:no-reply@yourdomain.org">no-reply@yourdomain.org</a> with the same password again.</p>
+
+<h3>
+<a name="3-push-code-to-heroku" class="anchor" href="#3-push-code-to-heroku"><span class="octicon octicon-link"></span></a>3. Push code to Heroku</h3>
 
 <pre><code>git clone https://github.com/wordsandwriting/lumen.git
 cd lumen
 heroku create yourappname
 git push heroku master
+heroku domains:add www.yourdomain.org
 heroku addons:add mongohq
 heroku addons:add memcachier
 heroku addons:add papertrail
 heroku addons:add scheduler
+heroku config:set SESSION_SECRET=`rake secret`
 heroku config:set HEROKU_APP_NAME=yourappname
 heroku config:set HEROKU_API_KEY=yourapikey
+heroku config:set DOMAIN=www.yourdomain.org
+heroku config:set MAIL_DOMAIN=yourdomain.org
 </code></pre>
 
 <p>(You can find your Heroku API key at <a href="http://dashboard.heroku.com/account">http://dashboard.heroku.com/account</a>.)</p>
 
 <h3>
-<a name="3-set-up-virtualmin" class="anchor" href="#3-set-up-virtualmin"><span class="octicon octicon-link"></span></a>3. Set up Virtualmin</h3>
-
-<p>Purchase a VPS (check out <a href="http://lowendbox.com/">http://lowendbox.com/</a>, 512mb RAM should do) and follow <a href="http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/">this guide</a> to set up Virtualmin. 
-You probably don't need ClamAV or SpamAssassin, and so you can untick Spam and Virus filtering from the 'Features and Plugins' screen.</p>
-
-<p>Create an email address <a href="mailto:no-reply@yourdomain.org">no-reply@yourdomain.org</a> with the same password as the Virtualmin user.</p>
-
-<h3>
 <a name="4-set-dns" class="anchor" href="#4-set-dns"><span class="octicon octicon-link"></span></a>4. Set DNS</h3>
-
-<p>Supposing the IP of your VPS is 11.22.33.44:</p>
 
 <ul>
 <li>Point <a href="http://www">www</a>. to Heroku <code>www.yourdomain.org CNAME yourappname.herokuapp.com</code>
 </li>
 <li>Naked domain redirect via <a href="http://wwwizer.com">wwwizer.com</a> <code>yourdomain.org A 174.129.25.170</code> </li>
-<li>For mail delivery <code>yourdomain.org MX mail.yourdomain.org</code> and <code>mail.yourdomain.org A 11.22.33.44</code>
+<li>For mail delivery <code>yourdomain.org MX mail.yourdomain.org</code> and <code>mail.yourdomain.org A {your VPS IP}</code>
 </li>
-<li>SPF <code>yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:11.22.33.44 ?all"</code>
+<li>SPF <code>yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"</code>
 </li>
 <li>DKIM: Visit Email Messages &gt; DomainKeys Identified Mail in Virtualmin. Set 'Reject incoming email with invalid DKIM signature?' to 'No' and enter yourdomain.org to 'Additional domains to sign for'. Then add the record under 'DNS records for additional domains'.</li>
 </ul><h3>
 <a name="5-configuration" class="anchor" href="#5-configuration"><span class="octicon octicon-link"></span></a>5. Configuration</h3>
 
-<p>Visit <a href="http://www.yourdomain.org">www.yourdomain.org</a> and complete the configuration (don't forget your S3 details).</p>
-
-<p>You can find an example notification script (VIRTUALMIN_NOTIFICATION_SCRIPT) in <code>/notify</code>. Visit <a href="http://www.yourdomain.org/admin/index/Account">http://www.yourdomain.org/admin/index/Account</a> and click 'Edit' to
-find your secret token.</p>
+<p>Visit <a href="http://www.yourdomain.org">www.yourdomain.org</a> and change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration.</p>
 
 <h3>
 <a name="6-rake-tasks" class="anchor" href="#6-rake-tasks"><span class="octicon octicon-link"></span></a>6. Rake tasks</h3>
 
-<pre><code>heroku run rake mi:create_indexes
-heroku addons:open scheduler
-</code></pre>
-
-<p>Add the following tasks to the scheduler:</p>
+<p>Run <code>heroku run rake mi:create_indexes</code> to create the database indexes. Open the Scheduler add-on with <code>heroku addons:open scheduler</code> and add the following tasks:</p>
 
 <pre><code>rake news:update 7am
 rake digests:daily 7.30am
 rake digests:weekly 11pm (only runs on Sunday)
 rake cleanup 4am
 </code></pre>
+
+<p>...and you're done!</p>
 
 <h2>
 <a name="switching-mail-servers" class="anchor" href="#switching-mail-servers"><span class="octicon octicon-link"></span></a>Switching mail servers</h2>
@@ -167,6 +177,11 @@ ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 <a name="a-profile" class="anchor" href="#a-profile"><span class="octicon octicon-link"></span></a>A profile</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/profile.jpg"><img src="http://wordsandwriting.github.io/lumen/images/profile.jpg"></a></p>
+
+<h3>
+<a name="email-accounts-on-virtualmin-corresponding-to-groups" class="anchor" href="#email-accounts-on-virtualmin-corresponding-to-groups"><span class="octicon octicon-link"></span></a>Email accounts on Virtualmin corresponding to groups</h3>
+
+<p><a href="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg"><img src="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg"></a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/wordsandwriting">wordsandwriting</a></p>

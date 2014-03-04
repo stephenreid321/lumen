@@ -119,6 +119,7 @@ class Group
       
   after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
+    return unless ENV['VIRTUALMIN_IP']
     agent = Mechanize.new
     agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     index = agent.get("https://#{ENV['VIRTUALMIN_IP']}:10000").form_with(:action => '/session_login.cgi') do |f|

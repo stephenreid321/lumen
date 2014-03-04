@@ -46,3 +46,10 @@ gem 'dalli'
 # Extras
 gem 'ri_cal', github: 'espen/ri_cal'
 gem 'geocoder'
+
+group :test do
+  gem 'factory_girl'
+  gem 'turn'
+  gem 'capybara'
+  gem 'launchy'
+end

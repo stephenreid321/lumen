@@ -46,12 +46,19 @@ GEM
     airbrake (3.1.15)
       builder
       multi_json
+    ansi (1.4.3)
     atomic (1.1.14)
     bcrypt (3.1.6)
     bson (1.9.2)
     bson_ext (1.9.2)
       bson (~> 1.9.2)
     builder (3.1.4)
+    capybara (2.2.1)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
     css_parser (1.3.5)
       addressable
     dalli (2.7.0)
@@ -67,6 +74,8 @@ GEM
       dragonfly (~> 1.0)
       fog
     excon (0.31.0)
+    factory_girl (4.4.0)
+      activesupport (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     fog (1.20.0)
@@ -93,6 +102,8 @@ GEM
     i18n (0.6.9)
     jwt (0.1.11)
       multi_json (>= 1.5)
+    launchy (2.3.0)
+      addressable (~> 2.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -194,6 +205,8 @@ GEM
       rack (>= 0.4)
     rack-protection (1.5.2)
       rack
+    rack-test (0.6.2)
+      rack (>= 1.0)
     rake (10.1.1)
     rinku (1.7.3)
     sinatra (1.4.4)
@@ -207,6 +220,8 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    turn (0.9.6)
+      ansi
     tzinfo (0.3.38)
     unf (0.1.3)
       unf_ext
@@ -214,6 +229,8 @@ GEM
     url_mount (0.2.1)
       rack
     webrobots (0.1.1)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
@@ -223,11 +240,14 @@ DEPENDENCIES
   airbrake
   bcrypt
   bson_ext
+  capybara
   dalli
   dragonfly
   dragonfly-mongo_data_store
   dragonfly-s3_data_store
+  factory_girl
   geocoder
+  launchy
   mail
   mechanize
   memcachier
@@ -245,4 +265,5 @@ DEPENDENCIES
   rake
   ri_cal!
   rinku
+  turn
   will_paginate!

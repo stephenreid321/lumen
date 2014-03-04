@@ -4,6 +4,13 @@ development:
       database: <%= File.basename(PADRINO_ROOT) %>
       hosts:
         - localhost:27017
+        
+test:
+  sessions:
+    default:
+      database: <%= File.basename(PADRINO_ROOT) %>_test
+      hosts:
+        - localhost:27017        
 
 production:
   sessions:

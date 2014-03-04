@@ -30,8 +30,10 @@
     </span>
     <div class="media-body">
       <% form_tag "/groups/#{@group.slug}/new_conversation", :multipart => true do |f| %>
-        <%= text_field_tag :subject, :class => 'form-control', :placeholder => 'Subject', :style => 'margin-bottom: 10px; width: 15em;' %>
-        <%= text_area_tag :body, :class => 'wysiwyg form-control', :id => 'post', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10 %>
+        <label class="sr-only" for="conversation_subject">Subject</label>
+        <%= text_field_tag :subject, :class => 'form-control', :id => 'conversation_subject', :placeholder => 'Subject', :style => 'margin-bottom: 10px; width: 15em;' %>
+        <label class="sr-only" for="conversation_body">Body</label>
+        <%= text_area_tag :body, :class => 'wysiwyg form-control', :id => 'conversation_body', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10 %>
         <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
               $('#attach').show();
               $('#attach input').click();">Attach a file</a>

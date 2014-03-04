@@ -3,6 +3,7 @@ rvm:
 - 2.0.0
 services:
 - mongodb
+script: bundle exec rake test
 env:
   global:
   - RACK_ENV=test

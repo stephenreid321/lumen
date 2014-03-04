@@ -1,6 +1,7 @@
 # Lumen
 
 [![Build Status](https://travis-ci.org/wordsandwriting/lumen.png?branch=master)](https://travis-ci.org/wordsandwriting/lumen)
+[![Code Climate](https://codeclimate.com/github/wordsandwriting/lumen.png)](https://codeclimate.com/github/wordsandwriting/lumen)
 
 Lumen started life as a group discussion platform akin to [Google Groups](http://groups.google.com), [GroupServer](http://groupserver.org/), 
 [Mailman](http://www.list.org/) or [Sympa](http://www.sympa.org/). Since then, it's gained some powerful extras. An outline of its features:

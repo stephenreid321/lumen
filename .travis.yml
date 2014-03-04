@@ -1,12 +1,15 @@
 language: ruby
 rvm:
-  - 2.0.0
+- 2.0.0
 services:
-  - mongodb
-cache: bundler
+- mongodb
+install: script/cached-bundle install --deployment
 env:
   global:
+  - AMAZON_S3_BUCKET=postscript07-bundle_cache
+  - AMAZON_ACCESS_KEY_ID=10PX2BMRDEB46FZ0XE82
   - RACK_ENV=test
   - PORT=3000
   - DOMAIN=127.0.0.1:3000
   - SESSION_SECRET=82d320681aeddffb5a77b0d32bd248567042dc4a936695dda6fb614121e26d13
+  - secure: jBOA0Wkbgu+0nZKE2z9PxdAdO4ly/bK3EGN72yx2pAttX7DlNJpfEGHk6i21GBOMPkb0ELEeNWMCOQwGg31/cd+pO04tkl1LdwklEL7kQ9UA42DKbF8Hakk2YgRCKWd4Qa6y38Yg9BuGruGozCtSv4CfREW5HPER+L/nWgdIuGM=

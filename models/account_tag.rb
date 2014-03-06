@@ -8,6 +8,10 @@ class AccountTag
   
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false
+  
+  before_validation do
+    self.name = self.name.downcase if self.name
+  end
     
   def self.fields_for_index
     [:name]

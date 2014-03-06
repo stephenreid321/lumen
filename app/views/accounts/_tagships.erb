@@ -1,7 +1,7 @@
 
 <div class="form-group <%= 'has-error' if !f.error_message_on(:account_tagships).blank? %>">
   <label class="control-label col-md-3">
-    <%=I18n.t(:account_tagships).capitalize%>
+    <%=I18n.t(:account_tagship).capitalize%>
     <i title="e.g. talking to the media, fundraising" class="fa fa-question-circle" id="tip-tagships"></i>
     <script>
       $(function() {
@@ -13,7 +13,7 @@
     <div id="account_tagships">
       <% f.fields_for :account_tagships do |o| %>
         <div class="account_tagship input-group">
-          <%= o.text_field :account_tag_name, :class => 'form-control typeahead', :value => o.object.try(:account_tag).try(:name), :placeholder => I18n.t(:account_tagships).capitalize, :autocomplete => 'off' %>
+          <%= o.text_field :account_tag_name, :class => 'form-control typeahead', :value => o.object.try(:account_tag).try(:name), :placeholder => I18n.t(:account_tagship).capitalize, :autocomplete => 'off' %>
           <% unless o.object.new_record? %>
             <span class="input-group-btn">          
               <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked', true).closest('.account_tagship').hide()" class="fa fa-times"></i>
@@ -35,7 +35,7 @@
           var i = $('<input type="text" />');
           i.attr('name', 'account[account_tagships_attributes][' + c + '][account_tag_name]');
           i.attr('id', 'account_account_tagships_attributes_' + c + '_account_tag_name');
-          i.attr('placeholder', '<%=I18n.t(:account_tagships).capitalize%>');
+          i.attr('placeholder', '<%=I18n.t(:account_tagship).capitalize%>');
           i.addClass('form-control');
           i.addClass('typeahead');
           i.prop('autocomplete', 'off');

@@ -1,6 +1,6 @@
 
 <div class="form-group <%= 'has-error' if !f.error_message_on(:sectorships).blank? %>">
-  <label class="control-label col-md-3">Sectors</label>
+  <label class="control-label col-md-3"><%=I18n.t(:sector).capitalize%></label>
   <div class="col-md-6">             
     <div id="sectorships">
       <% f.fields_for :sectorships do |o| %>

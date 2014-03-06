@@ -1,4 +1,6 @@
 
+<a class="btn btn-danger" style="float: right" href="/config/restart"><i class="fa fa-power-off"></i> Restart app</a>
+
 <h2>Environment variables</h2>
 
 <%
@@ -134,6 +136,8 @@ fragments = {
 </form>
 
 <h2>Translations</h2>
+
+<p>Please note you must <a href="/config/restart">restart the app</a> for new translations to take effect.</p>
 
 <% 
 translations = %w{organisation organisations sector sectors account_tagship account_tagships}

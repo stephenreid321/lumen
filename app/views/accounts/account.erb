@@ -18,9 +18,9 @@
         <li><i title="Location" class="fa fa-li fa-location-arrow"></i>Based in <%=@account.location%></li>
       <% else %>
         <li><i style="opacity: 0.25" class="fa fa-li fa-location-arrow"></i></li> &nbsp;
-      <% end %>           
-      <% if @account.expertise %>
-        <li><i title="Areas of expertise" class="fa fa-li fa-tags"></i><%@account.expertises.each { |expertise|%><span class="label label-default" style="text-indent: 0"><%=expertise%></span> <% } %></li>
+      <% end %>                  
+      <% if @account.account_tagships.count > 0 %>
+        <li><i title="<%=I18n.t(:account_tagships).capitalize%>" class="fa fa-li fa-tags"></i><%@account.account_tagships.each { |account_tagship|%><span class="label label-default" style="text-indent: 0"><%=account_tagship.account_tag.name%></span> <% } %></li>
       <% else %>
         <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
       <% end %>             

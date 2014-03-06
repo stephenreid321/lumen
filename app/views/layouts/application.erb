@@ -85,10 +85,10 @@
                 <% } %>
               <% end %>
               <% unless Fragment.find_by(slug: 'hide-organisations') %>
-                <li><a href="/organisations"><i class="fa <%=Fragment.find_by(slug: 'organisations-icon').try(:body) || 'fa-bullhorn'%>"></i> <%=tt("Organisations")%></a></li>
+                <li><a href="/organisations"><i class="fa <%=Fragment.find_by(slug: 'organisations-icon').try(:body) || 'fa-bullhorn'%>"></i> <%=I18n.t(:organisations).capitalize%></a></li>
               <% end %>
               <% unless Fragment.find_by(slug: 'hide-sectors') %>
-                <li><a href="/sectors"><i class="fa <%=Fragment.find_by(slug: 'sectors-icon').try(:body) || 'fa-th-list'%>"></i> <%=tt("Sectors")%></a></li>
+                <li><a href="/sectors"><i class="fa <%=Fragment.find_by(slug: 'sectors-icon').try(:body) || 'fa-th-list'%>"></i> <%=I18n.t(:sectors).capitalize%></a></li>
               <% end %>
               <% if current_account.admin? %>
                 <li class="admin"><a href="/analytics"><i class="fa fa-globe"></i> Sitewide analytics</a></li>
@@ -136,7 +136,7 @@
     <div id="footer" class="row">
       <div class="col-md-6 col-md-offset-3">
         <hr />
-        <div class="restore-opacity" style="text-align: center">
+        <div class="restore-opacity" style="text-align: center">              
           <a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a>
           &middot;
           <a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a>

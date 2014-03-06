@@ -1,5 +1,5 @@
 
-<p><%= page_entries_info @organisations, :model => tt("Organisation") %></p>
+<p><%= page_entries_info @organisations, :model => I18n.t(:organisation).capitalize %></p>
 
 <ul class="list-unstyled clearfix">
   <% @organisations.each { |organisation| %>

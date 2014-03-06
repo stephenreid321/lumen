@@ -6,12 +6,12 @@ Lumen::App.controllers do
     scope_id = params[:scope_id]
     @o = (params[:o] ? params[:o] : 'date').to_sym
     @name = params[:name]
-    @exp = params[:exp]
+    @tag = params[:tag]
     @org = params[:org]
     @q = []
     @q << {:name => /#{@name}/i} if @name
-    @q << {:expertise => /#{@exp}/i} if @exp 
-    @q << {:id.in => Affiliation.where(organisation_id: Organisation.find_by(name: @org)).only(:account_id).map(&:account_id)} if @org        
+    @q << {:id.in => AccountTagship.where(account_tag_id: AccountTag.find_by(name: @tag)).only(:account_id).map(&:account_id)} if @tag
+    @q << {:id.in => Affiliation.where(organisation_id: Organisation.find_by(name: @org)).only(:account_id).map(&:account_id)} if @org
     @accounts = case scope
     when 'network'
       current_account.network

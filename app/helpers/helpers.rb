@@ -61,16 +61,5 @@ Lumen::App.helpers do
       request.xhr? ? halt(403, "Not Authorized") : redirect(membership ? "/groups/#{group.slug}" : '/')
     end     
   end
-  
-  def tt(string)
-    if f = Fragment.find_by(slug: "tt-#{string.downcase.singularize}")
-      s = f.body      
-      s = s.split('/').map { |x| x.pluralize }.join('/') if string == string.pluralize
-      s = s.capitalize if string == string.capitalize
-      s
-    else
-      string
-    end
-  end
-    
+      
 end

@@ -26,7 +26,7 @@
   <div class="row" style="margin-top: 10px">
     <div class="col-md-8">
       <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => ['']+organisations.map(&:name).uniq.sort, :"data-placeholder" => 'Filter by name' %>
-      <%= select_tag :sector, :selected => @sector, :class => 'form-control chosen', :options => ['']+organisations.map(&:sectorships).flatten.map(&:sector).map(&:name).uniq.sort, :"data-placeholder" => "Filter by #{tt('sector')}" %>
+      <%= select_tag :sector, :selected => @sector, :class => 'form-control chosen', :options => ['']+organisations.map(&:sectorships).flatten.map(&:sector).map(&:name).uniq.sort, :"data-placeholder" => "Filter by #{I18n.t(:sector)}" %>
       <div style="margin-top: 5px;">
         <label class="radio-inline" style="padding-left: 0">Sort by</label>
         <% {'Last updated' => :date, 'Name' => :name}.each { |k,v| %>

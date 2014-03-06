@@ -5,7 +5,7 @@
     <div id="sectorships">
       <% f.fields_for :sectorships do |o| %>
         <div class="sectorship input-group">
-          <%= o.text_field :sector_name, :class => 'form-control typeahead', :value => o.object.try(:sector).try(:name), :placeholder => tt('Sector'), :autocomplete => 'off' %>
+          <%= o.text_field :sector_name, :class => 'form-control typeahead', :value => o.object.try(:sector).try(:name), :placeholder => I18n.t(:sector).capitalize, :autocomplete => 'off' %>
           <% unless o.object.new_record? %>
             <span class="input-group-btn">          
               <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked', true).closest('.sectorship').hide()" class="fa fa-times"></i>
@@ -27,7 +27,7 @@
           var i = $('<input type="text" />');
           i.attr('name', 'organisation[sectorships_attributes][' + c + '][sector_name]');
           i.attr('id', 'organisation_sectorships_attributes_' + c + '_sector_name');
-          i.attr('placeholder', '<%=tt('Sector')%>');
+          i.attr('placeholder', '<%=I18n.t(:sector).capitalize%>');
           i.addClass('form-control');
           i.addClass('typeahead');
           i.prop('autocomplete', 'off');

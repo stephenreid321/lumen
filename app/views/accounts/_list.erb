@@ -42,8 +42,8 @@
 %>
   
   <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => ['']+accounts.map(&:name).uniq.sort, :"data-placeholder" => 'Filter by name' %>
-  <%= select_tag :org, :selected => @org, :class => 'form-control chosen', :options => ['']+accounts.map(&:affiliations).flatten.map(&:organisation).map(&:name).uniq.sort, :"data-placeholder" => "Filter by #{tt('organisation')}" %>
-  <%= select_tag :exp, :selected => @exp, :class => 'form-control chosen', :options => ['']+accounts.map(&:expertises).flatten.uniq.sort, :"data-placeholder" => 'Filter by expertise' %>
+  <%= select_tag :org, :selected => @org, :class => 'form-control chosen', :options => ['']+accounts.map(&:affiliations).flatten.map(&:organisation).map(&:name).uniq.sort, :"data-placeholder" => "Filter by #{I18n.t(:organisation)}" %>
+  <%= select_tag :tag, :selected => @tag, :class => 'form-control chosen', :options => ['']+accounts.map(&:account_tagships).flatten.map(&:account_tag).map(&:name).uniq.sort, :"data-placeholder" => "Filter by #{I18n.t(:account_tagship)}" %>
   <div style="margin-top: 5px;">
     <label class="radio-inline" style="padding-left: 0">Sort by</label>
     <% {'Date joined' => :date, 'Name' => :name, 'Last updated' => :updated}.each { |k,v| %>

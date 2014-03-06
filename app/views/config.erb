@@ -12,11 +12,11 @@ env = {
   :VIRTUALMIN_IP => 'IP for Virtualmin installation',
   :VIRTUALMIN_USERNAME => 'Username for Virtualmin',
   :VIRTUALMIN_PASSWORD => 'Password for Virtualmin',
-  
+
   :S3_BUCKET_NAME => 'S3 bucket name',
   :S3_ACCESS_KEY => 'S3 access key',
   :S3_SECRET => 'S3 secret',  
-    
+
   :SITE_NAME => 'Name of site e.g. Lumen Users Network',
   :SITE_NAME_DEFINITE => "Name of site with 'the' if appropriate e.g. The Lumen Users Network",
   :SITE_NAME_SHORT => 'Short site name e.g. LUN',
@@ -109,8 +109,7 @@ fragments = {
   :'tip-location' => 'Tip for location field on account edit page',
   :'hide-organisations' => 'If defined, hides the \'organisations\' tab',
   :'hide-sectors' => "If defined, hides the 'sectors' tab",
-  :'tt-organisation' => "Alternative name for 'Organisation'",
-  :'tt-sector' => "Alternative name for 'Sector'",
+  :'account-tags-predefined' => 'If defined, turns the tagships profile field into a series of checkboxes',
   :'organisations-icon' => "Alternative Font Awesome icon for organisations tab",
   :'sectors-icon' => "Alternative Font Awesome icon for sectors tab"
   }
@@ -128,6 +127,30 @@ fragments = {
           <a href="/admin/edit/Fragment/<%=f.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
         <% else %>
           <a href="/admin/new/Fragment" class="btn btn-default"><i class="fa fa-pencil"></i> Create</a>
+        <% end %>        
+      </div>
+    </div>
+  <% } %>
+</form>
+
+<h2>Translations</h2>
+
+<% 
+translations = %w{organisation organisations sector sectors account_tagship account_tagships}
+%>
+
+<form class="form-horizontal">
+  <% translations.each { |k| %>
+    <div class="form-group">
+      <label class="control-label col-md-4">
+        <%=k%>
+      </label>
+      <div class="col-md-2">
+        <% if t = Translation.find_by(key: k) %>
+          <p><%= t.value %></p>
+          <a href="/admin/edit/Translation/<%=t.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
+        <% else %>
+          <a href="/admin/new/Translation" class="btn btn-default"><i class="fa fa-pencil"></i> Create</a>
         <% end %>        
       </div>
     </div>

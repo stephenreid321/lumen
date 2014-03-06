@@ -13,7 +13,7 @@ Lumen::App.controllers do
   
   post '/me/edit' do
     sign_in_required!
-    @account = current_account
+    @account = current_account    
     if @account.update_attributes(params[:account])      
       flash[:notice] = "<strong>Great!</strong> Your account was updated successfully."
       if @account.sign_ins.count == 1

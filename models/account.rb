@@ -32,6 +32,23 @@ class Account
   has_many :membership_requests, :dependent => :destroy
   has_many :conversation_posts, :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
+  
+  has_many :account_tagships, :dependent => :destroy
+  accepts_nested_attributes_for :account_tagships, allow_destroy: true, reject_if: :all_blank
+    
+  attr_accessor :account_tag_ids
+  before_validation :create_account_tags
+  def create_account_tags
+    if @account_tag_ids
+      account_tagships.destroy_all
+      @account_tag_ids.each { |id|
+        Account.skip_callback(:validation, :before, :create_account_tags)
+        account_tagships.create :account_tag_id => id   
+        Account.set_callback(:validation, :before, :create_account_tags)        
+      }
+      @account_tag_ids = nil
+    end
+  end  
         
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank
@@ -139,6 +156,7 @@ class Account
   
   def self.human_attribute_name(attr, options={})  
     {
+      :account_tag_ids => I18n.t(:account_tagships).capitalize,
       :expertise => 'Areas of expertise',
       :password_confirmation => "Password again"
     }[attr.to_sym] || super  

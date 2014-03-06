@@ -20,7 +20,7 @@
             <%= o.text_field :title, :class => 'form-control', :placeholder => 'Position' %>
           <% end %>
           <span class="at"> at </span>
-          <%= o.text_field :organisation_name, :class => 'form-control typeahead', :value => o.object.try(:organisation).try(:name), :placeholder => tt('Organisation'), :autocomplete => 'off' %>
+          <%= o.text_field :organisation_name, :class => 'form-control typeahead', :value => o.object.try(:organisation).try(:name), :placeholder => I18n.t(:organisation).capitalize, :autocomplete => 'off' %>
           <% unless o.object.new_record? %>
             <span>
               <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked', true).closest('.affiliation').hide()" class="fa fa-times"></i>
@@ -58,7 +58,7 @@
           var j = $('<input type="text" />');
           j.attr('name', 'account[affiliations_attributes][' + c + '][organisation_name]');
           j.attr('id', 'account_affiliations_attributes_' + c + '_organisation_name');
-          j.attr('placeholder', '<%=tt('Organisation')%>');
+          j.attr('placeholder', '<%=I18n.t(:organisation).capitalize%>');
           j.addClass('form-control');
           j.addClass('typeahead');
           j.prop('autocomplete', 'off');

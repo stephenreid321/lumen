@@ -13,7 +13,7 @@ class TestGroups < ActiveSupport::TestCase
     login_as(@account)
     click_link 'All groups'
     click_link 'Create a group'
-    fill_in 'Slug', :with => 'sparrow'
+    fill_in 'Name', :with => 'sparrow'
     choose 'Open'
     click_button 'Create group'
     assert page.has_content? 'The group was created successfully'

@@ -20,13 +20,14 @@
       <%= f.text_block :location, tip: Fragment.find_by(slug: 'tip-location').try(:body) %>
       <%= f.text_block :email %>
       <%= f.text_block :phone %>
-      <% if Fragment.find_by(slug: 'account-tags-predefined') %>
+      <%= f.text_block :website %>
+      <% if ENV['ACCOUNT_TAGS_PREDEFINED'] and AccountTag.count > 0 %>
         <%= f.check_boxes_block :account_tag_ids, options: AccountTag.all.map { |account_tag| [account_tag.name, account_tag.id] }, checked: @account.account_tagships.map(&:account_tag_id) %>
       <% else %>
         <%= partial :'accounts/tagships', :locals => {:f => f} %>
       <% end %>    
       <% ExtraFields.fields(Account).each { |fieldname, fieldtype| %> 
-        <%= f.send("#{fieldtype}_block", fieldname, div_class: ('col-md-9' if [:wysiwyg, :textarea].include?(fieldtype))) %>
+        <%= f.send("#{fieldtype}_block", fieldname, div_class: ('col-md-9' if [:wysiwyg, :text_area].include?(fieldtype))) %>
       <% } %>        
       <%= f.image_block :picture, rotate: false, hint: ('Connect an account below to automatically grab a picture' if !@account.picture) %>
       <%= f.password_block :password %>

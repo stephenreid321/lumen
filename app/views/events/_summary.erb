@@ -5,7 +5,7 @@
   <% end %>
   <li><i title="Listed by <%=event.account.name%>" class="fa-li fa fa-user"></i> Listed by <a href="http://<%=ENV['DOMAIN']%>/accounts/<%=event.account_id %>"><%=event.account.name%></a></li>
   <% if event.organisation %>
-    <li>Hosted by <i title="Host organisation" class="fa-li fa fa-bullhorn"></i><a href="http://<%=ENV['DOMAIN']%>/organisations/<%=event.organisation_id%>"><%= event.organisation.name %></a></li>
+    <li>Hosted by <i title="<%=I18n.t(:host_organisation).capitalize%>" class="fa-li fa fa-bullhorn"></i><a href="http://<%=ENV['DOMAIN']%>/organisations/<%=event.organisation_id%>"><%= event.organisation.name %></a></li>
   <% end %> 
   <% if event.ticketing %>
     <li><i title="Ticketing" class="fa-li fa fa-ticket"></i>
@@ -32,6 +32,14 @@
   <% if defined? read_more %>
     <a class="read-more" href="/groups/<%=event.group.slug%>/calendar/<%=event.id%>">Read more&hellip;</a>
   <% else %>  
+
+    <dl class="dl-horizontal">
+      <% ExtraFields.fields(Event).each { |fieldname, fieldtype|; if result = event.send(fieldname) %>
+          <h3><%=Event.human_attribute_name(fieldname)%></h3>
+          <%=ExtraFields.display(fieldtype, result) %>
+        <% end } %>
+    </dl>    
+
     <%= event.details  %>
     <% if event.reason %>
       <br />

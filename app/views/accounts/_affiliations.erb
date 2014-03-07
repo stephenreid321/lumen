@@ -14,10 +14,10 @@
     <div id="affiliations">
       <% f.fields_for :affiliations do |o| %>
         <div class="affiliation">
-          <% if fragment = Fragment.find_by(slug: 'affiliation-positions') %>
-            <%= o.select :title, :options => fragment.body.split(','), :class => 'form-control' %>
+          <% if ENV['AFFILIATION_POSITIONS'] %>
+            <%= o.select :title, :options => ENV['AFFILIATION_POSITIONS'].body.split(','), :class => 'form-control' %>
           <% else %>
-            <%= o.text_field :title, :class => 'form-control', :placeholder => 'Position' %>
+            <%= o.text_field :title, :class => 'form-control', :placeholder => I18n.t(:position).capitalize %>
           <% end %>
           <span class="at"> at </span>
           <%= o.text_field :organisation_name, :class => 'form-control typeahead', :value => o.object.try(:organisation).try(:name), :placeholder => I18n.t(:organisation).capitalize, :autocomplete => 'off' %>
@@ -40,11 +40,11 @@
         var icon = $('<i style="cursor: pointer" class="fa fa-plus-square"></i>');
         $(icon).click(function() {
           var c = $('.affiliation').length
-<% if fragment = Fragment.find_by(slug: 'affiliation-positions') %>
+<% if ENV['AFFILIATION_POSITIONS'] %>
             var i = $('<select/>');
             i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
             i.attr('id', 'account_affiliations_attributes_' + c + '_title');
-  <% fragment.body.split(',').each { |ap| %>
+  <% ENV['AFFILIATION_POSITIONS'].body.split(',').each { |ap| %>
               i.append('<option value="<%=ap%>"><%=ap%></option>')
   <% } %>
             i.addClass('form-control');
@@ -52,7 +52,7 @@
             var i = $('<input type="text" />');
             i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
             i.attr('id', 'account_affiliations_attributes_' + c + '_title');
-            i.attr('placeholder', 'Position');
+            i.attr('placeholder', '<%=I18n.t(:position).capitalize%>');
             i.addClass('form-control');
 <% end %>
           var j = $('<input type="text" />');

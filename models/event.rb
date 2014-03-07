@@ -18,6 +18,8 @@ class Event
   field :more_info, :type => String
   field :publicity_tweet, :type => String
   
+  ExtraFields.set(self)
+  
   attr_accessor :start_conversation
   
   validates_presence_of :name, :start_time, :end_time, :group, :account, :ticketing
@@ -51,13 +53,13 @@ class Event
       :group_id => :lookup,
       :account_id => :lookup,
       :organisation_id => :lookup
-    }
+    }.merge(ExtraFields.fields(self))
   end
   
   def self.human_attribute_name(attr, options={})  
     {
       :name => 'Event name',
-      :organisation_id => 'Host organisation',
+      :organisation_id => I18n.t(:host_organisation).capitalize,
       :start_time => 'From',
       :end_time => 'To',
       :location => 'Where',

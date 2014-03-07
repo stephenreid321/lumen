@@ -27,6 +27,21 @@ env = {
   :HELP_ADDRESS => 'Email address for general queries',
 
   :EXTRA_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
+  :EXTRA_FIELDS_EVENT => 'Extra fields for the Event model',
+  
+  :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
+  :ACCOUNT_TAGS_PREDEFINED => 'If defined, turns the tagships profile field into a series of checkboxes',
+    
+  :HIDE_SEARCH_MEMBERSHIPS => 'If defined, hides group memberships on profile search results',
+  :HIDE_SEARCH_TAGS => 'If defined, hides tags on profile search results',
+  :HIDE_ORGANISATIONS_TAB => 'If defined, hides the \'organisations\' tab',
+  :HIDE_SECTORS_TAB => 'If defined, hides the \'sectors\' tab',
+    
+  :ICON_ORGANISATIONS => 'Alternative Font Awesome icon name for organisations tab',
+  :ICON_SECTORS => 'Alternative Font Awesome icon name for sectors tab',
+  
+  :PUBLIC_HOMEPAGE => 'If defined, makes some content on the homepage publicly viewable',
+  
   :NEWSME_SWITCH_HOUR => "Hour to switch over to today's news summaries e.g. 11",  
 
   :FACEBOOK_KEY => 'Facebook API key',
@@ -105,15 +120,10 @@ fragments = {
   :'sign-in' => 'Text displayed on sign in page',
   :'first-time' => 'Text displayed on account edit page upon first login',
   :home => 'If defined, creates a default landing tab on the homepage with this text',
+  :'visitor-sidebar' => 'Text to display on the sidebar to people not logged in',
   :head => 'Extra content for &lt;head&gt;',
-  :'affiliation-positions' => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
   :'tip-affiliations' => 'Tip for affiliations field on account edit page',
   :'tip-location' => 'Tip for location field on account edit page',
-  :'hide-organisations' => 'If defined, hides the \'organisations\' tab',
-  :'hide-sectors' => "If defined, hides the 'sectors' tab",
-  :'account-tags-predefined' => 'If defined, turns the tagships profile field into a series of checkboxes',
-  :'organisations-icon' => "Alternative Font Awesome icon for organisations tab",
-  :'sectors-icon' => "Alternative Font Awesome icon for sectors tab"
   }
 %>
 
@@ -140,7 +150,7 @@ fragments = {
 <p>Please note you must <a href="/config/restart">restart the app</a> for new translations to take effect.</p>
 
 <% 
-translations = %w{organisation organisations sector sectors account_tagship account_tagships}
+translations = %w{organisation organisations host_organisation sector sectors position positions account_tagship account_tagships}
 %>
 
 <form class="form-horizontal">
@@ -150,8 +160,8 @@ translations = %w{organisation organisations sector sectors account_tagship acco
         <%=k%>
       </label>
       <div class="col-md-2">
-        <% if t = Translation.find_by(key: k) %>
-          <p><%= t.value %></p>
+        <p><%= (t = Translation.find_by(key: k)).try(:value) || I18n.t(k) %></p>
+        <% if t %>          
           <a href="/admin/edit/Translation/<%=t.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
         <% else %>
           <a href="/admin/new/Translation" class="btn btn-default"><i class="fa fa-pencil"></i> Create</a>

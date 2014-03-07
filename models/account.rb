@@ -12,6 +12,7 @@ class Account
   field :has_picture, :type => Boolean
   field :picture_uid, :type => String  
   field :phone, :type => String 
+  field :website, :type => String 
   field :location, :type => String 
   field :coordinates, :type => Array
   field :expertise, :type => String
@@ -108,6 +109,10 @@ class Account
   validates_confirmation_of :password, :if => :password_required 
   
   index({email: 1 }, {unique: true})
+  
+  before_validation do
+    self.website = "http://#{self.website}" if self.website and !self.website.start_with?('http://')
+  end  
     
   before_validation :set_has_picture
   def set_has_picture
@@ -129,7 +134,8 @@ class Account
       :name => :text,
       :email => :text,
       :secret_token => :text,
-      :phone => :text,      
+      :phone => :text, 
+      :website => :text,
       :picture => :image,
       :role => :select,
       :time_zone => :select,

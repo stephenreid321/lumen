@@ -1,11 +1,13 @@
-<ol class="breadcrumb">
+<ol class="breadcrumb" style="margin-bottom: 20px">
   <li><a href="/groups">Groups</a></li>
   <li class="active"><%=@group_type ? @group_type.name : 'All'%> groups</li>
 </ol>
 
-<div style="text-align: center; margin-top: 20px">
-  <a title="Create a group" class="btn btn-default" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
-</div>
+<a style="float: right" title="Create a group" class="btn btn-primary" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
+
+<% if @group_type %>
+  <p style="font-size: 20px; line-height: 110%"><%=@group_type.description%></p>
+<% end %>
 
 <% @groups.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
   <h2>

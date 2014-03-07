@@ -101,6 +101,12 @@ class Group
     :slug
   end
   
+  def self.human_attribute_name(attr, options={})  
+    {
+      :slug => 'Name'
+    }[attr.to_sym] || super  
+  end   
+  
   def self.privacies
     {'Open' => 'open', 'Closed' => 'closed', 'Secret' => 'secret'}
   end

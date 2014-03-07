@@ -55,13 +55,17 @@ module Lumen
         session['account_id'] = account.id
         flash[:notice] = %Q{<strong>Welcome to Lumen!</strong> An admin account has been created. You'll want to change the name, email address and password.}
         redirect '/me/edit'
-      end
-      sign_in_required!
-      if current_account.memberships.count == 1
-        redirect "/groups/#{current_account.memberships.first.group.slug}"
+      end      
+      sign_in_required! unless ENV['PUBLIC_HOMEPAGE']      
+      if current_account
+        if current_account.memberships.count == 1
+          redirect "/groups/#{current_account.memberships.first.group.slug}"
+        else
+          @o = :updated       
+          erb :home
+        end
       else
-        @o = :updated       
-        erb :home
+        erb :visitor
       end
     end
     

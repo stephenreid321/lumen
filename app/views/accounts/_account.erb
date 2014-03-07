@@ -3,11 +3,28 @@
     <img style="width: 100px" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
   </a>
   <div class="media-body">
-    <h4 class="media-heading"><a href="/accounts/<%=account.id%>"><%=account.name%></a></h4>        
+    <h4 class="media-heading"><a href="/accounts/<%=account.id%>"><%=account.name%></a></h4>   
+    <% unless ENV['HIDE_PREVIEW_MEMBERSHIPS'] %>    
+      <% if account.public_memberships.count > 0 %>
+        <ul class="fa-ul">
+          <li>
+            <i title="Groups" class="fa fa-li fa-group"></i>
+            Member of <%= account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %>
+          </li>
+        </ul>
+      <% end %>    
+    <% end %>
     <ul class="fa-ul">
       <% account.affiliations.each { |affiliation|%>
         <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
       <% } %>
-    </ul>          
+    </ul>    
+    <% unless ENV['HIDE_PREVIEW_TAGS'] %>
+      <% if account.account_tagships.count > 0 %>
+        <ul class="fa-ul">
+          <li><i title="<%=I18n.t(:account_tagships).capitalize%>" class="fa fa-li fa-tags"></i><%account.account_tagships.each { |account_tagship|%><span class="label label-default" style="text-indent: 0"><%=account_tagship.account_tag.name%></span> <% } %></li>
+        </ul>
+      <% end %>    
+    <% end %>
   </div>
 </div> 

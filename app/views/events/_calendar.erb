@@ -4,99 +4,98 @@
   .fc-button { height: auto; line-height: 1.42857; padding: 6px 12px }
 </style>
 <script>
-  $(function() {
-    var mini = <%= defined?(mini) ? 'true' : 'false' %>
-    $('#calendar').fullCalendar({
-      events: '<%=calendar_path%>/feed',
-      buttonText:
-        {
-        prev:     '<i class="fa fa-chevron-left"></i>', // <
-        next:     '<i class="fa fa-chevron-right"></i>', // >
-        today:    'Today',
-        month:    'Month',
-        week:     'Week',
-        day:      'Day'
-      },      
-      firstDay: 1,      
-      height: mini ? null : $(window).height() - $('#calendar').offset().top - $('#footer').height() - parseInt($('body').css('padding-bottom')) - 10, // and ten for luck
-      header:
-        mini ? {
-        left: 'today prev,next title',
-        right: ''
-      } : {
-        left: 'today prev,next title',
-        right: 'agendaDay,agendaWeek,month' 
-      } ,
-      titleFormat:
-        {
-        week: "d[ MMM][ yyyy]{ '&#8212;' d MMM yyyy}", // Sep 7 - 13 2009
-        day: 'dddd d MMM yyyy'                  // Tuesday, Sep 8, 2009
-      },        
-      columnFormat:
-        {
-        week: 'ddd d/M', // Mon 9/7
-        day: 'dddd d/M'  // Monday 9/7
-      },   
-      loading: function(isLoading) {
-        if (isLoading == true)
-          $('.fc-header-title h2').append(' <i class="fa fa-spinner fa-spin"></i>');
-        else
-          $('.fc-header-title h2 i').remove();
-      },
-      eventColor: '#4E88CA',
-      eventClick: function(event, jsEvent, view) {        
-        console.log(this);
-        $('.fc-event').popover('destroy');
-        if ($(this).data('popover') == true) {
-          $(this).data('popover', false);
-        } else {
-          el = $(this);
-          $.get('/groups/' + event.group_slug + '/calendar/' + event.id + '/summary', function(response) {
-            el.popover({
-              content: response,
-              trigger: 'manual',
-              title: event.title <% if !@group %> + ' <span style="font-size: 0.85em; color: #999999"><i class="fa fa-group"></i> ' + event.group_slug + '</span>' <% end%>  ,
-              placement:'auto top',
-              container:'body',
-              html: true          
-            }).popover('show');
+          $(function() {
+          var mini = <%= defined?(mini) ? 'true' : 'false' %>
+          $('#calendar').fullCalendar({
+          events: '<%=calendar_path%>/feed',
+                  buttonText:
+          {
+          prev:     '<i class="fa fa-chevron-left"></i>', // <
+                  next:     '<i class="fa fa-chevron-right"></i>', // >
+                  today:    'Today',
+                  month:    'Month',
+                  week:     'Week',
+                  day:      'Day'
+          },
+                  firstDay: 1,
+                  height: mini ? null : $(window).height() - $('#calendar').offset().top - $('#footer').height() - parseInt($('body').css('padding-bottom')) - 10, // and ten for luck
+                  header:
+                  mini ? {
+                  left: 'today prev,next title',
+                          right: ''
+                  } : {
+          left: 'today prev,next title',
+                  right: 'agendaDay,agendaWeek,month'
+          },
+                  titleFormat:
+          {
+          week: "d[ MMM][ yyyy]{ '&#8212;' d MMM yyyy}", // Sep 7 - 13 2009
+                  day: 'dddd d MMM yyyy'                  // Tuesday, Sep 8, 2009
+          },
+                  columnFormat:
+          {
+          week: 'ddd d/M', // Mon 9/7
+                  day: 'dddd d/M'  // Monday 9/7
+          },
+                  loading: function(isLoading) {
+                  if (isLoading == true)
+                          $('.fc-header-title h2').append(' <i class="fa fa-spinner fa-spin"></i>');
+                          else
+                          $('.fc-header-title h2 i').remove();
+                  },
+                  eventColor: '#4E88CA',
+                  eventClick: function(event, jsEvent, view) {
+                  console.log(this);
+                          $('.fc-event').popover('destroy');
+                          if ($(this).data('popover') == true) {
+                  $(this).data('popover', false);
+                  } else {
+                  el = $(this);
+                          $.get('/groups/' + event.group_slug + '/calendar/' + event.id + '/summary', function(response) {
+                          el.popover({
+                          content: response,
+                                  trigger: 'manual',
+                                  title: event.title <% if !@group %> + ' <span style="font-size: 0.85em; color: #999999"><i class="fa fa-group"></i> ' + event.group_slug + '</span>' <% end%>,
+                                  placement:'auto top',
+                                  container:'body',
+                                  html: true
+                          }).popover('show');
+                          });
+                          $('.fc-event').data('popover', false);
+                          $(this).data('popover', true);
+                  }
+                  return false;
+                  },
+                  viewDestroy: function() {
+                  $('.fc-event').popover('destroy');
+                          $('.fc-event').data('popover', false);
+                  },
+<% if params[:event_id]; event = Event.find(params[:event_id]) %>
+            year: <%=event.start_time.year%>,
+                    month: <%=event.start_time.month - 1%>,
+                    date: <%=event.start_time.day%>,
+                    eventAfterAllRender: function() {
+                    $('.event-<%=event.id%>').mouseover().click();
+                    }
+<% end %>
           });
-          $('.fc-event').data('popover',false);
-          $(this).data('popover',true);
-        }
-        return false;
-      },
-      viewDestroy: function() {
-        $('.fc-event').popover('destroy');
-        $('.fc-event').data('popover',false);
-      },
-<% if params[:event_id]; event = Event.find(params[:event_id]) %>      
-        year: <%=event.start_time.year%>,
-        month: <%=event.start_time.month - 1%>,
-        date: <%=event.start_time.day%>,
-        eventAfterAllRender: function() {
-          $('.event-<%=event.id%>').mouseover().click(); 
-        }
-<% end %>  
-    });
+                  if (mini) {
+          $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>" class="btn btn-default" title="Full width"><i class="fa fa-resize-horizontal"></i></a>');
+                  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
+          } else {
+          $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
+                  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
+          }
 
-
-
-    if (mini) {
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>" class="btn btn-default" title="Full width"><i class="fa fa-resize-horizontal"></i></a>');
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
-    } else {
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
-      $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
-    }
-
-  });  
+          });
 </script>
 
 <div id="calendar"></div>
 
-<p style="text-align: center; margin-top: 10px">
-  Add this calendar to your Google Calendar (<a href="https://support.google.com/calendar/answer/37100?hl=en">instructions</a>), Apple Calendar, etc:<br />
-  <input class="form-control" style="width: 20em; display: inline" type="text" value="http://<%=ENV['DOMAIN']%><%="#{calendar_path}.ics"%>?token=<%=current_account.generate_secret_token%>">
-</p>
+<% if current_account %>
+  <p style="text-align: center; margin-top: 10px">
+    Add this calendar to your Google Calendar (<a href="https://support.google.com/calendar/answer/37100?hl=en">instructions</a>), Apple Calendar, etc:<br />
+    <input class="form-control" style="width: 20em; display: inline" type="text" value="http://<%=ENV['DOMAIN']%><%="#{calendar_path}.ics"%>?token=<%=current_account.generate_secret_token%>">
+  </p>
+<% end %>
 

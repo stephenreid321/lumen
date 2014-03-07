@@ -38,7 +38,7 @@
 
   <div class="row" style="margin-top: 10px">
     <div class="col-md-6 col-md-offset-3">
-      
+
       <style>
         .time { display: none }
         #event_publicity_tweet { height: 8em }
@@ -87,6 +87,9 @@
         </div>
         <%= f.text_block :reason %>        
         <%= f.text_area_block :publicity_tweet, div_class: 'col-md-9' %>
+        <% ExtraFields.fields(Event).each { |fieldname, fieldtype| %> 
+          <%= f.send("#{fieldtype}_block", fieldname, div_class: ('col-md-9' if [:wysiwyg, :text_area].include?(fieldtype))) %>
+        <% } %>       
         <% if @event.new_record? %>
           <%= f.check_box_block :start_conversation %>    
         <% end %>
@@ -94,7 +97,7 @@
         <%= f.submit_block destroy_url: "/groups/#{@group.slug}/calendar/#{@event.id}/destroy" %>
 
       <% end %>
-   
+
     </div>
   </div>
 

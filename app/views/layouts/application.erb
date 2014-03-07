@@ -90,10 +90,6 @@
               <% unless ENV['HIDE_SECTORS_TAB'] %>
                 <li><a href="/sectors"><i class="fa <%=ENV['ICON_SECTORS'].try(:body) || 'fa-th-list'%>"></i> <%=I18n.t(:sectors).capitalize%></a></li>
               <% end %>
-              <% if current_account.admin? %>
-                <li class="admin"><a href="/analytics"><i class="fa fa-globe"></i> Sitewide analytics</a></li>
-                <li class="admin"><a href="/config"><i class="fa fa-dashboard"></i> Lumen configuration</a></li>        
-              <% end %>
             <%  end %>
           </ul>  
         <% end %>
@@ -145,6 +141,10 @@
           <a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a>
           &middot;
           Powered by <a target="_blank" href="http://wordsandwriting.github.io/lumen/">Lumen</a>
+          <% if current_account and current_account.admin? %>
+            &middot; <a href="/analytics"><i class="fa fa-globe"></i> Sitewide analytics</a>
+            &middot; <a href="/config"><i class="fa fa-dashboard"></i> Lumen configuration</a>
+          <% end %>          
         </div>
       </div>
     </div>

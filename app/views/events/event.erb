@@ -1,10 +1,8 @@
-<% if @membership %>
-  <ul class="page-options">  
-    <li>
-      <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
-    </li>    
-  </ul>
-<% end %>
+<ul class="page-options">  
+  <li>
+    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
+  </li>    
+</ul>
 
 <ol class="breadcrumb">
   <li><a href="/groups">Groups</a></li>

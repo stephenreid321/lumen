@@ -1,0 +1,15 @@
+<ol class="breadcrumb">
+  <li><a href="/groups">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    Wall
+  </li>
+</ol>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= partial :'wall/wall' %>
+  </div>
+</div>

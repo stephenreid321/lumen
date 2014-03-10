@@ -1,6 +1,9 @@
-$(function() { 
-  $("a[data-confirm]").on('click', function(e) {
+$(function() {
+  $(document).on('click', 'a[data-confirm]', function(e) {
     var message = $(this).data('confirm');
-    if (!confirm(message)) { e.preventDefault(); e.stopped = true; }
+    if (!confirm(message)) {
+      e.preventDefault();
+      e.stopped = true;
+    }
   });
 });

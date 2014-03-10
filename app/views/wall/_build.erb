@@ -1,0 +1,7 @@
+
+<% form_for @wall_post, @wall_post.new_record? ? "/wall/new" : "/wall/#{@wall_post.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+
+  <%= f.text_area_block :wysiwyg %>
+  <%= f.submit_block %>
+
+<% end %>

@@ -4,7 +4,7 @@
   </a>
   <div class="media-body">
     <h4 class="media-heading"><a href="/accounts/<%=account.id%>"><%=account.name%></a></h4>   
-    <% unless ENV['HIDE_PREVIEW_MEMBERSHIPS'] %>    
+    <% unless ENV['HIDE_SEARCH_MEMBERSHIPS'] %>    
       <% if account.public_memberships.count > 0 %>
         <ul class="fa-ul">
           <li>
@@ -19,7 +19,7 @@
         <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
       <% } %>
     </ul>    
-    <% unless ENV['HIDE_PREVIEW_TAGS'] %>
+    <% unless ENV['HIDE_SEARCH_TAGS'] %>
       <% if account.account_tagships.count > 0 %>
         <ul class="fa-ul">
           <li><i title="<%=I18n.t(:account_tagships).capitalize%>" class="fa fa-li fa-tags"></i><%account.account_tagships.each { |account_tagship|%><span class="label label-default" style="text-indent: 0"><%=account_tagship.account_tag.name%></span> <% } %></li>

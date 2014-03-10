@@ -1,6 +1,7 @@
 class WallPost
   include Mongoid::Document
   include Mongoid::Timestamps
+  extend Dragonfly::Model
    
   field :body, :type => String  
   field :title, :type => String
@@ -8,6 +9,10 @@ class WallPost
   field :description, :type => String  
   field :picture, :type => String
   field :player, :type => String
+  
+  field :file_uid, :type => String
+  field :file_name, :type => String  
+  dragonfly_accessor :file, :app => :files
   
   validates_presence_of :body
   

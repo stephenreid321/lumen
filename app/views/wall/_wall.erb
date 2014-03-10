@@ -18,6 +18,12 @@
           <%= text_area_tag :'wall_post[body]', :class => 'form-control', :id => 'wall_post_body', :style => 'display: block; margin-bottom: 10px', :rows => 5 %>              
           <div id="opengraph" style="position: relative; margin-bottom: 10px"></div>
           <div id="opengraph-json"></div>
+          <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
+              $('#wall-post-attach').show();
+              $('#wall-post-attach input').click();">Attach a file</a>
+          <div style="display:none; margin-bottom: 10px" id="wall-post-attach">
+            <%= file_field_tag :'wall_post[file]' %>
+          </div>   
           <button type="submit" class="btn btn-default">Post</button>
         <% end %> 
       </div>

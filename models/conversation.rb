@@ -34,7 +34,7 @@ class Conversation
   
   before_validation :ensure_not_duplicate
   def ensure_not_duplicate    
-    raise Duplicate if (most_recent = self.group.conversations.order_by(:created_at.desc).first) and self.subject == most_recent.subject
+    raise Duplicate if (most_recent = Conversation.order_by(:created_at.desc).limit(1).first) and (self.group == most_recent.group) and (self.subject == most_recent.subject)
   end
   
   before_validation :hidden_to_boolean

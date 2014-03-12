@@ -46,7 +46,7 @@ gem 'dalli'
 # Extras
 gem 'ri_cal', github: 'espen/ri_cal'
 gem 'geocoder'
-gem 'newrelic_rpm'
+gem 'yui-compressor'
 
 group :test do
   gem 'factory_girl'

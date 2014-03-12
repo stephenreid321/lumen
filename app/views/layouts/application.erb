@@ -6,39 +6,9 @@
 
     <title><%=ENV['SITE_NAME']%></title>
 
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-
-    <%
-    [
-      'bootstrap.min.css',
-      'bootstrap-theme.min.css',
-      'font-awesome.min.css',
-      'bootstrap-wysihtml5-0.0.3.css',
-      'chosen.min.css',
-      'chosen-bootstrap.css',
-      'bootstrap-stacked-tabs.css',      
-      'datepicker3.css',
-      'app.css',      
-      'news.css'
-      ].each { |file| %> 
-      <link rel="stylesheet" href="/stylesheets/<%=file%>" />    
-    <% } %>        
-
-    <% [
-      'jquery-1.9.1.min.js',
-      'bootstrap.min.js',
-      'bootstrap3-typeahead.min.js',
-      'wysihtml5-0.3.0.js',
-      'bootstrap-wysihtml5-0.0.3.js',
-      'jquery.confirm.js',
-      'jquery.deparam.js',
-      'jquery.typing-0.3.0.min.js',
-      'chosen.jquery.min.js',
-      'bootstrap-datepicker.js',
-      'app.js'
-      ].each { |file| %>
-      <script src="/javascripts/<%=file%>"></script>
-    <% } %>   
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>    
+    <link rel="stylesheet" href="/stylesheets/compressed.css" />    
+    <script src="/javascripts/compressed.js"></script>
 
     <%= Fragment.find_by(slug: 'head').try(:body) %>
 

@@ -4,46 +4,58 @@
     $('#results-form').submit(function(e) {
       e.preventDefault();
       $('#filter-spin').show();
-      $('#results').load('/accounts/results?'+$(this).serialize(), function() {
+      $('#results').load('/accounts/results?' + $(this).serialize(), function() {
         $('#filter-spin').hide();
       });
     });
-        
+
     $('#results-form select, #results-form input[type=radio]').change(function() {
       $(this.form).submit();
     });
-        
+
     $('#results-form').submit();
-  });  
+  });
 </script>
 
 <% form_tag '', :method => 'get', :id => 'results-form' do %>
-
   <%= hidden_field_tag :scope, :value => scope %> 
   <%= hidden_field_tag :scope_id, :value => scope_id %> 
-
-  <%
-  accounts = case scope
-  when 'network'
-    current_account.network
-  when 'group'
-    group = Group.find(scope_id)
-    group.members
-  when 'conversation'
-    conversation = Conversation.find(scope_id)
-    conversation.participants
-  when 'organisation'
-    organisation = Organisation.find(scope_id)
-    organisation.members
-  when 'sector'
-    sector = Sector.find(scope_id)
-    sector.members
-  end
-%>
-  
-  <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => ['']+accounts.map(&:name).uniq.sort, :"data-placeholder" => 'Filter by name' %>
-  <%= select_tag :org, :selected => @org, :class => 'form-control chosen', :options => ['']+accounts.map(&:affiliations).flatten.map(&:organisation).map(&:name).uniq.sort, :"data-placeholder" => "Filter by #{I18n.t(:organisation)}" %>
-  <%= select_tag :tag, :selected => @tag, :class => 'form-control chosen', :options => ['']+accounts.map(&:account_tagships).flatten.map(&:account_tag).map(&:name).uniq.sort, :"data-placeholder" => "Filter by #{I18n.t(:account_tagship)}" %>
+  <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => [''], :"data-placeholder" => 'Filter by name' %>
+  <%= select_tag :org, :selected => @org, :class => 'form-control chosen', :options => [''], :"data-placeholder" => "Filter by #{I18n.t(:organisation)}" %>
+  <%= select_tag :tag, :selected => @tag, :class => 'form-control chosen', :options => [''], :"data-placeholder" => "Filter by #{I18n.t(:account_tagship)}" %>
+  <script>
+    $(function() {
+      var names = []
+      var orgs = []
+      var tags = []
+      $('#results-form').one('click', function() {
+        $.getJSON('/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>', function(data) {
+          $.each(data, function(i, account) {
+            names.push(account['name'])
+            $.each(account['organisations'], function(i, org) {
+              orgs.push(org)
+            });
+            $.each(account['account_tags'], function(i, tag) {
+              tags.push(tag)
+            });
+          });
+          names = names.unique().sort();
+          orgs = orgs.unique().sort();
+          tags = tags.unique().sort();
+          $.each(names, function(i, value) {
+            $('select.chosen[name=name]').append($('<option>').text(value).attr('value', value));
+          });
+          $.each(orgs, function(i, value) {
+            $('select.chosen[name=org]').append($('<option>').text(value).attr('value', value));
+          });
+          $.each(tags, function(i, value) {
+            $('select.chosen[name=tag]').append($('<option>').text(value).attr('value', value));
+          });
+          $('select.chosen').trigger("chosen:updated");
+        });
+      });
+    });
+  </script>
   <div style="margin-top: 5px;">
     <label class="radio-inline" style="padding-left: 0">Sort by</label>
     <% {'Date joined' => :date, 'Name' => :name, 'Last updated' => :updated}.each { |k,v| %>

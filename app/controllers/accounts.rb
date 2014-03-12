@@ -1,6 +1,6 @@
 Lumen::App.controllers do
     
-  get '/accounts/results' do
+  get '/accounts/results', :provides => [:json, :html] do
     sign_in_required!
     scope = params[:scope]
     scope_id = params[:scope_id]
@@ -37,8 +37,19 @@ Lumen::App.controllers do
     when :updated
       @accounts.order_by([:has_picture.desc, :updated_at.desc])
     end
-    @accounts = @accounts.per_page(10).page(params[:page])
-    partial :'accounts/results'
+    case content_type
+    when :json
+      @accounts.map { |account|
+      {
+        :name => account.name,
+        :organisations => account.affiliations.map(&:organisation).map(&:name),
+        :account_tags => account.account_tagships.map(&:account_tag).map(&:name)
+      }
+    }.to_json
+    when :html
+      @accounts = @accounts.per_page(10).page(params[:page])
+      partial :'accounts/results'
+    end
   end  
     
   get '/accounts/:id' do

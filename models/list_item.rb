@@ -40,7 +40,7 @@ class ListItem
   end
   
   before_validation do
-    self.link = "http://#{self.link}" if self.link and !self.link.start_with?('http://')
+    self.link = "http://#{self.link}" if self.link and !(self.link =~ /\Ahttps?:\/\//)
   end
   
   def self.lookup

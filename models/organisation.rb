@@ -30,16 +30,8 @@ class Organisation
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false 
   
-  before_validation :tidy_website
-  def tidy_website
-    if self.website
-      if self.website.start_with?('http://')
-        self.website = self.website[7..-1]
-      end
-      if self.website.end_with?('/')
-        self.website = self.website[0..-2]
-      end
-    end
+  before_validation do
+    self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
   end
     
   def self.fields_for_index

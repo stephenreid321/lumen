@@ -15,7 +15,6 @@ class Account
   field :website, :type => String 
   field :location, :type => String 
   field :coordinates, :type => Array
-  field :expertise, :type => String
   
   ExtraFields.set(self)
   
@@ -70,11 +69,7 @@ class Account
   def news_summaries
     NewsSummary.where(:id.in => memberships.map(&:group).map(&:news_summaries).flatten.map(&:_id))
   end
-  
-  def expertises
-    expertise ? expertise.split(',').map { |x| x.split(';') }.flatten.map(&:downcase).map(&:strip) : []
-  end
-  
+    
   def public_memberships
     Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))
   end
@@ -112,7 +107,7 @@ class Account
   index({email: 1 }, {unique: true})
   
   before_validation do
-    self.website = "http://#{self.website}" if self.website and !self.website.start_with?('http://')
+    self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
   end  
     
   before_validation :set_has_picture
@@ -143,7 +138,6 @@ class Account
       :password => :password,
       :password_confirmation => :password,
       :location => :text,
-      :expertise => :text,
       :affiliations => :collection
     }.merge(ExtraFields.fields(self))
   end

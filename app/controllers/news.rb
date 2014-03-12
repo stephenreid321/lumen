@@ -15,7 +15,7 @@ Lumen::App.controllers do
     membership_required! unless @group.open?
     partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => NewsSummary.date + params[:d].to_i}
   end  
-  
+    
   get '/groups/:slug/news_summaries' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!

@@ -38,7 +38,7 @@ Lumen::App.controllers do
                           
   get '/groups/:slug' do
     sign_in_required!
-    @group = Group.find_by(slug: params[:slug])    
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
     membership_required! if @group.secret?
@@ -95,20 +95,20 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/join' do
-    @group = Group.find_by(slug: params[:slug])    
+    @group = Group.find_by(slug: params[:slug]) || not_found    
     @group.memberships.create :account => current_account if @group.open?
     redirect "/groups/#{@group.slug}"    
   end  
   
   get '/groups/:slug/leave' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @group.memberships.find_by(:account => current_account).destroy
     redirect "/groups/#{@group.slug}"
   end  
   
   get '/groups/:slug/notification_level' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @group.memberships.find_by(account: current_account).update_attribute(:notification_level, params[:level]) if Membership.notification_levels.include? params[:level]
     flash[:notice] = 'Notification options updated!'

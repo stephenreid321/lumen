@@ -228,7 +228,7 @@ class Group
       begin
         html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
       rescue => e
-          Airbrake.notify(e)
+        Airbrake.notify(e)
       end
                              
       if html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/))
@@ -237,13 +237,19 @@ class Group
           html = html.split(pattern).first
         }
       else
-        conversation = group.conversations.create! :subject => mail.subject
+        begin
+          conversation = group.conversations.create! :subject => (mail.subject.blank? ? '(no subject)' : mail.subject)
+        rescue Conversation::Duplicate
+          next
+        end
         ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
           html = html.split(pattern).first
         }
       end                                                                                
-      html = Nokogiri::HTML.parse(html).search('body').inner_html
-                
+      html = Nokogiri::HTML.parse(html)
+      html.search('style').remove
+      html = html.search('body').inner_html
+                     
       conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id                   
       mail.attachments.each do |attachment|
         conversation_post.attachments.create! :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid

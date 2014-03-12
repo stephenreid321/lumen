@@ -94,6 +94,9 @@
             trigger: 'manual'
           }).tooltip('show');
 <% end %>
+        $("a[href='#news-tab']").on('shown.bs.tab', function(e) {
+          $('#news-tab').load('/groups/<%=@group.slug%>/news')
+        });
         $("a[href='#wall-tab']").on('shown.bs.tab', function(e) {
           $('#wall-tab').load('/groups/<%=@group.slug%>/wall')
         });
@@ -138,7 +141,7 @@
       </div>        
       <% if @group.news_summaries.count > 0 %>
         <div class="tab-pane" id="news-tab">
-          <%= partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => NewsSummary.date} %>
+          <h2><i class="fa fa-spin fa-spinner"></i></h2>
         </div>      
       <% end %>  
       <div class="tab-pane" id="digest-tab">

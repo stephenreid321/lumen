@@ -94,6 +94,9 @@
             trigger: 'manual'
           }).tooltip('show');
 <% end %>
+        $("a[href='#conversations-tab']").on('shown.bs.tab', function(e) {
+          $('#conversations-tab').load('/groups/<%=@group.slug%>/conversations')
+        });
         $("a[href='#news-tab']").on('shown.bs.tab', function(e) {
           $('#news-tab').load('/groups/<%=@group.slug%>/news')
         });
@@ -134,7 +137,7 @@
         </div>      
       <% end %>      
       <div class="tab-pane" id="conversations-tab">
-        <%= partial :'conversations/conversations' %>
+        <h2><i class="fa fa-spin fa-spinner"></i></h2>        
       </div>  
       <div class="tab-pane" id="wall-tab">
         <h2><i class="fa fa-spin fa-spinner"></i></h2>

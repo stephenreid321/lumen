@@ -1,5 +1,29 @@
 Lumen::App.controllers do
   
+  get '/groups/:slug/conversations' do
+    sign_in_required!
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)    
+    redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
+    membership_required! if @group.secret?    
+    @conversations = @group.conversations.where(:hidden.ne => true)
+    @q = params[:q] if params[:q]        
+    if @q
+      q = []
+      ConversationPost.fields.each { |fieldstring, fieldobj|
+        if fieldobj.type == String and !fieldstring.starts_with?('_')          
+          q << {fieldstring.to_sym => /#{@q}/i }
+        elsif fieldstring.ends_with?('_id') && (assoc_name = ConversationPost.fields[fieldstring].metadata.try(:class_name))          
+          q << {"#{assoc_name.underscore}_id".to_sym.in => assoc_name.constantize.where(assoc_name.constantize.send(:lookup) => /#{@q}/i).only(:_id).map(&:_id) }
+        end
+      }   
+      @conversation_posts = @group.conversation_posts.where(:hidden.ne => true).or(q)
+      @conversations = @conversations.where(:id.in => @conversation_posts.only(:conversation_id).map(&:conversation_id))
+    end                         
+    @conversations = @conversations.order_by(:updated_at.desc).per_page(10).page(params[:page])            
+    partial :'conversations/conversations'
+  end
+  
   post '/groups/:slug/new_conversation' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!

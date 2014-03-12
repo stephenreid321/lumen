@@ -237,11 +237,7 @@ class Group
           html = html.split(pattern).first
         }
       else
-        begin
-          conversation = group.conversations.create! :subject => (mail.subject.blank? ? '(no subject)' : mail.subject)
-        rescue Conversation::Duplicate
-          next
-        end
+        conversation = group.conversations.create! :subject => (mail.subject.blank? ? '(no subject)' : mail.subject)
         ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
           html = html.split(pattern).first
         }

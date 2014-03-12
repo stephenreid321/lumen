@@ -14,9 +14,7 @@ class Conversation
   
   validates_presence_of :subject, :slug, :group
   validates_uniqueness_of :slug
-  
-  class Duplicate < StandardError; end
-      
+        
   def self.fields_for_index
     [:subject, :hidden, :slug, :group_id]
   end
@@ -33,8 +31,10 @@ class Conversation
   end
   
   before_validation :ensure_not_duplicate
-  def ensure_not_duplicate    
-    raise Duplicate if (most_recent = Conversation.order_by(:created_at.desc).limit(1).first) and (self.group == most_recent.group) and (self.subject == most_recent.subject)
+  def ensure_not_duplicate
+    if most_recent = Conversation.order_by(:created_at.desc).limit(1).first
+      errors.add(:subject, 'is a duplicate') if self.group == most_recent.group and self.subject == most_recent.subject
+    end
   end
   
   before_validation :hidden_to_boolean

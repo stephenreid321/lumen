@@ -1,9 +1,13 @@
 class AccountTagship
   include Mongoid::Document
   include Mongoid::Timestamps
-  
+  include Mongoid::Alize
+    
   belongs_to :account, index: true  
   belongs_to :account_tag, index: true
+    
+  alize :account, :name
+  alize :account_tag, :name  
   
   attr_accessor :account_tag_name
   before_validation :find_or_create_account_tag

@@ -1,6 +1,7 @@
 class AccountTag
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Alize
 
   field :name, :type => String
   

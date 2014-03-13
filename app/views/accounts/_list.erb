@@ -28,6 +28,7 @@
       var names = []
       var orgs = []
       var tags = []
+      $('select.chosen').append($('<option>').text('Loading, please wait...')).trigger("chosen:updated");
       $('#results-form').one('click', function() {
         $.getJSON('/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>', function(data) {
           $.each(data, function(i, account) {
@@ -42,6 +43,7 @@
           names = names.unique().sort();
           orgs = orgs.unique().sort();
           tags = tags.unique().sort();
+          $('select.chosen option:last-child').remove();
           $.each(names, function(i, value) {
             $('select.chosen[name=name]').append($('<option>').text(value).attr('value', value));
           });

@@ -7,6 +7,6 @@ script: bundle exec rake test
 env:
   global:
   - RACK_ENV=test
-  - PORT=3000
-  - DOMAIN=127.0.0.1:3000
+  - PORT=3001
+  - DOMAIN=127.0.0.1:3001
   - SESSION_SECRET=82d320681aeddffb5a77b0d32bd248567042dc4a936695dda6fb614121e26d13

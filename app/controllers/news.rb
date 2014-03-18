@@ -7,6 +7,7 @@ Lumen::App.controllers do
   end  
 
   get '/news' do
+    sign_in_required!
     partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => NewsSummary.date + params[:d].to_i}
   end  
   

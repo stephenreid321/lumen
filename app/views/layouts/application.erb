@@ -73,7 +73,7 @@
                 <% end %>
               </a></li>
             <li><a href="/sign_out">Sign out</a></li>
-          <% elsif ENV['PUBLIC_HOMEPAGE'] %> 
+          <% elsif Fragment.find_by(slug: 'public-homepage') %> 
             <li><a href="/sign_in">Sign in</a></li>
           <% end %>
         </ul>

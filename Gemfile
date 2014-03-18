@@ -54,4 +54,5 @@ group :test do
   gem 'turn'
   gem 'capybara'
   gem 'launchy'
+  gem 'poltergeist'
 end

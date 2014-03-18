@@ -29,7 +29,6 @@ namespace :compress do
         'bootstrap3-typeahead.min.js',
         'wysihtml5-0.3.0.js',
         'bootstrap-wysihtml5-0.0.3.js',
-        'jquery.confirm.js',
         'jquery.deparam.js',
         'jquery.typing-0.3.0.min.js',
         'chosen.jquery.min.js',

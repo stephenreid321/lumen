@@ -4,7 +4,7 @@ class TestAccounts < ActiveSupport::TestCase
   include Capybara::DSL
     
   setup do
-    Account.destroy_all    
+    Account.destroy_all
   end
       
   test 'signing in' do

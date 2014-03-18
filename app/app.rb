@@ -56,7 +56,7 @@ module Lumen
         flash[:notice] = %Q{<strong>Welcome to Lumen!</strong> An admin account has been created. You'll want to change the name, email address and password.}
         redirect '/me/edit'
       end      
-      sign_in_required! unless ENV['PUBLIC_HOMEPAGE']      
+      sign_in_required! unless Fragment.find_by(slug: 'public-homepage')
       if current_account
         if current_account.memberships.count == 1
           redirect "/groups/#{current_account.memberships.first.group.slug}"
@@ -65,7 +65,7 @@ module Lumen
           erb :home
         end
       else
-        erb :visitor
+        Fragment.find_by(slug: 'public-homepage').try(:body)
       end
     end
     

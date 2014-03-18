@@ -47,7 +47,7 @@
                   </ul>        
                 </li>    
               <% end %>
-              <% unless Fragment.find_by(slug: 'hide-directory') %>
+              <% unless ENV['HIDE_DIRECTORY_TAB'] %>
                 <li><a href="/groups/directory"><i class="fa <%=Fragment.find_by(slug: 'directory-icon').try(:body) || 'fa-book'%>"></i> All groups</a></li>
               <% end %>                
               <% if GroupType.count > 0 %>

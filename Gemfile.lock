@@ -1,11 +1,4 @@
 GIT
-  remote: git://github.com/dzello/mongoid_alize.git
-  revision: 36e445e49f6fadde86119bcc16e6e43e4ff20d20
-  specs:
-    mongoid_alize (0.4.2)
-      mongoid (>= 2.4)
-
-GIT
   remote: git://github.com/espen/ri_cal.git
   revision: 86e3998a0ab65762ae70d949f43bb324182b0f09
   specs:
@@ -268,7 +261,6 @@ DEPENDENCIES
   mechanize
   memcachier
   mongoid!
-  mongoid_alize!
   net-http-persistent (= 2.9.1)
   omniauth
   omniauth-facebook

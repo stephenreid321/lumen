@@ -1,16 +1,12 @@
 class Affiliation
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Alize
 
   field :title, :type => String
     
   belongs_to :account, index: true
   belongs_to :organisation, index: true  
-  
-  alize :account, :name
-  alize :organisation, :name
-  
+    
   attr_accessor :organisation_name
   before_validation :find_or_create_organisation
   def find_or_create_organisation

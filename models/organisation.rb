@@ -1,7 +1,6 @@
 class Organisation
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Alize
   extend Dragonfly::Model
 
   field :name, :type => String

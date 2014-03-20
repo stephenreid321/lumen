@@ -44,7 +44,7 @@
             var i = $('<select/>');
             i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
             i.attr('id', 'account_affiliations_attributes_' + c + '_title');
-  <% ENV['AFFILIATION_POSITIONS'].body.split(',').each { |ap| %>
+  <% ENV['AFFILIATION_POSITIONS'].split(',').each { |ap| %>
               i.append('<option value="<%=ap%>"><%=ap%></option>')
   <% } %>
             i.addClass('form-control');

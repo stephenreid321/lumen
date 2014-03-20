@@ -15,7 +15,7 @@
       <% f.fields_for :affiliations do |o| %>
         <div class="affiliation">
           <% if ENV['AFFILIATION_POSITIONS'] %>
-            <%= o.select :title, :options => ENV['AFFILIATION_POSITIONS'].body.split(','), :class => 'form-control' %>
+            <%= o.select :title, :options => ENV['AFFILIATION_POSITIONS'].split(','), :class => 'form-control' %>
           <% else %>
             <%= o.text_field :title, :class => 'form-control', :placeholder => I18n.t(:position).capitalize %>
           <% end %>

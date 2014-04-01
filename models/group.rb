@@ -235,11 +235,14 @@ class Group
             (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)) and
             conversation = group.conversations.find_by(slug: conversation_url_match[-1])
         )
+        new_conversation = false
         [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________', '<div.*#B5C4DF.*>'].each { |pattern|
           html = html.split(pattern).first
         }
       else
-        conversation = group.conversations.create! :subject => (mail.subject.blank? ? '(no subject)' : mail.subject)
+        new_conversation = true
+        conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject)                  
+        next if !conversation.persisted? # failed to find/create a valid conversation - probably a dupe
         ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
           html = html.split(pattern).first
         }
@@ -249,9 +252,13 @@ class Group
       html.search('style').remove
       html = html.search('body').inner_html
                      
-      conversation_post = conversation.conversation_posts.create! :body => html, :account => account, :mid => message_id                   
+      conversation_post = conversation.conversation_posts.create :body => html, :account => account, :mid => message_id                   
+      if !conversation_post.persisted? # failed to create the conversation post
+        conversation.destroy if new_conversation
+        next
+      end
       mail.attachments.each do |attachment|
-        conversation_post.attachments.create! :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
+        conversation_post.attachments.create :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
       end                        
       conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)
       

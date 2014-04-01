@@ -6,6 +6,8 @@ body { padding: 60px 20px 20px 20px; }
 .tabs-left .nav-tabs > li > a:hover, .nav-tabs > li > a:focus, .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs .open > a, .nav-tabs .open > a:hover, .nav-tabs .open > a:focus { padding: 10px 15px; margin-top: 6px }
 .tabs-left .nav-tabs > li > a:hover { background: #EDEDED; }
 
+table a, .table a { text-decoration: none }
+
 .restore-opacity { opacity: 0.5; }
 .restore-opacity:hover { opacity: 1 !important  }
 

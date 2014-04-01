@@ -186,7 +186,8 @@ class Group
       end
       
       # delete messages from people that aren't in the group
-      if !group.memberships.map { |membership| membership.account.email.downcase }.include?(from.downcase)        
+      account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)     
+      if !account or !account.memberships.find_by(group: group)
         Mail.defaults do
           delivery_method :smtp, group.smtp_settings
         end 
@@ -203,9 +204,7 @@ class Group
       end          
               
       msg = imap.fetch(sequence_id,'RFC822')[0].attr['RFC822']          
-      mail = Mail.read_from_string msg
-              
-      account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)
+      mail = Mail.read_from_string msg                    
               
       if mail.html_part
         body = mail.html_part.body

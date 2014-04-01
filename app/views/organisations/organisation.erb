@@ -22,7 +22,7 @@
         <h2 style="margin-top: 0"><%=@organisation.name%></h2>          
         <ul class="fa-ul">
           <% if @organisation.website%>
-            <li><i title="Website" class="fa fa-li fa-globe"></i><a target="new" href="http://<%=@organisation.website%>"><%=@organisation.website%></a></li>
+            <li><i title="Website" class="fa fa-li fa-globe"></i><a target="new" href="<%=@organisation.website%>"><%=@organisation.website%></a></li>
           <% else %>
             <li><i style="opacity: 0.25" class="fa fa-li fa-globe"></i></li> &nbsp;
           <% end %>                  

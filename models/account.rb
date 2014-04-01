@@ -16,6 +16,9 @@ class Account
   field :location, :type => String 
   field :coordinates, :type => Array
   
+  field :account_tag_names, :type => Array
+  field :organisation_names, :type => Array
+  
   ExtraFields.set(self)
   
   include Geocoder::Model::Mongoid
@@ -50,6 +53,16 @@ class Account
       @account_tag_ids = nil
     end
   end  
+  
+  before_validation :set_organisation_names
+  def set_organisation_names
+    self.organisation_names = self.affiliations.map(&:organisation).map(&:name)
+  end  
+  
+  before_validation :set_account_tag_names
+  def set_account_tag_names
+    self.account_tag_names = self.account_tagships.map(&:account_tag).map(&:name)
+  end    
         
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank

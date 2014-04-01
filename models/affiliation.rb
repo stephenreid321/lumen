@@ -17,7 +17,7 @@ class Affiliation
       end
     end
   end
-     
+       
   validates_presence_of :title, :organisation, :account
       
   def self.fields_for_index

@@ -1,5 +1,9 @@
 Hi <%=@account.name.split(' ').first%>,
-   
+
 <%=current_account.name%> added you to the '<%=@group.slug%>' group on <%=ENV['SITE_NAME_DEFINITE']%>.
 
-You can sign in at http://<%=ENV['DOMAIN']%>/sign_in<%=@extra%>.
+<% if @new_account %>
+  Sign in at http://<%=ENV['DOMAIN']%>/sign_in with the email address <%=@account.email%> and the password <%=@account.password%> to start receiving email notifications.
+<% else %>
+  Check it out at http://<%=ENV['DOMAIN']%>/groups/<%=@group.slug%>.
+<% end %>

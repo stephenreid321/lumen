@@ -106,45 +106,46 @@ Lumen::App.controllers do
         next
       end
       name.strip!
-      email.strip!    
-      @extra = ''
+      email.strip!
       
-      if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))        
+      if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   
+        @new_account = true
         @account = Account.new({
             :name => name,
             :password => Account.generate_password(8),
             :email => email
           })
         @account.password_confirmation = @account.password
-        if @account.save
-          @extra = " with the email address #{@account.email} and the password #{@account.password}"
-        else
+        if !@account.save
           notices << "Failed to create an account for #{email} - is this a valid email address?"
           next
         end
+      else
+        @new_account = false
       end
+      
       if @group.memberships.find_by(account: @account)
         notices << "#{email} is already a member of this group."
         next
-      else
-        @membership = @group.memberships.build :account => @account
-        @membership.role = 'admin' if params[:role] == 'admin'
-        @membership.save
-      
-        group = @group # instance var not available in defaults block
-        Mail.defaults do
-          delivery_method :smtp, group.smtp_settings
-        end      
-      
-        mail = Mail.new(
-          :to => @account.email,
-          :from => "#{@group.slug} <#{@group.email('-noreply')}>",
-          :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
-          :body => erb(:'emails/invite', :layout => false)
-        )
-        mail.deliver!
-        notices << "#{email} was added to the group."
       end
+      
+      @membership = @group.memberships.build :account => @account
+      @membership.role = 'admin' if params[:role] == 'admin'
+      @membership.save
+      
+      group = @group # instance var not available in defaults block
+      Mail.defaults do
+        delivery_method :smtp, group.smtp_settings
+      end      
+      
+      mail = Mail.new(
+        :to => @account.email,
+        :from => "#{@group.slug} <#{@group.email('-noreply')}>",
+        :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
+        :body => erb(:'emails/invite', :layout => false)
+      )
+      mail.deliver!
+      notices << "#{email} was added to the group."
     }
     flash[:notice] = notices.join('<br />') if !notices.empty?
     redirect back

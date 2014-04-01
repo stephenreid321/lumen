@@ -18,6 +18,15 @@
 
 <%= partial :'conversations/conversations_table', :locals => {:conversations => @conversations}  %>
 
+<script>
+  $(function() {
+    $('#conversations-tab .pagination a').click(function(e) {
+      e.preventDefault();
+      if ($(this).attr('href') != '#')
+        $('#conversations-tab').load($(this).attr('href'));
+    });
+  });
+</script>
 <%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 
 <% if @membership %>
@@ -40,13 +49,13 @@
           });
         </script>
         <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-                    $('#attach').show();
-                    $('#attach input').click();">Attach a file</a>
+            $('#attach').show();
+            $('#attach input').click();">Attach a file</a>
         <div style="display:none; margin-bottom: 10px" id="attach">
-    <%= file_field_tag :attachment %>
+          <%= file_field_tag :attachment %>
         </div>            
         <button type="submit" class="btn btn-default">Post</button>
-  <% end %> 
+      <% end %> 
     </div>
   </div>
 <% end %>

@@ -6,7 +6,6 @@
 
     <title><%=ENV['SITE_NAME']%></title>
 
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>    
     <link rel="stylesheet" href="/stylesheets/compressed.css" />    
     <script src="/javascripts/compressed.js"></script>
 
@@ -64,19 +63,21 @@
             <%  end %>
           </ul>  
         <% end %>
-        <ul class="nav navbar-nav navbar-right">
-          <% if current_account %>
-            <li><a href="/me/edit">
-                Edit profile & connect accounts 
-                <% if (x = current_account.connections.count)/(y = Provider.all.select { |provider| provider.registered? }.count).to_f < 0.5 %>
-                  (<%=x%>/<%=y%> connected)
-                <% end %>
-              </a></li>
-            <li><a href="/sign_out">Sign out</a></li>
-          <% elsif Fragment.find_by(slug: 'public-homepage') %> 
-            <li><a href="/sign_in">Sign in</a></li>
-          <% end %>
-        </ul>
+        <div class="navbar-right">
+          <ul class="nav navbar-nav">
+            <% if current_account %>
+              <li><a href="/me/edit">
+                  Edit profile & connect accounts 
+                  <% if (x = current_account.connections.count)/(y = Provider.all.select { |provider| provider.registered? }.count).to_f < 0.5 %>
+                    (<%=x%>/<%=y%> connected)
+                  <% end %>
+                </a></li>
+              <li><a href="/sign_out">Sign out</a></li>
+            <% elsif Fragment.find_by(slug: 'public-homepage') %> 
+              <li><a href="/sign_in">Sign in</a></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </nav>    
 

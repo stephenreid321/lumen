@@ -1,7 +1,10 @@
 
 body { padding: 60px 20px 20px 20px; }
 
-body, p, input, select, textarea, button, h1,h2,h3,h4,h5,h6 { font-family: 'Lato', 'Helvetica', 'Arial', sans-serif }
+.breadcrumb { background: #EDEDED; border: 0 }
+.tabs-left .nav-tabs > li > a { transition: none }
+.tabs-left .nav-tabs > li > a:hover, .nav-tabs > li > a:focus, .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs .open > a, .nav-tabs .open > a:hover, .nav-tabs .open > a:focus { padding: 10px 15px; margin-top: 6px }
+.tabs-left .nav-tabs > li > a:hover { background: #EDEDED; }
 
 .restore-opacity { opacity: 0.5; }
 .restore-opacity:hover { opacity: 1 !important  }

@@ -6,8 +6,7 @@ namespace :compress do
     path = 'app/assets/stylesheets'
     compressor = YUI::CssCompressor.new
     output = compressor.compress([
-        'bootstrap.min.css',
-        'bootstrap-theme.min.css',
+        'lumen.bootswatch.css',
         'font-awesome.min.css',
         'bootstrap-wysihtml5-0.0.3.css',
         'chosen.min.css',

@@ -5,7 +5,7 @@
     <%= page_entries_info @conversations, :model => 'Conversation' %>
   </div>
   <div class="col-md-offset-2 col-md-4" style="text-align: right;">
-    <% form_tag '',  :style => "display: inline", :method => 'get' do %>      
+    <% form_tag '',  :id => 'conversations-search-form', :style => "display: inline", :method => 'get' do %>      
       <div class="input-group" style="text-align: right">
         <%= search_field_tag :q, :class => 'form-control', :value => @q %>
         <span class="input-group-btn">
@@ -13,6 +13,14 @@
         </span>            
       </div>            
     <% end %> 
+    <script>
+      $(function() {
+        $('#conversations-search-form').submit(function(e) {
+          $('#conversations-tab').load("/groups/<%=@group.slug%>/conversations?"+$(this).serialize());
+          return false;
+        });
+      });
+    </script>    
   </div>
 </div>
 

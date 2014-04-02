@@ -29,8 +29,8 @@ Lumen::App.controllers do
     if request.xhr?
       partial :'stats/stats'
     else
-      erb :'groups/stats'
-    end  
+      redirect "/groups/#{@group.slug}?tab=stats"
+    end
   end
   
 end

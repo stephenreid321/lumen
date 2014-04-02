@@ -11,7 +11,11 @@ Lumen::App.controllers do
     @new_events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1).where(:start_time.gte => @to).order_by(:start_time.asc)
     @upcoming_events = current_account.events.where(:start_time.gte => Date.today).where(:start_time.lt => Date.today+7).order_by(:start_time.asc)
     
-    partial :'digest/digest', :layout => !request.xhr?
+    if request.xhr?      
+      partial :'digest/digest'
+    else
+      redirect "/?tab=digest"
+    end
   end
   
   digest = lambda do
@@ -37,8 +41,8 @@ Lumen::App.controllers do
         partial :'digest/digest'
       end
     else    
-      erb :'groups/digest'
-    end
+      redirect "/groups/#{@group.slug}?tab=digest"
+    end  
   end  
   get  '/groups/:slug/digest', &digest
   post '/groups/:slug/digest', &digest

@@ -5,7 +5,6 @@
 </style>
 <script>
           $(function() {
-          var mini = <%= defined?(mini) ? 'true' : 'false' %>
           $('#calendar').fullCalendar({
           events: '<%=calendar_path%>/feed',
                   buttonText:
@@ -18,15 +17,11 @@
                   day:      'Day'
           },
                   firstDay: 1,
-                  height: mini ? null : $(window).height() - $('#calendar').offset().top - $('#footer').height() - parseInt($('body').css('padding-bottom')) - 10, // and ten for luck
-                  header:
-                  mini ? {
+                  height: null, // $(window).height() - $('#calendar').offset().top - $('#footer').height() - parseInt($('body').css('padding-bottom')) - 10, // and ten for luck
+                  header: {
                   left: 'today prev,next title',
-                          right: ''
-                  } : {
-          left: 'today prev,next title',
-                  right: 'agendaDay,agendaWeek,month'
-          },
+                          right: 'agendaDay,agendaWeek,month'
+                  },
                   titleFormat:
           {
           week: "d[ MMM][ yyyy]{ '&#8212;' d MMM yyyy}", // Sep 7 - 13 2009
@@ -79,18 +74,12 @@
                     }
 <% end %>
           });
-                  if (mini) {
-          $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>" class="btn btn-default" title="Full width"><i class="fa fa-resize-horizontal"></i></a>');
+                  $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
                   $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
-          } else {
-          $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
-                  $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
-          }
-
           });
 </script>
 
-<div id="calendar"></div>
+<div style="margin-top: 20px" id="calendar"></div>
 
 <% if current_account %>
   <p style="text-align: center; margin-top: 10px">

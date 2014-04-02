@@ -71,8 +71,12 @@ module Lumen
     
     get '/home' do
       sign_in_required!
-      @o = :updated       
-      erb :home      
+      @o = :updated  
+      if request.xhr?
+        Fragment.find_by(slug: 'home').body
+      else
+        erb :home
+      end
     end
             
     get '/about' do

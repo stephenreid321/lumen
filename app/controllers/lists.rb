@@ -5,11 +5,10 @@ Lumen::App.controllers do
     membership_required! unless @group.open?
     @lists = @group.lists.order_by(:title.asc)      
     if request.xhr?
-      partial :'lists/lists', :locals => {:lists => @lists}
+      partial :'lists/lists', :locals => {:lists => @lists}     
     else
-      membership_required!
-      erb :'groups/lists'
-    end        
+      redirect "/groups/#{@group.slug}?tab=lists"
+    end
   end
     
   post '/groups/:slug/lists/create' do

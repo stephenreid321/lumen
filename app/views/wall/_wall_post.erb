@@ -10,7 +10,7 @@
     <div class="media-body">
       <a href="/accounts/<%=wall_post.account.id%>" style="font-weight: bold;"><%=wall_post.account.name%></a>                
       <br />
-      <a title="<%=wall_post.created_at%>" style="font-size: 12px; color: #aaa;"href="/groups/<%=@group.slug%>/wall/<%=wall_post.id%>"><%=time_ago_in_words(wall_post.created_at)%> ago</a>
+      <a title="<%=wall_post.created_at%>" style="font-size: 12px; color: #aaa;" href="/groups/<%=@group.slug%>/wall/<%=wall_post.id%>"><%=time_ago_in_words(wall_post.created_at)%> ago</a>
     </div>
   </div> 
 

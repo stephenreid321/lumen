@@ -21,7 +21,11 @@ Lumen::App.controllers do
       @conversations = @conversations.where(:id.in => @conversation_posts.only(:conversation_id).map(&:conversation_id))
     end                         
     @conversations = @conversations.order_by(:updated_at.desc).per_page(10).page(params[:page])            
-    partial :'conversations/conversations'
+    if request.xhr?
+      partial :'conversations/conversations'
+    else
+      redirect "/groups/#{@group.slug}?tab=conversations"
+    end
   end
   
   post '/groups/:slug/new_conversation' do

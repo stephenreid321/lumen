@@ -1,72 +1,63 @@
 <div class="row">
-
   <div class="col-md-1">
-    
     <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
-      <style>.nav-tabs li a { color: #aaa }</style>
       <ul class="nav nav-tabs">
-        <% if Fragment.find_by(slug: 'home') %>        
-          <li><a href="#home-tab" title="Home" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-        <% end %>        
-        <% if current_account.news_summaries.count > 0 %>        
-          <li><a href="#news-tab" title="News" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
-        <% end %>
-        <li><a href="#digest-tab" title="Digest" data-toggle="tab"><i class="fa fa-star"></i></a></li>
-        <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
+        <% tabs = {
+          :home => (['Home', 'fa-home'] if Fragment.find_by(slug: 'home')),
+          :news => (['News', 'fa-twitter'] if current_account.news_summaries.count > 0),
+          :digest => ['Digest', 'fa-star'],
+          :calendar => ['Calendar', 'fa-calendar']
+          }.each { |k,v| if v %>
+            <li>
+              <a title="<%=v[0]%>" href="#<%=k%>-tab" data-toggle="tab"><i class="fa <%=v[1]%>"></i></a>
+              <script>
+                $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function(e) {
+                  $('#<%=k%>-tab').load('/<%=k%>')
+                });
+              </script>
+            </li>
+          <% end } %>
       </ul>
     </div>
-    <script>
-      $(function() {
-<% if (c = current_account.events.where(:start_time.gt => Time.now).count) > 0 %>
-          $("a[href='#calendar-tab']").tooltip({
-            title: '<%=pluralize(c,'upcoming event')%>',
-            placement: 'bottom',
-            trigger: 'manual'
-          }).tooltip('show');
-<% end %>
-        $("a[href='#news-tab']").on('shown.bs.tab', function(e) {
-          $('#news-tab').load('/news');
-        });
-        $("a[href='#digest-tab']").on('shown.bs.tab', function(e) {
-          $('#digest-tab').load('/digest');
-        });
-        $("a[href='#calendar-tab']").on('shown.bs.tab', function(e) {
-          $("a[href='#calendar-tab']").tooltip('hide');
-          $('#calendar').fullCalendar('render');
-        });
-        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-          $('.fc-event').popover('destroy');
-        });
-        $(".tabs-left a:first").tab('show');
-      });
-    </script>
-
   </div>
-  <div class="col-md-7">       
-    
+  <div class="col-md-7">        
     <div class="tab-content">
-      <% if Fragment.find_by(slug: 'home') %>        
-        <div class="tab-pane" id="home-tab">
-          <%= Fragment.find_by(slug: 'home').body %>
+      <% tabs.each { |k,v| %>
+        <div class="tab-pane" id="<%=k%>-tab">
+          <h2><i class="fa fa-spin fa-spinner"></i></h2>        
         </div>      
-      <% end %>
-      <% if current_account.news_summaries.count > 0 %>
-        <div class="tab-pane" id="news-tab">
-          <h2><i class="fa fa-spin fa-spinner"></i></h2>
-        </div>
-      <% end %>
-      <div class="tab-pane" id="digest-tab">        
-        <h2><i class="fa fa-spin fa-spinner"></i></h2>
-      </div>        
-      <div class="tab-pane" id="calendar-tab">
-        <style>#calendar { margin-top: 20px }</style>
-        <%= partial :'events/calendar', :locals => {:calendar_path => '/calendar', :mini => true} %>        
-      </div>      
+      <% } %>
     </div>
-
   </div>
   <div class="col-md-4">
     <h2><%=pluralize(current_account.network.count,'person')%> in your groups</h2>
     <%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil} %>
   </div>
 </div>
+
+
+<script>
+
+  /* Calendar tooltip */
+
+  $(function() {
+<% if (c = current_account.events.where(:start_time.gt => Time.now).count) > 0 %>
+      $("a[href='#calendar-tab']").attr('title', '<%=pluralize(c,'upcoming event')%>').tooltip({
+        placement: 'bottom',
+        trigger: 'manual'
+      }).tooltip('show');
+<% end %>
+    $("a[href='#calendar-tab']").on('shown.bs.tab', function(e) {
+      $("a[href='#calendar-tab']").tooltip('hide');
+    });
+
+    /* Navigate to tab via querystring */
+
+<% if params[:tab] %>
+      $("a[href=#<%=params[:tab]%>-tab]").tab('show');
+<% else %>
+      $(".tabs-left a:first").tab('show');
+<% end %>
+
+  });
+</script>

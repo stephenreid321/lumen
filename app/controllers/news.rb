@@ -8,13 +8,21 @@ Lumen::App.controllers do
 
   get '/news' do
     sign_in_required!
-    partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => NewsSummary.date + params[:d].to_i}
+    if request.xhr?
+      partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => NewsSummary.date + params[:d].to_i}
+    else
+      redirect "/?tab=news"
+    end        
   end  
   
   get '/groups/:slug/news' do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
-    partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => NewsSummary.date + params[:d].to_i}
+    if request.xhr?
+      partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => NewsSummary.date + params[:d].to_i}
+    else
+      redirect "/groups/#{@group.slug}?tab=news"
+    end
   end  
     
   get '/groups/:slug/news_summaries' do

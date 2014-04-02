@@ -16,6 +16,10 @@ $(function() {
   $('form').submit(function() {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
   });
+  
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+      $('.fc-event').popover('destroy');
+    });  
 
   Array.prototype.unique = function() {
     var unique = [];

@@ -5,8 +5,12 @@ Lumen::App.controllers do
     case content_type   
     when :ics      
       Event.ical(current_account)
-    when :html      
-      partial :'events/calendar', :locals => {:calendar_path => '/calendar'}, :layout => true
+    when :html   
+      if request.xhr?
+        partial :'events/calendar', :locals => {:calendar_path => '/calendar'}
+      else
+        redirect "/?tab=calendar"
+      end            
     end     
   end
         
@@ -33,7 +37,11 @@ Lumen::App.controllers do
     when :ics
       Event.ical(@group)
     when :html     
-      erb :'groups/calendar'
+      if request.xhr?
+        partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar"}
+      else
+        redirect "/groups/#{@group.slug}?tab=calendar"
+      end
     end    
   end   
 

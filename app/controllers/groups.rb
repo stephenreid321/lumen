@@ -45,6 +45,11 @@ Lumen::App.controllers do
     erb :'groups/group'
   end
     
+  get '/groups/:slug/home' do
+    sign_in_required!
+    Fragment.find_by(slug: 'home').body
+  end
+    
   get '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     not_found if @group.secret?

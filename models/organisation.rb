@@ -52,12 +52,7 @@ class Organisation
   def self.lookup
     :name
   end
-  
-  after_save :save_affiliated_accounts
-  def save_affiliated_accounts
-    affiliations.each { |affiliation| affiliation.account.save }
-  end
-  
+    
   # Picture
   dragonfly_accessor :picture, :app => :pictures do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }

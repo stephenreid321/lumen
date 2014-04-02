@@ -16,10 +16,10 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
     if request.xhr?
-      partial :'groups/map'
+      partial :'maps/map'
     else    
-      erb :'groups/map'  
-    end   
+      redirect "/groups/#{@group.slug}?tab=map"
+    end  
   end  
   
   get '/groups/:slug/iframe' do

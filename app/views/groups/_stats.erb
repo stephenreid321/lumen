@@ -1,0 +1,33 @@
+
+<h2>Most conversations started</h2>
+
+<table class="table">
+  <% @cp.sort_by { |k,v| v.length }[0..9].each { |k,v| %>
+    <tr>
+      <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
+      <td><span class="badge"><%=v.length%></span></td>
+    </tr>
+  <% } %>
+</table>
+
+<h2>Most posts</h2>
+
+<table class="table">
+  <% @c.sort_by { |k,v| v.length }[0..9].each { |k,v| %>
+    <tr>
+      <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
+      <td><span class="badge"><%=v.length%></span></td>
+    </tr>
+  <% } %>
+</table>
+
+<h2>Most events created</h2>
+
+<table class="table">
+  <% @e.sort_by { |k,v| v.length }[0..9].each { |k,v| %>
+    <tr>
+      <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
+      <td><span class="badge"><%=v.length%></span></td>
+    </tr>
+  <% } %>
+</table>

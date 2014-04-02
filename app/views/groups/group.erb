@@ -83,6 +83,7 @@
         <li><a href="#map-tab" title="Map" data-toggle="tab"><i class="fa fa-map-marker"></i></a></li>
         <li><a href="#lists-tab" title="Lists" data-toggle="tab"><i class="fa fa-list"></i></a></li>
         <li class="calendar-li"><a href="#calendar-tab" data-toggle="tab"><i class="fa fa-calendar"></i></a></li>
+        <li><a href="#stats-tab" title="Stats" data-toggle="tab"><i class="fa fa-bar-chart-o"></i></a></li>
       </ul>
     </div>
     <script>
@@ -112,6 +113,9 @@
         $("a[href='#lists-tab']").on('shown.bs.tab', function(e) {
           $('#lists-tab').load('/groups/<%=@group.slug%>/lists')
         });
+        $("a[href='#stats-tab']").on('shown.bs.tab', function(e) {
+          $('#stats-tab').load('/groups/<%=@group.slug%>/stats')
+        });        
         $("a[href='#calendar-tab']").on('shown.bs.tab', function(e) {
           $("a[href='#calendar-tab']").tooltip('hide');
           $('#calendar').fullCalendar('render');
@@ -156,6 +160,9 @@
       <div class="tab-pane" id="lists-tab">
         <h2><i class="fa fa-spin fa-spinner"></i></h2>
       </div>           
+      <div class="tab-pane" id="stats-tab">
+        <h2><i class="fa fa-spin fa-spinner"></i></h2>
+      </div>       
       <div class="tab-pane" id="calendar-tab">
         <style>#calendar { margin-top: 20px }</style>
         <%= partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar", :mini => true} %>

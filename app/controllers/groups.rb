@@ -45,6 +45,36 @@ Lumen::App.controllers do
     erb :'groups/group'
   end
   
+  get '/groups/:slug/stats' do
+    sign_in_required!
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)    
+    redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
+    membership_required! if @group.secret?
+    
+    @cp = {}
+    @group.conversation_posts.each { |conversation_post|
+      @cp[conversation_post.account] = [] if !@cp[conversation_post.account]
+      @cp[conversation_post.account] << conversation_post
+    }
+    
+    @c = {}
+    @group.conversations.each { |conversation|
+      if conversation_post = conversation.conversation_posts.first
+        @c[conversation_post.account] = [] if !@c[conversation_post.account]
+        @c[conversation_post.account] << conversation_post
+      end
+    }    
+    
+    @e = {}
+    @group.events.each { |event|
+      @e[event.account] = [] if !@e[event.account]
+      @e[event.account] << event
+    }    
+      
+    partial :'groups/stats'    
+  end
+  
   get '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     not_found if @group.secret?

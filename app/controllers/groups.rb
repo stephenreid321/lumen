@@ -70,7 +70,7 @@ Lumen::App.controllers do
       @e[event.account] = [] if !@e[event.account]
       @e[event.account] << event
     }    
-      
+    
     partial :'groups/stats'    
   end
   

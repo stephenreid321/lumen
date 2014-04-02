@@ -1,45 +1,26 @@
 <table class="table">
 
-  <tr>
-    <td colspan="2">
-      <h2>Most conversations started</h2>
-    </td>
-  </tr>
+  <%{'Most conversations started' => @c, 'Most posts' => @cp, 'Most events created' => @e}.each { |h2,hash| %>
 
-
-  <% @c.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
     <tr>
-      <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
-      <td><span class="badge"><%=v.length%></span></td>
+      <td colspan="2">
+        <h2><%=h2%></h2>
+      </td>
     </tr>
+
+    <% hash.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
+      <tr>
+        <td style="width: 20%"><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
+        <td>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width:<%="#{100*(v.length.to_f/hash.first[1].length.to_f)}%"%>">
+              <%=v.length%>
+            </div>
+          </div>        
+        </td>
+      </tr>
+    <% } %>
+
   <% } %>
-
-
-  <tr>
-    <td colspan="2">
-      <h2>Most posts</h2>
-    </td>
-  </tr>
-
-  <% @cp.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
-    <tr>
-      <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
-      <td><span class="badge"><%=v.length%></span></td>
-    </tr>
-  <% } %>
-
-
-  <tr>
-    <td colspan="2">
-      <h2>Most events created</h2>
-    </td>
-  </tr>
-
-
-  <% @e.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
-    <tr>
-      <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
-      <td><span class="badge"><%=v.length%></span></td>
-    </tr>
-  <% } %>
+      
 </table>

@@ -51,19 +51,18 @@ Lumen::App.controllers do
     @membership = @group.memberships.find_by(account: current_account)    
     redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
     membership_required! if @group.secret?
-    
-    @cp = {}
-    @group.conversation_posts.each { |conversation_post|
-      @cp[conversation_post.account] = [] if !@cp[conversation_post.account]
-      @cp[conversation_post.account] << conversation_post
-    }
-    
+      
     @c = {}
+    @cp = {}      
     @group.conversations.each { |conversation|
-      if conversation_post = conversation.conversation_posts.first
-        @c[conversation_post.account] = [] if !@c[conversation_post.account]
-        @c[conversation_post.account] << conversation_post
-      end
+      conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).each_with_index { |conversation_post, i|
+        if i == 0
+          @c[conversation_post.account] = [] if !@c[conversation_post.account]
+          @c[conversation_post.account] << conversation_post
+        end
+        @cp[conversation_post.account] = [] if !@cp[conversation_post.account]
+        @cp[conversation_post.account] << conversation_post
+      }
     }    
     
     @e = {}

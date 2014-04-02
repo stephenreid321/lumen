@@ -1,29 +1,41 @@
-
-<h2>Most conversations started</h2>
-
 <table class="table">
-  <% @cp.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
-    <tr>
-      <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
-      <td><span class="badge"><%=v.length%></span></td>
-    </tr>
-  <% } %>
-</table>
 
-<h2>Most posts</h2>
+  <tr>
+    <td colspan="2">
+      <h2>Most conversations started</h2>
+    </td>
+  </tr>
 
-<table class="table">
+
   <% @c.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
     <tr>
       <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
       <td><span class="badge"><%=v.length%></span></td>
     </tr>
   <% } %>
-</table>
 
-<h2>Most events created</h2>
 
-<table class="table">
+  <tr>
+    <td colspan="2">
+      <h2>Most posts</h2>
+    </td>
+  </tr>
+
+  <% @cp.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
+    <tr>
+      <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
+      <td><span class="badge"><%=v.length%></span></td>
+    </tr>
+  <% } %>
+
+
+  <tr>
+    <td colspan="2">
+      <h2>Most events created</h2>
+    </td>
+  </tr>
+
+
   <% @e.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
     <tr>
       <td><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>

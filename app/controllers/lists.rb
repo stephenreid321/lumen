@@ -10,18 +10,28 @@ Lumen::App.controllers do
       redirect "/groups/#{@group.slug}?tab=lists"
     end
   end
-    
-  post '/groups/:slug/lists/create' do
+  
+  get '/groups/:slug/lists/new' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    if params[:title]
-      @list = @group.lists.create :title => params[:title], :account => current_account
+    @list = @group.lists.build
+    erb :'lists/build'    
+  end
+  
+  post '/groups/:slug/lists/new' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    @list = @group.lists.build(params[:list])
+    @list.account = current_account
+    if @list.save
+      flash[:notice] = "<strong>Great!</strong> The list was created successfully."
       redirect "/groups/#{@group.slug}/lists/#{@list.id}"
     else
-      redirect back
-    end
-  end  
-  
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the list from being saved."
+      erb :'lists/build'
+    end 
+  end   
+      
   get '/groups/:slug/lists/:id/edit' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!

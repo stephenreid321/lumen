@@ -15,7 +15,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
     @wall_post = @group.wall_posts.find(params[:id])
-    partial :'wall/wall'
+    partial :'wall/wall', :layout => true
   end
   
   get  '/groups/:slug/wall/:id/destroy' do

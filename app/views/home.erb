@@ -9,7 +9,10 @@
           :calendar => ['Calendar', 'fa-calendar']
           }.each { |k,v| if v %>
             <li>
-              <a title="<%=v[0]%>" href="#<%=k%>-tab" data-toggle="tab"><i class="fa <%=v[1]%>"></i></a>
+              <a style="padding: 5px" title="<%=v[0]%>" href="#<%=k%>-tab" data-toggle="tab">                
+                <i class="fa <%=v[1]%> hidden-xs hidden-sm"></i>
+                <span style="font-size: 11px"><%=v[0].length > 6 ? v[0][0..5]+'&hellip;' : v[0] %></span>                
+              </a>
               <script>
                 $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function(e) {
                   $('#<%=k%>-tab').load('/<%=k%>')

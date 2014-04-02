@@ -8,12 +8,12 @@
       </td>
     </tr>
 
-    <% hash.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| %>
+    <% hash.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| if k == hash.first[0]; max = v.length.to_f; end %>
       <tr>
         <td style="width: 20%"><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
         <td>
           <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width:<%="#{100*(v.length.to_f/hash.first[1].length.to_f)}%"%>">
+            <div class="progress-bar" role="progressbar" style="width:<%="#{100*(v.length.to_f/max)}%"%>">
               <%=v.length%>
             </div>
           </div>        

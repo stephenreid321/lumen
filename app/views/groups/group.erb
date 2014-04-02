@@ -65,10 +65,10 @@
         <% tabs = {
           :home => (['Home', 'fa-home'] if @membership and current_account.memberships.count == 1 and Fragment.find_by(slug: 'home')),
           :conversations => ['Conversations', 'fa-comments-o'],
-          :wall => ['Wall', 'fa-thumbs-up'],
           :news => (['News', 'fa-twitter'] if @group.news_summaries.count > 0),
           :digest => ['Digest', 'fa-star'],
           :map => ['Map', 'fa-map-marker'],
+          :wall => ['Wall', 'fa-thumbs-up'],
           :lists => ['Lists', 'fa-list'],
           :stats => ['Stats', 'fa-bar-chart-o'],
           :calendar => ['Calendar', 'fa-calendar']

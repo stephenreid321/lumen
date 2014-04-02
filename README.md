@@ -46,7 +46,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-When the install is finished, visit https://{your VPS IP}:10000. Step through the post-install wizard, turning on the email domain lookup server, turning off MySQL, and choosing to only store hashed passwords. Go to System Settings > Features and Plugins leave only 'Mail for domain', 'Log file rotation' and 'Webmin login' checked. Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password. Go to 'Edit Users' an create a user no-reply@yourdomain.org with the same password again.
+When the install is finished, visit https://{your VPS IP}:10000. Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password. Go to 'Edit Users' an create a user no-reply@yourdomain.org with the same password again.
 
 ### 3. Push code to Heroku
 

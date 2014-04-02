@@ -57,7 +57,7 @@ class Account
   before_validation :set_organisation_names
   def set_organisation_names
     self.organisation_names = self.affiliations.map(&:organisation).map(&:name)
-  end  
+  end
   
   before_validation :set_account_tag_names
   def set_account_tag_names

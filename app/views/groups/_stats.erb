@@ -8,12 +8,23 @@
       </td>
     </tr>
 
-    <% hash.sort_by { |k,v| v.length }.reverse[0..9].each { |k,v| if k == hash.first[0]; max = v.length.to_f; end %>
+    <% max = nil; hash.sort_by { |k,v| v.length }.reverse[0..9].each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end %>
       <tr>
-        <td style="width: 20%"><a href="/accounts/<%=k.id%>"><%=k.name%></a></td>
+        <td style="width: 25%">
+          <div class="media">
+            <span class="pull-left" >      
+              <a href="/accounts/<%=k.id%>">
+                <img class="media-object" style="width: 32px" src="<%=k.picture ? k.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+              </a>
+            </span>
+            <div class="media-body">    
+              <a href="/accounts/<%=k.id%>"><%=k.name%></a>
+            </div>
+          </div>           
+        </td>
         <td>
           <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width:<%="#{100*(v.length.to_f/max)}%"%>">
+            <div class="progress-bar" role="progressbar" style="width:<%="#{100*(begin; v.length/max; rescue; raise "#{h2} - #{k.name} - #{v.length} - #{max}"; end)}%"%>">
               <%=v.length%>
             </div>
           </div>        
@@ -22,5 +33,5 @@
     <% } %>
 
   <% } %>
-      
+
 </table>

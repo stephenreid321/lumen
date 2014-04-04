@@ -42,8 +42,8 @@ Lumen::App.controllers do
       @accounts.map { |account|
       {
         :name => account.name,
-        :organisations => account.organisation_names,
-        :account_tags => account.account_tag_names
+        :organisations => account.affiliations.map(&:organisation).map(&:name),
+        :account_tags => account.account_tagships.map(&:account_tag).map(&:name)
       }
     }.to_json
     when :html

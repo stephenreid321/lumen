@@ -12,10 +12,10 @@
   <div class="col-md-6">             
     <div id="account_tagships">
       <% f.fields_for :account_tagships do |o| %>
-        <div class="account_tagship input-group">
+        <div class="account_tagship">
           <%= o.text_field :account_tag_name, :class => 'form-control typeahead', :value => o.object.try(:account_tag).try(:name), :placeholder => I18n.t(:account_tagship).capitalize, :autocomplete => 'off' %>
           <% unless o.object.new_record? %>
-            <span class="input-group-btn">          
+            <span>          
               <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked', true).closest('.account_tagship').hide()" class="fa fa-times"></i>
               <%= o.check_box '_destroy', :style => 'display: none' %>                    
             </span>                
@@ -25,7 +25,7 @@
     </div>
     <style>
       .account_tagship { margin-bottom: 10px }
-      .account_tagship .input-group-btn { padding-left: 5px }
+      .account_tagship input { width:65%; display: inline }      
     </style>
     <script>
       $(function() {
@@ -40,9 +40,9 @@
           i.addClass('typeahead');
           i.prop('autocomplete', 'off');
           i.typeahead({source: account_tags});
-          var d = $('<div class="account_tagship input-group"/>');
+          var d = $('<div class="account_tagship"/>');
           i.appendTo(d);
-          $('<span class="input-group-btn"><i style="visibility:hidden" class="fa fa-times"></i></span>').appendTo(d);
+          $('<span><i style="visibility:hidden" class="fa fa-times"></i></span>').appendTo(d);
           d.appendTo('#account_tagships');
           i.focus();
         });

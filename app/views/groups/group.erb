@@ -69,8 +69,6 @@
           :digest => ['Digest', 'fa-star'],
           :map => ['Map', 'fa-map-marker'],
           :wall => ['Wall', 'fa-thumbs-up'],
-          :lists => ['Lists', 'fa-list'],
-          :stats => ['Stats', 'fa-bar-chart-o'],
           :calendar => ['Calendar', 'fa-calendar']
           }.each { |k,v| if v %>
             <li>
@@ -98,8 +96,15 @@
     </div>
   </div>
   <div class="col-md-4">
-    <h2><%=pluralize(@group.memberships.count,'member')%> in this group</h2>
-    <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
+    <% if current_account %>
+      <h2><%=pluralize(@group.memberships.count,'member')%> in this group</h2>
+      <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
+    <% else %>
+      <h2><%=pluralize(@group.memberships.count,'member')%> in this group</h2>
+      <% random(Account.where(:picture_uid.ne => nil), 9).each {  |account| %>
+        <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
+      <% } %>      
+    <% end %>
   </div>
 </div>
 

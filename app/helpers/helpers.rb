@@ -61,5 +61,10 @@ Lumen::App.helpers do
       request.xhr? ? halt(403, "Not Authorized") : redirect(membership ? "/groups/#{group.slug}" : '/')
     end     
   end
+  
+  def random(relation, n)
+    count = relation.count
+    (0..count-1).sort_by{rand}.slice(0, n).collect! do |i| relation.skip(i).first end
+  end
       
 end

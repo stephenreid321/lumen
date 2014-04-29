@@ -1,5 +1,20 @@
 Lumen::App.controllers do
   
+  get '/wall' do
+    sign_in_required!
+    @wall_posts = current_account.wall_posts.order_by(:created_at.desc)
+    if request.xhr?
+      partial :'wall/wall'
+    else
+      redirect "/?tab=wall"
+    end     
+  end
+  
+  post '/wall/new' do
+    flash[:notice] = 'Please select a group'
+    redirect "/?tab=wall"
+  end
+  
   get '/groups/:slug/wall' do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
@@ -15,7 +30,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
     @wall_post = @group.wall_posts.find(params[:id])
-    partial :'wall/wall', :layout => true
+    partial :'wall/wall_post', :locals => {:wall_post => @wall_post}, :layout => true
   end
   
   get  '/groups/:slug/wall/:id/destroy' do
@@ -23,7 +38,7 @@ Lumen::App.controllers do
     membership_required! unless @group.open?
     @group.wall_posts.find(params[:id]).destroy    
     flash[:notice] = 'The wall post was removed.'
-    redirect "/groups/#{@group.slug}/wall"
+    redirect (params[:from_home] ?  "/wall" : "/groups/#{@group.slug}/wall")
   end  
   
   post '/groups/:slug/wall/new' do
@@ -32,7 +47,7 @@ Lumen::App.controllers do
     @wall_post = @group.wall_posts.build(params[:wall_post])    
     @wall_post.account = current_account
     @wall_post.save
-    redirect "/groups/#{@group.slug}/wall"
+    redirect (params[:from_home] ?  "/wall" : "/groups/#{@group.slug}/wall")
   end    
   
   get '/wall/opengraph',  :provides => [:html, :json] do    

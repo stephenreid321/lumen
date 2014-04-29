@@ -65,7 +65,8 @@ module Lumen
           erb :home
         end
       else
-        erb Fragment.find_by(slug: 'public-homepage').try(:body)
+        @containerless = true
+        erb :public
       end
     end
     

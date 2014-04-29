@@ -100,26 +100,35 @@
       });
     </script>
 
-    <%= yield %>
+    <% unless @containerless %>
+      <div class="container-fluid">
+      <% end %>
+      <%= yield %>
+      <% unless @containerless %>
+      </div>
+    <% end %>
 
-    <div id="footer" class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <hr />
-        <div class="restore-opacity" style="text-align: center">              
-          <% if current_account %>
-            <a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a>
+    <div class="container-fluid">
+      <div id="footer" class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <hr />
+          <div class="restore-opacity" style="text-align: center">              
+            <% if current_account %>
+              <a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a>
+              &middot;
+            <% end %>
+            <a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a>
             &middot;
-          <% end %>
-          <a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a>
-          &middot;
-          Powered by <a target="_blank" href="http://wordsandwriting.github.io/lumen/">Lumen</a>
-          <% if current_account and current_account.admin? %>
-            &middot; <a href="/analytics">Sitewide analytics</a>
-            &middot; <a href="/config">Lumen configuration</a>
-          <% end %>          
+            Powered by <a target="_blank" href="http://wordsandwriting.github.io/lumen/">Lumen</a>
+            <% if current_account and current_account.admin? %>
+              &middot; <a href="/analytics">Sitewide analytics</a>
+              &middot; <a href="/config">Lumen configuration</a>
+            <% end %>          
+          </div>
         </div>
       </div>
     </div>
+
 
   </body>
 </html>

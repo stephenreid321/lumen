@@ -14,13 +14,13 @@ class WallPost
   field :file_name, :type => String  
   dragonfly_accessor :file, :app => :files
   
-  validates_presence_of :body
+  validates_presence_of :body, :account, :group
   
   belongs_to :account, index: true
   belongs_to :group, index: true
       
   def self.fields_for_index
-    [:body]
+    [:body, :account_id, :group_id]
   end
   
   def self.fields_for_form

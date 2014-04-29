@@ -1,5 +1,5 @@
 
-body { padding: 60px 20px 20px 20px; }
+body { padding: 60px 0 20px 0; }
 
 .breadcrumb { background: #F8F8F8; border: 0 }
 .tabs-left .nav-tabs > li > a { transition: none; color: #aaa }

@@ -32,7 +32,7 @@ class Account
   has_many :membership_requests, :dependent => :destroy
   has_many :conversation_posts, :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
-  has_many :wall_posts, :dependent => :destroy
+  has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy
   
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank, autosave: false
@@ -69,6 +69,10 @@ class Account
   def news_summaries
     NewsSummary.where(:id.in => memberships.map(&:group).map(&:news_summaries).flatten.map(&:_id))
   end
+    
+  def wall_posts
+    WallPost.where(:id.in => memberships.map(&:group).map(&:wall_posts).flatten.map(&:_id))
+  end  
     
   def public_memberships
     Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))

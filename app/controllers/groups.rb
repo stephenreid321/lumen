@@ -113,7 +113,7 @@ Lumen::App.controllers do
     end
       
     if @group.memberships.find_by(account: @account)
-      flash[:error] = "#{email} is already a member of this group."
+      flash[:error] = "#{@account.email} is already a member of this group."
       redirect back
     end
       

@@ -29,7 +29,7 @@
     </style>
     <script>
       $(function() {
-        var icon = $('<i style="cursor: pointer" class="fa fa-plus-square"></i>');
+        var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;">Add another <%=I18n.t(:account_tagship)%></a></div>');
         $(icon).click(function() {
           var c = $('.account_tagship').length
           var i = $('<input type="text" />');

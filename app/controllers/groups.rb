@@ -88,8 +88,45 @@ Lumen::App.controllers do
   
   get '/groups/:slug/join' do
     @group = Group.find_by(slug: params[:slug]) || not_found    
-    @group.memberships.create :account => current_account if @group.open?
-    redirect "/groups/#{@group.slug}"    
+    redirect back unless @group.open?    
+    if current_account
+      @account = current_account
+    else     
+      unless name = params[:name] and email = params[:email]    
+          flash[:error] = "Please provide a name and email address"
+          redirect back
+      end
+      
+      if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   
+        @new_account = true
+        @account = Account.new({
+            :name => name,
+            :password => Account.generate_password(8),
+            :email => email
+          })
+        @account.password_confirmation = @account.password
+        if !@account.save
+          flash[:error] = "Failed to create an account for #{email} - is this a valid email address?"
+          redirect back
+        end
+      end
+    end
+      
+    if @group.memberships.find_by(account: @account)
+      flash[:error] = "#{email} is already a member of this group."
+      redirect back
+    end
+      
+    @membership = @group.memberships.create :account => @account
+    
+    if @new_account
+      SignIn.create(account: @account)
+      session['account_id'] = @account.id
+      flash[:notice] = %Q{You joined #{@group.slug}!}
+      redirect '/me/edit'      
+    else
+      redirect "/groups/#{@group.slug}"    
+    end
   end  
   
   get '/groups/:slug/leave' do

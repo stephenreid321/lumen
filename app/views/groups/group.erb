@@ -100,7 +100,7 @@
       <h2><%=pluralize(@group.memberships.count,'member')%> in this group</h2>
       <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
     <% else %>
-      <%= partial 'groups/join' %>
+      <%= partial 'groups/join', :locals => {:group => @group} %>
     <% end %>
   </div>
 </div>

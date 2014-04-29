@@ -1,9 +1,9 @@
 <div style="text-align: center">
-  <h2><%=@group.slug%> has <%=pluralize(@group.memberships.count,'member')%></h2>
+  <h2><%=group.slug%> has <%=pluralize(group.memberships.count,'member')%></h2>
 
   <p class="lead">Join them!</p>
 
-  <% form_tag "/groups/#{@group.slug}/join", :style => 'margin-top: -4px', :class => 'form-inline', :method => 'get' do %>
+  <% form_tag "/groups/#{group.slug}/join", :style => 'margin-top: -4px', :class => 'form-inline', :method => 'get' do %>
     <div class="form-group">
       <label class="sr-only">Name</label>
       <%= text_field_tag :name, :class => 'form-control input-sm', :placeholder => 'Your name' %>

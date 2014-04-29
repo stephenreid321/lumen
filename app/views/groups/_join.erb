@@ -18,6 +18,6 @@
 
   <% random(Account.where(:picture_uid.ne => nil), 9).each {  |account| %>
     <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
-  <% } %>      
-<% end %>
+  <% } %>
+
 </div>

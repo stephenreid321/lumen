@@ -65,7 +65,7 @@ module Lumen
           erb :home
         end
       else
-        Fragment.find_by(slug: 'public-homepage').try(:body)
+        erb Fragment.find_by(slug: 'public-homepage').try(:body)
       end
     end
     

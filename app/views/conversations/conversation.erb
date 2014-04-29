@@ -47,8 +47,12 @@
 
   </div>
   <div class="col-md-4">
-    <h2><%=pluralize(@conversation.participants.count,'participant')%> in this conversation</h2>
-    <%= partial :'accounts/list', :locals => {:scope => 'conversation', :scope_id => @conversation.id} %>
+    <% if current_account %>
+      <h2><%=pluralize(@conversation.participants.count,'participant')%> in this conversation</h2>
+      <%= partial :'accounts/list', :locals => {:scope => 'conversation', :scope_id => @conversation.id} %>
+    <% else %>
+      <%= partial 'groups/join' %>
+    <% end %>    
   </div>
 </div>
 

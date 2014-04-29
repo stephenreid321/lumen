@@ -102,8 +102,7 @@
     <% else %>
 
       <div style="text-align: center">
-        <h2><%=pluralize(@group.memberships.count,'member')%> in this group</h2>
-
+        <h2><%=@group.slug%> has <%=pluralize(@group.memberships.count,'member')%></h2>
 
         <p class="lead">Join them!</p>
 

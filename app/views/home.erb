@@ -5,7 +5,7 @@
         <% tabs = {
           :home => (['Home', 'fa-home'] if Fragment.find_by(slug: 'home')),
           :news => (['News', 'fa-twitter'] if current_account.news_summaries.count > 0),
-          :digest => ['Digest', 'fa-star'],
+          :digest => (['Digest', 'fa-star'] unless ENV['HIDE_DIGEST_TAB']),
           :wall => ['Wall', 'fa-thumbs-up'],          
           :calendar => ['Calendar', 'fa-calendar']
           }.each { |k,v| if v %>

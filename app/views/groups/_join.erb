@@ -1,23 +1,31 @@
 <div style="text-align: center">
-  <h2><%=group.slug%> has <%=pluralize(group.memberships.count,'member')%></h2>
 
-  <p class="lead">Join them!</p>
-
-  <% form_tag "/groups/#{group.slug}/join", :style => 'margin-top: -4px', :class => 'form-inline', :method => 'get' do %>
-    <div class="form-group">
-      <label class="sr-only">Name</label>
-      <%= text_field_tag :name, :class => 'form-control input-sm', :placeholder => 'Your name' %>
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%=group.slug%> has <%=pluralize(group.memberships.count,'member')%></h3>
     </div>
-    <div class="form-group">
-      <label class="sr-only">Email</label>    
-      <%= text_field_tag :email, :class => 'form-control input-sm', :placeholder => 'Your email address' %>
-    </div>    
-    <button type="submit" class="btn-sm btn btn-primary">Join</button>
-  <% end %>    
+    <div class="panel-body">
+
+      <p class="lead">Join them!</p>
+
+      <% form_tag "/groups/#{group.slug}/join", :style => 'margin-top: -4px', :class => 'form-inline', :method => 'get' do %>
+        <div class="form-group">
+          <label class="sr-only">Name</label>
+          <%= text_field_tag :name, :class => 'form-control input-sm', :placeholder => 'Your name' %>
+        </div>
+        <div class="form-group">
+          <label class="sr-only">Email</label>    
+          <%= text_field_tag :email, :class => 'form-control input-sm', :placeholder => 'Your email address' %>
+        </div>    
+        <button type="submit" class="btn-sm btn btn-success">Join</button>
+      <% end %> 
 
 
-  <% random(group.members.where(:picture_uid.ne => nil), 9).each {  |account| %>
-    <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
-  <% } %>
+      <% random(group.members.where(:picture_uid.ne => nil), 9).each {  |account| %>
+        <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
+      <% } %>
+
+    </div>
+  </div>
 
 </div>

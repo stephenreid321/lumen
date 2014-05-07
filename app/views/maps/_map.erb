@@ -22,7 +22,7 @@
           <%= check_box_tag :organisations, :value => true, :checked => true %> Organisations
         </label>
       </div>  
-      <% if lists = @group.lists.select { |list| list.list_items.any?(&:coordinates) } %>
+      <% if !(lists = @group.lists.select { |list| list.list_items.any?(&:coordinates) }).empty? %>
         <h3>Lists</h3>
         <% lists.each { |list| %>
           <div class="checkbox">

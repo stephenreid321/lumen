@@ -18,7 +18,7 @@ class Fragment
   def self.fields_for_form
     {
       :slug => :text,
-      :body => :text_area
+      :body => :wysiwyg
     }
   end
   

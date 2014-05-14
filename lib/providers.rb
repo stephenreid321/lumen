@@ -22,6 +22,10 @@ class Provider
     @@all
   end
   
+  def self.registered
+    all.select { |provider| provider.registered? }
+  end
+  
   def self.object(omniauth_name)    
     all.find { |provider| provider.omniauth_name == omniauth_name }
   end    

@@ -35,7 +35,7 @@
       <% else %>
         <li><i style="opacity: 0.25" class="fa fa-li fa-globe"></i></li> &nbsp;
       <% end %>        
-      <% Provider.all.each { |provider| if provider.registered? %>
+      <% Provider.registered.each { |provider| %>
           <li>
             <% if connection = @account.connections.find_by(provider: provider.display_name) %>          
               <i title="<%=provider.display_name%>" class="fa fa-li fa-<%=provider.icon%>"></i><a target="_blank" href="<%=provider.profile_url.call(connection.omniauth_hash)%>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
@@ -43,7 +43,7 @@
               <i style="opacity: 0.25" class="fa fa-li fa-<%=provider.icon%>"></i> &nbsp;
             <% end %>
           </li>
-        <% end  } %>
+        <% } %>
     </ul>
 
     <dl class="dl-horizontal">

@@ -17,9 +17,9 @@
         <button class="btn btn-primary" type="submit">Sign in</button>  
         <div style="margin: 10px" >
           <a href="javascript:;" onclick="$(this).hide();
-                $('#sign_in').hide();
-                $('#forgot').show();
-                $('#forgot_email').focus();">Forgot your password?</a>
+              $('#sign_in').hide();
+              $('#forgot').show();
+              $('#forgot_email').focus();">Forgot your password?</a>
         </div>
       <% end %>
 
@@ -31,12 +31,12 @@
         <button class="btn btn-primary" type="submit">Reset password</button>
       <% end %>
 
-      <% if Provider.all.any? { |provider| provider.registered? } %>
+      <% if !Provider.registered.empty? %>
         <p style="margin-top: 10px">If you've connected your account to an external service:</p>
         <p style="margin: 1em 0">
-          <%  Provider.all.each { |provider| if provider.registered? %>             
-              <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign in with <%=provider.display_name%></a>
-            <% end } %>
+          <%  Provider.registered.each { |provider| %>             
+            <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign in with <%=provider.display_name%></a>
+          <% } %>
         </p>                    
       <% end %>
 

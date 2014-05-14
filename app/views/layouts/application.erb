@@ -68,7 +68,7 @@
             <% if current_account %>
               <li><a href="/me/edit">
                   Edit profile & connect accounts 
-                  <% if (x = current_account.connections.count)/(y = Provider.all.select { |provider| provider.registered? }.count).to_f < 0.5 %>
+                  <% if (x = current_account.connections.count)/(y = Provider.registered.count).to_f < 0.5 %>
                     (<%=x%>/<%=y%> connected)
                   <% end %>
                 </a></li>

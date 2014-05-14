@@ -23,7 +23,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: cb3fead29c46bca5bbe62fa7b49d84032399f352
+  revision: 44ddb34629c45431ce76f94d72899f0bb4583499
   specs:
     activate-admin (0.0.1)
       heroku-api
@@ -135,7 +135,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     net-http-digest_auth (1.4)
-    net-http-persistent (2.9.1)
+    net-http-persistent (2.9.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)

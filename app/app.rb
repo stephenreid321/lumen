@@ -11,10 +11,8 @@ module Lumen
     use Airbrake::Rack    
     use OmniAuth::Builder do
       provider :account
-      Provider.all.each { |provider|
-        if provider.registered?
-          provider provider.omniauth_name, ENV["#{provider.display_name.upcase}_KEY"], ENV["#{provider.display_name.upcase}_SECRET"]
-        end
+      Provider.registered.each { |provider|
+        provider provider.omniauth_name, ENV["#{provider.display_name.upcase}_KEY"], ENV["#{provider.display_name.upcase}_SECRET"]
       }
     end  
     OmniAuth.config.on_failure = Proc.new { |env|

@@ -41,7 +41,7 @@
         $('.use-picture').popover({trigger: 'hover', html: true});
       });
     </script>
-    <% Provider.all.each { |provider| if provider.registered? %>
+    <% Provider.registered.each { |provider| %>
         <div class="row" style="margin-bottom: 10px">
           <div class="col-md-3" style="text-align: right"><i class="fa fa-<%=provider.icon%>"></i></div>
           <div class="col-md-8">   
@@ -65,7 +65,7 @@
             </div>
           </div>
         </div>
-      <% end } %>    
+      <% } %>    
 
   </div>
 </div>

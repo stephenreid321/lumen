@@ -28,7 +28,7 @@ class Membership
   end
   
   before_validation do
-    if account
+    if self.account and !self.status
       self.status = (account.sign_ins.count == 0 ? 'pending' : 'confirmed')
     end
   end

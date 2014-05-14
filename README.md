@@ -57,7 +57,6 @@ heroku create yourappname
 git push heroku master
 heroku domains:add www.yourdomain.org
 heroku addons:add mongohq
-heroku addons:add memcachier
 heroku addons:add papertrail
 heroku addons:add scheduler
 heroku config:set SESSION_SECRET=`rake secret`

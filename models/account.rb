@@ -16,7 +16,7 @@ class Account
   field :location, :type => String 
   field :coordinates, :type => Array
     
-  ExtraFields.set(self)
+  EnvFields.set(self)
   
   include Geocoder::Model::Mongoid
   geocoded_by :location  
@@ -143,7 +143,7 @@ class Account
       :password_confirmation => :password,
       :location => :text,
       :affiliations => :collection
-    }.merge(ExtraFields.fields(self))
+    }.merge(EnvFields.fields(self))
   end
   
   def self.filter_options

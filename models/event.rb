@@ -18,7 +18,7 @@ class Event
   field :more_info, :type => String
   field :publicity_tweet, :type => String
   
-  ExtraFields.set(self)
+  EnvFields.set(self)
   
   attr_accessor :start_conversation
   
@@ -53,7 +53,7 @@ class Event
       :group_id => :lookup,
       :account_id => :lookup,
       :organisation_id => :lookup
-    }.merge(ExtraFields.fields(self))
+    }.merge(EnvFields.fields(self))
   end
   
   def self.human_attribute_name(attr, options={})  

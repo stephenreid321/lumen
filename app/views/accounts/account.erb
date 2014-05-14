@@ -47,9 +47,9 @@
     </ul>
 
     <dl class="dl-horizontal">
-      <% ExtraFields.fields(Account).each { |fieldname, fieldtype|; if result = @account.send(fieldname) %>
+      <% EnvFields.fields(Account).each { |fieldname, fieldtype|; if result = @account.send(fieldname) %>
           <h3><%=Account.human_attribute_name(fieldname)%></h3>
-          <%=ExtraFields.display(fieldtype, result) %>
+          <%=EnvFields.display(fieldtype, result) %>
         <% end } %>
     </dl>
 

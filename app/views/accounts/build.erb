@@ -26,7 +26,7 @@
       <% else %>
         <%= partial :'accounts/tagships', :locals => {:f => f} %>
       <% end %>    
-      <% ExtraFields.fields(Account).each { |fieldname, fieldtype| %> 
+      <% EnvFields.fields(Account).each { |fieldname, fieldtype| %> 
         <%= f.send("#{fieldtype}_block", fieldname, div_class: ('col-md-9' if [:wysiwyg, :text_area].include?(fieldtype))) %>
       <% } %>        
       <%= f.image_block :picture, rotate: false, hint: ('Connect an account below to automatically grab a picture' if !@account.picture) %>

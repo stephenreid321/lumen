@@ -34,9 +34,9 @@
   <% else %>  
 
     <dl class="dl-horizontal">
-      <% ExtraFields.fields(Event).each { |fieldname, fieldtype|; if result = event.send(fieldname) %>
+      <% EnvFields.fields(Event).each { |fieldname, fieldtype|; if result = event.send(fieldname) %>
           <h3><%=Event.human_attribute_name(fieldname)%></h3>
-          <%=ExtraFields.display(fieldtype, result) %>
+          <%=EnvFields.display(fieldtype, result) %>
         <% end } %>
     </dl>    
 

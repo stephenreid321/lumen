@@ -35,13 +35,7 @@ gem 'mail'
 gem 'premailer'
 
 # Interacting with other websites
-gem 'net-http-persistent', '2.9.1'
 gem 'mechanize'
-
-# Caching
-gem 'rack-cache'
-gem 'memcachier'
-gem 'dalli'
 
 # Extras
 gem 'ri_cal', github: 'espen/ri_cal'

@@ -7,7 +7,7 @@ require 'factory_girl'
 require 'minitest/autorun'
 
 Capybara.app = Padrino.application
-Capybara.server_port = 3001
+Capybara.server_port = ENV['PORT']
 Capybara.default_driver = :poltergeist
 
 class MiniTest::Unit::TestCase

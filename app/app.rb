@@ -20,10 +20,6 @@ module Lumen
     OmniAuth.config.on_failure = Proc.new { |env|
       OmniAuth::FailureEndpoint.new(env).redirect_to_failure
     }    
-    if Padrino.env == :production
-      client = Dalli::Client.new
-      use Rack::Cache, :metastore => client, :entitystore => client
-    end    
         
     set :sessions, :expire_after => 1.year
     set :public_folder, Padrino.root('app', 'assets')

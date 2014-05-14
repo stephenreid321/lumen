@@ -131,6 +131,7 @@ Lumen::App.controllers do
       
       @membership = @group.memberships.build :account => @account
       @membership.role = 'admin' if params[:role] == 'admin'
+      @membership.status = 'confirmed' if params[:status] == 'confirmed'
       @membership.save
       
       group = @group # instance var not available in defaults block

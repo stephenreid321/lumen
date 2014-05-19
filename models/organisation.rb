@@ -64,9 +64,5 @@ class Organisation
       picture.rotate(self.rotate_picture_by)
     end  
   end
-  
-  field :file_uid, :type => String
-  field :file_name, :type => String  
-  dragonfly_accessor :file
-    
+      
 end

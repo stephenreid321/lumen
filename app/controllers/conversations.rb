@@ -79,5 +79,21 @@ Lumen::App.controllers do
     flash[:notice] = "The post was hidden."
     redirect "/conversations/#{@conversation.slug}"
   end    
+  
+  get '/conversations/:slug/mute' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    membership_required!(@conversation.group)
+    @conversation.conversation_mutes.create(account: current_account)
+    flash[:notice] = "The conversation was muted."
+    redirect "/conversations/#{@conversation.slug}"
+  end    
+  
+  get '/conversations/:slug/unmute' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    membership_required!(@conversation.group)
+    @conversation.conversation_mutes.find_by(account: current_account).destroy
+    flash[:notice] = "The conversation was unmuted."
+    redirect "/conversations/#{@conversation.slug}"
+  end      
     
 end

@@ -56,7 +56,7 @@ class ConversationPost
   def send_notifications!(exclude = [])
     unless conversation.hidden
       emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }
-      emails = emails - exclude.map(&:downcase)
+      emails = emails - exclude.map(&:downcase) - conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase }
       self.conversation_post_bccs.create(emails: emails)
     end
   end

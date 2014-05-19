@@ -48,9 +48,6 @@ GEM
       multi_json
     ansi (1.4.3)
     bcrypt (3.1.7)
-    bson (1.10.0)
-    bson_ext (1.10.0)
-      bson (~> 1.10.0)
     builder (3.1.4)
     capybara (2.2.1)
       mime-types (>= 1.16)
@@ -66,9 +63,6 @@ GEM
     dragonfly (1.0.4)
       multi_json (~> 1.0)
       rack
-    dragonfly-mongo_data_store (1.0.0)
-      dragonfly (~> 1.0)
-      mongo (~> 1.7)
     dragonfly-s3_data_store (1.0.4)
       dragonfly (~> 1.0)
       fog
@@ -128,8 +122,6 @@ GEM
     mini_portile (0.6.0)
     minitest (4.7.5)
     moneta (0.7.20)
-    mongo (1.10.0)
-      bson (~> 1.10.0)
     moped (1.5.2)
     multi_json (1.10.0)
     multi_xml (0.5.5)
@@ -254,10 +246,8 @@ DEPENDENCIES
   activate-admin!
   airbrake
   bcrypt
-  bson_ext
   capybara
   dragonfly
-  dragonfly-mongo_data_store
   dragonfly-s3_data_store
   factory_girl
   geocoder

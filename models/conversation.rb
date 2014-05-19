@@ -5,6 +5,7 @@ class Conversation
   belongs_to :group, index: true  
     
   has_many :conversation_posts, :dependent => :destroy
+  has_many :conversation_mutes, :dependent => :destroy
   
   field :subject, :type => String
   field :slug, :type => Integer

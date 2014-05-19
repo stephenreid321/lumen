@@ -31,6 +31,7 @@ class Account
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
   has_many :conversation_posts, :dependent => :destroy
+  has_many :conversation_mutes, :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
   has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy
   
@@ -90,11 +91,7 @@ class Account
     end
     return true
   end
-  
-  field :file_uid, :type => String
-  field :file_name, :type => String  
-  dragonfly_accessor :file  
-  
+    
   # Connections  
   has_many :connections, :dependent => :destroy
   accepts_nested_attributes_for :connections

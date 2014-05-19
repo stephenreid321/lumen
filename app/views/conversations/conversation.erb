@@ -1,8 +1,19 @@
-<% if @membership and @membership.admin? %>
+<% if @membership %>
   <ul class="page-options">  
-    <li>
-      <a title="Hide conversation" data-confirm="Are you sure you want to hide this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide"><i class="fa fa-times"></i> Hide conversation</a>
-    </li>      
+    <% if @conversation.conversation_mutes.find_by(account: current_account) %>
+      <li>
+        <a title="Unmute conversation" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/unmute"><i class="fa fa-volume-up"></i> Unmute conversation</a>
+      </li> 
+    <% else %>
+      <li>
+        <a title="Mute conversation" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/mute"><i class="fa fa-volume-off"></i> Mute conversation</a>
+      </li>         
+    <% end %>
+    <% if @membership.admin? %>    
+      <li>
+        <a title="Hide conversation" data-confirm="Are you sure you want to hide this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide"><i class="fa fa-times"></i> Hide conversation</a>
+      </li> 
+    <% end %>
   </ul>
 <% end %>
 
@@ -32,8 +43,8 @@
             <label class="sr-only" for="conversation_body">Body</label>
             <%= text_area_tag :body, :class => 'wysiwyg form-control', :id => 'conversation_body', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10  %>        
             <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-                    $('#attach').show();
-                    $('#attach input').click();">Attach a file</a>
+                $('#attach').show();
+                $('#attach input').click();">Attach a file</a>
             <div style="display:none; margin-bottom: 10px" id="attach">
               <%= file_field_tag :attachment %>
             </div>

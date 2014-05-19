@@ -12,7 +12,7 @@ class WallPost
   
   field :file_uid, :type => String
   field :file_name, :type => String  
-  dragonfly_accessor :file, :app => :files
+  dragonfly_accessor :file
   
   validates_presence_of :body, :account, :group
   

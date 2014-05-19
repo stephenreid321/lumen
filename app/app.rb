@@ -6,8 +6,7 @@ module Lumen
     helpers Activate::DatetimeHelpers
     helpers Activate::ParamHelpers  
     
-    use Dragonfly::Middleware, :pictures
-    use Dragonfly::Middleware, :files    
+    use Dragonfly::Middleware
     use Airbrake::Rack    
     use OmniAuth::Builder do
       provider :account

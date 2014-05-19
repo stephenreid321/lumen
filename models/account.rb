@@ -79,7 +79,7 @@ class Account
   end
            
   # Picture
-  dragonfly_accessor :picture, :app => :pictures do
+  dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }
   end
   attr_accessor :rotate_picture_by
@@ -93,7 +93,7 @@ class Account
   
   field :file_uid, :type => String
   field :file_name, :type => String  
-  dragonfly_accessor :file, :app => :files  
+  dragonfly_accessor :file  
   
   # Connections  
   has_many :connections, :dependent => :destroy

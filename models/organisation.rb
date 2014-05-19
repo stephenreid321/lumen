@@ -54,7 +54,7 @@ class Organisation
   end
     
   # Picture
-  dragonfly_accessor :picture, :app => :pictures do
+  dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }
   end
   attr_accessor :rotate_picture_by
@@ -67,6 +67,6 @@ class Organisation
   
   field :file_uid, :type => String
   field :file_name, :type => String  
-  dragonfly_accessor :file, :app => :files  
+  dragonfly_accessor :file
     
 end

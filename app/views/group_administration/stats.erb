@@ -1,3 +1,13 @@
+<ol class="breadcrumb">
+  <li><a href="/groups">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    Stats
+  </li>
+</ol>
+
 <table class="table">
 
   <%{'Most conversations started' => @c, 'Most posts' => @cp, 'Most events created' => @e}.each { |h2,hash| %>

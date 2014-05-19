@@ -91,6 +91,10 @@ class Account
     return true
   end
   
+  field :file_uid, :type => String
+  field :file_name, :type => String  
+  dragonfly_accessor :file, :app => :files  
+  
   # Connections  
   has_many :connections, :dependent => :destroy
   accepts_nested_attributes_for :connections

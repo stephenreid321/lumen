@@ -63,6 +63,10 @@ class Organisation
     if self.picture and self.rotate_picture_by
       picture.rotate(self.rotate_picture_by)
     end  
-  end  
+  end
+  
+  field :file_uid, :type => String
+  field :file_name, :type => String  
+  dragonfly_accessor :file, :app => :files  
     
 end

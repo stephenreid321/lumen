@@ -5,8 +5,8 @@ Lumen::App.controllers do
     membership_required! unless @group.open?          
     if request.xhr?
       points = []
-      points += @group.memberships.map(&:account).map(&:affiliations).flatten.map(&:organisation).uniq if params[:organisations]
-      points += @group.memberships.map(&:account) if params[:accounts]      
+      points += @group.memberships.map(&:account).map(&:affiliations).flatten.map(&:organisation).uniq if params[:organisations] or !params[:map_only]
+      points += @group.memberships.map(&:account) if params[:accounts] or !params[:map_only]
       if params[:map_only]
         partial :'maps/map', :locals => {:points => points}
       else

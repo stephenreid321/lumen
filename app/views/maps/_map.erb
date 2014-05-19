@@ -1,37 +1,71 @@
-<div class="row" style="margin-top: 20px">
-  <div class="col-md-10">
-    <iframe class="map"></iframe>
-  </div>
-  <div class="col-md-2">
-    <script>
-      $(function() {
-        $('#map-form input').click(function() {
-          $('iframe.map').attr('src', '/groups/<%=@group.slug%>/iframe?' + $(this.form).serialize())
-        });
-        $('iframe.map').attr('src', '/groups/<%=@group.slug%>/iframe?' + $('#map-form').serialize())
+<style>
+  div.infowindow { white-space: nowrap }
+</style>
+
+<!-- <script type="text/javascript" src="/javascripts/markerclusterer.js"></script> -->
+<script type="text/javascript">
+  $(function() {
+    var map = new google.maps.Map(document.getElementById("map-canvas"), {
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: false,
+      scaleControl: true,
+      streetViewControl: false,
+      maxZoom: 16
+    });
+    var bounds = new google.maps.LatLngBounds();
+
+    var points = []
+<% points.select(&:coordinates).each { |point|%>
+      points.push({
+        id: '<%=point.id%>',
+        lat: <%=point.lat%>,
+        lng: <%=point.lng%>,
+        color: '<%= {:organisation => 'E43D3D', :account => '3DA2E4'}[point.class.to_s.underscore.to_sym] %>',
+        name: "<%=point.try(:name) || point.try(:title)%>",
+        content: '<%=js_escape_html(partial "maps/#{point.class.to_s.underscore}".to_sym, :object => point)%>'
+      })
+<% } %>
+
+
+    var infowindow = new google.maps.InfoWindow();
+    var markers = []
+    for (i = 0; i < points.length; i++) {
+      var point = points[i];
+
+      var pinColor = point.color;
+      var pinImage = new google.maps.MarkerImage(
+              "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+              new google.maps.Size(21, 34),
+              new google.maps.Point(0, 0),
+              new google.maps.Point(10, 34)
+              );
+
+      var marker = new google.maps.Marker({
+        map: map, // or var markerClusterer = new MarkerClusterer(map, markers);
+        position: new google.maps.LatLng(point.lat, point.lng),
+        title: point.name,
+        icon: pinImage
       });
-    </script>
-    <form id="map-form">
-      <div class="checkbox">
-        <label>
-          <%= check_box_tag :accounts, :value => true, :checked => true %> People
-        </label>
-      </div>  
-      <div class="checkbox">
-        <label>
-          <%= check_box_tag :organisations, :value => true, :checked => true %> Organisations
-        </label>
-      </div>  
-      <% if !(lists = @group.lists.select { |list| list.list_items.any?(&:coordinates) }).empty? %>
-        <h3>Lists</h3>
-        <% lists.each { |list| %>
-          <div class="checkbox">
-            <label>
-              <%= check_box_tag :'lists[]', :value => list.id %> <%=list.title%>
-            </label>
-          </div>      
-        <% } %>
-      <% end %>
-    </form>
-  </div>  
-</div>
+
+      google.maps.event.addListener(marker, 'click', function(point, marker) {
+        return function() {
+          infowindow.setContent('<div class="infowindow">' + point.content + '</div>');
+          infowindow.open(map, marker);
+        }
+      }(point, marker));
+      bounds.extend(marker.getPosition());
+      markers.push(marker);
+    }
+
+<% if params[:zoom] %>
+      map.setZoom(<%=params[:zoom]%>);
+      map.setCenter(new google.maps.LatLng(<%=params[:lat]%>,<%=params[:lng]%>));
+<% else %>
+      map.fitBounds(bounds);
+<% end %>
+
+  });
+
+</script>
+<div style="width: 100%; height: 40vh" id="map-canvas"></div>
+

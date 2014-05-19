@@ -31,7 +31,6 @@ class Group
   has_many :events, :dependent => :destroy
   has_many :news_summaries, :dependent => :destroy
   has_many :didyouknows, :dependent => :destroy
-  has_many :lists, :dependent => :destroy
   has_many :wall_posts, :dependent => :destroy
   
   belongs_to :group_type, index: true

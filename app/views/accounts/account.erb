@@ -36,14 +36,14 @@
         <li><i style="opacity: 0.25" class="fa fa-li fa-globe"></i></li> &nbsp;
       <% end %>        
       <% Provider.registered.each { |provider| %>
-          <li>
-            <% if connection = @account.connections.find_by(provider: provider.display_name) %>          
-              <i title="<%=provider.display_name%>" class="fa fa-li fa-<%=provider.icon%>"></i><a target="_blank" href="<%=provider.profile_url.call(connection.omniauth_hash)%>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
-            <% else %>
-              <i style="opacity: 0.25" class="fa fa-li fa-<%=provider.icon%>"></i> &nbsp;
-            <% end %>
-          </li>
-        <% } %>
+        <li>
+          <% if connection = @account.connections.find_by(provider: provider.display_name) %>          
+            <i title="<%=provider.display_name%>" class="fa fa-li fa-<%=provider.icon%>"></i><a target="_blank" href="<%=provider.profile_url.call(connection.omniauth_hash)%>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
+          <% else %>
+            <i style="opacity: 0.25" class="fa fa-li fa-<%=provider.icon%>"></i> &nbsp;
+          <% end %>
+        </li>
+      <% } %>
     </ul>
 
     <dl class="dl-horizontal">
@@ -56,7 +56,7 @@
   </div>
   <div class="col-md-4">
     <% if @account.coordinates or @account.affiliations.any? { |affiliation| affiliation.organisation.coordinates } %>
-      <iframe class="map" src="/accounts/<%=@account.id%>/map"></iframe>
+      <%= partial :'maps/map', :locals => {:points => ([@account] + @account.affiliations.map(&:organisation))} %>
     <% end %>
   </div>
 </div>

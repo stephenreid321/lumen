@@ -30,7 +30,9 @@
     <%= close_divs %>     
 
     <div style="margin-top: 1em">
-      <span style="font-size: 80%"><a href="http://<%=ENV['DOMAIN']%>/groups/<%=group.slug%>">Too many emails? Switch to a digest or turn off email notifications</a></span>
+      <span style="font-size: 80%">
+        Too many emails? <a href="http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>">Mute this conversation</a>, switch to a <a href="http://<%=ENV['DOMAIN']%>/groups/<%=group.slug%>">digest</a>, or <a href="http://<%=ENV['DOMAIN']%>/groups/<%=group.slug%>">turn off email notifications completely</a>
+      </span>
     </div>
   </body>
 </html>

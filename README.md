@@ -15,7 +15,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 * Flexible digest engine
 * Events calendar
 * Daily summaries of news stories tweeted by group members via news.me integration
-* Geographically-aware lists feature for maintaining lists of venues, contacts etc
+* Maps of people, organisations etc
 
 Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. It was originally created for the [New Economy Organisers Network](http://neweconomyorganisersnetwork.org/) (hosted by the [New Economics Foundation](http://neweconomics.org/)) who kindly agreed to open source the project and continue to sponsor its development.
 
@@ -116,9 +116,6 @@ ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 
 ### A group's map
 [<img src="http://wordsandwriting.github.io/lumen/images/map.jpg">](http://wordsandwriting.github.io/lumen/images/map.jpg)
-
-### A list
-[<img src="http://wordsandwriting.github.io/lumen/images/list.jpg">](http://wordsandwriting.github.io/lumen/images/list.jpg)
 
 ### A profile 
 [<img src="http://wordsandwriting.github.io/lumen/images/profile.jpg">](http://wordsandwriting.github.io/lumen/images/profile.jpg)

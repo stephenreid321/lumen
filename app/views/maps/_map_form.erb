@@ -1,0 +1,27 @@
+<div class="row" style="margin-top: 20px">
+  <div class="col-md-10" id="map">
+    <%= partial :'maps/map', :locals => {:points => points} %>
+  </div>
+  <div class="col-md-2">
+    <script>
+      $(function() {
+        $('#map-form input').change(function() {
+          $('#map').load('/groups/<%=@group.slug%>/map?' + $(this.form).serialize())
+        });
+      });
+    </script>
+    <form id="map-form" action="<%=request.path%>">
+      <%= hidden_field_tag :map_only, :value => true  %>
+      <div class="checkbox">
+        <label>
+          <%= check_box_tag :accounts, :value => true, :checked => true %> People
+        </label>
+      </div>  
+      <div class="checkbox">
+        <label>
+          <%= check_box_tag :organisations, :value => true, :checked => true %> Organisations
+        </label>
+      </div>  
+    </form>
+  </div>  
+</div>

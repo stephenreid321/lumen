@@ -40,7 +40,7 @@
           <% end %>             
         </ul>
         <% if @organisation.coordinates or @organisation.affiliations.any? { |affiliation| affiliation.account.coordinates } %>
-          <iframe class="map" src="/organisations/<%=@organisation.id%>/map"></iframe>
+          <%= partial :'maps/map', :locals => {:points => ([@organisation] + @organisation.affiliations.map(&:account))} %>
         <% end %>
       </div>
     </div>

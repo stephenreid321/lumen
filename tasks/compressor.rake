@@ -8,7 +8,7 @@ namespace :compress do
     output = compressor.compress([
         'lumen.bootswatch.css',
         'font-awesome.min.css',
-        'bootstrap-wysihtml5-0.0.3.css',
+        'summernote.css',
         'chosen.min.css',
         'chosen-bootstrap.css',
         'bootstrap-stacked-tabs.css',      
@@ -26,8 +26,7 @@ namespace :compress do
         'jquery-1.9.1.min.js',
         'bootstrap.min.js',
         'bootstrap3-typeahead.min.js',
-        'wysihtml5-0.3.0.js',
-        'bootstrap-wysihtml5-0.0.3.js',
+        'summernote.min.js',
         'jquery.deparam.js',
         'jquery.typing-0.3.0.min.js',
         'chosen.jquery.min.js',

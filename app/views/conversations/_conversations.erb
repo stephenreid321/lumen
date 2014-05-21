@@ -16,7 +16,7 @@
     <script>
       $(function() {
         $('#conversations-search-form').submit(function(e) {
-          $('#conversations-tab').load("/groups/<%=@group.slug%>/conversations?"+$(this).serialize());
+          $('#conversations-tab').load("/groups/<%=@group.slug%>/conversations?" + $(this).serialize());
           return false;
         });
       });
@@ -50,19 +50,16 @@
         <label class="sr-only" for="conversation_subject">Subject</label>
         <%= text_field_tag :subject, :class => 'form-control', :id => 'conversation_subject', :placeholder => 'Subject', :style => 'margin-bottom: 10px; width: 15em;' %>
         <label class="sr-only" for="conversation_body">Body</label>
-        <%= text_area_tag :body, :class => 'form-control', :id => 'conversation_body', :style => 'width: 90%; display: block; margin-bottom: 10px', :rows => 10 %>
-        <script>
-          $(function() {
-            $('#conversation_body').wysihtml5({html: true});
-          });
-        </script>
-        <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-            $('#attach').show();
-            $('#attach input').click();">Attach a file</a>
-        <div style="display:none; margin-bottom: 10px" id="attach">
-          <%= file_field_tag :attachment %>
-        </div>            
-        <button type="submit" class="btn btn-default">Post</button>
+        <%= text_area_tag :body, :class => 'wysiwyg form-control', :id => 'conversation_body', :style => 'display: block;' %>
+        <div style="margin-top: 10px">
+          <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
+                  $('#attach').show();
+                  $('#attach input').click();">Attach a file</a>
+          <div style="display:none; margin-bottom: 10px" id="attach">
+            <%= file_field_tag :attachment %>
+          </div>            
+          <button type="submit" class="btn btn-default">Post</button>          
+        </div>        
       <% end %> 
     </div>
   </div>

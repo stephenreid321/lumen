@@ -26,7 +26,7 @@ class TestGroups < ActiveSupport::TestCase
     login_as(@account)
     click_link 'Home'    
     fill_in 'Subject', :with => 'oh hai'
-    fill_in_wysihtml5 'something very interesting'
+    fill_in_summernote 'something very interesting'
     click_button 'Post'
     assert page.has_content? '1 participant in this conversation'
   end
@@ -43,7 +43,7 @@ class TestGroups < ActiveSupport::TestCase
     click_link 'Home'  
     click_link 'black holes'
     assert page.has_content? '1 participant in this conversation'
-    fill_in_wysihtml5 'i agree'
+    fill_in_summernote 'i agree'
     click_button 'Post'
     assert page.has_content? '2 participants in this conversation'    
   end

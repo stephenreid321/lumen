@@ -39,10 +39,10 @@ class ActiveSupport::TestCase
     fill_in 'Password', :with => account.password
     click_button 'Sign in'    
   end
-  
-  def fill_in_wysihtml5(text)
-    page.execute_script("editor.setValue('#{text}')")
-  end
-  
+    
+  def fill_in_summernote(text)
+    page.execute_script("$('.summernote').code('#{text}')")
+end
+
 end
 

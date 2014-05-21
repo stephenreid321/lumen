@@ -2,7 +2,36 @@ $(function() {
 
   $("select.chosen").chosen({allow_single_deselect: true});
 
-  $('textarea.wysiwyg').wysihtml5({html: true});
+  function wysify() {
+    $('textarea.wysiwyg').not('textarea.wysified').each(function() {
+      var textarea = this;
+      var summernote = $('<div class="summernote"></div>');
+      $(summernote).insertAfter(this);
+      $(summernote).summernote({
+        toolbar: [
+          ['view', ['codeview', 'fullscreen']],
+          ['style', ['style']],
+          ['font', ['bold', 'italic', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+        ],
+        height: 200
+      });
+      $(summernote).code($(textarea).val());
+      $(textarea).addClass('wysified').hide();
+      $(textarea.form).submit(function() {
+        $(textarea).val($(summernote).code());
+      });
+    });
+  }
+
+  $(document).ajaxComplete(function() {
+    wysify();
+  });
+  wysify();
 
   $(window).resize(function() {
     if (document.documentElement.clientWidth < 992) {
@@ -16,10 +45,10 @@ $(function() {
   $('form').submit(function() {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
   });
-  
-    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-      $('.fc-event').popover('destroy');
-    });  
+
+  $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+    $('.fc-event').popover('destroy');
+  });
 
   Array.prototype.unique = function() {
     var unique = [];
@@ -30,7 +59,7 @@ $(function() {
     }
     return unique;
   };
-  
+
   $(document).on('click', 'a[data-confirm]', function(e) {
     var message = $(this).data('confirm');
     if (!confirm(message)) {

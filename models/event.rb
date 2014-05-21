@@ -123,8 +123,8 @@ class Event
     JSON.pretty_generate events.map { |event| 
       {
         :title => event.name,
-        :start => event.start_time.to_s(:db),
-        :end => event.end_time.to_s(:db), 
+        :start => event.start_time.to_s(:rfc822),
+        :end => event.end_time.to_s(:rfc822), 
         :allDay => !event.consider_time,
         :when_details => event.when_details,
         :location => event.location,

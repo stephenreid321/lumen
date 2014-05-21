@@ -1,4 +1,4 @@
-<h2>Conversations</h2>
+<h2><%=@group.slug%>'<%="s" unless @group.slug[-1] == 's' %> conversations</h2>
 
 <div class="row">
   <div class="col-md-6">          
@@ -38,7 +38,7 @@
 <%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 
 <% if @membership %>
-  <h3>New conversation</h3>
+  <h4>New conversation</h4>
 
   <p>Fill out the form below or send an email to <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
   <div class="media">

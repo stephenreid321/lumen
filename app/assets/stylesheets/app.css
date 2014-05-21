@@ -8,6 +8,7 @@ body { padding: 60px 0 20px 0; }
 .tabs-left .nav-tabs > li > a:hover { background: #EDEDED; }
 
 table a, .table a { text-decoration: none }
+table a:hover, .table a:hover { text-decoration: underline }
 
 .restore-opacity { opacity: 0.5; }
 .restore-opacity:hover { opacity: 1 !important  }

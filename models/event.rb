@@ -66,7 +66,7 @@ class Event
       :more_info => 'Link to full event details',
       :reason => 'Members of this group should come because… (optional)',
       :publicity_tweet => 'What should people tweet to publicise this event?',
-      :start_conversation => 'Send an email notification to all members about the addition of this event (use with care)'
+      :start_conversation => 'Send an email notification to all group members about the addition of this event (use with care)'
     }[attr.to_sym] || super  
   end    
   

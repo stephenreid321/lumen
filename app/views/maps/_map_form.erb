@@ -1,27 +1,27 @@
-<div class="row" style="margin-top: 20px">
-  <div class="col-md-10" id="map">
+<div style="margin-top: 20px; position: relative">
+  <div id="map">
     <%= partial :'maps/map', :locals => {:points => points} %>
   </div>
-  <div class="col-md-2">
-    <script>
-      $(function() {
-        $('#map-form input').change(function() {
-          $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this.form).serialize())
-        });
+
+  <script>
+    $(function() {
+      $('#map-form input').change(function() {
+        $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this.form).serialize())
       });
-    </script>
-    <form id="map-form" action="<%=request.path%>">
-      <%= hidden_field_tag :map_only, :value => true  %>
-      <div class="checkbox">
-        <label>
-          <%= check_box_tag :accounts, :value => true, :checked => true %> People
-        </label>
-      </div>  
-      <div class="checkbox">
-        <label>
-          <%= check_box_tag :organisations, :value => true %> Organisations
-        </label>
-      </div>  
-    </form>
-  </div>  
+    });
+  </script>
+  <form style="background: white; box-shadow: 0 0 3px #666666; position: absolute; padding: 10px; top: 20px; right: 20px" id="map-form" action="<%=request.path%>">
+    <%= hidden_field_tag :map_only, :value => true  %>
+    <div class="checkbox">
+      <label>
+        <%= check_box_tag :accounts, :value => true, :checked => true %> People
+      </label>
+    </div>  
+    <div class="checkbox">
+      <label>
+        <%= check_box_tag :organisations, :value => true %> Organisations
+      </label>
+    </div>  
+  </form>
+
 </div>

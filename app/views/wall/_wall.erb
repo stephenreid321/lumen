@@ -8,13 +8,24 @@
 
 <div style="background: #F5F5F5; padding: 10px;">
 
-  <% if current_account and !ENV['HIDE_HOME_WALL_COMPOSE_BOX'] %>
+  <% if current_account and (@group or !ENV['HIDE_HOME_WALL_COMPOSE_BOX']) %>
     <%= partial :'wall/compose' %>
   <% end %>
 
   <% @wall_posts.each { |wall_post| %>
     <%= partial :'wall/wall_post', :object => wall_post %>
   <% } %>
+
+  <script>
+    $(function() {
+      $('#wall-tab .pagination a').click(function(e) {
+        e.preventDefault();
+        if ($(this).attr('href') != '#')
+          $('#wall-tab').load($(this).attr('href'));
+      });
+    });
+  </script>  
+  <%= will_paginate @wall_posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>  
 
 </div>
 

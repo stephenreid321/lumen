@@ -3,6 +3,7 @@ Lumen::App.controllers do
   get '/wall' do
     sign_in_required!
     @wall_posts = current_account.wall_posts.order_by(:created_at.desc)
+    @wall_posts = @wall_posts.per_page(10).page(params[:page])    
     if request.xhr?
       partial :'wall/wall'
     else
@@ -19,6 +20,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required! unless @group.open?
     @wall_posts = @group.wall_posts.order_by(:created_at.desc)
+    @wall_posts = @wall_posts.per_page(10).page(params[:page])
     if request.xhr?
       partial :'wall/wall'
     else

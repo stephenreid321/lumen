@@ -34,7 +34,7 @@ class Account
   has_many :conversation_mutes, :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
   has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy
-  has_many :spaces, :dependent => :destroy  
+  has_many :spaces_as_creator, :class_name => 'Space', :inverse_of => :account, :dependent => :destroy
   
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank, autosave: false
@@ -71,6 +71,10 @@ class Account
   def conversations
     Conversation.where(:id.in => memberships.map(&:group).map(&:conversations).flatten.map(&:_id))
   end
+  
+  def spaces
+    Space.where(:id.in => memberships.map(&:group).map(&:spaces).flatten.map(&:_id))
+  end  
   
   def news_summaries
     NewsSummary.where(:id.in => memberships.map(&:group).map(&:news_summaries).flatten.map(&:_id))

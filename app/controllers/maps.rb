@@ -5,6 +5,7 @@ Lumen::App.controllers do
     if request.xhr?
       points = []
       points += current_account.network.map(&:affiliations).flatten.map(&:organisation).uniq if params[:organisations]
+      points += current_account.spaces if params[:spaces]
       points += current_account.network if params[:accounts]
       if params[:map_only]
         partial :'maps/map', :locals => {:points => points}

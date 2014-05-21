@@ -18,6 +18,7 @@
             $("#digest .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
             $('#from-to').submit(function(e) {
               e.preventDefault();
+              $('.fa-spinner', this).show();
               $('#digest').load('<%= @group ? "/groups/#{@group.slug}/digest" : "/digest" %>?' + $(this).serialize(), function() {
                 $(this).children(':first').unwrap();
               });
@@ -29,6 +30,7 @@
           <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=@from.strftime('%d-%b-%Y')%>"/>
           &ndash;
           <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=@to.strftime('%d-%b-%Y')%>"/>
+          <i style="display:none" class="fa fa-spin fa-spinner"></i>
         </form>
       </small>
     <% end %>    
@@ -40,14 +42,12 @@
     <%= partial :'digest/hot_conversations' %>        
     <%= partial :'digest/new_people' %>        
     <%= partial :'digest/top_stories' %>        
-    <%= partial :'digest/hot_conversation_posts' %>
   <% else %>        
     <%= partial :'digest/hot_conversations' %>    
     <%= partial :'digest/upcoming_events' %>
     <%= partial :'digest/new_events' %>      
     <%= partial :'digest/new_people' %>        
     <%= partial :'digest/top_stories' %>   
-    <%= partial :'digest/hot_conversation_posts' %>
   <% end %>
 
 </div>

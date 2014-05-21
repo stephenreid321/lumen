@@ -76,6 +76,12 @@
           });
                   $('.fc-header-right').prepend('<span class="fc-header-space"></span>');
                   $('.fc-header-right').prepend('<span class="fc-header-space"></span><a href="<%=calendar_path%>/add" class="btn btn-default" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
+                  var btnGroup = $('<div class="dwm-group btn-group"></div>');
+                  $(".fc-button:contains('Day')").wrap(btnGroup)
+                  $(".fc-button:contains('Week')").appendTo('.dwm-group')
+                  $(".fc-button:contains('Month')").appendTo('.dwm-group')
+                  $('.fc-button').attr('class','btn btn-default');
+                  $('.fc-header-center').remove();
           });
 </script>
 

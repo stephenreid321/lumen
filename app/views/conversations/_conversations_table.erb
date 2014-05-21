@@ -5,7 +5,7 @@
 <table class="table" style="margin-top: 10px">
   <% conversations.each { |conversation| %>
     <tr>
-      <td><a class="conversation-title" href="<% if @hot_conversations%>#conversation-<%=conversation.id%><% else%>/conversations/<%=conversation.slug%><% end %>"><%=conversation.subject%></a></td>
+      <td><a class="conversation-title" href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a></td>
       <% if !@group %>
         <td><span style="color: #999999;"><i class="fa fa-group"></i> <%=conversation.group.slug%></span></td>
       <% end %>

@@ -41,7 +41,7 @@ Lumen::App.controllers do
                           
   get '/groups/:slug' do    
     @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)    
+    @membership = @group.memberships.find_by(account: current_account)
     redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
     membership_required! if @group.secret?
     erb :'groups/group'

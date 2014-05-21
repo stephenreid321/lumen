@@ -32,6 +32,7 @@ class Group
   has_many :news_summaries, :dependent => :destroy
   has_many :didyouknows, :dependent => :destroy
   has_many :wall_posts, :dependent => :destroy
+  has_many :spaces, :dependent => :destroy
   
   belongs_to :group_type, index: true
     

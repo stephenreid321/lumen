@@ -1,27 +1,93 @@
 <div style="margin-top: 20px; position: relative">
   <div id="map">
-    <%= partial :'maps/map', :locals => {:points => points} %>
   </div>
 
-  <script>
-    $(function() {
-      $('#map-form input').change(function() {
-        $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this.form).serialize())
-      });
-    });
-  </script>
-  <form style="background: white; box-shadow: 0 0 3px #666666; position: absolute; padding: 10px; top: 20px; right: 20px" id="map-form" action="<%=request.path%>">
-    <%= hidden_field_tag :map_only, :value => true  %>
-    <div class="checkbox">
-      <label>
-        <%= check_box_tag :accounts, :value => true, :checked => true %> People
-      </label>
-    </div>  
-    <div class="checkbox">
-      <label>
-        <%= check_box_tag :organisations, :value => true %> Organisations
-      </label>
-    </div>  
-  </form>
+  <div style="background: white; box-shadow: 0 0 3px #666666; position: absolute; padding: 10px; top: 20px; right: 20px">
+
+    <div id="search-options">
+
+      <script>
+        $(function() {
+          $('#map-form input').change(function() {
+            console.log('changed')
+            $(this.form).submit();
+          });
+          $('#map-form').submit(function(e) {
+            e.preventDefault();
+            $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this).serialize())
+            return false;
+          });
+          $('#map-form').submit();
+        });
+      </script>
+      <form id="map-form">
+        <%= hidden_field_tag :map_only, :value => true  %>
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag :accounts, :value => true, :checked => true %> People
+          </label>
+        </div>   
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag :spaces, :value => true, :checked => true %> Spaces          
+          </label>
+        </div>  
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag :organisations, :value => true %> Organisations
+          </label>
+        </div>         
+      </form>
+
+      <a id="add-space" href="javascript:;">Add a space</a>
+
+    </div>
+
+    <% if @membership %>
+      <div id="adding-space" style="display:none">
+
+        <script>
+          $(function() {
+            $('#add-space').click(function() {
+              $('#search-options').hide();
+              $('#adding-space').show();
+
+              var marker = new google.maps.Marker({
+                map: map
+              });
+
+              google.maps.event.addListener(map, 'click', function(event) {
+                marker.setPosition(event.latLng)
+                $('input[name=lat]').val(event.latLng.lat());
+                $('input[name=lng]').val(event.latLng.lng());
+              });
+
+            });
+          });
+        </script>
+
+        <% form_tag "/groups/#{@group.slug}/map/spaces/new" do %>
+          <%= hidden_field_tag 'lat' %>
+          <%= hidden_field_tag 'lng' %>
+          <p><i class="fa fa-map-marker" style="color: #F75C54"></i> Click the map to place a marker</p>
+          <div class="form-group"> 
+            <label>Space name</label>
+            <%= text_field_tag 'name', :class => 'form-control' %>
+          </div>
+          <div class="form-group"> 
+            <label>Brief description</label>
+            <%= text_area_tag 'description', :class => 'form-control' %>
+          </div>      
+          <div class="form-group"> 
+            <label>Link to website</label>
+            <%= text_field_tag 'link', :class => 'form-control' %>
+          </div>           
+          <button type="submit" class="btn btn-primary">Add space</button>
+        <% end %>
+
+      </div>
+    <% end %>
+
+  </div>
 
 </div>

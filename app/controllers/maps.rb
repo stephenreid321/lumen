@@ -5,7 +5,7 @@ Lumen::App.controllers do
     if request.xhr?
       points = []
       points += current_account.network.map(&:affiliations).flatten.map(&:organisation).uniq if params[:organisations]
-      points += current_account.network if params[:accounts] or !params[:map_only]
+      points += current_account.network if params[:accounts]
       if params[:map_only]
         partial :'maps/map', :locals => {:points => points}
       else
@@ -18,11 +18,13 @@ Lumen::App.controllers do
       
   get '/groups/:slug/map' do
     @group = Group.find_by(slug: params[:slug])
-    membership_required! unless @group.open?          
+    membership_required! unless @group.open?   
+    @membership = @group.memberships.find_by(account: current_account)
     if request.xhr?
       points = []
       points += @group.memberships.map(&:account).map(&:affiliations).flatten.map(&:organisation).uniq if params[:organisations]
-      points += @group.members if params[:accounts] or !params[:map_only]
+      points += @group.spaces if params[:spaces]
+      points += @group.members if params[:accounts]
       if params[:map_only]
         partial :'maps/map', :locals => {:points => points}
       else
@@ -31,6 +33,21 @@ Lumen::App.controllers do
     else    
       redirect "/groups/#{@group.slug}#map-tab"
     end  
+  end  
+  
+  post '/groups/:slug/map/spaces/new' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    @group.spaces.create(name: params[:name], description: params[:description], link: params[:link], coordinates: [params[:lng], params[:lat]], account: current_account)
+    redirect "/groups/#{@group.slug}#map-tab"
+  end
+  
+  get '/groups/:slug/map/spaces/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug])
+    membership_required!
+    @group.spaces.find(params[:id]).destroy
+    flash[:notice] = 'The space was removed.'
+    redirect "/groups/#{@group.slug}#map-tab"
   end  
               
 end

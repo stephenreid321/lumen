@@ -4,7 +4,7 @@
 
 <script>
   $(function() {
-    var map = new google.maps.Map(document.getElementById("map-canvas"), {
+    map = new google.maps.Map(document.getElementById("map-canvas"), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: false,
       scaleControl: true,
@@ -19,7 +19,7 @@
         id: '<%=point.id%>',
         lat: <%=point.lat%>,
         lng: <%=point.lng%>,
-        color: '<%= {:organisation => 'E43D3D', :account => '3DA2E4'}[point.class.to_s.underscore.to_sym] %>',
+        color: '<%= {:organisation => 'E43D3D', :account => '3DA2E4', :space => '7FDF73'}[point.class.to_s.underscore.to_sym] %>',
         name: "<%=point.try(:name) || point.try(:title)%>",
         content: '<%=js_escape_html(partial "maps/#{point.class.to_s.underscore}".to_sym, :object => point)%>'
       })

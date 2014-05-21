@@ -1,6 +1,6 @@
 <div style="text-align: center">
 
-  <div class="panel panel-success">
+  <div class="panel panel-success" style="margin-top: 20px">
     <div class="panel-heading">
       <h3 class="panel-title"><%=group.slug%> has <%=pluralize(group.memberships.count,'member')%></h3>
     </div>
@@ -22,7 +22,7 @@
 
 
       <% random(group.members.where(:picture_uid.ne => nil), 9).each {  |account| %>
-        <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
+        <img style="margin: 10px; width: 90px" title="<%=account.name.split(' ').first%>" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
       <% } %>
 
     </div>

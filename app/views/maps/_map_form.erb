@@ -6,7 +6,7 @@
     <script>
       $(function() {
         $('#map-form input').change(function() {
-          $('#map').load('/groups/<%=@group.slug%>/map?' + $(this.form).serialize())
+          $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this.form).serialize())
         });
       });
     </script>
@@ -19,7 +19,7 @@
       </div>  
       <div class="checkbox">
         <label>
-          <%= check_box_tag :organisations, :value => true, :checked => true %> Organisations
+          <%= check_box_tag :organisations, :value => true %> Organisations
         </label>
       </div>  
     </form>

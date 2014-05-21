@@ -55,6 +55,10 @@ class Account
       @account_tag_ids = nil
     end
   end  
+  
+  def self.marker_color
+    '3DA2E4'
+  end
           
   def network    
     Account.where(:id.in => memberships.map(&:group).map(&:memberships).flatten.map(&:account_id))

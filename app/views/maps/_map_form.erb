@@ -20,35 +20,43 @@
           $('#map-form').submit();
         });
       </script>
+      <style>
+        #map-form i.fa-map-marker { float: right }
+      </style>
       <form id="map-form">
         <%= hidden_field_tag :map_only, :value => true  %>
         <div class="checkbox">
           <label>
-            <%= check_box_tag :accounts, :value => true, :checked => true %> People
+            <%= check_box_tag :accounts, :value => true, :checked => true %>
+            People <i class="fa fa-map-marker" style="color: <%= "##{Account.marker_color}" %>"></i>
           </label>
         </div>   
         <div class="checkbox">
           <label>
-            <%= check_box_tag :spaces, :value => true, :checked => true %> Spaces          
+            <%= check_box_tag :spaces, :value => true, :checked => true %>
+            Spaces <i class="fa fa-map-marker" style="color: <%= "##{Space.marker_color}" %>"></i>
           </label>
         </div>  
         <div class="checkbox">
           <label>
-            <%= check_box_tag :organisations, :value => true %> Organisations
+            <%= check_box_tag :organisations, :value => true %>
+            Organisations <i class="fa fa-map-marker" style="color: <%= "##{Organisation.marker_color}" %>"></i>
           </label>
         </div>         
       </form>
 
-      <a id="add-space" href="javascript:;">Add a space</a>
-
     </div>
 
     <% if @membership %>
+
+      <a id="add-space" href="javascript:;">Add a space</a>
+
       <div id="adding-space" style="display:none">
 
         <script>
           $(function() {
             $('#add-space').click(function() {
+              $(this).hide();
               $('#search-options').hide();
               $('#adding-space').show();
 
@@ -69,10 +77,10 @@
         <% form_tag "/groups/#{@group.slug}/map/spaces/new" do %>
           <%= hidden_field_tag 'lat' %>
           <%= hidden_field_tag 'lng' %>
-          <p><i class="fa fa-map-marker" style="color: #F75C54"></i> Click the map to place a marker</p>
+          <p style="font-weight: bold">Now click the map to place a marker</p>
           <div class="form-group"> 
             <label>Space name</label>
-            <%= text_field_tag 'name', :class => 'form-control' %>
+            <%= text_field_tag 'name', :class => 'form-control', :required => true %>
           </div>
           <div class="form-group"> 
             <label>Brief description</label>

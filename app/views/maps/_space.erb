@@ -5,6 +5,6 @@
 <p class="small">
   Added by <a href="/accounts/<%=space.account.id%>"><%=space.account.name%></a> on <%=space.created_at%>
   &middot;
-  <a href="/groups/<%=space.group.slug%>/map/spaces/<%=space.id%>/destroy">Delete space</a>
+  <a data-confirm="Are you sure you want to delete this space?" href="/groups/<%=space.group.slug%>/map/spaces/<%=space.id%>/destroy">Delete space</a>
 </p>
 

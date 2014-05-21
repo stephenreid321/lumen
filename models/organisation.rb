@@ -33,6 +33,10 @@ class Organisation
   before_validation do
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
   end
+  
+  def self.marker_color
+    'E43D3D'
+  end
     
   def self.fields_for_index
     [:name, :address]

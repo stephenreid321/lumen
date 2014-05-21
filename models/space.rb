@@ -24,7 +24,12 @@ class Space
     
   before_validation do
     self.link = "http://#{self.link}" if self.link and !(self.link =~ /\Ahttps?:\/\//)
+    errors.add(:coordinates, 'must be present') if coordinates.all? { |x| x.blank? }
   end  
+  
+  def self.marker_color
+    '7FDF73'
+  end
   
   def self.fields_for_index
     [:name, :coordinates, :description, :link, :address, :group_id, :account_id]

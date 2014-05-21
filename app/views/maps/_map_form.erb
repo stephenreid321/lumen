@@ -15,7 +15,10 @@
       <script>
         $(function() {
           $('#map-form input').change(function() {
-            console.log('changed')
+            if ($('input[name=spaces]').prop('checked'))
+              $('#min-capacity').show()
+            else
+              $('#min-capacity').hide()
             $(this.form).submit();
           });
           $('#map-form').submit(function(e) {
@@ -24,8 +27,7 @@
             return false;
           });
           $('#map-form').submit();
-        });
-      </script>
+        });</script>
       <style>
         #map-form i.fa-map-marker { float: right }
       </style>
@@ -43,19 +45,24 @@
             Spaces <i class="fa fa-map-marker" style="color: <%= "##{Space.marker_color}" %>"></i>
           </label>
         </div>  
+        <div id="min-capacity" class="form-group"> 
+          <label>Spaces with capacity of at least</label>
+          <%= number_field_tag 'min_capacity', :class => 'form-control', :min => '0', :step => '1'%>
+        </div>        
         <div class="checkbox">
           <label>
             <%= check_box_tag :organisations, :value => true %>
             Organisations <i class="fa fa-map-marker" style="color: <%= "##{Organisation.marker_color}" %>"></i>
           </label>
-        </div>         
+        </div>     
+        <button type="submit" class="btn btn-default">Search</button>
       </form>
 
     </div>
 
     <% if @membership %>
 
-      <a id="add-space" href="javascript:;">Add a space</a>
+      <a style="display:inline-block;margin-top: 10px" id="add-space" class="btn btn-primary" href="javascript:;"><i class="fa fa-plus"></i> Add a space</a>
 
       <div id="adding-space" style="display:none">
 
@@ -65,17 +72,14 @@
               $(this).hide();
               $('#search-options').hide();
               $('#adding-space').show();
-
               var marker = new google.maps.Marker({
                 map: map
               });
-
               google.maps.event.addListener(map, 'click', function(event) {
                 marker.setPosition(event.latLng)
                 $('input[name=lat]').val(event.latLng.lat());
                 $('input[name=lng]').val(event.latLng.lng());
               });
-
             });
           });
         </script>

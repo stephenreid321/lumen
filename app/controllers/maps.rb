@@ -5,7 +5,11 @@ Lumen::App.controllers do
     if request.xhr?
       points = []
       points += current_account.network.map(&:affiliations).flatten.map(&:organisation).uniq if params[:organisations]
-      points += current_account.spaces if params[:spaces]
+      if params[:spaces]
+        spaces = current_account.spaces
+        spaces = spaces.where(:capacity.gte => params[:min_capacity]) if params[:min_capacity]
+        points += spaces
+      end
       points += current_account.network if params[:accounts]
       if params[:map_only]
         partial :'maps/map', :locals => {:points => points}
@@ -24,7 +28,11 @@ Lumen::App.controllers do
     if request.xhr?
       points = []
       points += @group.memberships.map(&:account).map(&:affiliations).flatten.map(&:organisation).uniq if params[:organisations]
-      points += @group.spaces if params[:spaces]
+      if params[:spaces]
+        spaces = @group.spaces
+        spaces = spaces.where(:capacity.gte => params[:min_capacity]) if params[:min_capacity]
+        points += spaces
+      end
       points += @group.members if params[:accounts]
       if params[:map_only]
         partial :'maps/map', :locals => {:points => points}

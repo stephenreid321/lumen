@@ -61,27 +61,33 @@
   <li class="active"><%=@group.slug%></li>
 </ol>
 
+<%
+tabs = {
+  :home => (['Home', 'fa-home'] if @membership and current_account.memberships.count == 1 and Fragment.find_by(slug: 'home')),
+  :conversations => ['Conversations', 'fa-comments-o'],
+  :news => (['News', 'fa-twitter'] if @group.news_summaries.count > 0),
+  :digest => (['Digest', 'fa-star'] unless ENV['HIDE_DIGEST_TAB']),
+  :map => ['Map', 'fa-map-marker'],
+  :wall => ['Wall', 'fa-thumbs-up'],
+  :calendar => ['Calendar', 'fa-calendar']
+  }
+%>
+
 <div class="row">
   <div class="col-md-1">
     <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
       <ul class="nav nav-tabs">
-        <% tabs = {
-          :home => (['Home', 'fa-home'] if @membership and current_account.memberships.count == 1 and Fragment.find_by(slug: 'home')),
-          :conversations => ['Conversations', 'fa-comments-o'],
-          :news => (['News', 'fa-twitter'] if @group.news_summaries.count > 0),
-          :digest => (['Digest', 'fa-star'] unless ENV['HIDE_DIGEST_TAB']),
-          :map => ['Map', 'fa-map-marker'],
-          :wall => ['Wall', 'fa-thumbs-up'],
-          :calendar => ['Calendar', 'fa-calendar']
-          }.each { |k,v| if v %>
+        <% tabs.each { |k,v| if v %>
             <li>
               <a style="padding: 5px" title="<%=v[0]%>" href="#<%=k%>-tab" data-toggle="tab">                
                 <i class="fa <%=v[1]%> hidden-xs hidden-sm"></i>
                 <span style="font-size: 11px"><%=v[0].length > 6 ? v[0][0..5]+'&hellip;' : v[0] %></span>                
               </a>
               <script>
-                $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function(e) {
-                  $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>')
+                $(function() {
+                  $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function(e) {
+                    $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>')
+                  });
                 });
               </script>
             </li>

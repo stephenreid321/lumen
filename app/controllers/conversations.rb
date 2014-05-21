@@ -23,7 +23,7 @@ Lumen::App.controllers do
     if request.xhr?
       partial :'conversations/conversations'
     else
-      redirect "/groups/#{@group.slug}?tab=conversations"
+      redirect "/groups/#{@group.slug}#conversations-tab"
     end
   end
   

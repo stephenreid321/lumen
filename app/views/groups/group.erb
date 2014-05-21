@@ -91,6 +91,8 @@ tabs = {
                 $(function() {
                   $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function(e) {
                     $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>')
+                    window.location.hash = this.hash;
+                    window.scrollTo(0, 0);
                   });
                 });
               </script>
@@ -133,13 +135,15 @@ tabs = {
       $("a[href='#calendar-tab']").tooltip('hide');
     });
 
-    /* Navigate to tab via querystring */
+    /* Navigate to tab via hash */
 
-<% if params[:tab] %>
-      $("a[href=#<%=params[:tab]%>-tab]").tab('show');
-<% else %>
+    var hash = window.location.hash;
+    if (hash) {
+      $('a[href="' + hash + '"]').tab('show');
+      window.scrollTo(0, 0);
+    } else {
       $(".tabs-left-please a:first").tab('show');
-<% end %>
+    }
 
   });
 </script>

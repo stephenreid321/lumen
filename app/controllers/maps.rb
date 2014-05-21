@@ -12,7 +12,7 @@ Lumen::App.controllers do
         partial :'maps/map_form', :locals => {:points => points}
       end
     else    
-      redirect "/?tab=map"
+      redirect "/#map-tab"
     end  
   end   
       
@@ -29,7 +29,7 @@ Lumen::App.controllers do
         partial :'maps/map_form', :locals => {:points => points}
       end
     else    
-      redirect "/groups/#{@group.slug}?tab=map"
+      redirect "/groups/#{@group.slug}#map-tab"
     end  
   end  
               

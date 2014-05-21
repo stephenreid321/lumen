@@ -32,6 +32,8 @@ tabs = {
                   $(function() {
                     $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function(e) {
                       $('#<%=k%>-tab').load('/<%=k%>');
+                      window.location.hash = this.hash;
+                      window.scrollTo(0, 0)
                     });
                   });
                 </script>
@@ -74,11 +76,13 @@ tabs = {
 
     /* Navigate to tab via querystring */
 
-<% if params[:tab] %>
-      $("a[href=#<%=params[:tab]%>-tab]").tab('show');
-<% else %>
+    var hash = window.location.hash;
+    if (hash) {
+      $('a[href="' + hash + '"]').tab('show');
+      window.scrollTo(0, 0);
+    } else {
       $(".tabs-left-please a:first").tab('show');
-<% end %>
+    }
 
   });
 </script>

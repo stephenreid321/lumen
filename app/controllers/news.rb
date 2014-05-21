@@ -11,7 +11,7 @@ Lumen::App.controllers do
     if request.xhr?
       partial :'news/summaries', :locals => {:news_summaries => current_account.news_summaries, :date => NewsSummary.date + params[:d].to_i}
     else
-      redirect "/?tab=news"
+      redirect "/#news-tab"
     end        
   end  
   
@@ -21,7 +21,7 @@ Lumen::App.controllers do
     if request.xhr?
       partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => NewsSummary.date + params[:d].to_i}
     else
-      redirect "/groups/#{@group.slug}?tab=news"
+      redirect "/groups/#{@group.slug}#news-tab"
     end
   end  
     

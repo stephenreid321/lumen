@@ -14,7 +14,7 @@ Lumen::App.controllers do
     if request.xhr?      
       partial :'digest/digest'
     else
-      redirect "/?tab=digest"
+      redirect "/#digest-tab"
     end
   end
   
@@ -41,7 +41,7 @@ Lumen::App.controllers do
         partial :'digest/digest'
       end
     else    
-      redirect "/groups/#{@group.slug}?tab=digest"
+      redirect "/groups/#{@group.slug}#digest-tab"
     end  
   end  
   get  '/groups/:slug/digest', &digest

@@ -7,13 +7,13 @@ Lumen::App.controllers do
     if request.xhr?
       partial :'wall/wall'
     else
-      redirect "/?tab=wall"
+      redirect "/#wall-tab"
     end     
   end
   
   post '/wall/new' do
     flash[:notice] = 'Please select a group'
-    redirect "/?tab=wall"
+    redirect "/#wall-tab"
   end
   
   get '/groups/:slug/wall' do
@@ -24,7 +24,7 @@ Lumen::App.controllers do
     if request.xhr?
       partial :'wall/wall'
     else
-      redirect "/groups/#{@group.slug}?tab=wall"
+      redirect "/groups/#{@group.slug}#wall-tab"
     end  
   end  
   

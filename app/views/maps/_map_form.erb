@@ -22,8 +22,12 @@
             $(this.form).submit();
           });
           $('#map-form').submit(function(e) {
+            var form = this;
             e.preventDefault();
-            $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this).serialize())
+            $('.fa-spinner', this).show();
+            $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this).serialize(), function() {
+              $('.fa-spinner', form).hide();
+            });
             return false;
           });
           $('#map-form').submit();
@@ -56,6 +60,7 @@
           </label>
         </div>     
         <button type="submit" class="btn btn-default">Search</button>
+        <i class="fa fa-spin fa-spinner" style="display: none"></i>
       </form>
 
     </div>

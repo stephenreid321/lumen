@@ -10,7 +10,7 @@ class AccountTag
   validates_uniqueness_of :name, :case_sensitive => false
   
   before_validation do
-    self.name = self.name.downcase if self.name
+    self.name = self.name.strip.downcase if self.name
   end
     
   def self.fields_for_index

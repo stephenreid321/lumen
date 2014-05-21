@@ -39,7 +39,7 @@ Lumen::App.controllers do
   post '/groups/:slug/map/spaces/new' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    @space = @group.spaces.build(name: params[:name], description: params[:description], link: params[:link], coordinates: [params[:lng], params[:lat]], account: current_account)      
+    @space = @group.spaces.build(name: params[:name], description: params[:description], capacity: params[:capacity], link: params[:link], coordinates: [params[:lng], params[:lat]], account: current_account)      
     if !@space.save
       flash[:error] = "Please place a marker and provide a name"
     end

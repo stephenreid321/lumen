@@ -5,6 +5,7 @@ class Space
   field :name, :type => String  
   field :description, :type => String
   field :link, :type => String
+  field :capacity, :type => Integer
   
   field :address, :type => String 
   field :coordinates, :type => Array  

@@ -23,7 +23,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: cf97fbd85a483f214e773a2935b9aac195be8c34
+  revision: ed347c28fd53a9d9b8cbdb87e0f6828031e21981
   specs:
     activate-admin (0.0.1)
       heroku-api

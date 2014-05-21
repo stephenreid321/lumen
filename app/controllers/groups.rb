@@ -49,7 +49,7 @@ Lumen::App.controllers do
     
   get '/groups/:slug/home' do
     sign_in_required!
-    Fragment.find_by(slug: 'home').body
+    eval(f('home'))
   end
     
   get '/groups/:slug/request_membership' do

@@ -66,5 +66,11 @@ Lumen::App.helpers do
     count = relation.count
     (0..count-1).sort_by{rand}.slice(0, n).collect! do |i| relation.skip(i).first end
   end
+  
+  def f(slug)
+    (if fragment = Fragment.find_by(slug: slug) and fragment.body
+      "\"#{fragment.body.to_s.gsub('"','\"')}\""
+    end).to_s
+  end    
       
 end

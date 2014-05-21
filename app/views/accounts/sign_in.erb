@@ -40,7 +40,7 @@
         </p>                    
       <% end %>
 
-      <%= Fragment.find_by(slug: 'sign-in').try(:body) %>
+      <%= eval(f('sign-in')) %>
 
     </div>
 

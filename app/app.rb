@@ -67,7 +67,7 @@ module Lumen
       sign_in_required!
       @o = :updated  
       if request.xhr?
-        Fragment.find_by(slug: 'home').body
+        eval(f('home'))
       else
         erb :home
       end
@@ -76,6 +76,14 @@ module Lumen
     get '/about' do
       sign_in_required!
       erb :about
+    end    
+    
+    get '/:slug' do
+      if @fragment = Fragment.find_by(slug: params[:slug], page: true)
+        erb :page
+      else
+        pass
+      end
     end    
                           
   end

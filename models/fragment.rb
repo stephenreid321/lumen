@@ -4,28 +4,26 @@ class Fragment
 
   field :slug, :type => String
   field :body, :type => String  
-  
-  index({slug: 1 }, {unique: true})
+  field :page, :type => Boolean
   
   validates_presence_of :slug
   validates_uniqueness_of :slug
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
+  
+  before_validation :page_to_boolean
+  def page_to_boolean
+    if self.page == '1'; self.page = true; elsif self.page == '0'; self.page = false; end; return true
+  end
     
   def self.fields_for_index
-    [:slug, :body]
+    [:slug, :body, :page]
   end
   
   def self.fields_for_form
     {
       :slug => :text,
-      :body => :wysiwyg
-    }
-  end
-  
-  def self.filter_options
-    {
-      :o => :slug,
-      :d => :asc
+      :body => :wysiwyg,
+      :page => :check_box
     }
   end
     

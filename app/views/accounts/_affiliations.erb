@@ -1,8 +1,8 @@
 <div class="form-group <%= 'has-error' if !f.error_message_on(:affiliations).blank? %>">
   <label class="control-label col-md-3">
     Affiliations
-    <% if fragment = Fragment.find_by(slug: 'tip-affiliations') %>
-      <i id="tip-affiliations" class="fa fa-question-circle" title="<%=fragment.body%>"></i>
+    <% if Fragment.find_by(slug: 'tip-affiliations') %>
+      <i id="tip-affiliations" class="fa fa-question-circle" title="<%=eval(f('tip-affiliations'))%>"></i>
       <script>
         $(function() {
           $('#tip-affiliations').tooltip({placement: 'right'});

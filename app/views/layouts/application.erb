@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/stylesheets/compressed.css" />    
     <script src="/javascripts/compressed.js"></script>
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <%= Fragment.find_by(slug: 'head').try(:body) %>
+    <%= eval(f('head')) %>
 
   </head>
   <body>
@@ -47,7 +47,7 @@
                 </li>    
               <% end %>
               <% unless ENV['HIDE_DIRECTORY_TAB'] %>
-                <li><a href="/groups/directory"><i class="fa <%=Fragment.find_by(slug: 'directory-icon').try(:body) || 'fa-book'%>"></i> All groups</a></li>
+                <li><a href="/groups/directory"><i class="fa fa-book"></i> All groups</a></li>
               <% end %>                
               <% if GroupType.count > 0 %>
                 <% GroupType.all.each { |group_type| %>
@@ -61,6 +61,7 @@
                 <li><a href="/sectors"><i class="fa <%=ENV['ICON_SECTORS'].try(:body) || 'fa-th-list'%>"></i> <%=I18n.t(:sectors).capitalize%></a></li>
               <% end %>
             <%  end %>
+            <%= eval(f('navbar')) %>
           </ul>  
         <% end %>
         <div class="navbar-right">

@@ -10,14 +10,14 @@
   <div class="col-md-6 col-md-offset-3">
 
     <% if @account.sign_ins.count == 1 %>
-      <%= Fragment.find_by(slug: 'first-time').try(:body) %>
+      <%= eval(f('first-time')) %>
     <% end %>
 
     <% form_for @account, @account.new_record? ? '/me/new' : '/me/edit', :class => 'form-horizontal', :multipart => true do |f| %>
 
       <%= f.text_block :name %>
       <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
-      <%= f.text_block :location, tip: Fragment.find_by(slug: 'tip-location').try(:body) %>
+      <%= f.text_block :location, tip: eval(f('tip-location')) %>
       <%= f.text_block :email %>
       <%= f.text_block :phone %>
       <%= f.text_block :website %>

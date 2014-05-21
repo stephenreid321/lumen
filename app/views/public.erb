@@ -1,7 +1,7 @@
 
 <div class="container-fluid">
   <div style="text-align: center">
-    <%= Fragment.find_by(slug: 'public-homepage').try(:body) %>
+    <%= eval(f('public-homepage')) %>
   </div>
 </div>
 

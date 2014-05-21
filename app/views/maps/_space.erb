@@ -1,4 +1,4 @@
-<h3><%=space.name%></h3>
+<h3><%=space.name%> <% if !@group %><small><i class="fa fa-group"></i> <%=space.group.slug%></small><% end%></h3>
 <p style="font-weight: bold"><a href="<%=space.link%>"><%=space.link%></a></p>
 <p><%=space.description%></p>
 

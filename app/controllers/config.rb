@@ -99,7 +99,7 @@ Lumen::App.controllers do
         heroku.delete_config_var(ENV['HEROKU_APP_NAME'], k)
       end
     } if params[:edited]
-    flash[:notice] = "<strong>Sweet.</strong> Your config vars were updated."
+    flash[:notice] = "Your config vars were updated. There may be a short delay before your changes are reflected on this page."
     redirect '/config'
   end  
   

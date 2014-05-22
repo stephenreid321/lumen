@@ -95,11 +95,12 @@ Lumen::App.controllers do
     params[:options].each { |k,v|
       case v
       when 'edit'
-        heroku.put_config_vars(ENV['HEROKU_APP_NAME'], k => params[k])
+        if params[k]
+          heroku.put_config_vars(ENV['HEROKU_APP_NAME'], k => params[k])
+        else
+          heroku.delete_config_vars(ENV['HEROKU_APP_NAME'], k)
+        end
       end
-    }
-    heroku.get_config_vars(ENV['HEROKU_APP_NAME']).body.each { |k,v|
-      heroku.delete_config_var(ENV['HEROKU_APP_NAME'], k) if v.blank?
     }
     flash[:notice] = "<strong>Sweet.</strong> Your config vars were updated."
     redirect '/config'

@@ -41,8 +41,8 @@ gem 'geocoder'
 gem 'yui-compressor'
 
 group :test do
+  gem 'minitest-rg'
   gem 'factory_girl'
-  gem 'turn'
   gem 'capybara'
   gem 'launchy'
   gem 'poltergeist'

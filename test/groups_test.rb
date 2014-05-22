@@ -9,7 +9,7 @@ class TestGroups < ActiveSupport::TestCase
   end
       
   test 'creating a group' do
-    @account = create(:account)
+    @account = FactoryGirl.create(:account)
     login_as(@account)
     click_link 'All groups'
     click_link 'Create a group'
@@ -20,8 +20,8 @@ class TestGroups < ActiveSupport::TestCase
   end
   
   test 'creating a conversation' do
-    @account = create(:account)
-    @group = create(:group)    
+    @account = FactoryGirl.create(:account)
+    @group = FactoryGirl.create(:group)    
     @group.memberships.create! :account => @account
     login_as(@account)
     click_link 'Home'    
@@ -32,9 +32,9 @@ class TestGroups < ActiveSupport::TestCase
   end
   
   test 'replying to a conversation' do
-    @account1 = create(:account)
-    @account2 = create(:account)
-    @group = create(:group)    
+    @account1 = FactoryGirl.create(:account)
+    @account2 = FactoryGirl.create(:account)
+    @group = FactoryGirl.create(:group)    
     @group.memberships.create! :account => @account1
     @group.memberships.create! :account => @account2
     @conversation = @group.conversations.create! :subject => 'black holes'

@@ -5,14 +5,11 @@ require 'capybara'
 require 'capybara/poltergeist'
 require 'factory_girl'
 require 'minitest/autorun'
+require 'minitest/rg'
 
 Capybara.app = Padrino.application
 Capybara.server_port = ENV['PORT']
 Capybara.default_driver = :poltergeist
-
-class MiniTest::Unit::TestCase
-  include FactoryGirl::Syntax::Methods
-end
 
 FactoryGirl.define do
   

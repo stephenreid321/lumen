@@ -8,13 +8,13 @@ class TestAccounts < ActiveSupport::TestCase
   end
       
   test 'signing in' do
-    @account = create(:account)
+    @account = FactoryGirl.create(:account)
     login_as(@account)
     assert page.has_content? 'Signed in'
   end
   
   test 'editing profile' do
-    @account = create(:account)
+    @account = FactoryGirl.create(:account)
     login_as(@account)
     click_link 'Edit profile & connect accounts'
     fill_in 'Name', :with => 'New Name'

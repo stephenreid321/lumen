@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 gem 'unicorn'
-gem 'padrino', '0.12.0'
+gem 'padrino', '0.12.1'
 gem 'rake'
 
 # Admin
@@ -10,7 +10,7 @@ gem 'will_paginate', github: 'mislav/will_paginate'
 gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 
 # Data storage
-gem 'mongoid', github: 'mongoid/mongoid', ref: 'e1b32e598ec231cc7a7e191fd0432e4cd4910447'
+gem 'mongoid', github: 'mongoid/mongoid'
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
 

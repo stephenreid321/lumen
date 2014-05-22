@@ -96,7 +96,7 @@ Lumen::App.controllers do
       if params[k]
         heroku.put_config_vars(ENV['HEROKU_APP_NAME'], k => params[k])
       else
-        heroku.delete_config_vars(ENV['HEROKU_APP_NAME'], k)
+        heroku.delete_config_var(ENV['HEROKU_APP_NAME'], k)
       end
     } if params[:edited]
     flash[:notice] = "<strong>Sweet.</strong> Your config vars were updated."

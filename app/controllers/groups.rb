@@ -65,7 +65,7 @@ Lumen::App.controllers do
       flash[:notice] = "You're already a member of that group!"
     elsif @group.membership_requests.find_by(account: current_account)
       flash[:notice] = "You've already requested membership of that group."
-    elsif @group.closed?
+    elsif current_account and @group.closed?
       @group.membership_requests.create :account => current_account
       
       group = @group

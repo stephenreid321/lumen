@@ -22,7 +22,7 @@ ol.breadcrumb li[style*=float]:before { content: '' }
 select[name*=day], select[name*=month], select[name*=year], select[name*=hour], select[name*=min] { display:inline; width: auto } 
 
 .popover { z-index: 1040 }
-.tooltip { z-index: 1020; width: 100% }  
+.tooltip { z-index: 1020; }  
 
 .page-options { margin: 0; padding: 0; float: right }
 .page-options li { display:inline-block; padding: 0.5em }

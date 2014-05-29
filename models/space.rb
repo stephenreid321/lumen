@@ -58,7 +58,7 @@ class Space
   end  
   
   def self.accessibilities
-    ['Fully accessible', 'Partially acessible', 'Not accessible']
+    ['Fully accessible', 'Partially accessible', 'Not accessible']
   end
   
   def self.marker_color

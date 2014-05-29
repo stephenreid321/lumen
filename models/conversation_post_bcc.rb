@@ -34,6 +34,7 @@ class ConversationPostBcc
   end
   
   def bcc_from
+    group = conversation_post.conversation.group
     from = conversation_post.account.email
     ConversationPostBcc.dmarc_fail_domains.include?(from.split('@').last) ? group.email('-noreply') : from
   end

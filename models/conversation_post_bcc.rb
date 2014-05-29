@@ -32,6 +32,15 @@ class ConversationPostBcc
     string.gsub!('[most_recently_updated_name]', most_recently_updated_account.name)
     string
   end
+  
+  def bcc_from
+    from = conversation_post.account.email
+    ConversationPostBcc.dmarc_fail_domains.include?(from.split('@').last) ? group.email('-noreply') : from
+  end
+  
+  def self.dmarc_fail_domains
+    %w{yahoo.com}
+  end
       
   after_create :send_bcc
   def send_bcc
@@ -47,7 +56,7 @@ class ConversationPostBcc
                 
     mail = Mail.new
     mail.to = group.email
-    mail.from = "#{conversation_post.account.name} <#{conversation_post.account.email}>"
+    mail.from = "#{conversation_post.account.name} <#{bcc_from}>"
     mail.sender = group.email('-noreply')
     mail.subject = conversation_post.conversation.conversation_posts.count == 1 ? "[#{group.slug}] #{conversation_post.conversation.subject}" : "Re: [#{group.slug}] #{conversation_post.conversation.subject}"
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})

@@ -4,7 +4,7 @@
 
 <p class="small">
   Added by <a href="/accounts/<%=space.account.id%>"><%=space.account.name%></a> on <%=space.created_at%>
-  <% if @membership %>
+  <% if space.group.memberships.find_by(account: current_account) %>
     &middot;
     <a href="/groups/<%=space.group.slug%>/spaces/<%=space.id%>/edit">Edit space</a>
   <% end %>

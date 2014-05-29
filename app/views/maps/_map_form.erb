@@ -1,14 +1,10 @@
-<div style="margin-top: 20px; position: relative">
-  <div id="map" style="margin-bottom: 10px">
+<div class="row" style="margin-top: 20px;">
+
+  <div class="col-md-9">
+    <div id="map">
+    </div>
   </div>
-
-  <style>    
-    @media(min-width: 768px) {
-      #map-overlay { max-width: 25%; z-index: 1050; background: white; box-shadow: 0 0 3px #666666; position: absolute; padding: 10px; top: 20px; right: 20px }
-    }
-  </style>
-
-  <div id="map-overlay">
+  <div class="col-md-3">
 
     <div id="search-options">
 
@@ -45,11 +41,11 @@
         </div>   
         <div class="checkbox">
           <label>
-            <%= check_box_tag :spaces, :value => true %>
+            <%= check_box_tag :spaces, :value => true, :checked => true %>
             Spaces <i class="fa fa-map-marker" style="color: <%= "##{Space.marker_color}" %>"></i>
           </label>
         </div>  
-        <div id="space-filters" style="display:none">
+        <div id="space-filters" style="padding: 10px; background: #f1f1f1" >
 
           <div class="form-group"> 
             <label>Capacity of at least</label>
@@ -78,7 +74,7 @@
           </div>      
 
           <div class="form-group"> 
-            <label>Maximum hourly cost </label>
+            <label>Maximum hourly cost</label>
             <div class="input-group">
               <span class="input-group-addon">£</span>
               <%= number_field_tag :max_hourly_cost, :class => 'form-control', :min => 0, :step => 1 %>

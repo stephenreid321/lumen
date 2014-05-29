@@ -95,11 +95,11 @@ class Space
   end   
   
   def self.filtered(spaces, params)
-    spaces = spaces.where(:capacity.gte => params[:min_capacity]) if params[:min_capacity]        
+    spaces = spaces.or({:capacity.gte => params[:min_capacity]}, {:capacity => nil}) if params[:min_capacity]        
     spaces = spaces.where(:accessibility.ne => 'Not accessible') if params[:accessible]
     spaces = spaces.where(:serves_food => true) if params[:serves_food]
     spaces = spaces.where(:serves_alcohol => true) if params[:serves_alcohol]
-    spaces = spaces.where(:hourly_cost.lte => params[:max_hourly_cost]) if params[:max_hourly_cost]
+    spaces = spaces.or({:hourly_cost.lte => params[:max_hourly_cost]}, {:hourly_cost => nil}) if params[:max_hourly_cost]
     spaces
   end
     

@@ -1,0 +1,33 @@
+<ul class="page-options">  
+  <li>
+    <a title="Edit space" class="edit restore-opacity" href="/groups/<%=@group.slug%>/spaces/<%=@space.id%>/edit"><i class="fa fa-pencil"></i> Edit space</a>
+  </li>    
+</ul>
+
+<ol class="breadcrumb">
+  <li><a href="/groups">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/spaces">Spaces</a>    
+  </li>  
+  <li class="active">
+    <%= @space.name %>
+  </li>     
+</ol>
+
+<div class="row">
+  <div class="col-md-6">
+
+    <h1><%= @space.name %></h1>
+
+    <%= partial :'spaces/summary', :locals => {:space => @space} %>
+
+  </div>
+  <div class="col-md-6">
+    <div  style="margin-top: 20px">
+      <%= partial :'maps/map', :locals => {:points => [@space]} %>
+    </div>
+  </div>
+</div>

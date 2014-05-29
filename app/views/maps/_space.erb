@@ -1,18 +1,12 @@
 <h3><%=space.name%> <% if !@group %><small><i class="fa fa-group"></i> <%=space.group.slug%></small><% end%></h3>
 
-<p style="font-weight: bold"><a href="<%=space.link%>"><%=space.link%></a></p>
-
-<% if space.capacity %>
-  <p>Capacity: <%=space.capacity%></p>
-<% end %>
-
-<p><%=space.description%></p>
+<%= partial :'spaces/summary', :locals => {:space => space} %>
 
 <p class="small">
   Added by <a href="/accounts/<%=space.account.id%>"><%=space.account.name%></a> on <%=space.created_at%>
   <% if @membership %>
     &middot;
-    <a data-confirm="Are you sure you want to delete this space?" href="/groups/<%=space.group.slug%>/map/spaces/<%=space.id%>/destroy">Delete space</a>
+    <a href="/groups/<%=space.group.slug%>/spaces/<%=space.id%>/edit">Edit space</a>
   <% end %>
 </p>
 

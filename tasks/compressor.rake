@@ -31,6 +31,7 @@ namespace :compress do
         'jquery.typing-0.3.0.min.js',
         'chosen.jquery.min.js',
         'bootstrap-datepicker.js',
+        'jquery.geopicker.js',
         'app.js'
       ].map { |x| File.read("#{path}/#{x}") }.join("\n"))    
     File.open("#{path}/compressed.js", 'w') { |file| file.write(output) }

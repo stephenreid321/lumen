@@ -2,8 +2,8 @@
   $.fn.geopicker = function(options) {  
     
     var settings = {
-      width: 300,
-      height: 300,
+      width: '100%',
+      height: 400,
       mapOptions: {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControl: false,
@@ -21,9 +21,7 @@
       guessFailedMessage: "Sorry, we couldn't guess from that address.",
       defaultZoom: 5,
       defaultCenter: new google.maps.LatLng(53,-1),
-      icon: null,
-      shadow: null,
-      shape: null
+      icon: null
     }
     
     return this.each(function() {
@@ -36,9 +34,7 @@
       var map = new google.maps.Map(mapCanvas, settings.mapOptions);          
       var marker = new google.maps.Marker({
         draggable: true,
-        icon: settings.icon,
-        shadow: settings.shadow,
-        shape: settings.shape         
+        icon: settings.icon       
       });         
       
       google.maps.event.addListener(map, 'click', function(event) {

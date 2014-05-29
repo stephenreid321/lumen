@@ -1,0 +1,71 @@
+<% if !@group %>
+  <div class="row" style="margin-top: 10px">
+    <div class="col-md-6 col-md-offset-3">
+      <% form_tag '', :class => 'form-horizontal' do %>
+        <div class="form-group">
+          <label class="control-label col-md-3">Pick a group</label>
+          <div class="col-md-6"> 
+            <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/spaces/new'" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+
+  <ol class="breadcrumb">
+    <li><a href="/groups">Groups</a></li>
+    <li>
+      <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+    </li>
+    <li>
+      <a href="/groups/<%=@group.slug%>/spaces">Spaces</a>    
+    </li>  
+    <% if @space.persisted? %>
+      <li>
+        <a href="/groups/<%=@group.slug%>/spaces/<%=@space.id%>"><%= @space.name %></a>    
+      </li>      
+      <li class="active">
+        Edit
+      </li>
+    <% else %>
+      <li class="active">
+        Add space
+      </li>    
+    <% end %>
+  </ol>
+
+
+  <div class="row" style="margin-top: 10px">
+    <div class="col-md-8 col-md-offset-2">
+
+      <% form_for @space, @space.new_record? ? "/groups/#{@group.slug}/spaces/new" : "/groups/#{@group.slug}/spaces/#{@space.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+
+
+        <script>
+          $(function() {
+            var inputGroup = $('<div class="input-group"></div>');
+            $('#space_hourly_cost').wrap(inputGroup);
+            $('<span class="input-group-addon">£</span>').prependTo($('#space_hourly_cost').parent());
+          });
+        </script>
+
+        <%= f.text_block :name %>
+        <%= f.number_block :capacity %>
+        <%= f.select_block :accessibility %>
+        <%= f.check_box_block :serves_food %>
+        <%= f.check_box_block :serves_alcohol %>
+        <%= f.number_block :hourly_cost %>
+        <%= f.text_block :link %>        
+        <%= f.text_block :address, :tip => "If you don't know the exact address, leave this blank and click to place a marker on the map below" %>
+        <%= f.geopicker_block :coordinates %>
+        <%= f.wysiwyg_block :description %>      
+
+        <%= f.submit_block destroy_url: "/groups/#{@group.slug}/spaces/#{@space.id}/destroy" %>
+
+      <% end %>
+
+    </div>
+  </div>
+
+<% end %>

@@ -4,7 +4,7 @@
 
   <style>    
     @media(min-width: 768px) {
-      #map-overlay { background: white; box-shadow: 0 0 3px #666666; position: absolute; padding: 10px; top: 20px; right: 20px }
+      #map-overlay { max-width: 25%; z-index: 1050; background: white; box-shadow: 0 0 3px #666666; position: absolute; padding: 10px; top: 20px; right: 20px }
     }
   </style>
 
@@ -14,11 +14,11 @@
 
       <script>
         $(function() {
-          $('#map-form input').change(function() {
+          $('#map-form input, #map-form select').change(function() {
             if ($('input[name=spaces]').prop('checked'))
-              $('#min-capacity').show()
+              $('#space-filters').show()
             else
-              $('#min-capacity').hide()
+              $('#space-filters').hide()
             $(this.form).submit();
           });
           $('#map-form').submit(function(e) {
@@ -45,14 +45,47 @@
         </div>   
         <div class="checkbox">
           <label>
-            <%= check_box_tag :spaces, :value => true, :checked => true %>
+            <%= check_box_tag :spaces, :value => true %>
             Spaces <i class="fa fa-map-marker" style="color: <%= "##{Space.marker_color}" %>"></i>
           </label>
         </div>  
-        <div id="min-capacity" class="form-group"> 
-          <label>Capacity of at least</label>
-          <%= number_field_tag 'min_capacity', :class => 'form-control', :min => '0', :step => '1'%>
-        </div>        
+        <div id="space-filters" style="display:none">
+
+          <div class="form-group"> 
+            <label>Capacity of at least</label>
+            <%= number_field_tag :min_capacity, :class => 'form-control', :min => 0, :step => 1 %>
+          </div>    
+
+          <div class="form-group"> 
+            <label>
+              <%= check_box_tag :accessible, :value => 1 %>
+              Accessible
+            </label>
+          </div> 
+
+          <div class="form-group"> 
+            <label>
+              <%= check_box_tag :serves_food, :value => 1 %>
+              Serves food
+            </label>
+          </div>    
+
+          <div class="form-group"> 
+            <label>
+              <%= check_box_tag :serves_alcohol, :value => 1 %>
+              Serves alcohol
+            </label>
+          </div>      
+
+          <div class="form-group"> 
+            <label>Maximum hourly cost </label>
+            <div class="input-group">
+              <span class="input-group-addon">£</span>
+              <%= number_field_tag :max_hourly_cost, :class => 'form-control', :min => 0, :step => 1 %>
+            </div>
+          </div>            
+
+        </div>
         <div class="checkbox">
           <label>
             <%= check_box_tag :organisations, :value => true %>
@@ -65,56 +98,9 @@
 
     </div>
 
-    <% if @membership %>
-
-      <a style="display:inline-block;margin-top: 10px" id="add-space" class="btn btn-primary" href="javascript:;"><i class="fa fa-plus"></i> Add a space</a>
-
-      <div id="adding-space" style="display:none">
-
-        <script>
-          $(function() {
-            $('#add-space').click(function() {
-              $(this).hide();
-              $('#search-options').hide();
-              $('#adding-space').show();
-              var marker = new google.maps.Marker({
-                map: map
-              });
-              google.maps.event.addListener(map, 'click', function(event) {
-                marker.setPosition(event.latLng)
-                $('input[name=lat]').val(event.latLng.lat());
-                $('input[name=lng]').val(event.latLng.lng());
-              });
-            });
-          });
-        </script>
-
-        <% form_tag "/groups/#{@group.slug}/map/spaces/new" do %>
-          <%= hidden_field_tag 'lat' %>
-          <%= hidden_field_tag 'lng' %>
-          <p style="font-weight: bold">Now click the map to place a marker</p>
-          <div class="form-group"> 
-            <label>Space name</label>
-            <%= text_field_tag 'name', :class => 'form-control', :required => true %>
-          </div>
-          <div class="form-group"> 
-            <label>Capacity</label>
-            <%= number_field_tag 'capacity', :class => 'form-control', :min => '0', :step => '1' %>
-          </div>            
-          <div class="form-group"> 
-            <label>Brief description</label>
-            <%= text_area_tag 'description', :class => 'form-control' %>
-          </div>      
-          <div class="form-group"> 
-            <label>Link to website</label>
-            <%= text_field_tag 'link', :class => 'form-control' %>
-          </div>           
-          <button type="submit" class="btn btn-primary">Add space</button>
-        <% end %>
-
-      </div>
-    <% end %>
+    <a style="display:inline-block;margin-top: 10px" class="btn btn-primary" href="<%= @group ? "/groups/#{@group.slug}/spaces/new" : "/spaces/new" %>"><i class="fa fa-plus"></i> Add a space</a>
 
   </div>
 
 </div>
+

@@ -17,7 +17,9 @@ class Group
   end
       
   def username(suffix = '')
-    "#{slug}#{suffix}.#{ENV['MAIL_DOMAIN'].split('.').first}"
+    u = slug
+    u << suffix
+    u << ENV['MAIL_DOMAIN'].split('.').first unless u == ENV['MAIL_DOMAIN'].split('.').first
   end
              
   def smtp_settings

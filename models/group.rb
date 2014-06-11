@@ -23,6 +23,7 @@ class Group
       u << '.'
       u << mail_domain_root
     end
+    u
   end
              
   def smtp_settings

@@ -7,7 +7,9 @@ tabs = {
   }
 if !ENV['HIDE_WALL_TAB']
   if ENV['USE_TAGGED_POSTS']
-    tabs[:tagged_posts] = ['Wall', 'fa-thumbs-up']
+    if current_account.account_tagships.count > 0
+      tabs[:tagged_posts] = ['Wall', 'fa-thumbs-up']
+    end
     else
     tabs[:wall] = ['Wall', 'fa-thumbs-up']
   end

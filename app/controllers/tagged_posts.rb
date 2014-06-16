@@ -45,7 +45,7 @@ Lumen::App.controllers do
   get  '/tagged_posts/:id/destroy' do
     TaggedPost.find(params[:id]).destroy    
     flash[:notice] = 'The post was removed.'
-    redirect back
+    redirect "#{back}#tagged_posts-tab"
   end    
     
 end

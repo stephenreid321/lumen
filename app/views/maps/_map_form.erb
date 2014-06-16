@@ -1,10 +1,10 @@
 <div class="row" style="margin-top: 20px;">
 
-  <div class="col-md-9">
+  <div class="<%= ENV['HIDE_MAP_FORM'] ? 'col-md-12' : 'col-md-9' %>">
     <div id="map">
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="<%= ENV['HIDE_MAP_FORM'] ? 'col-md-3' : '' %>" <%= 'style="display:none"' if ENV['HIDE_MAP_FORM'] %>>
 
     <div id="search-options">
 
@@ -35,13 +35,13 @@
         <%= hidden_field_tag :map_only, :value => true  %>
         <div class="checkbox">
           <label>
-            <%= check_box_tag :accounts, :value => true, :checked => true %>
+            <%= check_box_tag :accounts, :value => true, :checked => ENV['SHOW_PEOPLE_BY_DEFAULT'] ? true : false %>
             People <i class="fa fa-map-marker" style="color: <%= "##{Account.marker_color}" %>"></i>
           </label>
         </div>   
         <div class="checkbox">
           <label>
-            <%= check_box_tag :spaces, :value => true, :checked => true %>
+            <%= check_box_tag :spaces, :value => true, :checked => ENV['SHOW_SPACES_BY_DEFAULT'] ? true : false  %>
             Spaces <i class="fa fa-map-marker" style="color: <%= "##{Space.marker_color}" %>"></i>
           </label>
         </div>  
@@ -84,7 +84,7 @@
         </div>
         <div class="checkbox">
           <label>
-            <%= check_box_tag :organisations, :value => true %>
+            <%= check_box_tag :organisations, :value => true, :checked => ENV['SHOW_ORGS_BY_DEFAULT'] ? true : false  %>
             Organisations <i class="fa fa-map-marker" style="color: <%= "##{Organisation.marker_color}" %>"></i>
           </label>
         </div>     

@@ -39,7 +39,12 @@ Lumen::App.controllers do
       :HIDE_NEWS_TAB => ['Hides the \'News\' tab'],
       :HIDE_WALL_TAB => ['Hides the \'Wall\' tab'],
       :USE_TAGGED_POSTS => ['Uses the \'tagged posts\' wall style'],
-      :HIDE_HOME_WALL_COMPOSE_BOX => ['Hides the homepage wall compose box'],
+      :HIDE_HOME_WALL_COMPOSE_BOX => ['Hides the homepage wall compose box'],      
+      :HIDE_MAP_FORM => ['Hides map form'],
+      
+      :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
+      :SHOW_SPACES_BY_DEFAULT => ['Shows spaces on maps by default'],
+      :SHOW_ORGS_BY_DEFAULT => ['Shows organisations on maps by default'],
   
       :STACKED_HOME => ['Hides the homepage tabs and stacks the content instead'],
     

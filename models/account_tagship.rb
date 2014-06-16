@@ -20,7 +20,7 @@ class AccountTagship
   def join_associated_groups
     account_tag.group_join_tagships.each { |group_join_tagship|
       group = group_join_tagship.group
-      group.memberships.create(account: account) unless group.memberships.include?(account)
+      group.memberships.create!(account: account)
     }
   end
   

@@ -19,9 +19,9 @@ class AccountTagship
   after_create :join_associated_groups
   def join_associated_groups
     account_tag.group_join_tagships.each { |group_join_tagship|
-      group_join_tagship.group.memberships.create :account => account
+      group = group_join_tagship.group
+      group.memberships.create(account: account) unless group.memberships.include?(account)
     }
-    return true
   end
   
   validates_presence_of :account, :account_tag

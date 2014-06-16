@@ -93,8 +93,8 @@ Lumen::App.controllers do
       @account = current_account
     else     
       unless name = params[:name] and email = params[:email]    
-          flash[:error] = "Please provide a name and email address"
-          redirect back
+        flash[:error] = "Please provide a name and email address"
+        redirect back
       end
       
       if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   

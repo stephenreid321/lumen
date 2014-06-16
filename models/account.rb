@@ -83,6 +83,10 @@ class Account
   def wall_posts
     WallPost.where(:id.in => memberships.map(&:group).map(&:wall_posts).flatten.map(&:_id))
   end  
+  
+  def tagged_posts
+    TaggedPost.where(:id.in => TaggedPostTagship.where(:account_tag_id.in => account_tagships.map(&:account_tag_id)).map(&:tagged_post_id))
+  end  
     
   def public_memberships
     Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))

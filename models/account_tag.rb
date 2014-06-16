@@ -5,6 +5,7 @@ class AccountTag
   field :name, :type => String
   
   has_many :account_tagships, :dependent => :destroy
+  has_many :tagged_post_tagships, :dependent => :destroy
   
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false
@@ -20,7 +21,8 @@ class AccountTag
   def self.fields_for_form
     {
       :name => :text,
-      :account_tagships => :collection
+      :account_tagships => :collection,
+      :tagged_post_tagships => :collection
     }
   end
   

@@ -1,0 +1,72 @@
+<script>
+  $(function() {
+    $('#tagged_post_body').typing({
+      stop: function(event, $elem) {
+        var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
+        var m = $($elem).val().match(urlPattern);
+        if (m) {
+          $('#opengraph').html('<i style="position: absolute; top: 0; right: 5px;" class="fa fa-spinner fa-spin"></i>')
+          $('#opengraph').load('/wall/opengraph?url=' + encodeURIComponent(m[0]), function() {
+            var r = $('<a style="position: absolute; top: 0; right: 5px;" class="edit" title="Remove link" href="javascript:;"><i class="fa fa-times"></i></a>');
+            r.click(function() {
+              $('#opengraph').html('')
+              $('#opengraph-json').html('')
+            });
+            r.prependTo('#opengraph');
+          });
+          $('#opengraph-json').html('')
+          $.getJSON('/wall/opengraph.json?url=' + encodeURIComponent(m[0]), function(data) {
+            $.each(['title', 'url', 'description', 'player', 'picture'], function(i, x) {
+              if (data[x])
+                $('#opengraph-json').append('<input type="hidden" name="tagged_post[' + x + ']" value="' + data[x] + '">')
+            });
+          })
+        }
+      },
+      delay: 400
+    });
+
+
+    $('.tag.label').click(function() {
+      var input = $('#tagged-posts-form input[name="tags[]"][value=' + $(this).html() + ']')[0]
+      if (input) {
+        $(this).removeClass('label-primary')
+        $(input).remove()
+      }
+      else {
+        $(this).addClass('label-primary')
+        $('<input type="hidden" name="tags[]" value="' + $(this).html() + '">').appendTo('#tagged-posts-form')
+      }
+    });
+
+  });
+</script>
+
+<div class="media">
+  <span class="pull-left" >      
+    <img class="media-object" style="width: 48px" src="<%=current_account.picture ? current_account.picture.thumb('48x48#').url : '/images/silhouette.png' %>">
+  </span>
+
+  <div class="media-body">    
+    <% form_tag "/tagged_posts/new", :id => 'tagged-posts-form', :class => 'form-horizontal', :multipart => true do %>
+      <%= text_area_tag :'tagged_post[body]', :class => 'form-control', :id => 'tagged_post_body', :style => 'display: block; margin-bottom: 10px', :rows => 5 %>              
+      <div id="opengraph" style="position: relative; margin-bottom: 10px"></div>
+      <div id="opengraph-json"></div> 
+      <p>
+        <i class="fa fa-tags" title="Tag with:"></i>
+        <% (@group ? @group.group_tagships : current_account.account_tagships).map(&:account_tag).each { |account_tag| %>
+          <span style="cursor: pointer" class="tag label label-default"><%=account_tag.name%></span>
+        <% } %>
+      </p>
+      <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
+            $('#tagged-post-attach').show();
+            $('#tagged-post-attach input').click();">Attach a file</a>
+      <div style="display:none; margin-bottom: 10px" id="tagged-post-attach">
+        <%= file_field_tag :'tagged_post[file]' %>
+      </div>
+      <button type="submit" class="btn btn-default">Post</button>
+    <% end %> 
+  </div>
+
+</div> 
+

@@ -41,6 +41,12 @@ class Group
   has_many :spaces, :dependent => :destroy
   
   belongs_to :group_type, index: true
+  
+  has_many :group_tagships, :dependent => :destroy
+  
+  def tagged_posts
+    TaggedPost.where(:id.in => TaggedPostTagship.where(:account_tag_id.in => group_tagships.where(type: 'tagged_posts').map(&:account_tag_id)).map(&:tagged_post_id))
+  end  
     
   def top_stories(from,to)
     Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
@@ -100,7 +106,8 @@ class Group
       :privacy => :radio,
       :group_type_id => :lookup,
       :memberships => :collection,
-      :conversations => :collection
+      :conversations => :collection,
+      :group_tagships => :collection
     }
   end
   

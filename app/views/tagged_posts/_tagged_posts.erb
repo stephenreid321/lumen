@@ -1,0 +1,32 @@
+<h2> 
+  <% if @tagged_post %>
+    Tagged post by <%=@tagged_post.account.name%>
+  <% else %>     
+    Tagged posts for <%= @group ? "#{@group.slug}" : 'your groups' %> 
+  <% end %>
+</h2> 
+
+<div style="background: #F5F5F5; padding: 10px;">
+
+  <% if current_account %>
+    <%= partial :'tagged_posts/compose' %>
+  <% end %>
+
+  <% @tagged_posts.each { |tagged_post| %>
+    <%= partial :'tagged_posts/tagged_post', :object => tagged_post %>
+  <% } %>
+
+  <script>
+    $(function() {
+      $('#tagged-posts-tab .pagination a').click(function(e) {
+        e.preventDefault();
+        if ($(this).attr('href') != '#')
+          $('#tagged-posts-tab').load($(this).attr('href'));
+      });
+    });
+  </script>  
+  <%= will_paginate @tagged_posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>  
+
+</div>
+
+

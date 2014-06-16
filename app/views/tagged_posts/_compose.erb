@@ -28,7 +28,7 @@
 
 
     $('.tag.label').click(function() {
-      var input = $('#tagged-posts-form input[name="tags[]"][value=' + $(this).html() + ']')[0]
+      var input = $('#tagged-posts-form input[name="tags[]"][value="' + $(this).html() + '"]')[0]
       if (input) {
         $(this).removeClass('label-primary')
         $(input).remove()

@@ -21,6 +21,7 @@ class AccountTagship
     account_tag.group_join_tagships.each { |group_join_tagship|
       group_join_tagship.group.memberships.create :account => account
     }
+    return true
   end
   
   validates_presence_of :account, :account_tag

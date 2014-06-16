@@ -5,7 +5,10 @@
 
 <script>
   $(function() {
-    $('#env input[type=text], #env input[type=checkbox]').focus(function() {
+    $('#env input[type=text]').focus(function() {
+      $('#env input[name="edited[]"][value="' + this.name + '"]').prop('checked', true);
+    });
+    $('#env input[type=checkbox]').click(function() {
       $('#env input[name="edited[]"][value="' + this.name + '"]').prop('checked', true);
     });
   });

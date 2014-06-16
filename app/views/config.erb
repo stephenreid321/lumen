@@ -5,24 +5,21 @@
 
 <script>
   $(function() {
-    $('#env input[type=text]').focus(function() {
-      $('#env input[name="edited[]"][value="' + this.name + '"]').prop('checked', true);
-    });
-    $('#env input[type=checkbox]').click(function() {
+    $('#env input[type=text], #env input[type=checkbox]').focus(function() {
       $('#env input[name="edited[]"][value="' + this.name + '"]').prop('checked', true);
     });
   });
 </script>
 
 <% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
-  <% @env.each { |k,v| if v.is_a? Array; v = v[0]; b = true; else; b = false; end %>
+  <% @env.each { |k,v| if v.is_a? Array; v = v[0]; check_box = true; else; check_box = false; end %>
     <div class="form-group">
       <label class="control-label col-md-4">
         <%=k%>
         <p style="font-weight: normal" class="help-block"><%=v%></p>
       </label>
       <div class="col-md-4">
-        <% if b %>
+        <% if check_box %>
           <%= check_box_tag k, :value => true, :checked => ENV[k.to_s] ? true : false, :disabled => !ENV['HEROKU_APP_NAME'] %>
         <% else %>
           <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_APP_NAME'] %>

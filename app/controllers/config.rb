@@ -28,6 +28,7 @@ Lumen::App.controllers do
   
       :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
       :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],
+      :AUTO_JOIN_VIA_TAGS => ['Automatically joins people to groups based on their account tags'],
     
       :HIDE_SEARCH_MEMBERSHIPS => ['Hides group memberships on profile search results'],
       :HIDE_SEARCH_TAGS => ['Hides tags on profile search results'],

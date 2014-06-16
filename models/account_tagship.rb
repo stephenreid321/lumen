@@ -16,6 +16,13 @@ class AccountTagship
     end
   end
   
+  after_create :join_associated_groups
+  def join_associated_groups
+    account_tag.group_join_tagships.each { |group_join_tagship|
+      group_join_tagship.group.memberships.create :account => account
+    }
+  end
+  
   validates_presence_of :account, :account_tag
   validates_uniqueness_of :account, :scope => :account_tag
     

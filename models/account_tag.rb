@@ -6,6 +6,8 @@ class AccountTag
   
   has_many :account_tagships, :dependent => :destroy
   has_many :tagged_post_tagships, :dependent => :destroy
+  has_many :group_tagged_post_tagships, :dependent => :destroy
+  has_many :group_join_tagships, :dependent => :destroy
   
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false

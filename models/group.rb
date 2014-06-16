@@ -43,18 +43,33 @@ class Group
   belongs_to :group_type, index: true
   
   has_many :group_tagged_post_tagships, :dependent => :destroy
+  has_many :group_join_tagships, :dependent => :destroy
   
   attr_accessor :tagged_post_account_tag_ids
-  before_validation :create_account_tags
-  def create_account_tags
+  before_validation :process_tagged_post_account_tag_ids
+  def process_tagged_post_account_tag_ids
     if @tagged_post_account_tag_ids
       group_tagged_post_tagships.destroy_all
       @tagged_post_account_tag_ids.each { |id|
-        Account.skip_callback(:validation, :before, :create_account_tags)
+        Group.skip_callback(:validation, :before, :process_tagged_post_account_tag_ids)
         group_tagged_post_tagships.create :account_tag_id => id
-        Account.set_callback(:validation, :before, :create_account_tags)        
+        Group.set_callback(:validation, :before, :process_tagged_post_account_tag_ids)        
       }
       @tagged_post_account_tag_ids = nil
+    end
+  end  
+  
+  attr_accessor :join_account_tag_ids
+  before_validation :process_join_account_tag_ids
+  def process_join_account_tag_ids
+    if @join_account_tag_ids
+      group_join_tagships.destroy_all
+      @join_account_tag_ids.each { |id|
+        Group.skip_callback(:validation, :before, :process_join_account_tag_ids)
+        group_join_tagships.create :account_tag_id => id
+        Group.set_callback(:validation, :before, :process_join_account_tag_ids)        
+      }
+      @join_account_tag_ids = nil
     end
   end  
   
@@ -133,7 +148,7 @@ class Group
     {
       :slug => 'Name',
       :tagged_post_account_tag_ids => 'Display wall posts with tags',
-      :tagged_post_account_tag_ids => 'Display wall posts with tags'
+      :join_account_tag_ids => 'Automatically add people who tag themselves'
     }[attr.to_sym] || super  
   end   
   

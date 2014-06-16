@@ -26,6 +26,9 @@
       <% if GroupType.count > 0 %>
         <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [group_type.name,group_type.id] } %>
       <% end %>
+      <% if ENV['USE_TAGGED_POSTS'] %>
+        <%= f.check_boxes_block :tagged_post_account_tag_ids, options: AccountTag.all.map { |account_tag| [account_tag.name, account_tag.id] }, checked: @group.group_tagged_post_tagships.map(&:account_tag_id) %>   
+      <% end %>
       <%= f.submit_block %>
 
     <% end %> 

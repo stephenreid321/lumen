@@ -1,8 +1,8 @@
 <h2> 
   <% if @tagged_post %>
-    Tagged post by <%=@tagged_post.account.name%>
+    Wall post by <%=@tagged_post.account.name%>
   <% else %>     
-    Tagged posts for <%= @group ? "#{@group.slug}" : 'your groups' %> 
+    Wall for <%= @group ? "#{@group.slug}" : "your #{I18n.t(:account_tagships)}" %> 
   <% end %>
 </h2> 
 
@@ -18,10 +18,12 @@
 
   <script>
     $(function() {
-      $('#tagged-posts-tab .pagination a').click(function(e) {
+      $('#tagged_posts-tab .pagination a').click(function(e) {
         e.preventDefault();
         if ($(this).attr('href') != '#')
-          $('#tagged-posts-tab').load($(this).attr('href'));
+          $('#tagged_posts-tab').load($(this).attr('href'), function() {
+            scroll(0, 0);
+          });
       });
     });
   </script>  

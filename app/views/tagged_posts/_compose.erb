@@ -54,7 +54,7 @@
       <div id="opengraph-json"></div> 
       <p>
         <i class="fa fa-tags" title="Tag with:"></i>
-        <% (@group ? @group.group_tagships : current_account.account_tagships).map(&:account_tag).each { |account_tag| %>
+        <% (@group ? @group.group_tagged_post_tagships : current_account.account_tagships).map(&:account_tag).each { |account_tag| %>
           <span style="cursor: pointer" class="tag label label-default"><%=account_tag.name%></span>
         <% } %>
       </p>

@@ -42,10 +42,24 @@ class Group
   
   belongs_to :group_type, index: true
   
-  has_many :group_tagships, :dependent => :destroy
+  has_many :group_tagged_post_tagships, :dependent => :destroy
+  
+  attr_accessor :tagged_post_account_tag_ids
+  before_validation :create_account_tags
+  def create_account_tags
+    if @tagged_post_account_tag_ids
+      group_tagged_post_tagships.destroy_all
+      @tagged_post_account_tag_ids.each { |id|
+        Account.skip_callback(:validation, :before, :create_account_tags)
+        group_tagged_post_tagships.create :account_tag_id => id
+        Account.set_callback(:validation, :before, :create_account_tags)        
+      }
+      @tagged_post_account_tag_ids = nil
+    end
+  end  
   
   def tagged_posts
-    TaggedPost.where(:id.in => TaggedPostTagship.where(:account_tag_id.in => group_tagships.where(type: 'tagged_posts').map(&:account_tag_id)).map(&:tagged_post_id))
+    TaggedPost.where(:id.in => TaggedPostTagship.where(:account_tag_id.in => group_tagged_post_tagships.map(&:account_tag_id)).map(&:tagged_post_id))
   end  
     
   def top_stories(from,to)
@@ -107,7 +121,7 @@ class Group
       :group_type_id => :lookup,
       :memberships => :collection,
       :conversations => :collection,
-      :group_tagships => :collection
+      :group_tagged_post_tagships => :collection
     }
   end
   
@@ -117,7 +131,9 @@ class Group
   
   def self.human_attribute_name(attr, options={})  
     {
-      :slug => 'Name'
+      :slug => 'Name',
+      :tagged_post_account_tag_ids => 'Display wall posts with tags',
+      :tagged_post_account_tag_ids => 'Display wall posts with tags'
     }[attr.to_sym] || super  
   end   
   

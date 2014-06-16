@@ -72,10 +72,15 @@ tabs = {
   :news => (['News', 'fa-twitter'] if !ENV['HIDE_NEWS_TAB'] and @group.news_summaries.count > 0),
   :digest => (['Digest', 'fa-star'] if !ENV['HIDE_DIGEST_TAB']),
   :map => ['Map', 'fa-map-marker'],
-  :wall => (['Wall', 'fa-thumbs-up'] if !ENV['HIDE_WALL_TAB']),
-  :tagged_posts => (['Tagged posts', 'fa-thumbs-up'] if !ENV['HIDE_TAGGED_POSTS_TAB']),
-  :calendar => ['Calendar', 'fa-calendar']
   }
+if !ENV['HIDE_WALL_TAB']
+  if ENV['USE_TAGGED_POSTS']
+    tabs[:tagged_posts] = ['Wall', 'fa-thumbs-up']
+    else
+    tabs[:wall] = ['Wall', 'fa-thumbs-up']
+  end
+  end
+tabs[:calendar] = ['Calendar', 'fa-calendar']
 %>
 
 <div class="row">

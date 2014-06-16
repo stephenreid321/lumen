@@ -37,7 +37,7 @@ Lumen::App.controllers do
       :HIDE_DIGEST_TAB => ['Hides the \'Digest\' tab'],
       :HIDE_NEWS_TAB => ['Hides the \'News\' tab'],
       :HIDE_WALL_TAB => ['Hides the \'Wall\' tab'],
-      :HIDE_TAGGED_POSTS_TAB => ['Hides the \'Tagged posts\' tab'],
+      :USE_TAGGED_POSTS => ['Uses the \'tagged posts\' wall style'],
       :HIDE_HOME_WALL_COMPOSE_BOX => ['Hides the homepage wall compose box'],
   
       :STACKED_HOME => ['Hides the homepage tabs and stacks the content instead'],

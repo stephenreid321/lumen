@@ -19,7 +19,7 @@ class AccountTagship
   after_create :join_associated_groups
   def join_associated_groups
     account_tag.group_join_tagships.each { |group_join_tagship|
-      group_join_tagship.group.memberships.create :account => account
+      group_join_tagship.group.memberships.create! :account => account
     }
   end
   

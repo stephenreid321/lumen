@@ -8,7 +8,7 @@
 
 <div style="background: #F5F5F5; padding: 10px;">
 
-  <% if current_account %>
+  <% if current_account and (@group or !ENV['HIDE_HOME_WALL_COMPOSE_BOX']) %>
     <%= partial :'tagged_posts/compose' %>
   <% end %>
 

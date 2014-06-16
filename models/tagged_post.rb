@@ -18,7 +18,8 @@ class TaggedPost
   
   belongs_to :account, index: true
   
-  has_many :tagged_post_tagships, :dependent => :destroy  
+  has_many :tagged_post_tagships, :dependent => :destroy
+  accepts_nested_attributes_for :tagged_post_tagships, allow_destroy: true, reject_if: :all_blank
       
   def self.fields_for_index
     [:body, :account_id]

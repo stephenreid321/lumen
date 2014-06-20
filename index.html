@@ -47,7 +47,9 @@
 <li>Flexible digest engine</li>
 <li>Events calendar</li>
 <li>Daily summaries of news stories tweeted by group members via news.me integration</li>
-<li>Geographically-aware lists feature for maintaining lists of venues, contacts etc</li>
+<li>Maps of people, organisations etc</li>
+<li>Google Docs integration</li>
+<li>Facebook style walls</li>
 </ul><p>Lumen is written in Ruby using the <a href="http://padrinorb.com/">Padrino</a> framework. It was originally created for the <a href="http://neweconomyorganisersnetwork.org/">New Economy Organisers Network</a> (hosted by the <a href="http://neweconomics.org/">New Economics Foundation</a>) who kindly agreed to open source the project and continue to sponsor its development.</p>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/top.jpg"><img src="http://wordsandwriting.github.io/lumen/images/top.jpg"></a></p>
@@ -92,7 +94,6 @@ heroku create yourappname
 git push heroku master
 heroku domains:add www.yourdomain.org
 heroku addons:add mongohq
-heroku addons:add memcachier
 heroku addons:add papertrail
 heroku addons:add scheduler
 heroku config:set SESSION_SECRET=`rake secret`
@@ -170,11 +171,6 @@ ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 <a name="a-groups-map" class="anchor" href="#a-groups-map"><span class="octicon octicon-link"></span></a>A group's map</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/map.jpg"><img src="http://wordsandwriting.github.io/lumen/images/map.jpg"></a></p>
-
-<h3>
-<a name="a-list" class="anchor" href="#a-list"><span class="octicon octicon-link"></span></a>A list</h3>
-
-<p><a href="http://wordsandwriting.github.io/lumen/images/list.jpg"><img src="http://wordsandwriting.github.io/lumen/images/list.jpg"></a></p>
 
 <h3>
 <a name="a-profile" class="anchor" href="#a-profile"><span class="octicon octicon-link"></span></a>A profile</h3>

@@ -13,7 +13,7 @@
 
     <div class="tabbable tabs-left tabs-left-please">
       <ul class="nav nav-tabs" style="margin-top: 10px; font-size: 12px">
-        <% {:admins => 'Admins', :others => 'Others', :notification_level_none => 'Notifications off', :never_signed_in => 'Never signed in', :no_affiliations => 'No affiliations', :no_picture => 'No picture', :connected_to_twitter => 'Connected to Twitter', :geocoding_failed => 'Geocoding failed', :requests => 'Requests'}.each { |k,v| %>
+        <% {:admins => 'Admins', :others => 'Others', :notification_level_none => 'Notifications off', :not_completed_signup => 'Not completed signup', :no_affiliations => 'No affiliations', :no_picture => 'No picture', :connected_to_twitter => 'Connected to Twitter', :geocoding_failed => 'Geocoding failed', :requests => 'Requests'}.each { |k,v| %>
           <li <%= 'class="active"' if @view == k %>>
             <a href="?view=<%=k%>"><%=v%></a>
           </li>
@@ -64,9 +64,10 @@
                 <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => membership.notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto;" %>
               </form>                       
             </td>
-            <% if [:never_signed_in, :no_affiliations, :no_picture].include? @view %>
+            <% if [:not_completed_signup, :no_affiliations, :no_picture].include? @view %>
               <td>
                 <a class="btn btn-default" href="/groups/<%=@group.slug%>/reminder?account_id=<%=membership.account_id%>&issue=<%=@view%>">Send reminder</a>
+                <br />
                 <% if membership.reminder_sent %>Reminder sent <%= time_ago_in_words(membership.reminder_sent) %> ago<% end %>
               </td>
             <% end %>
@@ -89,22 +90,22 @@
 
       <div id="add-single">
         <p><a href="javascript:;" onclick="$('#add-single input').val('');
-            $('#add-single').hide();
-            $('#add-multiple').show();">Add multiple</a></p>        
+              $('#add-single').hide();
+              $('#add-multiple').show();">Add multiple</a></p>        
         <div class="form-group">
           <label class="sr-only">Name</label>
-  <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>
+          <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>
         </div>
         <div class="form-group">
           <label class="sr-only">Email</label>    
-  <%= text_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
+          <%= text_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
         </div>
       </div>
 
       <div id="add-multiple" style="display:none">  
         <p>Paste from spreadsheet, two columns: name, email</p>        
         <div class="form-group">
-  <%= text_area_tag :data, :class => 'form-control' %>
+          <%= text_area_tag :data, :class => 'form-control' %>
         </div>
       </div>
 
@@ -113,7 +114,7 @@
           Start receiving emails immediately (even if never signed in)
           <i class="status-tip fa fa-question-circle" title="By default, people will only start receiving email notifications once they sign in for the first time.
              Check this box if you want them to start receiving emails immediately."></i>
-  <%= check_box_tag :status, :value => 'confirmed' %>
+             <%= check_box_tag :status, :value => 'confirmed' %>
         </label>
       </div>        
       <div class="checkbox">
@@ -122,7 +123,7 @@
         </label>
       </div>    
       <button type="submit" class="btn btn-default">Add</button>
-<% end %>    
+    <% end %>    
 
 
   </div>

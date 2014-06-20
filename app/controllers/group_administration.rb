@@ -36,8 +36,8 @@ Lumen::App.controllers do
       @group.memberships.where(:role => 'admin')
     when :others
       @group.memberships.where(:role => 'member')
-    when :never_signed_in
-      @group.memberships.select { |membership| membership.account.sign_ins.count == 0 }
+    when :not_completed_signup
+      @group.memberships.select { |membership| membership.status == 'pending' }
     when :no_picture
       @group.memberships.select { |membership| membership.account.picture.nil? }   
     when :no_affiliations
@@ -160,7 +160,7 @@ Lumen::App.controllers do
     membership = @group.memberships.find_by(account_id: params[:account_id])
     @account = membership.account
     @issue = case params[:issue].to_sym
-    when :never_signed_in
+    when :not_completed_signup
       "signed in to complete your profile"
     when :no_affiliations
       "provided your organisational affiliations"

@@ -1,0 +1,29 @@
+<h2>Docs for <%=@group ? @group.slug : 'your groups'%></h2>
+
+
+<% form_tag (@group ? "/groups/#{@group.slug}/docs/new" : "/docs/new"), :class => 'form-inline' do %>
+  <label>Add a doc:</label>
+  <%= text_field_tag :url, :class => 'form-control', :placeholder => 'Google Doc URL' %>
+  <% if !@group %>
+    Group <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "this.form.action = '/groups/' + $(this).val() + '/docs/new'" %>
+  <% end %>
+  <button class="btn btn-primary">Add doc</button>
+<% end %>
+
+<table style="margin-top: 1em" class="table table-hover">
+  <% @docs.each { |doc| %>
+
+    <tr>
+      <td><img src="/images/<%=doc.type%>.png"></td>
+      <td>
+        <a target="_blank" href="<%=doc.url%>"><%= doc.title %></a>
+        <% if !@group %>
+          <span style="font-size: 0.9em; color: #999999"><i class="fa fa-group"></i> <%=doc.group.slug%></span>
+        <% end %>
+      </td>
+      <td>Created <%=time_ago_in_words doc.created_at%> ago by <a href="/accounts/<%=doc.account.id%>"><%=doc.account.name%></a></td>
+      <td><a class="edit" href="/docs/<%=doc.id%>/destroy" data-confirm="Are you sure you want to unlist this doc?"><i class="fa fa-times"></i></a></td>
+    </tr>
+
+  <% } %>
+</table>

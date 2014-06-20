@@ -4,7 +4,7 @@
     <div id="map">
     </div>
   </div>
-  <div class="<%= ENV['HIDE_MAP_FORM'] ? 'col-md-3' : '' %>" <%= 'style="display:none"' if ENV['HIDE_MAP_FORM'] %>>
+  <div class="<%= 'col-md-3' if !ENV['HIDE_MAP_FORM'] %>" <%= 'style="display:none"' if ENV['HIDE_MAP_FORM'] %>>
 
     <div id="search-options">
 
@@ -58,6 +58,13 @@
               Accessible
             </label>
           </div> 
+          
+          <div class="form-group"> 
+            <label>
+              <%= check_box_tag :private, :value => 1 %>
+              Private room available
+            </label>
+          </div>           
 
           <div class="form-group"> 
             <label>

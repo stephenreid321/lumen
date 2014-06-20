@@ -10,6 +10,7 @@ class Space
   field :serves_food, :type => Boolean
   field :serves_alcohol, :type => Boolean
   field :hourly_cost, :type => Integer
+  field :private, :type => Boolean
   
   field :address, :type => String 
   field :approx, :type => Boolean
@@ -66,7 +67,7 @@ class Space
   end
   
   def self.fields_for_index
-    [:name, :description, :link, :capacity, :accessibility, :serves_food, :serves_alcohol, :hourly_cost, :address, :approx, :coordinates, :group_id, :account_id]
+    [:name, :description, :link, :capacity, :private, :accessibility, :serves_food, :serves_alcohol, :hourly_cost, :address, :approx, :coordinates, :group_id, :account_id]
   end
   
   def self.fields_for_form
@@ -76,6 +77,7 @@ class Space
       :link => :text,
       :capacity => :number,
       :accessibility => :select,
+      :private => :check_box,
       :serves_food => :check_box,
       :serves_alcohol => :check_box,
       :hourly_cost => :number,
@@ -90,6 +92,7 @@ class Space
   def self.human_attribute_name(attr, options={})  
     {
       :hourly_cost => 'Approximate hourly cost',
+      :private => 'Private room available',
       :coordinates => 'Location'
     }[attr.to_sym] || super  
   end   
@@ -97,6 +100,7 @@ class Space
   def self.filtered(spaces, params)
     spaces = spaces.or({:capacity.gte => params[:min_capacity]}, {:capacity => nil}) if params[:min_capacity]        
     spaces = spaces.where(:accessibility.ne => 'Not accessible') if params[:accessible]
+    spaces = spaces.where(:private => true) if params[:private]
     spaces = spaces.where(:serves_food => true) if params[:serves_food]
     spaces = spaces.where(:serves_alcohol => true) if params[:serves_alcohol]
     spaces = spaces.or({:hourly_cost.lte => params[:max_hourly_cost]}, {:hourly_cost => nil}) if params[:max_hourly_cost]

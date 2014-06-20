@@ -56,7 +56,9 @@
       markers.push(marker);
     }
 
-    map.fitBounds(bounds);
+<% if !points.empty? %>
+      map.fitBounds(bounds);
+<% end %>
   });
 
 </script>

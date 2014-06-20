@@ -14,7 +14,7 @@ class Account
   field :phone, :type => String 
   field :website, :type => String 
   field :location, :type => String 
-  field :coordinates, :type => Array
+  field :coordinates, :type => Array 
     
   EnvFields.set(self)
   
@@ -35,6 +35,7 @@ class Account
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
   has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy
   has_many :spaces_as_creator, :class_name => 'Space', :inverse_of => :account, :dependent => :destroy
+  has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
   
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank, autosave: false
@@ -90,6 +91,10 @@ class Account
     
   def public_memberships
     Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))
+  end
+  
+  def docs
+    Doc.where(:id.in => memberships.map(&:group).map(&:docs).flatten.map(&:_id))
   end
            
   # Picture

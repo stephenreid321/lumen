@@ -8,6 +8,9 @@
   <% if space.accessibility %>
     <li><i title="<%=space.accessibility%>" class="fa-li fa fa-wheelchair"></i> <%=space.accessibility%></li>    
   <% end %>
+  <% if space.private %>
+    <li><i title="<%=space.private%>" class="fa-li fa fa-volume-down"></i> Private room available</li>    
+  <% end %>    
   <% if space.serves_food %>
     <li><i title="Serves food" class="fa-li fa fa-cutlery"></i> Serves food</li>
   <% end %>    

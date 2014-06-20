@@ -4,6 +4,7 @@ tabs = {
   :news => (['News', 'fa-twitter'] if !ENV['HIDE_NEWS_TAB'] and current_account.news_summaries.count > 0),
   :digest => (['Digest', 'fa-star'] if !ENV['HIDE_DIGEST_TAB']),
   :map => ['Map', 'fa-map-marker'],                    
+  :docs => ['Docs', 'fa-file-text-o']
   }
 if !ENV['HIDE_WALL_TAB']
   if ENV['USE_TAGGED_POSTS']

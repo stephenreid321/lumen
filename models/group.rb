@@ -17,7 +17,7 @@ class Group
   end
       
   def username(suffix = '')
-    u = slug
+    u = "#{slug}"
     u << suffix
     unless u == (mail_domain_root = ENV['MAIL_DOMAIN'].split('.').first)
       u << '.'

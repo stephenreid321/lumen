@@ -11,6 +11,10 @@ class Connection
   field :provider, :type => String
   field :provider_uid, :type => String
   field :omniauth_hash, :type => Hash
+  
+  def access_token
+    omniauth_hash['credentials']['token']
+  end
     
   validates_presence_of :provider, :provider_uid, :omniauth_hash
   validates_uniqueness_of :provider, :scope => :account_id

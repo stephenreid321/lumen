@@ -45,7 +45,7 @@ Lumen::App.controllers do
     membership_required!(@conversation.group) unless @conversation.group.open?
     @membership = @conversation.group.memberships.find_by(account: current_account)
     if @conversation.hidden
-      flash[:notice] = "That conversation has been deleted."
+      flash[:notice] = "That conversation has been removed."
       redirect "/groups/#{@conversation.group.slug}"
     else
       erb :'conversations/conversation'

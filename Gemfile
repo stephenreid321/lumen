@@ -34,7 +34,6 @@ gem 'premailer'
 
 # Interacting with other websites
 gem 'mechanize'
-gem 'koala'
 
 # Extras
 gem 'ri_cal', github: 'espen/ri_cal'

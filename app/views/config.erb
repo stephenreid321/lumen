@@ -23,9 +23,9 @@
       </label>
       <div class="col-md-4">
         <% if check_box %>
-          <%= check_box_tag k, :value => true, :checked => ENV[k.to_s] ? true : false, :disabled => !ENV['HEROKU_APP_NAME'] %>
+          <%= check_box_tag k, :value => true, :checked => ENV[k.to_s] ? true : false, :disabled => !ENV['HEROKU_API_KEY'] %>
         <% else %>
-          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_APP_NAME'] %>
+          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_API_KEY'] %>
         <% end %>
         <%= radio_button_tag "edited[]", :value => k, :style => 'display: none' %>        
       </div>
@@ -46,7 +46,7 @@
       Notification script
     </label>
     <div class="col-md-2">
-      <% if ENV['HEROKU_APP_NAME'] %>
+      <% if ENV['HEROKU_API_KEY'] %>
         <% if ENV['VIRTUALMIN_IP'] %>
           <% if @notification_script %>
             <i class="fa fa-check"></i> Present

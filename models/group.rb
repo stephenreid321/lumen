@@ -203,7 +203,7 @@ class Group
     form = add_alias_page.form_with(:action => 'save_alias.cgi')
     form['complexname'] = "#{self.slug}-pipe"
     form.field_with(:name => 'type_0').option_with(:text => /Feed to program/).click
-    form['val_0'] = "/notify/#{ENV['HEROKU_APP_NAME']}.php #{slug}"
+    form['val_0'] = "/notify/#{ENV['APP_NAME']}.php #{slug}"
     form.submit      
   end  
   

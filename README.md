@@ -62,7 +62,7 @@ heroku addons:add mongohq
 heroku addons:add papertrail
 heroku addons:add scheduler
 heroku config:set SESSION_SECRET=`rake secret`
-heroku config:set HEROKU_APP_NAME=yourappname
+heroku config:set APP_NAME=yourappname
 heroku config:set HEROKU_API_KEY=yourapikey
 heroku config:set DOMAIN=www.yourdomain.org
 heroku config:set MAIL_DOMAIN=yourdomain.org

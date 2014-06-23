@@ -2,7 +2,7 @@ Lumen::App.controllers do
   
   before do
     @env = {
-      :HEROKU_APP_NAME => 'Name of the underlying Heroku app',
+      :APP_NAME => 'App name (lowercase, no spaces) - Heroku app name if using Heroku',
       :HEROKU_API_KEY => 'Heroku API key',
 
       :DOMAIN => 'Domain of Lumen install',
@@ -84,13 +84,13 @@ Lumen::App.controllers do
   
   get '/config' do
     site_admins_only!
-    if ENV['HEROKU_APP_NAME'] and ENV['VIRTUALMIN_IP']
+    if ENV['HEROKU_API_KEY'] and ENV['VIRTUALMIN_IP']
       Net::SSH.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do |ssh|
         result = ''
         ssh.exec!("ls /notify") do |channel, stream, data|
           result << data
         end
-        @notification_script = result.include?("#{ENV['HEROKU_APP_NAME']}.php")      
+        @notification_script = result.include?("#{ENV['APP_NAME']}.php")      
       end
     end
     erb :config
@@ -101,9 +101,9 @@ Lumen::App.controllers do
     heroku = Heroku::API.new
     params[:edited].each { |k|
       if params[k]
-        heroku.put_config_vars(ENV['HEROKU_APP_NAME'], k => params[k])
+        heroku.put_config_vars(ENV['APP_NAME'], k => params[k])
       else
-        heroku.delete_config_var(ENV['HEROKU_APP_NAME'], k)
+        heroku.delete_config_var(ENV['APP_NAME'], k)
       end
     } if params[:edited]
     flash[:notice] = "Your config vars were updated. There may be a short delay before your changes are reflected on this page."
@@ -113,7 +113,7 @@ Lumen::App.controllers do
   get '/config/restart' do
     site_admins_only!
     heroku = Heroku::API.new
-    heroku.post_ps_restart(ENV['HEROKU_APP_NAME'])
+    heroku.post_ps_restart(ENV['APP_NAME'])
     redirect '/config'
   end
     
@@ -124,7 +124,7 @@ Lumen::App.controllers do
       ssh.exec!("mkdir /notify")
       ssh.exec!("chmod 777 /notify")
       Net::SCP.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do |scp|
-        scp.upload! StringIO.new(erb(:'notify/notify.php', :layout => false)), "/notify/#{ENV['HEROKU_APP_NAME']}.php"
+        scp.upload! StringIO.new(erb(:'notify/notify.php', :layout => false)), "/notify/#{ENV['APP_NAME']}.php"
         scp.upload! Padrino.root('app','views','notify','PlancakeEmailParser.php'), "/notify"
       end
       ssh.exec!("chmod 777 /notify/*")

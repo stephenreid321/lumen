@@ -40,7 +40,6 @@ gem 'koala'
 gem 'ri_cal', github: 'espen/ri_cal'
 gem 'geocoder'
 gem 'yui-compressor'
-gem 'delayed_job_mongoid'
 
 group :test do
   gem 'minitest-rg'

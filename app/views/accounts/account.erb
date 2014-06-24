@@ -53,7 +53,7 @@
         <% end } %>
     </dl>
 
-    <% if current_account %>
+    <% if @shared_conversations and !@shared_conversations.empty? %>
       <h3>Recently active in these conversations</h3>
       <%= partial :'conversations/conversations_table', :locals => {:conversations => @shared_conversations}%>
     <% end %>

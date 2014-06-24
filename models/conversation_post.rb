@@ -10,7 +10,7 @@ class ConversationPost
   belongs_to :group, index: true
   belongs_to :account, index: true
   
-  has_many :conversation_post_bccs, :dependent => :destroy
+  has_one :conversation_post_bcc, :dependent => :destroy
   
   has_many :attachments, :dependent => :destroy
       
@@ -34,8 +34,7 @@ class ConversationPost
       :mid => :text,
       :hidden => :check_box,
       :conversation_id => :lookup,
-      :account_id => :lookup,
-      :conversation_post_bccs => :collection   
+      :account_id => :lookup
     }
   end
   
@@ -57,7 +56,7 @@ class ConversationPost
     unless conversation.hidden
       emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }
       emails = emails - exclude.map(&:downcase) - conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase }
-      self.conversation_post_bccs.create(emails: emails)
+      self.conversation_post_bcc.create(emails: emails)
     end
   end
     

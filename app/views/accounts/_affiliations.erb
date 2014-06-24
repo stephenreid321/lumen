@@ -72,7 +72,7 @@
         });
         icon.insertAfter('#affiliations');
         var organisations = <%=Organisation.all.select { |o| o.affiliations.count > 0 }.map { |o| o.name }.to_json %>;
-        $('.typeahead').typeahead({source: organisations});
+        $('.affiliation .typeahead').typeahead({source: organisations});
         if ($('.affiliation').length == 0)
           $(icon).click();
       });

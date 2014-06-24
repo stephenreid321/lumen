@@ -48,7 +48,7 @@
         });
         icon.insertAfter('#account_tagships');
         var account_tags = <%=AccountTag.all.select { |account_tag| account_tag.account_tagships.count > 0 }.map { |account_tag| account_tag.name }.to_json %>;
-        $('.typeahead').typeahead({source: account_tags});
+        $('.account_tagship .typeahead').typeahead({source: account_tags});
       });
     </script>
   </div>

@@ -53,8 +53,8 @@
         <% end } %>
     </dl>
 
-    <h3>Recent posts</h3>
     <% if current_account %>
+      <h3>Recent posts in your groups</h3>
       <%= partial :'conversations/conversations_table', :locals => {:conversations => @shared_conversations}%>
     <% end %>
 

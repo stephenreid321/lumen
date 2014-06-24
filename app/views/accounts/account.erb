@@ -53,6 +53,11 @@
         <% end } %>
     </dl>
 
+    <h2>Recent posts</h2>
+    <% if current_account %>
+      <%= partial :'conversations/conversations_table', :locals => {:conversations => @shared_conversations}%>
+    <% end %>
+
   </div>
   <div class="col-md-4">
     <% if @account.coordinates or @account.affiliations.any? { |affiliation| affiliation.organisation.coordinates } %>

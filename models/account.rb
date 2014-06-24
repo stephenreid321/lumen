@@ -29,9 +29,9 @@ class Account
   has_many :sign_ins, :dependent => :destroy  
   has_many :page_views, :dependent => :destroy  
   has_many :memberships, :dependent => :destroy
-  has_many :membership_requests, :dependent => :destroy
-  has_many :conversation_posts, :dependent => :destroy
+  has_many :membership_requests, :dependent => :destroy  
   has_many :conversation_mutes, :dependent => :destroy
+  has_many :conversation_posts_as_creator, :class_name => 'ConversationPost', :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
   has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy
   has_many :spaces_as_creator, :class_name => 'Space', :inverse_of => :account, :dependent => :destroy
@@ -60,43 +60,47 @@ class Account
   def self.marker_color
     '3DA2E4'
   end
+  
+  def public_memberships
+    Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))
+  end  
           
   def network    
     Account.where(:id.in => memberships.map(&:group).map(&:memberships).flatten.map(&:account_id))
   end
-  
+    
   def events
-    Event.where(:id.in => memberships.map(&:group).map(&:events).flatten.map(&:id))
+    Event.where(:group_id.in => memberships.map(&:group_id))
   end  
   
   def conversations
-    Conversation.where(:id.in => memberships.map(&:group).map(&:conversations).flatten.map(&:_id))
+    Conversation.where(:group_id.in => memberships.map(&:group_id))
+  end
+  
+  def conversation_posts
+    ConversationPost.where(:group_id.in => memberships.map(&:group_id))
   end
   
   def spaces
-    Space.where(:id.in => memberships.map(&:group).map(&:spaces).flatten.map(&:_id))
+    Space.where(:group_id.in => memberships.map(&:group_id))
   end  
   
   def news_summaries
-    NewsSummary.where(:id.in => memberships.map(&:group).map(&:news_summaries).flatten.map(&:_id))
+    NewsSummary.where(:group_id.in => memberships.map(&:group_id))
   end
     
   def wall_posts
-    WallPost.where(:id.in => memberships.map(&:group).map(&:wall_posts).flatten.map(&:_id))
+    WallPost.where(:group_id.in => memberships.map(&:group_id))
+  end  
+  
+  def docs
+    Doc.where(:group_id.in => memberships.map(&:group_id))
   end  
   
   def tagged_posts
     TaggedPost.where(:id.in => TaggedPostTagship.where(:account_tag_id.in => account_tagships.map(&:account_tag_id)).map(&:tagged_post_id))
   end  
-    
-  def public_memberships
-    Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))
-  end
-  
-  def docs
-    Doc.where(:id.in => memberships.map(&:group).map(&:docs).flatten.map(&:_id))
-  end
-           
+              
   # Picture
   dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }

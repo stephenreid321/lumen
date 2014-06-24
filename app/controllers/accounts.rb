@@ -17,9 +17,11 @@ Lumen::App.controllers do
       current_account.network
     when 'group'
       group = Group.find(scope_id)
+      membership_required!(group) unless group.open?
       group.members
     when 'conversation'
       conversation = Conversation.find(scope_id)
+      membership_required!(conversation.group) unless conversation.group.open?
       conversation.participants
     when 'organisation'
       organisation = Organisation.find(scope_id)

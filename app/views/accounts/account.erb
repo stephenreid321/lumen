@@ -53,7 +53,7 @@
         <% end } %>
     </dl>
 
-    <h2>Recent posts</h2>
+    <h3>Recent posts</h3>
     <% if current_account %>
       <%= partial :'conversations/conversations_table', :locals => {:conversations => @shared_conversations}%>
     <% end %>

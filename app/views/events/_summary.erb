@@ -2,8 +2,7 @@
   <li><i title="Happening <%= event.when_details %>" class="fa-li fa fa-calendar"></i><%= event.when_details %></li>
   <% if event.location %>
     <li><i title="Location" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(event.location) %>" target="map"><%= event.location %></a></li>
-  <% end %>
-  <li><i title="Listed by <%=event.account.name%>" class="fa-li fa fa-user"></i> Listed by <a href="http://<%=ENV['DOMAIN']%>/accounts/<%=event.account_id %>"><%=event.account.name%></a></li>
+  <% end %>  
   <% if event.organisation %>
     <li>Hosted by <i title="<%=I18n.t(:host_organisation).capitalize%>" class="fa-li fa fa-bullhorn"></i><a href="http://<%=ENV['DOMAIN']%>/organisations/<%=event.organisation_id%>"><%= event.organisation.name %></a></li>
   <% end %> 
@@ -23,9 +22,10 @@
   <% end %>   
   <% if event.publicity_tweet %>
     <li><i title="Tweet this to help publicise this event" class="fa-li fa fa-twitter"></i>
-      <a target="_blank" href="http://twitter.com/intent/tweet?text=<%=CGI::escape(event.publicity_tweet)%>"><%=event.publicity_tweet%></a>
+      Tweet this to publicise: <a target="_blank" href="http://twitter.com/intent/tweet?text=<%=CGI::escape(event.publicity_tweet)%>"><%=event.publicity_tweet%></a>
     </li>
-  <% end %>      
+  <% end %> 
+  <li><i title="Listed by <%=event.account.name%>" class="fa-li fa fa-user"></i> Listed by <a href="http://<%=ENV['DOMAIN']%>/accounts/<%=event.account_id %>"><%=event.account.name%></a></li>
 </ul>
 
 <% if !(defined? no_more) %>

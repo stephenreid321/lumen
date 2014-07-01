@@ -1,7 +1,7 @@
 Hi <%=@account.name.split(' ').first%>,
 
 <%=current_account.name%> added you to the '<%=@group.slug%>' group on <%=ENV['SITE_NAME_DEFINITE']%>.
-<%= "\n\n" + eval(f('invite')) if Fragment.find_by(slug: 'invite') %>
+<%= ("\n\n" + eval(f('invite'))) if Fragment.find_by(slug: 'invite') %>
 <% if @new_account %>
 <% if @membership.status == 'pending' %>
 You need to sign in to start receiving email notifications.

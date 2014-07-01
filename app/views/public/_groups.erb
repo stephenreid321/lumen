@@ -1,0 +1,16 @@
+<div style="padding: 20px">
+  <div class="container-fluid" style="text-align: center">
+    <h2 style="font-size: 42px; margin-bottom: 20px">Groups</h2>
+    <div>
+      <% Group.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
+        <h2>
+          <% if group.closed?%><%=group.slug%><% else %><a href="/groups/<%=group.slug%>"><%=group.slug%></a><% end%>
+          <small>
+            <%=pluralize(group.memberships.count, 'member')%>
+          </small>
+        </h2>
+        <p><%= group.description %></p>
+      <% } %>
+    </div>
+  </div>
+</div>

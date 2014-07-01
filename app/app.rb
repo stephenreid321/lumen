@@ -59,7 +59,7 @@ module Lumen
         end
       else
         @containerless = true
-        erb :public
+        erb :'public/homepage'
       end
     end
     

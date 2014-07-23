@@ -20,16 +20,12 @@
       <li>
         <a title="Did you know..." class="edit restore-opacity" href="/groups/<%=@group.slug%>/didyouknows"><i class="fa fa-question"></i> Did you know&hellip;</a>
       </li>    
-      <% if !ENV['HIDE_NEWS_TAB'] %>
-        <li>
-          <a title="News summaries" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-twitter"></i> News summaries</a>
-        </li>      
-      <% end %>
-      <% if !ENV['HIDE_DIGEST_TAB'] %>
-        <li>
-          <a title="Post review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/review"><i class="fa fa-star"></i> Post review</a>
-        </li>       
-      <% end %>
+      <li>
+        <a title="News summaries" class="edit restore-opacity" href="/groups/<%=@group.slug%>/news_summaries"><i class="fa fa-twitter"></i> News summaries</a>
+      </li>      
+      <li>
+        <a title="Post review" class="edit restore-opacity" href="/groups/<%=@group.slug%>/review"><i class="fa fa-star"></i> Post review</a>
+      </li>       
       <li>
         <a title="Stats" class="edit restore-opacity" href="/groups/<%=@group.slug%>/stats"><i class="fa fa-signal"></i> Stats</a>
       </li>           
@@ -66,16 +62,24 @@
 </ol>
 
 <%
-tabs = {
-  :wall => (['Wall', 'fa-thumbs-up'] if !ENV['HIDE_WALL_TAB']),
+possible_tabs = {
   :home => (['Home', 'fa-home'] if @membership and current_account.memberships.count == 1 and Fragment.find_by(slug: 'home')),
   :conversations => ['Conversations', 'fa-comments-o'],
-  :news => (['News', 'fa-twitter'] if !ENV['HIDE_NEWS_TAB'] and @group.news_summaries.count > 0),
-  :digest => (['Digest', 'fa-star'] if !ENV['HIDE_DIGEST_TAB']),
+  :news => (['News', 'fa-twitter'] if @group.news_summaries.count > 0),
+  :digest => ['Digest', 'fa-star'],
   :map => ['Map', 'fa-map-marker'],
+  :wall => ['Wall', 'fa-thumbs-up'],  
   :docs => ['Docs', 'fa-file-text-o'],
   :calender => ['Calendar', 'fa-calendar']
   }
+if ENV['GROUP_TAB_ORDER']
+  tabs = {}
+  ENV['GROUP_TAB_ORDER'].split(',').map(&:strip).map(&:to_sym).each { |tab|
+    tabs[tab] = possible_tabs[tab]
+  }
+  else
+  tabs = possible_tabs
+  end
 %>
 
 <div class="row">

@@ -1,13 +1,21 @@
 <%
-tabs = {
-  :wall => (['Wall', 'fa-thumbs-up'] if !ENV['HIDE_WALL_TAB']),
+possible_tabs = {
   :home => (['Home', 'fa-home'] if Fragment.find_by(slug: 'home')),
-  :news => (['News', 'fa-twitter'] if !ENV['HIDE_NEWS_TAB'] and current_account.news_summaries.count > 0),
-  :digest => (['Digest', 'fa-star'] if !ENV['HIDE_DIGEST_TAB']),
+  :news => (['News', 'fa-twitter'] if current_account.news_summaries.count > 0),
+  :digest => ['Digest', 'fa-star'],
   :map => ['Map', 'fa-map-marker'],                    
+  :wall => ['Wall', 'fa-thumbs-up'],  
   :docs => ['Docs', 'fa-file-text-o'],
   :calendar => ['Calendar', 'fa-calendar']
   }
+if ENV['HOME_TAB_ORDER']
+  tabs = {}
+  ENV['HOME_TAB_ORDER'].split(',').map(&:strip).map(&:to_sym).each { |tab|
+    tabs[tab] = possible_tabs[tab]
+  }
+  else
+  tabs = possible_tabs
+  end
 %>
 
 <div class="row">

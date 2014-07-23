@@ -34,11 +34,11 @@ Lumen::App.controllers do
       :HIDE_ORGANISATIONS_TAB => ['Hides the \'organisations\' tab'],
       :HIDE_SECTORS_TAB => ['Hides the \'sectors\' tab'],
       :HIDE_DIRECTORY_TAB => ['Hides the \'All groups\' tab'],
-      :HIDE_DIGEST_TAB => ['Hides the \'Digest\' tab'],
-      :HIDE_NEWS_TAB => ['Hides the \'News\' tab'],
-      :HIDE_WALL_TAB => ['Hides the \'Wall\' tab'],
       :HIDE_HOME_WALL_COMPOSE_BOX => ['Hides the homepage wall compose box'],      
       :HIDE_MAP_FORM => ['Hides map form'],
+      
+      :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from home, news, wall, digest, map, docs, calendar)',      
+      :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from home, conversations, news, wall, digest, map, docs, calendar)',
       
       :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
       :SHOW_SPACES_BY_DEFAULT => ['Shows spaces on maps by default'],

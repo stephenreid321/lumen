@@ -25,7 +25,19 @@
         <%= f.check_boxes_block :account_tag_ids, options: AccountTag.all.map { |account_tag| [account_tag.name, account_tag.id] }, checked: @account.account_tagships.map(&:account_tag_id) %>
       <% else %>
         <%= partial :'accounts/tagships', :locals => {:f => f} %>
-      <% end %>    
+      <% end %>
+      <script>
+        $(function() {
+          $('div[data-group-type]').each(function() {
+            $('.control-label', this).text($(this).attr('data-group-type') + ' groups')
+          });
+        });
+      </script>
+      <% GroupType.where(:join_groups_via_profile => true).each { |group_type| %>
+        <div data-group-type="<%=group_type.name%>">
+          <%= f.check_boxes_block :group_ids, options: group_type.groups.where(:privacy => 'open').map { |group| [group.slug, group.id] }, checked: current_account.memberships.map(&:group_id) %>
+        </div>
+      <% } %>      
       <% EnvFields.fields(Account).each { |fieldname, fieldtype| %> 
         <%= f.send("#{fieldtype}_block", fieldname, div_class: ('col-md-9' if [:wysiwyg, :text_area].include?(fieldtype))) %>
       <% } %>        
@@ -42,30 +54,30 @@
       });
     </script>
     <% Provider.registered.each { |provider| %>
-        <div class="row" style="margin-bottom: 10px">
-          <div class="col-md-3" style="text-align: right"><i class="fa fa-<%=provider.icon%>"></i></div>
-          <div class="col-md-8">   
-            <div class="row">
-              <% if connection = @account.connections.select { |connection| connection.provider == provider.display_name }[0] %>
-                <a class="col-md-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(connection.omniauth_hash) %>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
-                <% if current_account %>
-                  <div class="col-md-3">
-                    <a class="use-picture btn btn-default" href="/me/<%=provider.omniauth_name%>/use_picture" data-content="<img src='<%=provider.image.call(connection.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
-                  </div>
-                  <div class="col-md-3">
-                    <a class="btn btn-default" href="/me/<%=provider.omniauth_name%>/disconnect">Disconnect</a>
-                  </div>
-                <% end %>                
-              <% else %>
-                <span class="col-md-4" style="margin-top: 5px">Not connected</span>
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-md-3" style="text-align: right"><i class="fa fa-<%=provider.icon%>"></i></div>
+        <div class="col-md-8">   
+          <div class="row">
+            <% if connection = @account.connections.select { |connection| connection.provider == provider.display_name }[0] %>
+              <a class="col-md-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(connection.omniauth_hash) %>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
+              <% if current_account %>
                 <div class="col-md-3">
-                  <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+                  <a class="use-picture btn btn-default" href="/me/<%=provider.omniauth_name%>/use_picture" data-content="<img src='<%=provider.image.call(connection.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
                 </div>
-              <% end %>
-            </div>
+                <div class="col-md-3">
+                  <a class="btn btn-default" href="/me/<%=provider.omniauth_name%>/disconnect">Disconnect</a>
+                </div>
+              <% end %>                
+            <% else %>
+              <span class="col-md-4" style="margin-top: 5px">Not connected</span>
+              <div class="col-md-3">
+                <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+              </div>
+            <% end %>
           </div>
         </div>
-      <% } %>    
+      </div>
+    <% } %>    
 
   </div>
 </div>

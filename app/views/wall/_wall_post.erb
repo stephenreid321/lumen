@@ -19,15 +19,7 @@
 
   <% if wall_post.file %>
     <% if wall_post.file.image? %>
-      <a onclick="$('#wall-post-lightbox-<%=wall_post.id%> .modal-body').html('<img style=\'width: 100%\' src=\'<%=wall_post.file.url%>\'>')" data-toggle="modal" href="#wall-post-lightbox-<%=wall_post.id%>"><img style="width: 150px;" src="<%=wall_post.file.thumb('150x150#').url%>"></a>
-      <div class="modal fade" id="wall-post-lightbox-<%=wall_post.id%>">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">              
-            </div>
-          </div>
-        </div>
-      </div>
+      <img style="width: 100%;" src="<%=wall_post.file.url%>">
     <% else %>
       <i class="fa fa-paperclip"></i> <a href="<%=wall_post.file.url%>"><%=wall_post.file_name%></a>
     <% end %>

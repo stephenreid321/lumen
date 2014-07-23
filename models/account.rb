@@ -47,13 +47,23 @@ class Account
   before_validation :create_account_tags
   def create_account_tags
     if @account_tag_ids
-      account_tagships.destroy_all
-      @account_tag_ids.each { |id|
-        Account.skip_callback(:validation, :before, :create_account_tags)
-        account_tagships.create :account_tag_id => id   
-        Account.set_callback(:validation, :before, :create_account_tags)        
-      }
-      @account_tag_ids = nil
+      current_account_tag_ids = account_tagships.map(&:account_tag_id).map(&:to_s)
+      tags_to_remove = current_account_tag_ids - @account_tag_ids
+      tags_to_add = @account_tag_ids - current_account_tag_ids
+      tags_to_remove.each { |account_tag_id| account_tagships.find_by(account_tag_id: account_tag_id).destroy }
+      tags_to_add.each { |account_tag_id| account_tagships.create(account_tag_id: account_tag_id) }
+    end
+  end  
+  
+  attr_accessor :group_ids
+  before_validation :join_groups_via_profile
+  def join_groups_via_profile
+    if @group_ids
+      current_group_ids = memberships.map(&:group_id).map(&:to_s) & GroupType.where(:join_groups_via_profile => true).map(&:groups).flatten.map(&:id).map(&:to_s)
+      groups_to_leave = current_group_ids - @group_ids
+      groups_to_join = @group_ids - current_group_ids
+      groups_to_leave.each { |group_id| memberships.find_by(group_id: group_id).destroy }
+      groups_to_join.each { |group_id| memberships.create(:group_id => group_id) }
     end
   end  
   

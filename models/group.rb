@@ -42,42 +42,7 @@ class Group
   has_many :docs, :dependent => :destroy
   
   belongs_to :group_type, index: true
-  
-  has_many :group_tagged_post_tagships, :dependent => :destroy
-  has_many :group_join_tagships, :dependent => :destroy
-  
-  attr_accessor :tagged_post_account_tag_ids
-  before_validation :process_tagged_post_account_tag_ids
-  def process_tagged_post_account_tag_ids
-    if @tagged_post_account_tag_ids
-      group_tagged_post_tagships.destroy_all
-      @tagged_post_account_tag_ids.each { |id|
-        Group.skip_callback(:validation, :before, :process_tagged_post_account_tag_ids)
-        group_tagged_post_tagships.create :account_tag_id => id
-        Group.set_callback(:validation, :before, :process_tagged_post_account_tag_ids)        
-      }
-      @tagged_post_account_tag_ids = nil
-    end
-  end  
-  
-  attr_accessor :join_account_tag_ids
-  before_validation :process_join_account_tag_ids
-  def process_join_account_tag_ids
-    if @join_account_tag_ids
-      group_join_tagships.destroy_all
-      @join_account_tag_ids.each { |id|
-        Group.skip_callback(:validation, :before, :process_join_account_tag_ids)
-        group_join_tagships.create :account_tag_id => id
-        Group.set_callback(:validation, :before, :process_join_account_tag_ids)        
-      }
-      @join_account_tag_ids = nil
-    end
-  end  
-  
-  def tagged_posts
-    TaggedPost.where(:id.in => TaggedPostTagship.where(:account_tag_id.in => group_tagged_post_tagships.map(&:account_tag_id)).map(&:tagged_post_id))
-  end  
-    
+      
   def top_stories(from,to)
     Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
   end
@@ -136,8 +101,7 @@ class Group
       :privacy => :radio,
       :group_type_id => :lookup,
       :memberships => :collection,
-      :conversations => :collection,
-      :group_tagged_post_tagships => :collection
+      :conversations => :collection
     }
   end
   
@@ -147,9 +111,7 @@ class Group
   
   def self.human_attribute_name(attr, options={})  
     {
-      :slug => 'Name',
-      :tagged_post_account_tag_ids => 'Display wall posts with tags',
-      :join_account_tag_ids => 'Automatically add people who tag themselves'
+      :slug => 'Name'
     }[attr.to_sym] || super  
   end   
   

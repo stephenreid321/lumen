@@ -1,21 +1,13 @@
 <%
 tabs = {
+  :wall => (['Wall', 'fa-thumbs-up'] if !ENV['HIDE_WALL_TAB']),
   :home => (['Home', 'fa-home'] if Fragment.find_by(slug: 'home')),
   :news => (['News', 'fa-twitter'] if !ENV['HIDE_NEWS_TAB'] and current_account.news_summaries.count > 0),
   :digest => (['Digest', 'fa-star'] if !ENV['HIDE_DIGEST_TAB']),
   :map => ['Map', 'fa-map-marker'],                    
-  :docs => ['Docs', 'fa-file-text-o']
+  :docs => ['Docs', 'fa-file-text-o'],
+  :calendar => ['Calendar', 'fa-calendar']
   }
-if !ENV['HIDE_WALL_TAB']
-  if ENV['USE_TAGGED_POSTS']
-    if current_account.account_tagships.count > 0
-      tabs[:tagged_posts] = ['Wall', 'fa-thumbs-up']
-    end
-    else
-    tabs[:wall] = ['Wall', 'fa-thumbs-up']
-  end
-  end
-tabs[:calendar] = ['Calendar', 'fa-calendar']
 %>
 
 <div class="row">

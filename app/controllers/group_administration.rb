@@ -16,8 +16,6 @@ Lumen::App.controllers do
   post '/groups/:slug/edit' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
-    params[:group][:tagged_post_account_tag_ids] = [] if !params[:group][:tagged_post_account_tag_ids]
-    params[:group][:join_account_tag_ids] = [] if !params[:group][:join_account_tag_ids]    
     if @group.update_attributes(params[:group])
       flash[:notice] = "<strong>Great!</strong> The group was updated successfully."
       redirect "/groups/#{@group.slug}"

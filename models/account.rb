@@ -96,11 +96,7 @@ class Account
   def docs
     Doc.where(:group_id.in => memberships.map(&:group_id))
   end  
-  
-  def tagged_posts
-    TaggedPost.where(:id.in => TaggedPostTagship.where(:account_tag_id.in => account_tagships.map(&:account_tag_id)).map(&:tagged_post_id))
-  end  
-              
+                
   # Picture
   dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }

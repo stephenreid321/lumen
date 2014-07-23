@@ -63,14 +63,14 @@ class ConversationPost
   def body_with_inline_images
     b = body.gsub(/src="cid:(\S+)"/) { |match|
       begin
-        %Q{src="#{attachments.find_by(cid: $1).file.url(host: "http://#{ENV['DOMAIN']}")}"}
+        %Q{src="http://#{ENV['DOMAIN']}#{attachments.find_by(cid: $1).file.url}"}
       rescue
         nil
       end
     }    
     b = b.gsub(/\[cid:(\S+)\]/) { |match|
       begin
-        %Q{<img src="#{attachments.find_by(cid: $1).file.url(host: "http://#{ENV['DOMAIN']}")}">}
+        %Q{<img src="http://#{ENV['DOMAIN']}#{attachments.find_by(cid: $1).file.url}">}
       rescue
         nil
       end

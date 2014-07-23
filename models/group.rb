@@ -5,6 +5,7 @@ class Group
   field :slug, :type => String
   field :description, :type => String
   field :privacy, :type => String
+  field :default_notification_level, :type => String, :default => 'each'
   
   index({slug: 1 }, {unique: true})
   
@@ -73,7 +74,11 @@ class Group
   
   def twitter_handles
     memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
-  end    
+  end  
+
+  def self.default_notification_levels
+    {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}
+  end
     
   def default_didyouknows
     [
@@ -91,7 +96,7 @@ class Group
   end
       
   def self.fields_for_index
-    [:slug, :privacy, :group_type_id]
+    [:slug, :privacy, :default_notification_level, :group_type_id]
   end
   
   def self.fields_for_form
@@ -99,6 +104,7 @@ class Group
       :slug => :text,
       :description => :text_area,
       :privacy => :radio,
+      :default_notification_level => :text,
       :group_type_id => :lookup,
       :memberships => :collection,
       :conversations => :collection

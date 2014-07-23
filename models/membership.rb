@@ -3,14 +3,14 @@ class Membership
   include Mongoid::Timestamps
   
   field :role, :type => String, :default => 'member'
-  field :notification_level, :type => String, :default => 'each'
+  field :notification_level, :type => String
   field :status, :type => String
   field :reminder_sent, :type => Time
   
   belongs_to :account, index: true
   belongs_to :group, index: true
         
-  validates_presence_of :account, :group, :status
+  validates_presence_of :account, :group, :status, :notification_level
   validates_uniqueness_of :account, :scope => :group
       
   def self.fields_for_index
@@ -28,6 +28,9 @@ class Membership
   end
   
   before_validation do
+    if self.group and !self.notification_level
+      self.notification_level = group.default_notification_level
+    end
     if self.account and !self.status
       self.status = (account.sign_ins.count == 0 ? 'pending' : 'confirmed')
     end

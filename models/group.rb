@@ -117,6 +117,7 @@ class Group
   
   def self.human_attribute_name(attr, options={})  
     {
+      :default_notification_level => 'Email notification default',
       :slug => 'Name'
     }[attr.to_sym] || super  
   end   

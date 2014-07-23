@@ -10,7 +10,7 @@
           scaleControl: true,
           streetViewControl: false,
           maxZoom: 16,
-<% if ENV['STACKED_HOME'] %>
+<% if @disable_scrollwheel %>
     scrollwheel: false
 <% end %>
   });

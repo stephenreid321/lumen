@@ -21,7 +21,7 @@
       <% end %>                  
       <% if @account.account_tagships.count > 0 %>
         <li><i title="<%=I18n.t(:account_tagships).capitalize%>" class="fa fa-li fa-tags"></i><%@account.account_tagships.each { |account_tagship|%><span class="label label-default" style="text-indent: 0"><%=account_tagship.account_tag.name%></span> <% } %></li>
-      <% else %>
+      <% elsif !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
         <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
       <% end %>             
       <li><i title="Email" class="fa fa-li fa-envelope"></i><a target="_blank" href="mailto:<%=@account.email%>"><%=@account.email%></a></li>         

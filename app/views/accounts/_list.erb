@@ -22,7 +22,9 @@
   <%= hidden_field_tag :scope_id, :value => scope_id %> 
   <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => [''], :"data-placeholder" => 'Filter by name' %>
   <%= select_tag :org, :selected => @org, :class => 'form-control chosen', :options => [''], :"data-placeholder" => "Filter by #{I18n.t(:organisation)}" %>
-  <%= select_tag :tag, :selected => @tag, :class => 'form-control chosen', :options => [''], :"data-placeholder" => "Filter by #{I18n.t(:account_tagship)}" %>
+  <% if !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
+    <%= select_tag :tag, :selected => @tag, :class => 'form-control chosen', :options => [''], :"data-placeholder" => "Filter by #{I18n.t(:account_tagship)}" %>
+  <% end %>
   <script>
     $(function() {
       var names = []

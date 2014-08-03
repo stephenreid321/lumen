@@ -1,1 +1,35 @@
-<%= eval(f('public-homepage')) %>
+
+<div class="container-fluid">
+  <div style="text-align: center">
+    <%= eval(f('public-homepage')) %>
+  </div>
+</div>
+
+
+<div style="background: #318CBA; padding: 20px">
+  <div class="container-fluid" style="text-align: center">
+    <h2 style="font-size: 42px; color: white; margin-bottom: 20px">People using <%=ENV['SITE_NAME']%></h2>
+    <div>
+      <% random(Account.where(:picture_uid.ne => nil), 9).each {  |account| %>
+        <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<div style="padding: 20px">
+  <div class="container-fluid" style="text-align: center">
+    <h2 style="font-size: 42px; margin-bottom: 20px">Groups</h2>
+    <div>
+      <% Group.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
+        <h2>
+          <% if group.closed?%><%=group.slug%><% else %><a href="/groups/<%=group.slug%>"><%=group.slug%></a><% end%>
+          <small>
+            <%=pluralize(group.memberships.count, 'member')%>
+          </small>
+        </h2>
+        <p><%= group.description %></p>
+      <% } %>
+    </div>
+  </div>
+</div>

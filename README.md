@@ -78,13 +78,9 @@ heroku config:set MAIL_DOMAIN=yourdomain.org
 * SPF `yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"`
 * DKIM: Visit Email Messages > DomainKeys Identified Mail in Virtualmin. Set 'Reject incoming email with invalid DKIM signature?' to 'No' and enter yourdomain.org to 'Additional domains to sign for'. Then add the record under 'DNS records for additional domains'.
 
-### 5. Configuration
+### 5. Rake tasks
 
-Visit www.yourdomain.org and change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration.
-
-### 6. Rake tasks
-
-Run `heroku run rake mi:create_indexes` to create the database indexes. Open the Scheduler add-on with `heroku addons:open scheduler` and add the following tasks:
+Run `heroku run rake languages:default[English,en]` to set a default language and `heroku run rake mi:create_indexes` to create the database indexes. Open the Scheduler add-on with `heroku addons:open scheduler` and add the following tasks:
 ```
 rake news:update 7am
 rake digests:daily 7.30am
@@ -92,7 +88,9 @@ rake digests:weekly 11pm (only runs on Sunday)
 rake cleanup 4am
 ```
 
-...and you're done!
+### 6. Configuration
+
+Visit www.yourdomain.org and change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration. You're done!
 
 ## Switching mail servers
 

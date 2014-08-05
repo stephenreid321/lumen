@@ -32,7 +32,7 @@
       <tr>
         <th><%=language.name%> (<%=language.code%>)</th>
         <% Translation.defaults.each  { |k,v| %>
-          <td>
+          <td style="min-width: 10em">
             <%= text_field_tag "translations[#{language.id}][#{k}]", :value => language.translations.find_by(key: k).try(:value), :class => 'form-control' %>
           </td>
         <% } %>   

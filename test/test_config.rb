@@ -29,6 +29,10 @@ FactoryGirl.define do
 end
 
 class ActiveSupport::TestCase
+  
+  setup do
+    Language.create :name => 'English', :code => 'en', :default => true
+  end
 
   def login_as(account)
     visit '/accounts/sign_in'

@@ -111,7 +111,7 @@ Lumen::App.controllers do
     site_admins_only!
     heroku = Heroku::API.new
     heroku.post_ps_restart(ENV['APP_NAME'])
-    redirect '/config'
+    redirect back
   end
     
   get '/config/create_notification_script' do

@@ -175,6 +175,7 @@ class Account
       :website => :text,
       :picture => :image,
       :role => :select,
+      :translator => :check_box,
       :time_zone => :select,
       :language_id => :lookup,
       :password => :password,

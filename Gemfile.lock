@@ -29,6 +29,15 @@ GIT
       padrino
       will_paginate
 
+GIT
+  remote: git://github.com/wordsandwriting/activate-tools.git
+  revision: 8c7ad15d53636e5c6a15c97f923809a21083b97d
+  specs:
+    activate-tools (0.0.1)
+      heroku-api
+      padrino
+      will_paginate
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -260,6 +269,7 @@ PLATFORMS
 
 DEPENDENCIES
   activate-admin!
+  activate-tools!
   airbrake
   bcrypt
   capybara

@@ -11,5 +11,7 @@ require 'net/imap'
 
 Padrino.load!
 
+I18n.enforce_available_locales = false
+
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")
 Mongoid.raise_not_found_error = false

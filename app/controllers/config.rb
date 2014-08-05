@@ -76,9 +76,7 @@ Lumen::App.controllers do
       :'tip-location' => 'Tip for location field on account edit page',
       :'reminder' => 'Alternative text for reminder emails',
       :'invite' => 'Additional text for invite emails'
-    }    
-  
-    @translations = %w{organisation organisations host_organisation sector sectors position positions account_tagship account_tagships}
+    }     
   end
   
   get '/config' do
@@ -130,5 +128,5 @@ Lumen::App.controllers do
     end
     redirect '/config'
   end  
-    
+      
 end

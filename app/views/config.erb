@@ -84,25 +84,3 @@
     </div>
   <% } %>
 </form>
-
-<h2>Translations</h2>
-
-<p>Please note you must <a href="/config/restart">restart the app</a> for new translations to take effect.</p>
-
-<form class="form-horizontal">
-  <% @translations.each { |k| %>
-    <div class="form-group">
-      <label class="control-label col-md-4">
-        <%=k%>
-      </label>
-      <div class="col-md-2">
-        <p><%= (t = Translation.find_by(key: k)).try(:value) || I18n.t(k) %></p>
-        <% if t %>          
-          <a href="/admin/edit/Translation/<%=t.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
-        <% else %>
-          <a href="/admin/new/Translation" class="btn btn-default"><i class="fa fa-pencil"></i> Create</a>
-        <% end %>        
-      </div>
-    </div>
-  <% } %>
-</form>

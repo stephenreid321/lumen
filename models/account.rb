@@ -8,13 +8,14 @@ class Account
   field :secret_token, :type => String
   field :crypted_password, :type => String
   field :role, :type => String, :default => 'user'
-  field :time_zone, :type => String, :default => 'London'  
+  field :time_zone, :type => String
   field :has_picture, :type => Boolean
   field :picture_uid, :type => String  
   field :phone, :type => String 
   field :website, :type => String 
   field :location, :type => String 
   field :coordinates, :type => Array 
+  field :translator, :type => Boolean
     
   EnvFields.set(self)
   
@@ -36,6 +37,8 @@ class Account
   has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy
   has_many :spaces_as_creator, :class_name => 'Space', :inverse_of => :account, :dependent => :destroy
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
+  
+  belongs_to :language
   
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank, autosave: false
@@ -70,6 +73,11 @@ class Account
   def self.marker_color
     '3DA2E4'
   end
+  
+  before_validation :translator_to_boolean
+  def translator_to_boolean
+    if self.translator == '0'; self.translator = false; elsif self.translator == '1'; self.translator = true; end; return true
+  end    
   
   def public_memberships
     Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))
@@ -129,7 +137,7 @@ class Account
   validates_presence_of :name, :email
   validates_presence_of :password, :if => :password_required
   validates_presence_of :password_confirmation, :if => :password_required  
-  validates_presence_of :role, :time_zone # defaults
+  validates_presence_of :role # defaults
   
   validates_length_of :email, :within => 3..100
   validates_uniqueness_of :email, :case_sensitive => false
@@ -168,6 +176,7 @@ class Account
       :picture => :image,
       :role => :select,
       :time_zone => :select,
+      :language_id => :lookup,
       :password => :password,
       :password_confirmation => :password,
       :location => :text,
@@ -199,7 +208,7 @@ class Account
   def self.time_zones
     ['']+ActiveSupport::TimeZone::MAPPING.keys.sort
   end  
-  
+    
   def self.roles
     ['user','admin']
   end    

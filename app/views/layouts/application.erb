@@ -30,13 +30,13 @@
         <% if current_account %>
           <ul class="nav navbar-nav">
             <% if current_account %>
-              <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+              <li><a href="/"><i class="fa fa-home"></i> <%=I18n.t(:home).capitalize%></a></li>
               <% if current_account.memberships.count > 1 %>
                 <li class="dropdown">
                   <a class="dropdown-toggle"
                      data-toggle="dropdown"
                      href="#">
-                    <i class="fa fa-group"></i> My groups
+                    <i class="fa fa-group"></i> <%=I18n.t(:my_groups).capitalize%>
                     <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
@@ -47,7 +47,7 @@
                 </li>    
               <% end %>
               <% unless ENV['HIDE_DIRECTORY_TAB'] %>
-                <li><a href="/groups/directory"><i class="fa fa-book"></i> All groups</a></li>
+                <li><a href="/groups/directory"><i class="fa fa-book"></i> <%=I18n.t(:all_groups).capitalize%></a></li>
               <% end %>                
               <% if GroupType.count > 0 %>
                 <% GroupType.all.each { |group_type| %>
@@ -68,14 +68,14 @@
           <ul class="nav navbar-nav">
             <% if current_account %>
               <li><a href="/me/edit">
-                  Edit profile & connect accounts 
+                  <%=I18n.t(:edit_profile_and_connect_accounts).capitalize%>
                   <% if (x = current_account.connections.count)/(y = Provider.registered.count).to_f < 0.5 %>
                     (<%=x%>/<%=y%> connected)
                   <% end %>
                 </a></li>
-              <li><a href="/sign_out">Sign out</a></li>
+              <li><a href="/sign_out"><%=I18n.t(:sign_out).capitalize%></a></li>
             <% elsif Fragment.find_by(slug: 'public-homepage') %> 
-              <li><a href="/sign_in">Sign in</a></li>
+              <li><a href="/sign_in"><%=I18n.t(:sign_in).capitalize%></a></li>
             <% end %>
           </ul>
         </div>
@@ -121,10 +121,15 @@
             <a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a>
             &middot;
             Powered by <a target="_blank" href="http://wordsandwriting.github.io/lumen/">Lumen</a>
-            <% if current_account and current_account.admin? %>
-              &middot; <a href="/analytics">Sitewide analytics</a>
-              &middot; <a href="/config">Lumen configuration</a>
-            <% end %>          
+            <% if current_account %>
+              <% if current_account.admin? %>
+                &middot; <a href="/analytics">Sitewide analytics</a>
+                &middot; <a href="/config">Lumen configuration</a>
+              <% end %>          
+              <% if current_account.admin? or current_account.translator %>
+                &middot; <a href="/translations">Translations</a>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </div>

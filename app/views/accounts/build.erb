@@ -21,6 +21,10 @@
       <%= f.text_block :email %>
       <%= f.text_block :phone %>
       <%= f.text_block :website %>
+      <%= f.select_block :time_zone %>
+      <% if Language.count > 1 %>
+        <%= f.lookup_block :language_id %>
+      <% end %>
       <% if ENV['ACCOUNT_TAGS_PREDEFINED'] %>
         <% if AccountTag.count > 0  %>
           <%= f.check_boxes_block :account_tag_ids, options: AccountTag.all.map { |account_tag| [account_tag.name, account_tag.id] }, checked: @account.account_tagships.map(&:account_tag_id) %>

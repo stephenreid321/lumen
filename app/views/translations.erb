@@ -1,0 +1,47 @@
+
+<% if current_account.admin? %>
+  <a style="float: right" class="btn btn-primary" target="_blank" href="/admin/new/Language">New language</a>
+<% end %>
+
+<h2>Translations</h2>
+
+<% if current_account.admin? %>
+  <p>Please note you must <a href="/config/restart">restart the app</a> for new translations to take effect.</p>
+<% end %>
+
+<% form_tag '/translations' do %>
+
+  <table class="translations table">
+    <thead>
+      <tr>
+        <th></th>
+        <% Translation.defaults.each { |k,v| %>
+          <th><%=k%></th>
+        <% } %>
+      </tr>
+    </thead>
+    <tr>
+      <th>Default</th>
+      <% Translation.defaults.each { |k,v| %>
+        <td>
+          <%=v%>
+        </td>   
+      <% } %>
+    </tr>
+    <% Language.each { |language| %>
+      <tr>
+        <th><%=language.name%> (<%=language.code%>)</th>
+        <% Translation.defaults.each  { |k,v| %>
+          <td>
+            <%= text_field_tag "translations[#{language.id}][#{k}]", :value => language.translations.find_by(key: k).try(:value), :class => 'form-control' %>
+          </td>
+        <% } %>   
+      </tr>
+    <% } %>
+  </table>
+
+  <button class="btn btn-primary">Update translations</button>
+
+<% end %>
+
+

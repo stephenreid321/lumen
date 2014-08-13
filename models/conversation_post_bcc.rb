@@ -10,7 +10,7 @@ class ConversationPostBcc
   validates_presence_of :emails, :conversation_post
     
   def self.fields_for_index
-    [:emails, :delivered_at, :conversation_post_id]
+    [:emails, :created_at, :delivered_at, :conversation_post_id]
   end
   
   def self.fields_for_form

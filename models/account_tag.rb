@@ -27,5 +27,9 @@ class AccountTag
   def self.lookup
     :name
   end
+  
+  def self.names(accounts)
+    where(:id.in => AccountTagship.where(:account_id.in => accounts.only(&:id).map(&:id)).only(&:account_tag_id).map(&:account_tag_id)).order(:name.asc).only(&:name).map(&:name)
+  end  
     
 end

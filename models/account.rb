@@ -113,8 +113,8 @@ class Account
   
   def docs
     Doc.where(:group_id.in => memberships.map(&:group_id))
-  end  
-                
+  end 
+              
   # Picture
   dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }

@@ -33,18 +33,9 @@
       $('select.chosen').append($('<option>').text('Loading, please wait...')).trigger("chosen:updated");
       $('#results-form').one('click', function() {
         $.getJSON('/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>', function(data) {
-          $.each(data, function(i, account) {
-            names.push(account['name'])
-            $.each(account['organisations'], function(i, org) {
-              orgs.push(org)
-            });
-            $.each(account['account_tags'], function(i, tag) {
-              tags.push(tag)
-            });
-          });
-          names = names.unique().sort();
-          orgs = orgs.unique().sort();
-          tags = tags.unique().sort();
+          names = data.names;
+          orgs = data.organisations;
+          tags = data.account_tags;
           $('select.chosen option:last-child').remove();
           $.each(names, function(i, value) {
             $('select.chosen[name=name]').append($('<option>').text(value).attr('value', value));

@@ -41,13 +41,11 @@ Lumen::App.controllers do
     end
     case content_type
     when :json
-      @accounts.map { |account|
       {
-        :name => account.name,
-        :organisations => account.affiliations.map(&:organisation).map(&:name),
-        :account_tags => account.account_tagships.map(&:account_tag).map(&:name)
-      }
-    }.to_json
+        :names => @accounts.order(:name.asc).only(:name).map(&:name),
+        :organisations => Organisation.names(@accounts),
+        :account_tags => AccountTag.names(@accounts)
+      }.to_json
     when :html
       @accounts = @accounts.per_page(10).page(params[:page])
       partial :'accounts/results'

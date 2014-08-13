@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: a2586f039fe6c0a1b11ad3bbcf62a7b9f488e960
+  revision: 8cb17e9839973b76295cf87189e91a5ffcc03ab0
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0)
@@ -22,21 +22,19 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 46d58b491ec1131b656d67e0f3e15a593986f73f
+  revision: 8ef02f9fce8aeef02c4f22ccfb7dbacb2deb6c89
   specs:
     activate-admin (0.0.1)
-      heroku-api
+      activate-tools
       padrino
       will_paginate
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 8c7ad15d53636e5c6a15c97f923809a21083b97d
+  revision: 75f5004766db31d62a4eec5f8a167e49f7822c59
   specs:
     activate-tools (0.0.1)
-      heroku-api
       padrino
-      will_paginate
 
 GEM
   remote: https://rubygems.org/
@@ -75,7 +73,7 @@ GEM
     dragonfly-s3_data_store (1.0.4)
       dragonfly (~> 1.0)
       fog
-    excon (0.38.0)
+    excon (0.39.4)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
     faraday (0.9.0)
@@ -87,7 +85,7 @@ GEM
       fog-softlayer
       ipaddress (~> 0.5)
       nokogiri (~> 1.5, >= 1.5.11)
-    fog-brightbox (0.1.1)
+    fog-brightbox (0.3.0)
       fog-core (~> 1.22)
       fog-json
       inflecto
@@ -100,15 +98,12 @@ GEM
       net-ssh (>= 2.1.3)
     fog-json (1.0.0)
       multi_json (~> 1.0)
-    fog-softlayer (0.3.10)
+    fog-softlayer (0.3.13)
       fog-core
       fog-json
     formatador (0.2.5)
-    geocoder (1.2.3)
+    geocoder (1.2.4)
     hashie (3.2.0)
-    heroku-api (0.3.19)
-      excon (~> 0.38)
-      multi_json (~> 1.8)
     htmlentities (4.3.2)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -166,8 +161,8 @@ GEM
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
-    omniauth-facebook (1.6.0)
-      omniauth-oauth2 (~> 1.1)
+    omniauth-facebook (2.0.0)
+      omniauth-oauth2 (~> 1.2)
     omniauth-google-oauth2 (0.2.5)
       omniauth (> 1.0)
       omniauth-oauth2 (~> 1.1)
@@ -247,7 +242,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (1.2.1)
+    tzinfo (1.2.2)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext

@@ -145,7 +145,7 @@ Lumen::App.controllers do
         :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
         :body => erb(:'emails/invite', :layout => false)
       )
-      mail.deliver!
+      mail.deliver
       notices << "#{email} was added to the group."
     }
     flash[:notice] = notices.join('<br />') if !notices.empty?
@@ -178,7 +178,7 @@ Lumen::App.controllers do
       :subject => "A reminder from #{current_account.name} to complete your #{ENV['SITE_NAME_SHORT']} profile",
       :body => erb(:'emails/reminder', :layout => false)
     )
-    mail.deliver!  
+    mail.deliver    
     membership.update_attribute(:reminder_sent, Time.now)
     redirect back
   end

@@ -79,7 +79,7 @@ Lumen::App.controllers do
         :subject => "#{current_account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
         :body => erb(:'emails/membership_request', :layout => false)
       )
-      mail.deliver!      
+      mail.deliver      
       
       flash[:notice] = 'Your request was sent.'
     end

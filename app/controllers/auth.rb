@@ -31,7 +31,7 @@ Lumen::App.controllers do
         :subject => "New password",
         :body => erb(:'emails/forgot_password', :layout => false)
       )
-      mail.deliver! 
+      mail.deliver 
       flash[:notice] = "A new password was sent to #{@account.email}"
     else
       flash[:error] = "There's no account registered under that email address. Please contact #{ENV['HELP_ADDRESS']} for assistance."

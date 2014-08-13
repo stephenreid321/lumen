@@ -212,7 +212,7 @@ class Group
           :subject => "Delivery failed: #{envelope.subject}",
           :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
         )
-        mail.deliver! 
+        mail.deliver 
         imap.store(sequence_id, "+FLAGS", [:Deleted])
         next
       end          

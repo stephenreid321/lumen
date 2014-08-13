@@ -5,16 +5,18 @@ class ConversationPostBcc
   belongs_to :conversation_post, index: true
   
   field :emails, :type => Array
+  field :delivered_at, :type => Time
   
   validates_presence_of :emails, :conversation_post
     
   def self.fields_for_index
-    [:emails, :conversation_post_id]
+    [:emails, :delivered_at, :conversation_post_id]
   end
   
   def self.fields_for_form
     {
-      :emails => :text_area
+      :emails => :text_area,
+      :delivered_at => :datetime
     }
   end
     
@@ -69,7 +71,9 @@ class ConversationPostBcc
       mail.add_file(:filename => attachment.file_name, :content => attachment.file.data)
     }    
     mail.bcc = emails
-    mail.deliver!   
+    mail.deliver
+    
+    update_attribute(:delivered_at, Time.now)
   end  
   
 end

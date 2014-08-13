@@ -109,7 +109,7 @@ Lumen::App.controllers do
             content_type 'text/html; charset=UTF-8'
             body html
           end
-          mail.deliver!                      
+          mail.deliver                      
         end
       end             
     }

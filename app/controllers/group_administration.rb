@@ -215,7 +215,7 @@ Lumen::App.controllers do
         @account.password = Account.generate_password(8)
         @account.password_confirmation = @account.password
         @account.save
-        @new_password = "Your password is: #{@account.password}"        
+        @new_password = true        
       end
     
       group = @group # instance var not available in defaults block

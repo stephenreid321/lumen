@@ -2,4 +2,4 @@ Hi <%=@account.name%>,
    
 You have been granted membership of <%=@group.slug%> on <%=ENV['SITE_NAME_DEFINITE']%>.
 
-The group's homepage is at http://<%=ENV['DOMAIN']%>/groups/<%=@group.slug%>. <%=@new_password%>
+You can sign in at http://<%=ENV['DOMAIN']%>/sign_in<%=@new_password ? " with the password: #{@account.password}" : '' %>.

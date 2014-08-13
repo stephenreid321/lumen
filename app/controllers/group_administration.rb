@@ -217,6 +217,7 @@ Lumen::App.controllers do
         @new_password = "Your password is: #{@account.password}"        
       end
     
+      group = @group # instance var not available in defaults block
       Mail.defaults do
         delivery_method :smtp, group.smtp_settings
       end      

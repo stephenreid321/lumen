@@ -214,6 +214,7 @@ Lumen::App.controllers do
       if @account.sign_ins.count == 0
         @account.password = Account.generate_password(8)
         @account.password_confirmation = @account.password
+        @account.save
         @new_password = "Your password is: #{@account.password}"        
       end
     

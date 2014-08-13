@@ -207,7 +207,29 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
     membership_request = @group.membership_requests.find(params[:id])    
-    @group.memberships.create(:account => membership_request.account) if params[:accept]
+    if params[:accept]
+      @account = membership_request.account
+      @group.memberships.create(:account => @account)
+      
+      if @account.sign_ins.count == 0
+        @account.password = Account.generate_password(8)
+        @account.password_confirmation = @account.password
+        @new_password = "Your password is: #{@account.password}"        
+      end
+    
+      Mail.defaults do
+        delivery_method :smtp, group.smtp_settings
+      end      
+      
+      mail = Mail.new(
+        :to => @account.email,
+        :from => "#{@group.slug} <#{@group.email('-noreply')}>",
+        :subject => "You're now a member of the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
+        :body => erb(:'emails/accept_membership_request', :layout => false)
+      )
+      mail.deliver      
+      
+    end
     membership_request.destroy
     redirect back
   end

@@ -8,10 +8,6 @@ Lumen::App.controllers do
     @name = params[:name]
     @tag = params[:tag]
     @org = params[:org]
-    @q = []
-    @q << {:name => /#{@name}/i} if @name
-    @q << {:id.in => AccountTagship.where(account_tag_id: AccountTag.find_by(name: @tag)).only(:account_id).map(&:account_id)} if @tag
-    @q << {:id.in => Affiliation.where(organisation_id: Organisation.find_by(name: @org)).only(:account_id).map(&:account_id)} if @org
     @accounts = case scope
     when 'network'
       current_account.network
@@ -30,15 +26,11 @@ Lumen::App.controllers do
       sector = Sector.find(scope_id)
       sector.members
     end 
+    @q = []
+    @q << {:name => /#{@name}/i} if @name
+    @q << {:id.in => AccountTagship.where(account_tag_id: AccountTag.find_by(name: @tag)).only(:account_id).map(&:account_id)} if @tag
+    @q << {:id.in => Affiliation.where(organisation_id: Organisation.find_by(name: @org)).only(:account_id).map(&:account_id)} if @org    
     @accounts = @accounts.and(@q)
-    @accounts = case @o
-    when :name
-      @accounts.order_by(:name.asc)
-    when :date
-      @accounts.order_by(:created_at.desc)
-    when :updated
-      @accounts.order_by([:has_picture.desc, :updated_at.desc])
-    end
     case content_type
     when :json
       {
@@ -47,6 +39,14 @@ Lumen::App.controllers do
         :account_tags => AccountTag.names(@accounts)
       }.to_json
     when :html
+      @accounts = case @o
+      when :name
+        @accounts.order_by(:name.asc)
+      when :date
+        @accounts.order_by(:created_at.desc)
+      when :updated
+        @accounts.order_by([:has_picture.desc, :updated_at.desc])
+      end      
       @accounts = @accounts.per_page(10).page(params[:page])
       partial :'accounts/results'
     end

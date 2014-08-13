@@ -37,22 +37,6 @@
     <li>
       <a title="Join group" class="edit restore-opacity" href="/groups/<%=@group.slug%>/join"><i class="fa fa-sign-in"></i> Join group</a>
     </li>
-  <% elsif @group.closed? %>
-    <li>
-      <% if @group.membership_requests.find_by(account: current_account) %>  
-        <a class="edit restore-opacity">
-          <i class="fa fa-check"></i>
-          Membership requested
-        </a>
-      <% else %>
-        <form style="display:inline" method="post" id="request-membership" action="/groups/<%=@group.slug%>/request_membership">          
-          <a class="edit restore-opacity" href="javascript:;" onclick="$('#request-membership').submit();">
-            <i class="fa fa-bell"></i>
-            Request membership
-          </a>
-        </form>
-      <% end %>      
-    </li>
   <% end %>
 </ul>
 

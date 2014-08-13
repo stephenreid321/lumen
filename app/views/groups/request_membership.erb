@@ -5,9 +5,48 @@
   <li class="active">Request membership</li>
 </ol>
 
-<div style="text-align: center; margin-top: 20px">
-  You must be a member to access <strong><%=@group.slug%></strong>.
+<div class="col-md-6 col-md-offset-3" style="margin-top: 20px">
+  <% form_tag "/groups/#{@group.slug}/request_membership", :class => 'form-horizontal' do %>
+
+    <div class="form-group">
+      <div class="col-md-offset-3 col-md-6">
+        You must be a member to access <strong><%=@group.slug%></strong>.
+      </div>
+    </div>          
+
+    <% if !current_account %>
+      <div class="form-group">
+        <label class="control-label col-md-3">Name</label>
+        <div class="col-md-6">
+          <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Your name' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-md-3">Email</label>
+        <div class="col-md-6">  
+          <%= text_field_tag :email, :class => 'form-control', :placeholder => 'Your email address' %>
+        </div>
+      </div>
+    <% end %>
+
+    <% @group.request_questions_a.each { |q| %>
+      <div class="form-group">
+        <label class="control-label col-md-3"><%=q%></label>
+        <div class="col-md-6">  
+          <%= text_area_tag "answers[]", :class => 'form-control' %>
+        </div>
+      </div>  
+    <% } %>
+
+    <div class="form-group">
+      <div class="col-md-offset-3 col-md-6">
+        <button class="btn btn-primary"><i class="fa fa-bell"></i> Request membership</button>
+      </div>
+    </div>            
+
+  <% end %>
 </div>
-<div style="text-align: center; margin-top: 10px">
-  <%= partial :'groups/request_membership', :locals => {:group => @group} %>
-</div>
+
+
+

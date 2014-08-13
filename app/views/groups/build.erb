@@ -23,6 +23,23 @@
       <%= f.text_block :slug, :disabled => !@group.new_record?, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>}, :tip => 'Letters, numbers and dashes (no spaces)' %>     
       <%= f.text_area_block :description %>
       <%= f.radio_block :privacy %>
+      <script>
+        $(function() {
+          function toggle_request_questions() {
+            if ($("input[name='group[privacy]']:checked").val() == 'closed')
+              $('#request-questions').show()
+            else
+              $('#request-questions').hide()
+          }
+          $("input[name='group[privacy]']").click(function() {
+            toggle_request_questions();
+          });
+          toggle_request_questions();
+        });
+      </script>
+      <div id="request-questions">
+        <%= f.text_area_block :request_questions %>
+      </div>
       <%= f.select_block :default_notification_level %>
       <% if GroupType.count > 0 %>
         <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [group_type.name,group_type.id] } %>
@@ -37,12 +54,11 @@
           $('.slug-replace').text($(this).val());
         });
       }).keyup();
-
-<% if @group.new_record? %>
+  <% if @group.new_record? %>
         $('form').submit(function() {
           $('#group-form button[type=submit]').after(' <span><i class="fa fa-warning"></i> Please be patient, this could take a minute...</span>')
         });
-<% end %>
+  <% end %>
     </script>     
 
   </div>

@@ -54,19 +54,43 @@ Lumen::App.controllers do
     
   get '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    not_found if @group.secret?
+    redirect back unless @group.closed?
+    (flash[:notice] = "You've already requested membership to that group" and redirect back) if @group.membership_requests.find_by(account: current_account)
     erb :'groups/request_membership'
   end
 
   post '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    not_found if @group.secret?
-    if @group.memberships.find_by(account: current_account)
+    redirect back unless @group.closed?
+    if current_account
+      @account = current_account
+    else     
+      unless name = params[:name] and email = params[:email]    
+        flash[:error] = "Please provide a name and email address"
+        redirect back
+      end
+      
+      if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   
+        @new_account = true
+        @account = Account.new({
+            :name => name,
+            :password => Account.generate_password(8),
+            :email => email
+          })
+        @account.password_confirmation = @account.password
+        if !@account.save
+          flash[:error] = "Failed to create an account for #{email} - is this a valid email address?"
+          redirect back
+        end
+      end
+    end    
+    
+    if @group.memberships.find_by(account: @account)
       flash[:notice] = "You're already a member of that group!"
-    elsif @group.membership_requests.find_by(account: current_account)
+    elsif @group.membership_requests.find_by(account: @account)
       flash[:notice] = "You've already requested membership of that group."
-    elsif current_account and @group.closed?
-      @group.membership_requests.create :account => current_account
+    else
+      @group.membership_requests.create :account => @account, :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
       
       group = @group
       Mail.defaults do
@@ -76,7 +100,7 @@ Lumen::App.controllers do
       mail = Mail.new(
         :to => @group.admins.map(&:email),
         :from => "#{@group.slug} <#{@group.email('-noreply')}>",
-        :subject => "#{current_account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
+        :subject => "#{@account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
         :body => erb(:'emails/membership_request', :layout => false)
       )
       mail.deliver      

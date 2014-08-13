@@ -11,12 +11,24 @@
 
 <% @groups.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
   <h2>
-    <% if group.closed? and !(membership = group.memberships.find_by(account: current_account)) %><%=group.slug%><% else %><a href="/groups/<%=group.slug%>"><%=group.slug%></a><% end%>
+    <a href="/groups/<%=group.slug%>"><%=group.slug%></a>
     <small>
       <%=pluralize(group.memberships.count, 'member')%>
     </small>
     <% if !membership %>  
-      <%= partial :'groups/request_membership', :locals => {:group => group} %>
+
+      <% if group.open? %>
+        <% if !group.memberships.find_by(account: current_account) %>
+          <a class="btn btn-default btn-sm" href="/groups/<%=group.slug%>/join"><i class="fa fa-sign-in"></i> Join group</a>
+        <% end %>
+      <% elsif group.closed? %>
+        <% if group.membership_requests.find_by(account: current_account) %>  
+          <a class="btn btn-default btn-sm disabled"><i class="fa fa-check"></i> Membership requested</a>
+        <% else %>
+          <a class="btn btn-default btn-sm" href="/groups/<%=group.slug%>/request_membership"><i class="fa fa-bell"></i> Request membership</a>
+        <% end %>
+      <% end %>
+
     <% end %>
   </h2>
   <p><%= group.description %></p>

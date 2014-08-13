@@ -40,6 +40,14 @@
             </td>          
           <% when :requests %>
             <td>
+              <% if membership.answers %>
+                <% membership.answers.each { |q,a| %>
+                  <p><strong><%=q%></strong></p>
+                  <p><%=a%></p>                    
+                <% }  %>
+              <% end %>
+            </td>
+            <td>
               <a class="edit restore-opacity" title="Accept request" href="/groups/<%=@group.slug%>/process_membership_request/<%=membership.id%>?accept=true"><i class="fa fa-check"></i> Accept request</a>
             </td>
             <td>

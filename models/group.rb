@@ -6,6 +6,7 @@ class Group
   field :description, :type => String
   field :privacy, :type => String
   field :default_notification_level, :type => String, :default => 'each'
+  field :request_questions, :type => String
   
   index({slug: 1 }, {unique: true})
   
@@ -75,6 +76,11 @@ class Group
   def twitter_handles
     memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
   end  
+  
+  def request_questions_a
+    q = (request_questions || '').split("\n").map(&:strip) 
+    q.empty? ? [] : q
+  end
 
   def self.default_notification_levels
     {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}
@@ -105,6 +111,7 @@ class Group
       :description => :text_area,
       :privacy => :radio,
       :default_notification_level => :text,
+      :request_questions => :text_area,
       :group_type_id => :lookup,
       :memberships => :collection,
       :conversations => :collection
@@ -113,6 +120,16 @@ class Group
   
   def self.lookup
     :slug
+  end
+  
+  def self.new_tips
+    {
+      :request_questions => 'Questions to ask to people requesting membership. One per line.'
+    }
+  end
+  
+  def self.edit_tips
+    self.new_tips
   end
   
   def self.human_attribute_name(attr, options={})  

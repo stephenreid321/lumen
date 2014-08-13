@@ -4,7 +4,7 @@
     <div>
       <% Group.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
         <h2>
-          <% if group.closed?%><%=group.slug%><% else %><a href="/groups/<%=group.slug%>"><%=group.slug%></a><% end%>
+          <a href="/groups/<%=group.slug%>"><%=group.slug%></a>
           <small>
             <%=pluralize(group.memberships.count, 'member')%>
           </small>

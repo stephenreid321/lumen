@@ -7,9 +7,11 @@ class MembershipRequest
         
   validates_presence_of :account, :group
   validates_uniqueness_of :account, :scope => :group
+  
+  field :answers, :type => Array
       
   def self.fields_for_index
-    [:account_id, :group_id]
+    [:account_id, :group_id, :answers]
   end
   
   def self.fields_for_form

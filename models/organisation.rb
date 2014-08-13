@@ -70,7 +70,7 @@ class Organisation
   end
   
   def self.names(accounts)
-    where(:id.in => Affiliation.where(:account_id.in => accounts.only(&:id).map(&:id)).only(&:organisation_id).map(&:organisation_id)).order(:name.asc).only(&:name).map(&:name)
+    where(:id.in => Affiliation.where(:account_id.in => accounts.only(&:id).map(&:id)).only(&:organisation_id).map(&:organisation_id)).order_by(:name.asc).only(&:name).map(&:name)
   end
       
 end

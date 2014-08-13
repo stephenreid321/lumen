@@ -42,7 +42,7 @@ Lumen::App.controllers do
     case content_type
     when :json
       {
-        :names => @accounts.order(:name.asc).only(:name).map(&:name),
+        :names => @accounts.order_by(:name.asc).only(:name).map(&:name),
         :organisations => Organisation.names(@accounts),
         :account_tags => AccountTag.names(@accounts)
       }.to_json
@@ -55,7 +55,7 @@ Lumen::App.controllers do
   get '/accounts/:id' do
     sign_in_required!
     @account = Account.find(params[:id])    
-    @shared_conversations = current_account.conversation_posts.where(account_id: @account.id).order(:created_at.desc).limit(10).map(&:conversation).uniq if current_account
+    @shared_conversations = current_account.conversation_posts.where(account_id: @account.id).order_by(:created_at.desc).limit(10).map(&:conversation).uniq if current_account
     erb :'accounts/account'
   end    
               

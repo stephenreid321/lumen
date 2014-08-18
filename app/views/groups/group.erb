@@ -47,14 +47,14 @@
 
 <%
 possible_tabs = {
-  :home => (['Home', 'fa-home'] if @membership and current_account.memberships.count == 1 and Fragment.find_by(slug: 'home')),
-  :conversations => ['Conversations', 'fa-comments-o'],
-  :news => (['News', 'fa-twitter'] if @group.news_summaries.count > 0),
-  :digest => ['Digest', 'fa-star'],
-  :map => ['Map', 'fa-map-marker'],
-  :wall => ['Wall', 'fa-thumbs-up'],  
-  :docs => ['Docs', 'fa-file-text-o'],
-  :calendar => ['Calendar', 'fa-calendar']
+  :home => ([I18n.t(:home).capitalize, 'fa-home'] if @membership and current_account.memberships.count == 1 and Fragment.find_by(slug: 'home')),
+  :conversations => [I18n.t(:conversations).capitalize, 'fa-comments-o'],
+  :news => ([I18n.t(:news).capitalize, 'fa-twitter'] if @group.news_summaries.count > 0),
+  :digest => [I18n.t(:digest).capitalize, 'fa-star'],
+  :map => [I18n.t(:map).capitalize, 'fa-map-marker'],
+  :wall => [I18n.t(:wall).capitalize, 'fa-thumbs-up'],  
+  :docs => [I18n.t(:docs).capitalize, 'fa-file-text-o'],
+  :calendar => [I18n.t(:calendar).capitalize, 'fa-calendar']
   }
 if ENV['GROUP_TAB_ORDER']
   tabs = {}
@@ -101,7 +101,7 @@ if ENV['GROUP_TAB_ORDER']
   </div>
   <div class="col-md-4">
     <% if current_account %>
-      <h2><%=pluralize(@group.memberships.count,'member')%> in this group</h2>
+      <h2><%=I18n.t(:members_in_this_group, count: @group.memberships.count)%></h2>
       <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
     <% else %>
       <%= partial 'groups/join', :locals => {:group => @group} %>

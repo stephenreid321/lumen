@@ -7,7 +7,7 @@ Hash[
         [k, language.translations.find_by(key: k).try(:value) || v]        
       }  
     ].each { |k,v|
-      keys = k.split('.')
+      keys = k.to_s.split('.')
       prev_hash = h
       keys[0..-2].each { |key|
         prev_hash[key] = {} if !prev_hash[key]

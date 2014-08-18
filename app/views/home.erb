@@ -1,12 +1,12 @@
 <%
 possible_tabs = {
-  :home => (['Home', 'fa-home'] if Fragment.find_by(slug: 'home')),
-  :news => (['News', 'fa-twitter'] if current_account.news_summaries.count > 0),
-  :digest => ['Digest', 'fa-star'],
-  :map => ['Map', 'fa-map-marker'],                    
-  :wall => ['Wall', 'fa-thumbs-up'],  
-  :docs => ['Docs', 'fa-file-text-o'],
-  :calendar => ['Calendar', 'fa-calendar']
+  :home => ([I18n.t(:home).capitalize, 'fa-home'] if Fragment.find_by(slug: 'home')),
+  :news => ([I18n.t(:news).capitalize, 'fa-twitter'] if current_account.news_summaries.count > 0),
+  :digest => [I18n.t(:digest).capitalize, 'fa-star'],
+  :map => [I18n.t(:map).capitalize, 'fa-map-marker'],                    
+  :wall => [I18n.t(:wall).capitalize, 'fa-thumbs-up'],  
+  :docs => [I18n.t(:docs).capitalize, 'fa-file-text-o'],
+  :calendar => [I18n.t(:calendar).capitalize, 'fa-calendar']
   }
 if ENV['HOME_TAB_ORDER']
   tabs = {}
@@ -62,7 +62,7 @@ if ENV['HOME_TAB_ORDER']
     </div>
   </div>
   <div class="col-md-4">
-    <h2><%=pluralize(current_account.network.count,'person')%> in your groups</h2>
+    <h2><%=I18n.t(:people_in_your_groups, count: current_account.network.count)%></h2>
     <%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil} %>
   </div>
 </div>

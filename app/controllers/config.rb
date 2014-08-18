@@ -33,7 +33,6 @@ Lumen::App.controllers do
       :HIDE_ORGANISATIONS_TAB => ['Hides the \'organisations\' tab'],
       :HIDE_SECTORS_TAB => ['Hides the \'sectors\' tab'],
       :HIDE_DIRECTORY_TAB => ['Hides the \'All groups\' tab'],
-      :HIDE_HOME_WALL_COMPOSE_BOX => ['Hides the homepage wall compose box'],      
       :HIDE_MAP_FORM => ['Hides map form'],
       
       :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from home, news, wall, digest, map, docs, calendar)',      

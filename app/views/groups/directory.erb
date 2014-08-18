@@ -15,12 +15,10 @@
     <small>
       <%=pluralize(group.memberships.count, 'member')%>
     </small>
-    <% if !membership %>  
+    <% if !(membership = group.memberships.find_by(account: current_account)) %>
 
       <% if group.open? %>
-        <% if !group.memberships.find_by(account: current_account) %>
-          <a class="btn btn-default btn-sm" href="/groups/<%=group.slug%>/join"><i class="fa fa-sign-in"></i> Join group</a>
-        <% end %>
+        <a class="btn btn-default btn-sm" href="/groups/<%=group.slug%>/join"><i class="fa fa-sign-in"></i> Join group</a>
       <% elsif group.closed? %>
         <% if group.membership_requests.find_by(account: current_account) %>  
           <a class="btn btn-default btn-sm disabled"><i class="fa fa-check"></i> Membership requested</a>

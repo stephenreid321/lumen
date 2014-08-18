@@ -24,7 +24,6 @@ Lumen::App.controllers do
       :HELP_ADDRESS => 'Email address for general queries',
 
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
-      :ENV_FIELDS_EVENT => 'Extra fields for the Event model',
   
       :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
       :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],

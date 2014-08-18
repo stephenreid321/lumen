@@ -17,9 +17,7 @@ class Event
   field :tickets_link, :type => String
   field :more_info, :type => String
   field :publicity_tweet, :type => String
-  
-  EnvFields.set(self)
-  
+    
   attr_accessor :start_conversation
   
   validates_presence_of :name, :start_time, :end_time, :group, :account, :ticketing
@@ -53,7 +51,7 @@ class Event
       :group_id => :lookup,
       :account_id => :lookup,
       :organisation_id => :lookup
-    }.merge(EnvFields.fields(self))
+    }
   end
   
   def self.human_attribute_name(attr, options={})  

@@ -40,7 +40,7 @@ We'll add the DNS records shortly.
 
 ###  2. Purchase a VPS and set up Virtualmin
 
-Purchase a VPS (check out [http://lowendbox.com/](http://lowendbox.com/), 512mb RAM should do). Use `mail.yourdomain.org` as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. SSH into the VPS and install Virtualmin with:
+Purchase a VPS (Try [RamNode](http://www.ramnode.com/) or [Digital Ocean](http://www.digitalocean.com), 512mb RAM should do). Use `mail.yourdomain.org` as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. SSH into the VPS and install Virtualmin with:
 
 ```
 wget http://software.virtualmin.com/gpl/scripts/install.sh

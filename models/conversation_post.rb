@@ -39,7 +39,11 @@ class ConversationPost
   end
   
   def self.lookup
-    :id
+    :account_name
+  end
+  
+  def account_name
+    account.name
   end
   
   after_create :touch_conversation

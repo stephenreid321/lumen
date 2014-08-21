@@ -30,11 +30,7 @@ class MembershipRequest
       :answers => :text_area
     }
   end
-  
-  def pending?
-    status == 'pending'
-  end
-  
+    
   def self.statuses
     ['pending', 'accepted', 'rejected']
   end    

@@ -70,7 +70,7 @@ class Group
   end  
   
   def members
-    Account.where(:id.in => memberships.only(:account_id).map(&:account_id))
+    Account.where(:id.in => memberships.where(:status => 'confirmed').only(:account_id).map(&:account_id))
   end
   
   def admins

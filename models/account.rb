@@ -79,7 +79,7 @@ fclass Account
   end  
           
   def network    
-    Account.where(:id.in => memberships.map(&:group).map(&:members).flatten.map(&:account_id))
+    Account.where(:id.in => memberships.map(&:group).map { |group| group.memberships.where(:status => 'confirmed') }.flatten.map(&:account_id))
   end
     
   def events

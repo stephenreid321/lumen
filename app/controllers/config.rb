@@ -71,9 +71,7 @@ Lumen::App.controllers do
       :'head' => 'Extra content for &lt;head&gt;',
       :'navbar' => 'Extra content for the navbar',
       :'tip-affiliations' => 'Tip for affiliations field on account edit page',
-      :'tip-location' => 'Tip for location field on account edit page',
-      :'reminder' => 'Alternative text for reminder emails',
-      :'invite' => 'Additional text for invite emails'
+      :'tip-location' => 'Tip for location field on account edit page'
     }     
   end
   

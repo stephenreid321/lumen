@@ -103,7 +103,17 @@ Lumen::App.controllers do
         :subject => "#{@account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
         :body => erb(:'emails/membership_request', :layout => false)
       )
-      mail.deliver      
+      mail.deliver   
+      
+      if @group.membership_request_thanks_email
+        mail = Mail.new(
+          :to => @account.email,
+          :from => "#{@group.slug} <#{@group.email('-noreply')}>",
+          :subject => "Thanks for requesting membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
+          :body => erb(:'emails/membership_request_thanks', :layout => false)
+        )
+        mail.deliver  
+      end
       
       flash[:notice] = 'Your request was sent.'
     end

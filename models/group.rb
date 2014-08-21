@@ -8,6 +8,9 @@ class Group
   field :default_notification_level, :type => String, :default => 'each'
   field :request_intro, :type => String  
   field :request_questions, :type => String
+  field :reminder_email, :type => String
+  field :invite_email, :type => String
+  field :membership_request_thanks_email, :type => String
   
   index({slug: 1 }, {unique: true})
   
@@ -114,6 +117,9 @@ class Group
       :default_notification_level => :text,
       :request_intro => :text_area,      
       :request_questions => :text_area,
+      :reminder_email => :text_area,
+      :invite_email => :text_area,
+      :membership_request_thanks_email => :text_area,
       :group_type_id => :lookup,
       :memberships => :collection,
       :conversations => :collection

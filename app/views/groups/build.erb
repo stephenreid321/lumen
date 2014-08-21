@@ -45,6 +45,11 @@
       <% if GroupType.count > 0 %>
         <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [group_type.name,group_type.id] } %>
       <% end %>
+      <% if @group.persisted? %>
+        <%= f.text_area_block :invite_email %>
+        <%= f.text_area_block :reminder_email %>
+        <%= f.text_area_block :membership_request_thanks_email %>
+      <% end %>
       <%= f.submit_block %>
 
     <% end %> 
@@ -55,11 +60,11 @@
           $('.slug-replace').text($(this).val());
         });
       }).keyup();
-  <% if @group.new_record? %>
+<% if @group.new_record? %>
         $('form').submit(function() {
           $('#group-form button[type=submit]').after(' <span><i class="fa fa-warning"></i> Please be patient, this could take a minute...</span>')
         });
-  <% end %>
+<% end %>
     </script>     
 
   </div>

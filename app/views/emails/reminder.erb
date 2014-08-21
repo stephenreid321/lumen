@@ -2,6 +2,6 @@ Hi <%=@account.name.split(' ').first%>,
    
 <%=current_account.name%> noticed that you haven't yet <%=@issue%> on <%=ENV['DOMAIN']%>.
 
-<%= Fragment.find_by(slug: 'reminder') ? eval(f('reminder')) : 'Well-maintained profiles help build a stronger community. Will you spare a minute to provide the missing details?' %>
+<%= @group.reminder_email ? @group.reminder_email : 'Well-maintained profiles help build a stronger community. Will you spare a minute to provide the missing details?' %>
 
 You can sign in at http://<%=ENV['DOMAIN']%>/sign_in.

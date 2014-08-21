@@ -12,7 +12,7 @@
     </li>    
     <% if @membership.admin? %>             
       <li>
-        <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/members"><i class="fa fa-group"></i> Manage members</a>
+        <a title="Manage members" class="edit restore-opacity" href="/groups/<%=@group.slug%>/manage_members"><i class="fa fa-group"></i> Manage members</a>
       </li>  
       <li>
         <a title="Description" class="edit restore-opacity" href="/groups/<%=@group.slug%>/edit"><i class="fa fa-pencil"></i> Description</a>
@@ -101,7 +101,10 @@ if ENV['GROUP_TAB_ORDER']
   </div>
   <div class="col-md-4">
     <% if current_account %>
-      <h2><%=I18n.t(:members_in_this_group, count: @group.members.count)%></h2>
+      <h2>
+        <%=I18n.t(:members_in_this_group, count: @group.members.count)%>
+        <small><a class="edit" title="View as grid" href="/groups/<%=@group.slug%>/members"><i class="fa fa-th"></i></a></small>
+      </h2>
       <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
     <% else %>
       <%= partial 'groups/join', :locals => {:group => @group} %>

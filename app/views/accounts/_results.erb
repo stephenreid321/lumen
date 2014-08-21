@@ -1,22 +1,22 @@
 
 <p><%= page_entries_info @accounts, :model => 'Person' %></p>
 
-<ul class="list-unstyled clearfix">
-  <% @accounts.each { |account| %>
-    <li style="display: block; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; padding: 5px">
+<% @accounts.each { |account| %>
+  <div class="account">
+    <div style="margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; padding: 5px">
       <%= partial :'accounts/account', :locals => {:account => account}  %>
-    </li>
-  <% } %>
-</ul>
+    </div>
+  </div>
+<% } %>
 
 <script>
   $(function() {
     $('#results .pagination a').click(function(e) {
       e.preventDefault();
       $('#results').load($(this).attr('href'), function() {
-        scroll(0,0);
+        scroll(0, 0);
       });
-    });  
+    });
   });
 </script>
 <%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :page_links => false %>

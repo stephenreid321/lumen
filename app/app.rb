@@ -73,6 +73,11 @@ module Lumen
         erb :home
       end
     end
+    
+    get '/network' do
+      sign_in_required!
+      erb :network
+    end    
             
     get '/about' do
       sign_in_required!

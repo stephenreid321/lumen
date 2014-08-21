@@ -25,7 +25,7 @@ Lumen::App.controllers do
     end    
   end   
   
-  get '/groups/:slug/members' do
+  get '/groups/:slug/manage_members' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
     @view = params[:view] ? params[:view].to_sym : :admins
@@ -55,7 +55,7 @@ Lumen::App.controllers do
     else
       @memberships.sort_by { |membership| membership.account.name }
     end
-    erb :'group_administration/members'
+    erb :'group_administration/manage_members'
   end
    
   get '/groups/:slug/remove_member/:account_id' do

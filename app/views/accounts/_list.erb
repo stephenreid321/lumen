@@ -6,6 +6,9 @@
       $('#filter-spin').show();
       $('#results').load('/accounts/results?' + $(this).serialize(), function() {
         $('#filter-spin').hide();
+        if (typeof colclass != 'undefined') {
+          $('.account').addClass(colclass);
+        }
       });
     });
 
@@ -18,6 +21,7 @@
 </script>
 
 <% form_tag '', :method => 'get', :id => 'results-form' do %>
+  <%= hidden_field_tag :per_page, :value => (per_page if defined? per_page)%> 
   <%= hidden_field_tag :scope, :value => scope %> 
   <%= hidden_field_tag :scope_id, :value => scope_id %> 
   <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => [''], :"data-placeholder" => 'Filter by name' %>

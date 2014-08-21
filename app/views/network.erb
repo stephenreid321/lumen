@@ -1,0 +1,7 @@
+
+<script>
+  colclass = 'col-md-3'
+</script>
+
+<h2><%=I18n.t(:people_in_your_groups, count: current_account.network.count)%></h2>
+<%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil, :per_page => 100} %>

@@ -42,7 +42,7 @@ class ConversationPostBcc
   end
   
   def self.dmarc_fail_domains
-    %w{yahoo.com}
+    %w{yahoo.com aol.com}
   end
       
   after_create :send_bcc

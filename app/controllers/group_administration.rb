@@ -264,21 +264,19 @@ Lumen::App.controllers do
       
     @c = {}
     @cp = {}      
-    @group.conversations.each { |conversation|
-      conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).each_with_index { |conversation_post, i|
-        if i == 0
-          @c[conversation_post.account] = [] if !@c[conversation_post.account]
-          @c[conversation_post.account] << conversation_post
-        end
-        @cp[conversation_post.account] = [] if !@cp[conversation_post.account]
-        @cp[conversation_post.account] << conversation_post
-      }
-    }    
+    @group.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).only(:account_id).each_with_index { |conversation_post, i|
+      if i == 0
+        @c[conversation_post.account_id] = [] if !@c[conversation_post.account_id]
+        @c[conversation_post.account_id] << conversation_post.id
+      end
+      @cp[conversation_post.account_id] = [] if !@cp[conversation_post.account_id]
+      @cp[conversation_post.account_id] << conversation_post.id
+    }
     
     @e = {}
-    @group.events.each { |event|
-      @e[event.account] = [] if !@e[event.account]
-      @e[event.account] << event
+    @group.events.only(:account_id).each { |event|
+      @e[event.account_id] = [] if !@e[event.account_id]
+      @e[event.account_id] << event.id
     }    
     
     erb :'group_administration/stats'

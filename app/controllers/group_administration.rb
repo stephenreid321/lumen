@@ -264,7 +264,7 @@ Lumen::App.controllers do
       
     @c = {}
     @cp = {}      
-    @group.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).only(:account_id).each_with_index { |conversation_post, i|
+    @group.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).only(:id, :account_id).each_with_index { |conversation_post, i|
       if i == 0
         @c[conversation_post.account_id] = [] if !@c[conversation_post.account_id]
         @c[conversation_post.account_id] << conversation_post.id
@@ -274,7 +274,7 @@ Lumen::App.controllers do
     }
     
     @e = {}
-    @group.events.only(:account_id).each { |event|
+    @group.events.only(:id, :account_id).each { |event|
       @e[event.account_id] = [] if !@e[event.account_id]
       @e[event.account_id] << event.id
     }    

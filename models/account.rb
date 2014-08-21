@@ -1,4 +1,4 @@
-class Account
+fclass Account
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model
@@ -79,7 +79,7 @@ class Account
   end  
           
   def network    
-    Account.where(:id.in => memberships.map(&:group).map(&:memberships).flatten.map(&:account_id))
+    Account.where(:id.in => memberships.map(&:group).map(&:members).flatten.map(&:account_id))
   end
     
   def events

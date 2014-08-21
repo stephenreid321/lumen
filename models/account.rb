@@ -156,6 +156,16 @@ class Account
     update_attribute(:secret_token, ::BCrypt::Password.create(self.id)) if !self.secret_token
     self.secret_token
   end  
+  
+  def self.new_tips
+    {
+      :location => 'Your home location'
+    }
+  end
+  
+  def self.edit_tips
+    self.new_tips
+  end  
           
   def self.fields_for_index
     [:name, :email, :phone, :created_at]

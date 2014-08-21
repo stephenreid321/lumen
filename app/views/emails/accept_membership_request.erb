@@ -1,5 +1,11 @@
 Hi <%=@account.name%>,
    
 You have been granted membership of <%=@group.slug%> on <%=ENV['SITE_NAME_DEFINITE']%>.
-
-You can sign in at http://<%=ENV['DOMAIN']%>/sign_in<%=@new_password ? " with the password: #{@account.password}" : '' %>.
+<% if @membership.status == 'pending' %>
+You need to sign in to start receiving email notifications.
+<% end%>
+<% if @never_signed_in %>
+You can sign in at http://<%=ENV['DOMAIN']%>/sign_in with the email address <%=@account.email%> and the password <%=@account.password%>.
+<% else %>
+Sign in at http://<%=ENV['DOMAIN']%>/sign_in
+<% end %>

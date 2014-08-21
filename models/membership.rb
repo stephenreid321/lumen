@@ -30,13 +30,13 @@ class Membership
   end
       
   before_validation do
+    self.receive_membership_requests = false unless admin?
     if self.group and !self.notification_level
       self.notification_level = group.default_notification_level
     end
     if self.account and !self.status
       self.status = (account.sign_ins.count == 0 ? 'pending' : 'confirmed')
     end
-    self.receive_membership_requests = false unless admin?
   end
     
   def self.lookup

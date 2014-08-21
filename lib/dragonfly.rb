@@ -7,7 +7,7 @@ Dragonfly.app.configure do
     if dragonfly_job = DragonflyJob.find_by(signature: job.signature)
       app.datastore.url_for(dragonfly_job.uid)
     else
-      app.server.url_for(job)
+      app.server.url_for(job, :host => ENV['DOMAIN'])
     end
   end
 

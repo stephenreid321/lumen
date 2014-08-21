@@ -6,9 +6,6 @@
       $('#filter-spin').show();
       $('#results').load('/accounts/results?' + $(this).serialize(), function() {
         $('#filter-spin').hide();
-        if (typeof colclass != 'undefined') {
-          $('.account').addClass(colclass);
-        }
       });
     });
 

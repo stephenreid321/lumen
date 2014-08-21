@@ -103,7 +103,7 @@ if ENV['GROUP_TAB_ORDER']
     <% if current_account %>
       <h2>
         <%=I18n.t(:members_in_this_group, count: @group.members.count)%>
-        <small><a class="edit" title="View as grid" href="/groups/<%=@group.slug%>/members"><i class="fa fa-th"></i></a></small>
+        <small><a class="edit" title="Full page" href="/groups/<%=@group.slug%>/members"><i class="fa fa-th-list"></i></a></small>
       </h2>
       <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
     <% else %>

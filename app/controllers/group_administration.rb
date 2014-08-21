@@ -47,7 +47,7 @@ Lumen::App.controllers do
     when :geocoding_failed
       @group.memberships.select { |membership| membership.account.location and !membership.account.coordinates }
     when :requests
-      @group.membership_requests # quacks like a membership
+      @group.membership_requests.where(:status => 'pending') # quacks like a membership
     end
     @memberships = case @view
     when :connected_to_twitter
@@ -231,8 +231,10 @@ Lumen::App.controllers do
       )
       mail.deliver      
       
+      membership_request.update_attribute(:status, 'accepted')
+    else
+      membership_request.update_attribute(:status, 'rejected')
     end
-    membership_request.destroy
     redirect back
   end
   

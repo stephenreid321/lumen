@@ -55,7 +55,7 @@ Lumen::App.controllers do
   get '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     redirect back unless @group.closed?
-    (flash[:notice] = "You've already requested membership to that group" and redirect back) if @group.membership_requests.find_by(account: current_account)
+    (flash[:notice] = "You've already requested membership to that group" and redirect back) if @group.membership_requests.find_by(account: current_account, status: 'pending')
     erb :'groups/request_membership'
   end
 
@@ -87,10 +87,10 @@ Lumen::App.controllers do
     
     if @group.memberships.find_by(account: @account)
       flash[:notice] = "You're already a member of that group!"
-    elsif @group.membership_requests.find_by(account: @account)
+    elsif @group.membership_requests.find_by(account: @account, status: 'pending')
       flash[:notice] = "You've already requested membership of that group."
     else
-      @group.membership_requests.create :account => @account, :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
+      @group.membership_requests.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
       
       group = @group
       Mail.defaults do

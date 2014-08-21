@@ -11,7 +11,7 @@ Lumen::App.controllers do
     @group = Group.new(params[:group])    
     if @group.save  
       flash[:notice] = "<strong>Great!</strong> The group was created successfully."
-      @group.memberships.create! :account => current_account, :role => 'admin'
+      @group.memberships.create! :account => current_account, :admin => true
       redirect "/groups/#{@group.slug}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the group from being saved."

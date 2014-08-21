@@ -7,7 +7,7 @@ class Account
   field :email, :type => String
   field :secret_token, :type => String
   field :crypted_password, :type => String
-  field :role, :type => String, :default => 'user'
+  field :admin, :type => Boolean
   field :time_zone, :type => String
   field :has_picture, :type => Boolean
   field :picture_uid, :type => String  
@@ -74,6 +74,11 @@ class Account
     '3DA2E4'
   end
   
+  before_validation :admin_to_boolean
+  def admin_to_boolean
+    if self.admin == '0'; self.admin = false; elsif self.admin == '1'; self.admin = true; end; return true
+  end      
+  
   before_validation :translator_to_boolean
   def translator_to_boolean
     if self.translator == '0'; self.translator = false; elsif self.translator == '1'; self.translator = true; end; return true
@@ -137,7 +142,6 @@ class Account
   validates_presence_of :name, :email
   validates_presence_of :password, :if => :password_required
   validates_presence_of :password_confirmation, :if => :password_required  
-  validates_presence_of :role # defaults
   
   validates_length_of :email, :within => 3..100
   validates_uniqueness_of :email, :case_sensitive => false
@@ -174,7 +178,7 @@ class Account
       :phone => :text, 
       :website => :text,
       :picture => :image,
-      :role => :select,
+      :admin => :check_box,
       :translator => :check_box,
       :time_zone => :select,
       :language_id => :lookup,
@@ -209,15 +213,7 @@ class Account
   def self.time_zones
     ['']+ActiveSupport::TimeZone::MAPPING.keys.sort
   end  
-    
-  def self.roles
-    ['user','admin']
-  end    
-  
-  def admin?
-    role == 'admin'
-  end
-  
+        
   def self.lookup
     :name
   end  

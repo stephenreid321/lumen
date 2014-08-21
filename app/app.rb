@@ -43,7 +43,7 @@ module Lumen
           
     get '/' do
       if Account.count == 0       
-        account = Account.create!(:name => 'Lumen Admin', :password => 'lumen', :password_confirmation => 'lumen', :email => 'admin@example.com', :role => 'admin')
+        account = Account.create!(:name => 'Lumen Admin', :password => 'lumen', :password_confirmation => 'lumen', :email => 'admin@example.com', :admin => true)
         account.generate_secret_token
         SignIn.create(account: account)
         session['account_id'] = account.id

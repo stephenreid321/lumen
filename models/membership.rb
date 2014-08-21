@@ -2,7 +2,7 @@ class Membership
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  field :role, :type => String, :default => 'member'
+  field :admin, :type => Boolean
   field :notification_level, :type => String
   field :status, :type => String
   field :reminder_sent, :type => Time
@@ -14,7 +14,7 @@ class Membership
   validates_uniqueness_of :account, :scope => :group
       
   def self.fields_for_index
-    [:account_id, :group_id, :role, :status, :notification_level]
+    [:account_id, :group_id, :admin, :status, :notification_level]
   end
   
   def self.fields_for_form
@@ -22,10 +22,15 @@ class Membership
       :account_id => :lookup,
       :group_id => :lookup,
       :notification_level => :select,
-      :role => :select,
+      :admin => :check_box,
       :status => :select      
     }
   end
+  
+  before_validation :admin_to_boolean
+  def admin_to_boolean
+    if self.admin == '0'; self.admin = false; elsif self.admin == '1'; self.admin = true; end; return true
+  end   
   
   before_validation do
     if self.group and !self.notification_level
@@ -46,14 +51,6 @@ class Membership
   
   def self.notification_levels
     ['none', 'each', 'daily', 'weekly']
-  end
-  
-  def self.roles
-    ['member', 'admin']
-  end
-  
-  def admin?
-    role == 'admin'
   end
 
 end

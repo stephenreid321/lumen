@@ -31,9 +31,9 @@ Lumen::App.controllers do
     @view = params[:view] ? params[:view].to_sym : :admins
     @memberships = case @view
     when :admins
-      @group.memberships.where(:role => 'admin')
+      @group.memberships.where(:admin => true)
     when :others
-      @group.memberships.where(:role => 'member')
+      @group.memberships.where(:admin.ne => true)
     when :not_completed_signup
       @group.memberships.select { |membership| membership.status == 'pending' }
     when :no_picture
@@ -71,7 +71,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
-    @membership.update_attribute(:role, 'admin')
+    @membership.update_attribute(:admin, true)
     flash[:notice] = "#{@membership.account.name} was made an admin"
     redirect back
   end   
@@ -80,7 +80,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
-    @membership.update_attribute(:role, 'member')
+    @membership.update_attribute(:admin, false)
     flash[:notice] = "#{@membership.account.name}'s admin rights were revoked"
     redirect back
   end   
@@ -130,7 +130,7 @@ Lumen::App.controllers do
       end
       
       @membership = @group.memberships.build :account => @account
-      @membership.role = 'admin' if params[:role] == 'admin'
+      @membership.admin = true if params[:admin]
       @membership.status = 'confirmed' if params[:status] == 'confirmed'
       @membership.save
       

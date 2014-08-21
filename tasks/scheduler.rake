@@ -1,6 +1,6 @@
 
 def path(x)
-  open("http://#{ENV['DOMAIN']}#{x}?token=#{Account.find_by(role: 'admin').generate_secret_token}")
+  open("http://#{ENV['DOMAIN']}#{x}?token=#{Account.find_by(admin: true).generate_secret_token}")
 end
 
 namespace :cleanup do

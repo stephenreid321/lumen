@@ -37,7 +37,7 @@ class TestGroups < ActiveSupport::TestCase
     @group = FactoryGirl.create(:group)    
     @group.memberships.create! :account => @account1
     @group.memberships.create! :account => @account2
-    @conversation = @group.conversations.create! :subject => 'black holes'
+    @conversation = @group.conversations.create! :subject => 'black holes', :account => @account1
     @conversation.conversation_posts.create! :body => 'real dark', :account => @account1
     login_as(@account2)   
     click_link 'Home'  

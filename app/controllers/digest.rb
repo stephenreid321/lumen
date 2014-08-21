@@ -60,7 +60,7 @@ Lumen::App.controllers do
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today    
     @h2 = params[:h2]
     @customised_html = params[:customised_html]
-    conversation = @group.conversations.create!(subject: "#{@h2}: #{compact_daterange(@from,@to)}")
+    conversation = @group.conversations.create!(subject: "#{@h2}: #{compact_daterange(@from,@to)}", account: current_account)
     conversation_post = conversation.conversation_posts.create!(      
       :body => @customised_html,
       :account => current_account

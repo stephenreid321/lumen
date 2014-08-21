@@ -31,7 +31,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     ((flash[:error] = %Q{Please provide a subject and body}) and redirect back) unless (params[:subject] and params[:body])
-    @conversation = @group.conversations.create!(subject: params[:subject])
+    @conversation = @group.conversations.create!(subject: params[:subject], account: current_account)
     @conversation_post = @conversation.conversation_posts.create!(:body => params[:body], :account => current_account)        
     if params[:attachment]
       @conversation_post.attachments.create! :file => params[:attachment]

@@ -66,7 +66,7 @@ Lumen::App.controllers do
     if @event.save  
       flash[:notice] = "<strong>Great!</strong> The event was created successfully."
       if @event.start_conversation == '1'
-        conversation = @event.group.conversations.create!(subject: "New event: #{@event.name}")
+        conversation = @event.group.conversations.create!(subject: "New event: #{@event.name}", account: current_account)
         conversation_post = conversation.conversation_posts.create!(
           :body => %Q{<h2><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/calendar/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
           :account => @event.account)

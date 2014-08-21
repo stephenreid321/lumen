@@ -32,6 +32,7 @@ class Account
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy  
   has_many :conversation_mutes, :dependent => :destroy
+  has_many :conversations_as_creator, :class_name => 'Conversation', :dependent => :destroy
   has_many :conversation_posts_as_creator, :class_name => 'ConversationPost', :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
   has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy

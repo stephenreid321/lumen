@@ -285,7 +285,7 @@ class Group
         }
       else
         new_conversation = true
-        conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject)                  
+        conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account
         next if !conversation.persisted? # failed to find/create a valid conversation - probably a dupe
         ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
           html = html.split(pattern).first

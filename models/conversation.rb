@@ -3,7 +3,8 @@ class Conversation
   include Mongoid::Timestamps
   
   belongs_to :group, index: true  
-    
+  belongs_to :account, index: true
+  
   has_many :conversation_posts, :dependent => :destroy
   has_many :conversation_mutes, :dependent => :destroy
   
@@ -13,11 +14,11 @@ class Conversation
   
   index({slug: 1 }, {unique: true})
   
-  validates_presence_of :subject, :slug, :group
+  validates_presence_of :subject, :slug, :group, :account
   validates_uniqueness_of :slug
         
   def self.fields_for_index
-    [:subject, :hidden, :slug, :group_id]
+    [:subject, :hidden, :slug, :group_id, :account_id]
   end
   
   before_validation :set_slug
@@ -44,6 +45,7 @@ class Conversation
       :slug => :text,
       :hidden => :check_box,
       :group_id => :lookup,      
+      :account_id => :lookup,      
       :conversation_posts => :collection
     }
   end

@@ -27,9 +27,9 @@
         $(function() {
           function toggle_request_questions() {
             if ($("input[name='group[privacy]']:checked").val() == 'closed')
-              $('#request-questions').show()
+              $('#closed-extras').show()
             else
-              $('#request-questions').hide()
+              $('#closed-extras').hide()
           }
           $("input[name='group[privacy]']").click(function() {
             toggle_request_questions();
@@ -37,7 +37,8 @@
           toggle_request_questions();
         });
       </script>
-      <div id="request-questions">
+      <div id="closed-extras">
+        <%= f.text_area_block :request_intro %>
         <%= f.text_area_block :request_questions %>
       </div>
       <%= f.select_block :default_notification_level %>

@@ -17,7 +17,8 @@ class MembershipRequest
   def self.fields_for_form
     {
       :account_id => :lookup,
-      :group_id => :lookup
+      :group_id => :lookup,
+      :answers => :text_area
     }
   end
   

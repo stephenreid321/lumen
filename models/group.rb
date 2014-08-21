@@ -6,6 +6,7 @@ class Group
   field :description, :type => String
   field :privacy, :type => String
   field :default_notification_level, :type => String, :default => 'each'
+  field :request_intro, :type => String  
   field :request_questions, :type => String
   
   index({slug: 1 }, {unique: true})
@@ -111,6 +112,7 @@ class Group
       :description => :text_area,
       :privacy => :radio,
       :default_notification_level => :text,
+      :request_intro => :text_area,      
       :request_questions => :text_area,
       :group_type_id => :lookup,
       :memberships => :collection,
@@ -124,6 +126,7 @@ class Group
   
   def self.new_tips
     {
+      :request_intro => 'HTML to display above request form',
       :request_questions => 'Questions to ask to people requesting membership. One per line.'
     }
   end

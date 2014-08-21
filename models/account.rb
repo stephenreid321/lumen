@@ -2,7 +2,7 @@ class Account
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model
-  
+    
   field :name, :type => String
   field :email, :type => String
   field :secret_token, :type => String

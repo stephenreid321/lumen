@@ -42,7 +42,7 @@
       <dt>[conversation_url]</dt>
       <dd>URL of the conversation</dd>
       <dt>[members]</dt>
-      <dd>Number of members of the group <em>e.g. <%=pluralize(@group.memberships.count,'member')%></em></dd>
+      <dd>Number of members of the group <em>e.g. <%=pluralize(@group.members.count,'member')%></em></dd>
       <dt>[upcoming_events]</dt>
       <dd>Number of upcoming events <em>e.g. <%=pluralize(@group.events.where(:start_time.gt => Time.now).count,'upcoming event')%></em></dd>  
       <dt>[most_recently_updated_url]</dt>

@@ -34,7 +34,7 @@ Lumen::App.controllers do
     if request.xhr?
       points = []
       if params[:organisations]
-        points += @group.memberships.map(&:account).map(&:affiliations).flatten.map(&:organisation).uniq
+        points += @group.members.map(&:affiliations).flatten.map(&:organisation).uniq
       end
       if params[:spaces]
         spaces = @group.spaces

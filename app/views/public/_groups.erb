@@ -6,7 +6,7 @@
         <h2>
           <a href="/groups/<%=group.slug%>"><%=group.slug%></a>
           <small>
-            <%=pluralize(group.memberships.count, 'member')%>
+            <%=pluralize(group.members.count, 'member')%>
           </small>
         </h2>
         <p><%= group.description %></p>

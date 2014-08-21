@@ -13,7 +13,7 @@
   <h2>
     <a href="/groups/<%=group.slug%>"><%=group.slug%></a>
     <small>
-      <%=pluralize(group.memberships.count, 'member')%>
+      <%=pluralize(group.members.count, 'member')%>
     </small>
     <% if !(membership = group.memberships.find_by(account: current_account)) %>
 

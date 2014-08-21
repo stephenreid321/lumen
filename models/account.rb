@@ -159,7 +159,7 @@ class Account
   
   def self.new_tips
     {
-      :location => 'Your home location'
+      :location => 'Your home location, to appear on maps'
     }
   end
   

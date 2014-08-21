@@ -2,10 +2,18 @@
 body { padding: 60px 0 20px 0; }
 
 .breadcrumb { background: #F8F8F8; border: 0 }
+
+ul.nav.nav-tabs { width: 100% }
 .tabs-left .nav-tabs > li > a { transition: none; color: #aaa }
 .tabs-left .nav-tabs > li.active > a { color: black }
 .tabs-left .nav-tabs > li > a:hover, .nav-tabs > li > a:focus, .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs .open > a, .nav-tabs .open > a:hover, .nav-tabs .open > a:focus { padding: 10px 15px; margin-top: 6px; color: black }
 .tabs-left .nav-tabs > li > a:hover { background: #EDEDED; }
+.nav-tabs > li > a { color: #aaa }
+.nav-tabs > li.active > a { background: #318CBA !important; color: white !important }
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus { border-color: #318CBA !important }
+.nav-tabs > li > a { white-space: nowrap; overflow: hidden; font-weight: bold; text-transform: uppercase; padding: 5px !important }
+.nav-tabs > li > a { font-size: 11px }
+.nav-tabs > li > a > i { font-size: 14px }
 
 table a, .table a { text-decoration: none }
 table a:hover, .table a:hover { text-decoration: underline }

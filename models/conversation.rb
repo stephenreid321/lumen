@@ -37,12 +37,7 @@ class Conversation
       errors.add(:subject, 'is a duplicate') if self.group == most_recent.group and self.subject == most_recent.subject
     end
   end
-  
-  before_validation :hidden_to_boolean
-  def hidden_to_boolean
-    if self.hidden == '0'; self.hidden = false; elsif self.hidden == '1'; self.hidden = true; end; return true
-  end  
-  
+    
   def self.fields_for_form
     {
       :subject => :text,

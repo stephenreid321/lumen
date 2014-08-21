@@ -37,22 +37,7 @@ class Space
   belongs_to :account, index: true
   
   validates_presence_of :name, :address, :coordinates
-  
-  before_validation :serves_food_to_boolean
-  def serves_food_to_boolean
-    if self.serves_food == '0'; self.serves_food = false; elsif self.serves_food == '1'; self.serves_food = true; end; return true
-  end  
-
-  before_validation :serves_alcohol_to_boolean
-  def serves_alcohol_to_boolean
-    if self.serves_alcohol == '0'; self.serves_alcohol = false; elsif self.serves_alcohol == '1'; self.serves_alcohol = true; end; return true
-  end  
-  
-  before_validation :approx_to_boolean
-  def approx_to_boolean
-    if self.approx == '0'; self.approx = false; elsif self.approx == '1'; self.approx = true; end; return true
-  end    
-    
+      
   before_validation do
     self.link = "http://#{self.link}" if self.link and !(self.link =~ /\Ahttps?:\/\//)
     errors.add(:coordinates, 'must be present') if !coordinates or coordinates.all? { |x| x.blank? }

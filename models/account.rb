@@ -73,17 +73,7 @@ class Account
   def self.marker_color
     '3DA2E4'
   end
-  
-  before_validation :admin_to_boolean
-  def admin_to_boolean
-    if self.admin == '0'; self.admin = false; elsif self.admin == '1'; self.admin = true; end; return true
-  end      
-  
-  before_validation :translator_to_boolean
-  def translator_to_boolean
-    if self.translator == '0'; self.translator = false; elsif self.translator == '1'; self.translator = true; end; return true
-  end    
-  
+    
   def public_memberships
     Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))
   end  

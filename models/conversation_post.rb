@@ -50,12 +50,7 @@ class ConversationPost
   def touch_conversation
     conversation.update_attribute(:updated_at, Time.now) unless conversation.hidden
   end
-  
-  before_validation :hidden_to_boolean
-  def hidden_to_boolean
-    if self.hidden == '0'; self.hidden = false; elsif self.hidden == '1'; self.hidden = true; end; return true
-  end  
-    
+      
   def send_notifications!(exclude = [])
     unless conversation.hidden
       emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }

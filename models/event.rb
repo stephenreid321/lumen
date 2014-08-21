@@ -71,17 +71,7 @@ class Event
   def self.ticketings
     ['No ticket required','Free, but please RSVP', 'Ticket required']
   end
-  
-  before_validation :consider_time_to_boolean
-  def consider_time_to_boolean
-    if self.consider_time == '0'
-      self.consider_time = false
-    elsif self.consider_time == '1'
-      self.consider_time = true
-    end
-    return true
-  end
-  
+    
   def when_details
     if consider_time
       if start_time.to_date == end_time.to_date

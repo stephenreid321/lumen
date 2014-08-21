@@ -14,11 +14,6 @@ class Language
   validates_uniqueness_of :code
   validates_uniqueness_of :default, :if => :default
   
-  before_validation :default_to_boolean
-  def default_to_boolean
-    if self.default == '0'; self.default = false; elsif self.default == '1'; self.default = true; end; return true
-  end    
-  
   before_validation do
     errors.add(:code, 'must be two lowercase letters') unless code and code == code.downcase and code.length == 2
   end

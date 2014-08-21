@@ -1,4 +1,4 @@
-fclass Account
+class Account
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model

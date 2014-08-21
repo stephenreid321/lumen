@@ -11,7 +11,7 @@ Lumen::App.controllers do
     @group = Group.new(params[:group])    
     if @group.save  
       flash[:notice] = "<strong>Great!</strong> The group was created successfully."
-      @group.memberships.create! :account => current_account, :admin => true
+      @group.memberships.create! :account => current_account, :admin => true, :receive_membership_requests => true
       redirect "/groups/#{@group.slug}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the group from being saved."
@@ -98,7 +98,7 @@ Lumen::App.controllers do
       end      
       
       mail = Mail.new(
-        :to => @group.admins.map(&:email),
+        :to => @group.admins_receiving_membership_requests.map(&:email),
         :from => "#{@group.slug} <#{@group.email('-noreply')}>",
         :subject => "#{@account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
         :body => erb(:'emails/membership_request', :layout => false)

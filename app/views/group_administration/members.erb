@@ -68,6 +68,15 @@
               <% end %>
             </td>
             <td>
+              <% if membership.admin? %>
+                <% if membership.receive_membership_requests? %>
+                  <a title="Stop receiving membership requests" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/stop_receiving_membership_requests/<%=membership.account_id%>"><i class="fa fa-envelope-o"></i></a>
+                <% else %>
+                  <a title="Receive membership requests" class="edit" href="/groups/<%=@group.slug%>/receive_membership_requests/<%=membership.account_id%>"><i class="fa fa-envelope-o"></i></a>
+                <% end %>
+              <% end %>
+            </td>            
+            <td>
               <form style="display:inline" method="get" action="/groups/<%=@group.slug%>/set_notification_level/<%=membership.account_id%>">
                 <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => membership.notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto;" %>
               </form>                       

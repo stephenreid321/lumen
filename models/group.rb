@@ -77,6 +77,10 @@ class Group
     Account.where(:id.in => memberships.where(:admin => true).only(:account_id).map(&:account_id))
   end
   
+  def admins_receiving_membership_requests
+    Account.where(:id.in => memberships.where(:admin => true, :receive_membership_requests => true).only(:account_id).map(&:account_id))
+  end  
+  
   def twitter_handles
     memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
   end  

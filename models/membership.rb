@@ -3,6 +3,7 @@ class Membership
   include Mongoid::Timestamps
   
   field :admin, :type => Boolean
+  field :receive_membership_requests, :type => Boolean  
   field :notification_level, :type => String
   field :status, :type => String
   field :reminder_sent, :type => Time
@@ -14,16 +15,17 @@ class Membership
   validates_uniqueness_of :account, :scope => :group
       
   def self.fields_for_index
-    [:account_id, :group_id, :admin, :status, :notification_level]
+    [:account_id, :group_id, :admin, :receive_membership_requests, :status, :notification_level]
   end
   
   def self.fields_for_form
     {
       :account_id => :lookup,
       :group_id => :lookup,
-      :notification_level => :select,
       :admin => :check_box,
-      :status => :select      
+      :receive_membership_requests => :check_box,
+      :status => :select,
+      :notification_level => :select
     }
   end
   
@@ -32,6 +34,11 @@ class Membership
     if self.admin == '0'; self.admin = false; elsif self.admin == '1'; self.admin = true; end; return true
   end   
   
+  before_validation :receive_membership_requests_to_boolean
+  def receive_membership_requests_to_boolean
+    if self.receive_membership_requests == '0'; self.receive_membership_requests = false; elsif self.receive_membership_requests == '1'; self.receive_membership_requests = true; end; return true
+  end     
+  
   before_validation do
     if self.group and !self.notification_level
       self.notification_level = group.default_notification_level
@@ -39,6 +46,7 @@ class Membership
     if self.account and !self.status
       self.status = (account.sign_ins.count == 0 ? 'pending' : 'confirmed')
     end
+    self.receive_membership_requests = false unless admin?
   end
     
   def self.lookup

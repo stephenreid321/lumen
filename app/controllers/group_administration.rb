@@ -67,11 +67,30 @@ Lumen::App.controllers do
     redirect back
   end 
   
+  get '/groups/:slug/receive_membership_requests/:account_id' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    @membership = @group.memberships.find_by(account_id: params[:account_id])
+    @membership.update_attribute(:receive_membership_requests, true)
+    flash[:notice] = "#{@membership.account.name} will now be notified of membership requests"
+    redirect back
+  end   
+  
+  get '/groups/:slug/stop_receiving_membership_requests/:account_id' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    @membership = @group.memberships.find_by(account_id: params[:account_id])
+    @membership.update_attribute(:receive_membership_requests, false)
+    flash[:notice] = "#{@membership.account.name} will no longer be notified of membership requests"
+    redirect back
+  end   
+  
   get '/groups/:slug/make_admin/:account_id' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:admin, true)
+    @membership.update_attribute(:receive_membership_requests, true)
     flash[:notice] = "#{@membership.account.name} was made an admin"
     redirect back
   end   
@@ -81,6 +100,7 @@ Lumen::App.controllers do
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:admin, false)
+    @membership.update_attribute(:receive_membership_requests, false)
     flash[:notice] = "#{@membership.account.name}'s admin rights were revoked"
     redirect back
   end   

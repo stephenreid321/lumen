@@ -262,15 +262,16 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
       
-    @c = {}
-    @cp = {}      
-    @group.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).only(:id, :account_id).each_with_index { |conversation_post, i|
-      if i == 0
-        @c[conversation_post.account_id] = [] if !@c[conversation_post.account_id]
-        @c[conversation_post.account_id] << conversation_post.id
-      end
+    @c = {}    
+    @group.conversations.where(:hidden.ne => true).only(:id, :account_id).each_with_index { |conversation|
+      @c[conversation.account_id] = [] if !@c[conversation.account_id]
+      @c[conversation.account_id] << conversation.id
+    }
+        
+    @cp = {}  
+    @group.conversation_posts.where(:hidden.ne => true).only(:id, :account_id).each_with_index { |conversation_post|
       @cp[conversation_post.account_id] = [] if !@cp[conversation_post.account_id]
-      @cp[conversation_post.account_id] << conversation_post.id
+      @cp[conversation_post.account_id] << conversation_post.id    
     }
     
     @e = {}

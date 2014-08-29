@@ -11,6 +11,7 @@ class Group
   field :reminder_email, :type => String
   field :invite_email, :type => String
   field :membership_request_thanks_email, :type => String
+  field :membership_request_acceptance_email, :type => String
   
   index({slug: 1 }, {unique: true})
   
@@ -124,6 +125,7 @@ class Group
       :reminder_email => :text_area,
       :invite_email => :text_area,
       :membership_request_thanks_email => :text_area,
+      :membership_request_acceptance_email => :text_area,
       :group_type_id => :lookup,
       :memberships => :collection,
       :conversations => :collection
@@ -137,7 +139,9 @@ class Group
   def self.new_tips
     {
       :request_intro => 'HTML to display above request form',
-      :request_questions => 'Questions to ask to people requesting membership. One per line.'
+      :request_questions => 'Questions to ask to people requesting membership. One per line.',
+      :membership_request_thanks_email => 'HTML. Replacements: [firstname]',
+      :membership_request_acceptance_email => 'HTML. Replacements: [firstname]'
     }
   end
   

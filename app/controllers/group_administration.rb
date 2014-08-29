@@ -235,7 +235,7 @@ Lumen::App.controllers do
         @account.password = Account.generate_password(8)
         @account.password_confirmation = @account.password
         @account.save
-        @never_signed_in = true        
+        @first_time_sign_in_details = "You can sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{@account.password}."
       end
     
       group = @group # instance var not available in defaults block
@@ -243,14 +243,24 @@ Lumen::App.controllers do
         delivery_method :smtp, group.smtp_settings
       end      
       
-      mail = Mail.new(
-        :to => @account.email,
-        :from => "#{@group.slug} <#{@group.email('-noreply')}>",
-        :subject => "You're now a member of the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
-        :body => erb(:'emails/accept_membership_request', :layout => false)
-      )
-      mail.deliver      
-      
+        b = if @group.membership_request_acceptance_email and @first_time_sign_in_details
+          @group.membership_request_acceptance_email
+          .gsub('[firstname]',@account.name.split(' ').first)
+          .gsub('[first_time_sign_in_details]',@first_time_sign_in_details)
+        else
+          erb(:'emails/membership_request_acceptance', :layout => false)
+        end
+        
+        mail = Mail.new
+        mail.to = @account.email
+        mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
+        mail.subject = "You're now a member of the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}"
+        mail.html_part do
+          content_type 'text/html; charset=UTF-8'
+          body b
+        end
+        mail.deliver      
+            
       membership_request.update_attribute(:status, 'accepted')
     else
       membership_request.update_attribute(:status, 'rejected')

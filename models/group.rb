@@ -280,7 +280,7 @@ class Group
             conversation = group.conversations.find_by(slug: conversation_url_match[-1])
         )
         new_conversation = false
-        [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________', '<div.*#B5C4DF.*>'].each { |pattern|
+        [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________'].each { |pattern|
           html = html.split(pattern).first
         }
       else

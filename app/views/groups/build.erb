@@ -27,9 +27,9 @@
         $(function() {
           function toggle_request_questions() {
             if ($("input[name='group[privacy]']:checked").val() == 'closed')
-              $('#closed-extras').show()
+              $('.closed-only').show()
             else
-              $('#closed-extras').hide()
+              $('.closed-only').hide()
           }
           $("input[name='group[privacy]']").click(function() {
             toggle_request_questions();
@@ -37,7 +37,7 @@
           toggle_request_questions();
         });
       </script>
-      <div id="closed-extras">
+      <div class="closed-only">
         <%= f.text_area_block :request_intro %>
         <%= f.text_area_block :request_questions %>
       </div>
@@ -48,8 +48,10 @@
       <% if @group.persisted? %>
         <%= f.text_area_block :invite_email %>
         <%= f.text_area_block :reminder_email %>
-        <%= f.text_area_block :membership_request_thanks_email %>
-        <%= f.text_area_block :membership_request_acceptance_email %>
+        <div class="closed-only">
+          <%= f.text_area_block :membership_request_thanks_email %>
+          <%= f.text_area_block :membership_request_acceptance_email %>
+        </div>
       <% end %>
       <%= f.submit_block %>
 

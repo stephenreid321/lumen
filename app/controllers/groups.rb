@@ -92,8 +92,10 @@ Lumen::App.controllers do
     
     if @group.memberships.find_by(account: @account)
       flash[:notice] = "You're already a member of that group!"
+      redirect back
     elsif @group.membership_requests.find_by(account: @account, status: 'pending')
       flash[:notice] = "You've already requested membership of that group."
+      redirect back
     else
       @group.membership_requests.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
       
@@ -124,8 +126,8 @@ Lumen::App.controllers do
       end
       
       flash[:notice] = 'Your request was sent.'
-    end
-    redirect back
+      redirect '/'
+    end    
   end
   
   get '/groups/:slug/join' do

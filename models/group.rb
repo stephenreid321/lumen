@@ -141,7 +141,7 @@ class Group
       :request_intro => 'HTML to display above request form',
       :request_questions => 'Questions to ask to people requesting membership. One per line.',
       :membership_request_thanks_email => 'HTML. Replacements: [firstname]',
-      :membership_request_acceptance_email => 'HTML. Replacements: [firstname]'
+      :membership_request_acceptance_email => 'HTML. Replacements: [firstname], [first_time_sign_in_details]'
     }
   end
   

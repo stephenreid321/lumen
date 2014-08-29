@@ -228,9 +228,7 @@ Lumen::App.controllers do
     group_admins_only!
     membership_request = @group.membership_requests.find(params[:id])    
     if params[:accept]
-      @account = membership_request.account
-      @group.memberships.create(:account => @account)
-      
+      @account = membership_request.account      
       if @account.sign_ins.count == 0
         @account.password = Account.generate_password(8)
         @account.password_confirmation = @account.password
@@ -262,6 +260,7 @@ Lumen::App.controllers do
         mail.deliver      
             
       membership_request.update_attribute(:status, 'accepted')
+      @group.memberships.create(:account => @account)      
     else
       membership_request.update_attribute(:status, 'rejected')
     end

@@ -80,12 +80,9 @@ Lumen::App.controllers do
       
       if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   
         @new_account = true
-        @account = Account.new({
-            :name => name,
-            :password => Account.generate_password(8),
-            :email => email
-          })
-        @account.password_confirmation = @account.password
+        @account = Account.new({:name => name, :email => email})               
+        @account.password = Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
+        @account.password_confirmation = @account.password 
         if !@account.save
           flash[:error] = "Failed to create an account for #{email} - is this a valid email address?"
           redirect back

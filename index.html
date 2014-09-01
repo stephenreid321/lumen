@@ -76,7 +76,7 @@
 <h3>
 <a name="2-purchase-a-vps-and-set-up-virtualmin" class="anchor" href="#2-purchase-a-vps-and-set-up-virtualmin"><span class="octicon octicon-link"></span></a>2. Purchase a VPS and set up Virtualmin</h3>
 
-<p>Purchase a VPS (check out <a href="http://lowendbox.com/">http://lowendbox.com/</a>, 512mb RAM should do). Use <code>mail.yourdomain.org</code> as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. SSH into the VPS and install Virtualmin with:</p>
+<p>Purchase a VPS (Try <a href="http://www.ramnode.com/">RamNode</a> or <a href="http://www.digitalocean.com">Digital Ocean</a>, 512mb RAM should do). Use <code>mail.yourdomain.org</code> as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. SSH into the VPS and install Virtualmin with:</p>
 
 <pre><code>wget http://software.virtualmin.com/gpl/scripts/install.sh
 chmod +x install.sh
@@ -97,7 +97,8 @@ heroku addons:add mongohq
 heroku addons:add papertrail
 heroku addons:add scheduler
 heroku config:set SESSION_SECRET=`rake secret`
-heroku config:set HEROKU_APP_NAME=yourappname
+heroku config:set DRAGONFLY_SECRET=`rake secret`
+heroku config:set APP_NAME=yourappname
 heroku config:set HEROKU_API_KEY=yourapikey
 heroku config:set DOMAIN=www.yourdomain.org
 heroku config:set MAIL_DOMAIN=yourdomain.org
@@ -118,14 +119,9 @@ heroku config:set MAIL_DOMAIN=yourdomain.org
 </li>
 <li>DKIM: Visit Email Messages &gt; DomainKeys Identified Mail in Virtualmin. Set 'Reject incoming email with invalid DKIM signature?' to 'No' and enter yourdomain.org to 'Additional domains to sign for'. Then add the record under 'DNS records for additional domains'.</li>
 </ul><h3>
-<a name="5-configuration" class="anchor" href="#5-configuration"><span class="octicon octicon-link"></span></a>5. Configuration</h3>
+<a name="5-rake-tasks" class="anchor" href="#5-rake-tasks"><span class="octicon octicon-link"></span></a>5. Rake tasks</h3>
 
-<p>Visit <a href="http://www.yourdomain.org">www.yourdomain.org</a> and change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration.</p>
-
-<h3>
-<a name="6-rake-tasks" class="anchor" href="#6-rake-tasks"><span class="octicon octicon-link"></span></a>6. Rake tasks</h3>
-
-<p>Run <code>heroku run rake mi:create_indexes</code> to create the database indexes. Open the Scheduler add-on with <code>heroku addons:open scheduler</code> and add the following tasks:</p>
+<p>Run <code>heroku run rake languages:default[English,en]</code> to set a default language and <code>heroku run rake mi:create_indexes</code> to create the database indexes. Open the Scheduler add-on with <code>heroku addons:open scheduler</code> and add the following tasks:</p>
 
 <pre><code>rake news:update 7am
 rake digests:daily 7.30am
@@ -133,7 +129,10 @@ rake digests:weekly 11pm (only runs on Sunday)
 rake cleanup 4am
 </code></pre>
 
-<p>...and you're done!</p>
+<h3>
+<a name="6-configuration" class="anchor" href="#6-configuration"><span class="octicon octicon-link"></span></a>6. Configuration</h3>
+
+<p>Visit <a href="http://www.yourdomain.org">www.yourdomain.org</a> and change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration. You're done!</p>
 
 <h2>
 <a name="switching-mail-servers" class="anchor" href="#switching-mail-servers"><span class="octicon octicon-link"></span></a>Switching mail servers</h2>

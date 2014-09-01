@@ -43,7 +43,7 @@
               <% if membership.answers %>
                 <% membership.answers.each { |q,a| %>
                   <p><strong><%=q%></strong></p>
-                  <p><%=a%></p>                    
+                  <p><%=a.gsub("\n","<br />")%></p>                    
                 <% }  %>
               <% end %>
             </td>

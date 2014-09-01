@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-- 2.0.0
+- 2.1.2
 services:
 - mongodb
 script: bundle exec rake test
@@ -10,3 +10,4 @@ env:
   - PORT=3001
   - DOMAIN=127.0.0.1:3001
   - SESSION_SECRET=82d320681aeddffb5a77b0d32bd248567042dc4a936695dda6fb614121e26d13
+  - DRAGONFLY_SECRET=82d320681aeddffb5a77b0d32bd248567042dc4a936695dda6fb614121e26d13

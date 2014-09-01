@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.1.2'
 gem 'unicorn'
-gem 'padrino', '0.12.1'
+gem 'padrino', github: 'padrino/padrino-framework'
 gem 'rake'
+gem 'erubis'
 
 # Admin
 gem 'will_paginate', github: 'mislav/will_paginate'

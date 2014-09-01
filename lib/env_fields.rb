@@ -31,7 +31,7 @@ class EnvFields
     when :wysiwyg
       result
     when :file
-      %Q{<i class="fa fa-download"></i> <a target="_blank" href="#{result.remote_url}">#{result.name}</a>}
+      %Q{<i class="fa fa-download"></i> <a target="_blank" href="#{result.url}">#{result.name}</a>}
     end
   end
   

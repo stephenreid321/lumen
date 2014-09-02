@@ -92,7 +92,7 @@ Lumen::App.controllers do
   post '/config' do
     site_admins_only!
     heroku = Heroku::API.new
-    heroku.put_config_vars(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }].delete_if { |k,v| !ENV[k] and !v })
+    heroku.put_config_vars(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }].delete_if { |k,v| !ENV[k.to_s] and !v })
     sleep(1)
     flash[:notice] = "Your config vars were updated"
     redirect '/config'

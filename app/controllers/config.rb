@@ -93,7 +93,8 @@ Lumen::App.controllers do
     site_admins_only!
     heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
     heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])
-    flash[:notice] = "Your config vars were updated"
+    sleep(1)
+    flash[:notice] = "Your config vars were updated."
     redirect '/config'
   end  
     

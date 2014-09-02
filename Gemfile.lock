@@ -144,9 +144,12 @@ GEM
     formatador (0.2.5)
     geocoder (1.2.4)
     hashie (3.2.0)
-    heroku-api (0.3.19)
-      excon (~> 0.38)
-      multi_json (~> 1.8)
+    heroics (0.0.12)
+      erubis (~> 2.7.0)
+      excon
+      moneta
+      multi_json (>= 1.9.2)
+      netrc
     htmlentities (4.3.2)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -191,6 +194,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
+    netrc (0.7.7)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     ntlm-http (0.1.1)
@@ -224,6 +228,8 @@ GEM
       omniauth-oauth (~> 1.0)
     optionable (0.2.0)
     origin (2.1.1)
+    platform-api (0.2.0)
+      heroics (~> 0.0.10)
     poltergeist (1.5.1)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -282,7 +288,6 @@ DEPENDENCIES
   erubis
   factory_girl
   geocoder
-  heroku-api
   launchy
   mail
   mechanize
@@ -294,6 +299,7 @@ DEPENDENCIES
   omniauth-linkedin
   omniauth-twitter
   padrino!
+  platform-api
   poltergeist
   premailer
   rake

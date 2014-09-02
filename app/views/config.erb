@@ -18,9 +18,9 @@
       </label>
       <div class="col-md-4">
         <% if check_box %>
-          <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] == 'true'), :disabled => !ENV['HEROKU_API_KEY'] %>
+          <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] == 'true'), :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
         <% else %>
-          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_API_KEY'] %>
+          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
         <% end %>
         <% if ENV[k.to_s] == '' %>
           <a class="delete" href="/config/delete/<%=k%>">Truly delete blank variable</a>
@@ -45,7 +45,7 @@
       Notification script
     </label>
     <div class="col-md-2">
-      <% if ENV['HEROKU_API_KEY'] %>
+      <% if ENV['HEROKU_OAUTH_TOKEN'] %>
         <% if ENV['VIRTUALMIN_IP'] %>
           <% if @notification_script %>
             <i class="fa fa-check"></i> Present

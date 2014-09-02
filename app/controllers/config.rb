@@ -3,7 +3,7 @@ Lumen::App.controllers do
   before do
     @environment_variables = {
       :APP_NAME => 'App name (lowercase, no spaces) - Heroku app name if using Heroku',
-      :HEROKU_API_KEY => 'Heroku API key',
+      :HEROKU_OAUTH_TOKEN => 'Heroku OAuth token',
 
       :DOMAIN => 'Domain of Lumen install',
       :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
@@ -77,7 +77,7 @@ Lumen::App.controllers do
   
   get '/config' do
     site_admins_only!
-    if ENV['HEROKU_API_KEY'] and ENV['VIRTUALMIN_IP']
+    if ENV['HEROKU_OAUTH_TOKEN'] and ENV['VIRTUALMIN_IP']
       Net::SSH.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do |ssh|
         result = ''
         ssh.exec!("ls /notify") do |channel, stream, data|
@@ -91,24 +91,16 @@ Lumen::App.controllers do
      
   post '/config' do
     site_admins_only!
-    heroku = Heroku::API.new
-    heroku.put_config_vars(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }].delete_if { |k,v| !ENV[k.to_s] and !v })
-    sleep(1)
+    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+    heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])
     flash[:notice] = "Your config vars were updated"
     redirect '/config'
   end  
-  
-  get '/config/delete/:var' do
-    site_admins_only!
-    heroku = Heroku::API.new    
-    heroku.delete_config_var(ENV['APP_NAME'], params[:var])
-    redirect '/config'
-  end
-  
+    
   get '/config/restart' do
     site_admins_only!
-    heroku = Heroku::API.new
-    heroku.post_ps_restart(ENV['APP_NAME'])
+    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+    heroku.dyno.restart_all(ENV['APP_NAME'])
     redirect back
   end
     

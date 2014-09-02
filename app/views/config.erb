@@ -1,6 +1,12 @@
 
 <a class="btn btn-danger" style="float: right" href="/config/restart"><i class="fa fa-power-off"></i> Restart app</a>
 
+
+<style>
+  a.delete { opacity: 0.5 }
+  a.delete:hover { opacity: 1 }
+</style>
+
 <h2>Environment variables</h2>
 
 <% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
@@ -17,9 +23,9 @@
           <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_API_KEY'] %>
         <% end %>
         <% if ENV[k.to_s] == '' %>
-          <a href="/config/delete/<%=k%>">Truly delete blank variable</a>
+          <a class="delete" href="/config/delete/<%=k%>">Truly delete blank variable</a>
         <% elsif ENV[k.to_s] %>
-          <a href="/config/delete/<%=k%>">Delete variable</a>
+          <a class="delete" href="/config/delete/<%=k%>">Delete variable</a>
         <% end %>
       </div>
     </div>

@@ -22,11 +22,6 @@
         <% else %>
           <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
         <% end %>
-        <% if ENV[k.to_s] == '' %>
-          <a class="delete" href="/config/delete/<%=k%>">Truly delete blank variable</a>
-        <% elsif ENV[k.to_s] %>
-          <a class="delete" href="/config/delete/<%=k%>">Delete variable</a>
-        <% end %>
       </div>
     </div>
   <% } %>

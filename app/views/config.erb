@@ -18,7 +18,7 @@
         <% end %>
         <% if ENV[k.to_s] == '' %>
           <a href="/config/delete/<%=k%>">Truly delete blank variable</a>
-        <% else %>
+        <% elsif ENV[k.to_s] %>
           <a href="/config/delete/<%=k%>">Delete variable</a>
         <% end %>
       </div>

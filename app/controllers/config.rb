@@ -1,7 +1,7 @@
 Lumen::App.controllers do
   
   before do
-    @env = {
+    @environment_variables = {
       :APP_NAME => 'App name (lowercase, no spaces) - Heroku app name if using Heroku',
       :HEROKU_API_KEY => 'Heroku API key',
 
@@ -92,16 +92,18 @@ Lumen::App.controllers do
   post '/config' do
     site_admins_only!
     heroku = Heroku::API.new
-    params[:edited].each { |k|
-      if params[k]
-        heroku.put_config_vars(ENV['APP_NAME'], k => params[k])
-      else
-        heroku.delete_config_var(ENV['APP_NAME'], k)
-      end
-    } if params[:edited]
-    flash[:notice] = "Your config vars were updated. There may be a short delay before your changes are reflected on this page."
+    heroku.put_config_vars(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])
+    sleep(1)
+    flash[:notice] = "Your config vars were updated"
     redirect '/config'
   end  
+  
+  get '/config/delete/:var' do
+    site_admins_only!
+    heroku = Heroku::API.new    
+    heroku.delete_config_var(ENV['APP_NAME'], params[:var])
+    redirect '/config'
+  end
   
   get '/config/restart' do
     site_admins_only!

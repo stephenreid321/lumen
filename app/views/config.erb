@@ -3,19 +3,8 @@
 
 <h2>Environment variables</h2>
 
-<script>
-  $(function() {
-    $('#env input[type=text]').focus(function() {
-      $('#env input[name="edited[]"][value="' + this.name + '"]').prop('checked', true);
-    });
-    $('#env input[type=checkbox]').click(function() {
-      $('#env input[name="edited[]"][value="' + this.name + '"]').prop('checked', true);
-    });
-  });
-</script>
-
 <% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
-  <% @env.each { |k,v| if v.is_a? Array; v = v[0]; check_box = true; else; check_box = false; end %>
+  <% @environment_variables.each { |k,v| if v.is_a? Array; v = v[0]; check_box = true; else; check_box = false; end %>
     <div class="form-group">
       <label class="control-label col-md-4">
         <%=k%>
@@ -27,7 +16,9 @@
         <% else %>
           <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_API_KEY'] %>
         <% end %>
-        <%= radio_button_tag "edited[]", :value => k, :style => 'display: none' %>        
+        <% if ENV[k.to_s] == '' %>
+          <a href="/config/delete/<%=k%>">Truly delete blank variable</a>
+        <% end %>
       </div>
     </div>
   <% } %>

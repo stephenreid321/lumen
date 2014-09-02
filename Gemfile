@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.0.0'
 gem 'unicorn'
 gem 'padrino', github: 'padrino/padrino-framework'
 gem 'rake'

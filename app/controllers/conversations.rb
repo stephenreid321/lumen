@@ -101,7 +101,7 @@ Lumen::App.controllers do
     @conversation_post = ConversationPost.find(params[:id])
     membership_required!(@conversation_post.conversation.group)
     @conversation_post.plus_ones.create(account: current_account)
-    flash[:notice] = 'Your +1 was added'
+    flash[:notice] = "You +1'd the post by #{@conversation_post.account.name}"
     redirect "/conversations/#{@conversation_post.conversation.slug}" 
   end
     

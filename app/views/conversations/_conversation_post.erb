@@ -24,7 +24,7 @@
         <% if plus_one = conversation_post.plus_ones.find_by(account: current_account) %>
           <i title="+1s" class="fa fa-plus"></i>
         <% else %>
-          <a class="edit" title="+1" href="/conversation_posts/<%=conversation_post.id%>/plus_one"><i class="fa fa-plus"></i></a>
+          <a class="edit" title="+1 this post" href="/conversation_posts/<%=conversation_post.id%>/plus_one"><i class="fa fa-plus"></i></a>
         <% end %>
       <% else %>
         <i class="fa fa-plus"></i>

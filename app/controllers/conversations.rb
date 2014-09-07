@@ -95,5 +95,23 @@ Lumen::App.controllers do
     flash[:notice] = "The conversation was unmuted."
     redirect "/conversations/#{@conversation.slug}"
   end      
+  
+  get '/conversation_posts/:id/plus_one' do
+    sign_in_required!
+    @conversation_post = ConversationPost.find(params[:id])
+    membership_required!(@conversation_post.conversation.group)
+    @conversation_post.plus_ones.create(account: current_account)
+    flash[:notice] = 'Your +1 was added'
+    redirect "/conversations/#{@conversation_post.conversation.slug}" 
+  end
+    
+  get '/conversation_posts/:id/remove_plus_one' do
+    sign_in_required!
+    @conversation_post = ConversationPost.find(params[:id])
+    membership_required!(@conversation_post.conversation.group)
+    @conversation_post.plus_ones.find_by(account: current_account).destroy
+    flash[:notice] = 'Your +1 was removed'
+    redirect "/conversations/#{@conversation_post.conversation.slug}" 
+  end    
     
 end

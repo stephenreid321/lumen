@@ -13,7 +13,8 @@ class ConversationPost
   has_one :conversation_post_bcc, :dependent => :destroy
   
   has_many :attachments, :dependent => :destroy
-      
+  has_many :plus_ones, :dependent => :destroy
+  
   validates_presence_of :body, :account, :conversation, :group
   validates_uniqueness_of :mid, :scope => :group, :allow_nil => true
   

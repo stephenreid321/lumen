@@ -15,9 +15,11 @@
     </div>
   </div> 
 
-  <% if wall_post.body %>
-    <p style="margin: 1em 0"><%=Rinku.auto_link(wall_post.body.gsub("\n","\n<br />"))%></p>
-  <% end %>
+  <p style="margin: 1em 0">
+    <% if wall_post.body %>
+      <%=Rinku.auto_link(wall_post.body.gsub("\n","\n<br />"))%>
+    <% end %>
+  </p>
 
   <% if wall_post.file %>
     <% if wall_post.file.image? %>

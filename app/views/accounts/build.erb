@@ -64,11 +64,11 @@
         <div class="col-md-3" style="text-align: right"><i class="fa fa-<%=provider.icon%>"></i></div>
         <div class="col-md-8">   
           <div class="row">
-            <% if connection = @account.connections.select { |connection| connection.provider == provider.display_name }[0] %>
-              <a class="col-md-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(connection.omniauth_hash) %>"><%=provider.nickname.call(connection.omniauth_hash)%></a>
+            <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
+              <a class="col-md-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
               <% if current_account %>
                 <div class="col-md-3">
-                  <a class="use-picture btn btn-default" href="/me/<%=provider.omniauth_name%>/use_picture" data-content="<img src='<%=provider.image.call(connection.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
+                  <a class="use-picture btn btn-default" href="/me/<%=provider.omniauth_name%>/use_picture" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
                 </div>
                 <div class="col-md-3">
                   <a class="btn btn-default" href="/me/<%=provider.omniauth_name%>/disconnect">Disconnect</a>

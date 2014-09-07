@@ -32,7 +32,7 @@ Lumen::App.controllers do
     sign_in_required!
     @provider = Provider.object(params[:provider])
     @account = current_account
-    @account.picture_url = @provider.image.call(@account.connections.find_by(provider: @provider.display_name).omniauth_hash)
+    @account.picture_url = @provider.image.call(@account.provider_links.find_by(provider: @provider.display_name).omniauth_hash)
     if @account.save
       flash[:notice] = "<i class=\"fa fa-#{@provider.icon}\"></i> Grabbed your picture!"
       redirect '/me/edit'
@@ -46,7 +46,7 @@ Lumen::App.controllers do
     sign_in_required!
     @provider = Provider.object(params[:provider])    
     @account = current_account
-    if @account.connections.find_by(provider: @provider.display_name).destroy
+    if @account.provider_links.find_by(provider: @provider.display_name).destroy
       flash[:notice] = "<i class=\"fa fa-#{@provider.icon}\"></i> Disconnected!"
       redirect '/me/edit'
     else

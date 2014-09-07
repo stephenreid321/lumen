@@ -69,7 +69,7 @@
             <% if current_account %>
               <li><a href="/me/edit">
                   <%=I18n.t(:edit_profile_and_connect_accounts).capitalize%>
-                  <% if (x = current_account.connections.count)/(y = Provider.registered.count).to_f < 0.5 %>
+                  <% if (x = current_account.provider_links.count)/(y = Provider.registered.count).to_f < 0.5 %>
                     (<%=x%>/<%=y%> connected)
                   <% end %>
                 </a></li>

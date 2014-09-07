@@ -83,7 +83,7 @@ class Group
   end  
   
   def twitter_handles
-    memberships.map(&:account).map(&:connections).flatten.select { |connection| connection.provider == 'Twitter' }.map { |connection| connection.omniauth_hash['info']['nickname'] }
+    memberships.map(&:account).map(&:provider_links).flatten.select { |provider_link| provider_link.provider == 'Twitter' }.map { |provider_link| provider_link.omniauth_hash['info']['nickname'] }
   end  
   
   def request_questions_a

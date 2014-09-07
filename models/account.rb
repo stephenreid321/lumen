@@ -124,9 +124,9 @@ class Account
     return true
   end
     
-  # Connections  
-  has_many :connections, :dependent => :destroy
-  accepts_nested_attributes_for :connections
+  # Provider links  
+  has_many :provider_links, :dependent => :destroy
+  accepts_nested_attributes_for :provider_links
                         
   attr_accessor :password, :password_confirmation 
 

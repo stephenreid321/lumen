@@ -33,10 +33,10 @@
           </td>
           <% case @view; when :connected_to_twitter %>
             <td>
-              <i class="fa fa-twitter"></i> <a href="http://twitter.com/<%=(handle = (connection = membership.account.connections.find_by(provider: 'Twitter')).omniauth_hash['info']['nickname'])%>"><%= handle %></a>
+              <i class="fa fa-twitter"></i> <a href="http://twitter.com/<%=(handle = (provider_link = membership.account.provider_links.find_by(provider: 'Twitter')).omniauth_hash['info']['nickname'])%>"><%= handle %></a>
             </td>         
             <td>
-              Connected <%= connection.created_at %>
+              Connected <%= provider_link.created_at %>
             </td>          
           <% when :requests %>
             <td>

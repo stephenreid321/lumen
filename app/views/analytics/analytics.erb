@@ -44,7 +44,7 @@
     dates[d] << x
   } %>
         var <%=model.to_s%>Data = new AmCharts.DataSet();
-  <%=model.to_s%>Data.title = "<%= model == Conversation ? "Conversations with #{@conversation_threshold} or more posts" : model.to_s.underscore.humanize.pluralize%>";
+  <%=model.to_s%>Data.title = "<%= model.to_s.underscore.humanize.pluralize%>";
   <%=model.to_s%>Data.fieldMappings = [
         {
           fromField: "cumulative",

@@ -16,8 +16,8 @@ Lumen::App.controllers do
           q << {"#{assoc_name.underscore}_id".to_sym.in => assoc_name.constantize.where(assoc_name.constantize.send(:lookup) => /#{@q}/i).only(:_id).map(&:_id) }
         end
       }   
-      @conversation_posts = @group.conversation_posts.where(:hidden.ne => true).or(q)
-      @conversations = @conversations.where(:id.in => @conversation_posts.only(:conversation_id).map(&:conversation_id))
+      conversation_posts = @group.conversation_posts.where(:hidden.ne => true).or(q)
+      @conversations = @conversations.where(:id.in => conversation_posts.only(:conversation_id).map(&:conversation_id))
     end                         
     @conversations = @conversations.order_by(:updated_at.desc).per_page(10).page(params[:page])            
     if request.xhr?

@@ -14,7 +14,7 @@ class WallPost
   field :file_name, :type => String  
   dragonfly_accessor :file
   
-  validates_presence_of :body, :account, :group
+  validates_presence_of :account, :group
   
   belongs_to :account, index: true
   belongs_to :group, index: true

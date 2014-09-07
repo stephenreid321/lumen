@@ -30,7 +30,7 @@
         <i class="fa fa-plus"></i>
       <% end %>
       <%=conversation_post.plus_ones.map { |plus_one|
-        %Q{<a style="margin-right: 5px" href="/accounts/#{plus_one.account_id}"><img title="#{plus_one.account.name} on #{plus_one.created_at}" style="width: 32px" src="#{plus_one.account.picture ? plus_one.account.picture.thumb('32x32#').url : '/images/silhouette.png'}"></a>}
+        %Q{<a style="margin-right: 5px" href="/accounts/#{plus_one.account_id}"><img title="#{plus_one.account.name} +1'd this on #{plus_one.created_at}" style="width: 32px" src="#{plus_one.account.picture ? plus_one.account.picture.thumb('32x32#').url : '/images/silhouette.png'}"></a>}
         }.join(' ') %>    
       <% if plus_one %>
         <a href="/conversation_posts/<%=conversation_post.id%>/remove_plus_one" class="edit" title="Remove your +1"><i class="fa fa-times"></i></a>

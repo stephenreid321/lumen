@@ -8,7 +8,7 @@ class PlusOne
   validates_uniqueness_of :account, :scope => :conversation_post
     
   def self.fields_for_index
-    [:account, :conversation_post]
+    [:account_id, :conversation_post_id]
   end
   
   def self.fields_for_form

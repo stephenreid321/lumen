@@ -99,12 +99,12 @@ heroku addons:add scheduler
 heroku config:set SESSION_SECRET=`rake secret`
 heroku config:set DRAGONFLY_SECRET=`rake secret`
 heroku config:set APP_NAME=yourappname
-heroku config:set HEROKU_API_KEY=yourapikey
+heroku config:set HEROKU_OAUTH_TOKEN=youroauthtoken
 heroku config:set DOMAIN=www.yourdomain.org
 heroku config:set MAIL_DOMAIN=yourdomain.org
 </code></pre>
 
-<p>(You can find your Heroku API key at <a href="http://dashboard.heroku.com/account">http://dashboard.heroku.com/account</a>.)</p>
+<p>(See <a href="https://github.com/heroku/platform-api">https://github.com/heroku/platform-api</a> for details of how to generate your Heroku OAuth token.)</p>
 
 <h3>
 <a name="4-set-dns" class="anchor" href="#4-set-dns"><span class="octicon octicon-link"></span></a>4. Set DNS</h3>

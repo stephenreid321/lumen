@@ -42,7 +42,7 @@
 
     <% form_tag "/groups/#{@group.slug}/surveys/#{@survey.id}/answer" do %>
       <% @survey.questions.each { |question| %>
-        <div style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 2px dotted #ddd">
+        <div style="margin-bottom: 20px;">
           <p style="font-weight:bold; margin: 0"><%=question.text%></p>
           <p style="color: #aaa; margin: 0"><%=question.help%></p>
           <div style="margin-top: 5px">

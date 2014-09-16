@@ -1,11 +1,14 @@
-<ul class="page-options">  
-  <li>
-    <a title="Edit survey" class="edit restore-opacity" href="/groups/<%=@group.slug%>/surveys/<%=@survey.id%>/edit"><i class="fa fa-pencil"></i> Edit survey</a>
-  </li>    
-  <li>
-    <a title="Results" class="edit restore-opacity" href="/groups/<%=@group.slug%>/surveys/<%=@survey.id%>/results"><i class="fa fa-th"></i> Results</a>
-  </li>      
-</ul>
+
+<% if @group.memberships.find_by(account: current_account).admin? or @survey.account == current_account %>
+  <ul class="page-options">  
+    <li>
+      <a title="Edit survey" class="edit restore-opacity" href="/groups/<%=@group.slug%>/surveys/<%=@survey.id%>/edit"><i class="fa fa-pencil"></i> Edit survey</a>
+    </li>    
+    <li>
+      <a title="Results" class="edit restore-opacity" href="/groups/<%=@group.slug%>/surveys/<%=@survey.id%>/results"><i class="fa fa-th"></i> Results</a>
+    </li>      
+  </ul>
+<% end %>
 
 <ol class="breadcrumb">
   <li><a href="/groups">Groups</a></li>

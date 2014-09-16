@@ -41,7 +41,7 @@
             <%=@survey.answers.find_by(account: account).created_at%>
           </td>
           <% @survey.questions.each { |question| %>
-            <td><%=question.answers.find_by(account: account).try(:text)%></td>
+            <td><%= text = question.answers.find_by(account: account).try(:text); case text; when 'true'; '<i class="fa fa-check"></i>'; when 'false'; '<i class="fa fa-times"></i>'; else; text; end%></td>
           <% } %>
         </tr>
       <% } %>

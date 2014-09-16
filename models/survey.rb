@@ -3,6 +3,7 @@ class Survey
   include Mongoid::Timestamps
 
   field :title, :type => String
+  field :intro, :type => String
   
   belongs_to :group
   belongs_to :account
@@ -15,12 +16,13 @@ class Survey
   validates_presence_of :title, :group, :account
     
   def self.fields_for_index
-    [:title, :group_id, :account_id]
+    [:title, :intro, :group_id, :account_id]
   end
   
   def self.fields_for_form
     {
       :title => :text,
+      :intro => :text_area,
       :group_id => :lookup,
       :account_id => :lookup,
       :questions => :collection

@@ -7,6 +7,7 @@
       <% f.fields_for :questions do |o| %>
         <div class="question">
           <%= o.text_field :text, :class => 'form-control', :placeholder => 'Question text' %>
+          <%= o.text_field :help, :class => 'form-control', :placeholder => 'Help text' %>
           <%= o.select :type, :class => 'form-control', :options => Question.types %>
           <%= o.text_area :options, :class => 'form-control', :placeholder => 'Options (one per line)' %>
           <% unless o.object.new_record? %>
@@ -44,6 +45,11 @@
           i.attr('id', 'survey_questions_attributes_' + c + '_text');
           i.attr('placeholder', 'Question text');
           i.addClass('form-control');
+          var ii = $('<input type="text" />');
+          ii.attr('name', 'survey[questions_attributes][' + c + '][help]');
+          ii.attr('id', 'survey_questions_attributes_' + c + '_help');
+          ii.attr('placeholder', 'Help text');
+          ii.addClass('form-control');          
           var j = $('<select></select>');
           j.attr('name', 'survey[questions_attributes][' + c + '][type]');
           j.attr('id', 'survey_questions_attributes_' + c + '_type');
@@ -59,6 +65,7 @@
           k.addClass('form-control');
           var d = $('<div class="question"/>');
           i.appendTo(d);
+          ii.appendTo(d);
           j.appendTo(d);
           k.appendTo(d);
           d.appendTo('#questions');

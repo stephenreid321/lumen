@@ -3,6 +3,7 @@ class Question
   include Mongoid::Timestamps
 
   field :text, :type => String
+  field :help, :type => String
   field :type, :type => String
   field :options, :type => String
   
@@ -29,12 +30,13 @@ class Question
   end
     
   def self.fields_for_index
-    [:text, :type, :options, :survey_id]
+    [:text, :help, :type, :options, :survey_id]
   end
   
   def self.fields_for_form
     {
       :text => :text_area,
+      :help => :text_area,
       :type => :select,
       :options => :text_area,
       :survey_id => :lookup,

@@ -24,14 +24,14 @@
       <%= f.text_area_block :description %>
       <%= f.radio_block :privacy %>
       <script>
-        $(function() {
+        $(function () {
           function toggle_request_questions() {
             if ($("input[name='group[privacy]']:checked").val() == 'closed')
               $('.closed-only').show()
             else
               $('.closed-only').hide()
           }
-          $("input[name='group[privacy]']").click(function() {
+          $("input[name='group[privacy]']").click(function () {
             toggle_request_questions();
           });
           toggle_request_questions();
@@ -46,6 +46,7 @@
         <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [group_type.name,group_type.id] } %>
       <% end %>
       <% if @group.persisted? %>
+        <%= f.text_block :redirect_after_first_profile_save %>
         <%= f.text_area_block :invite_email %>
         <%= f.text_area_block :reminder_email %>
         <div class="closed-only">
@@ -58,13 +59,13 @@
     <% end %> 
 
     <script>
-      $(function() {
-        $('#group_slug').keyup(function() {
+      $(function () {
+        $('#group_slug').keyup(function () {
           $('.slug-replace').text($(this).val());
         });
       }).keyup();
 <% if @group.new_record? %>
-        $('form').submit(function() {
+        $('form').submit(function () {
           $('#group-form button[type=submit]').after(' <span><i class="fa fa-warning"></i> Please be patient, this could take a minute...</span>')
         });
 <% end %>

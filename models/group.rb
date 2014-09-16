@@ -12,6 +12,7 @@ class Group
   field :invite_email, :type => String
   field :membership_request_thanks_email, :type => String
   field :membership_request_acceptance_email, :type => String
+  field :redirect_after_first_profile_save, :type => String
   
   index({slug: 1 }, {unique: true})
   
@@ -127,6 +128,7 @@ class Group
       :invite_email => :text_area,
       :membership_request_thanks_email => :text_area,
       :membership_request_acceptance_email => :text_area,
+      :redirect_after_first_profile_save => :text,
       :group_type_id => :lookup,
       :memberships => :collection,
       :conversations => :collection

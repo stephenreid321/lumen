@@ -18,7 +18,7 @@ Lumen::App.controllers do
     if @account.update_attributes(params[:account])      
       flash[:notice] = "<strong>Great!</strong> Your account was updated successfully."
       if @account.sign_ins.count == 1
-        redirect '/'
+        redirect (@account.memberships.first.group.try(:redirect_after_first_profile_save) || '/')
       else
         redirect '/me/edit'
       end

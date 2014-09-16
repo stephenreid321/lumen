@@ -92,7 +92,7 @@ Lumen::App.controllers do
       @survey.questions.find(k).answers.create(:text => v, :account => current_account)
     }
     flash[:notice] = "Thanks for taking the survey."
-    redirect (current_account.sign_ins.count == 1 ? '/' : "/groups/#{@group.slug}/surveys")
+    redirect "/groups/#{@group.slug}"
   end 
   
   get '/groups/:slug/surveys/:id/results', :provides => [:html, :csv] do

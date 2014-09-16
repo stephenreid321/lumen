@@ -47,6 +47,7 @@ class Group
   has_many :wall_posts, :dependent => :destroy
   has_many :spaces, :dependent => :destroy
   has_many :docs, :dependent => :destroy
+  has_many :surveys, :dependent => :destroy
   
   belongs_to :group_type, index: true
       

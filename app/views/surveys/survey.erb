@@ -1,0 +1,66 @@
+<ul class="page-options">  
+  <li>
+    <a title="Edit survey" class="edit restore-opacity" href="/groups/<%=@group.slug%>/surveys/<%=@survey.id%>/edit"><i class="fa fa-pencil"></i> Edit survey</a>
+  </li>    
+  <li>
+    <a title="Results" class="edit restore-opacity" href="/groups/<%=@group.slug%>/surveys/<%=@survey.id%>/results"><i class="fa fa-th"></i> Results</a>
+  </li>      
+</ul>
+
+<ol class="breadcrumb">
+  <li><a href="/groups">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/surveys">Surveys</a>    
+  </li>  
+  <li class="active">
+    <%= @survey.title %>
+  </li>     
+</ol>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <% if @survey.answers.find_by(account: current_account) %>
+      <div style="margin: 20px 0" class="alert alert-info">
+        You've already taken this survey. Taking it again will overwrite your previous answers.
+      </div>
+    <% end %>
+
+    <h1 style="margin-bottom: 20px"><%=@survey.title%></h1>
+
+    <% form_tag "/groups/#{@group.slug}/surveys/#{@survey.id}/answer" do %>
+      <% @survey.questions.each { |question| %>
+        <div style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 2px dotted #ddd">
+          <p style="font-weight:bold; margin: 0"><%=question.text%></p>
+          <% case question.type.to_sym; when :text %>
+            <%= text_field_tag "q[#{question.id}]", :class => 'form-control' %>
+          <% when :text_area %>
+            <%= text_area_tag "q[#{question.id}]" %>
+          <% when :check_box %>
+            <%= hidden_field_tag "q[#{question.id}", :value => 'false' %>
+            <%= check_box_tag "q[#{question.id}]", :value => 'true'  %>
+          <% when :select %>
+            <%= select_tag "q[#{question.id}]", :options => question.options_a, :class => 'form-control'  %>
+          <% when :radio_buttons %>
+            <ul class="list-unstyled" style="margin-bottom: 0">
+              <% question.options_a.each { |option| %>
+                <li><%= radio_button_tag "q[#{question.id}]", :value => option %> <%=option%></li>
+              <% } %>
+            </ul>  
+          <% when :check_boxes %>
+            <ul class="list-unstyled" style="margin-bottom: 0">
+              <% question.options_a.each { |option| %>
+                <li><%= check_box_tag "q[#{question.id}][]", :value => option %> <%=option%></li>
+              <% } %>
+            </ul>    
+          <% end %>
+        </div>
+      <% } %>
+      <button class="btn btn-primary">Submit</button>
+    <% end %>
+
+  </div>
+</div>

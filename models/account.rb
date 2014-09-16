@@ -38,12 +38,14 @@ class Account
   has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy
   has_many :spaces_as_creator, :class_name => 'Space', :inverse_of => :account, :dependent => :destroy
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
+  has_many :surveys_as_creator, :class_name => 'Survey', :inverse_of => :account, :dependent => :destroy
+  has_many :answers, :dependent => :destroy
   has_many :plus_ones, :dependent => :destroy
   
   belongs_to :language
   
   has_many :affiliations, :dependent => :destroy
-  accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank, autosave: false
+  accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank
   
   has_many :account_tagships, :dependent => :destroy
   accepts_nested_attributes_for :account_tagships, allow_destroy: true, reject_if: :all_blank
@@ -111,6 +113,10 @@ class Account
   def docs
     Doc.where(:group_id.in => memberships.map(&:group_id))
   end 
+  
+  def surveys
+    Survey.where(:group_id.in => memberships.map(&:group_id))
+  end   
               
   # Picture
   dragonfly_accessor :picture do

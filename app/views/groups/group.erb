@@ -54,6 +54,7 @@ possible_tabs = {
   :map => [I18n.t(:map).capitalize, 'fa-map-marker'],
   :wall => [I18n.t(:wall).capitalize, 'fa-thumbs-up'],  
   :docs => [I18n.t(:docs).capitalize, 'fa-file-text-o'],
+  :surveys => [I18n.t(:surveys).capitalize, 'fa-question'],  
   :calendar => [I18n.t(:calendar).capitalize, 'fa-calendar']
   }
 if ENV['GROUP_TAB_ORDER']
@@ -77,8 +78,8 @@ if ENV['GROUP_TAB_ORDER']
                 <span><%= v[0] %></span>                
               </a>
               <script>
-                $(function() {
-                  $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function(e) {
+                $(function () {
+                  $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function (e) {
                     $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>')
                     window.location.hash = this.hash;
                     window.scrollTo(0, 0);
@@ -116,14 +117,14 @@ if ENV['GROUP_TAB_ORDER']
 
   /* Calendar tooltip */
 
-  $(function() {
+  $(function () {
 <% if (c = @group.events.where(:start_time.gt => Time.now).count) > 0 %>
       $("a[href='#calendar-tab']").attr('title', '<%=pluralize(c,'upcoming event')%>').tooltip({
         placement: 'bottom',
         trigger: 'manual'
       }).tooltip('show');
 <% end %>
-    $("a[href='#calendar-tab']").on('shown.bs.tab', function(e) {
+    $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
       $("a[href='#calendar-tab']").tooltip('hide');
     });
 

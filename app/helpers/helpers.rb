@@ -62,6 +62,14 @@ Lumen::App.helpers do
     end     
   end
   
+  def group_admins_and_creator_only!(group: nil, account: nil)
+    group = @group if !group
+    unless current_account and group and (membership = group.memberships.find_by(account: current_account)) and (membership.admin? or account)
+      flash[:notice] = 'You must be an admin or creator to access that page.'
+      request.xhr? ? halt(403, "Not Authorized") : redirect(membership ? "/groups/#{group.slug}" : '/')
+    end          
+  end    
+  
   def random(relation, n)
     count = relation.count
     (0..count-1).sort_by{rand}.slice(0, n).collect! do |i| relation.skip(i).first end
@@ -69,8 +77,8 @@ Lumen::App.helpers do
   
   def f(slug)
     (if fragment = Fragment.find_by(slug: slug) and fragment.body
-      "\"#{fragment.body.to_s.gsub('"','\"')}\""
-    end).to_s
+        "\"#{fragment.body.to_s.gsub('"','\"')}\""
+      end).to_s
   end    
       
 end

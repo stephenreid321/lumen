@@ -1,0 +1,24 @@
+<h2>Surveys for <%=@group ? @group.slug : 'your groups'%></h2>
+
+<a class="btn btn-primary" href="<%= @group ? "/groups/#{@group.slug}/surveys/new" : '/surveys/new' %> "><i class="fa fa-plus"></i> Create a survey</a>
+
+<table style="margin-top: 1em" class="table table-hover">
+  <% @surveys.each { |survey| %>
+
+    <tr>
+      <td>
+        <a href="/groups/<%=survey.group.slug%>/surveys/<%=survey.id%>"><%= survey.title %></a>
+        <% if !@group %>
+          <span style="font-size: 0.9em; color: #999999"><i class="fa fa-group"></i> <%=survey.group.slug%></span>
+        <% end %>
+      </td>
+      <td>Created <%=time_ago_in_words survey.created_at%> ago by <a href="/accounts/<%=survey.account.id%>"><%=survey.account.name%></a></td>
+      <td>
+        <% if survey.answers.find_by(account: current_account) %>
+        <i class="fa fa-check"></i> You've taken this survey.
+        <% end %>
+      </td>
+    </tr>
+
+  <% } %>
+</table>

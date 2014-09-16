@@ -1,0 +1,74 @@
+<div class="form-group <%= 'has-error' if !f.error_message_on(:questions).blank? %>">
+  <label class="control-label col-md-3">
+    Questions
+  </label>
+  <div class="col-md-9">             
+    <div id="questions">
+      <% f.fields_for :questions do |o| %>
+        <div class="question">
+          <%= o.text_field :text, :class => 'form-control', :placeholder => 'Question text' %>
+          <%= o.select :type, :class => 'form-control', :options => Question.types %>
+          <%= o.text_area :options, :class => 'form-control', :placeholder => 'Options (one per line)' %>
+          <% unless o.object.new_record? %>
+            <a class="btn btn-default" href="javascript:;"  onclick="$(this).children().last().prop('checked', true).closest('.question').hide()">
+              <i class="fa fa-times"></i>
+              Delete question
+              <%= o.check_box '_destroy', :style => 'display: none' %>
+            </a>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <style>
+      .question { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 2px dotted #ddd }
+      .question .form-control { margin-bottom: 10px }
+    </style>
+    <script>
+      $(function () {
+
+        function toggleOptions() {
+          if ($(this).val() == 'text' || $(this).val() == 'text_area' || $(this).val() == 'check_box')
+            $(this).next().hide()
+          else
+            $(this).next().show()
+        }
+
+        $('.question select').change(toggleOptions);
+        $('.question select').change();
+
+        var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;">Add another question</a></div>');
+        $(icon).click(function () {
+          var c = $('.question').length
+          var i = $('<input type="text" />');
+          i.attr('name', 'survey[questions_attributes][' + c + '][text]');
+          i.attr('id', 'survey_questions_attributes_' + c + '_text');
+          i.attr('placeholder', 'Question text');
+          i.addClass('form-control');
+          var j = $('<select></select>');
+          j.attr('name', 'survey[questions_attributes][' + c + '][type]');
+          j.attr('id', 'survey_questions_attributes_' + c + '_type');
+<%  Question.types.each { |k,v| %>
+            j.append('<option value="<%=v%>"><%=k%></option>');
+<% } %>
+          j.addClass('form-control');
+          j.change(toggleOptions);
+          var k = $('<textarea></textarea>');
+          k.attr('name', 'survey[questions_attributes][' + c + '][options]');
+          k.attr('id', 'survey_questions_attributes_' + c + '_options');
+          k.attr('placeholder', 'Options (one per line)');
+          k.addClass('form-control');
+          var d = $('<div class="question"/>');
+          i.appendTo(d);
+          j.appendTo(d);
+          k.appendTo(d);
+          d.appendTo('#questions');
+          j.change();
+          i.focus();
+        });
+        icon.insertAfter('#questions');
+        if ($('.question').length == 0)
+          $(icon).click();
+      });
+    </script>
+  </div>
+</div> 

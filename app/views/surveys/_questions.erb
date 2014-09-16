@@ -11,7 +11,7 @@
           <%= o.select :type, :class => 'form-control', :options => Question.types %>
           <%= o.text_area :options, :class => 'form-control', :placeholder => 'Options (one per line)' %>
           <% unless o.object.new_record? %>
-            <a class="btn btn-default" href="javascript:;"  onclick="$(this).children().last().prop('checked', true).closest('.question').hide()">
+            <a style="margin-bottom: 10px;" class="btn btn-default" href="javascript:;"  onclick="$(this).children().last().prop('checked', true).closest('.question').hide()">
               <i class="fa fa-times"></i>
               Delete question
               <%= o.check_box '_destroy', :style => 'display: none' %>
@@ -21,7 +21,7 @@
       <% end %>
     </div>
     <style>
-      .question { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 2px dotted #ddd }
+      .question { margin-bottom: 10px; border-bottom: 2px dotted #ddd }
       .question .form-control { margin-bottom: 10px }
     </style>
     <script>

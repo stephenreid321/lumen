@@ -5,6 +5,7 @@ Hi <%=@account.name.split(' ').first%>,
 <% if @membership.status == 'pending' %>
 You need to sign in to start receiving email notifications.
 <% end %>
+
 <% if @new_account %>
 Sign in at http://<%=ENV['DOMAIN']%>/sign_in with the email address <%=@account.email%> and the password <%=@account.password%>.
 <% else %>

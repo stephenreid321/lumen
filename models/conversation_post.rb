@@ -25,11 +25,7 @@ class ConversationPost
     self.group = self.conversation.try(:group)
   end
       
-  def self.fields_for_index
-    [:body, :mid, :hidden, :conversation_id, :account_id, :created_at]
-  end
-   
-  def self.fields_for_form
+  def self.admin_fields
     {
       :body => :text_area,
       :mid => :text,
@@ -37,10 +33,6 @@ class ConversationPost
       :conversation_id => :lookup,
       :account_id => :lookup
     }
-  end
-  
-  def self.lookup
-    :account_name
   end
   
   def account_name

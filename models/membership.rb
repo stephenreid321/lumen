@@ -14,11 +14,7 @@ class Membership
   validates_presence_of :account, :group, :status, :notification_level
   validates_uniqueness_of :account, :scope => :group
       
-  def self.fields_for_index
-    [:account_id, :group_id, :admin, :receive_membership_requests, :status, :notification_level]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :account_id => :lookup,
       :group_id => :lookup,
@@ -37,10 +33,6 @@ class Membership
     if self.account and !self.status
       self.status = (account.sign_ins.count == 0 ? 'pending' : 'confirmed')
     end
-  end
-    
-  def self.lookup
-    :id
   end
   
   def self.statuses

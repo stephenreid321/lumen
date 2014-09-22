@@ -12,20 +12,12 @@ class Translation
   validates_presence_of :key, :value, :language
   validates_uniqueness_of :key, :scope => :language
     
-  def self.fields_for_index
-    [:language_id, :key, :value]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :language_id => :lookup,
       :key => :text,
       :value => :text
     }
-  end
-  
-  def self.lookup
-    :summary
   end
   
   def summary

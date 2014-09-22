@@ -112,11 +112,7 @@ class Group
     default_didyouknows.each { |d| didyouknows.create :body => d }
   end
       
-  def self.fields_for_index
-    [:slug, :privacy, :default_notification_level, :group_type_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :slug => :text,
       :description => :text_area,
@@ -133,10 +129,6 @@ class Group
       :memberships => :collection,
       :conversations => :collection
     }
-  end
-  
-  def self.lookup
-    :slug
   end
   
   def self.new_tips

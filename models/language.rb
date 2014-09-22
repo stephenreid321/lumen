@@ -18,11 +18,7 @@ class Language
     errors.add(:code, 'must be two lowercase letters') unless code and code == code.downcase and code.length == 2
   end
     
-  def self.fields_for_index
-    [:name, :code, :default]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :name => :text,
       :code => :text,
@@ -34,10 +30,6 @@ class Language
   
   def self.default
     find_by(default: true)
-  end
-  
-  def self.lookup
-    :name
   end
          
 end

@@ -173,12 +173,8 @@ class Account
   def self.edit_tips
     self.new_tips
   end  
-          
-  def self.fields_for_index
-    [:name, :email, :phone, :created_at]
-  end
-    
-  def self.fields_for_form
+              
+  def self.admin_fields
     {
       :name => :text,
       :email => :text,
@@ -220,11 +216,7 @@ class Account
            
   def self.time_zones
     ['']+ActiveSupport::TimeZone::MAPPING.keys.sort
-  end  
-        
-  def self.lookup
-    :name
-  end  
+  end          
     
   def uid
     id

@@ -19,19 +19,12 @@ class AccountTagship
   validates_presence_of :account, :account_tag
   validates_uniqueness_of :account, :scope => :account_tag
     
-  def self.fields_for_index
-    [:account_id, :account_tag_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :account_id => :lookup,
       :account_tag_id => :lookup,
     }
   end
   
-  def self.lookup
-    :id
-  end  
   
 end

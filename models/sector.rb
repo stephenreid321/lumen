@@ -9,19 +9,11 @@ class Sector
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false
     
-  def self.fields_for_index
-    [:name]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :name => :text,
       :sectorships => :collection
     }
-  end
-  
-  def self.lookup
-    :name
   end
   
   def members

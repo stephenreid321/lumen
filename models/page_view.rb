@@ -10,13 +10,10 @@ class PageView
     errors.add(:path, 'is invalid') if %w{ico ics}.any? { |x| path.ends_with?(x) }
   end
     
-  def self.fields_for_index
-    [:account_id, :path, :created_at]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
-      :account_id => :lookup
+      :account_id => :lookup,
+      :path => :text
     }
   end
   

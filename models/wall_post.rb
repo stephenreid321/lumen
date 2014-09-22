@@ -19,11 +19,7 @@ class WallPost
   belongs_to :account, index: true
   belongs_to :group, index: true
       
-  def self.fields_for_index
-    [:body, :account_id, :group_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :body => :wysiwyg,
       :title => :text,

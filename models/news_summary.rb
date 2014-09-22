@@ -11,15 +11,7 @@ class NewsSummary
   
   validates_presence_of :group, :title
     
-  def self.fields_for_index
-    [:group_id, :title, :newsme_username, :order]
-  end
-  
-  def self.lookup
-    :id
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :group_id => :lookup,
       :title => :text,

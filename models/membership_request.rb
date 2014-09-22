@@ -18,11 +18,7 @@ class MembershipRequest
     end
   end
         
-  def self.fields_for_index
-    [:account_id, :group_id, :status, :answers, :created_at]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :account_id => :lookup,
       :group_id => :lookup,
@@ -34,9 +30,5 @@ class MembershipRequest
   def self.statuses
     ['pending', 'accepted', 'rejected']
   end    
-  
-  def self.lookup
-    :id
-  end
 
 end

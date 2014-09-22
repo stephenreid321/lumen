@@ -4,11 +4,7 @@ class SignIn
 
   belongs_to :account, index: true
     
-  def self.fields_for_index
-    [:account_id, :created_at]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :account_id => :lookup
     }

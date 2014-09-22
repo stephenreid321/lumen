@@ -15,11 +15,7 @@ class Survey
   
   validates_presence_of :title, :group, :account
     
-  def self.fields_for_index
-    [:title, :intro, :group_id, :account_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :title => :text,
       :intro => :text_area,
@@ -31,10 +27,6 @@ class Survey
   
   def takers
     Account.where(:id.in => answers.only(&:account_id).map(&:account_id))
-  end
-  
-  def self.lookup
-    :title
   end
     
 end

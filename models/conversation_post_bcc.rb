@@ -9,19 +9,12 @@ class ConversationPostBcc
   
   validates_presence_of :emails, :conversation_post
     
-  def self.fields_for_index
-    [:emails, :created_at, :delivered_at, :conversation_post_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :emails => :text_area,
-      :delivered_at => :datetime
+      :delivered_at => :datetime,
+      :conversation_post_id => :lookup
     }
-  end
-    
-  def self.lookup
-    :id
   end
   
   def didyouknow_replacements(string)

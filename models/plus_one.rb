@@ -7,11 +7,7 @@ class PlusOne
   
   validates_uniqueness_of :account, :scope => :conversation_post
     
-  def self.fields_for_index
-    [:account_id, :conversation_post_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :account_id => :lookup,
       :conversation_post_id => :lookup

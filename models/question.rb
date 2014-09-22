@@ -29,11 +29,7 @@ class Question
     q.empty? ? [] : q
   end
     
-  def self.fields_for_index
-    [:text, :help, :type, :options, :survey_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :text => :text_area,
       :help => :text_area,
@@ -44,8 +40,4 @@ class Question
     }
   end
   
-  def self.lookup
-    :text
-  end  
-    
 end

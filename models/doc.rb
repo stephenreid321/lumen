@@ -15,16 +15,12 @@ class Doc
     self.url = "http://#{self.url}" if self.url and !(self.url =~ /\Ahttps?:\/\//)
     self.title = begin; Mechanize.new.get(self.url).title.gsub(' - Google Docs',''); rescue; end
   end
-    
-  def self.fields_for_index
-    [:url, :title, :account_id, :group_id]
-  end
-  
+      
   def type
     url.split('/')[3]
   end
   
-  def self.fields_for_form
+  def self.admin_fields
     {
       :url => :text,
       :title => :text,

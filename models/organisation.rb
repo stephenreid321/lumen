@@ -38,11 +38,7 @@ class Organisation
     'E43D3D'
   end
     
-  def self.fields_for_index
-    [:name, :address]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :name => :text,
       :address => :text,
@@ -51,10 +47,6 @@ class Organisation
       :sectorships => :collection,
       :affiliations => :collection
     }
-  end
-  
-  def self.lookup
-    :name
   end
     
   # Picture

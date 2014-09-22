@@ -17,11 +17,7 @@ class Answer
     self.survey = self.question.try(:survey)
   end   
     
-  def self.fields_for_index
-    [:text, :survey_id, :question_id, :account_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :text => :text_area,
       :survey_id => :lookup,
@@ -33,9 +29,5 @@ class Answer
   def account_name
     account.name
   end
-  
-  def self.lookup
-    :account_name
-  end  
-    
+ 
 end

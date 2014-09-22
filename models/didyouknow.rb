@@ -8,11 +8,7 @@ class Didyouknow
   
   validates_presence_of :group, :body
       
-  def self.fields_for_index
-    [:group_id, :body]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :group_id => :lookup,
       :body => :text_area

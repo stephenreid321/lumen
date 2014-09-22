@@ -16,11 +16,7 @@ class Conversation
   
   validates_presence_of :subject, :slug, :group, :account
   validates_uniqueness_of :slug
-        
-  def self.fields_for_index
-    [:subject, :hidden, :slug, :group_id, :account_id]
-  end
-  
+          
   before_validation :set_slug
   def set_slug
     if !self.slug
@@ -39,7 +35,7 @@ class Conversation
     end
   end
     
-  def self.fields_for_form
+  def self.admin_fields
     {
       :subject => :text,
       :slug => :text,
@@ -50,9 +46,6 @@ class Conversation
     }
   end
   
-  def self.lookup
-    :subject
-  end
   
   def last_conversation_post
     conversation_posts.order_by(:created_at.desc).first

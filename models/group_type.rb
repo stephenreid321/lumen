@@ -16,11 +16,7 @@ class GroupType
   validates_uniqueness_of :name, :slug
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
     
-  def self.fields_for_index
-    [:name, :slug, :icon, :description, :join_groups_via_profile]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :name => :text,
       :slug => :slug,
@@ -29,10 +25,6 @@ class GroupType
       :join_groups_via_profile => :check_box,
       :groups => :collection
     }
-  end
-  
-  def self.lookup
-    :name
   end
       
 end

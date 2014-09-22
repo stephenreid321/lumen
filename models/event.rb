@@ -31,11 +31,7 @@ class Event
     self.more_info = "http://#{self.more_info}" if self.more_info and !(self.more_info =~ /\Ahttps?:\/\//)
   end  
     
-  def self.fields_for_index
-    [:name, :start_time, :end_time, :consider_time, :location, :details, :reason, :more_info, :ticketing, :tickets_link, :group_id, :account_id, :organisation_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :name => :text,
       :start_time => :datetime,

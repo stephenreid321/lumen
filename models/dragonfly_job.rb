@@ -8,11 +8,7 @@ class DragonflyJob
   validates_presence_of :signature, :uid
   validates_uniqueness_of :signature, :uid
     
-  def self.fields_for_index
-    [:signature, :uid, :created_at]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :signature => :text,
       :uid => :text

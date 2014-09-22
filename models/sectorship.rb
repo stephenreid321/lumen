@@ -18,19 +18,11 @@ class Sectorship
   
   validates_presence_of :sector, :organisation
     
-  def self.fields_for_index
-    [:sector_id, :organisation_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :sector_id => :lookup,
       :organisation_id => :lookup
     }
   end
-  
-  def self.lookup
-    :id
-  end  
-  
+    
 end

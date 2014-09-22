@@ -13,19 +13,11 @@ class AccountTag
     self.name = self.name.strip.downcase if self.name
   end
     
-  def self.fields_for_index
-    [:name]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :name => :text,
       :account_tagships => :collection
     }
-  end
-  
-  def self.lookup
-    :name
   end
   
   def self.names(accounts)

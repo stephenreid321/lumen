@@ -12,12 +12,8 @@ class Attachment
   validates_presence_of :file, :conversation_post
  
   dragonfly_accessor :file
-      
-  def self.fields_for_index
-    [:file_name, :conversation_post_id]
-  end
-  
-  def self.fields_for_form
+        
+  def self.admin_fields
     {
       :conversation_post_id => :lookup,
       :file => :file,
@@ -26,8 +22,4 @@ class Attachment
     }
   end
   
-  def self.lookup
-    :id
-  end
-
 end

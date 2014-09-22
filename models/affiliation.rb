@@ -20,20 +20,12 @@ class Affiliation
        
   validates_presence_of :title, :organisation, :account
       
-  def self.fields_for_index
-    [:title, :organisation_id, :account_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :title => :text,
       :organisation_id => :lookup,
       :account_id => :lookup
     }
   end
-  
-  def self.lookup
-    :title
-  end  
   
 end

@@ -10,11 +10,7 @@ class Fragment
   validates_uniqueness_of :slug
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
     
-  def self.fields_for_index
-    [:slug, :body, :page]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :slug => :text,
       :body => :wysiwyg,

@@ -51,11 +51,7 @@ class Space
     '7FDF73'
   end
   
-  def self.fields_for_index
-    [:name, :description, :link, :capacity, :private, :accessibility, :serves_food, :serves_alcohol, :hourly_cost, :address, :approx, :coordinates, :group_id, :account_id]
-  end
-  
-  def self.fields_for_form
+  def self.admin_fields
     {
       :name => :text,
       :description => :wyiswyg,

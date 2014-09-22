@@ -23,7 +23,7 @@
       <%= f.text_block :website %>
       <%= f.select_block :time_zone %>
       <% if Language.count > 1 %>
-        <%= f.lookup_block :language_id %>
+        <%= f.select_block(:language_id, options: ['']+Language.all.map { |language| [language.name, language.id] }) %>
       <% end %>
       <% if ENV['ACCOUNT_TAGS_PREDEFINED'] %>
         <% if AccountTag.count > 0  %>
@@ -33,8 +33,8 @@
         <%= partial :'accounts/tagships', :locals => {:f => f} %>
       <% end %>
       <script>
-        $(function() {
-          $('div[data-group-type]').each(function() {
+        $(function () {
+          $('div[data-group-type]').each(function () {
             $('.control-label', this).text($(this).attr('data-group-type') + ' groups')
           });
         });
@@ -55,7 +55,7 @@
     <% end %>
 
     <script>
-      $(function() {
+      $(function () {
         $('.use-picture').popover({trigger: 'hover', html: true});
       });
     </script>

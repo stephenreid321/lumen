@@ -70,7 +70,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: fd86ca28d4bf42cec90a873f6cd015898295a2d8
+  revision: f9d5a36b54a88d9c51befd387168987d79ff1481
   specs:
     activate-tools (0.0.1)
       padrino

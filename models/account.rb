@@ -136,8 +136,14 @@ class Account
   accepts_nested_attributes_for :provider_links
                         
   attr_accessor :password, :password_confirmation 
+  
+  before_validation :check_for_affiliations
+  def check_for_affiliations    
+    errors.add(:affiliations, 'must be present') if ENV['REQUIRE_ACCOUNT_AFFILIATIONS'] and self.affiliations.empty? 
+  end  
 
   validates_presence_of :name, :email
+  validates_presence_of :location, :if => ENV['REQUIRE_ACCOUNT_LOCATION']
   validates_presence_of :password, :if => :password_required
   validates_presence_of :password_confirmation, :if => :password_required  
   

@@ -27,6 +27,8 @@ Lumen::App.controllers do
   
       :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
       :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],
+      :REQUIRE_ACCOUNT_LOCATION => ['Requires the completion of the location field on account profiles'],
+      :REQUIRE_ACCOUNT_AFFILIATIONS => ['Requires some affiliations on account profiles'],
           
       :HIDE_SEARCH_MEMBERSHIPS => ['Hides group memberships on profile search results'],
       :HIDE_SEARCH_TAGS => ['Hides tags on profile search results'],
@@ -34,6 +36,7 @@ Lumen::App.controllers do
       :HIDE_SECTORS_TAB => ['Hides the \'sectors\' tab'],
       :HIDE_DIRECTORY_TAB => ['Hides the \'All groups\' tab'],
       :HIDE_MAP_FORM => ['Hides map form'],
+      :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],
       
       :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from home, news, wall, digest, map, docs, surveys, calendar)',      
       :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from home, conversations, news, wall, digest, map, docs, surveys, calendar)',

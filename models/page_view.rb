@@ -17,11 +17,4 @@ class PageView
     }
   end
   
-  def self.filter_options
-    {
-      :o => 'created_at',
-      :d => 'desc'
-    }    
-  end
-  
 end

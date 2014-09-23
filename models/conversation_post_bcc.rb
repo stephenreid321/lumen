@@ -69,11 +69,4 @@ class ConversationPostBcc
     update_attribute(:delivered_at, Time.now)
   end  
   
-  def self.filter_options
-    {
-      :o => :created_at,
-      :d => :desc
-    }
-  end
-  
 end

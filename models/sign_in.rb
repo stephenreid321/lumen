@@ -8,13 +8,6 @@ class SignIn
     {
       :account_id => :lookup
     }
-  end
-  
-  def self.filter_options
-    {
-      :o => 'created_at',
-      :d => 'desc'
-    }    
-  end
+  end  
   
 end

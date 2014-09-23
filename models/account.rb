@@ -192,13 +192,6 @@ class Account
       :affiliations => :collection
     }.merge(EnvFields.fields(self))
   end
-  
-  def self.filter_options
-    {
-      :o => 'created_at',
-      :d => 'desc'
-    }    
-  end
     
   def self.edit_hints
     {

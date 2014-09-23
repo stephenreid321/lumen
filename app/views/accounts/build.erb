@@ -17,11 +17,11 @@
 
       <%= f.text_block :name %>
       <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
-      <%= f.text_block :email %>
+      <%= f.email_block :email %>
       <%= f.text_block :location, tip: eval(f('tip-location')) %>    
       <%= f.text_block :phone %>
       <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
-        <%= f.text_block :website %>
+        <%= f.url_block :website %>
       <% end %>
       <%= f.select_block :time_zone %>
       <% if Language.count > 1 %>

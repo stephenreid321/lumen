@@ -47,10 +47,14 @@
       <% end %>
       <% if @group.persisted? %>
         <%= f.text_block :redirect_after_first_profile_save %>
+        <%= f.text_block :invite_email_subject %>
         <%= f.text_area_block :invite_email %>
+        <%= f.text_block :reminder_email_subject %>
         <%= f.text_area_block :reminder_email %>
         <div class="closed-only">
+          <%= f.text_block :membership_request_thanks_email_subject %>
           <%= f.text_area_block :membership_request_thanks_email %>
+          <%= f.text_block :membership_request_acceptance_email_subject %>
           <%= f.text_area_block :membership_request_acceptance_email %>
         </div>
       <% end %>

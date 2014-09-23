@@ -9,13 +9,9 @@ Lumen::App.controllers do
     @q = params[:q] if params[:q]        
     if @q
       q = []
-      ConversationPost.fields.each { |fieldstring, fieldobj|
-        if fieldobj.type == String and !fieldstring.starts_with?('_')          
-          q << {fieldstring.to_sym => /#{@q}/i }
-        end
-      }                 
+      q << {:body => /#{@q}/i }
       q << {:conversation_id.in => Conversation.where(:subject => /#{@q}/i).only(:_id).map(&:_id)}
-      q << {:account.in => Account.where(:name => /#{@q}/i).only(:_id).map(&:_id)}
+      q << {:account_id.in => Account.where(:name => /#{@q}/i).only(:_id).map(&:_id)}
       conversation_posts = @group.conversation_posts.where(:hidden.ne => true).or(q)
       @conversations = @conversations.where(:id.in => conversation_posts.only(:conversation_id).map(&:conversation_id))
     end                         

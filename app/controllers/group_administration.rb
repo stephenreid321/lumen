@@ -256,7 +256,9 @@ Lumen::App.controllers do
       if @account.sign_ins.count == 0
         password = Account.generate_password(8)
         @account.update_attribute(:password, password) 
-        @first_time_sign_in_details = "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}."
+        sign_in_details = "You need to sign in to start receiving email notifications. Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}."
+      else
+        sign_in_details = "Sign in at http://#{ENV['DOMAIN']}/sign_in."
       end
     
       group = @group # instance var not available in defaults block
@@ -266,7 +268,7 @@ Lumen::App.controllers do
       
       b = @group.membership_request_acceptance_email
       .gsub('[firstname]',@account.name.split(' ').first)
-      .gsub('[sign_in_details]',@first_time_sign_in_details ? "You need to sign in to start receiving email notifications. #{@first_time_sign_in_details}" : "Sign in at http://#{ENV['DOMAIN']}/sign_in.")
+      .gsub('[sign_in_details]', sign_in_details)
               
       mail = Mail.new
       mail.to = @account.email

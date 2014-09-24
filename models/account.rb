@@ -139,11 +139,11 @@ class Account
   
   before_validation :check_for_affiliations
   def check_for_affiliations    
-    errors.add(:affiliations, 'must be present') if ENV['REQUIRE_ACCOUNT_AFFILIATIONS'] and self.affiliations.empty? 
+    errors.add(:affiliations, 'must be present') if self.persisted? and ENV['REQUIRE_ACCOUNT_AFFILIATIONS'] and self.affiliations.empty?
   end  
 
   validates_presence_of :name, :email
-  validates_presence_of :location, :if => ENV['REQUIRE_ACCOUNT_LOCATION']
+  validates_presence_of :location, :if => -> { self.persisted? and ENV['REQUIRE_ACCOUNT_LOCATION'] }
   validates_presence_of :password, :if => :password_required
   validates_presence_of :password_confirmation, :if => :password_required  
   

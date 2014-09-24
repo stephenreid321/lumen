@@ -38,7 +38,7 @@
         });
       </script>
       <div class="closed-only">
-        <%= f.text_area_block :request_intro %>
+        <%= f.wysiwyg_block :request_intro %>
         <%= f.text_area_block :request_questions %>
       </div>
       <%= f.select_block :default_notification_level %>
@@ -48,14 +48,14 @@
       <% if @group.persisted? %>
         <%= f.text_block :redirect_after_first_profile_save %>
         <%= f.text_block :invite_email_subject %>
-        <%= f.text_area_block :invite_email %>
+        <%= f.wysiwyg_block :invite_email %>
         <%= f.text_block :reminder_email_subject %>
-        <%= f.text_area_block :reminder_email %>
+        <%= f.wysiwyg_block :reminder_email %>
         <div class="closed-only">
           <%= f.text_block :membership_request_thanks_email_subject %>
-          <%= f.text_area_block :membership_request_thanks_email %>
+          <%= f.wysiwyg_block :membership_request_thanks_email %>
           <%= f.text_block :membership_request_acceptance_email_subject %>
-          <%= f.text_area_block :membership_request_acceptance_email %>
+          <%= f.wysiwyg_block :membership_request_acceptance_email %>
         </div>
       <% end %>
       <%= f.submit_block %>

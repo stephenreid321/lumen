@@ -157,15 +157,32 @@ Lumen::App.controllers do
       group = @group # instance var not available in defaults block
       Mail.defaults do
         delivery_method :smtp, group.smtp_settings
-      end      
+      end    
       
-      mail = Mail.new(
-        :to => @account.email,
-        :from => "#{@group.slug} <#{@group.email('-noreply')}>",
-        :subject => "#{current_account.name.split(' ').first} added you to the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}",
-        :body => erb(:'emails/invite', :layout => false)
-      )
-      mail.deliver
+      sign_in_details = ''
+      if @membership.status == 'pending'
+        sign_in_details << "You need to sign in to start receiving email notifications. "
+      end
+      if @new_account
+        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{@account.password}."
+      else
+        sign_in_details << "Check it out at http://#{ENV['DOMAIN']}/groups/#{@group.slug}."
+      end
+               
+      b = @group.invite_email
+      .gsub('[firstname]',@account.name.split(' ').first)
+      .gsub('[admin]', current_account.name)
+      .gsub('[sign_in_details]', sign_in_details)      
+            
+      mail = Mail.new
+      mail.to = @account.email
+      mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
+      mail.subject = @group.invite_email_subject
+      mail.html_part do
+        content_type 'text/html; charset=UTF-8'
+        body b
+      end
+      mail.deliver              
       notices << "#{email} was added to the group."
     }
     flash[:notice] = notices.join('<br />') if !notices.empty?
@@ -189,15 +206,22 @@ Lumen::App.controllers do
     group = @group # instance var not available in defaults block
     Mail.defaults do
       delivery_method :smtp, group.smtp_settings
-    end        
+    end    
     
-    mail = Mail.new(
-      :to => @account.email,
-      :from => "#{@group.slug} <#{@group.email('-noreply')}>",
-      :cc => current_account.email,
-      :subject => "A reminder from #{current_account.name} to complete your #{ENV['SITE_NAME_SHORT']} profile",
-      :body => erb(:'emails/reminder', :layout => false)
-    )
+    b = @group.reminder_email
+    .gsub('[firstname]',@account.name.split(' ').first)
+    .gsub('[admin]', current_account.name)
+    .gsub('[issue]',@issue)
+            
+    mail = Mail.new
+    mail.to = @account.email
+    mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
+    mail.cc = current_account.email
+    mail.subject = @group.reminder_email_subject
+    mail.html_part do
+      content_type 'text/html; charset=UTF-8'
+      body b
+    end
     mail.deliver    
     membership.update_attribute(:reminder_sent, Time.now)
     redirect back
@@ -230,10 +254,9 @@ Lumen::App.controllers do
     if params[:accept]
       @account = membership_request.account      
       if @account.sign_ins.count == 0
-        @account.password = Account.generate_password(8)
-        @account.password_confirmation = @account.password
-        @account.save
-        @first_time_sign_in_details = "You can sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{@account.password}."
+        password = Account.generate_password(8)
+        @account.update_attribute(:password, password) 
+        @first_time_sign_in_details = "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}."
       end
     
       group = @group # instance var not available in defaults block
@@ -241,23 +264,19 @@ Lumen::App.controllers do
         delivery_method :smtp, group.smtp_settings
       end      
       
-        b = if @group.membership_request_acceptance_email and @first_time_sign_in_details
-          @group.membership_request_acceptance_email
-          .gsub('[firstname]',@account.name.split(' ').first)
-          .gsub('[first_time_sign_in_details]',@first_time_sign_in_details)
-        else
-          erb(:'emails/membership_request_acceptance', :layout => false)
-        end
-        
-        mail = Mail.new
-        mail.to = @account.email
-        mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
-        mail.subject = "You're now a member of the '#{@group.slug}' group on #{ENV['SITE_NAME_SHORT']}"
-        mail.html_part do
-          content_type 'text/html; charset=UTF-8'
-          body b
-        end
-        mail.deliver      
+      b = @group.membership_request_acceptance_email
+      .gsub('[firstname]',@account.name.split(' ').first)
+      .gsub('[sign_in_details]',@first_time_sign_in_details ? "You need to sign in to start receiving email notifications. #{@first_time_sign_in_details}" : "Sign in at http://#{ENV['DOMAIN']}/sign_in.")
+              
+      mail = Mail.new
+      mail.to = @account.email
+      mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
+      mail.subject = @group.membership_request_acceptance_email_subject
+      mail.html_part do
+        content_type 'text/html; charset=UTF-8'
+        body b
+      end
+      mail.deliver      
             
       membership_request.update_attribute(:status, 'accepted')
       @group.memberships.create(:account => @account)      

@@ -80,8 +80,11 @@ Lumen::App.controllers do
       
       if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   
         @new_account = true
-        @account = Account.new({:name => name, :email => email})               
-        @account.password = Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
+        @account = Account.new({
+            :name => name,
+            :email => email,
+            :password => Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
+          })
         @account.password_confirmation = @account.password 
         if !@account.save
           flash[:error] = "Failed to create an account for #{email} - is this a valid email address?"
@@ -111,19 +114,19 @@ Lumen::App.controllers do
         :body => erb(:'emails/membership_request', :layout => false)
       )
       mail.deliver   
-      
-      if @group.membership_request_thanks_email                
-        b = @group.membership_request_thanks_email.gsub('[firstname]',@account.name.split(' ').first)   
-        mail = Mail.new
-        mail.to = @account.email
-        mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
-        mail.subject = "Thanks for requesting membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}"
-        mail.html_part do
-          content_type 'text/html; charset=UTF-8'
-          body b
-        end
-        mail.deliver        
+            
+      b = @group.membership_request_thanks_email
+      .gsub('[firstname]',@account.name.split(' ').first)   
+        
+      mail = Mail.new
+      mail.to = @account.email
+      mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
+      mail.subject = @group.membership_request_thanks_email_subject
+      mail.html_part do
+        content_type 'text/html; charset=UTF-8'
+        body b
       end
+      mail.deliver        
       
       flash[:notice] = 'Your request was sent.'
       redirect '/'
@@ -145,8 +148,8 @@ Lumen::App.controllers do
         @new_account = true
         @account = Account.new({
             :name => name,
-            :password => Account.generate_password(8),
-            :email => email
+            :email => email,
+            :password => Account.generate_password(8),            
           })
         @account.password_confirmation = @account.password
         if !@account.save

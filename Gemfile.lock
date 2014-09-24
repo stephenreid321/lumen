@@ -61,7 +61,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: e3f26153ea06d77277397ceef3a4e35a7ed4fb41
+  revision: 809902a14640618fb9c211094f1e418ade86dddd
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -70,7 +70,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: f9d5a36b54a88d9c51befd387168987d79ff1481
+  revision: f0b64e7ae03f63ca6104dc6fa43a0a4fd77f0664
   specs:
     activate-tools (0.0.1)
       padrino

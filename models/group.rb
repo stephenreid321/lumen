@@ -8,10 +8,45 @@ class Group
   field :default_notification_level, :type => String, :default => 'each'
   field :request_intro, :type => String  
   field :request_questions, :type => String
-  field :reminder_email, :type => String
-  field :invite_email, :type => String
-  field :membership_request_thanks_email, :type => String
-  field :membership_request_acceptance_email, :type => String
+  
+  field :reminder_email_subject, :type => String, :default => -> { "A reminder to complete your profile on #{ENV['SITE_NAME_SHORT']}" }
+  field :reminder_email, :type => String, :default => -> {
+    %Q{Hi [firstname],
+   <br /><br />
+[admin] noticed that you haven't yet [issue] on #{ENV['SITE_NAME_DEFINITE']}.
+<br /><br />
+Well-maintained profiles help build a stronger community. Will you spare a minute to provide the missing details?
+<br /><br />
+You can sign in at http://#{ENV['DOMAIN']}/sign_in.}
+  }
+    
+  field :invite_email_subject, :type => String, :default => -> { "You were added to #{self.slug} on #{ENV['SITE_NAME_SHORT']}" }
+  field :invite_email, :type => String, :default => -> { 
+    %Q{Hi [firstname],
+<br /><br />
+[admin] added you to #{self.slug} on #{ENV['SITE_NAME_DEFINITE']}.
+<br /><br />
+[sign_in_details]}
+  }    
+  
+  field :membership_request_thanks_email_subject, :type => String, :default => -> { "Thanks for requesting membership of #{self.slug} on #{ENV['SITE_NAME_SHORT']}" }
+  field :membership_request_thanks_email, :type => String, :default => -> {
+    %Q{Hi [firstname],
+<br /><br />
+Thanks for requesting membership of #{self.slug} on on #{ENV['SITE_NAME_DEFINITE']}.
+<br /><br />
+The group administrators have been notified and will process your request shortly.}
+  }
+  
+  field :membership_request_acceptance_email_subject, :type => String, :default => -> { "You're now a member of #{self.slug} on #{ENV['SITE_NAME_SHORT']}" }
+  field :membership_request_acceptance_email, :type => String, :default => -> {
+    %Q{Hi [firstname],
+<br /><br />
+You have been granted membership of #{self.slug} on #{ENV['SITE_NAME_DEFINITE']}.
+<br /><br />
+[sign_in_details]}
+  }
+  
   field :redirect_after_first_profile_save, :type => String
   
   index({slug: 1 }, {unique: true})
@@ -135,8 +170,10 @@ class Group
     {
       :request_intro => 'HTML to display above request form',
       :request_questions => 'Questions to ask to people requesting membership. One per line.',
+      :invite_email => 'HTML. Replacements: [firstname], [admin], [sign_in_details]',
+      :reminder_email => 'HTML. Replacements: [firstname], [admin], [issue]',
       :membership_request_thanks_email => 'HTML. Replacements: [firstname]',
-      :membership_request_acceptance_email => 'HTML. Used only for people who are joining the site for the first time. Replacements: [firstname], [first_time_sign_in_details]'
+      :membership_request_acceptance_email => 'HTML. Replacements: [firstname], [sign_in_details]'
     }
   end
   

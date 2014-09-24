@@ -168,6 +168,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   
   def self.new_tips
     {
+      :redirect_after_first_profile_save => 'URL. Can be used to direct new members to a survey or conversation.',
       :request_intro => 'HTML to display above request form',
       :request_questions => 'Questions to ask to people requesting membership. One per line.',
       :invite_email => 'HTML. Replacements: [firstname], [admin], [sign_in_details]',

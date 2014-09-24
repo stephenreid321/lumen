@@ -22,7 +22,7 @@ GIT
 
 GIT
   remote: git://github.com/padrino/padrino-framework.git
-  revision: 8c3514ddb4e21b45a392de952d315c5dfcc6a14c
+  revision: 89df403f856814a9bdd0232ed32c4d4035d21eb7
   specs:
     padrino (0.12.3)
       padrino-admin (= 0.12.3)
@@ -70,7 +70,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: f0b64e7ae03f63ca6104dc6fa43a0a4fd77f0664
+  revision: 61093ad54ed55e7a19237b1d0c347b2d61265558
   specs:
     activate-tools (0.0.1)
       padrino

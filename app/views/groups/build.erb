@@ -1,4 +1,4 @@
-<ol class="breadcrumb" style="margin-bottom: 10px">
+<ol class="breadcrumb">
   <li><a href="/groups">Groups</a></li>
   <% if @group.persisted? %>
     <li>
@@ -14,8 +14,11 @@
   <% end %>
 </ol>
 
+<% if @group.persisted? %>
+  <%= partial :'group_administration/header' %>
+<% end %>  
 
-<div class="row">
+<div class="row" style="margin-top: 10px">
   <div class="col-md-8 col-md-offset-2" id="group-form">
 
     <% form_for @group, @group.new_record? ? '/groups/new' : "/groups/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
@@ -45,19 +48,7 @@
       <% if GroupType.count > 0 %>
         <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [group_type.name,group_type.id] } %>
       <% end %>
-      <% if @group.persisted? %>
-        <%= f.text_block :redirect_after_first_profile_save %>
-        <%= f.text_block :invite_email_subject %>
-        <%= f.wysiwyg_block :invite_email %>
-        <%= f.text_block :reminder_email_subject %>
-        <%= f.wysiwyg_block :reminder_email %>
-        <div class="closed-only">
-          <%= f.text_block :membership_request_thanks_email_subject %>
-          <%= f.wysiwyg_block :membership_request_thanks_email %>
-          <%= f.text_block :membership_request_acceptance_email_subject %>
-          <%= f.wysiwyg_block :membership_request_acceptance_email %>
-        </div>
-      <% end %>
+      <%= f.text_block :redirect_after_first_profile_save %>
       <%= f.submit_block %>
 
     <% end %> 

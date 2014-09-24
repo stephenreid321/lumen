@@ -25,6 +25,24 @@ Lumen::App.controllers do
     end    
   end   
   
+  get '/groups/:slug/emails' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    erb :'group_administration/emails'
+  end
+  
+  post '/groups/:slug/emails' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    if @group.update_attributes(params[:group])
+      flash[:notice] = "<strong>Great!</strong> The group emails were updated successfully."
+      redirect "/groups/#{@group.slug}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the emails from being saved."
+      erb :'group_administration/emails'
+    end    
+  end 
+  
   get '/groups/:slug/manage_members' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!

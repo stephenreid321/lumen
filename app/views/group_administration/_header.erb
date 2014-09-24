@@ -1,0 +1,20 @@
+
+<style>
+  ul.admin-options { margin-top: 5px; padding: 8px 15px; list-style-type: none; background: #f8f8f8 }
+  ul.admin-options li { display: inline-block; padding: 0px 8px }
+  ul.admin-options li:first-child { padding-left: 0 }
+  ul.admin-options li a { color: black; text-decoration: none; opacity: 0.25 }
+  ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
+</style>
+
+<%= ul_nav 'admin-options', [
+  ['<i class="fa fa-group"></i> Manage members', 'manage_members'],
+  ['<i class="fa fa-pencil"></i> Settings', 'edit'],
+  ['<i class="fa fa-envelope"></i> Emails', 'emails'],
+  ['<i class="fa fa-question"></i> Did you know...', 'didyouknows'],
+  ['<i class="fa fa-twitter"></i> New summaries', 'news_summaries'],
+  ['<i class="fa fa-star"></i> Post review', 'review'],
+  ['<i class="fa fa-signal"></i> Stats', 'stats'],
+  ['<i class="fa fa-dashboard"></i> Analytics', 'analytics']
+  ], prefix: "/groups/#{@group.slug}/"
+%>

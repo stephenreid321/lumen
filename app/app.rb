@@ -5,6 +5,7 @@ module Lumen
     register WillPaginate::Sinatra
     helpers Activate::DatetimeHelpers
     helpers Activate::ParamHelpers  
+    helpers Activate::NavigationHelpers
     
     use Dragonfly::Middleware
     use Airbrake::Rack    

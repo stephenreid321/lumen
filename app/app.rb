@@ -12,7 +12,7 @@ module Lumen
     use OmniAuth::Builder do
       provider :account
       Provider.registered.each { |provider|
-        provider provider.omniauth_name, ENV["#{provider.display_name.upcase}_KEY"], ENV["#{provider.display_name.upcase}_SECRET"]
+        provider provider.omniauth_name, ENV["#{provider.display_name.upcase}_KEY"], ENV["#{provider.display_name.upcase}_SECRET"], {provider_ignores_state: true}
       }
     end  
     OmniAuth.config.on_failure = Proc.new { |env|

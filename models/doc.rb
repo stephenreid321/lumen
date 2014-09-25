@@ -17,7 +17,7 @@ class Doc
   end
       
   def type
-    url.split('/')[3]
+    url.split('/d/').first.split('/').last
   end
   
   def self.admin_fields

@@ -73,7 +73,7 @@
               <% else %>
                 <span class="col-md-4" style="margin-top: 5px">Not connected</span>
                 <div class="col-md-3">
-                  <a class="popup btn btn-default" onclick="$('#me-form').append('<input type=\'hidden\' name=\'return\' value=\'1\' />').submit();" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+                  <a class="btn btn-default" target="_blank" onclick="$('#me-form').append('<input type=\'hidden\' name=\'return\' value=\'1\' />').submit();" href="/auth/<%=provider.omniauth_name%>">Connect</a>
                 </div>
               <% end %>
             </div>

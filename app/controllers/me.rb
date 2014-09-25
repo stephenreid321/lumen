@@ -8,6 +8,10 @@ Lumen::App.controllers do
   get '/me/edit' do
     sign_in_required!
     @account = current_account
+    if session[:validate]
+      @account.valid?
+      session[:validate] = nil
+    end    
     erb :'accounts/build'
   end
   
@@ -16,11 +20,15 @@ Lumen::App.controllers do
     params[:account][:account_tag_ids] = [] if ENV['ACCOUNT_TAGS_PREDEFINED'] and !params[:account][:account_tag_ids]
     @account = current_account    
     if @account.update_attributes(params[:account])      
-      flash[:notice] = "<strong>Great!</strong> Your account was updated successfully."
-      if @account.sign_ins.count == 1
-        redirect (@account.memberships.first.try(:group).try(:redirect_after_first_profile_save) || '/')
+      if params[:return]
+        redirect back
       else
-        redirect '/me/edit'
+        flash[:notice] = "<strong>Great!</strong> Your account was updated successfully."
+        if @account.sign_ins.count == 1
+          redirect (@account.memberships.first.try(:group).try(:redirect_after_first_profile_save) || '/')
+        else
+          redirect '/me/edit'
+        end
       end
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."

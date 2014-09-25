@@ -40,8 +40,13 @@ Lumen::App.controllers do
   end
   
   get '/auth/failure' do
-    flash.now[:error] = "<strong>Hmm.</strong> There was a problem signing you in."
-    erb :'accounts/sign_in'
+    if current_account
+      flash[:error] = "There was a problem connecting your account. Give it another whirl."
+      redirect '/me/edit'
+    else
+      flash.now[:error] = "<strong>Hmm.</strong> There was a problem signing you in."
+      erb :'accounts/sign_in'
+    end
   end
   
   %w(get post).each do |method|

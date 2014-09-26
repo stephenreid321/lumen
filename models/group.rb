@@ -92,7 +92,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
   
   def new_people(from,to)
-    memberships.where(:created_at.gte => from).where(:created_at.lt => to+1).map(&:account).select { |account| account.has_picture }
+    memberships.where(:created_at.gte => from).where(:created_at.lt => to+1).map(&:account).where(:has_picture => true)
   end
   
   def hot_conversations(from,to)

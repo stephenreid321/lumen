@@ -39,7 +39,7 @@
           i.focus();
         });
         icon.insertAfter('#sectorships');
-        var sectors = <%=Sector.all.select { |sector| sector.sectorships.count > 0 }.map { |sector| sector.name }.to_json %>;
+        var sectors = <%=Sector.all.map(&:name).to_json %>;
         $('.typeahead').typeahead({source: sectors});
       });
     </script>

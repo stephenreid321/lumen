@@ -53,17 +53,17 @@ Lumen::App.controllers do
     when :others
       @group.memberships.where(:admin.ne => true)
     when :not_completed_signup
-      @group.memberships.select { |membership| membership.status == 'pending' }
+      @group.memberships.where(:status => 'pending')
     when :no_picture
-      @group.memberships.select { |membership| membership.account.picture.nil? }   
+      @group.memberships.where(:account_id.in => Account.where(:picture => nil).only(:id).map(&:id))
     when :no_affiliations
-      @group.memberships.select { |membership| membership.account.affiliations.count == 0 }          
+      @group.memberships.not_in(:account_id => Affiliation.only(:account_id).map(&:account_id))
     when :notification_level_none
       @group.memberships.where(:notification_level => 'none')
     when :connected_to_twitter
-      @group.memberships.select { |membership| membership.account.provider_links.find_by(provider: 'Twitter') }
+      @group.memberships.where(:account_id.in => ProviderLink.where(provider: 'Twitter').only(:account_id).map(&:account_id))
     when :geocoding_failed
-      @group.memberships.select { |membership| membership.account.location and !membership.account.coordinates }
+      @group.memberships.where(:account_id.in => Account.where(:location.ne => nil, :coordinates => nil).only(:id).map(&:id))
     when :requests
       @group.membership_requests.where(:status => 'pending') # quacks like a membership
     end

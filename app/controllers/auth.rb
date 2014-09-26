@@ -41,10 +41,10 @@ Lumen::App.controllers do
   
   get '/auth/failure' do
     if current_account
-      flash[:error] = "There was a problem connecting your account. This can happen sometimes. Give it another whirl."
+      flash[:error] = "There was a problem connecting your account: #{env['omniauth.error']}"
       refreshParent
     else
-      flash.now[:error] = "<strong>Hmm.</strong> There was a problem signing you in."
+      flash.now[:error] = "<strong>Hmm.</strong> There was a problem signing you in: #{env['omniauth.error']}"
       erb :'accounts/sign_in'
     end
   end

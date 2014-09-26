@@ -11,9 +11,8 @@ Lumen::App.controllers do
   
   post '/accounts/forgot_password' do
     if params[:email] and @account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i)
-      @account.password = Account.generate_password(8)
-      @account.password_confirmation = @account.password
-      @account.save!
+      @password = Account.generate_password(8)
+      @account.update_attribute(:password, @password)
          
       Mail.defaults do
         delivery_method :smtp, {

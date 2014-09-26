@@ -4,7 +4,7 @@
     <% if Fragment.find_by(slug: 'tip-affiliations') %>
       <i id="tip-affiliations" class="fa fa-question-circle" title="<%=eval(f('tip-affiliations'))%>"></i>
       <script>
-        $(function() {
+        $(function () {
           $('#tip-affiliations').tooltip({placement: 'right'});
         });
       </script>
@@ -36,9 +36,9 @@
       .affiliation .at { margin: 0 5px }
     </style>
     <script>
-      $(function() {
+      $(function () {
         var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;">Add another affiliation</a></div>');
-        $(icon).click(function() {
+        $(icon).click(function () {
           var c = $('.affiliation').length
 <% if ENV['AFFILIATION_POSITIONS'] %>
             var i = $('<select/>');
@@ -71,7 +71,7 @@
           i.focus();
         });
         icon.insertAfter('#affiliations');
-        var organisations = <%=Organisation.all.select { |o| o.affiliations.count > 0 }.map { |o| o.name }.to_json %>;
+        var organisations = <%=Organisation.map(&:name).to_json %>;
         $('.affiliation .typeahead').typeahead({source: organisations});
         if ($('.affiliation').length == 0)
           $(icon).click();

@@ -55,7 +55,7 @@ Lumen::App.controllers do
     when :not_completed_signup
       @group.memberships.where(:status => 'pending')
     when :no_picture
-      @group.memberships.where(:account_id.in => Account.where(:picture => nil).only(:id).map(&:id))
+      @group.memberships.where(:account_id.in => Account.where(:has_picture.ne => true).only(:id).map(&:id))
     when :no_affiliations
       @group.memberships.not_in(:account_id => Affiliation.only(:account_id).map(&:account_id))
     when :notification_level_none

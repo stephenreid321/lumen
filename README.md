@@ -17,7 +17,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 * Daily summaries of news stories tweeted by group members via news.me integration
 * Maps placing people, organisations and venues
 * Google Docs integration
-* Facebook style walls
+* Facebook-style walls
 * Google Spreadsheets-like surveys feature
 
 Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. It was originally created for the [New Economy Organisers Network](http://neweconomyorganisersnetwork.org/) (hosted by the [New Economics Foundation](http://neweconomics.org/)) who kindly agreed to open source the project and continue to sponsor its development.

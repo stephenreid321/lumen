@@ -118,11 +118,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def admins_receiving_membership_requests
     Account.where(:id.in => memberships.where(:admin => true, :receive_membership_requests => true).only(:account_id).map(&:account_id))
   end  
-  
-  def twitter_handles
-    memberships.map(&:account).map(&:provider_links).flatten.select { |provider_link| provider_link.provider == 'Twitter' }.map { |provider_link| provider_link.omniauth_hash['info']['nickname'] }
-  end  
-  
+    
   def request_questions_a
     q = (request_questions || '').split("\n").map(&:strip) 
     q.empty? ? [] : q

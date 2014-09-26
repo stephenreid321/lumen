@@ -71,7 +71,7 @@
           i.focus();
         });
         icon.insertAfter('#affiliations');
-        var organisations = <%=Organisation.map(&:name).to_json %>;
+        var organisations = <%=Organisation.all.map(&:name).to_json %>;
         $('.affiliation .typeahead').typeahead({source: organisations});
         if ($('.affiliation').length == 0)
           $(icon).click();

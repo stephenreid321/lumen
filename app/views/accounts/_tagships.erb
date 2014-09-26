@@ -47,7 +47,7 @@
           i.focus();
         });
         icon.insertAfter('#account_tagships');
-        var account_tags = <%=AccountTag.map(&:name).to_json %>;
+        var account_tags = <%=AccountTag.all.map(&:name).to_json %>;
         $('.account_tagship .typeahead').typeahead({source: account_tags});
       });
     </script>

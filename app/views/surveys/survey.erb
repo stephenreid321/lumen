@@ -49,7 +49,7 @@
             <% case question.type.to_sym; when :text %>
               <%= text_field_tag "q[#{question.id}]", :class => 'form-control' %>
             <% when :text_area %>
-              <%= text_area_tag "q[#{question.id}]" %>
+              <%= text_area_tag "q[#{question.id}]", :class => 'form-control' %>
             <% when :check_box %>
               <%= hidden_field_tag "q[#{question.id}", :value => 'false' %>
               <%= check_box_tag "q[#{question.id}]", :value => 'true'  %>

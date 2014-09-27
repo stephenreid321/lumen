@@ -68,6 +68,7 @@ heroku config:set APP_NAME=yourappname
 heroku config:set HEROKU_OAUTH_TOKEN=youroauthtoken
 heroku config:set DOMAIN=www.yourdomain.org
 heroku config:set MAIL_DOMAIN=yourdomain.org
+git push yourappname master
 ```
 
 (See [https://github.com/heroku/platform-api](https://github.com/heroku/platform-api) for details of how to generate your Heroku OAuth token.)

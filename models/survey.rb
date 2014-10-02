@@ -4,7 +4,7 @@ class Survey
 
   field :title, :type => String
   field :intro, :type => String
-  field :redirect_url => String
+  field :redirect_url, :type => String
   
   belongs_to :group
   belongs_to :account

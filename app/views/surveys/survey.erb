@@ -40,7 +40,7 @@
       </p>
     <% end %>
 
-    <% form_tag "/groups/#{@group.slug}/surveys/#{@survey.id}/answer" do %>
+    <% form_tag "/groups/#{@group.slug}/surveys/#{@survey.id}" do %>
       <% @survey.questions.each { |question| %>
         <div style="margin-bottom: 20px;">
           <p style="font-weight:bold; margin: 0"><%=question.text%></p>

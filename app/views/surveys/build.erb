@@ -43,6 +43,7 @@
 
         <%= f.text_block :title, :div_class => 'col-md-9' %>
         <%= f.text_area_block :intro, :div_class => 'col-md-9' %>
+        <%= f.text_block :redirect_url, :div_class => 'col-md-9' %>
         <%= partial :'surveys/questions', :locals => {:f => f} %>        
 
         <%= f.submit_block destroy_url: "/groups/#{@group.slug}/surveys/#{@survey.id}/destroy" %>

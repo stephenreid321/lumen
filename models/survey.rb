@@ -4,6 +4,7 @@ class Survey
 
   field :title, :type => String
   field :intro, :type => String
+  field :redirect_url => String
   
   belongs_to :group
   belongs_to :account
@@ -21,7 +22,8 @@ class Survey
       :intro => :text_area,
       :group_id => :lookup,
       :account_id => :lookup,
-      :questions => :collection
+      :questions => :collection,
+      :redirect_url => :text
     }
   end
   

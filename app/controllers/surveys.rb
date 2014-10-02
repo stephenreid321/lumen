@@ -83,7 +83,7 @@ Lumen::App.controllers do
     erb :'surveys/survey'
   end    
   
-  post '/groups/:slug/surveys/:id/answer' do
+  post '/groups/:slug/surveys/:id' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @survey = @group.surveys.find(params[:id])
@@ -92,7 +92,7 @@ Lumen::App.controllers do
       @survey.questions.find(k).answers.create(:text => v, :account => current_account)
     }
     flash[:notice] = "Thanks for taking the survey."
-    redirect "/groups/#{@group.slug}"
+    redirect (@survey.redirect_url || "/groups/#{@group.slug}")
   end 
   
   get '/groups/:slug/surveys/:id/results', :provides => [:html, :csv] do

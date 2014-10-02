@@ -85,8 +85,9 @@ module Lumen
       erb :about
     end    
        
-    get '/:slug' do
+    get '/:slug' do      
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
+        sign_in_required!
         erb :page
       else
         pass

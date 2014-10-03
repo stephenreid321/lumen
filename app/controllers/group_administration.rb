@@ -108,7 +108,6 @@ Lumen::App.controllers do
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:admin, true)
-    @membership.update_attribute(:receive_membership_requests, true)
     flash[:notice] = "#{@membership.account.name} was made an admin"
     redirect back
   end   

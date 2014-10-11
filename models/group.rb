@@ -9,7 +9,8 @@ class Group
   field :request_intro, :type => String  
   field :request_questions, :type => String
   field :landing_tab, :type => String
-  
+  field :redirect_after_first_profile_save, :type => String
+    
   field :reminder_email_subject, :type => String, :default => -> { "A reminder to complete your profile on #{ENV['SITE_NAME_SHORT']}" }
   field :reminder_email, :type => String, :default => -> {
     %Q{Hi [firstname],
@@ -47,9 +48,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
 <br /><br />
 [sign_in_details]}
   }
-  
-  field :redirect_after_first_profile_save, :type => String
-  
+    
   index({slug: 1 }, {unique: true})
   
   validates_presence_of :slug, :privacy

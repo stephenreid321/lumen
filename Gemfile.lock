@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: d90a94608ef7409d247ff4e3408f022f97caf8b1
+  revision: 2945bc58b1fef5433b500d9a44bae484022679c8
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0)
@@ -22,7 +22,7 @@ GIT
 
 GIT
   remote: git://github.com/padrino/padrino-framework.git
-  revision: 89df403f856814a9bdd0232ed32c4d4035d21eb7
+  revision: 3ee3f9c3d4b2aa52148b02e2e3a49872f5abb6e3
   specs:
     padrino (0.12.3)
       padrino-admin (= 0.12.3)
@@ -61,7 +61,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 232f24af630b9717d7539bf05702d1a7fae93fa3
+  revision: d2f58986f21bf427df9385d70776a7f41eb472d7
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -70,7 +70,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 19149370da2044fe453284c055bd3eef754dc944
+  revision: f84e751b1f4435d96220ece26fec3f69f4be0165
   specs:
     activate-tools (0.0.1)
       padrino
@@ -114,15 +114,17 @@ GEM
       dragonfly (~> 1.0)
       fog
     erubis (2.7.0)
-    excon (0.39.6)
+    excon (0.40.0)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
-    fog (1.23.0)
+    fog (1.24.0)
       fog-brightbox
       fog-core (~> 1.23)
       fog-json
+      fog-radosgw (>= 0.0.2)
+      fog-sakuracloud (>= 0.0.4)
       fog-softlayer
       ipaddress (~> 0.5)
       nokogiri (~> 1.5, >= 1.5.11)
@@ -139,9 +141,19 @@ GEM
       net-ssh (>= 2.1.3)
     fog-json (1.0.0)
       multi_json (~> 1.0)
-    fog-softlayer (0.3.17)
+    fog-radosgw (0.0.3)
+      fog-core (>= 1.21.0)
+      fog-json
+      fog-xml (>= 0.0.1)
+    fog-sakuracloud (0.1.1)
       fog-core
       fog-json
+    fog-softlayer (0.3.20)
+      fog-core
+      fog-json
+    fog-xml (0.1.0)
+      fog-core
+      nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
     geocoder (1.2.5)
     hashie (3.3.1)
@@ -179,7 +191,7 @@ GEM
       webrobots (>= 0.0.9, < 0.2)
     mime-types (1.25.1)
     mini_portile (0.6.0)
-    minitest (5.4.1)
+    minitest (5.4.2)
     minitest-rg (5.1.0)
       minitest (~> 5.0)
     moneta (0.7.20)
@@ -270,7 +282,7 @@ GEM
     url_mount (0.2.1)
       rack
     webrobots (0.1.1)
-    websocket-driver (0.3.4)
+    websocket-driver (0.3.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     yui-compressor (0.12.0)

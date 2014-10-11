@@ -8,6 +8,7 @@ class Group
   field :default_notification_level, :type => String, :default => 'each'
   field :request_intro, :type => String  
   field :request_questions, :type => String
+  field :landing_tab, :type => String
   
   field :reminder_email_subject, :type => String, :default => -> { "A reminder to complete your profile on #{ENV['SITE_NAME_SHORT']}" }
   field :reminder_email, :type => String, :default => -> {

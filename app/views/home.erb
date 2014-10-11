@@ -1,6 +1,5 @@
 <%
 possible_tabs = {
-  :home => ([I18n.t(:home).capitalize, 'fa-home'] if Fragment.find_by(slug: 'home')),
   :news => ([I18n.t(:news).capitalize, 'fa-twitter'] if current_account.news_summaries.count > 0),
   :digest => [I18n.t(:digest).capitalize, 'fa-star'],
   :map => [I18n.t(:map).capitalize, 'fa-map-marker'],                    

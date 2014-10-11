@@ -64,17 +64,7 @@ module Lumen
         erb :'public/homepage'
       end
     end
-    
-    get '/home' do
-      sign_in_required!
-      @o = :updated  
-      if request.xhr?
-        eval(f('home'))
-      else
-        erb :home
-      end
-    end
-    
+        
     get '/network' do
       sign_in_required!
       erb :network

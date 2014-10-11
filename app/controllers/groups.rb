@@ -56,8 +56,15 @@ Lumen::App.controllers do
   end
     
   get '/groups/:slug/home' do
-    sign_in_required!
-    eval(f('home'))
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
+    membership_required! if @group.secret?
+    if request.xhr?
+      @group.landing_tab
+    else
+      redirect "/groups/#{@group.slug}#home-tab"
+    end    
   end
     
   get '/groups/:slug/request_membership' do

@@ -43,6 +43,25 @@ Lumen::App.controllers do
     end    
   end 
   
+  
+  get '/groups/:slug/landing_tab' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    erb :'group_administration/landing_tab'
+  end
+  
+  post '/groups/:slug/landing_tab' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    if @group.update_attributes(params[:group])
+      flash[:notice] = "<strong>Great!</strong> The landing tab was updated successfully."
+      redirect "/groups/#{@group.slug}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the landing tab from being saved."
+      erb :'group_administration/landing_tab'
+    end    
+  end   
+  
   get '/groups/:slug/manage_members' do
     @group = Group.find_by(slug: params[:slug])
     group_admins_only!

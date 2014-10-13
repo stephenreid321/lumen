@@ -26,11 +26,11 @@
 
   <div class="col-md-7" style="margin-top: 20px">
 
-    <style>#members td { padding: 0.5em }</style>
+    <style>#members td { padding: 0.5em; vertical-align: top }</style>
     <table id="members" >
       <% @memberships.each { |membership| %>
         <tr>
-          <td style="vertical-align: top">
+          <td>
             <a href="/accounts/<%=membership.account_id%>"><%= membership.account.name %></a>
           </td>
           <% case @view; when :connected_to_twitter %>

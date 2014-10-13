@@ -17,7 +17,12 @@
       <ul class="nav nav-tabs">
         <% {:admins => 'Admins', :others => 'Others', :not_completed_signup => 'Not completed signup', :notification_level_none => 'Notifications off', :no_affiliations => 'No affiliations', :no_picture => 'No picture', :connected_to_twitter => 'Connected to Twitter', :geocoding_failed => 'Geocoding failed', :requests => 'Requests'}.each { |k,v| %>
           <li <%= 'class="active"' if @view == k %>>
-            <a style="white-space: normal" href="?view=<%=k%>"><%=v%></a>
+            <a style="white-space: normal" href="?view=<%=k%>">
+              <%=v%>
+              <%if k == :requests and (r = @group.membership_requests.where(:status => 'pending').count) > 0 %>
+                (<%=r%>)
+              <% end %>
+            </a>
           </li>
         <% } %> 
       </ul>
@@ -99,7 +104,7 @@
   <div class="col-md-4">
 
 
-    <script>$(function() {
+    <script>$(function () {
         $('.status-tip').tooltip();
       });</script>
 
@@ -109,8 +114,8 @@
 
       <div id="add-single">
         <p><a href="javascript:;" onclick="$('#add-single input').val('');
-              $('#add-single').hide();
-              $('#add-multiple').show();">Add multiple</a></p>        
+            $('#add-single').hide();
+            $('#add-multiple').show();">Add multiple</a></p>        
         <div class="form-group">
           <label class="sr-only">Name</label>
           <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>

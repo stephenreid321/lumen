@@ -30,7 +30,7 @@
     <table id="members" >
       <% @memberships.each { |membership| %>
         <tr>
-          <td>
+          <td style="vertical-align: top">
             <a href="/accounts/<%=membership.account_id%>"><%= membership.account.name %></a>
           </td>
           <% case @view; when :connected_to_twitter %>

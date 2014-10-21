@@ -5,9 +5,9 @@ Lumen::App.controllers do
     scope = params[:scope]
     scope_id = params[:scope_id]
     @o = (params[:o] ? params[:o] : 'date').to_sym
-    @name = params[:name]
-    @tag = params[:tag]
-    @org = params[:org]
+    @account_id = params[:account_id]    
+    @organisation_id = params[:organisation_id]
+    @account_tag_id = params[:account_tag_id]     
     @accounts = case scope
     when 'network'
       current_account.network
@@ -27,17 +27,25 @@ Lumen::App.controllers do
       sector.members
     end 
     @q = []
-    @q << {:name => /#{@name}/i} if @name
-    @q << {:id.in => AccountTagship.where(account_tag_id: AccountTag.find_by(name: @tag)).only(:account_id).map(&:account_id)} if @tag
-    @q << {:id.in => Affiliation.where(organisation_id: Organisation.find_by(name: @org)).only(:account_id).map(&:account_id)} if @org    
+    @q << {:id => @account_id} if @account_id
+    @q << {:id.in => Affiliation.where(organisation_id: @organisation_id).only(:account_id).map(&:account_id)} if @organisation_id
+    @q << {:id.in => AccountTagship.where(account_tag_id: @account_tag_id).only(:account_id).map(&:account_id)} if @account_tag_id    
     @accounts = @accounts.and(@q)
-    case content_type
+    case content_type      
     when :json
-      {
-        :names => @accounts.order_by(:name.asc).only(:name).map(&:name),
-        :organisations => Organisation.names(@accounts),
-        :account_tags => AccountTag.names(@accounts)
-      }.to_json
+      if params[:account_q]
+        {
+          results: @accounts.where({:name => /#{params[:account_q]}/i}).map { |account| {id: account.id.to_s, text: account.name} }
+        }
+      elsif params[:organisation_q]
+        {
+          results: @accounts.where({:id.in => Affiliation.where(organisation_id: Organisation.find_by(name: /#{params[:organisation_q]}/i)).only(:account_id).map(&:account_id)}).map(&:affiliations).flatten.map(&:organisation).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
+        }
+      elsif params[:account_tag_q]
+        {
+          results: @accounts.where({:id.in => AccountTagship.where(account_tag_id: AccountTag.find_by(name: /#{params[:account_tag_q]}/i)).only(:account_id).map(&:account_id)}).map(&:account_tagships).flatten.map(&:account_tag).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
+        }          
+      end.to_json         
     when :html
       @accounts = case @o
       when :name

@@ -1,19 +1,23 @@
 
+<style>
+    #results-form .select2-container { margin-bottom: 5px }
+</style>
+
 <script>
-  $(function() {
-    $('#results-form').submit(function(e) {
-      e.preventDefault();
-      $('#filter-spin').show();
-      $('#results').load('/accounts/results?' + $(this).serialize(), function() {
-        $('#filter-spin').hide();
+  $(function () {
+      $('#results-form').submit(function (e) {
+          e.preventDefault();
+          $('#filter-spin').show();
+          $('#results').load('/accounts/results?' + $(this).serialize(), function () {
+              $('#filter-spin').hide();
+          });
       });
-    });
 
-    $('#results-form select, #results-form input[type=radio]').change(function() {
-      $(this.form).submit();
-    });
+      $('#results-form input[type=radio]').change(function () {
+          $(this.form).submit();
+      });
 
-    $('#results-form').submit();
+      $('#results-form').submit();
   });
 </script>
 
@@ -21,47 +25,103 @@
   <%= hidden_field_tag :per_page, :value => (per_page if defined? per_page)%> 
   <%= hidden_field_tag :scope, :value => scope %> 
   <%= hidden_field_tag :scope_id, :value => scope_id %> 
-  <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => [''], :"data-placeholder" => 'Filter by name' %>
-  <%= select_tag :org, :selected => @org, :class => 'form-control chosen', :options => [''], :"data-placeholder" => "Filter by #{I18n.t(:organisation)}" %>
-  <% if !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
-    <%= select_tag :tag, :selected => @tag, :class => 'form-control chosen', :options => [''], :"data-placeholder" => "Filter by #{I18n.t(:account_tagship)}" %>
-  <% end %>
+
+  <%= hidden_field_tag :account_id, :id => 'account_id' %>
+
   <script>
-    $(function() {
-      var names = []
-      var orgs = []
-      var tags = []
-      $('select.chosen').append($('<option>').text('Loading, please wait...')).trigger("chosen:updated");
-      $('#results-form').one('click', function() {
-        $.getJSON('/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>', function(data) {
-          names = data.names;
-          orgs = data.organisations;
-          tags = data.account_tags;
-          $('select.chosen option:last-child').remove();
-          $.each(names, function(i, value) {
-            $('select.chosen[name=name]').append($('<option>').text(value).attr('value', value));
-          });
-          $.each(orgs, function(i, value) {
-            $('select.chosen[name=org]').append($('<option>').text(value).attr('value', value));
-          });
-          $.each(tags, function(i, value) {
-            $('select.chosen[name=tag]').append($('<option>').text(value).attr('value', value));
-          });
-          $('select.chosen').trigger("chosen:updated");
+    $(function () {
+        $('#account_id').select2({
+            placeholder: 'Filter by name',
+            allowClear: true,
+            minimumInputLength: 1,
+            width: '100%',
+            ajax: {
+                url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
+                dataType: 'json',
+                data: function (term) {
+                    return {
+                        account_q: term
+                    };
+                },
+                results: function (data) {
+                    return {results: data.results};
+                }
+            }
+        }).on('change', function () {
+            $('#results-form').submit();
         });
-      });
     });
   </script>
+
+  <%= hidden_field_tag :organisation_id, :id => 'organisation_id' %>
+
+  <script>
+    $(function () {
+        $('#organisation_id').select2({
+            placeholder: 'Filter by organisation',
+            allowClear: true,
+            minimumInputLength: 1,
+            width: '100%',
+            ajax: {
+                url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
+                dataType: 'json',
+                data: function (term) {
+                    return {
+                        organisation_q: term
+                    };
+                },
+                results: function (data) {
+                    return {results: data.results};
+                }
+            }
+        }).on('change', function () {
+            $('#results-form').submit();
+        });
+    });
+  </script>  
+
+
+  <% if !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
+
+    <%= hidden_field_tag :account_tag_id, :id => 'account_tag_id' %>
+
+    <script>
+      $(function () {
+          $('#account_tag_id').select2({
+              placeholder: 'Filter by area of expertise',
+              allowClear: true,
+              minimumInputLength: 1,
+              width: '100%',
+              ajax: {
+                  url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
+                  dataType: 'json',
+                  data: function (term) {
+                      return {
+                          account_tag_q: term
+                      };
+                  },
+                  results: function (data) {
+                      return {results: data.results};
+                  }
+              }
+          }).on('change', function () {
+              $('#results-form').submit();
+          });
+      });
+    </script>  
+
+  <% end %>
+
   <div style="margin-top: 5px;">
-    <label class="radio-inline" style="padding-left: 0">Sort by</label>
-    <% {'Date joined' => :date, 'Name' => :name, 'Last updated' => :updated}.each { |k,v| %>
+      <label class="radio-inline" style="padding-left: 0">Sort by</label>
+      <% {'Date joined' => :date, 'Name' => :name, 'Last updated' => :updated}.each { |k,v| %>
+        <label class="radio-inline">
+            <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
+        </label>        
+      <% } %>      
       <label class="radio-inline">
-        <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
-      </label>        
-    <% } %>      
-    <label class="radio-inline">
-      <i id="filter-spin" style="display:none" class="fa fa-spin fa-spinner"></i>
-    </label>                      
+          <i id="filter-spin" style="display:none" class="fa fa-spin fa-spinner"></i>
+      </label>                      
   </div>
 
 <% end %>  

@@ -1,40 +1,92 @@
 
+<style>
+    #results-form .select2-container { margin-bottom: 5px }
+</style>
+
 <script>
-  $(function() {
-    $('#results-form').submit(function(e) {
-      e.preventDefault();
-      $('#filter-spin').show();
-      $('#results').load('/organisations/results?' + $(this).serialize(), function() {
-        $('#filter-spin').hide();
+  $(function () {
+      $('#results-form').submit(function (e) {
+          e.preventDefault();
+          $('#filter-spin').show();
+          $('#results').load('/organisations/results?' + $(this).serialize(), function () {
+              $('#filter-spin').hide();
+          });
       });
-    });
 
-    $('#results-form select, #results-form input[type=radio]').change(function() {
-      $(this.form).submit();
-    });
+      $('#results-form input[type=radio]').change(function () {
+          $(this.form).submit();
+      });
 
-    $('#results-form').submit();
+      $('#results-form').submit();
   });
 </script>
 
 <% form_tag '', :method => 'get', :id => 'results-form' do %>
 
-  <%
-  organisations = Organisation.all
-%>
+  <%= hidden_field_tag :organisation_id, :id => 'organisation_id' %>
 
-  <%= select_tag :name, :selected => @name, :class => 'form-control chosen', :options => ['']+organisations.map(&:name).uniq.sort, :"data-placeholder" => 'Filter by name' %>
-  <%= select_tag :sector, :selected => @sector, :class => 'form-control chosen', :options => ['']+organisations.map(&:sectorships).flatten.map(&:sector).map(&:name).uniq.sort, :"data-placeholder" => "Filter by #{I18n.t(:sector)}" %>
-  <div style="margin-top: 5px;">
-    <label class="radio-inline" style="padding-left: 0">Sort by</label>
-    <% {'Last updated' => :date, 'Name' => :name}.each { |k,v| %>
+  <script>
+    $(function () {
+        $('#organisation_id').select2({
+            placeholder: 'Filter by name',
+            allowClear: true,
+            minimumInputLength: 1,
+            width: '100%',
+            ajax: {
+                url: '/organisations/results',
+                dataType: 'json',
+                data: function (term) {
+                    return {
+                        organisation_q: term
+                    };
+                },
+                results: function (data) {
+                    return {results: data.results};
+                }
+            }
+        }).on('change', function () {
+            $('#results-form').submit();
+        });
+    });
+  </script>
+
+  <%= hidden_field_tag :sector_id, :id => 'sector_id' %>
+
+  <script>
+    $(function () {
+        $('#sector_id').select2({
+            placeholder: 'Filter by sector',
+            allowClear: true,
+            minimumInputLength: 1,
+            width: '100%',
+            ajax: {
+                url: '/organisations/results',
+                dataType: 'json',
+                data: function (term) {
+                    return {
+                        sector_q: term
+                    };
+                },
+                results: function (data) {
+                    return {results: data.results};
+                }
+            }
+        }).on('change', function () {
+            $('#results-form').submit();
+        });
+    });
+  </script>  
+
+  <div>
+      <label class="radio-inline" style="padding-left: 0">Sort by</label>
+      <% {'Last updated' => :date, 'Name' => :name}.each { |k,v| %>
+        <label class="radio-inline">
+            <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
+        </label>        
+      <% } %>      
       <label class="radio-inline">
-        <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
-      </label>        
-    <% } %>      
-    <label class="radio-inline">
-      <i id="filter-spin" style="display:none" class="fa fa-spin fa-spinner"></i>
-    </label>                      
+          <i id="filter-spin" style="display:none" class="fa fa-spin fa-spinner"></i>
+      </label>                      
   </div>
 
 <% end %>  

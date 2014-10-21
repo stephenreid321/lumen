@@ -13,24 +13,37 @@ Lumen::App.controllers do
     redirect '/organisations'
   end
   
-  get '/organisations/results' do
+  get '/organisations/results', :provides => [:json, :html] do
     sign_in_required!
     @o = (params[:o] ? params[:o] : 'date').to_sym
-    @name = params[:name]
-    @sector = params[:sector]
-    @q = []
-    @q << {:id.in => [Organisation.find_by(name: @name).id]} if @name
-    @q << {:id.in => Sectorship.where(sector_id: Sector.find_by(name: @sector)).only(:organisation_id).map(&:organisation_id)} if @sector
+    @organisation_id = params[:organisation_id]
+    @sector_id = params[:sector_id]
     @organisations = Organisation.all
+    @q = []
+    @q << {:id => @organisation_id} if @organisation_id
+    @q << {:id.in => Sectorship.where(sector_id: @sector_id).only(:organisation_id).map(&:organisation_id)} if @sector_id    
     @organisations = @organisations.and(@q)
-    @organisations = case @o
-    when :name
-      @organisations.order_by(:name.asc)
-    when :date
-      @organisations.order_by(:updated_at.desc)
-    end
-    @organisations = @organisations.per_page(10).page(params[:page])
-    partial :'organisations/results'
+    case content_type      
+    when :json
+      if params[:organisation_q]
+        {
+          results: @organisations.where({:name => /#{params[:organisation_q]}/i}).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
+        }
+      elsif params[:sector_q]
+        {
+          results: Sector.where({:name => /#{params[:sector_q]}/i}).map { |sector| {id: sector.id.to_s, text: sector.name} }
+        }          
+      end.to_json         
+    when :html
+      @organisations = case @o
+      when :name
+        @organisations.order_by(:name.asc)
+      when :date
+        @organisations.order_by(:updated_at.desc)
+      end      
+      @organisations = @organisations.per_page(10).page(params[:page])
+      partial :'organisations/results'
+    end    
   end  
   
   get '/organisations/:id' do

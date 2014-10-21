@@ -18,7 +18,7 @@ Lumen::App.controllers do
     @o = (params[:o] ? params[:o] : 'date').to_sym
     @organisation_id = params[:organisation_id]
     @sector_id = params[:sector_id]
-    @organisations = Organisation.all
+    @organisations = current_account.network_organisations
     @q = []
     @q << {:id => @organisation_id} if @organisation_id
     @q << {:id.in => Sectorship.where(sector_id: @sector_id).only(:organisation_id).map(&:organisation_id)} if @sector_id    
@@ -27,11 +27,11 @@ Lumen::App.controllers do
     when :json
       if params[:organisation_q]
         {
-          results: @organisations.where({:name => /#{params[:organisation_q]}/i}).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
+          results: @organisations.where(:name => /#{params[:organisation_q]}/i).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
         }
       elsif params[:sector_q]
         {
-          results: Sector.where({:name => /#{params[:sector_q]}/i}).map { |sector| {id: sector.id.to_s, text: sector.name} }
+          results: Sector.where(:name => /#{params[:sector_q]}/i).where(:id.in => Sectorship.where(:organisation_id.in => @organisations.only(:id).map(&:id)).only(:sector_id).map(&:sector_id)).map { |sector| {id: sector.id.to_s, text: sector.name} }
         }          
       end.to_json         
     when :html

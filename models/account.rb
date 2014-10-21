@@ -85,6 +85,14 @@ class Account
   def network    
     Account.where(:id.in => memberships.map(&:group).map { |group| group.memberships.only(:account_id).where(:status => 'confirmed') }.flatten.map(&:account_id))
   end
+  
+  def network_organisations
+    Organisation.where(:id.in => Affiliation.where(:account_id.in => network.only(:id).map(&:id)).only(:organisation_id).map(&:organisation_id))
+  end
+  
+  def network_sectors
+    Sector.where(:id.in => Sectorship.where(:organisation_id.in => network_organisations.only(:id).map(&:id)).only(:sector_id).map(&:sector_id))
+  end
     
   def events
     Event.where(:group_id.in => memberships.map(&:group_id))

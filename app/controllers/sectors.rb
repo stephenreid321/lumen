@@ -2,7 +2,7 @@ Lumen::App.controllers do
   
   get '/sectors' do
     sign_in_required!
-    @sectors = Sector.all.sort_by { |sector| sector.sectorships.count }.reverse
+    @sectors = current_account.network_sectors.sort_by { |sector| sector.sectorships.count }.reverse
     erb :'sectors/index'
   end
   

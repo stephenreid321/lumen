@@ -39,11 +39,11 @@ Lumen::App.controllers do
         }
       elsif params[:organisation_q]
         {
-          results: @accounts.where({:id.in => Affiliation.where(organisation_id: Organisation.find_by(name: /#{params[:organisation_q]}/i)).only(:account_id).map(&:account_id)}).map(&:affiliations).flatten.map(&:organisation).uniq.map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
+          results: Organisation.where({:name => /#{params[:organisation_q]}/i}).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
         }
       elsif params[:account_tag_q]
         {
-          results: @accounts.where({:id.in => AccountTagship.where(account_tag_id: AccountTag.find_by(name: /#{params[:account_tag_q]}/i)).only(:account_id).map(&:account_id)}).map(&:account_tagships).flatten.map(&:account_tag).uniq.map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
+          results: AccountTag.where({:name => /#{params[:account_tag_q]}/i}).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
         }          
       end.to_json         
     when :html

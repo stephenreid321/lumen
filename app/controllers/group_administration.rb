@@ -89,6 +89,8 @@ Lumen::App.controllers do
     @memberships = case @view
     when :connected_to_twitter
       @memberships.sort_by { |membership| membership.account.provider_links.find_by(provider: 'Twitter').created_at }.reverse
+    when :requests
+      @memberships.order(:created_at.desc)
     else
       @memberships.sort_by { |membership| membership.account.name }
     end

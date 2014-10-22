@@ -35,7 +35,5 @@ select[name*=day], select[name*=month], select[name*=year], select[name*=hour], 
 .page-options { margin: 0; padding: 0; float: right }
 .page-options li { display:inline-block; padding: 0.5em }
 
-.chosen-container-single .chosen-single abbr { top: 10px }
-.chosen-container { margin-bottom: 5px; }
-.chosen-default span { opacity: 0.5 }
+#results-form .select2-container { margin-bottom: 5px }
 

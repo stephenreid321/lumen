@@ -9,8 +9,6 @@ namespace :compress do
         'lumen.bootswatch.css',
         'font-awesome.min.css',
         'summernote.css',
-        'chosen.min.css',
-        'chosen-bootstrap.css',
         'bootstrap-stacked-tabs.css',      
         'datepicker3.css',
         'app.css',      
@@ -29,7 +27,6 @@ namespace :compress do
         'summernote.min.js',
         'jquery.deparam.js',
         'jquery.typing-0.3.0.min.js',
-        'chosen.jquery.min.js',
         'bootstrap-datepicker.js',
         'jquery.geopicker.js',
         'app.js'

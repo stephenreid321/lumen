@@ -23,14 +23,4 @@
   <% } %>
 </ul>
 
-<script>
-  $(function() {
-    $('#results .pagination a').click(function(e) {
-      e.preventDefault();
-      $('#results').load($(this).attr('href'), function() {
-        scroll(0,0);
-      });
-    });  
-  });
-</script>
 <%= will_paginate @organisations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

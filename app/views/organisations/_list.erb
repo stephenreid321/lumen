@@ -1,27 +1,5 @@
 
-<style>
-    #results-form .select2-container { margin-bottom: 5px }
-</style>
-
-<script>
-  $(function () {
-      $('#results-form').submit(function (e) {
-          e.preventDefault();
-          $('#filter-spin').show();
-          $('#results').load('/organisations/results?' + $(this).serialize(), function () {
-              $('#filter-spin').hide();
-          });
-      });
-
-      $('#results-form input[type=radio]').change(function () {
-          $(this.form).submit();
-      });
-
-      $('#results-form').submit();
-  });
-</script>
-
-<% form_tag '', :method => 'get', :id => 'results-form' do %>
+<% form_tag '/organisations/results', :method => 'get', :id => 'results-form' do %>
 
   <%= hidden_field_tag :organisation_id, :id => 'organisation_id' %>
 

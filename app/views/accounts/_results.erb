@@ -9,16 +9,4 @@
   </div>
 <% } %>
 
-<script>
-  $(function () {
-      $('#results .pagination a').click(function (e) {
-          if ($(this).attr('href') != '#') {
-              $('#results').load($(this).attr('href'), function () {
-                  scroll(0, 0);
-              });
-          }
-          return false;
-      });
-  });
-</script>
 <%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :page_links => false %>

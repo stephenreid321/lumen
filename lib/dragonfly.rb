@@ -5,8 +5,7 @@ Dragonfly.app.configure do
   secret ENV['DRAGONFLY_SECRET']
   
   define_url do |app, job, opts|    
-    dragonfly_job = DragonflyJob.find_by(signature: job.signature) || (uid = job.store; DragonflyJob.create!(uid: uid, signature: job.signature))
-    app.datastore.url_for(dragonfly_job.uid)
+    app.datastore.url_for((DragonflyJob.find_by(signature: job.signature) || DragonflyJob.create(uid: job.store, signature: job.signature)).uid)
   end
 
 end

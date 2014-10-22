@@ -29,7 +29,7 @@ Lumen::App.controllers do
     if @doc.save
       redirect "#{back}#docs-tab"
     else
-      flash[:error] = 'There was an error listing the doc.'      
+      flash[:error] = "There was an error listing the doc. Make sure it's publicly viewable!"
       redirect "#{back}#docs-tab"
     end
   end

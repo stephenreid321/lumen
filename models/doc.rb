@@ -13,7 +13,11 @@ class Doc
   
   before_validation do    
     self.url = "http://#{self.url}" if self.url and !(self.url =~ /\Ahttps?:\/\//)
-    self.title = begin; Mechanize.new.get(self.url).title.gsub(' - Google Docs',''); rescue; end
+    begin
+      page = Mechanize.new.get(self.url)
+      self.title = page.title.gsub(' - Google Docs','')
+      errors.add(:url, 'is not public') if page.uri.host == 'accounts.google.com'
+    rescue; end
   end
       
   def type

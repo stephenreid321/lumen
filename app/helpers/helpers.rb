@@ -33,16 +33,17 @@ Lumen::App.helpers do
     
   def sign_in_required!
     unless current_account
-      flash[:notice] = 'You must sign in to access that page.' unless request.path == '/'
-      session[:return_to] = request.url
-      request.xhr? ? halt(403, "Not Authorized") : redirect('/sign_in')
+      flash[:notice] = 'You must sign in to access that page.'
+      session[:return_to] ||= request.url
+      request.xhr? ? halt(403) : redirect('/sign_in')
     end
   end
   
   def site_admins_only!
     unless current_account and current_account.admin?
       flash[:notice] = 'You must be a site admin to access that page.'
-      request.xhr? ? halt(403, "Not Authorized") : redirect('/')
+      session[:return_to] ||= request.url
+      request.xhr? ? halt(403) : redirect('/')
     end    
   end
   
@@ -50,7 +51,8 @@ Lumen::App.helpers do
     group = @group if !group
     unless current_account and group and group.memberships.find_by(account: current_account)
       flash[:notice] = 'You must be a member of that group to access that page.'
-      request.xhr? ? halt(403, "Not Authorized") : redirect(group.open? ? "/groups/#{group.slug}" : '/')
+      session[:return_to] ||= request.url
+      request.xhr? ? halt(403) : redirect(group.open? ? "/groups/#{group.slug}" : '/')
     end        
   end
   
@@ -58,7 +60,8 @@ Lumen::App.helpers do
     group = @group if !group
     unless current_account and group and (membership = group.memberships.find_by(account: current_account)) and membership.admin?
       flash[:notice] = 'You must be an admin of that group to access that page.'
-      request.xhr? ? halt(403, "Not Authorized") : redirect(membership ? "/groups/#{group.slug}" : '/')
+      session[:return_to] ||= request.url
+      request.xhr? ? halt(403) : redirect(membership ? "/groups/#{group.slug}" : '/')
     end     
   end
   
@@ -66,7 +69,8 @@ Lumen::App.helpers do
     group = @group if !group
     unless current_account and group and (membership = group.memberships.find_by(account: current_account)) and (membership.admin? or account)
       flash[:notice] = 'You must be an admin or creator to access that page.'
-      request.xhr? ? halt(403, "Not Authorized") : redirect(membership ? "/groups/#{group.slug}" : '/')
+      session[:return_to] ||= request.url
+      request.xhr? ? halt(403) : redirect(membership ? "/groups/#{group.slug}" : '/')
     end          
   end    
   

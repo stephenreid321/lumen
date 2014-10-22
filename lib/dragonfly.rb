@@ -5,16 +5,8 @@ Dragonfly.app.configure do
   secret ENV['DRAGONFLY_SECRET']
   
   define_url do |app, job, opts|    
-    if dragonfly_job = DragonflyJob.find_by(signature: job.signature)
-      app.datastore.url_for(dragonfly_job.uid)
-    else
-      app.server.url_for(job, :host => "http://#{ENV['DOMAIN']}")
-    end
+    dragonfly_job = DragonflyJob.find_by(signature: job.signature) || (uid = job.store; DragonflyJob.create!(uid: uid, signature: job.signature))
+    app.datastore.url_for(dragonfly_job.uid)
   end
 
-  before_serve do |job, env|
-    uid = job.store
-    DragonflyJob.create!(uid: uid, signature: job.signature)
-  end
-  
 end

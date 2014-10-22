@@ -7,7 +7,7 @@
   <% if !@group %>
     Group <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "this.form.action = '/groups/' + $(this).val() + '/docs/new'" %>
   <% end %>
-  <button class="btn btn-primary">Add doc</button>
+  <button class="btn btn-primary"><i class="fa fa-plus"></i> Add doc</button>
 <% end %>
 
 <table style="margin-top: 1em" class="table table-hover">

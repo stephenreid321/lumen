@@ -33,17 +33,18 @@ Lumen::App.controllers do
     @accounts = @accounts.and(@q)
     case content_type      
     when :json
-      if params[:account_q]
+      case params[:qtype].to_sym
+      when :account
         {
-          results: @accounts.where(:name => /#{params[:account_q]}/i).map { |account| {id: account.id.to_s, text: account.name} }
+          results: @accounts.where(:name => /#{params[:q]}/i).map { |account| {id: account.id.to_s, text: account.name} }
         }
-      elsif params[:organisation_q]
+      when :organisation
         {
-          results: Organisation.where(:name => /#{params[:organisation_q]}/i).where(:id.in => Affiliation.where(:account_id.in => @accounts.only(:id).map(&:id)).only(:organisation_id).map(&:organisation_id)).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
+          results: Organisation.where(:name => /#{params[:q]}/i).where(:id.in => Affiliation.where(:account_id.in => @accounts.only(:id).map(&:id)).only(:organisation_id).map(&:organisation_id)).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
         }
-      elsif params[:account_tag_q]
+      when :account_tag
         {
-          results: AccountTag.where(:name => /#{params[:account_tag_q]}/i).where(:id.in => AccountTagship.where(:account_id.in => @accounts.only(:id).map(&:id)).only(:account_tag_id).map(&:account_tag_id)).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
+          results: AccountTag.where(:name => /#{params[:q]}/i).where(:id.in => AccountTagship.where(:account_id.in => @accounts.only(:id).map(&:id)).only(:account_tag_id).map(&:account_tag_id)).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
         }          
       end.to_json         
     when :html

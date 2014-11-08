@@ -8,8 +8,6 @@
 
     <link rel="stylesheet" href="/stylesheets/compressed.css" />    
     <script src="/javascripts/compressed.js"></script>
-    <script src="/select2/select2.js"></script>
-    <link rel="stylesheet" href="/select2/select2.css" />        
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <%= eval(f('head')) %>
 
@@ -95,9 +93,9 @@
       <% } %>       
     </div>
     <script>
-      $(function() {
+      $(function () {
         $(".alert").alert();
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           $("#top-alert").alert('close');
         }, 5000);
       });

@@ -25,11 +25,12 @@ Lumen::App.controllers do
     @organisations = @organisations.and(@q)
     case content_type      
     when :json
-      if params[:organisation_q]
+      case params[:qtype].to_sym
+      when :organisation
         {
           results: @organisations.where(:name => /#{params[:organisation_q]}/i).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
         }
-      elsif params[:sector_q]
+      when :sector
         {
           results: Sector.where(:name => /#{params[:sector_q]}/i).where(:id.in => Sectorship.where(:organisation_id.in => @organisations.only(:id).map(&:id)).only(:sector_id).map(&:sector_id)).map { |sector| {id: sector.id.to_s, text: sector.name} }
         }          

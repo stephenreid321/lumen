@@ -2,7 +2,7 @@ Lumen::App.controllers do
 
   get '/analytics' do
     site_admins_only!      
-    @models = [ConversationPost, Account, Event, PageView]
+    @models = [ConversationPost, Account, Event, PageView].select { |model| model.count > 0 }
     @collections = @models.map { |model| model.order_by(:created_at.asc) }            
     erb :'analytics/analytics'
   end

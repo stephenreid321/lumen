@@ -249,8 +249,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     if ENV['MANDRILL_USERNAME']
       mail.header_fields.any? { |f| f.name.to_s == 'X-Mandrill-User' }      
     elsif ENV['MAILGUN_USERNAME']
-      raise mail.header_fields.map(&:name).map(&:to_s).inspect
-      # mail.header_fields.any? { |f| f.name.to_s == 'X-Mailgun-Sid' }
+      mail.header_fields.any? { |f| f.name.to_s == 'X-Mailgun-Sid' }
     else
       mail.sender == email('-noreply')
     end    

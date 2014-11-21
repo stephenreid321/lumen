@@ -26,8 +26,20 @@ $(function () {
     });
   }
 
+  function resultsPagination() {
+    $('#results .pagination a').click(function (e) {
+      if ($(this).attr('href') != '#') {
+        $('#results').load($(this).attr('href'), function () {
+          scroll(0, 0);
+        });
+      }
+      return false;
+    });
+  }
+
   $(document).ajaxComplete(function () {
     wysify();
+    resultsPagination();
   });
   wysify();
 
@@ -98,14 +110,5 @@ $(function () {
   });
 
   $('#results-form').submit();
-
-  $('#results .pagination a').click(function (e) {
-    if ($(this).attr('href') != '#') {
-      $('#results').load($(this).attr('href'), function () {
-        scroll(0, 0);
-      });
-    }
-    return false;
-  });
 
 });

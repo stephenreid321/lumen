@@ -44,6 +44,7 @@ module Lumen
     
     post '/receive' do
       EmailReceiver.receive(request)
+      200
     end
               
     get '/' do

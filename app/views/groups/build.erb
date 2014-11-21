@@ -59,11 +59,6 @@
           $('.slug-replace').text($(this).val());
         });
       }).keyup();
-<% if @group.new_record? %>
-        $('form').submit(function () {
-          $('#group-form button[type=submit]').after(' <span><i class="fa fa-warning"></i> Please be patient, this could take a minute...</span>')
-        });
-<% end %>
     </script>     
 
   </div>

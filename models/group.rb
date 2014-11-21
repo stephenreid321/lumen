@@ -277,8 +277,8 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     group = self
     from = mail.from.first
     
-    # skip notifications sent by/to the group        
-    if mail.sender and mail.sender == group.email('-noreply') or mail.sender.include?('mandrillapp.com')
+    # skip messages sent by Lumen
+    if mail.sender and (mail.sender == group.email('-noreply') or mail.sender.include?('mandrillapp.com'))
       return :delete
     end   
                                         

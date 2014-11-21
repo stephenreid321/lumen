@@ -247,11 +247,12 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   
   def sent_by_lumen(mail)
     if ENV['MANDRILL_USERNAME']
-      return mail.header_fields.any? { |f| f.name.to_s == 'X-Mandrill-User' }      
+      mail.header_fields.any? { |f| f.name.to_s == 'X-Mandrill-User' }      
     elsif ENV['MAILGUN_USERNAME']
-      return mail.header_fields.any? { |f| f.name.to_s == 'X-Mailgun-Sid' }
+      raise mail.header_fields.map(&:name).map(&:to_s).inspect
+      # mail.header_fields.any? { |f| f.name.to_s == 'X-Mailgun-Sid' }
     else
-      return mail.sender == email('-noreply')
+      mail.sender == email('-noreply')
     end    
   end
   

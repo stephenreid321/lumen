@@ -15,14 +15,7 @@ Lumen::App.controllers do
       @account.update_attribute(:password, @password)
          
       Mail.defaults do
-        delivery_method :smtp, {
-          :address => ENV['VIRTUALMIN_IP'],
-          :user_name => ENV['MAIL_DOMAIN'].split('.').first,
-          :password => ENV['VIRTUALMIN_PASSWORD'],
-          :port => 25,
-          :authentication => 'login',
-          :enable_starttls_auto => false          
-        }
+        delivery_method :smtp, smtp_settings
       end
       mail = Mail.new(
         :to => @account.email,

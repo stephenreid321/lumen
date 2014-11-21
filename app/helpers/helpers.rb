@@ -8,6 +8,14 @@ Lumen::App.helpers do
     end
   end
   
+  def smtp_settings
+    if ENV['MANDRILL_USERNAME']
+      {:address => 'smtp.mandrillapp.com', :user_name => ENV['MANDRILL_USERNAME'], :password => ENV['MANDRILL_APIKEY'], :port => 587}  
+    else
+      {:address => ENV['VIRTUALMIN_IP'], :user_name => ENV['MAIL_DOMAIN'].split('.').first, :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
+    end  
+  end
+  
   def page_entries_info(collection, model: nil)
     if collection.total_pages < 2
       case collection.to_a.length

@@ -245,6 +245,16 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form.submit      
   end  
   
+  def sent_by_lumen(mail)
+    if ENV['MANDRILL_USERNAME']
+      mail.header_fields.any? { |f| f.name.to_s.include?('X-Mandrill-User') }      
+    elsif ENV['MAILGUN_USERNAME']
+      mail.header_fields.any? { |f| f.name.to_s.include?('X-Mailgun-Sid') }
+    else
+      mail.sender == email('-noreply')
+    end    
+  end
+  
   def check!
     return unless ENV['VIRTUALMIN_IP']
     group = self
@@ -280,7 +290,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     from = mail.from.first
     
     # skip messages sent by Lumen
-    if mail.sender and (mail.sender == group.email('-noreply') or mail.sender.include?('mandrillapp.com') or mail.sender.include?('mailgun.org'))
+    if sent_by_lumen(mail)
       return :delete
     end   
                                         

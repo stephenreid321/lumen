@@ -72,6 +72,8 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def smtp_settings
     if ENV['MANDRILL_USERNAME']
       {:address => 'smtp.mandrillapp.com', :user_name => ENV['MANDRILL_USERNAME'], :password => ENV['MANDRILL_APIKEY'], :port => 587}  
+    elsif ENV['MAILGUN_USERNAME']
+      {:address => 'smtp.mailgun.org', :user_name => ENV['MAILGUN_USERNAME'], :password => ENV['MAILGUN_PASSWORD']}  
     else
       {:address => ENV['VIRTUALMIN_IP'], :user_name => username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
     end
@@ -278,7 +280,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     from = mail.from.first
     
     # skip messages sent by Lumen
-    if mail.sender and (mail.sender == group.email('-noreply') or mail.sender.include?('mandrillapp.com'))
+    if mail.sender and (mail.sender == group.email('-noreply') or mail.sender.include?('mandrillapp.com') or mail.sender.include?('mailgun.org'))
       return :delete
     end   
                                         

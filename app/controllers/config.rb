@@ -11,6 +11,9 @@ Lumen::App.controllers do
       :VIRTUALMIN_IP => 'IP for Virtualmin installation',
       :VIRTUALMIN_USERNAME => 'Username for Virtualmin',
       :VIRTUALMIN_PASSWORD => 'Password for Virtualmin',
+      
+      :MANDRILL_USERNAME => 'Mandrill username (experimental)',
+      :MANDRILL_APIKEY => 'Mandrill API key/password (experimental)',
 
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',

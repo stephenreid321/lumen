@@ -250,16 +250,15 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
     imap.select('INBOX')
     imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
-                                  
-      msg = imap.fetch(sequence_id,'RFC822')[0].attr['RFC822']          
-      mail = Mail.read_from_string msg                    
-
+      
       # skip messages we've already dealt with
       message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
       if group.conversation_posts.find_by(mid: message_id)
         next
-      end    
-                
+      end        
+                                  
+      mail = Mail.read_from_string(imap.fetch(sequence_id,'RFC822')[0].attr['RFC822'])
+      
       case process_mail(mail, message_id: message_id)
       when :delete
         imap.store(sequence_id, "+FLAGS", [:Deleted])

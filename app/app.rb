@@ -41,6 +41,10 @@ module Lumen
     end
         
     ############
+    
+    post '/inbound' do
+      EmailReceiver.receive(request)
+    end
           
     get '/' do
       if Account.count == 0       

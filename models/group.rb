@@ -70,7 +70,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
              
   def smtp_settings
-    {:address => ENV['VIRTUALMIN_IP'], :user_name => username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
+    if ENV['MANDRILL_USERNAME']
+      {:address => 'smtp.mandrillapp.com', :user_name => ENV['MANDRILL_USERNAME'], :password => ENV['MANDRILL_APIKEY'], :port => 587}  
+    else
+      {:address => ENV['VIRTUALMIN_IP'], :user_name => username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
+    end
   end  
   
   has_many :conversations, :dependent => :destroy

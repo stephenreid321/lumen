@@ -207,8 +207,17 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     privacy == 'secret'
   end
       
-  after_create :setup_mail_accounts_and_forwarder
-  def setup_mail_accounts_and_forwarder
+  after_create :queue_setup_mail_accounts_and_forwarder
+  def queue_setup_mail_accounts_and_forwarder
+    if ENV['HEROKU_OAUTH_TOKEN']
+      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+      heroku.create(ENV['APP_NAME'], {command: "rake groups:setup_mail_accounts_and_forwarder[#{id}]"})
+    else
+      setup_mail_accounts_and_forwarder
+    end
+  end
+    
+  def setup_mail_accounts_and_forwarder  
     return unless ENV['VIRTUALMIN_IP']
     agent = Mechanize.new
     agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE

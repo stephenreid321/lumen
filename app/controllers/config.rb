@@ -12,13 +12,6 @@ Lumen::App.controllers do
       :VIRTUALMIN_USERNAME => 'Username for Virtualmin',
       :VIRTUALMIN_PASSWORD => 'Password for Virtualmin',
       
-      :MANDRILL_USERNAME => 'Mandrill username (experimental)',
-      :MANDRILL_APIKEY => 'Mandrill API key/password (experimental)',
-      
-      :MAILGUN_USERNAME => 'Mailgun username (experimental)',
-      :MAILGUN_APIKEY => 'Mailgun API key (experimental)',
-      :MAILGUN_PASSWORD => 'Mailgun password (experimental)',      
-
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',
       :S3_SECRET => 'S3 secret',  
@@ -69,7 +62,14 @@ Lumen::App.controllers do
       :TWITTER_SECRET => 'Twitter API secret',
 
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
-      :AIRBRAKE_API_KEY => 'Airbrake API key'  
+      :AIRBRAKE_API_KEY => 'Airbrake API key',
+      
+      :MANDRILL_USERNAME => 'Mandrill username (experimental)',
+      :MANDRILL_APIKEY => 'Mandrill API key/password (experimental)',
+      
+      :MAILGUN_USERNAME => 'Mailgun username (experimental)',
+      :MAILGUN_APIKEY => 'Mailgun API key (experimental)',
+      :MAILGUN_PASSWORD => 'Mailgun password (experimental)'      
     } 
     
     @fragments = {

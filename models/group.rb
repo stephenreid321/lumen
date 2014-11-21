@@ -211,7 +211,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def queue_setup_mail_accounts_and_forwarder
     if ENV['HEROKU_OAUTH_TOKEN']
       heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-      heroku.create(ENV['APP_NAME'], {command: "rake groups:setup_mail_accounts_and_forwarder[#{id}]"})
+      heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:setup_mail_accounts_and_forwarder[#{id}]"})
     else
       setup_mail_accounts_and_forwarder
     end

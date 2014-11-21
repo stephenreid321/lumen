@@ -46,7 +46,7 @@ Lumen::App.controllers do
     membership_required! if @group.secret?
     erb :'groups/group'
   end
-  
+    
   get '/groups/:slug/members' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)

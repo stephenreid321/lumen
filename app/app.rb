@@ -42,10 +42,10 @@ module Lumen
         
     ############
     
-    post '/inbound' do
+    post '/receive' do
       EmailReceiver.receive(request)
     end
-          
+              
     get '/' do
       if Account.count == 0       
         account = Account.create!(:name => 'Lumen Admin', :password => 'lumen', :password_confirmation => 'lumen', :email => 'admin@example.com', :admin => true)

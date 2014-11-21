@@ -245,104 +245,111 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
     imap.select('INBOX')
     imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
-                
-      envelope = imap.fetch(sequence_id, "ENVELOPE")[0].attr["ENVELOPE"]        
-      sender = "#{envelope.sender[0].mailbox}@#{envelope.sender[0].host}"
-      from = "#{envelope.from[0].mailbox}@#{envelope.from[0].host}"
                                   
-      # delete notifications sent by/to the group        
-      if sender == group.email('-noreply')
-        imap.store(sequence_id, "+FLAGS", [:Deleted])
-        next
-      end
-      
+      msg = imap.fetch(sequence_id,'RFC822')[0].attr['RFC822']          
+      mail = Mail.read_from_string msg                    
+
       # skip messages we've already dealt with
       message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
       if group.conversation_posts.find_by(mid: message_id)
         next
-      end
-      
-      # delete messages from people that aren't in the group
-      account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)     
-      if !account or !account.memberships.find_by(group: group)
-        Mail.defaults do
-          delivery_method :smtp, group.smtp_settings
-        end 
-        mail = Mail.new(
-          :to => from,
-          :bcc => ENV['HELP_ADDRESS'],
-          :from => "#{group.slug} <#{group.email('-noreply')}>",
-          :subject => "Delivery failed: #{envelope.subject}",
-          :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
-        )
-        mail.deliver 
+      end    
+                
+      case process_mail(mail, message_id: message_id)
+      when :delete
         imap.store(sequence_id, "+FLAGS", [:Deleted])
         next
-      end          
-              
-      msg = imap.fetch(sequence_id,'RFC822')[0].attr['RFC822']          
-      mail = Mail.read_from_string msg                    
-              
-      if mail.html_part
-        body = mail.html_part.body
-        charset = mail.html_part.charset
-        nl2br = false
-      elsif mail.text_part                
-        body = mail.text_part.body
-        charset = mail.text_part.charset
-        nl2br = true
-      else
-        body = mail.body
-        charset = mail.charset
-        nl2br = true
-      end                            
-              
-      html = body.decoded.force_encoding(charset).encode('UTF-8')              
-      html = html.gsub("\n", "<br>\n") if nl2br
-      html = html.gsub(/<o:p>/, '')
-      html = html.gsub(/<\/o:p>/, '')
-      begin
-        html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-      rescue => e
-        Airbrake.notify(e)
-      end
-                             
-      if (
-          html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and
-            (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)) and
-            conversation = group.conversations.find_by(slug: conversation_url_match[-1])
-        )
-        new_conversation = false
-        [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________'].each { |pattern|
-          html = html.split(pattern).first
-        }
-      else
-        new_conversation = true
-        conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account
-        next if !conversation.persisted? # failed to find/create a valid conversation - probably a dupe
-        ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
-          html = html.split(pattern).first
-        }
-      end
-      
-      html = Nokogiri::HTML.parse(html)
-      html.search('style').remove
-      html = html.search('body').inner_html
-                     
-      conversation_post = conversation.conversation_posts.create :body => html, :account => account, :mid => message_id                   
-      if !conversation_post.persisted? # failed to create the conversation post
-        conversation.destroy if new_conversation
+      when :failed
         next
       end
-      mail.attachments.each do |attachment|
-        conversation_post.attachments.create :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
-      end                        
-      conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)
-      
+                  
       imap.store(sequence_id, "+FLAGS", [:Seen])
     end 
     imap.expunge
     imap.disconnect
+  end
+  
+  def process_mail(mail, message_id: nil)
+    group = self
+    from = mail.from.first
+    
+    # skip notifications sent by/to the group        
+    if mail.sender == group.email('-noreply')
+      return :delete
+    end   
+                                        
+    # skip messages from people that aren't in the group
+    account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)     
+    if !account or !account.memberships.find_by(group: group)
+      Mail.defaults do
+        delivery_method :smtp, group.smtp_settings
+      end 
+      mail = Mail.new(
+        :to => from,
+        :bcc => ENV['HELP_ADDRESS'],
+        :from => "#{group.slug} <#{group.email('-noreply')}>",
+        :subject => "Delivery failed: #{mail.subject}",
+        :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
+      )
+      mail.deliver 
+      return :delete
+    end    
+    
+    if mail.html_part
+      body = mail.html_part.body
+      charset = mail.html_part.charset
+      nl2br = false
+    elsif mail.text_part                
+      body = mail.text_part.body
+      charset = mail.text_part.charset
+      nl2br = true
+    else
+      body = mail.body
+      charset = mail.charset
+      nl2br = true
+    end                            
+              
+    html = body.decoded.force_encoding(charset).encode('UTF-8')              
+    html = html.gsub("\n", "<br>\n") if nl2br
+    html = html.gsub(/<o:p>/, '')
+    html = html.gsub(/<\/o:p>/, '')
+    begin
+      html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+    rescue => e
+      Airbrake.notify(e)
+    end
+                             
+    if (
+        html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and
+          (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)) and
+          conversation = group.conversations.find_by(slug: conversation_url_match[-1])
+      )
+      new_conversation = false
+      [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________'].each { |pattern|
+        html = html.split(pattern).first
+      }
+    else
+      new_conversation = true
+      conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account
+      return :failed if !conversation.persisted? # failed to find/create a valid conversation - probably a dupe
+      ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
+        html = html.split(pattern).first
+      }
+    end
+      
+    html = Nokogiri::HTML.parse(html)
+    html.search('style').remove
+    html = html.search('body').inner_html
+                     
+    conversation_post = conversation.conversation_posts.create :body => html, :account => account, :mid => message_id                   
+    if !conversation_post.persisted? # failed to create the conversation post
+      conversation.destroy if new_conversation
+      return :failed
+    end
+    mail.attachments.each do |attachment|
+      conversation_post.attachments.create :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
+    end                        
+    conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)    
   end
       
 end

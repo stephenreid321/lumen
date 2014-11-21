@@ -16,6 +16,7 @@ Lumen::App.controllers do
       :MANDRILL_APIKEY => 'Mandrill API key/password (experimental)',
       
       :MAILGUN_USERNAME => 'Mailgun username (experimental)',
+      :MAILGUN_APIKEY => 'Mailgun API key (experimental)',
       :MAILGUN_PASSWORD => 'Mailgun password (experimental)',      
 
       :S3_BUCKET_NAME => 'S3 bucket name',

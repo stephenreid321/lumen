@@ -15,6 +15,7 @@ Lumen::App.controllers do
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',
       :S3_SECRET => 'S3 secret',  
+      :S3_SECRET => 'S3 region',  
 
       :SITE_NAME => 'Name of site e.g. Lumen Users Network',
       :SITE_NAME_DEFINITE => "Name of site with 'the' if appropriate e.g. The Lumen Users Network",

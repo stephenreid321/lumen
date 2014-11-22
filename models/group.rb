@@ -259,7 +259,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       mail.header_fields.any? { |f| f.name.to_s == 'X-Mandrill-User' }      
     elsif ENV['MAILGUN_USERNAME']
       mail.header_fields.any? { |f| f.name.to_s == 'X-Mailgun-Sid' }
-    else
+    elsif ENV['VIRTUALMIN_IP']
       mail.sender == email('-noreply')
     end    
   end

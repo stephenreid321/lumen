@@ -70,7 +70,9 @@ Lumen::App.controllers do
       
       :MAILGUN_USERNAME => 'Mailgun username (experimental)',
       :MAILGUN_APIKEY => 'Mailgun API key (experimental)',
-      :MAILGUN_PASSWORD => 'Mailgun password (experimental)'      
+      :MAILGUN_PASSWORD => 'Mailgun password (experimental)',
+      
+      :BCC_EACH => ['Send individual BCCs to conversation post subscribers']
     } 
     
     @fragments = {

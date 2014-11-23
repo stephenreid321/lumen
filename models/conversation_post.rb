@@ -10,7 +10,7 @@ class ConversationPost
   belongs_to :group, index: true
   belongs_to :account, index: true
   
-  has_one :conversation_post_bcc, :dependent => :destroy
+  has_many :conversation_post_bccs, :dependent => :destroy
   
   has_many :attachments, :dependent => :destroy
   has_many :plus_ones, :dependent => :destroy
@@ -69,7 +69,13 @@ class ConversationPost
     return if conversation.hidden
     emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }
     emails = emails - (exclude.map(&:downcase) + conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase })
-    self.create_conversation_post_bcc(emails: emails)
+    if ENV['BCC_EACH']
+      emails.each { |email|
+        self.conversation_post_bccs.create(emails: [email])
+      }
+    else
+      self.conversation_post_bccs.create(emails: emails)
+    end
   end
     
   def body_with_inline_images

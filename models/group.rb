@@ -296,8 +296,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   
   def process_mail(mail, message_id: nil)
     group = self
+    return :failed unless mail.from
     from = mail.from.first
-    
+        
     # skip messages sent by Lumen
     if sent_by_lumen(mail)
       return :delete

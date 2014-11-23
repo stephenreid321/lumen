@@ -375,7 +375,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     mail.attachments.each do |attachment|
       conversation_post.attachments.create :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
     end                        
-    conversation_post.send_notifications!(([mail.to].flatten + [mail.cc].flatten).compact.uniq)    
+    conversation_post.queue_notifications!
   end
       
 end

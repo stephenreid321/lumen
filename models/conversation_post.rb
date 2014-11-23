@@ -65,12 +65,21 @@ class ConversationPost
     from = account.email
     ConversationPost.dmarc_fail_domains.include?(from.split('@').last) ? group.email('-noreply') : from
   end    
+  
+  def queue_notifications!
+    if ENV['BCC_EACH'] && ENV['HEROKU_OAUTH_TOKEN']
+      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+      heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_posts:send_notifications[#{id}]"})
+    else
+      send_notifications!
+    end    
+  end
       
-  def send_notifications!(exclude = [])
+  def send_notifications!
     return if conversation.hidden
     emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }
-    emails = emails - (exclude.map(&:downcase) + conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase })
-    if ENV['BCC_EACH']
+    emails = emails - conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase }
+    if ENV['BCC_EACH']    
       emails.each { |email|
         self.conversation_post_bccs.create(emails: [email])
       }

@@ -32,7 +32,7 @@ Lumen::App.controllers do
     if params[:attachment]
       @conversation_post.attachments.create! :file => params[:attachment]
     end    
-    @conversation_post.send_notifications!
+    @conversation_post.queue_notifications!
     redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
   end   
     
@@ -61,7 +61,7 @@ Lumen::App.controllers do
     if params[:attachment]
       @conversation_post.attachments.create! :file => params[:attachment]
     end
-    @conversation_post.send_notifications!
+    @conversation_post.queue_notifications!
     redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
   end
   

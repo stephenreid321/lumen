@@ -70,7 +70,7 @@ Lumen::App.controllers do
         conversation_post = conversation.conversation_posts.create!(
           :body => %Q{<h2><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/calendar/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
           :account => @event.account)
-        conversation_post.send_notifications!  
+        conversation_post.queue_notifications!  
       end
       redirect "/groups/#{@group.slug}/calendar/#{@event.id}"
     else

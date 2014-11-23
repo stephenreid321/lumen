@@ -112,7 +112,7 @@ Lumen::App.controllers do
   
   get '/conversation_post_bccs/:id/read', :provides => :gif do
     @conversation_post_bcc = ConversationPostBcc.find(params[:id]) || not_found
-    @conversation_post_bcc.update_attribute(:read, true)
+    @conversation_post_bcc.read_receipt!
     File.open("#{Padrino.root}/app/assets/images/pixel.gif", "r").read
   end
     

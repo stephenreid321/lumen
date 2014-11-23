@@ -11,6 +11,7 @@ class ConversationPost
   belongs_to :account, index: true
   
   has_many :conversation_post_bccs, :dependent => :destroy
+  has_many :conversation_post_read_receipts, :dependent => :destroy
   
   has_many :attachments, :dependent => :destroy
   has_many :plus_ones, :dependent => :destroy

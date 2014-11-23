@@ -6,7 +6,6 @@ class ConversationPostBcc
   
   field :emails, :type => Array
   field :delivered_at, :type => Time
-  field :read, :type => Boolean
   
   validates_presence_of :emails, :conversation_post
     
@@ -14,9 +13,12 @@ class ConversationPostBcc
     {
       :emails => :text_area,
       :delivered_at => :datetime,
-      :read => :check_box,
       :conversation_post_id => :lookup
     }
+  end
+  
+  def read_receipt!
+    conversation_post.conversation_post_read_receipts.create(account: Account.find_by(email: /^#{Regexp.escape(emails.first)}$/i))
   end
             
   after_create :send_email

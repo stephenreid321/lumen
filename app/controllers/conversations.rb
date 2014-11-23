@@ -108,6 +108,12 @@ Lumen::App.controllers do
     @conversation_post.plus_ones.find_by(account: current_account).destroy
     flash[:notice] = 'Your +1 was removed'
     redirect "/conversations/#{@conversation_post.conversation.slug}" 
-  end    
+  end 
+  
+  get '/conversation_post_bccs/:id/read', :provides => :gif do
+    @conversation_post_bcc = ConversationPostBcc.find(params[:id]) || not_found
+    @conversation_post_bcc.update_attribute(:read, true)
+    File.open("#{Padrino.root}/app/assets/images/pixel.gif", "r").read
+  end
     
 end

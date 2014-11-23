@@ -13,7 +13,7 @@
     <br />
 
     <% if group.didyouknows.count > 0 %>
-      <span style="font-size: 80%"><strong>Did you know&hellip;</strong> <%=conversation_post_bcc.didyouknow_replacements(group.didyouknows.all.sample.body)%></span>
+      <span style="font-size: 80%"><strong>Did you know&hellip;</strong> <%=conversation_post.didyouknow_replacements(group.didyouknows.all.sample.body)%></span>
       <br />
     <% end %>
       

@@ -43,13 +43,33 @@ class ConversationPost
   def touch_conversation
     conversation.update_attribute(:updated_at, Time.now) unless conversation.hidden
   end
+  
+  def didyouknow_replacements(string)
+    group = conversation.group    
+    string.gsub!('[conversation_url]', "http://#{ENV['DOMAIN']}/conversations/#{conversation.slug}")
+    string.gsub!('[members]', "#{m = group.members.count} #{m == 1 ? 'member' : 'members'}")
+    string.gsub!('[upcoming_events]', "#{e = group.events.where(:start_time.gt => Time.now).count} #{e == 1 ? 'upcoming event' : 'upcoming events'}")
+    most_recently_updated_account = group.members.order_by([:has_picture.desc, :updated_at.desc]).first
+    string.gsub!('[most_recently_updated_url]', "http://#{ENV['DOMAIN']}/accounts/#{most_recently_updated_account.id}")
+    string.gsub!('[most_recently_updated_name]', most_recently_updated_account.name)
+    string
+  end  
+  
+  def self.dmarc_fail_domains
+    %w{yahoo.com aol.com}
+  end
+
+  def from_address
+    group = conversation.group
+    from = account.email
+    ConversationPost.dmarc_fail_domains.include?(from.split('@').last) ? group.email('-noreply') : from
+  end    
       
   def send_notifications!(exclude = [])
-    unless conversation.hidden
-      emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }
-      emails = emails - exclude.map(&:downcase) - conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase }
-      self.create_conversation_post_bcc(emails: emails)
-    end
+    return if conversation.hidden
+    emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }
+    emails = emails - (exclude.map(&:downcase) + conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase })
+    self.create_conversation_post_bcc(emails: emails)
   end
     
   def body_with_inline_images

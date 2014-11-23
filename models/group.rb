@@ -305,7 +305,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
                                         
     # skip messages from people that aren't in the group
     account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)     
-    if !account or !account.memberships.find_by(group: group)
+    if !account or !account.memberships.find_by(group: group, status: 'confirmed')
       Mail.defaults do
         delivery_method :smtp, group.smtp_settings
       end 

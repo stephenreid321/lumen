@@ -44,6 +44,11 @@ Lumen::App.controllers do
       flash[:notice] = "That conversation has been removed."
       redirect "/groups/#{@conversation.group.slug}"
     else
+      if current_account
+        @conversation.conversation_posts.each { |conversation_post|
+          conversation_post.conversation_post_read_receipts.create(account: current_account)
+        }
+      end
       erb :'conversations/conversation'
     end
   end

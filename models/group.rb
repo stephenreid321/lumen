@@ -274,7 +274,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       
       # skip messages we've already dealt with
       message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
+      puts "message_id #{message_id}"
       if group.conversation_posts.find_by(mid: message_id)
+        puts "already created a post with this message_id, skipping"
         next
       end        
                                   
@@ -282,9 +284,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       
       case process_mail(mail, message_id: message_id)
       when :delete
+        puts "deleting"
         imap.store(sequence_id, "+FLAGS", [:Deleted])
         next
       when :failed
+        puts "failed, skipping"
         next
       end
                   
@@ -298,9 +302,12 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     group = self
     return :failed unless mail.from
     from = mail.from.first
+    
+    puts "message from #{from}"
         
     # skip messages sent by Lumen
     if sent_by_lumen(mail)
+      puts "this message was sent by Lumen"
       return :delete
     end   
                                         
@@ -318,6 +325,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
       )
       mail.deliver 
+      puts "this message was sent by a stranger"
       return :delete
     end    
     
@@ -349,14 +357,16 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and
           (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)) and
           conversation = group.conversations.find_by(slug: conversation_url_match[-1])
-      )
+      )      
       new_conversation = false
+      puts "part of conversation id #{conversation.id}"
       [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________'].each { |pattern|
         html = html.split(pattern).first
       }
-    else
+    else      
       new_conversation = true
       conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account
+      puts "created new conversation with id #{conversation.id}"
       return :failed if !conversation.persisted? # failed to find/create a valid conversation - probably a dupe
       ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
         html = html.split(pattern).first
@@ -369,12 +379,15 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
                      
     conversation_post = conversation.conversation_posts.create :body => html, :account => account, :mid => message_id                   
     if !conversation_post.persisted? # failed to create the conversation post
+      puts "failed to create conversation post, deleting conversation"
       conversation.destroy if new_conversation
       return :failed
     end
+    puts "created conversation post with id #{conversation_post.id}"
     mail.attachments.each do |attachment|
       conversation_post.attachments.create :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
-    end                        
+    end         
+    puts "sending notifications"
     conversation_post.send_notifications!
   end
       

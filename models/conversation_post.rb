@@ -28,7 +28,7 @@ class ConversationPost
       
   def self.admin_fields
     {
-      :id => :number,
+      :id => {:type => :text, :index => false},
       :body => :text_area,
       :mid => :text,
       :hidden => :check_box,

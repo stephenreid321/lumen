@@ -14,7 +14,7 @@
   <% @docs.each { |doc| %>
 
     <tr>
-      <td><img src="/images/<%=doc.type%>.png" title="<%=doc.type%>"></td>
+      <td><img style="width: 16px" src="/images/<%=doc.type%>.png" title="<%=doc.type%>"></td>
       <td>
         <a target="_blank" href="<%=doc.url%>"><%= doc.title %></a>
         <% if !@group %>

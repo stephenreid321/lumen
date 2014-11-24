@@ -6,7 +6,7 @@ class Doc
   field :title, :type => String
   
   validates_presence_of :url, :title, :account, :group
-  validates_format_of :url, :with => /docs\.google\.com/
+  validates_format_of :url, :with => /google\.com/
   
   belongs_to :account
   belongs_to :group

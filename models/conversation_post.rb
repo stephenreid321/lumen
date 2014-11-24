@@ -29,7 +29,7 @@ class ConversationPost
   def self.admin_fields
     {
       :id => {:type => :text, :index => false},
-      :body => :text_area,
+      :body => :wysiwyg,
       :mid => :text,
       :hidden => :check_box,
       :conversation_id => :lookup,

@@ -74,7 +74,7 @@ class ConversationPost
     if ENV['BCC_EACH'] and ENV['HEROKU_OAUTH_TOKEN']
       emails.each { |email|
         heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-        heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_post:create_bcc[#{id},#{email}]"})
+        heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_posts:create_bcc[#{id},#{email}]"})
       }
     else
       self.conversation_post_bccs.create(emails: emails)

@@ -16,6 +16,7 @@ class Doc
     begin
       page = Mechanize.new.get(self.url)
       self.title = page.title.gsub(' - Google Docs','')
+      self.title = page.title.gsub(' - Google Drive','')
       errors.add(:url, 'is not public') if page.uri.host == 'accounts.google.com'
     rescue; end
   end

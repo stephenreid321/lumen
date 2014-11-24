@@ -65,7 +65,7 @@ Lumen::App.controllers do
       :body => @customised_html,
       :account => current_account
     )
-    conversation_post.queue_notifications!
+    conversation_post.send_notifications!
     flash[:notice] = "The review was sent."
     redirect "/groups/#{@group.slug}"
   end   

@@ -72,7 +72,7 @@ Lumen::App.controllers do
       :MAILGUN_APIKEY => 'Mailgun API key (experimental)',
       :MAILGUN_PASSWORD => 'Mailgun password (experimental)',
       
-      :BCC_EACH => ['Send individual BCCs to conversation post subscribers']
+      :BCC_EACH => ['Send individual BCCs to conversation post subscribers (experimental)']
     } 
     
     @fragments = {
@@ -89,7 +89,7 @@ Lumen::App.controllers do
   
   get '/config' do
     site_admins_only!
-    if ENV['HEROKU_OAUTH_TOKEN'] and ENV['VIRTUALMIN_IP']
+    if ENV['APP_NAME'] and ENV['VIRTUALMIN_IP']
       Net::SSH.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do |ssh|
         result = ''
         ssh.exec!("ls /notify") do |channel, stream, data|

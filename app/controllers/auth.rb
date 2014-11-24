@@ -14,8 +14,9 @@ Lumen::App.controllers do
       @password = Account.generate_password(8)
       @account.update_attribute(:password, @password)
          
+      smtp_settings = s
       Mail.defaults do
-        delivery_method :smtp, smtp_settings
+        delivery_method :smtp, s
       end
       mail = Mail.new(
         :to => @account.email,

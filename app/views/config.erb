@@ -40,7 +40,7 @@
       Notification script
     </label>
     <div class="col-md-2">
-      <% if ENV['HEROKU_OAUTH_TOKEN'] %>
+      <% if ENV['APP_NAME'] %>
         <% if ENV['VIRTUALMIN_IP'] %>
           <% if @notification_script %>
             <i class="fa fa-check"></i> Present

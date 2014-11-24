@@ -46,7 +46,7 @@ Lumen::App.controllers do
     else
       if current_account
         @conversation.conversation_posts.each { |conversation_post|
-          conversation_post.conversation_post_read_receipts.create(account: current_account)
+          conversation_post.conversation_post_read_receipts.create(account: current_account, web: true)
         }
       end
       erb :'conversations/conversation'

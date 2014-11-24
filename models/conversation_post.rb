@@ -32,7 +32,8 @@ class ConversationPost
       :mid => :text,
       :hidden => :check_box,
       :conversation_id => :lookup,
-      :account_id => :lookup
+      :account_id => :lookup,
+      :conversation_post_read_receipts => :collection      
     }
   end
   

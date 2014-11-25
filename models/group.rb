@@ -270,7 +270,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
     imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
     imap.select('INBOX')
-    imap.search(["HEADER", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
+    imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
       
       # skip messages we've already dealt with
       message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']

@@ -2,17 +2,26 @@
 namespace :conversation_posts do
   
   task :send_notifications, [:conversation_post_id] => :environment do |t, args|
-    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+    
     conversation_post = ConversationPost.find(args[:conversation_post_id])
-    conversation_post.emails_to_notify.each { |email|
-      puts "starting dyno for #{email}"
-      heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_posts:create_bcc[#{conversation_post.id},#{email}]"})      
+        
+    array = conversation_post.emails_to_notify
+    no_of_threads = 10
+    
+    slice_size = (array.length/Float(no_of_threads)).ceil
+    slices = array.each_slice(slice_size).to_a
+    puts "splitting into #{slices.length} groups of #{slices.map(&:length).join(', ')}"
+    threads = []
+
+    slices.each_with_index { |slice, i|
+      threads << Thread.new(slice, i) do |slice, i|
+        slice.each { |email|
+          conversation_post.conversation_post_bccs.create(emails: email)
+        }      
+      end
     }
+    threads.each { |thread| thread.join }
+
   end  
-  
-  task :create_bcc, [:conversation_post_id, :email] => :environment do |t, args|
-    puts "creating bcc for #{args[:email]}"
-    ConversationPost.find(args[:conversation_post_id]).conversation_post_bccs.create(emails: [args[:email]])
-  end
   
 end

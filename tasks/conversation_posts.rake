@@ -1,7 +1,12 @@
 
 namespace :conversation_posts do
+  
   task :send_notifications, [:conversation_post_id] => :environment do |t, args|
-    ConversationPost.find(args[:conversation_post_id]).send_notifications!
+    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+    conversation_post = ConversationPost.find(args[:conversation_post_id])
+    conversation_post.emails_to_notify { |email|
+      heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_posts:create_bcc[#{conversation_post.id},#{email}]"})      
+    }
   end  
   
   task :create_bcc, [:conversation_post_id, :email] => :environment do |t, args|

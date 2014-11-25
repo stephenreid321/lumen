@@ -68,21 +68,22 @@ class ConversationPost
     from = account.email
     ConversationPost.dmarc_fail_domains.include?(from.split('@').last) ? group.email('-noreply') : from
   end    
+  
+  def emails_to_notify
+    emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }
+    emails = emails - conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase }
+  end
         
   def send_notifications!
     return if conversation.hidden
-    emails = self.conversation.group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').map { |membership| membership.account.email.downcase }
-    emails = emails - conversation.conversation_mutes.map { |conversation_mute| conversation_mute.account.email.downcase }
     if ENV['BCC_EACH'] and ENV['HEROKU_OAUTH_TOKEN']
-      emails.each { |email|
-        heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-        heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_posts:create_bcc[#{id},#{email}]"})
-      }
+      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+      heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_posts:send_notifications[#{id}]"})
     else
-      self.conversation_post_bccs.create(emails: emails)
+      self.conversation_post_bccs.create(emails: emails_to_notify)
     end
   end
-    
+      
   def body_with_inline_images
     b = body.gsub(/src="cid:(\S+)"/) { |match|
       begin

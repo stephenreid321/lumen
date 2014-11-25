@@ -270,13 +270,13 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
     imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
     imap.select('INBOX')
-    imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
+    imap.search(["HEADER", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
       
       # skip messages we've already dealt with
       message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
-      puts "message_id #{message_id}"
+      puts "fetched message id #{message_id}"
       if group.conversation_posts.find_by(mid: message_id)
-        puts "already created a post with this message_id, skipping"
+        puts "already created a post with this message id, skipping"
         next
       end        
                                   
@@ -366,7 +366,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     else      
       new_conversation = true
       conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account
-      puts "created new conversation with id #{conversation.id}"
+      puts "created new conversation id #{conversation.id}"
       return :failed if !conversation.persisted? # failed to find/create a valid conversation - probably a dupe
       ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
         html = html.split(pattern).first
@@ -383,7 +383,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       conversation.destroy if new_conversation
       return :failed
     end
-    puts "created conversation post with id #{conversation_post.id}"
+    puts "created conversation post id #{conversation_post.id}"
     mail.attachments.each do |attachment|
       conversation_post.attachments.create :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
     end         

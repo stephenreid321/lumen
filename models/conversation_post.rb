@@ -31,9 +31,10 @@ class ConversationPost
       :id => {:type => :text, :index => false},
       :body => :wysiwyg,
       :mid => :text,
-      :hidden => :check_box,
+      :account_id => :lookup,      
       :conversation_id => :lookup,
-      :account_id => :lookup,
+      :group_id => :lookup,      
+      :hidden => :check_box,      
       :conversation_post_bccs => :collection,
       :conversation_post_read_receipts => :collection      
     }

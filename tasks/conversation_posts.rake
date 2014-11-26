@@ -16,7 +16,7 @@ namespace :conversation_posts do
     slices.each_with_index { |slice, i|
       threads << Thread.new(slice, i) do |slice, i|
         slice.each { |email|
-          conversation_post.conversation_post_bccs.create(emails: email)
+          conversation_post.conversation_post_bccs.create(emails: [email])
         }      
       end
     }

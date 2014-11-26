@@ -16,7 +16,7 @@ class ConversationPostReadReceipt
         
   def self.admin_fields
     {
-      :summary => {:type => :text, :edit => false},
+      :summary => {:type => :text, :index => false, :edit => false},
       :account_id => :lookup,
       :conversation_post_id => :lookup,
       :web => :check_box

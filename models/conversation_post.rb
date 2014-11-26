@@ -73,7 +73,7 @@ class ConversationPost
   def emails_to_notify
     Account.where(:id.in => 
         group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').only(:account_id).map(&:account_id) - conversation.conversation_mutes.only(:account_id).map(&:account_id)    
-    ).map(&:email).map(&:downcase)
+    ).map(&:email)
   end
         
   def send_notifications!

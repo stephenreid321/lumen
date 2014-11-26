@@ -72,7 +72,8 @@ Lumen::App.controllers do
       :MAILGUN_APIKEY => 'Mailgun API key (experimental)',
       :MAILGUN_PASSWORD => 'Mailgun password (experimental)',
       
-      :BCC_EACH => ['Send individual BCCs to conversation post subscribers (experimental)']
+      :BCC_EACH => ['Send individual BCCs to conversation post subscribers (experimental)'],
+      :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)'
     } 
     
     @fragments = {

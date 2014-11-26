@@ -6,7 +6,7 @@ namespace :conversation_posts do
     conversation_post = ConversationPost.find(args[:conversation_post_id])
         
     array = conversation_post.emails_to_notify
-    no_of_threads = 10
+    no_of_threads = ENV['BCC_EACH_THREADS'] || 10
     
     slice_size = (array.length/Float(no_of_threads)).ceil
     slices = array.each_slice(slice_size).to_a
@@ -16,7 +16,11 @@ namespace :conversation_posts do
     slices.each_with_index { |slice, i|
       threads << Thread.new(slice, i) do |slice, i|
         slice.each { |email|
-          conversation_post.conversation_post_bccs.create(emails: [email])
+          begin
+            conversation_post.conversation_post_bccs.create(emails: [email])
+          rescue => e
+            Airbrake.notify(e)
+          end
         }      
       end
     }

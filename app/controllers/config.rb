@@ -30,6 +30,7 @@ Lumen::App.controllers do
       :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],
       :REQUIRE_ACCOUNT_LOCATION => ['Requires the completion of the location field on account profiles'],
       :REQUIRE_ACCOUNT_AFFILIATIONS => ['Requires some affiliations on account profiles'],
+      :GROUP_CREATION_BY_ADMINS_ONLY => ['Only allow admins to create new groups'],
           
       :HIDE_SEARCH_MEMBERSHIPS => ['Hides group memberships on profile search results'],
       :HIDE_SEARCH_TAGS => ['Hides tags on profile search results'],

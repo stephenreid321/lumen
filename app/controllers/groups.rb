@@ -114,13 +114,15 @@ Lumen::App.controllers do
         delivery_method :smtp, group.smtp_settings
       end      
       
-      mail = Mail.new(
-        :to => @group.admins_receiving_membership_requests.map(&:email),
-        :from => "#{@group.slug} <#{@group.email('-noreply')}>",
-        :subject => "#{@account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
-        :body => erb(:'emails/membership_request', :layout => false)
-      )
-      mail.deliver   
+      if @group.admins_receiving_membership_requests.count > 0
+        mail = Mail.new(
+          :to => @group.admins_receiving_membership_requests.map(&:email),
+          :from => "#{@group.slug} <#{@group.email('-noreply')}>",
+          :subject => "#{@account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
+          :body => erb(:'emails/membership_request', :layout => false)
+        )
+        mail.deliver   
+      end
             
       b = @group.membership_request_thanks_email
       .gsub('[firstname]',@account.name.split(' ').first)   

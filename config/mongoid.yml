@@ -17,5 +17,5 @@ production:
     default:
       uri: <%= ENV['MONGOHQ_URL'] %>
       options:
-       pool_timeout: 1
+       pool_timeout: 5
       

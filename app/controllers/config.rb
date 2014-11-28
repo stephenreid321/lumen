@@ -74,7 +74,8 @@ Lumen::App.controllers do
       :MAILGUN_PASSWORD => 'Mailgun password (experimental)',
       
       :BCC_EACH => ['Send individual BCCs to conversation post subscribers (experimental)'],
-      :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)'
+      :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)',
+      :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 5s.'
     } 
     
     @fragments = {

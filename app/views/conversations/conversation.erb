@@ -32,6 +32,11 @@
     <% @conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
       <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post, :i => i} %>
     <% } %>
+    <script>
+      $(function () {
+        $('.read-receipt').tooltip();
+      });
+    </script>
 
     <% if @membership %>
       <%= partial :'conversations/build' %> 

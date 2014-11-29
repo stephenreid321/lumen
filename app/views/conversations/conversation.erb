@@ -32,9 +32,12 @@
     <% @conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
       <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post, :i => i} %>
     <% } %>
+    <style>
+      .conversation-post-info .tooltip-inner { white-space: pre }
+    </style>
     <script>
       $(function () {
-        $('.read-receipt').tooltip();
+        $('.conversation-post-info [data-toggle=tooltip]').tooltip();
       });
     </script>
 

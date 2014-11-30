@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: f4f489e45adb0059fae6854d8a29ebb79cc6c8fd
+  revision: 90567eab72caa136bae6efcfcf61a6e929e9299c
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0)
@@ -31,7 +31,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 85a8c8def1888eda81b2d40f4baedd74a50e8a7c
+  revision: b9c763f8ac7db426c8aa827e7da5ef2c93b50024
   specs:
     activate-tools (0.0.1)
       padrino
@@ -98,10 +98,10 @@ GEM
       ipaddress (~> 0.5)
       nokogiri (~> 1.5, >= 1.5.11)
       opennebula
-    fog-brightbox (0.6.1)
+    fog-brightbox (0.7.0)
       fog-core (~> 1.22)
       fog-json
-      inflecto
+      inflecto (~> 0.0.2)
     fog-core (1.25.0)
       builder
       excon (~> 0.38)
@@ -139,7 +139,7 @@ GEM
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
     geocoder (1.2.6)
-    hashie (3.3.1)
+    hashie (3.3.2)
     heroics (0.0.12)
       erubis (~> 2.7.0)
       excon
@@ -159,7 +159,7 @@ GEM
     inflecto (0.0.2)
     ipaddress (0.8.0)
     json (1.8.1)
-    jwt (1.0.0)
+    jwt (1.2.0)
     kgio (2.9.2)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -194,7 +194,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
     netrc (0.8.0)
-    nokogiri (1.6.4.1)
+    nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     ntlm-http (0.1.1)
     oauth (0.4.7)
@@ -282,7 +282,7 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     raindrops (0.13.0)
-    rake (10.3.2)
+    rake (10.4.0)
     rbvmomi (1.8.2)
       builder
       nokogiri (>= 1.4.1)

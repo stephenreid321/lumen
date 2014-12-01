@@ -1,0 +1,17 @@
+
+<p><%= page_entries_info @accounts, :model => 'Person' %></p>
+
+<% @accounts.each { |account| %>
+  <div class="media">
+    <span class="pull-left" >      
+      <a href="/accounts/<%=account.id%>">
+        <img class="media-object" style="width: 32px" src="<%=account.picture ? account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+      </a>
+    </span>
+    <div class="media-body">    
+      <a href="/accounts/<%=account.id%>"><%=account.name%></a>
+    </div>
+  </div> 
+<% } %>
+
+<%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :page_links => false %>

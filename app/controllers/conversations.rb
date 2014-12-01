@@ -125,18 +125,18 @@ Lumen::App.controllers do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])    
     @accounts = Account.where(:id.in => @conversation_post.conversation_post_read_receipts.only(:account_id).map(&:account_id))
-    @accounts = @accounts.per_page(params[:per_page] || 10).page(params[:page])
+    @accounts = @accounts.order(:name.asc).per_page(params[:per_page] || 50).page(params[:page])
     @title = "People who read this"
-    partial :'accounts/results', :layout => 'modal'
+    partial :'accounts/results_compact', :layout => 'modal'
   end
   
   get '/conversation_posts/:id/plus_ones' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])    
     @accounts = Account.where(:id.in => @conversation_post.plus_ones.only(:account_id).map(&:account_id))
-    @accounts = @accounts.per_page(params[:per_page] || 10).page(params[:page])
+    @accounts = @accounts.order(:name.asc).per_page(params[:per_page] || 50).page(params[:page])
     @title = "People who +1'd this"
-    partial :'accounts/results', :layout => 'modal'    
+    partial :'accounts/results_compact', :layout => 'modal'    
   end
     
 end

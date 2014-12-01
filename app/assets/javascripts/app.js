@@ -26,10 +26,10 @@ $(function () {
     });
   }
 
-  function resultsPagination() {
-    $('#results .pagination a').click(function (e) {
+  function containedPagination() {
+    $('.pagination a').click(function (e) {
       if ($(this).attr('href') != '#') {
-        $('#results').load($(this).attr('href'), function () {
+        $(this).closest('.page-container').load($(this).attr('href'), function () {
           scroll(0, 0);
         });
       }
@@ -39,7 +39,7 @@ $(function () {
 
   $(document).ajaxComplete(function () {
     wysify();
-    resultsPagination();
+    containedPagination();
   });
   wysify();
 
@@ -110,5 +110,12 @@ $(function () {
   });
 
   $('#results-form').submit();
+
+  $('a.modal-trigger').click(function () {
+    $('#modal .modal-content').load(this.href, function () {
+      $('#modal').modal('show');
+    });
+    return false;
+  });
 
 });

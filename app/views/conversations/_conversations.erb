@@ -25,16 +25,6 @@
 </div>
 
 <%= partial :'conversations/conversations_table', :locals => {:conversations => @conversations}  %>
-
-<script>
-  $(function() {
-    $('#conversations-tab .pagination a').click(function(e) {
-      e.preventDefault();
-      if ($(this).attr('href') != '#')
-        $('#conversations-tab').load($(this).attr('href'));
-    });
-  });
-</script>
 <%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 
 <% if @membership %>

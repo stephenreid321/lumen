@@ -16,15 +16,6 @@
     <%= partial :'wall/wall_post', :object => wall_post %>
   <% } %>
 
-  <script>
-    $(function() {
-      $('#wall-tab .pagination a').click(function(e) {
-        e.preventDefault();
-        if ($(this).attr('href') != '#')
-          $('#wall-tab').load($(this).attr('href'));
-      });
-    });
-  </script>  
   <%= will_paginate @wall_posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>  
 
 </div>

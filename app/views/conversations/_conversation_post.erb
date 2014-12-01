@@ -4,7 +4,7 @@
     <img class="media-object" style="width: 32px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
   </span>
   <div class="media-body">
-    
+
     <div>
       <% if @membership and @membership.admin? %>
         <% if defined? i and i > 0 %>
@@ -20,19 +20,19 @@
 
       <div id="conversation-post-<%=conversation_post.id%>"><%= Rinku.auto_link(conversation_post.body_with_inline_images) %></div>
     </div>
-
+    
     <div class="conversation-post-info" style="font-size: 12px; color: #aaa">
       <span title="<%=conversation_post.created_at%>"><%=time_ago_in_words(conversation_post.created_at)%> ago</span>
       &middot;
-      <span class="read-receipt" title="<%=conversation_post.conversation_post_read_receipts.map { |rr| rr.account.name }.join("\n")%>" data-toggle="tooltip"><%=pluralize(conversation_post.conversation_post_read_receipts.count,'person')%> read this</span>
+      <a class="modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/read_receipts"><%=pluralize(conversation_post.conversation_post_read_receipts.count,'person')%> read this</a>
       &middot;
-      <span class="plus-ones" title="<%=conversation_post.plus_ones.map { |o| o.account.name }.join("\n")%>" data-toggle="tooltip"><%=pluralize(conversation_post.plus_ones.count,'person')%> +1'd this</span>
+      <a class="modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/plus_ones"><%=pluralize(conversation_post.plus_ones.count,'person')%> +1'd this</a>
 
-      <% if !(plus_one = conversation_post.plus_ones.find_by(account: current_account)) %>
+      <% if !conversation_post.plus_ones.find_by(account: current_account) %>
         <a href="/conversation_posts/<%=conversation_post.id%>/plus_one" class="edit" title="+1 this post" ><i class="fa fa-plus"></i></a>
       <% else %>        
         <a href="/conversation_posts/<%=conversation_post.id%>/remove_plus_one" class="edit" title="Remove your +1"><i class="fa fa-times"></i></a>
-      <% end %>
+        <% end %>
 
     </div>
 

@@ -307,8 +307,12 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         
     # skip messages sent by Lumen
     if sent_by_lumen(mail)
-      puts "this message was sent by Lumen"
-      return :delete
+      if ENV['BCC_EACH']
+        raise "a message sent by Lumen made it into #{group.slug}'s inbox"
+      else
+        puts "this message was sent by Lumen"
+        return :delete
+      end
     end   
                                         
     # skip messages from people that aren't in the group

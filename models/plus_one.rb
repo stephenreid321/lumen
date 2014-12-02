@@ -22,7 +22,6 @@ class PlusOne
     end 
     mail = Mail.new(
       :to => conversation_post.account.email,
-      :cc => account.email,
       :from => "#{group.slug} <#{group.email('-noreply')}>",
       :subject => "#{account.name} +1'd your post in #{conversation_post.conversation.subject}",
       :body => ERB.new(File.read(Padrino.root('app/views/emails/plus_one.erb'))).result(binding)

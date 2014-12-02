@@ -247,17 +247,21 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form['val_0'] = "/notify/#{ENV['APP_NAME']}.php #{slug}"
     form.submit      
   end  
-  
-  def sent_by_lumen(mail)
-    mail.sender == email('-noreply')
-  end
-  
+    
   def check!
     return unless ENV['VIRTUALMIN_IP']
     group = self
     imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
     imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
     imap.select('INBOX')  
+    
+    # delete messages sent by lumen
+    sent_by_lumen = imap.search(['HEADER', 'Sender', email('-noreply')])
+    if !sent_by_lumen.empty?
+      imap.store(sent_by_lumen, "+FLAGS", [:Deleted])
+      imap.expunge
+    end
+
     imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
       
       # skip messages we've already dealt with
@@ -293,14 +297,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     
     puts "message from #{from}"
         
-    # skip messages sent by Lumen
-    if sent_by_lumen(mail)
-      if ENV['BCC_EACH']
-        raise "a message sent by Lumen made it into #{group.slug}'s inbox"
-      else
-        puts "this message was sent by Lumen"
-        return :delete
-      end
+    # check this isn't a message sent by Lumen
+    if mail.sender == email('-noreply')
+      raise "a message sent by Lumen made it into #{group.slug}'s inbox"
     end   
                                         
     # skip messages from people that aren't in the group

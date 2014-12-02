@@ -262,7 +262,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       imap.expunge
     end
 
-    imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
+    imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', email('-noreply')]).each do |sequence_id|
       
       # skip messages we've already dealt with
       message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
@@ -300,8 +300,8 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     # check this isn't a message sent by Lumen
     if mail.sender == email('-noreply')
       raise "a message sent by Lumen made it into #{group.slug}'s inbox"
-    end   
-                                        
+    end 
+                                   
     # skip messages from people that aren't in the group
     account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)     
     if !account or !account.memberships.find_by(group: group, status: 'confirmed')

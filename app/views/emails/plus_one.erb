@@ -1,0 +1,7 @@
+Hi <%=conversation_post.account.name%>,
+   
+<%=account.name%> just +1'd your post in <%=conversation_post.conversation.subject%>.
+
+Click here to view the post on the web: http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation_id%>#conversation-post-<%=conversation_post.id%>
+
+

@@ -13,5 +13,20 @@ class PlusOne
       :conversation_post_id => :lookup
     }
   end
+  
+  after_create :notify
+  def notify
+    group = conversation_post.group
+    Mail.defaults do
+      delivery_method :smtp, group.smtp_settings
+    end 
+    mail = Mail.new(
+      :to => conversation_post.account.email,
+      :from => "#{group.slug} <#{group.email('-noreply')}>",
+      :subject => "#{account.name} +1'd your post in #{conversation_post.conversation.subject}",
+      :body => ERB.new(File.read(Padrino.root('app/views/emails/plus_one.erb'))).result(binding)
+    )
+    mail.deliver         
+  end
     
 end

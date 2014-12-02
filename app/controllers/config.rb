@@ -65,14 +65,7 @@ Lumen::App.controllers do
 
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
       :AIRBRAKE_API_KEY => 'Airbrake API key',
-      
-      :MANDRILL_USERNAME => 'Mandrill username (experimental)',
-      :MANDRILL_APIKEY => 'Mandrill API key/password (experimental)',
-      
-      :MAILGUN_USERNAME => 'Mailgun username (experimental)',
-      :MAILGUN_APIKEY => 'Mailgun API key (experimental)',
-      :MAILGUN_PASSWORD => 'Mailgun password (experimental)',
-      
+            
       :BCC_EACH => ['Send individual BCCs to conversation post subscribers (experimental)'],
       :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)',
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 5s.'

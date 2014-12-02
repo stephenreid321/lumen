@@ -70,13 +70,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
              
   def smtp_settings
-    if ENV['MANDRILL_USERNAME']
-      {:address => 'smtp.mandrillapp.com', :user_name => ENV['MANDRILL_USERNAME'], :password => ENV['MANDRILL_APIKEY'], :port => 587}  
-    elsif ENV['MAILGUN_USERNAME']
-      {:address => 'smtp.mailgun.org', :user_name => ENV['MAILGUN_USERNAME'], :password => ENV['MAILGUN_PASSWORD']}  
-    else
-      {:address => ENV['VIRTUALMIN_IP'], :user_name => username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
-    end
+    {:address => ENV['VIRTUALMIN_IP'], :user_name => username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
   end  
   
   has_many :conversations, :dependent => :destroy
@@ -255,13 +249,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end  
   
   def sent_by_lumen(mail)
-    if ENV['MANDRILL_USERNAME']
-      mail.header_fields.any? { |f| f.name.to_s == 'X-Mandrill-User' }      
-    elsif ENV['MAILGUN_USERNAME']
-      mail.header_fields.any? { |f| f.name.to_s == 'X-Mailgun-Sid' }
-    elsif ENV['VIRTUALMIN_IP']
-      mail.sender == email('-noreply')
-    end    
+    mail.sender == email('-noreply')
   end
   
   def check!
@@ -269,7 +257,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     group = self
     imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
     imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
-    imap.select('INBOX')
+    imap.select('INBOX')  
     imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y")]).each do |sequence_id|
       
       # skip messages we've already dealt with

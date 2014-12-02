@@ -23,7 +23,7 @@ class ConversationPostBcc
             
   after_create :send_email
   def send_email
-    return unless ENV['VIRTUALMIN_IP'] or ENV['MANDRILL_USERNAME'] or ENV['MAILGUN_USERNAME']
+    return unless ENV['VIRTUALMIN_IP']
     # set locals for ERB binding
     conversation_post_bcc = self
     conversation_post = conversation_post_bcc.conversation_post

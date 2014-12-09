@@ -7,6 +7,7 @@ class Membership
   field :notification_level, :type => String
   field :status, :type => String
   field :reminder_sent, :type => Time
+  field :welcome_email_sent, :type => Boolean
   
   belongs_to :added_by, index: true, class_name: "Account", inverse_of: :memberships_added
   belongs_to :account, index: true
@@ -77,7 +78,8 @@ class Membership
       content_type 'text/html; charset=UTF-8'
       body b
     end
-    mail.deliver      
+    mail.deliver 
+    update_attribute(:welcome_email_sent, true)
   end
 
 end

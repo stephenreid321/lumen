@@ -101,7 +101,7 @@ Visit www.yourdomain.org and change the admin name, email address and password. 
 If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (`heroku run bash; padrino c`) and run:
 ```
 Group.all.each { |g| g.setup_mail_accounts_and_forwarder }
-ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
+ConversationPost.all.each { |c| c.update_attribute(:imap_uid, nil) }
 ```
 
 ## Gallery

@@ -265,16 +265,16 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', group.email('-noreply')]).each do |sequence_id|
       
       # skip messages we've already dealt with
-      message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
-      puts "fetched message id #{message_id}"
-      if group.conversation_posts.find_by(mid: message_id)
+      imap_uid = imap.fetch(sequence_id,'UID')[0].attr['UID']
+      puts "fetched message with uid #{imap_uid}"
+      if group.conversation_posts.find_by(imap_uid: imap_uid)
         puts "already created a post with this message id, skipping"
         next
       end        
                                   
       mail = Mail.read_from_string(imap.fetch(sequence_id,'RFC822')[0].attr['RFC822'])
       
-      case process_mail(mail, message_id: message_id)
+      case process_mail(mail, imap_uid: imap_uid)
       when :delete
         puts "deleting"
         imap.store(sequence_id, "+FLAGS", [:Deleted])
@@ -290,7 +290,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     imap.disconnect
   end
   
-  def process_mail(mail, message_id: nil)
+  def process_mail(mail, imap_uid: nil)
     group = self
     return :failed unless mail.from
     from = mail.from.first
@@ -368,7 +368,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     html.search('style').remove
     html = html.search('body').inner_html
                      
-    conversation_post = conversation.conversation_posts.create :body => html, :account => account, :mid => message_id                   
+    conversation_post = conversation.conversation_posts.create :body => html, :account => account, :imap_uid => imap_uid, :message_id => mail.message_id
     if !conversation_post.persisted? # failed to create the conversation post
       puts "failed to create conversation post, deleting conversation"
       conversation.destroy if new_conversation

@@ -3,7 +3,8 @@ class ConversationPost
   include Mongoid::Timestamps
 
   field :body, :type => String
-  field :mid, :type => String
+  field :imap_uid, :type => String
+  field :message_id, :type => String
   field :hidden, :type => Boolean, :default => false
   
   belongs_to :conversation, index: true
@@ -17,9 +18,9 @@ class ConversationPost
   has_many :plus_ones, :dependent => :destroy
   
   validates_presence_of :body, :account, :conversation, :group
-  validates_uniqueness_of :mid, :scope => :group, :allow_nil => true
+  validates_uniqueness_of :imap_uid, :scope => :group, :allow_nil => true
   
-  index({mid: 1 })
+  index({imap_uid: 1 })
   
   before_validation :set_group
   def set_group
@@ -30,7 +31,8 @@ class ConversationPost
     {
       :id => {:type => :text, :index => false},
       :body => :wysiwyg,
-      :mid => :text,
+      :imap_uid => :text,
+      :message_id => :text,
       :account_id => :lookup,      
       :conversation_id => :lookup,
       :group_id => :lookup,      

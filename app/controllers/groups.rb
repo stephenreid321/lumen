@@ -24,19 +24,14 @@ Lumen::App.controllers do
   end
     
   get '/groups/directory' do
-    if !current_account
-      redirect '/'
-    else
-      @groups = Group.all
-      erb :'/groups/directory'
-    end
+    @groups = Group.all
+    erb :'groups/directory'
   end    
   
   get '/groups/directory/:slug' do
-    sign_in_required!
     @group_type = GroupType.find_by(slug: params[:slug])
     @groups = @group_type.groups
-    erb :'/groups/directory'
+    erb :'groups/directory'
   end  
                           
   get '/groups/:slug' do    

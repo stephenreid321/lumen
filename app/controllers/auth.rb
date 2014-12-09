@@ -29,7 +29,7 @@ Lumen::App.controllers do
     else
       flash[:error] = "There's no account registered under that email address. Please contact #{ENV['HELP_ADDRESS']} for assistance."
     end
-    redirect '/'
+    redirect back
   end
   
   get '/auth/failure' do

@@ -256,13 +256,13 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     imap.select('INBOX')  
     
     # delete messages sent by lumen
-    sent_by_lumen = imap.search(['HEADER', 'Sender', email('-noreply')])
+    sent_by_lumen = imap.search(['HEADER', 'Sender', group.email('-noreply')])
     if !sent_by_lumen.empty?
       imap.store(sent_by_lumen, "+FLAGS", [:Deleted])
       imap.expunge
     end
 
-    imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', email('-noreply')]).each do |sequence_id|
+    imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', group.email('-noreply')]).each do |sequence_id|
       
       # skip messages we've already dealt with
       message_id = imap.fetch(sequence_id,'UID')[0].attr['UID']
@@ -298,7 +298,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     puts "message from #{from}"
         
     # check this isn't a message sent by Lumen
-    if mail.sender == email('-noreply')
+    if mail.sender == group.email('-noreply')
       raise "a message sent by Lumen made it into #{group.slug}'s inbox"
     end 
                                    

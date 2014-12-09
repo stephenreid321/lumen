@@ -42,5 +42,39 @@ class Membership
   def self.notification_levels
     ['none', 'each', 'daily', 'weekly']
   end
+  
+  def send_welcome_email
+    Mail.defaults do
+      delivery_method :smtp, group.smtp_settings
+    end    
+      
+    sign_in_details = ''
+    if status == 'pending'
+      sign_in_details << "You need to sign in to start receiving email notifications. "
+    end
+        
+    if account.sign_ins.count == 0
+      password = Account.generate_password(8)
+      account.update_attribute(:password, password) 
+      sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{account.email} and the password #{password}"
+    else
+      sign_in_details << "Check it out at http://#{ENV['DOMAIN']}/groups/#{group.slug}."
+    end    
+               
+    b = group.invite_email
+    .gsub('[firstname]',account.name.split(' ').first)
+    .gsub('[admin]', current_account.name)
+    .gsub('[sign_in_details]', sign_in_details)      
+            
+    mail = Mail.new
+    mail.to = account.email
+    mail.from = "#{group.slug} <#{group.email('-noreply')}>"
+    mail.subject = group.invite_email_subject
+    mail.html_part do
+      content_type 'text/html; charset=UTF-8'
+      body b
+    end
+    mail.deliver      
+  end
 
 end

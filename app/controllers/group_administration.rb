@@ -167,7 +167,6 @@ Lumen::App.controllers do
       email.strip!
       
       if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   
-        @new_account = true
         @account = Account.new({
             :name => name,
             :password => Account.generate_password(8),
@@ -178,8 +177,6 @@ Lumen::App.controllers do
           notices << "Failed to create an account for #{email} - is this a valid email address?"
           next
         end
-      else
-        @new_account = false
       end
       
       if @group.memberships.find_by(account: @account)
@@ -190,39 +187,20 @@ Lumen::App.controllers do
       @membership = @group.memberships.build :account => @account
       @membership.admin = true if params[:admin]
       @membership.status = 'confirmed' if params[:status] == 'confirmed'
-      @membership.save
-      
-      group = @group # instance var not available in defaults block
-      Mail.defaults do
-        delivery_method :smtp, group.smtp_settings
-      end    
-      
-      sign_in_details = ''
-      if @membership.status == 'pending'
-        sign_in_details << "You need to sign in to start receiving email notifications. "
-      end
-      if @new_account
-        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{@account.password}."
-      else
-        sign_in_details << "Check it out at http://#{ENV['DOMAIN']}/groups/#{@group.slug}."
-      end
-               
-      b = @group.invite_email
-      .gsub('[firstname]',@account.name.split(' ').first)
-      .gsub('[admin]', current_account.name)
-      .gsub('[sign_in_details]', sign_in_details)      
-            
-      mail = Mail.new
-      mail.to = @account.email
-      mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
-      mail.subject = @group.invite_email_subject
-      mail.html_part do
-        content_type 'text/html; charset=UTF-8'
-        body b
-      end
-      mail.deliver              
+      @membership.save      
+      welcome_emails << @membership.id      
       notices << "#{email} was added to the group."
     }
+    
+    if ENV['HEROKU_OAUTH_TOKEN']
+      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+      heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:send_welcome_emails[#{welcome_emails.join(',')}]"})
+    else
+      welcome_emails.each { |membership_id|
+        Membership.find(membership_id).send_welcome_email
+      }
+    end
+    
     flash[:notice] = notices.join('<br />') if !notices.empty?
     redirect back
   end
@@ -294,7 +272,7 @@ Lumen::App.controllers do
       if @account.sign_ins.count == 0
         password = Account.generate_password(8)
         @account.update_attribute(:password, password) 
-        sign_in_details = "You need to sign in to start receiving email notifications. Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}."
+        sign_in_details = "You need to sign in to start receiving email notifications. Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}"
       else
         sign_in_details = "Sign in at http://#{ENV['DOMAIN']}/sign_in."
       end

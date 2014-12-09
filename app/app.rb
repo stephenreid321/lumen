@@ -33,11 +33,11 @@ module Lumen
      
     error do
       Airbrake.notify(env['sinatra.error'], :session => session)
-      erb :error, :layout => :application
+      erb :error
     end 
                
     not_found do
-      erb :not_found, :layout => :application
+      erb :not_found
     end
         
     ############

@@ -39,8 +39,8 @@ class ConversationPostBcc
     mail.sender = group.email('-noreply')
     mail.subject = conversation_post.conversation.conversation_posts.count == 1 ? "[#{group.slug}] #{conversation_post.conversation.subject}" : "Re: [#{group.slug}] #{conversation_post.conversation.subject}"
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
-    mail.references = conversation_post.conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1..10].map { |conversation_post| conversation_post.message_id ? "<#{conversation_post.message_id}>" : nil }.compact.join(' ')
-    mail.in_reply_to = conversation_post.conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1].message_id    
+    mail.references = (r = conversation_post.conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1..10].map { |conversation_post| conversation_post.message_id ? "<#{conversation_post.message_id}>" : nil }.compact).empty? ? nil : r.join(' ')
+    mail.in_reply_to = conversation_post.conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1].try(:message_id)
     mail.html_part do
       content_type 'text/html; charset=UTF-8'
       body ERB.new(File.read(Padrino.root('app/views/emails/conversation_post.erb'))).result(binding)

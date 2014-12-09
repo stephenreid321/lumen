@@ -44,6 +44,7 @@ class Membership
   end
   
   def send_welcome_email
+    group = self.group
     Mail.defaults do
       delivery_method :smtp, group.smtp_settings
     end    

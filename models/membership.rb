@@ -8,6 +8,7 @@ class Membership
   field :status, :type => String
   field :reminder_sent, :type => Time
   
+  belongs_to :added_by, index: true, class_name: "Account", inverse_of: :memberships_added
   belongs_to :account, index: true
   belongs_to :group, index: true
         
@@ -18,6 +19,7 @@ class Membership
     {
       :account_id => :lookup,
       :group_id => :lookup,
+      :added_by_id => :lookup,
       :admin => :check_box,
       :receive_membership_requests => :check_box,
       :status => :select,
@@ -64,7 +66,7 @@ class Membership
                
     b = group.invite_email
     .gsub('[firstname]',account.name.split(' ').first)
-    .gsub('[admin]', current_account.name)
+    .gsub('[admin]', added_by.name)
     .gsub('[sign_in_details]', sign_in_details)      
             
     mail = Mail.new

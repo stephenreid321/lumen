@@ -187,6 +187,7 @@ Lumen::App.controllers do
       @membership = @group.memberships.build :account => @account
       @membership.admin = true if params[:admin]
       @membership.status = 'confirmed' if params[:status] == 'confirmed'
+      @membership.added_by = current_account
       @membership.save      
       welcome_emails << @membership.id      
       notices << "#{email} was added to the group."

@@ -30,7 +30,8 @@ class Account
   has_many :sign_ins, :dependent => :destroy  
   has_many :page_views, :dependent => :destroy  
   has_many :memberships, :dependent => :destroy
-  has_many :membership_requests, :dependent => :destroy  
+  has_many :membership_requests, :dependent => :destroy
+  has_many :memberships_added, :class_name => "Membership", :inverse_of => :added_by, :dependent => :nullify
   has_many :conversation_mutes, :dependent => :destroy
   has_many :conversation_post_read_receipts, :dependent => :destroy
   has_many :conversations_as_creator, :class_name => 'Conversation', :dependent => :destroy

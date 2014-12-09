@@ -10,7 +10,7 @@ class Membership
   field :welcome_email_sent, :type => Boolean
   
   belongs_to :added_by, index: true, class_name: "Account", inverse_of: :memberships_added
-  belongs_to :account, index: true
+  belongs_to :account, index: true, class_name: "Account", inverse_of: :memberships
   belongs_to :group, index: true
         
   validates_presence_of :account, :group, :status, :notification_level
@@ -23,6 +23,8 @@ class Membership
       :added_by_id => :lookup,
       :admin => :check_box,
       :receive_membership_requests => :check_box,
+      :reminder_sent => :datetime,
+      :welcome_email_sent => :check_box,
       :status => :select,
       :notification_level => :select
     }

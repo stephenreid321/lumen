@@ -308,19 +308,25 @@ Lumen::App.controllers do
     group_admins_only!
       
     @c = {}    
-    @group.conversations.where(:hidden.ne => true).only(:id, :account_id).each_with_index { |conversation|
+    conversations = @group.conversations.where(:hidden.ne => true)    
+    conversations = conversations.where(:created_at.gte => params[:since]) if params[:since]
+    conversations.only(:id, :account_id).each_with_index { |conversation|
       @c[conversation.account_id] = [] if !@c[conversation.account_id]
       @c[conversation.account_id] << conversation.id
     }
         
     @cp = {}  
-    @group.conversation_posts.where(:hidden.ne => true).only(:id, :account_id).each_with_index { |conversation_post|
+    conversation_posts = @group.conversation_posts.where(:hidden.ne => true)
+    conversation_posts = conversation_posts.where(:creatd_at.gte => params[:since]) if params[:since]
+    conversation_posts.only(:id, :account_id).each_with_index { |conversation_post|
       @cp[conversation_post.account_id] = [] if !@cp[conversation_post.account_id]
       @cp[conversation_post.account_id] << conversation_post.id    
     }
     
     @e = {}
-    @group.events.only(:id, :account_id).each { |event|
+    events = @group.events
+    events = events.where(:created_at.gte => params[:since]) if params[:since]
+    events.only(:id, :account_id).each { |event|
       @e[event.account_id] = [] if !@e[event.account_id]
       @e[event.account_id] << event.id
     }    

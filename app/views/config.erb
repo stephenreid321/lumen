@@ -72,7 +72,7 @@
         <% if f = Fragment.find_by(slug: k) %>
           <a href="/admin/edit/Fragment/<%=f.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
         <% else %>
-          <a href="/admin/new/Fragment" class="btn btn-default"><i class="fa fa-pencil"></i> Create</a>
+          <a href="/config/create_fragment/<%=k%>" class="btn btn-default"><i class="fa fa-pencil"></i> Create</a>
         <% end %>        
       </div>
     </div>

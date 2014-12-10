@@ -69,6 +69,15 @@ module Lumen
         erb :'public/homepage'
       end
     end
+    
+    get '/global-landing' do
+      sign_in_required!
+      if request.xhr?
+        Fragment.find_by(slug: 'global-landing-tab').try(:body)
+      else
+        redirect "/#{@group.slug}#global-landing-tab"
+      end          
+    end    
         
     get '/network' do
       sign_in_required!

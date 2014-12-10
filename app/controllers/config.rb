@@ -40,8 +40,8 @@ Lumen::App.controllers do
       :HIDE_MAP_FORM => ['Hides map form'],
       :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],
       
-      :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from home, news, wall, digest, map, docs, surveys, calendar)',      
-      :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from home, conversations, news, wall, digest, map, docs, surveys, calendar)',
+      :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from global-landing, news, wall, digest, map, docs, surveys, calendar)',      
+      :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, wall, digest, map, docs, surveys, calendar)',
       
       :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
       :SHOW_SPACES_BY_DEFAULT => ['Shows spaces on maps by default'],
@@ -75,6 +75,7 @@ Lumen::App.controllers do
       :'about' => 'Text of about page',
       :'sign-in' => 'Text displayed on sign in page',
       :'first-time' => 'Text displayed on account edit page upon first login',
+      :'global-landing-tab' => 'Landing tab that can be displayed via HOME_TAB_ORDER and GROUP_TAB_ORDER',
       :'public-homepage' => 'If defined, creates a public homepage with this HTML',
       :'head' => 'Extra content for &lt;head&gt;',
       :'navbar' => 'Extra content for the navbar',
@@ -125,6 +126,10 @@ Lumen::App.controllers do
       ssh.exec!("chmod 777 /notify/*")
     end
     redirect '/config'
-  end  
+  end 
+  
+  get '/config/create_fragment/:slug' do
+    redirect "/admin/edit/Fragment/#{Fragment.create(slug: params[:slug]).id}"
+  end
       
 end

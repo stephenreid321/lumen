@@ -317,7 +317,7 @@ Lumen::App.controllers do
         
     @cp = {}  
     conversation_posts = @group.conversation_posts.where(:hidden.ne => true)
-    conversation_posts = conversation_posts.where(:creatd_at.gte => params[:since]) if params[:since]
+    conversation_posts = conversation_posts.where(:created_at.gte => params[:since]) if params[:since]
     conversation_posts.only(:id, :account_id).each_with_index { |conversation_post|
       @cp[conversation_post.account_id] = [] if !@cp[conversation_post.account_id]
       @cp[conversation_post.account_id] << conversation_post.id    

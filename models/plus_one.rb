@@ -2,8 +2,8 @@ class PlusOne
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :account
-  belongs_to :conversation_post
+  belongs_to :account, index: true
+  belongs_to :conversation_post, index: true
   
   validates_uniqueness_of :account, :scope => :conversation_post
     

@@ -7,7 +7,7 @@ class Question
   field :type, :type => String
   field :options, :type => String
   
-  belongs_to :survey
+  belongs_to :survey, index: true
   
   has_many :answers, :dependent => :destroy
   

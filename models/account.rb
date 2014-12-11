@@ -44,7 +44,7 @@ class Account
   has_many :answers, :dependent => :destroy
   has_many :plus_ones, :dependent => :destroy
   
-  belongs_to :language
+  belongs_to :language, index: true
   
   has_many :affiliations, :dependent => :destroy
   accepts_nested_attributes_for :affiliations, allow_destroy: true, reject_if: :all_blank

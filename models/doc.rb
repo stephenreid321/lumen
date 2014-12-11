@@ -8,8 +8,8 @@ class Doc
   validates_presence_of :url, :title, :account, :group
   validates_format_of :url, :with => /google\.com/
   
-  belongs_to :account
-  belongs_to :group
+  belongs_to :account, index: true
+  belongs_to :group, index: true
   
   before_validation do    
     self.url = "http://#{self.url}" if self.url and !(self.url =~ /\Ahttps?:\/\//)

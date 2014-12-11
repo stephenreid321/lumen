@@ -4,9 +4,9 @@ class Answer
 
   field :text, :type => String
   
-  belongs_to :survey
-  belongs_to :question  
-  belongs_to :account
+  belongs_to :survey, index: true
+  belongs_to :question, index: true  
+  belongs_to :account, index: true
     
   validates_presence_of :text, :survey, :question, :account
   

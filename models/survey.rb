@@ -6,8 +6,8 @@ class Survey
   field :intro, :type => String
   field :redirect_url, :type => String
   
-  belongs_to :group
-  belongs_to :account
+  belongs_to :group, index: true
+  belongs_to :account, index: true
   
   has_many :questions, :dependent => :destroy
   accepts_nested_attributes_for :questions, allow_destroy: true, reject_if: :all_blank

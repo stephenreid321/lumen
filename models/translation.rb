@@ -7,7 +7,7 @@ class Translation
   
   index({key: 1 }, {unique: true})
   
-  belongs_to :language
+  belongs_to :language, index: true
   
   validates_presence_of :key, :value, :language
   validates_uniqueness_of :key, :scope => :language

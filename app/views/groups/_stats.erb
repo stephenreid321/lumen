@@ -45,7 +45,7 @@
       <% end %>
 
       <tr>
-        <td style="width: 170px; <% if k == current_account %> background: #e7e7e7 <% end %>">
+        <td style="width: 170px; <% if k == current_account %> background: #FFF2B8 <% end %>">
           <div class="media">
             <span class="pull-left" >      
               <a href="/accounts/<%=k.id%>">
@@ -57,7 +57,7 @@
             </div>
           </div>           
         </td>
-        <td <% if k == current_account %> style="background: #e7e7e7" <% end %>  >
+        <td <% if k == current_account %> style="background: #FFF2B8" <% end %>  >
           <div class="progress">
             <div class="progress-bar" role="progressbar" style="width:<%="#{100*(begin; v.length/max; rescue; raise "#{h2} - #{k.name} - #{v.length} - #{max}"; end)}%"%>">
               <%=v.length%>

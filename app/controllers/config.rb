@@ -41,7 +41,7 @@ Lumen::App.controllers do
       :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],
       
       :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from global-landing, news, wall, digest, map, docs, surveys, calendar)',      
-      :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, wall, digest, map, docs, surveys, calendar)',
+      :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, wall, digest, map, docs, surveys, stats, calendar)',
       
       :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
       :SHOW_SPACES_BY_DEFAULT => ['Shows spaces on maps by default'],

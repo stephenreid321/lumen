@@ -206,5 +206,44 @@ Lumen::App.controllers do
     flash[:notice] = 'Notification options updated!'
     redirect "/groups/#{@group.slug}"
   end   
+  
+  get '/groups/:slug/stats' do    
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    membership_required!
+    
+    @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
+    @to =  params[:to] ? Date.parse(params[:to]) : Date.today
+      
+    @c = {}    
+    conversations = @group.conversations.where(:hidden.ne => true)    
+    conversations = conversations.where(:created_at.gte => @from).where(:created_at.lte => @to)
+    conversations.only(:id, :account_id).each_with_index { |conversation|
+      @c[conversation.account_id] = [] if !@c[conversation.account_id]
+      @c[conversation.account_id] << conversation.id
+    }
+        
+    @cp = {}  
+    conversation_posts = @group.conversation_posts.where(:hidden.ne => true)
+    conversation_posts = conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to)
+    conversation_posts.only(:id, :account_id).each_with_index { |conversation_post|
+      @cp[conversation_post.account_id] = [] if !@cp[conversation_post.account_id]
+      @cp[conversation_post.account_id] << conversation_post.id    
+    }
+    
+    @e = {}
+    events = @group.events
+    events = events.where(:created_at.gte => @from).where(:created_at.lte => @to)
+    events.only(:id, :account_id).each { |event|
+      @e[event.account_id] = [] if !@e[event.account_id]
+      @e[event.account_id] << event.id
+    }    
+    
+    if request.xhr?
+      partial :'groups/stats'
+    else
+      redirect "/groups/#{@group.slug}#stats"
+    end      
+    
+  end   
           
 end

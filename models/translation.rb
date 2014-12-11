@@ -47,6 +47,7 @@ class Translation
       :wall => 'wall',
       :docs => 'docs',
       :surveys => 'surveys',
+      :stats => 'stats',
       :calendar => 'calendar',
       :conversations => 'conversations',
       :'members_in_this_group.one' => '1 member in this group',

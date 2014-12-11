@@ -20,11 +20,13 @@
 
       <div id="conversation-post-<%=conversation_post.id%>"><%= Rinku.auto_link(conversation_post.body_with_inline_images) %></div>
     </div>
-    
+
     <div style="color: #aaa; margin-top: 10px; background: #F8F8F8; padding: 5px 10px; border-radius: 4px">
       <a class="edit" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=time_ago_in_words(conversation_post.created_at)%> ago</a>
-      &middot;
-      <a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/read_receipts"><%=pluralize(conversation_post.conversation_post_read_receipts.count,'person')%> read this</a>
+      <% if ENV['BCC_EACH'] %>
+        &middot;
+        <a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/read_receipts"><%=pluralize(conversation_post.conversation_post_read_receipts.count,'person')%> read this</a>
+      <% end %>
       &middot;
       <a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/plus_ones"><%=pluralize(conversation_post.plus_ones.count,'person')%> +1'd this</a>
 

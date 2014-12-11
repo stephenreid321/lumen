@@ -24,23 +24,18 @@
 
 </h2>
 
-
-
-
-
-
 <table class="table">
 
-  <%{'Most conversations started' => @c, 'Most posts' => @cp, 'Most events created' => @e}.each { |h,hash| %>
+  <%{'Most posts' => @cp, 'Most conversations started' => @c, 'Most events created' => @e}.each { |h,hash| %>
 
     <tr>
       <td colspan="2">
-        <h3><%=h%></h3>
+        <h3 style="margin-top: 0"><%=h%></h3>
       </td>
     </tr>
 
-    <% max = nil; hash.sort_by { |k,v| v.length }.reverse[0..9].each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end; k = Account.find(k) %>
-      <tr>
+    <% max = nil; include = hash.sort_by { |k,v| v.length }.reverse[0..9]; include[current_account.id] = hash[current_account.id]; include.sort_by { |k,v| v.length }.reverse.each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end; k = Account.find(k) %>
+      <tr <%= if k == current_account %> class="info" <% end %>  >
         <td style="width: 170px">
           <div class="media">
             <span class="pull-left" >      

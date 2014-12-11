@@ -71,7 +71,7 @@ Lumen::App.helpers do
   
   def group_admins_and_creator_only!(group: nil, account: nil)
     group = @group if !group
-    unless current_account and group and (membership = group.memberships.find_by(account: current_account)) and (membership.admin? or account)
+    unless (account == current_account) or (current_account and group and (membership = group.memberships.find_by(account: current_account)) and membership.admin?)
       flash[:notice] = 'You must be an admin or creator to access that page.'
       session[:return_to] ||= request.url
       request.xhr? ? halt(403) : redirect(membership ? "/groups/#{group.slug}" : '/')

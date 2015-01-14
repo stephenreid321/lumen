@@ -55,7 +55,7 @@
           moveUp.attr('class', 'btn btn-default')
           moveUp.attr('href', 'javascript:;')
           moveUp.attr('onclick', "$($(this).parent()).insertBefore($(this).parent().prevAll('.question').first());doOrder()");
-          moveUp.append('<i class="fa fa-long-arrow-up"></i>')
+          moveUp.append('<i class="fa fa-long-arrow-up"></i> Move up')
           
           var orderField = $('<input type="number" />');
           orderField.attr('name', 'survey[questions_attributes][' + l + '][order]');

@@ -89,7 +89,18 @@ Lumen::App.controllers do
     @survey = @group.surveys.find(params[:id])
     @survey.answers.where(account: current_account).destroy_all
     params[:q].each { |k,v|
-      @survey.questions.find(k).answers.create(:text => v, :account => current_account)
+      question = @survey.questions.find(k)
+      case question.type
+      when 'radio_buttons'
+        if v == 'Other'
+          v = params[:o][k]
+        end
+      when 'check_boxes'
+        if v.include? 'Other'
+          v[v.index('Other')] = params[:o][k]
+        end
+      end
+      question.answers.create(:text => v, :account => current_account)
     }
     flash[:notice] = "Thanks for taking the survey."
     redirect (@survey.redirect_url || "/groups/#{@group.slug}")

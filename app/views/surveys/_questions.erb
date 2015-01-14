@@ -4,14 +4,17 @@
   </label>
   <div class="col-md-9">             
     <div id="questions">
-      <% f.fields_for :questions do |o| %>
+      <% f.fields_for :questions, @survey.questions.order('order asc') do |o| %>
         <div class="question">
+          <%= o.number_field :order, :class => 'form-control', :placeholder => 'Order' %>
           <%= o.text_field :text, :class => 'form-control', :placeholder => 'Question text' %>
           <%= o.text_field :help, :class => 'form-control', :placeholder => 'Help text' %>
           <%= o.select :type, :class => 'form-control', :options => Question.types %>
-          <%= o.text_area :options, :class => 'form-control', :placeholder => 'Options (one per line)' %>
-          <% unless o.object.new_record? %>
-            <a style="margin-bottom: 10px;" class="btn btn-default" href="javascript:;"  onclick="$(this).children().last().prop('checked', true).closest('.question').hide()">
+          <%= o.text_area :options, :class => 'form-control', :placeholder => "Options (one per line, include 'Other' to allow free text)" %>          
+          <a class="btn btn-default" href="javascript:;" onclick="$($(this).parent()).insertBefore($(this).parent().prevAll('.question').first());
+              doOrder()"><i class="fa fa-long-arrow-up"></i> Move up</a>            
+             <% unless o.object.new_record? %>        
+            <a class="btn btn-default" href="javascript:;"  onclick="$(this).children().last().prop('checked', true).closest('.question').hide()">
               <i class="fa fa-times"></i>
               Delete question
               <%= o.check_box '_destroy', :style => 'display: none' %>
@@ -21,10 +24,18 @@
       <% end %>
     </div>
     <style>
-      .question { margin-bottom: 10px; border-bottom: 2px dotted #ddd }
+      .question { margin-bottom: 10px; border-bottom: 2px dotted #ddd; padding-bottom: 10px }
       .question .form-control { margin-bottom: 10px }
+      .question input[name*=order] { display: none }
     </style>
     <script>
+
+      function doOrder() {
+        $('#questions .question').each(function (i) {
+          $('input[name*=order]', this).val(i)
+        });
+      }
+
       $(function () {
 
         function toggleOptions() {
@@ -36,45 +47,66 @@
 
         $('.question select').change(toggleOptions);
         $('.question select').change();
-
         var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;">Add another question</a></div>');
         $(icon).click(function () {
-          var c = $('.question').length
-          var i = $('<input type="text" />');
-          i.attr('name', 'survey[questions_attributes][' + c + '][text]');
-          i.attr('id', 'survey_questions_attributes_' + c + '_text');
-          i.attr('placeholder', 'Question text');
-          i.addClass('form-control');
-          var ii = $('<input type="text" />');
-          ii.attr('name', 'survey[questions_attributes][' + c + '][help]');
-          ii.attr('id', 'survey_questions_attributes_' + c + '_help');
-          ii.attr('placeholder', 'Help text');
-          ii.addClass('form-control');          
-          var j = $('<select></select>');
-          j.attr('name', 'survey[questions_attributes][' + c + '][type]');
-          j.attr('id', 'survey_questions_attributes_' + c + '_type');
+          var l = $('.question').length
+
+          var moveUp = $('<a />')
+          moveUp.attr('class', 'btn btn-default')
+          moveUp.attr('href', 'javascript:;')
+          moveUp.attr('onclick', "$($(this).parent()).insertBefore($(this).parent().prevAll('.question').first());doOrder()");
+          moveUp.append('<i class="fa fa-long-arrow-up"></i>')
+          
+          var orderField = $('<input type="number" />');
+          orderField.attr('name', 'survey[questions_attributes][' + l + '][order]');
+          orderField.attr('id', 'survey_questions_attributes_' + l + '_order');
+          orderField.attr('placeholder', 'Order');
+          orderField.addClass('form-control');
+          
+          var questionTextField = $('<input type="text" />');
+          questionTextField.attr('name', 'survey[questions_attributes][' + l + '][text]');
+          questionTextField.attr('id', 'survey_questions_attributes_' + l + '_text');
+          questionTextField.attr('placeholder', 'Question text');
+          questionTextField.addClass('form-control');
+          
+          var helpTextField = $('<input type="text" />');
+          helpTextField.attr('name', 'survey[questions_attributes][' + l + '][help]');
+          helpTextField.attr('id', 'survey_questions_attributes_' + l + '_help');
+          helpTextField.attr('placeholder', 'Help text');
+          helpTextField.addClass('form-control');
+          
+          var questionTypeField = $('<select></select>');
+          questionTypeField.attr('name', 'survey[questions_attributes][' + l + '][type]');
+          questionTypeField.attr('id', 'survey_questions_attributes_' + l + '_type');
 <%  Question.types.each { |k,v| %>
-            j.append('<option value="<%=v%>"><%=k%></option>');
+            questionTypeField.append('<option value="<%=v%>"><%=k%></option>');
 <% } %>
-          j.addClass('form-control');
-          j.change(toggleOptions);
-          var k = $('<textarea></textarea>');
-          k.attr('name', 'survey[questions_attributes][' + c + '][options]');
-          k.attr('id', 'survey_questions_attributes_' + c + '_options');
-          k.attr('placeholder', 'Options (one per line)');
-          k.addClass('form-control');
-          var d = $('<div class="question"/>');
-          i.appendTo(d);
-          ii.appendTo(d);
-          j.appendTo(d);
-          k.appendTo(d);
-          d.appendTo('#questions');
-          j.change();
-          i.focus();
+          questionTypeField.addClass('form-control');
+          questionTypeField.change(toggleOptions);
+          
+          var optionsField = $('<textarea></textarea>');
+          optionsField.attr('name', 'survey[questions_attributes][' + l + '][options]');
+          optionsField.attr('id', 'survey_questions_attributes_' + l + '_options');
+          optionsField.attr('placeholder', "Options (one per line, include 'Other' to allow free text)");
+          optionsField.addClass('form-control');
+          
+          var q = $('<div class="question"/>');
+          orderField.appendTo(q);
+          questionTextField.appendTo(q);
+          helpTextField.appendTo(q);
+          questionTypeField.appendTo(q);
+          optionsField.appendTo(q);
+          moveUp.appendTo(q);
+          q.appendTo('#questions');
+          
+          questionTypeField.change();
+          doOrder();
+          questionTextField.focus();
         });
         icon.insertAfter('#questions');
         if ($('.question').length == 0)
           $(icon).click();
+        doOrder();
       });
     </script>
   </div>

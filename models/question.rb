@@ -6,6 +6,7 @@ class Question
   field :help, :type => String
   field :type, :type => String
   field :options, :type => String
+  field :order, :type => Integer
   
   belongs_to :survey, index: true
   
@@ -35,6 +36,7 @@ class Question
       :help => :text_area,
       :type => :select,
       :options => :text_area,
+      :order => :number,
       :survey_id => :lookup,
       :answers => :collection
     }

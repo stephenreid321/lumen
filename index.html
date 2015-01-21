@@ -29,7 +29,7 @@
       </header>
       <section>
         <h1>
-<a name="lumen" class="anchor" href="#lumen"><span class="octicon octicon-link"></span></a>Lumen</h1>
+<a id="lumen" class="anchor" href="#lumen" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lumen</h1>
 
 <p><a href="https://travis-ci.org/wordsandwriting/lumen"><img src="https://travis-ci.org/wordsandwriting/lumen.png?branch=master" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/wordsandwriting/lumen"><img src="https://codeclimate.com/github/wordsandwriting/lumen.png" alt="Code Climate"></a></p>
@@ -53,14 +53,16 @@
 <li>Google Docs integration</li>
 <li>Facebook-style walls</li>
 <li>Google Spreadsheets-like surveys feature</li>
-</ul><p>Lumen is written in Ruby using the <a href="http://padrinorb.com/">Padrino</a> framework. It was originally created for the <a href="http://neweconomyorganisersnetwork.org/">New Economy Organisers Network</a> (hosted by the <a href="http://neweconomics.org/">New Economics Foundation</a>) who kindly agreed to open source the project and continue to sponsor its development.</p>
+</ul>
+
+<p>Lumen is written in Ruby using the <a href="http://padrinorb.com/">Padrino</a> framework. It was originally created for the <a href="http://neweconomyorganisersnetwork.org/">New Economy Organisers Network</a> (hosted by the <a href="http://neweconomics.org/">New Economics Foundation</a>) who kindly agreed to open source the project and continue to sponsor its development.</p>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/top.jpg"><img src="http://wordsandwriting.github.io/lumen/images/top.jpg"></a></p>
 
 <p>See below for more images.</p>
 
 <h2>
-<a name="how-the-mailing-lists-work-in-brief" class="anchor" href="#how-the-mailing-lists-work-in-brief"><span class="octicon octicon-link"></span></a> How the mailing lists work, in brief</h2>
+<a id="how-the-mailing-lists-work-in-brief" class="anchor" href="#how-the-mailing-lists-work-in-brief" aria-hidden="true"><span class="octicon octicon-link"></span></a> How the mailing lists work, in brief</h2>
 
 <ol>
 <li>Your VPS (running Postfix/Virtualmin) receives a mail to <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>
@@ -68,16 +70,18 @@
 <li>The mail triggers a simple notification script on the VPS that in turn alerts your Heroku app to the fact there's a new message for the group</li>
 <li>Your Heroku app connects to the VPS via IMAP to fetch the new mail</li>
 <li>Your Heroku app distributes the message to group members via SMTP</li>
-</ol><h2>
-<a name="getting-up-and-running" class="anchor" href="#getting-up-and-running"><span class="octicon octicon-link"></span></a>Getting up and running</h2>
+</ol>
+
+<h2>
+<a id="getting-up-and-running" class="anchor" href="#getting-up-and-running" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting up and running</h2>
 
 <h3>
-<a name="1-register-a-domain" class="anchor" href="#1-register-a-domain"><span class="octicon octicon-link"></span></a>1. Register a domain</h3>
+<a id="1-register-a-domain" class="anchor" href="#1-register-a-domain" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Register a domain</h3>
 
 <p>We'll add the DNS records shortly.</p>
 
 <h3>
-<a name="2-purchase-a-vps-and-set-up-virtualmin" class="anchor" href="#2-purchase-a-vps-and-set-up-virtualmin"><span class="octicon octicon-link"></span></a>2. Purchase a VPS and set up Virtualmin</h3>
+<a id="2-purchase-a-vps-and-set-up-virtualmin" class="anchor" href="#2-purchase-a-vps-and-set-up-virtualmin" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Purchase a VPS and set up Virtualmin</h3>
 
 <p>Purchase a VPS (Try <a href="http://www.ramnode.com/">RamNode</a> or <a href="http://www.digitalocean.com">Digital Ocean</a>, 512mb RAM should do). Use <code>mail.yourdomain.org</code> as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. SSH into the VPS and install Virtualmin with:</p>
 
@@ -89,7 +93,7 @@ chmod +x install.sh
 <p>When the install is finished, visit https://{your VPS IP}:10000. Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password. Go to 'Edit Users' an create a user <a href="mailto:no-reply@yourdomain.org">no-reply@yourdomain.org</a> with the same password again.</p>
 
 <h3>
-<a name="3-push-code-to-heroku" class="anchor" href="#3-push-code-to-heroku"><span class="octicon octicon-link"></span></a>3. Push code to Heroku</h3>
+<a id="3-push-code-to-heroku" class="anchor" href="#3-push-code-to-heroku" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Push code to Heroku</h3>
 
 <pre><code>git clone https://github.com/wordsandwriting/lumen.git
 cd lumen
@@ -111,7 +115,7 @@ git push yourappname master
 <p>(See <a href="https://github.com/heroku/platform-api">https://github.com/heroku/platform-api</a> for details of how to generate your Heroku OAuth token.)</p>
 
 <h3>
-<a name="4-set-dns" class="anchor" href="#4-set-dns"><span class="octicon octicon-link"></span></a>4. Set DNS</h3>
+<a id="4-set-dns" class="anchor" href="#4-set-dns" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Set DNS</h3>
 
 <ul>
 <li>Point <a href="http://www">www</a>. to Heroku <code>www.yourdomain.org CNAME yourappname.herokuapp.com</code>
@@ -122,8 +126,10 @@ git push yourappname master
 <li>SPF <code>yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"</code>
 </li>
 <li>DKIM: Visit Email Messages &gt; DomainKeys Identified Mail in Virtualmin. Set 'Reject incoming email with invalid DKIM signature?' to 'No' and enter yourdomain.org to 'Additional domains to sign for'. Then add the record under 'DNS records for additional domains'.</li>
-</ul><h3>
-<a name="5-rake-tasks" class="anchor" href="#5-rake-tasks"><span class="octicon octicon-link"></span></a>5. Rake tasks</h3>
+</ul>
+
+<h3>
+<a id="5-rake-tasks" class="anchor" href="#5-rake-tasks" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Rake tasks</h3>
 
 <p>Run <code>heroku run rake languages:default[English,en]</code> to set a default language and <code>heroku run rake mi:create_indexes</code> to create the database indexes. Open the Scheduler add-on with <code>heroku addons:open scheduler</code> and add the following tasks:</p>
 
@@ -134,12 +140,12 @@ rake cleanup 4am
 </code></pre>
 
 <h3>
-<a name="6-configuration" class="anchor" href="#6-configuration"><span class="octicon octicon-link"></span></a>6. Configuration</h3>
+<a id="6-configuration" class="anchor" href="#6-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. Configuration</h3>
 
 <p>Visit <a href="http://www.yourdomain.org">www.yourdomain.org</a> and change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration. You're done!</p>
 
 <h2>
-<a name="switching-mail-servers" class="anchor" href="#switching-mail-servers"><span class="octicon octicon-link"></span></a>Switching mail servers</h2>
+<a id="switching-mail-servers" class="anchor" href="#switching-mail-servers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Switching mail servers</h2>
 
 <p>If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (<code>heroku run bash; padrino c</code>) and run:</p>
 
@@ -148,40 +154,40 @@ ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 </code></pre>
 
 <h2>
-<a name="gallery" class="anchor" href="#gallery"><span class="octicon octicon-link"></span></a> Gallery</h2>
+<a id="gallery" class="anchor" href="#gallery" aria-hidden="true"><span class="octicon octicon-link"></span></a> Gallery</h2>
 
 <h3>
-<a name="homepage-amalgamates-newsfeeds-from-all-groups" class="anchor" href="#homepage-amalgamates-newsfeeds-from-all-groups"><span class="octicon octicon-link"></span></a>Homepage (amalgamates newsfeeds from all groups)</h3>
+<a id="homepage-amalgamates-newsfeeds-from-all-groups" class="anchor" href="#homepage-amalgamates-newsfeeds-from-all-groups" aria-hidden="true"><span class="octicon octicon-link"></span></a>Homepage (amalgamates newsfeeds from all groups)</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/home.jpg"><img src="http://wordsandwriting.github.io/lumen/images/home.jpg"></a></p>
 
 <h3>
-<a name="home-calendar-amalgamates-events-from-all-groups" class="anchor" href="#home-calendar-amalgamates-events-from-all-groups"><span class="octicon octicon-link"></span></a>Home calendar (amalgamates events from all groups)</h3>
+<a id="home-calendar-amalgamates-events-from-all-groups" class="anchor" href="#home-calendar-amalgamates-events-from-all-groups" aria-hidden="true"><span class="octicon octicon-link"></span></a>Home calendar (amalgamates events from all groups)</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/calendar.jpg"><img src="http://wordsandwriting.github.io/lumen/images/calendar.jpg"></a></p>
 
 <h3>
-<a name="a-group" class="anchor" href="#a-group"><span class="octicon octicon-link"></span></a>A group</h3>
+<a id="a-group" class="anchor" href="#a-group" aria-hidden="true"><span class="octicon octicon-link"></span></a>A group</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/group.jpg"><img src="http://wordsandwriting.github.io/lumen/images/group.jpg"></a></p>
 
 <h3>
-<a name="a-group-digest" class="anchor" href="#a-group-digest"><span class="octicon octicon-link"></span></a>A group digest</h3>
+<a id="a-group-digest" class="anchor" href="#a-group-digest" aria-hidden="true"><span class="octicon octicon-link"></span></a>A group digest</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/digest.jpg"><img src="http://wordsandwriting.github.io/lumen/images/digest.jpg"></a></p>
 
 <h3>
-<a name="a-groups-map" class="anchor" href="#a-groups-map"><span class="octicon octicon-link"></span></a>A group's map</h3>
+<a id="a-groups-map" class="anchor" href="#a-groups-map" aria-hidden="true"><span class="octicon octicon-link"></span></a>A group's map</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/map.jpg"><img src="http://wordsandwriting.github.io/lumen/images/map.jpg"></a></p>
 
 <h3>
-<a name="a-profile" class="anchor" href="#a-profile"><span class="octicon octicon-link"></span></a>A profile</h3>
+<a id="a-profile" class="anchor" href="#a-profile" aria-hidden="true"><span class="octicon octicon-link"></span></a>A profile</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/profile.jpg"><img src="http://wordsandwriting.github.io/lumen/images/profile.jpg"></a></p>
 
 <h3>
-<a name="email-accounts-on-virtualmin-corresponding-to-groups" class="anchor" href="#email-accounts-on-virtualmin-corresponding-to-groups"><span class="octicon octicon-link"></span></a>Email accounts on Virtualmin corresponding to groups</h3>
+<a id="email-accounts-on-virtualmin-corresponding-to-groups" class="anchor" href="#email-accounts-on-virtualmin-corresponding-to-groups" aria-hidden="true"><span class="octicon octicon-link"></span></a>Email accounts on Virtualmin corresponding to groups</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg"><img src="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg"></a></p>
       </section>

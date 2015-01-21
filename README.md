@@ -61,10 +61,10 @@ cd lumen
 heroku create yourappname
 git push heroku master
 heroku domains:add www.yourdomain.org
-heroku addons:add mongohq
+heroku addons:add mongolab
 heroku addons:add papertrail
 heroku addons:add scheduler
-heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` APP_NAME=yourappname HEROKU_OAUTH_TOKEN=youroauthtoken DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org
+heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` APP_NAME=yourappname HEROKU_OAUTH_TOKEN=youroauthtoken DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org MONGO_URL=`heroku config:get MONGOLAB_URI`
 ```
 
 (See [https://github.com/heroku/platform-api](https://github.com/heroku/platform-api) for details of how to generate your Heroku OAuth token.)
@@ -89,7 +89,7 @@ rake cleanup 4am
 
 ### 6. Configuration
 
-Visit www.yourdomain.org and change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration. You're done!
+Visit www.yourdomain.org for the first time. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration. You're done!
 
 ## Switching mail servers
 

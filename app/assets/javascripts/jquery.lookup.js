@@ -29,8 +29,11 @@
         initSelection: function (element, callback) {
           var id = $(element).val();
           if (id !== '') {
-            $.get(options['lookup_url'], {id: id}, function (data) {
-              callback(data);
+            var data = {};
+            data[$(element).attr('name')] = id;
+            data['qtype'] = options['qtype']
+            $.get(options['lookup_url'], data, function (data) {
+              callback(data['results'][0]);
             });
           }
         }

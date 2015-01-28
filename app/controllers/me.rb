@@ -24,8 +24,8 @@ Lumen::App.controllers do
         redirect back
       else
         flash[:notice] = "<strong>Great!</strong> Your account was updated successfully."
-        if @account.sign_ins.count == 1
-          redirect (@account.memberships.first.try(:group).try(:redirect_after_first_profile_save) || '/')
+        if @account.sign_ins.count == 1 and @account.memberships.count == 1
+          redirect (@account.memberships.first.group.try(:redirect_after_first_profile_save) || '/')
         else
           redirect '/me/edit'
         end

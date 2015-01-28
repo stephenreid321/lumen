@@ -18,7 +18,7 @@
     });
   </script>
 
-  <%= hidden_field_tag :organisation_id, :id => 'organisation_id' %>
+  <%= hidden_field_tag :organisation_id, :id => 'organisation_id', :value => params[:organisation_id] %>
 
   <script>
     $(function () {
@@ -35,7 +35,7 @@
 
   <% if !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
 
-    <%= hidden_field_tag :account_tag_id, :id => 'account_tag_id' %>
+    <%= hidden_field_tag :account_tag_id, :id => 'account_tag_id', :value => params[:account_tag_id] %>
 
     <script>
       $(function () {

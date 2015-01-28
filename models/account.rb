@@ -68,7 +68,7 @@ class Account
   before_validation :join_groups_via_profile
   def join_groups_via_profile
     if @group_ids
-      current_group_ids = memberships.map(&:group_id).map(&:to_s) & GroupType.where(:join_groups_via_profile => true).map(&:groups).flatten.map(&:id).map(&:to_s)
+      current_group_ids = memberships.map(&:group).select { |group| group.group_type.try(:join_groups_via_profile) }.map(&:id).map(&:to_s)
       groups_to_leave = current_group_ids - @group_ids
       groups_to_join = @group_ids - current_group_ids
       groups_to_leave.each { |group_id| memberships.find_by(group_id: group_id).try(:destroy) }

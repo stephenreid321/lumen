@@ -31,12 +31,14 @@ Lumen::App.controllers do
       :REQUIRE_ACCOUNT_LOCATION => ['Requires the completion of the location field on account profiles'],
       :REQUIRE_ACCOUNT_AFFILIATIONS => ['Requires some affiliations on account profiles'],
       :GROUP_CREATION_BY_ADMINS_ONLY => ['Only allow admins to create new groups'],
+      :GROUPS_TO_JOIN_ON_FIRST_SIGN_IN => 'Comma-separated list of group slugs. People are automatically made members of these groups upon first sign-in',
           
       :HIDE_SEARCH_MEMBERSHIPS => ['Hides group memberships on profile search results'],
       :HIDE_SEARCH_TAGS => ['Hides tags on profile search results'],
       :HIDE_ORGANISATIONS_TAB => ['Hides the \'organisations\' tab'],
       :HIDE_SECTORS_TAB => ['Hides the \'sectors\' tab'],
       :HIDE_DIRECTORY_TAB => ['Hides the \'All groups\' tab'],
+      :HIDE_GROUP_TYPE_TABS => ['Hides tabs for group types'],
       :HIDE_MAP_FORM => ['Hides map form'],
       :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],
       

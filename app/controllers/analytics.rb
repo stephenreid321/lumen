@@ -1,6 +1,10 @@
 Lumen::App.controllers do
-
+  
   get '/analytics' do
+    redirect '/analytics/cumulative_totals'
+  end
+
+  get '/analytics/cumulative_totals' do
     site_admins_only!      
     @models = [ConversationPost, Account, Event, PageView].select { |model| model.count > 0 }
     @collections = @models.map { |model| model.order_by(:created_at.asc) }            
@@ -14,5 +18,10 @@ Lumen::App.controllers do
     @collections = @collection_names.map { |collection_name| @group.send(collection_name).order_by(:created_at.asc) }      
     erb :'analytics/analytics'
   end 
+  
+  get '/analytics/page_views' do
+    site_admins_only!  
+    erb :'analytics/page_views'    
+  end
   
 end

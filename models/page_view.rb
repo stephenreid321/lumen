@@ -17,4 +17,13 @@ class PageView
     }
   end
   
+  def self.by_page
+    pages = {}
+    PageView.each { |page_view|
+      pages[page_view.path] = [] if !pages[page_view.path]
+      pages[page_view.path] << page_view
+    }
+    pages.sort_by { |k,v| -v.count }
+  end
+  
 end

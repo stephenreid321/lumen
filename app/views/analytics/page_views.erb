@@ -1,0 +1,27 @@
+
+<%= partial :'analytics/header' %>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Path</th>
+      <th>Page views</th>
+    </tr>
+    <% max = nil; PageView.by_page[0..99].each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end; %>
+    
+      <tr>
+        <td style="width: 300px">
+          <a href="<%=k%>"><%=k%></a>
+        </td>
+        <td>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width:<%="#{100*(begin; v.length/max; rescue; raise "#{k} - #{v.length} - #{max}"; end)}%"%>">
+              <%=v.length%>
+            </div>
+          </div>        
+        </td>
+      </tr>
+      
+    <% } %>
+</table>

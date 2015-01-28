@@ -15,6 +15,12 @@ ul.nav.nav-tabs { width: 100% }
 .nav-tabs > li > a { font-size: 11px }
 .nav-tabs > li > a > i { font-size: 14px }
 
+ul.admin-options { margin-top: 5px; padding: 8px 15px; list-style-type: none; background: #f8f8f8 }
+ul.admin-options li { display: inline-block; padding: 0px 8px }
+ul.admin-options li:first-child { padding-left: 0 }
+ul.admin-options li a { color: black; text-decoration: none; opacity: 0.25 }
+ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
+
 table a, .table a { text-decoration: none }
 table a:hover, .table a:hover { text-decoration: underline }
 

@@ -71,7 +71,6 @@ Lumen::App.controllers do
           session['account_id'] = account.id
           flash[:notice] = "Signed in!"
           if account.sign_ins.count == 1
-            account.memberships.where(:status => 'pending').each { |membership| membership.update_attribute(:status, 'confirmed') }
             redirect '/me/edit'
           elsif session[:return_to]
             redirect session[:return_to]

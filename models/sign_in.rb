@@ -10,4 +10,10 @@ class SignIn
     }
   end  
   
+  after_create do
+    if account.sign_ins.count == 1
+      account.memberships.where(:status => 'pending').each { |membership| membership.update_attribute(:status, 'confirmed') }
+    end
+  end
+  
 end

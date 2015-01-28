@@ -34,7 +34,7 @@
       </td>
     </tr>
 
-    <% max = nil; include = Hash[hash.sort_by { |k,v| v.length }.reverse[0..9]]; include[current_account.id] = hash[current_account.id] if hash[current_account.id]; include.sort_by { |k,v| v.length }.reverse.each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end; k = Account.find(k) %>
+    <% max = nil; include = Hash[hash.sort_by { |k,v| v.length }.reverse[0..9]]; include[current_account.id] = hash[current_account.id] if current_account and hash[current_account.id]; include.sort_by { |k,v| v.length }.reverse.each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end; k = Account.find(k) %>
 
       <% if i == 10 %>
         <tr>
@@ -45,7 +45,7 @@
       <% end %>
 
       <tr>
-        <td style="width: 170px; <% if k == current_account %> background: #FFF2B8 <% end %>">
+        <td style="width: 170px; <% if current_account and k == current_account %> background: #FFF2B8 <% end %>">
           <div class="media">
             <span class="pull-left" >      
               <a href="/accounts/<%=k.id%>">
@@ -57,7 +57,7 @@
             </div>
           </div>           
         </td>
-        <td <% if k == current_account %> style="background: #FFF2B8" <% end %>  >
+        <td <% if current_account and k == current_account %> style="background: #FFF2B8" <% end %>  >
           <div class="progress">
             <div class="progress-bar" role="progressbar" style="width:<%="#{100*(v.length/max)}%"%>">
               <%=v.length%>

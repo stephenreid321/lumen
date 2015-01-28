@@ -1,13 +1,15 @@
 <h2>Docs for <%=@group ? @group.slug : 'your groups'%></h2>
 
 
-<% form_tag (@group ? "/groups/#{@group.slug}/docs/new" : "/docs/new"), :class => 'form-inline' do %>
-  <label>Add a doc:</label>
-  <%= text_field_tag :url, :class => 'form-control', :placeholder => 'Google Doc URL' %>
-  <% if !@group %>
-    Group <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "this.form.action = '/groups/' + $(this).val() + '/docs/new'" %>
+<% if current_account and @group.memberships.find_by(account: current_account) %>
+  <% form_tag (@group ? "/groups/#{@group.slug}/docs/new" : "/docs/new"), :class => 'form-inline' do %>
+    <label>Add a doc:</label>
+    <%= text_field_tag :url, :class => 'form-control', :placeholder => 'Google Doc URL' %>
+    <% if !@group %>
+      Group <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "this.form.action = '/groups/' + $(this).val() + '/docs/new'" %>
+    <% end %>
+    <button class="btn btn-primary"><i class="fa fa-plus"></i> Add doc</button>
   <% end %>
-  <button class="btn btn-primary"><i class="fa fa-plus"></i> Add doc</button>
 <% end %>
 
 <table style="margin-top: 1em" class="table table-hover">

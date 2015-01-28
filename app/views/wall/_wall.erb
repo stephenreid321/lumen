@@ -8,15 +8,19 @@
 
 <div style="background: #F5F5F5; padding: 10px;">
 
-  <% if current_account %>
+  <% if !@group or (current_account and @group.memberships.find_by(account: current_account)) %>
     <%= partial :'wall/compose' %>
   <% end %>
 
-  <% @wall_posts.each { |wall_post| %>
-    <%= partial :'wall/wall_post', :object => wall_post %>
-  <% } %>
+  <% if @wall_posts.count == 0  %>
+    No posts
+  <% else %>
+    <% @wall_posts.each { |wall_post| %>
+      <%= partial :'wall/wall_post', :object => wall_post %>
+    <% } %>
 
-  <%= will_paginate @wall_posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>  
+    <%= will_paginate @wall_posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>  
+  <% end %>
 
 </div>
 

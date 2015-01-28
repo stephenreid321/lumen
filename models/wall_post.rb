@@ -26,7 +26,8 @@ class WallPost
       :url => :text,
       :description => :text_area,
       :picture => :text,
-      :player => :text
+      :player => :text,
+      :file => :file
     }
   end
 

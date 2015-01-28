@@ -21,6 +21,14 @@
     <% end %>
   </p>
 
+  <% if wall_post.file_name %>
+    <% if %w{png jpg gif}.any? { |x| wall_post.file_name.downcase.ends_with? x } %>
+      <img style="width: 100%;" src="<%=wall_post.file.url%>">
+    <% else %>
+      <i class="fa fa-paperclip"></i> <a href="<%=wall_post.file.url%>"><%=wall_post.file_name%></a>
+    <% end %>
+  <% end %>
+
   <% if wall_post.url %>
     <%= partial :'wall/opengraph', :locals => {:title => wall_post.title, :url => wall_post.url, :description => wall_post.description, :player => wall_post.player, :picture => wall_post.picture} %>
   <% end %>

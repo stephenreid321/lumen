@@ -18,7 +18,12 @@
       <% } %>
       <% unless ENV['HIDE_SEARCH_TAGS'] %>
         <% if account.account_tagships.count > 0 %>
-          <li><i title="<%=I18n.t(:account_tagships).capitalize%>" class="fa fa-li fa-tags"></i><%account.account_tagships.each { |account_tagship|%><span class="label label-default" style="text-indent: 0"><%=account_tagship.account_tag.name%></span> <% } %></li>
+          <li>
+            <i title="<%=I18n.t(:account_tagships).capitalize%>" class="fa fa-li fa-tags"></i>
+            <% account.account_tagships.each { |account_tagship|%>
+              <a href="/network?account_tag_id=<%=account_tagship.account_tag_id%>" class="label label-primary" style="text-indent: 0"><%=account_tagship.account_tag.name%></a>
+            <% } %>
+          </li>
         <% end %>    
       <% end %>
       <% Provider.registered.each { |provider| %>

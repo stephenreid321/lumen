@@ -32,8 +32,11 @@
             var data = {};
             data[$(element).attr('name')] = id;
             data['qtype'] = options['qtype']
-            $.get(options['lookup_url'], data, function (data) {
-              callback(data['results'][0]);
+            $.get(options['lookup_url'], data, function (data) {              
+              var result = data['results'].filter(function(result) {
+                return result['id'] == id
+              })[0]
+              callback(result);
             });
           }
         }

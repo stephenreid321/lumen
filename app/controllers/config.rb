@@ -65,6 +65,8 @@ Lumen::App.controllers do
 
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
       :AIRBRAKE_API_KEY => 'Airbrake API key',
+      
+      :GOOGLE_ANALYTICS_TRACKING_ID => 'Google Analytics tracking ID',
             
       :BCC_EACH => ['Send individual BCCs to conversation post subscribers (experimental)'],
       :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)',

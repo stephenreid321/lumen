@@ -19,6 +19,11 @@ Lumen::App.controllers do
     erb :'analytics/analytics'
   end 
   
+  get '/analytics/sign_ins' do
+    site_admins_only!  
+    erb :'analytics/sign_ins'    
+  end  
+  
   get '/analytics/page_views' do
     site_admins_only!  
     erb :'analytics/page_views'    

@@ -22,7 +22,7 @@
   </p>
 
   <% if wall_post.file_name %>
-    <% if %w{png jpg gif}.any? { |x| wall_post.file_name.downcase.ends_with? x } %>
+    <% if %w{png jpg gif}.any? { |x| wall_post.file_name.downcase.ends_with? ".#{x}" } %>
       <img style="width: 100%;" src="<%=wall_post.file.url%>">
     <% else %>
       <i class="fa fa-paperclip"></i> <a href="<%=wall_post.file.url%>"><%=wall_post.file_name%></a>

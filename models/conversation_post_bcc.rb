@@ -4,15 +4,15 @@ class ConversationPostBcc
    
   belongs_to :conversation_post, index: true
   
-  field :emails, :type => Array
   field :delivered_at, :type => Time
   field :message_id, :type => String
   
-  validates_presence_of :emails, :conversation_post
+  has_many :conversation_post_bcc_recipients, :dependent => :destroy
+  
+  validates_presence_of :conversation_post
     
   def self.admin_fields
     {
-      :emails => :text_area,
       :delivered_at => :datetime,
       :message_id => :text,
       :conversation_post_id => :lookup
@@ -20,8 +20,15 @@ class ConversationPostBcc
   end
   
   def read_receipt!
-    conversation_post.conversation_post_read_receipts.create(account: Account.find_by(email: /^#{Regexp.escape(emails.first)}$/i))
+    conversation_post.conversation_post_read_receipts.create(account: conversation_post_bcc_recipients.first.account)
   end
+
+  attr_accessor :accounts
+  before_validation do
+    accounts.each { |account|
+      conversation_post_bcc_recipients.build account: account
+    }
+  end  
             
   after_create :send_email
   def send_email
@@ -48,7 +55,7 @@ class ConversationPostBcc
     conversation_post.attachments.each { |attachment|        
       mail.add_file(:filename => attachment.file_name, :content => attachment.file.data)
     }    
-    mail.bcc = emails
+    mail.bcc = conversation_post_bcc_recipients.map(&:email)
     mail = mail.deliver
     update_attribute(:message_id, mail.message_id)
     update_attribute(:delivered_at, Time.now)

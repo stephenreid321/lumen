@@ -12,6 +12,7 @@ class ConversationPost
   belongs_to :account, index: true
   
   has_many :conversation_post_bccs, :dependent => :destroy
+  has_many :conversation_post_bcc_recipients, :dependent => :destroy
   has_many :conversation_post_read_receipts, :dependent => :destroy
   
   has_many :attachments, :dependent => :destroy
@@ -72,11 +73,11 @@ class ConversationPost
     from = account.email
     ConversationPost.dmarc_fail_domains.include?(from.split('@').last) ? group.email('-noreply') : from
   end    
-  
-  def emails_to_notify
+   
+  def accounts_to_notify
     Account.where(:id.in => 
         group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').only(:account_id).map(&:account_id) - conversation.conversation_mutes.only(:account_id).map(&:account_id)    
-    ).only(:email).map(&:email)
+    )
   end
         
   def send_notifications!
@@ -85,7 +86,7 @@ class ConversationPost
       heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
       heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_posts:send_notifications[#{id}]"})
     else
-      self.conversation_post_bccs.create(emails: emails_to_notify)
+      self.conversation_post_bccs.create(accounts: accounts_to_notify)
     end
   end
       

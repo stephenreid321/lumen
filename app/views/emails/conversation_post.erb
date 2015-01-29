@@ -39,7 +39,7 @@
         </span>
       </div>
 
-      <% if conversation_post_bcc.emails.length == 1 %>
+      <% if conversation_post_bcc.conversation_post_bcc_recipients.length == 1 %>
         <img src="<%=ENV['DOMAIN']%>/conversation_post_bccs/<%=conversation_post_bcc.id%>/read.gif" />
       <% end %>
   </body>

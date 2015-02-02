@@ -8,6 +8,7 @@ class Membership
   field :status, :type => String
   field :reminder_sent, :type => Time
   field :welcome_email_sent, :type => Boolean
+  field :muted, :type => Boolean
   
   belongs_to :added_by, index: true, class_name: "Account", inverse_of: :memberships_added
   belongs_to :account, index: true, class_name: "Account", inverse_of: :memberships
@@ -25,6 +26,7 @@ class Membership
       :receive_membership_requests => :check_box,
       :reminder_sent => :datetime,
       :welcome_email_sent => :check_box,
+      :muted => :check_box,
       :status => :select,
       :notification_level => :select
     }

@@ -16,6 +16,7 @@ class ConversationPost
   has_many :conversation_post_read_receipts, :dependent => :destroy
   
   has_many :attachments, :dependent => :destroy
+  accepts_nested_attributes_for :attachments
   has_many :plus_ones, :dependent => :destroy
   
   validates_presence_of :body, :account, :conversation, :group
@@ -43,9 +44,23 @@ class ConversationPost
     }
   end
   
+  attr_accessor :file
+  before_validation :set_attachment
+  def set_attachment
+    if self.file
+      self.attachments.build file: self.file
+      self.file = nil
+    end  
+  end
+  
   def account_name
     account.name
   end
+  
+  before_validation :check_membership_is_not_muted
+  def check_membership_is_not_muted
+    errors.add(:account, 'is muted') if self.group.memberships.find_by(account: self.account, muted: true)
+  end   
   
   after_create :touch_conversation
   def touch_conversation

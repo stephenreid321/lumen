@@ -5,6 +5,7 @@ gem 'unicorn'
 gem 'padrino'
 gem 'rake'
 gem 'erubis'
+gem 'rack', '1.5.2'
 
 # Admin
 gem 'will_paginate', github: 'mislav/will_paginate'
@@ -12,7 +13,7 @@ gem 'activate-tools', github: 'wordsandwriting/activate-tools'
 gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 
 # Data storage
-gem 'mongoid', github: 'mongoid/mongoid'
+gem 'mongoid'
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
 
@@ -42,7 +43,6 @@ gem 'ri_cal', github: 'espen/ri_cal'
 gem 'geocoder'
 gem 'yui-compressor'
 gem 'platform-api'
-gem 'incoming'
 
 group :test do
   gem 'minitest-rg'

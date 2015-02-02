@@ -18,6 +18,7 @@ $(function () {
         ],
         height: 200
       });
+      $(textarea).prop('required', false);
       $(summernote).code($(textarea).val());
       $(textarea).addClass('wysified').hide();
       $(textarea.form).submit(function () {
@@ -37,11 +38,20 @@ $(function () {
     });
   }
 
+  function placeholdersOnly() {
+    $('form.placeholders-only label').each(function () {
+      $(this).next().children().first().attr('placeholder', $.trim($(this).text()))
+      $(this).hide()
+    });
+  }
+
   $(document).ajaxComplete(function () {
     wysify();
     containedPagination();
+    placeholdersOnly();
   });
   wysify();
+  placeholdersOnly();
 
   $(window).resize(function () {
     if (document.documentElement.clientWidth < 992) {

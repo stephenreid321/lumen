@@ -23,19 +23,22 @@ Lumen::App.controllers do
     end
   end
   
-  post '/groups/:slug/new_conversation' do
+  post '/groups/:slug/conversations' do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
-    ((flash[:error] = %Q{Please provide a subject and body}) and redirect back) unless (params[:subject] and params[:body])
-    @conversation = @group.conversations.create!(subject: params[:subject], account: current_account)
-    @conversation_post = @conversation.conversation_posts.create!(:body => params[:body], :account => current_account)        
-    if params[:attachment]
-      @conversation_post.attachments.create! :file => params[:attachment]
-    end    
-    @conversation_post.send_notifications!
-    redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
+    @conversation = @group.conversations.build(params[:conversation])
+    @conversation.body ||= ''
+    @conversation.account = current_account
+    if @conversation.save
+      @conversation_post = @conversation.conversation_posts.first
+      @conversation_post.send_notifications!
+      redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the conversation from being created."
+      erb :'conversations/build'      
+    end
   end   
-    
+      
   get '/conversations/:slug' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     membership_required!(@conversation.group) unless @conversation.group.open?
@@ -53,16 +56,19 @@ Lumen::App.controllers do
     end
   end
   
-  post '/conversations/:slug/post' do
+  post '/conversations/:slug' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     membership_required!(@conversation.group)
-    ((flash[:error] = %Q{Please provide a body}) and redirect back) unless params[:body]
-    @conversation_post = @conversation.conversation_posts.create!(:body => params[:body], :account => current_account)
-    if params[:attachment]
-      @conversation_post.attachments.create! :file => params[:attachment]
+    @membership = @conversation.group.memberships.find_by(account: current_account)
+    @conversation_post = @conversation.conversation_posts.build(params[:conversation_post])
+    @conversation_post.account = current_account
+    if @conversation_post.save
+      @conversation_post.send_notifications!
+      redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the post from being created."
+      erb :'conversations/conversation'      
     end
-    @conversation_post.send_notifications!
-    redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
   end
   
   get '/conversations/:slug/hide' do

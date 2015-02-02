@@ -1,0 +1,19 @@
+
+<ol class="breadcrumb">
+  <li><a href="/groups">Groups</a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/conversations">Conversations</a>    
+  </li>  
+  <li class="active">
+    New conversation
+  </li>    
+</ol>
+
+<div class="row" style="margin-top: 10px">
+  <div class="col-md-6 col-md-offset-3">
+    <%= partial :'conversations/build' %>
+  </div>
+</div>

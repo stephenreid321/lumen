@@ -20,6 +20,7 @@
 <ol class="breadcrumb">
   <li><a href="/groups">Groups</a></li>
   <li><a href="/groups/<%=@conversation.group.slug%>"><%=@conversation.group.slug%></a></li>
+  <li><a href="/groups/<%=@conversation.group.slug%>/conversations">Conversations</a></li>
   <li class="active"><%=@conversation.subject%></li>
 </ol>
 
@@ -34,9 +35,28 @@
     <% } %>
 
     <% if @membership %>
-      <%= partial :'conversations/build' %> 
-    <% end %>
 
+      <div class="media">
+        <span class="pull-left">
+          <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+        </span>
+        <div class="media-body">
+
+          <% form_for (@conversation_post ||= @conversation.conversation_posts.build), "/conversations/#{@conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
+            <%= f.wysiwyg_block :body, div_class: 'col-md-12' %>
+            <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
+              $('#attach').show();
+              $('#attach input').click();">Attach a file</a>
+            <div style="display:none;" id="attach">
+              <%= f.file_block :file, div_class: 'col-md-12' %>
+            </div>
+            <button type="submit" class="btn btn-default">Post</button>
+          <% end %>          
+
+        </div>
+      </div> 
+
+    <% end %>
 
 
   </div>

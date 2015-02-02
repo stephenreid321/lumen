@@ -6,6 +6,7 @@ class Conversation
   belongs_to :account, index: true
   
   has_many :conversation_posts, :dependent => :destroy
+  accepts_nested_attributes_for :conversation_posts
   has_many :conversation_mutes, :dependent => :destroy
   
   field :subject, :type => String
@@ -28,6 +29,17 @@ class Conversation
     end
   end
   
+  attr_accessor :body, :file
+  before_validation :set_conversation_post
+  def set_conversation_post
+    if self.body
+      conversation_post = self.conversation_posts.build body: self.body, account: self.account
+      if self.file
+        conversation_post.attachments.build file: self.file
+      end
+    end
+  end
+    
   before_validation :ensure_not_duplicate
   def ensure_not_duplicate
     if most_recent = Conversation.order_by(:created_at.desc).limit(1).first

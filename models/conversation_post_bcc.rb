@@ -22,7 +22,7 @@ class ConversationPostBcc
   end
   
   def read_receipt!
-    conversation_post.conversation_post_read_receipts.create(account: conversation_post_bcc_recipients.first.account)
+    conversation_post.conversation_post_read_receipts.create(account: conversation_post_bcc_recipients.first.try(:account))
   end
 
   attr_accessor :accounts

@@ -86,7 +86,11 @@ class ConversationPost
   def from_address
     group = conversation.group
     from = account.email
-    ConversationPost.dmarc_fail_domains.include?(from.split('@').last) ? group.email('-noreply') : from
+    if ENV['HIDE_ACCOUNT_EMAIL'] or ConversationPost.dmarc_fail_domains.include?(from.split('@').last)
+      group.email('-noreply')
+    else
+      from
+    end
   end    
    
   def accounts_to_notify

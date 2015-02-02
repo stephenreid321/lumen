@@ -41,6 +41,7 @@ Lumen::App.controllers do
       :HIDE_GROUP_TYPE_TABS => ['Hides tabs for group types'],
       :HIDE_MAP_FORM => ['Hides map form'],
       :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],
+      :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],
       
       :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from global-landing, news, wall, digest, map, docs, surveys, calendar)',      
       :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, wall, digest, map, docs, surveys, stats, calendar)',

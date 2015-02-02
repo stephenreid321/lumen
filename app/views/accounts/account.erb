@@ -28,8 +28,10 @@
         </li>
       <% elsif !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
         <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
-      <% end %>             
-      <li><i title="Email" class="fa fa-li fa-envelope"></i><a target="_blank" href="mailto:<%=@account.email%>"><%=@account.email%></a></li>         
+      <% end %>       
+      <% unless ENV['HIDE_ACCOUNT_EMAIL'] %>
+        <li><i title="Email" class="fa fa-li fa-envelope"></i><a target="_blank" href="mailto:<%=@account.email%>"><%=@account.email%></a></li>         
+      <% end %>
       <% if @account.phone %>
         <li><i title="Phone" class="fa fa-li fa-phone"></i><%=@account.phone%></li>
       <% else %>

@@ -6,9 +6,9 @@ class ConversationPostBccRecipient
   
   def self.admin_fields
     {
-      :email => :text,
-      :account => :lookup,
-      :conversation_post_bcc => :lookup
+      :email => :email,
+      :account_id => :lookup,
+      :conversation_post_bcc_id => :lookup
     }
   end  
   

@@ -27,9 +27,10 @@ class ConversationPostBcc
 
   attr_accessor :accounts
   before_validation do
-    accounts.each { |account|
+    self.accounts.each { |account|
       conversation_post_bcc_recipients.build account: account
     }
+    self.accounts = []
   end  
             
   after_create :send_email

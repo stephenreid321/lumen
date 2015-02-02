@@ -8,7 +8,7 @@
 
 <div style="background: #F5F5F5; padding: 10px;">
 
-  <% if !@group or (current_account and @group.memberships.find_by(account: current_account)) %>
+  <% if current_account and (!@group or @group.memberships.find_by(account: current_account)) %>
     <%= partial :'wall/compose' %>
   <% end %>
 

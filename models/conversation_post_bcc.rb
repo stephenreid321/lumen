@@ -8,6 +8,7 @@ class ConversationPostBcc
   field :message_id, :type => String
   
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
+  accepts_nested_attributes_for :conversation_post_bcc_recipients
   
   validates_presence_of :conversation_post
     
@@ -15,7 +16,8 @@ class ConversationPostBcc
     {
       :delivered_at => :datetime,
       :message_id => :text,
-      :conversation_post_id => :lookup
+      :conversation_post_id => :lookup,
+      :conversation_post_bcc_recipients => :collection
     }
   end
   

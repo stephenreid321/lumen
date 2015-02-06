@@ -142,6 +142,24 @@ Lumen::App.controllers do
     flash[:notice] = "#{@membership.account.name}'s admin rights were revoked"
     redirect back
   end   
+  
+  get '/groups/:slug/mute/:account_id' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    @membership = @group.memberships.find_by(account_id: params[:account_id])
+    @membership.update_attribute(:muted, true)
+    flash[:notice] = "#{@membership.account.name} was muted"
+    redirect back
+  end   
+  
+  get '/groups/:slug/unmute/:account_id' do
+    @group = Group.find_by(slug: params[:slug])
+    group_admins_only!
+    @membership = @group.memberships.find_by(account_id: params[:account_id])
+    @membership.update_attribute(:muted, false)
+    flash[:notice] = "#{@membership.account.name} was unmuted"
+    redirect back
+  end     
 
   get '/groups/:slug/set_notification_level/:account_id' do
     @group = Group.find_by(slug: params[:slug])

@@ -51,6 +51,7 @@ class ConversationPostBcc
     conversation_post = conversation_post_bcc.conversation_post
     conversation = conversation_post.conversation
     group = conversation.group
+    previous_conversation_post = conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1]
         
     Mail.defaults do
       delivery_method :smtp, group.smtp_settings
@@ -62,11 +63,14 @@ class ConversationPostBcc
     mail.sender = group.email('-noreply')
     mail.subject = conversation.conversation_posts.count == 1 ? "[#{group.slug}] #{conversation.subject}" : "Re: [#{group.slug}] #{conversation.subject}"
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
-    if ENV['BCC_EACH']
-      account = self.conversation_post_bcc_recipient.account
-      mail.in_reply_to = "<#{conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1].conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>"
-    else
-      mail.in_reply_to = "<#{conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1].try(:conversation_post_bcc).try(:message_id)}>"
+        
+    if previous_conversation_post
+      if ENV['BCC_EACH']
+        account = self.conversation_post_bcc_recipient.account
+        mail.in_reply_to = "<#{previous_conversation_post.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>"
+      else
+        mail.in_reply_to = "<#{previous_conversation_post.conversation_post_bcc.message_id}>"
+      end
     end
     mail.html_part do
       content_type 'text/html; charset=UTF-8'

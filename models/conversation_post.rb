@@ -15,6 +15,12 @@ class ConversationPost
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
   has_many :conversation_post_read_receipts, :dependent => :destroy
   
+  if !ENV['BCC_EACH']
+    def conversation_post_bcc
+      conversation_post_bccs.first
+    end
+  end
+  
   has_many :attachments, :dependent => :destroy
   accepts_nested_attributes_for :attachments
   has_many :plus_ones, :dependent => :destroy

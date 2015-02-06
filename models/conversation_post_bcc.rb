@@ -64,9 +64,9 @@ class ConversationPostBcc
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
     if ENV['BCC_EACH']
       account = self.conversation_post_bcc_recipient.account
-      mail.in_reply_to = "<#{conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc).limit(2).last.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>"
+      mail.in_reply_to = "<#{conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1].conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>"
     else
-      mail.in_reply_to = "<#{conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc).limit(2).last.try(:conversation_post_bcc).try(:message_id)}>"
+      mail.in_reply_to = "<#{conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1].try(:conversation_post_bcc).try(:message_id)}>"
     end
     mail.html_part do
       content_type 'text/html; charset=UTF-8'

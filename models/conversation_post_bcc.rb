@@ -54,7 +54,7 @@ class ConversationPostBcc
     mail.sender = group.email('-noreply')
     mail.subject = conversation.conversation_posts.count == 1 ? "[#{group.slug}] #{conversation.subject}" : "Re: [#{group.slug}] #{conversation.subject}"
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
-    mail.in_reply_to = "<#{ConversationPostBccRecipient.find_by(account: account, conversation_post: conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1]).conversation_post_bcc.message_id}>"
+    mail.in_reply_to = "<#{ConversationPostBccRecipient.find_by(account: account, conversation_post: conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1]).try(:conversation_post_bcc).try(:message_id)}>"
     mail.html_part do
       content_type 'text/html; charset=UTF-8'
       body ERB.new(File.read(Padrino.root('app/views/emails/conversation_post.erb'))).result(binding)

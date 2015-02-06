@@ -30,7 +30,7 @@ class ConversationPostBcc
   
   def read_receipt!
     if ENV['BCC_EACH']
-      conversation_post.conversation_post_read_receipts.create(account: conversation_post_bcc_recipient.account)
+      conversation_post.conversation_post_read_receipts.create(account: self.conversation_post_bcc_recipient.account)
     end
   end
 
@@ -64,7 +64,7 @@ class ConversationPostBcc
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
     if ENV['BCC_EACH']
       account = self.conversation_post_bcc_recipient.account
-      mail.in_reply_to = "<#{ConversationPostBccRecipient.find_by(account: account, conversation_post: conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc).limit(2).last).try(:conversation_post_bcc).try(:message_id)}>"
+      mail.in_reply_to = "<#{conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc).limit(2).last.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>"
     else
       mail.in_reply_to = "<#{conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc).limit(2).last.try(:conversation_post_bcc).try(:message_id)}>"
     end

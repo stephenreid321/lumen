@@ -1,7 +1,8 @@
 class ConversationPostBcc
   include Mongoid::Document
   include Mongoid::Timestamps
-   
+  
+  belongs_to :conversation, index: true
   belongs_to :conversation_post, index: true
   
   field :delivered_at, :type => Time
@@ -10,7 +11,7 @@ class ConversationPostBcc
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
   accepts_nested_attributes_for :conversation_post_bcc_recipients
   
-  validates_presence_of :conversation_post
+  validates_presence_of :conversation, :conversation_post
     
   def self.admin_fields
     {
@@ -27,6 +28,7 @@ class ConversationPostBcc
 
   attr_accessor :accounts
   before_validation do
+    self.conversation = self.conversation_post.conversation if self.conversation_post
     self.accounts.each { |account|
       conversation_post_bcc_recipients.build account: account
     }
@@ -39,7 +41,8 @@ class ConversationPostBcc
     # set locals for ERB binding
     conversation_post_bcc = self
     conversation_post = conversation_post_bcc.conversation_post
-    group = conversation_post.conversation.group
+    conversation = conversation_post.conversation
+    group = conversation.group
         
     Mail.defaults do
       delivery_method :smtp, group.smtp_settings
@@ -49,8 +52,9 @@ class ConversationPostBcc
     mail.to = group.email
     mail.from = "#{conversation_post.account.name} <#{conversation_post.from_address}>"
     mail.sender = group.email('-noreply')
-    mail.subject = conversation_post.conversation.conversation_posts.count == 1 ? "[#{group.slug}] #{conversation_post.conversation.subject}" : "Re: [#{group.slug}] #{conversation_post.conversation.subject}"
+    mail.subject = conversation.conversation_posts.count == 1 ? "[#{group.slug}] #{conversation.subject}" : "Re: [#{group.slug}] #{conversation.subject}"
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
+    mail.in_reply_to = "<#{ConversationPostBccRecipient.find_by(account: account, conversation_post: conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1]).conversation_post_bcc.message_id}>"
     mail.html_part do
       content_type 'text/html; charset=UTF-8'
       body ERB.new(File.read(Padrino.root('app/views/emails/conversation_post.erb'))).result(binding)

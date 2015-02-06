@@ -8,6 +8,8 @@ class Conversation
   has_many :conversation_posts, :dependent => :destroy
   accepts_nested_attributes_for :conversation_posts
   has_many :conversation_mutes, :dependent => :destroy
+  has_many :conversation_post_bccs, :dependent => :destroy
+  has_many :conversation_post_bcc_recipients, :dependent => :destroy
   
   field :subject, :type => String
   field :slug, :type => Integer

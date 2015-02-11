@@ -17,7 +17,7 @@ class ConversationPostBccRecipient
   belongs_to :conversation_post_bcc, index: true
   belongs_to :account, index: true
   
-  validates_presence_of :conversation, :conversation_post_bcc, :conversation_post, :account, :email
+  validates_presence_of :conversation, :conversation_post, :account, :email # :conversation_post_bcc
   
   before_validation do    
     self.conversation_post = self.conversation_post_bcc.conversation_post if self.conversation_post_bcc

@@ -30,7 +30,7 @@ class ConversationPostBcc
   
   def read_receipt!
     if ENV['BCC_EACH']
-      conversation_post.conversation_post_read_receipts.create(account: self.conversation_post_bcc_recipient.account)
+      conversation_post.conversation_post_read_receipts.create(account: self.conversation_post_bcc_recipient.try(:account))
     end
   end
 

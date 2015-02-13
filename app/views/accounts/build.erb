@@ -16,14 +16,29 @@
     <% form_for @account, @account.new_record? ? '/me/new' : '/me/edit', :id => 'me-form', :class => 'form-horizontal', :multipart => true do |f| %>
 
       <%= f.text_block :name %>
-      <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
+      <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+        <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
+      <% end %>
       <%= f.email_block :email %>
+
+      <%= eval(f('below-account-email')) %>
+
+      <% if ENV['SHOW_ACCOUNT_HEADLINE'] %>
+        <%= f.text_block :headline %>
+      <% end %>    
+      <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
+        <%= f.text_block :phone %>
+      <% end %>    
       <%= f.text_block :location, tip: eval(f('tip-location')) %>    
-      <%= f.text_block :phone %>
+      <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
+        <%= f.text_block :phone %>
+      <% end %>
       <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
         <%= f.url_block :website %>
       <% end %>
-      <%= f.select_block :time_zone %>
+      <% if !ENV['HIDE_ACCOUNT_TIME_ZONE'] %>
+        <%= f.select_block :time_zone %>
+      <% end %>
       <% if Language.count > 1 %>
         <%= f.select_block(:language_id, options: ['']+Language.all.map { |language| [language.name, language.id] }) %>
       <% end %>
@@ -57,7 +72,7 @@
       </script>
       <% Provider.registered.each { |provider| %>
         <div class="row" style="margin-bottom: 10px">
-          <div class="col-md-3" style="text-align: right"><i class="fa fa-<%=provider.icon%>"></i></div>
+          <div class="col-md-3" style="text-align: right"><%=provider.display_name%></div>
           <div class="col-md-8">   
             <div class="row">
               <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
@@ -73,7 +88,8 @@
               <% else %>
                 <span class="col-md-4" style="margin-top: 5px">Not connected</span>
                 <div class="col-md-3">
-                  <a class="popup btn btn-default" onclick="$('#me-form').append('<input type=\'hidden\' name=\'return\' value=\'1\' />').submit();" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+                  <a class="popup btn btn-default" onclick="$('#me-form').append('<input type=\'hidden\' name=\'return\' value=\'1\' />').submit();" href="/auth/<%=provider.omniauth_name%>">
+                    <i class="fa fa-<%=provider.icon%>"></i> Connect</a>
                 </div>
               <% end %>
             </div>

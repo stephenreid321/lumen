@@ -18,19 +18,23 @@
     });
   </script>
 
-  <%= hidden_field_tag :organisation_id, :id => 'organisation_id', :value => params[:organisation_id] %>
+  <% unless ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
 
-  <script>
-    $(function () {
-      $('#organisation_id').lookup({
-        lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
-        qtype: 'organisation',
-        placeholder: 'Filter by organisation'
-      }).on('change', function () {
-        $('#results-form').submit();
+    <%= hidden_field_tag :organisation_id, :id => 'organisation_id', :value => params[:organisation_id] %>
+
+    <script>
+      $(function () {
+        $('#organisation_id').lookup({
+          lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
+          qtype: 'organisation',
+          placeholder: 'Filter by organisation'
+        }).on('change', function () {
+          $('#results-form').submit();
+        });
       });
-    });
-  </script>  
+    </script>  
+
+  <% end %>
 
 
   <% if !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
@@ -42,7 +46,7 @@
         $('#account_tag_id').lookup({
           lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
           qtype: 'account_tag',
-          placeholder: 'Filter by area of expertise'
+          placeholder: 'Filter by <%=I18n.t(:account_tagship).capitalize%>'
         }).on('change', function () {
           $('#results-form').submit();
         });

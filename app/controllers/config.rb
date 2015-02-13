@@ -23,11 +23,8 @@ Lumen::App.controllers do
       :NOREPLY_NAME => "Name of email sender for general emails",
       :NOREPLY_SIG => "Email signature for general emails",
       :HELP_ADDRESS => 'Email address for general queries',
-
-      :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
+      :DEFAULT_TIME_ZONE => 'Default time zone e.g. London',
   
-      :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
-      :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],
       :REQUIRE_ACCOUNT_LOCATION => ['Requires the completion of the location field on account profiles'],
       :REQUIRE_ACCOUNT_AFFILIATIONS => ['Requires some affiliations on account profiles'],
       :GROUP_CREATION_BY_ADMINS_ONLY => ['Only allow admins to create new groups'],
@@ -40,8 +37,16 @@ Lumen::App.controllers do
       :HIDE_DIRECTORY_TAB => ['Hides the \'All groups\' tab'],
       :HIDE_GROUP_TYPE_TABS => ['Hides tabs for group types'],
       :HIDE_MAP_FORM => ['Hides map form'],
+            
+      :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
+      :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],      
+      :HIDE_ACCOUNT_AFFILIATIONS => ['Hides affiliations on account profiles'],
+      :SHOW_ACCOUNT_HEADLINE => ['Shows the headline field on account profiles'],
       :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],
-      :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],
+      :HIDE_ACCOUNT_PHONE => ['Hides the phone field on account profiles'],
+      :HIDE_ACCOUNT_TIME_ZONE => ['Hides the time zone field on account profiles'],
+      :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],      
+      :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
       
       :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from global-landing, news, wall, digest, map, docs, surveys, calendar)',      
       :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, wall, digest, map, docs, surveys, stats, calendar)',
@@ -80,6 +85,7 @@ Lumen::App.controllers do
       :'about' => 'Text of about page',
       :'sign-in' => 'Text displayed on sign in page',
       :'first-time' => 'Text displayed on account edit page upon first login',
+      :'below-account-email' => 'Text displayed on account edit page upon first login',
       :'global-landing-tab' => 'Landing tab that can be displayed via HOME_TAB_ORDER and GROUP_TAB_ORDER',
       :'public-homepage' => 'If defined, creates a public homepage with this HTML',
       :'head' => 'Extra content for &lt;head&gt;',

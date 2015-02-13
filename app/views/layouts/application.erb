@@ -75,11 +75,13 @@
                   <% } %>
                 <% end %>
               <% end %>
-              <% unless ENV['HIDE_ORGANISATIONS_TAB'] %>
-                <li><a href="/organisations"><i class="fa <%=ENV['ICON_ORGANISATIONS'] || 'fa-bullhorn'%>"></i> <%=I18n.t(:organisations).capitalize%></a></li>
-              <% end %>
-              <% unless ENV['HIDE_SECTORS_TAB'] %>
-                <li><a href="/sectors"><i class="fa <%=ENV['ICON_SECTORS'].try(:body) || 'fa-th-list'%>"></i> <%=I18n.t(:sectors).capitalize%></a></li>
+              <% unless ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+                <% unless ENV['HIDE_ORGANISATIONS_TAB'] %>
+                  <li><a href="/organisations"><i class="fa <%=ENV['ICON_ORGANISATIONS'] || 'fa-bullhorn'%>"></i> <%=I18n.t(:organisations).capitalize%></a></li>
+                <% end %>
+                <% unless ENV['HIDE_SECTORS_TAB'] %>
+                  <li><a href="/sectors"><i class="fa <%=ENV['ICON_SECTORS'].try(:body) || 'fa-th-list'%>"></i> <%=I18n.t(:sectors).capitalize%></a></li>
+                <% end %>
               <% end %>
             <%  end %>
             <%= eval(f('navbar')) %>

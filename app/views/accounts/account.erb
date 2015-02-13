@@ -3,7 +3,12 @@
     <img style="width: 100%" src="<%=@account.picture.try(:url) || '/images/silhouette.png' %>" />
   </div>
   <div class="col-md-5">
-    <h2 style="margin-top: 0"><%=@account.name%></h2>        
+    <h2 style="margin-top: 0"><%=@account.name%></h2>  
+    <% if ENV['SHOW_ACCOUNT_HEADLINE'] %>
+      <% if @account.headline %>
+        <p class="lead"><%=@account.headline%></p>
+      <% end %>
+    <% end %>
     <ul class="fa-ul">
       <% if @account.public_memberships.count > 0 %>
         <li>
@@ -11,9 +16,11 @@
           Member of <%= @account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %>
         </li>
       <% end %>
-      <% @account.affiliations.each { |affiliation|%>
-        <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
-      <% } %>          
+      <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+        <% @account.affiliations.each { |affiliation|%>
+          <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
+        <% } %>          
+      <% end %>
       <% if @account.location %>
         <li><i title="Location" class="fa fa-li fa-location-arrow"></i>Based in <%=@account.location%></li>
       <% else %>
@@ -29,13 +36,15 @@
       <% elsif !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
         <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
       <% end %>       
-      <% unless ENV['HIDE_ACCOUNT_EMAIL'] %>
+      <% if !ENV['HIDE_ACCOUNT_EMAIL'] %>
         <li><i title="Email" class="fa fa-li fa-envelope"></i><a target="_blank" href="mailto:<%=@account.email%>"><%=@account.email%></a></li>         
       <% end %>
-      <% if @account.phone %>
-        <li><i title="Phone" class="fa fa-li fa-phone"></i><%=@account.phone%></li>
-      <% else %>
-        <li><i style="opacity: 0.25" class="fa fa-li fa-phone"></i></li> &nbsp;
+      <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
+        <% if @account.phone %>
+          <li><i title="Phone" class="fa fa-li fa-phone"></i><%=@account.phone%></li>
+        <% else %>
+          <li><i style="opacity: 0.25" class="fa fa-li fa-phone"></i></li> &nbsp;
+        <% end %>
       <% end %>
       <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
         <% if @account.website %>

@@ -64,7 +64,7 @@ heroku domains:add www.yourdomain.org
 heroku addons:add mongolab
 heroku addons:add papertrail
 heroku addons:add scheduler
-heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` APP_NAME=yourappname HEROKU_OAUTH_TOKEN=youroauthtoken DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org MONGO_URL=`heroku config:get MONGOLAB_URI`
+heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` APP_NAME=yourappname HEROKU_OAUTH_TOKEN=youroauthtoken DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org DEFAULT_TIMEZONE=London MONGO_URL=`heroku config:get MONGOLAB_URI`
 ```
 
 (See [https://github.com/heroku/platform-api](https://github.com/heroku/platform-api) for details of how to generate your Heroku OAuth token.)

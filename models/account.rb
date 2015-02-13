@@ -13,6 +13,7 @@ class Account
   field :picture_uid, :type => String  
   field :phone, :type => String 
   field :website, :type => String 
+  field :headline, :type => String 
   field :location, :type => String 
   field :coordinates, :type => Array 
   field :translator, :type => Boolean
@@ -180,7 +181,7 @@ class Account
     update_attribute(:secret_token, ::BCrypt::Password.create(self.id)) if !self.secret_token
     self.secret_token
   end  
-  
+    
   def self.new_tips
     {
       :location => 'Your home location, to appear on maps'
@@ -196,6 +197,7 @@ class Account
       :name => :text,
       :email => :text,
       :secret_token => :text,
+      :headline => :text,
       :phone => :text, 
       :website => :text,
       :picture => :image,
@@ -219,7 +221,6 @@ class Account
   def self.human_attribute_name(attr, options={})  
     {
       :account_tag_ids => I18n.t(:account_tagships).capitalize,
-      :expertise => 'Areas of expertise',
       :password_confirmation => "Password again"
     }[attr.to_sym] || super  
   end     

@@ -54,6 +54,7 @@ class Translation
       :'members_in_this_group.other' => '%{count} members in this group',
       :'people_in_your_groups.one' => '1 person in your groups',
       :'people_in_your_groups.other' => '%{count} people in your groups',
+      :'mongoid.attributes.account.name' => 'Name',
       :'mongoid.attributes.account.location' => 'Location',
       :'mongoid.attributes.account.headline' => 'Headline'
     }

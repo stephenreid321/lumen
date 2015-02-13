@@ -2,12 +2,14 @@
 <div class="form-group <%= 'has-error' if !f.error_message_on(:account_tagships).blank? %>">
   <label class="control-label col-md-3">
     <%=I18n.t(:account_tagships).capitalize%>
-    <i title="e.g. talking to the media, fundraising" class="fa fa-question-circle" id="tip-tagships"></i>
-    <script>
-      $(function() {
-        $('#tip-tagships').tooltip({placement: 'right'});
-      });
-    </script>        
+    <% if Fragment.find_by(slug: 'tip-tagships') %>
+      <i id="tip-tagships" class="fa fa-question-circle" title="<%=eval(f('tip-tagships'))%>"></i>
+      <script>
+        $(function () {
+          $('#tip-tagships').tooltip({placement: 'right'});
+        });
+      </script>
+    <% end %>        
   </label>
   <div class="col-md-6">             
     <div id="account_tagships">

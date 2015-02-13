@@ -92,6 +92,7 @@ Lumen::App.controllers do
       :'navbar' => 'Extra content for the navbar',
       :'tip-name' => 'Tip for the name field on account edit page',
       :'tip-affiliations' => 'Tip for affiliations field on account edit page',
+      :'tip-tagships' => 'Tip for the areas of expertise field on account edit page',
       :'tip-email' => 'Tip for th email field on account edit page',
       :'below-account-email' => 'Text displayed on account edit page upon first login',      
       :'tip-full-name' => 'Tip for the full name field on account edit page',

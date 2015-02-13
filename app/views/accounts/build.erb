@@ -15,32 +15,32 @@
 
     <% form_for @account, @account.new_record? ? '/me/new' : '/me/edit', :id => 'me-form', :class => 'form-horizontal', :multipart => true do |f| %>
 
-      <%= f.text_block :name %>
+      <%= f.text_block :name, tip: eval(f('tip-name')) %>
       <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
         <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
       <% end %>
-      <%= f.email_block :email %>
+      <%= f.email_block :email, tip: eval(f('tip-email')) %>
 
       <%= eval(f('below-account-email')) %>
 
+      <% if ENV['SHOW_ACCOUNT_FULL_NAME'] %>
+        <%= f.text_block :full_name, tip: eval(f('tip-full-name')) %>
+      <% end %>    
       <% if ENV['SHOW_ACCOUNT_HEADLINE'] %>
-        <%= f.text_block :headline %>
-      <% end %>    
-      <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
-        <%= f.text_block :phone %>
-      <% end %>    
+        <%= f.text_block :headline, tip: eval(f('tip-headline')) %>
+      <% end %>      
       <%= f.text_block :location, tip: eval(f('tip-location')) %>    
       <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
-        <%= f.text_block :phone %>
+        <%= f.text_block :phone, tip: eval(f('tip-phone')) %>
       <% end %>
       <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
-        <%= f.url_block :website %>
+        <%= f.url_block :website, tip: eval(f('tip-website')) %>
       <% end %>
       <% if !ENV['HIDE_ACCOUNT_TIME_ZONE'] %>
-        <%= f.select_block :time_zone %>
+        <%= f.select_block :time_zone, tip: eval(f('tip-time-zone')) %>
       <% end %>
       <% if Language.count > 1 %>
-        <%= f.select_block(:language_id, options: ['']+Language.all.map { |language| [language.name, language.id] }) %>
+        <%= f.select_block(:language_id, tip: eval(f('tip-language')), options: ['']+Language.all.map { |language| [language.name, language.id] }) %>
       <% end %>
       <% if ENV['ACCOUNT_TAGS_PREDEFINED'] %>
         <% if AccountTag.count > 0  %>

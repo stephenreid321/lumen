@@ -4,6 +4,7 @@ class Account
   extend Dragonfly::Model
     
   field :name, :type => String
+  field :full_name, :type => String
   field :email, :type => String
   field :secret_token, :type => String
   field :crypted_password, :type => String
@@ -195,6 +196,7 @@ class Account
   def self.admin_fields
     {
       :name => :text,
+      :full_name => :text,
       :email => :text,
       :secret_token => :text,
       :headline => :text,

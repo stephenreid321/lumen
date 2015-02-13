@@ -85,13 +85,21 @@ Lumen::App.controllers do
       :'about' => 'Text of about page',
       :'sign-in' => 'Text displayed on sign in page',
       :'first-time' => 'Text displayed on account edit page upon first login',
-      :'below-account-email' => 'Text displayed on account edit page upon first login',
       :'global-landing-tab' => 'Landing tab that can be displayed via HOME_TAB_ORDER and GROUP_TAB_ORDER',
       :'public-homepage' => 'If defined, creates a public homepage with this HTML',
       :'head' => 'Extra content for &lt;head&gt;',
       :'navbar' => 'Extra content for the navbar',
+      :'tip-name' => 'Tip for the name field on account edit page',
       :'tip-affiliations' => 'Tip for affiliations field on account edit page',
-      :'tip-location' => 'Tip for location field on account edit page'
+      :'tip-email' => 'Tip for th email field on account edit page',
+      :'below-account-email' => 'Text displayed on account edit page upon first login',      
+      :'tip-full-name' => 'Tip for the full name field on account edit page',
+      :'tip-headline' => 'Tip for the headline field on account edit page',
+      :'tip-location' => 'Tip for the location field on account edit page',
+      :'tip-phone' => 'Tip for the phone field on account edit page',
+      :'tip-website' => 'Tip for the location field on account edit page',
+      :'tip-time-zone' => 'Tip for the time zone field on account edit page',
+      :'tip-language' => 'Tip for the language field on account edit page',
     }     
   end
   

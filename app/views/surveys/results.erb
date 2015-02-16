@@ -23,7 +23,7 @@
       <tr>
         <th></th>
         <th>Took survey</th>
-        <% @survey.questions.order('question_id asc').each { |question| %>
+        <% @survey.questions.order('id asc').each { |question| %>
           <th><%=question.text%></th>
         <% } %>
       </tr>

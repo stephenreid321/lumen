@@ -115,9 +115,9 @@ Lumen::App.controllers do
       erb :'surveys/results'
     when :csv
       CSV.generate do |csv|
-        csv << [nil,nil]+@survey.questions.map(&:text)
+        csv << [nil,nil]+@survey.questions.order('id asc').map(&:text)
         @survey.takers.each do |account|
-          csv << [account.name, @survey.answers.find_by(account: account).created_at] + @survey.questions.map { |question| question.answers.find_by(account: account).try(:text) }
+          csv << [account.name, @survey.answers.find_by(account: account).created_at] + @survey.answers.where(account: account).order('question_id asc').map { |answer| answer.try(:text) }
         end
       end     
     end      

@@ -30,3 +30,4 @@ class Survey
   end
       
 end
+

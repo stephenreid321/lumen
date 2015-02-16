@@ -87,8 +87,9 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @survey = @group.surveys.find(params[:id])
-    @survey.answers.where(account: current_account).destroy_all
-    params[:q].each { |k,v|
+    @survey.survey_takers.find_by(account: current_account).destroy
+    @survey_taker = @survey.survey_takers.build account: current_account
+    params[:q].each { |k,v|      
       question = @survey.questions.find(k)
       case question.type
       when 'radio_buttons'
@@ -99,11 +100,18 @@ Lumen::App.controllers do
         if v.include? 'Other'
           v[v.index('Other')] = params[:o][k]
         end
+      end      
+      if v
+        @survey_taker.answers.build :question_id => k, :text => v.to_s
       end
-      question.answers.create(:text => v, :account => current_account)
-    }
-    flash[:notice] = "Thanks for taking the survey."
-    redirect (@survey.redirect_url || "/groups/#{@group.slug}")
+    } if params[:q]
+    if @survey_taker.save
+      flash[:notice] = "Thanks for taking the survey."
+      redirect (@survey.redirect_url || "/groups/#{@group.slug}/surveys")
+    else
+      flash.now[:error] = "Please correct the errors below and submit again"
+      erb :'surveys/survey'
+    end
   end 
   
   get '/groups/:slug/surveys/:id/results', :provides => [:html, :csv] do
@@ -115,9 +123,13 @@ Lumen::App.controllers do
       erb :'surveys/results'
     when :csv
       CSV.generate do |csv|
-        csv << [nil,nil]+@survey.questions.order('id asc').map(&:text)
-        @survey.takers.each do |account|
-          csv << [account.name, @survey.answers.find_by(account: account).created_at] + @survey.answers.where(account: account).order('question_id asc').map { |answer| answer.try(:text) }
+        question_ids = @survey.questions.order('order asc').only(:id).map(&:id)
+        csv << [nil,nil]+@survey.questions.order('order asc').only(:text).map(&:text)
+        @survey.survey_takers.each do |survey_taker|
+          account = survey_taker.account
+          answers = {}
+          survey_taker.answers.each { |answer| answers[answer.question_id] = answer.text }          
+          csv << [account.name, survey_taker.created_at] + question_ids.map { |question_id| answers[question_id] }
         end
       end     
     end      

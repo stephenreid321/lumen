@@ -14,7 +14,7 @@
       </td>
       <td>Created <%=time_ago_in_words survey.created_at%> ago by <a href="/accounts/<%=survey.account.id%>"><%=survey.account.name%></a></td>
       <td>
-        <% if survey.answers.find_by(account: current_account) %>
+        <% if survey.survey_takers(account: current_account) %>
         <i class="fa fa-check"></i> You've taken this survey.
         <% end %>
       </td>

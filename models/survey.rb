@@ -11,11 +11,12 @@ class Survey
   
   has_many :questions, :dependent => :destroy
   accepts_nested_attributes_for :questions, allow_destroy: true, reject_if: :all_blank
-  
+    
+  has_many :survey_takers, :dependent => :destroy
   has_many :answers, :dependent => :destroy
   
   validates_presence_of :title, :group, :account
-    
+      
   def self.admin_fields
     {
       :title => :text,
@@ -23,12 +24,9 @@ class Survey
       :group_id => :lookup,
       :account_id => :lookup,
       :questions => :collection,
+      :survey_takers => :collection,
       :redirect_url => :text
     }
   end
-  
-  def takers
-    Account.where(:id.in => answers.only(&:account_id).map(&:account_id))
-  end
-    
+      
 end

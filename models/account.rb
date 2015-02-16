@@ -45,6 +45,7 @@ class Account
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
   has_many :surveys_as_creator, :class_name => 'Survey', :inverse_of => :account, :dependent => :destroy
   has_many :answers, :dependent => :destroy
+  has_many :survey_takers, :dependent => :destroy
   has_many :plus_ones, :dependent => :destroy
   
   belongs_to :language, index: true

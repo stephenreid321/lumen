@@ -23,7 +23,7 @@
       <tr>
         <th></th>
         <th>Took survey</th>
-        <% @survey.questions.order('id asc').each { |question| %>
+        <% question_ids = []; @survey.questions.order('id asc').each { |question| question_ids << question.id; %>
           <th><%=question.text%></th>
         <% } %>
       </tr>
@@ -40,8 +40,9 @@
           <td>
             <%=@survey.answers.find_by(account: account).created_at%>
           </td>
-          <% @survey.answers.where(account: account).order('question_id asc').each { |answer| %>
-            <td><%= text = answer.try(:text); case text; when 'true'; '<i class="fa fa-check"></i>'; when 'false'; '<i class="fa fa-times"></i>'; else; text; end %></td>
+          <% answers = {}; @survey.answers.where(account: account).each { |answer| answers[answer.question_id] = (text = answer.try(:text); case text; when 'true'; '<i class="fa fa-check"></i>'; when 'false'; '<i class="fa fa-times"></i>'; else; text; end) } %>
+          <% question_ids.each { |question_id| %>
+            <td><%= answers[question_id] %></td>
           <% } %>
         </tr>
       <% } %>

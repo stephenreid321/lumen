@@ -166,6 +166,8 @@ class Account
   validates_length_of :password, :within => 4..40, :if => :password_required
   validates_confirmation_of :password, :if => :password_required 
   
+  validates_length_of :headline, maximum: 150
+  
   index({email: 1 }, {unique: true})
   
   before_validation do

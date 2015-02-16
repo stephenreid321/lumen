@@ -87,7 +87,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug])
     membership_required!
     @survey = @group.surveys.find(params[:id])
-    @survey.survey_takers.find_by(account: current_account).destroy
+    @survey.survey_takers.find_by(account: current_account).try(:destroy)
     @survey_taker = @survey.survey_takers.build account: current_account
     params[:q].each { |k,v|      
       question = @survey.questions.find(k)

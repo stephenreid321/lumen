@@ -44,9 +44,9 @@
         #event_publicity_tweet { height: 8em }
       </style>
       <script>
-        $(function() {
+        $(function () {
           var add = $('<a href="javascript:;" style="margin-left: 5px">Add a time</a>');
-          $(add).click(function() {
+          $(add).click(function () {
             $('.time').show();
             $('#event_consider_time').prop('checked', true);
             $(this).hide();
@@ -55,7 +55,7 @@
           if ($('#event_consider_time').prop('checked'))
             $(add).click();
 
-          $("input[name='event[ticketing]']").click(function() {
+          $("input[name='event[ticketing]']").click(function () {
             if ($(this).val() == 'No ticket required') {
               $('#tickets-link-div').hide();
               $('#tickets-link-div input').val('');
@@ -77,8 +77,10 @@
         <%= f.datetime_block :start_time, div_class: 'col-md-9', fives: true %>
         <%= f.datetime_block :end_time, div_class: 'col-md-9', fives: true %>
         <%= f.check_box :consider_time, :style => 'display: none'%>
-        <%= f.text_block :location %>           
-        <%= f.select_block :organisation_id, options: ['']+Organisation.order_by(:name.asc).map { |organisation| [organisation.name, organisation.id] } %>
+        <%= f.text_block :location %>      
+        <% unless ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+          <%= f.select_block :organisation_id, options: ['']+Organisation.order_by(:name.asc).map { |organisation| [organisation.name, organisation.id] } %>
+        <% end %>
         <%= f.wysiwyg_block :details, div_class: 'col-md-9' %>        
         <%= f.text_block :more_info %>        
         <%= f.radio_block :ticketing %>

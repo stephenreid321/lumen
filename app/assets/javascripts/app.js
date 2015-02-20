@@ -88,6 +88,19 @@ $(function () {
     }
   });
 
+  $(document).on('change', 'input[type=file]', function (e) {
+    if (typeof FileReader !== "undefined") {
+      var file = this.files[0]
+      if (file) {
+        var size = file.size;
+        if (size > 5 * 1024 * 1024) {
+          alert("That file exceeds the maximum attachment size of 5MB. Upload it elsewhere and include a link to it instead.")
+          $(this).val('');
+        }
+      }
+    }
+  });
+
   $('.geopicker').geopicker({
     width: '100%',
     getLatLng: function (container) {

@@ -46,7 +46,7 @@
         $('#account_tag_id').lookup({
           lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
           qtype: 'account_tag',
-          placeholder: 'Filter by <%=I18n.t(:account_tagship).capitalize%>'
+          placeholder: 'Filter by <%=I18n.t(:account_tagship)%>'
         }).on('change', function () {
           $('#results-form').submit();
         });

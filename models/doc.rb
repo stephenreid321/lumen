@@ -22,6 +22,7 @@ class Doc
   end
       
   def type
+    return 'folder' if url.include?('folderview')
     url.include?('/d/') ? url.split('/d/').first.split('/').last : url.split('/')[3]
   end
   

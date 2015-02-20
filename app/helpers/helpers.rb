@@ -37,8 +37,8 @@ Lumen::App.helpers do
     
   def sign_in_required!
     unless current_account
-      flash[:notice] = 'You must sign in to access that page.'
-      session[:return_to] ||= request.url
+      flash[:notice] = 'You must sign in to access that page.'      
+      session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect('/sign_in')
     end
   end
@@ -46,7 +46,7 @@ Lumen::App.helpers do
   def site_admins_only!
     unless current_account and current_account.admin?
       flash[:notice] = 'You must be a site admin to access that page.'
-      session[:return_to] ||= request.url
+      session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect((current_account ? '/' : '/sign_in'))
     end    
   end
@@ -55,7 +55,7 @@ Lumen::App.helpers do
     group = @group if !group
     unless current_account and group and group.memberships.find_by(account: current_account)
       flash[:notice] = 'You must be a member of that group to access that page.'
-      session[:return_to] ||= request.url
+      session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(group.open? ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))
     end        
   end
@@ -64,7 +64,7 @@ Lumen::App.helpers do
     group = @group if !group
     unless current_account and group and (membership = group.memberships.find_by(account: current_account)) and membership.admin?
       flash[:notice] = 'You must be an admin of that group to access that page.'
-      session[:return_to] ||= request.url
+      session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(membership ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))
     end     
   end
@@ -73,7 +73,7 @@ Lumen::App.helpers do
     group = @group if !group
     unless (account == current_account) or (current_account and group and (membership = group.memberships.find_by(account: current_account)) and membership.admin?)
       flash[:notice] = 'You must be an admin or creator to access that page.'
-      session[:return_to] ||= request.url
+      session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(membership ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))
     end          
   end    

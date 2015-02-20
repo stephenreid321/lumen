@@ -184,7 +184,7 @@ Lumen::App.controllers do
     
     if @new_account
       SignIn.create(account: @account)
-      session['account_id'] = @account.id
+      session[:account_id] = @account.id
       flash[:notice] = %Q{You joined #{@group.slug}!}
       redirect '/me/edit'      
     else

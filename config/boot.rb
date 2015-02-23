@@ -15,3 +15,5 @@ I18n.enforce_available_locales = false
 
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")
 Mongoid.raise_not_found_error = false
+
+StringIO.class_eval { attr_accessor :original_filename }

@@ -376,7 +376,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     end
     puts "created conversation post id #{conversation_post.id}"
     mail.attachments.each do |attachment|
-      conversation_post.attachments.create :file => attachment.body.decoded, :file_name => attachment.filename, :cid => attachment.cid
+      file = StringIO.new(attachment.body.decoded)      
+      file.original_filename = attachment.filename       
+      conversation_post.attachments.create :file => file, :file_name => attachment.filename, :cid => attachment.cid
     end         
     puts "sending notifications"
     conversation_post.send_notifications!

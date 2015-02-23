@@ -39,7 +39,7 @@ $(function () {
   }
 
   function placeholdersOnly() {
-    $('form.placeholders-only label').each(function () {
+    $('form.placeholders-only label[for]').each(function () {
       $(this).next().children().first().attr('placeholder', $.trim($(this).text()))
       $(this).hide()
     });

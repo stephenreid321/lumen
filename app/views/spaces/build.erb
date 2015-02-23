@@ -59,7 +59,7 @@
         <%= f.number_block :hourly_cost %>
         <%= f.text_block :link %>        
         <%= f.text_block :address, :tip => "If you don't know the exact address, leave this blank and click to place a marker on the map below" %>
-        <%= f.geopicker_block :coordinates %>
+        <%= f.geopicker_block :coordinates, :tip => "If you provide an address, we'll attempt to set the location automatically" %>
         <%= f.wysiwyg_block :description %>      
 
         <%= f.submit_block destroy_url: "/groups/#{@group.slug}/spaces/#{@space.id}/destroy" %>

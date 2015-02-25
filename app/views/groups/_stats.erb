@@ -1,28 +1,27 @@
 
-<h2>
+<h2 style="display: inline-block">
   Stats for <%=@group.slug%>
-
-  <small>  
-    <script>
-      $(function () {
-        $("#stats-tab .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
-        $('#from-to').submit(function (e) {
-          e.preventDefault();
-          $('.fa-spinner', this).show();
-          $('#stats-tab').load('<%="/groups/#{@group.slug}/stats" %>?' + $(this).serialize());
-          return false;
-        });
-      });
-    </script>
-    <form style="display: inline" id="from-to">
-      <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=@from.strftime('%d-%b-%Y')%>"/>
-      &ndash;
-      <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=@to.strftime('%d-%b-%Y')%>"/>
-      <i style="display:none" class="fa fa-spin fa-spinner"></i>
-    </form>
-  </small>
-
 </h2>
+<div style="display: inline">
+  <script>
+    $(function () {
+      $("#stats-tab .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
+      $('#from-to').submit(function (e) {
+        e.preventDefault();
+        $('.fa-spinner', this).show();
+        $('#stats-tab').load('<%="/groups/#{@group.slug}/stats" %>?' + $(this).serialize());
+        return false;
+      });
+    });
+  </script>
+  <form style="display: inline" id="from-to">
+    <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=@from.strftime('%d-%b-%Y')%>"/>
+    &ndash;
+    <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=@to.strftime('%d-%b-%Y')%>"/>
+    Show all posters <input onchange="$(this).closest('form').submit()" type="checkbox" name="all" value="1" <% if @all %>checked="checked"<% end %> />
+    <i style="display:none" class="fa fa-spin fa-spinner"></i>
+  </form>
+</div>
 
 <table class="table">
 
@@ -34,7 +33,7 @@
       </td>
     </tr>
 
-    <% max = nil; include = Hash[hash.sort_by { |k,v| v.length }.reverse[0..(params[:n] ? params[:n]-1 : 9)]]; include[current_account.id] = hash[current_account.id] if current_account and hash[current_account.id]; include.sort_by { |k,v| v.length }.reverse.each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end; k = Account.find(k) %>
+    <% max = nil; include = Hash[hash.sort_by { |k,v| v.length }.reverse[0..(@all ? -1 : 9)]]; include[current_account.id] = hash[current_account.id] if current_account and hash[current_account.id]; include.sort_by { |k,v| v.length }.reverse.each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end; k = Account.find(k) %>
 
       <% if i == 10 %>
         <tr>

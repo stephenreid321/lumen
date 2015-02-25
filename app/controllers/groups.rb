@@ -213,6 +213,7 @@ Lumen::App.controllers do
     
     @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today
+    @all = params[:all]
       
     @c = {}    
     conversations = @group.conversations.where(:hidden.ne => true)    

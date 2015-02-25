@@ -35,7 +35,7 @@
 
     <% max = nil; include = Hash[hash.sort_by { |k,v| v.length }.reverse[0..(@all ? -1 : 9)]]; include[current_account.id] = hash[current_account.id] if current_account and hash[current_account.id]; include.sort_by { |k,v| v.length }.reverse.each_with_index { |(k, v), i| if i == 0; max = v.length.to_f; end; k = Account.find(k) %>
 
-      <% if i == 10 %>
+      <% if !@all and i == 10 %>
         <tr>
           <td colspan="2">
             &vellip;

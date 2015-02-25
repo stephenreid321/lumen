@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
 
 ruby '2.0.0'
-gem 'unicorn'
+gem 'puma'
 gem 'padrino'
 gem 'rake'
 gem 'erubis'
 gem 'rack', '1.5.2'
+gem 'rack-timeout'
 
 # Admin
 gem 'will_paginate', github: 'mislav/will_paginate'

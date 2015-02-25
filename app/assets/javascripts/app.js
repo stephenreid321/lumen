@@ -16,7 +16,10 @@ $(function () {
           ['table', ['table']],
           ['insert', ['link', 'video']],
         ],
-        height: 200
+        height: 200,
+        codemirror: {
+          theme: 'monokai'
+        }
       });
       $(textarea).prop('required', false);
       $(summernote).code($(textarea).val());

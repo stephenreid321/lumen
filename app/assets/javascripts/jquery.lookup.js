@@ -1,7 +1,7 @@
 (function ($) {
   $.fn.lookup = function (options) {
 
-    var settings = {}
+    var settings = {lookup_url: null, placeholder: null, qtype: null, id_param: null}
 
     return this.each(function () {
       if (options) {
@@ -30,7 +30,7 @@
           var id = $(element).val();
           if (id !== '') {
             var data = {};
-            data[$(element).attr('name')] = id;
+            data[(options['id_param'] || $(this).attr('name'))] = id;
             data['qtype'] = options['qtype']
             $.get(options['lookup_url'], data, function (data) {              
               var result = data['results'].filter(function(result) {

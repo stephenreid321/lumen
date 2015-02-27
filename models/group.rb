@@ -378,6 +378,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     mail.attachments.each do |attachment|
       file = Tempfile.new(attachment.filename)
       begin
+        file.binmode
         file.write(attachment.body)
         file.original_filename = attachment.filename
         conversation_post.attachments.create :file => file, :file_name => attachment.filename, :cid => attachment.cid

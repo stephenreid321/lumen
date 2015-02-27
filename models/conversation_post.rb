@@ -136,7 +136,7 @@ class ConversationPost
   end
   
   def replace_iframes!
-    body.gsub!(/(<iframe.*><\/iframe>)/) do |match|
+    body.gsub!(/(<iframe\b[^>]*><\/iframe>)/) do |match|
       src = Nokogiri::HTML.parse($1).search('iframe').first['src']
       %Q{<a href="#{src}">#{src}</a>}
     end

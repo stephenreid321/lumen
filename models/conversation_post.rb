@@ -117,7 +117,7 @@ class ConversationPost
     end
   end
       
-  def inline_images!
+  def replace_cids!
     body.gsub!(/src="cid:(\S+)"/) { |match|
       begin
         %Q{src="#{attachments.find_by(cid: $1).file.url}"}

@@ -30,7 +30,7 @@
           var id = $(element).val();
           if (id !== '') {
             var data = {};
-            data[(options['id_param'] || $(this).attr('name'))] = id;
+            data[(options['id_param'] || $(element).attr('name'))] = id;
             data['qtype'] = options['qtype']
             $.get(options['lookup_url'], data, function (data) {              
               var result = data['results'].filter(function(result) {

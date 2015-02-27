@@ -1,7 +1,7 @@
 (function ($) {
   $.fn.lookup = function (options) {
 
-    var settings = {lookup_url: null, placeholder: null, qtype: null, id_param: null}
+    var settings = {lookup_url: null, placeholder: null, rtype: null, id_param: null}
 
     return this.each(function () {
       if (options) {
@@ -19,7 +19,7 @@
           data: function (term) {
             return {
               q: term,
-              qtype: options['qtype']
+              rtype: options['rtype']
             };
           },
           results: function (data) {
@@ -31,7 +31,7 @@
           if (id !== '') {
             var data = {};
             data[(options['id_param'] || $(element).attr('name'))] = id;
-            data['qtype'] = options['qtype']
+            data['rtype'] = options['rtype']
             $.get(options['lookup_url'], data, function (data) {              
               var result = data['results'].filter(function(result) {
                 return result['id'] == id

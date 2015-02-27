@@ -33,8 +33,8 @@ Lumen::App.controllers do
     @accounts = @accounts.and(@q)
     case content_type      
     when :json
-      if params[:qtype]
-        case params[:qtype].to_sym
+      if params[:rtype]
+        case params[:rtype].to_sym
         when :account
           {
             results: @accounts.where(:name => /#{params[:q]}/i).map { |account| {id: account.id.to_s, text: account.name} }

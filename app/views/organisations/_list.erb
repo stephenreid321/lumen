@@ -7,8 +7,8 @@
     $(function () {
       $('#organisation_id').lookup({
         lookup_url: '/organisations/results',
-        qtype: 'organisation',
-        placeholder: 'Filter by name'
+        placeholder: 'Filter by name',
+        rtype: 'organisation'
       }).on('change', function () {
         $('#results-form').submit();
       });
@@ -23,8 +23,8 @@
     $(function () {
       $('#sector_id').lookup({
         lookup_url: '/organisations/results',
-        qtype: 'sector',
-        placeholder: 'Filter by sector'
+        placeholder: 'Filter by sector',
+        rtype: 'sector',
       }).on('change', function () {
         $('#results-form').submit();
       });

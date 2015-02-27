@@ -9,8 +9,8 @@
     $(function () {
       $('#account_id').lookup({
         lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
-        qtype: 'account',
-        placeholder: 'Filter by name'
+        placeholder: 'Filter by name',
+        rtype: 'account'
       }).on('change', function () {
         $('#results-form').submit();
       });
@@ -26,8 +26,8 @@
       $(function () {
         $('#organisation_id').lookup({
           lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
-          qtype: 'organisation',
-          placeholder: 'Filter by organisation'
+          placeholder: 'Filter by organisation',
+          rtype: 'organisation'
         }).on('change', function () {
           $('#results-form').submit();
         });
@@ -45,8 +45,8 @@
       $(function () {
         $('#account_tag_id').lookup({
           lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
-          qtype: 'account_tag',
-          placeholder: 'Filter by <%=I18n.t(:account_tagship)%>'
+          placeholder: 'Filter by <%=I18n.t(:account_tagship)%>',
+          rtype: 'account_tag',
         }).on('change', function () {
           $('#results-form').submit();
         });

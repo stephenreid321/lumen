@@ -207,6 +207,7 @@ class Account
       :headline => :text,
       :phone => :text, 
       :website => :text,
+      :location => :text,      
       :picture => :image,
       :admin => :check_box,
       :translator => :check_box,
@@ -214,7 +215,6 @@ class Account
       :language_id => :lookup,
       :password => :password,
       :password_confirmation => :password,
-      :location => :text,
       :affiliations => :collection
     }.merge(EnvFields.fields(self))
   end

@@ -3,61 +3,73 @@
 </style>
 
 <script>
-  $(function() {
-  map = new google.maps.Map(document.getElementById("map-canvas"), {
-  mapTypeId: google.maps.MapTypeId.ROADMAP,
-          mapTypeControl: false,
-          scaleControl: true,
-          streetViewControl: false,
-          maxZoom: 16,
+  $(function () {
+    map = new google.maps.Map(document.getElementById("map-canvas"), {
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false,
+            scaleControl: true,
+            streetViewControl: false,
+            maxZoom: 16,
 <% if @disable_scrollwheel %>
-    scrollwheel: false
+      scrollwheel: false
 <% end %>
   });
-          var bounds = new google.maps.LatLngBounds();
-          var points = []
+  var bounds = new google.maps.LatLngBounds();
+  var points = []
 <% points.select(&:coordinates).each { |point|%>
     points.push({
-    id: '<%=point.id%>',
-            lat: <%=point.lat%>,
-            lng: <%=point.lng%>,
-            color: '<%=point.class.marker_color%>',
-            name: "<%=point.try(:name) || point.try(:title)%>",
-            content: '<%=js_escape_html(partial "maps/#{point.class.to_s.underscore}".to_sym, :object => point)%>'
+      id: '<%=point.id%>',
+      lat: <%=point.lat%>,
+      lng: <%=point.lng%>,
+      color: '<%=point.class.marker_color%>',
+      name: "<%=point.try(:name) || point.try(:title)%>",
+      content: '<%=js_escape_html(partial "maps/#{point.class.to_s.underscore}".to_sym, :object => point)%>'
     })
 <% } %>
 
 
   var infowindow = new google.maps.InfoWindow();
-          var markers = []
-          for (i = 0; i < points.length; i++) {
-  var point = points[i];
-          var pinColor = point.color;
-          var pinImage = new google.maps.MarkerImage(
-                  "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
-                  new google.maps.Size(21, 34),
-                  new google.maps.Point(0, 0),
-                  new google.maps.Point(10, 34)
-                  );
-          var marker = new google.maps.Marker({
-          map: map, // or var markerClusterer = new MarkerClusterer(map, markers);
-                  position: new google.maps.LatLng(point.lat, point.lng),
-                  title: point.name,
-                  icon: pinImage
-          });
-          google.maps.event.addListener(marker, 'click', function(point, marker) {
-          return function() {
-          infowindow.setContent('<div class="infowindow">' + point.content + '</div>');
-                  infowindow.open(map, marker);
-          }
-          }(point, marker));
-          bounds.extend(marker.getPosition());
-          markers.push(marker);
+  var markers = []
+  for (i = 0; i < points.length; i++) {
+    var point = points[i];
+    var pinColor = point.color;
+    var pinImage = new google.maps.MarkerImage(
+            "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0, 0),
+            new google.maps.Point(10, 34)
+            );
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(point.lat, point.lng),
+      title: point.name,
+      icon: pinImage,
+      content: point.content
+    });
+    google.maps.event.addListener(marker, 'click', function (marker) {
+      return function () {
+        infowindow.setContent('<div class="infowindow">' + marker.content + '</div>');
+        infowindow.open(map, marker);
+      }
+    }(marker));
+    bounds.extend(marker.getPosition());
+    markers.push(marker);
   }
 
+  var markerClusterer = new MarkerClusterer(map, markers, {zoomOnClick: false});
 <% if !points.empty? %>
     map.fitBounds(bounds);
 <% end %>
+
+  google.maps.event.addListener(markerClusterer, "click", function (cluster) {
+    var content = '<ul class="list-unstyled">';
+    $.each(cluster.getMarkers(), function (i, marker) {
+      content += '<li>' + marker.content + '</li>';
+    })
+    content += '</ul>';
+    infowindow.setContent('<div class="infowindow">' + content + '</div>');
+    infowindow.setPosition(cluster.getCenter())
+    infowindow.open(map);
+  });
   });
 
 </script>

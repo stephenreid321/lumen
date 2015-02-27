@@ -14,13 +14,14 @@ $(function () {
           ['para', ['ul', 'ol', 'paragraph']],
           ['height', ['height']],
           ['table', ['table']],
-          ['insert', ['link', 'video']],
+          ['insert', ['picture', 'link', 'video']],
         ],
         height: 200,
         codemirror: {
           theme: 'monokai'
         }
       });
+      $('.note-image-input').hide().prev().hide();
       $(textarea).prop('required', false);
       $(summernote).code($(textarea).val());
       $(textarea).addClass('wysified').hide();

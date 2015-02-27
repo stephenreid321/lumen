@@ -117,7 +117,7 @@ class ConversationPost
     end
   end
       
-  def body_with_inline_images
+  def body_with_replacements
     b = body.gsub(/src="cid:(\S+)"/) { |match|
       begin
         %Q{src="#{attachments.find_by(cid: $1).file.url}"}
@@ -132,6 +132,10 @@ class ConversationPost
         nil
       end
     }     
+    b = b.gsub(/(<iframe.*><\/iframe>)/) do |match|
+      src = Nokogiri::HTML.parse($1).search('iframe').first['src']
+      %Q{<a href="#{src}">#{src}</a>}
+    end
     b
   end
   

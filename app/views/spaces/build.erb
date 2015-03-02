@@ -43,7 +43,16 @@
 
 
         <script>
-          $(function() {
+          $(function () {
+    <% if @space.new_record? %>
+              $('#space_address').keyup(function () {
+                if ($(this).val().length > 0)
+                  $('label[for=space_coordinates]').parent().hide()
+                else
+                  $('label[for=space_coordinates]').parent().show()
+              }).keyup();              
+    <% end %>
+
             var inputGroup = $('<div class="input-group"></div>');
             $('#space_hourly_cost').wrap(inputGroup);
             $('<span class="input-group-addon">£</span>').prependTo($('#space_hourly_cost').parent());
@@ -59,7 +68,7 @@
         <%= f.number_block :hourly_cost %>
         <%= f.text_block :link %>        
         <%= f.text_block :address, :tip => "If you don't know the exact address, leave this blank and click to place a marker on the map below" %>
-        <%= f.geopicker_block :coordinates, :tip => "If you provide an address, we'll attempt to set the location automatically" %>
+        <%= f.geopicker_block :coordinates %>
         <%= f.wysiwyg_block :description %>      
 
         <%= f.submit_block destroy_url: "/groups/#{@group.slug}/spaces/#{@space.id}/destroy" %>

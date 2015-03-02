@@ -21,8 +21,6 @@ class Space
   reverse_geocoded_by :coordinates
   def lat; coordinates[1] if coordinates; end  
   def lng; coordinates[0] if coordinates; end  
-  alias_method :coordinates_lat, :lat
-  alias_method :coordinates_lng, :lng
   before_validation do
     if address
       self.approx = false
@@ -36,7 +34,7 @@ class Space
   belongs_to :group, index: true
   belongs_to :account, index: true
   
-  validates_presence_of :name, :address, :coordinates
+  validates_presence_of :name
       
   before_validation do
     self.link = "http://#{self.link}" if self.link and !(self.link =~ /\Ahttps?:\/\//)
@@ -54,7 +52,7 @@ class Space
   def self.admin_fields
     {
       :name => :text,
-      :description => :wyiswyg,
+      :description => :wysiwyg,
       :link => :text,
       :capacity => :number,
       :accessibility => :select,

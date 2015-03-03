@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: c51fa4ed1818b76b8c6b48dc6875ffc7fd114650
+  revision: 24e0fd3baa102b51a822869ae234d6052158794b
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -317,7 +317,6 @@ GEM
     websocket-extensions (0.1.1)
     xpath (2.0.0)
       nokogiri (~> 1.3)
-    yui-compressor (0.12.0)
 
 PLATFORMS
   ruby
@@ -354,4 +353,3 @@ DEPENDENCIES
   ri_cal!
   rinku
   will_paginate!
-  yui-compressor

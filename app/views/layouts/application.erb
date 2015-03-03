@@ -6,23 +6,49 @@
 
     <title><%=ENV['SITE_NAME']%></title>
 
-    <% if Padrino.env == :development %>
-      <% STYLESHEETS.each { |f| %>
-        <link rel="stylesheet" href="/stylesheets/<%=f%>" />    
+    <% {            
+      'jquery/1.11.2' => 'jquery.min.js',
+      'webshim/1.15.7' => 'minified/polyfiller.js',
+      'bootswatch/3.3.2' => 'lumen/bootstrap.min.css',      
+      'twitter-bootstrap/3.3.2' => 'js/bootstrap.min.js',
+      'font-awesome/4.3.0' => 'css/font-awesome.min.css',
+      'select2/3.5.2' => 'select2.min.js select2.min.css',  
+      'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
+      'summernote/0.6.1' => 'summernote.min.css summernote.min.js',
+      'bootstrap-datepicker/1.3.1' => 'js/bootstrap-datepicker.min.js css/datepicker.min.css'
+      }.each { |k,v| %>    
+      <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
+        <% case f.split('.').last.to_sym; when :js %>
+          <script type="text/javascript" src="<%=u%>"></script>      
+        <% when :css %>
+          <link rel="stylesheet" href="<%=u%>" />
+        <% end %>
       <% } %>
-      <% JAVASCRIPTS.each { |f| %>
-        <script src="/javascripts/<%=f%>"></script>
-      <% } %>
-    <% else %>
-      <link rel="stylesheet" href="/stylesheets/compressed.css" />    
-      <script src="/javascripts/compressed.js"></script>
-    <% end %>
-    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>    
-    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/src/markerclusterer_packed.js"></script>    
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.0.0/codemirror.min.css" />
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.0.0/theme/monokai.min.css" />
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.0.0/codemirror.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.0.0/mode/xml/xml.min.js"></script>    
+    <% } %>
+
+    <%
+    [
+      'bootstrap-stacked-tabs.css',      
+      'app.css',
+      'news.css'      
+      ].each { |file| %> 
+      <link rel="stylesheet" href="/stylesheets/<%=file%>" />    
+    <% } %>
+
+    <% [
+      'bootstrap3-typeahead.min.js',
+      'jquery.deparam.js',
+      'jquery.geopicker.js',      
+      'jquery.lookup.js',
+      'jquery.typing-0.3.0.min.js',
+      'app.js'
+      ].each { |file| %>
+      <script src="/javascripts/<%=file%>"></script>
+    <% } %>    
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>    
+    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/src/markerclusterer_packed.js"></script>
+
     <% if ENV['GOOGLE_ANALYTICS_TRACKING_ID'] and Padrino.env == :production %>
       <script>
         (function (i, s, o, g, r, a, m) {
@@ -42,6 +68,7 @@
 
       </script>    
     <% end %>   
+
     <%= eval(f('head')) %>
 
   </head>

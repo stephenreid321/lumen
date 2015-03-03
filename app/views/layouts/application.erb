@@ -26,6 +26,9 @@
       <% } %>
     <% } %>
 
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>    
+    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/src/markerclusterer_packed.js"></script>
+
     <%
     [
       'bootstrap-stacked-tabs.css',      
@@ -45,9 +48,6 @@
       ].each { |file| %>
       <script src="/javascripts/<%=file%>"></script>
     <% } %>    
-
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>    
-    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/src/markerclusterer_packed.js"></script>
 
     <% if ENV['GOOGLE_ANALYTICS_TRACKING_ID'] and Padrino.env == :production %>
       <script>

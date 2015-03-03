@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 24e0fd3baa102b51a822869ae234d6052158794b
+  revision: 075ccc6bb14d2f519c7b31aee863e9504353e648
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -39,7 +39,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.6)
+    addressable (2.3.7)
     airbrake (4.1.0)
       builder
       multi_json
@@ -53,7 +53,7 @@ GEM
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
     cliver (0.3.2)
-    connection_pool (2.1.1)
+    connection_pool (2.1.2)
     css_parser (1.3.6)
       addressable
     domain_name (0.5.23)
@@ -66,14 +66,14 @@ GEM
       dragonfly (~> 1.0)
       fog
     erubis (2.7.0)
-    excon (0.44.0)
+    excon (0.44.3)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
-    fog (1.27.0)
+    fog (1.28.0)
       fog-atmos
       fog-aws (~> 0.0)
       fog-brightbox (~> 0.4)
@@ -82,6 +82,7 @@ GEM
       fog-json
       fog-profitbricks
       fog-radosgw (>= 0.0.2)
+      fog-riakcs
       fog-sakuracloud (>= 0.0.4)
       fog-serverlove
       fog-softlayer
@@ -95,7 +96,7 @@ GEM
     fog-atmos (0.1.0)
       fog-core
       fog-xml
-    fog-aws (0.0.8)
+    fog-aws (0.1.1)
       fog-core (~> 1.27)
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
@@ -104,7 +105,7 @@ GEM
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.28.0)
+    fog-core (1.29.0)
       builder
       excon (~> 0.38)
       formatador (~> 0.2)
@@ -124,19 +125,23 @@ GEM
       fog-core (>= 1.21.0)
       fog-json
       fog-xml (>= 0.0.1)
+    fog-riakcs (0.1.0)
+      fog-core
+      fog-json
+      fog-xml
     fog-sakuracloud (1.0.0)
       fog-core
       fog-json
     fog-serverlove (0.1.1)
       fog-core
       fog-json
-    fog-softlayer (0.4.0)
+    fog-softlayer (0.4.1)
       fog-core
       fog-json
     fog-storm_on_demand (0.1.0)
       fog-core
       fog-json
-    fog-terremark (0.0.3)
+    fog-terremark (0.0.4)
       fog-core
       fog-xml
     fog-vmfusion (0.0.1)
@@ -150,14 +155,14 @@ GEM
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
     geocoder (1.2.7)
-    hashie (3.3.2)
+    hashie (3.4.0)
     heroics (0.0.12)
       erubis (~> 2.7.0)
       excon
       moneta
       multi_json (>= 1.9.2)
       netrc
-    htmlentities (4.3.1)
+    htmlentities (4.3.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     http_router (0.11.1)
@@ -167,7 +172,7 @@ GEM
     inflecto (0.0.2)
     ipaddress (0.8.0)
     json (1.8.2)
-    jwt (1.2.1)
+    jwt (1.3.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     mail (2.5.4)
@@ -188,12 +193,12 @@ GEM
     minitest-rg (5.1.0)
       minitest (~> 5.0)
     moneta (0.7.20)
-    mongoid (4.0.1)
+    mongoid (4.0.2)
       activemodel (~> 4.0)
       moped (~> 2.0.0)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
-    moped (2.0.3)
+    moped (2.0.4)
       bson (~> 2.2)
       connection_pool (~> 2.0)
       optionable (~> 0.2.0)
@@ -205,7 +210,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
-    netrc (0.10.2)
+    netrc (0.10.3)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     ntlm-http (0.1.1)
@@ -219,7 +224,7 @@ GEM
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
-    omniauth-facebook (2.0.0)
+    omniauth-facebook (2.0.1)
       omniauth-oauth2 (~> 1.2)
     omniauth-google-oauth2 (0.2.6)
       omniauth (> 1.0)
@@ -275,15 +280,15 @@ GEM
       activesupport (>= 3.1)
     platform-api (0.2.0)
       heroics (~> 0.0.10)
-    poltergeist (1.5.1)
+    poltergeist (1.6.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     polyglot (0.3.5)
-    premailer (1.8.3)
+    premailer (1.8.4)
       css_parser (>= 1.3.6)
-      htmlentities (>= 4.0.0, <= 4.3.1)
+      htmlentities (>= 4.0.0)
     puma (2.11.1)
       rack (>= 1.1, < 2.0)
     rack (1.5.2)
@@ -312,9 +317,9 @@ GEM
     url_mount (0.2.1)
       rack
     webrobots (0.1.1)
-    websocket-driver (0.5.1)
+    websocket-driver (0.5.3)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.1)
+    websocket-extensions (0.1.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -342,7 +347,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-linkedin
   omniauth-twitter
-  padrino
+  padrino (= 0.12.4)
   platform-api
   poltergeist
   premailer

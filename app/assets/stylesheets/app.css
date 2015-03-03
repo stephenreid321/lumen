@@ -43,3 +43,4 @@ select[name*=day], select[name*=month], select[name*=year], select[name*=hour], 
 
 #results-form .select2-container { margin-bottom: 5px }
 
+table a:not(.btn), .table a:not(.btn) { text-decoration: none }

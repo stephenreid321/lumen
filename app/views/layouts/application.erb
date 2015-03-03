@@ -19,35 +19,34 @@
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>
-          <script type="text/javascript" src="<%=u%>"></script>      
+          <script src="<%=u%>"></script>      
         <% when :css %>
           <link rel="stylesheet" href="<%=u%>" />
         <% end %>
       <% } %>
     <% } %>
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>    
-    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/src/markerclusterer_packed.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>    
+    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/src/markerclusterer_packed.js"></script>
 
-    <%
-    [
-      'bootstrap-stacked-tabs.css',      
-      'app.css',
-      'news.css'      
-      ].each { |file| %> 
-      <link rel="stylesheet" href="/stylesheets/<%=file%>" />    
+    <% [
+      'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/css/bootstrap-stacked-tabs.css',      
+      '/stylesheets/app.css',
+      '/stylesheets/news.css' 
+      ].each { |f| %> 
+      <link rel="stylesheet" href="<%=f%>" />    
     <% } %>
 
     <% [
-      'bootstrap3-typeahead.min.js',
-      'jquery.deparam.js',
-      'jquery.geopicker.js',      
-      'jquery.lookup.js',
-      'jquery.typing-0.3.0.min.js',
-      'app.js'
-      ].each { |file| %>
-      <script src="/javascripts/<%=file%>"></script>
-    <% } %>    
+      'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/js/bootstrap3-typeahead.min.js',      
+      'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/js/jquery.deparam.js',
+      'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/js/jquery.geopicker.js',
+      'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/js/jquery.lookup.js',
+      'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/js/jquery.typing.min.js',      
+      '/javascripts/app.js'
+      ].each { |f| %>
+      <script src="<%=f%>"></script>
+    <% } %>        
 
     <% if ENV['GOOGLE_ANALYTICS_TRACKING_ID'] and Padrino.env == :production %>
       <script>

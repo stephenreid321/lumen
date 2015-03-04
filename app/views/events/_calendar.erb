@@ -1,10 +1,9 @@
-<script src="/fullcalendar/fullcalendar.min.js"></script>
-<link rel="stylesheet" href="/fullcalendar/fullcalendar.css" />    
 <style>
   .fc-header-left {width: auto; }
   .fc-header-right {width: auto; }
   .fc-button { height: auto; line-height: 1.42857; padding: 6px 12px }
 </style>
+
 <script>
           $(function() {
           $('#calendar').fullCalendar({
@@ -85,7 +84,7 @@
                   var pnGroup = $('<div class="pn-group btn-group"></div>');
                   $(".fc-button-prev").wrap(pnGroup)
                   $(".fc-button-next").appendTo('.pn-group')
-                  $('.fc-button').attr('class','btn btn-default');
+                  $('.fc-button').attr('class', 'btn btn-default');
                   $('.fc-header-center').remove();
           });
 </script>

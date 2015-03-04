@@ -15,7 +15,8 @@
       'select2/3.5.2' => 'select2.min.js select2.min.css',  
       'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
       'summernote/0.6.1' => 'summernote.min.css summernote.min.js',
-      'bootstrap-datepicker/1.3.1' => 'js/bootstrap-datepicker.min.js css/datepicker.min.css'
+      'bootstrap-datepicker/1.3.1' => 'js/bootstrap-datepicker.min.js css/datepicker.min.css',
+      'fullcalendar/1.6.4' => 'fullcalendar.min.js fullcalendar.min.css'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>
@@ -30,7 +31,7 @@
     <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/src/markerclusterer_packed.js"></script>
 
     <% [
-      'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/css/bootstrap-stacked-tabs.css',      
+      'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/css/bootstrap-stacked-tabs.css',
       '/stylesheets/app.css',
       '/stylesheets/news.css' 
       ].each { |f| %> 
@@ -46,8 +47,8 @@
       '/javascripts/app.js'
       ].each { |f| %>
       <script src="<%=f%>"></script>
-    <% } %>        
-
+    <% } %>      
+           
     <% if ENV['GOOGLE_ANALYTICS_TRACKING_ID'] and Padrino.env == :production %>
       <script>
         (function (i, s, o, g, r, a, m) {

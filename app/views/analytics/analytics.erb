@@ -1,3 +1,12 @@
+<script src="https://cdn.rawgit.com/wordsandwriting/activate-tools/eb475e937d3837efd6c2ca6fb0a79610bd646913/amcharts/amcharts.js"></script>
+<script src="https://cdn.rawgit.com/wordsandwriting/activate-tools/eb475e937d3837efd6c2ca6fb0a79610bd646913/amcharts/serial.js"></script>
+<script src="https://cdn.rawgit.com/wordsandwriting/activate-tools/eb475e937d3837efd6c2ca6fb0a79610bd646913/amcharts/amstock.js"></script>
+
+<style>
+  .amChartsCompareList > div { height: 25px !important }
+  .amChartsPeriodSelector .btn { margin-bottom: 3px }  
+</style>
+
 <% if @group %>
   <ol class="breadcrumb">
     <li><a href="/groups">Groups</a></li>
@@ -11,18 +20,8 @@
 
   <%= partial :'group_administration/header' %>
 <% else %>
-<%= partial :'analytics/header' %>
+  <%= partial :'analytics/header' %>
 <% end %>
-
-
-<script src="/amcharts/amcharts.js" type="text/javascript"></script>
-<script src="/amcharts/serial.js" type="text/javascript"></script>
-<script src="/amcharts/amstock.js" type="text/javascript"></script>
-
-<style>
-  .amChartsCompareList > div { height: 25px !important }
-  .amChartsPeriodSelector .btn { margin-bottom: 3px }  
-</style>
 
 <div id="chartdiv" style="width: 100%; height: 500px;"></div>
 <script>

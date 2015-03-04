@@ -20,8 +20,6 @@ Lumen::App.controllers do
       :SITE_NAME => 'Name of site e.g. Lumen Users Network',
       :SITE_NAME_DEFINITE => "Name of site with 'the' if appropriate e.g. The Lumen Users Network",
       :SITE_NAME_SHORT => 'Short site name e.g. LUN',
-      :NOREPLY_NAME => "Name of email sender for general emails",
-      :NOREPLY_SIG => "Email signature for general emails",
       :HELP_ADDRESS => 'Email address for general queries',
       :DEFAULT_TIME_ZONE => 'Default time zone e.g. London',
   

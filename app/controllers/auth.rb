@@ -20,7 +20,7 @@ Lumen::App.controllers do
       end
       mail = Mail.new(
         :to => @account.email,
-        :from => "#{ENV['NOREPLY_NAME']} <no-reply@#{ENV['MAIL_DOMAIN']}>",
+        :from => "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>",
         :subject => "New password",
         :body => erb(:'emails/forgot_password', :layout => false)
       )

@@ -24,7 +24,7 @@
 
     <%=conversation_post.replace_cids!.replace_iframes!.body%>
 
-    <% close_divs = ''; conversation_post.conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1..-1].each { |conversation_post| %>
+    <% close_divs = ''; conversation_post.conversation.visible_conversation_posts.order_by(:created_at.desc)[1..-1].each { |conversation_post| %>
       <br /><br />        
       On <%=conversation_post.created_at%>, <%=conversation_post.account.name%><% unless ENV['HIDE_ACCOUNT_EMAIL']%> &lt;<a href="mailto:<%=conversation_post.account.email%>"><%=conversation_post.account.email%></a>&gt;<% end %>  wrote:
       <div style="border-left: 1px solid #ccc; margin-left: 1em; padding-left: 1em">

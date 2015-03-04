@@ -108,9 +108,17 @@ class Account
     Conversation.where(:group_id.in => memberships.map(&:group_id))
   end
   
+  def visible_conversations
+    conversations.where(:hidden.ne => true)
+  end
+  
   def conversation_posts
     ConversationPost.where(:group_id.in => memberships.map(&:group_id))
   end
+  
+  def visible_conversation_posts
+    conversation_posts.where(:hidden.ne => true)
+  end  
   
   def spaces
     Space.where(:group_id.in => memberships.map(&:group_id))

@@ -10,6 +10,10 @@ class Conversation
   has_many :conversation_mutes, :dependent => :destroy
   has_many :conversation_post_bccs, :dependent => :destroy
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
+    
+  def visible_conversation_posts
+    conversation_posts.where(:hidden.ne => true)
+  end
   
   field :subject, :type => String
   field :slug, :type => Integer
@@ -62,11 +66,11 @@ class Conversation
   
   
   def last_conversation_post
-    conversation_posts.order_by(:created_at.desc).first
+    visible_conversation_posts.order_by(:created_at.desc).first
   end
   
   def participants
-    Account.where(:id.in => conversation_posts.where(:hidden.ne => true).map(&:account_id))
+    Account.where(:id.in => visible_conversation_posts.map(&:account_id))
   end
 
 end

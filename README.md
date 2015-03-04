@@ -51,7 +51,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-When the install is finished, visit https://{your VPS IP}:10000. Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password. Go to 'Edit Users' an create a user no-reply@yourdomain.org with the same password again.
+When the install is finished, visit https://{your VPS IP}:10000. Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password.
 
 ### 3. Push code to Heroku
 

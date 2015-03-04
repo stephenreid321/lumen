@@ -85,6 +85,14 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   has_many :docs, :dependent => :destroy
   has_many :surveys, :dependent => :destroy
   
+  def visible_conversations
+    conversations.where(:hidden.ne => true)
+  end
+  
+  def visible_conversation_posts
+    conversation_posts.where(:hidden.ne => true)
+  end
+  
   belongs_to :group_type, index: true
       
   def top_stories(from,to)
@@ -96,7 +104,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
   
   def hot_conversations(from,to)
-    conversations.where(:hidden.ne => true).where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.conversation_posts.where(:hidden.ne => true).count >= 3 }
+    visible_conversations.where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.visible_conversation_posts.count >= 3 }
   end
   
   def new_events(from,to)

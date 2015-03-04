@@ -216,7 +216,7 @@ Lumen::App.controllers do
     @all = params[:all]
       
     @c = {}    
-    conversations = @group.conversations.where(:hidden.ne => true)    
+    conversations = @group.visible_conversations    
     conversations = conversations.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
     conversations.only(:id, :account_id).each_with_index { |conversation|
       @c[conversation.account_id] = [] if !@c[conversation.account_id]
@@ -224,7 +224,7 @@ Lumen::App.controllers do
     }
         
     @cp = {}  
-    conversation_posts = @group.conversation_posts.where(:hidden.ne => true)
+    conversation_posts = @group.visible_conversation_posts
     conversation_posts = conversation_posts.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
     conversation_posts.only(:id, :account_id).each_with_index { |conversation_post|
       @cp[conversation_post.account_id] = [] if !@cp[conversation_post.account_id]

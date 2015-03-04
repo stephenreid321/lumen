@@ -66,7 +66,7 @@ Lumen::App.controllers do
   get '/accounts/:id' do
     sign_in_required!
     @account = Account.find(params[:id]) || not_found
-    @shared_conversations = current_account.conversation_posts.where(account_id: @account.id).order_by(:created_at.desc).limit(10).map(&:conversation).uniq if current_account
+    @shared_conversations = current_account.visible_conversation_posts.where(account_id: @account.id).order_by(:created_at.desc).limit(10).map(&:conversation).uniq if current_account
     erb :'accounts/account'
   end    
               

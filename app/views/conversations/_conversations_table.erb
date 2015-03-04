@@ -9,7 +9,7 @@
       <% if !@group %>
         <td><span style="color: #999999;"><i class="fa fa-group"></i> <%=conversation.group.slug%></span></td>
       <% end %>
-      <td><span style="opacity: <%=(o = (0.3 + 0.7*((c = conversation.conversation_posts.where(:hidden.ne => true).count).to_f/3))) > 1 ? 1 : o%>"class="badge"><%=c%></span></td>
+      <td><span style="opacity: <%=(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o%>"class="badge"><%=c%></span></td>
       <td>
         <% if conversation.last_conversation_post %>
           Last post <%= time_ago_in_words(conversation.last_conversation_post.created_at) %> ago

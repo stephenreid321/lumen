@@ -51,7 +51,7 @@ class ConversationPostBcc
     conversation_post = conversation_post_bcc.conversation_post
     conversation = conversation_post.conversation
     group = conversation.group
-    previous_conversation_post = conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.desc)[1]
+    previous_conversation_post = conversation.visible_conversation_posts.order_by(:created_at.desc)[1]
         
     Mail.defaults do
       delivery_method :smtp, group.smtp_settings
@@ -61,7 +61,7 @@ class ConversationPostBcc
     mail.to = group.email
     mail.from = "#{conversation_post.account.name} <#{conversation_post.from_address}>"
     mail.sender = group.email('-noreply')
-    mail.subject = conversation.conversation_posts.count == 1 ? "[#{group.slug}] #{conversation.subject}" : "Re: [#{group.slug}] #{conversation.subject}"
+    mail.subject = conversation.visible_conversation_posts.count == 1 ? "[#{group.slug}] #{conversation.subject}" : "Re: [#{group.slug}] #{conversation.subject}"
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
         
     if previous_conversation_post

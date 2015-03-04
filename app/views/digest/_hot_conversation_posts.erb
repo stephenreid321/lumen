@@ -9,7 +9,7 @@
       <% end %>
     </h3>
 
-    <%= partial :'conversations/conversation_post', :locals => {:conversation_post => (conversation_posts = conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc)).first} %>
+    <%= partial :'conversations/conversation_post', :locals => {:conversation_post => (conversation_posts = conversation.visible_conversation_posts.order_by(:created_at.asc)).first} %>
 
     <h4><%= (conversation_posts.count - 1) %> replies</h4>
     <%=conversation_posts[1..-1].map { |conversation_post|

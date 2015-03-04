@@ -5,14 +5,14 @@ Lumen::App.controllers do
     @membership = @group.memberships.find_by(account: current_account)    
     redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
     membership_required! if @group.secret?    
-    @conversations = @group.conversations.where(:hidden.ne => true)
+    @conversations = @group.visible_conversations
     @q = params[:q] if params[:q]        
     if @q
       q = []
       q << {:body => /#{@q}/i }
       q << {:conversation_id.in => Conversation.where(:subject => /#{@q}/i).only(:_id).map(&:_id)}
       q << {:account_id.in => Account.where(:name => /#{@q}/i).only(:_id).map(&:_id)}
-      conversation_posts = @group.conversation_posts.where(:hidden.ne => true).or(q)
+      conversation_posts = @group.visible_conversation_posts.or(q)
       @conversations = @conversations.where(:id.in => conversation_posts.only(:conversation_id).map(&:conversation_id))
     end                         
     @conversations = @conversations.order_by(:updated_at.desc).per_page(10).page(params[:page])            
@@ -30,7 +30,7 @@ Lumen::App.controllers do
     @conversation.body ||= ''
     @conversation.account = current_account
     if @conversation.save
-      @conversation_post = @conversation.conversation_posts.first
+      @conversation_post = @conversation.visible_conversation_posts.first
       @conversation_post.send_notifications!
       redirect "/conversations/#{@conversation.slug}#conversation-post-#{@conversation_post.id}"
     else
@@ -48,7 +48,7 @@ Lumen::App.controllers do
       redirect "/groups/#{@conversation.group.slug}"
     else
       if current_account
-        @conversation.conversation_posts.each { |conversation_post|
+        @conversation.visible_conversation_posts.each { |conversation_post|
           conversation_post.conversation_post_read_receipts.create(account: current_account, web: true)
         }
       end
@@ -82,7 +82,7 @@ Lumen::App.controllers do
   get '/conversations/:slug/hide_post/:id' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     group_admins_only!(@conversation.group)
-    @conversation.conversation_posts.find(params[:id]).update_attribute(:hidden, true)
+    @conversation.visible_conversation_posts.find(params[:id]).update_attribute(:hidden, true)
     flash[:notice] = "The post was hidden."
     redirect "/conversations/#{@conversation.slug}"
   end    

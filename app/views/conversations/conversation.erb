@@ -30,7 +30,7 @@
 
     <h2><%=@conversation.subject%></h2>
 
-    <% @conversation.conversation_posts.where(:hidden.ne => true).order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
+    <% @conversation.visible_conversation_posts.order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
       <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post, :i => i} %>
     <% } %>
 

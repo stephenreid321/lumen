@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: f3045914987f9d36658861cbe520c36677733dc4
+  revision: 30d93642d774eefb5b9962b54e02a5e3b151747f
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 72fe3fc8f38067c084d4278d1cf6d6f5af546a42
+  revision: ffd7458f96eef9608cc7d33f26522e32dc42d56b
   specs:
     activate-tools (0.0.1)
       padrino
@@ -202,7 +202,7 @@ GEM
       bson (~> 2.2)
       connection_pool (~> 2.0)
       optionable (~> 0.2.0)
-    multi_json (1.10.1)
+    multi_json (1.11.0)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     net-http-digest_auth (1.4)

@@ -1,3 +1,6 @@
+
+webshims.polyfill();
+
 $(function () {
 
   function wysify() {

@@ -7,7 +7,7 @@ class Membership
   field :notification_level, :type => String
   field :status, :type => String
   field :reminder_sent, :type => Time
-  field :welcome_email_sent, :type => Boolean
+  field :welcome_email_pending, :type => Boolean
   field :muted, :type => Boolean
   
   belongs_to :added_by, index: true, class_name: "Account", inverse_of: :memberships_added
@@ -25,7 +25,7 @@ class Membership
       :admin => :check_box,
       :receive_membership_requests => :check_box,
       :reminder_sent => :datetime,
-      :welcome_email_sent => :check_box,
+      :welcome_email_pending => :check_box,
       :muted => :check_box,
       :status => :select,
       :notification_level => :select
@@ -83,7 +83,7 @@ class Membership
       body b
     end
     mail.deliver 
-    update_attribute(:welcome_email_sent, true)
+    update_attribute(:welcome_email_pending, false)
   end
 
 end

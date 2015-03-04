@@ -206,7 +206,7 @@ Lumen::App.controllers do
       @membership.admin = true if params[:admin]
       @membership.status = 'confirmed' if params[:status] == 'confirmed'
       @membership.added_by = current_account
-      @membership.welcome_email_sent = false
+      @membership.welcome_email_pending = true
       @membership.save
       notices << "#{email} was added to the group."
     }
@@ -215,7 +215,7 @@ Lumen::App.controllers do
       heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
       heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:send_welcome_emails[#{@group.id}]"})
     else
-      @group.memberships.where(:welcome_email_sent => false).each(&:send_welcome_email)
+      @group.memberships.where(:welcome_email_pending => true).each(&:send_welcome_email)
     end
     
     flash[:notice] = notices.join('<br />') if !notices.empty?

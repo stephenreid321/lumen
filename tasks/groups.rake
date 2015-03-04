@@ -5,7 +5,7 @@ namespace :groups do
   end  
   
   task :send_welcome_emails, [:group_id] => :environment do |t, args|
-    Group.find(args[:group_id]).memberships.where(:welcome_email_sent => false).each(&:send_welcome_email)
+    Group.find(args[:group_id]).memberships.where(:welcome_email_pending => true).each(&:send_welcome_email)
   end  
   
 end

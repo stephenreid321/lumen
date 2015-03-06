@@ -89,11 +89,11 @@ rake cleanup 4am
 
 ### 6. Configuration
 
-Visit www.yourdomain.org for the first time. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration. You're done!
+Visit www.yourdomain.org for the first time. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password. Click 'Lumen configuration' in the footer and complete the configuration. You're done!
 
 ## Switching mail servers
 
-If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (`heroku run bash; padrino c`) and run:
+If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (`heroku run padrino c`) and run:
 ```
 Group.all.each { |g| g.setup_mail_accounts_and_forwarder }
 ConversationPost.all.each { |c| c.update_attribute(:imap_uid, nil) }

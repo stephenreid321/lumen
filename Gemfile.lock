@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 30d93642d774eefb5b9962b54e02a5e3b151747f
+  revision: 8b4db5a6d75322d674aaa119e9c7cb34286a9c75
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -66,7 +66,7 @@ GEM
       dragonfly (~> 1.0)
       fog
     erubis (2.7.0)
-    excon (0.44.3)
+    excon (0.44.4)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     faraday (0.9.1)

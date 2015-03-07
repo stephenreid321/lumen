@@ -104,6 +104,20 @@
 
     <% end %>
 
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Delete account</h3>
+      </div>
+      <div class="panel-body">
+        <p>To completely remove your account, type your name into the box below and click 'Delete account'.</p>
+
+        <% form_tag '/me/destroy', :class => 'form-inline' do %>
+          <%= text_field_tag :name, :class => 'form-control' %>
+          <button class="btn btn-danger">Delete account</button>
+        <% end %>   
+      </div>
+    </div>
+
   </div>
 </div>
 

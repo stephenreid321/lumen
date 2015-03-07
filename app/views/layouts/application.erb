@@ -74,73 +74,75 @@
   <body>
 
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-top">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <% if !current_account %>
-          <a class="navbar-brand" href="/"><%=ENV['SITE_NAME']%></a>
-        <% end %>        
-      </div>      
-      <div class="collapse navbar-collapse" id="navbar-top">        
-        <% if current_account %>
-          <ul class="nav navbar-nav">
-            <% if current_account %>
-              <li><a href="/"><i class="fa fa-home"></i> <%=I18n.t(:home).capitalize%></a></li>
-              <% if current_account.memberships.count > 1 %>
-                <li class="dropdown">
-                  <a class="dropdown-toggle"
-                     data-toggle="dropdown"
-                     href="#">
-                    <i class="fa fa-group"></i> <%=I18n.t(:my_groups).capitalize%>
-                    <b class="caret"></b>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
-                      <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
-                    <% } %>  
-                  </ul>        
-                </li>    
-              <% end %>
-              <% unless ENV['HIDE_DIRECTORY_TAB'] %>
-                <li><a href="/groups/directory"><i class="fa fa-book"></i> <%=I18n.t(:all_groups).capitalize%></a></li>
-              <% end %>      
-              <% unless ENV['HIDE_GROUP_TYPE_TABS'] %>
-                <% if GroupType.count > 0 %>
-                  <% GroupType.all.each { |group_type| %>
-                    <li><a href="/groups/directory/<%=group_type.slug%>"><i class="fa <%=group_type.icon%>"></i> <%=group_type.name%> groups</a></li>
-                  <% } %>
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-top">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <% if !current_account %>
+            <a class="navbar-brand" href="/"><%=ENV['SITE_NAME']%></a>
+          <% end %>        
+        </div>      
+        <div class="collapse navbar-collapse" id="navbar-top">        
+          <% if current_account %>
+            <ul class="nav navbar-nav">
+              <% if current_account %>
+                <li><a href="/"><i class="fa fa-home"></i> <%=I18n.t(:home).capitalize%></a></li>
+                <% if current_account.memberships.count > 1 %>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle"
+                       data-toggle="dropdown"
+                       href="#">
+                      <i class="fa fa-group"></i> <%=I18n.t(:my_groups).capitalize%>
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
+                        <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
+                      <% } %>  
+                    </ul>        
+                  </li>    
                 <% end %>
-              <% end %>
-              <% unless ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
-                <% unless ENV['HIDE_ORGANISATIONS_TAB'] %>
-                  <li><a href="/organisations"><i class="fa <%=ENV['ICON_ORGANISATIONS'] || 'fa-bullhorn'%>"></i> <%=I18n.t(:organisations).capitalize%></a></li>
-                <% end %>
-                <% unless ENV['HIDE_SECTORS_TAB'] %>
-                  <li><a href="/sectors"><i class="fa <%=ENV['ICON_SECTORS'].try(:body) || 'fa-th-list'%>"></i> <%=I18n.t(:sectors).capitalize%></a></li>
-                <% end %>
-              <% end %>
-            <%  end %>
-            <%= eval(f('navbar')) %>
-          </ul>  
-        <% end %>
-        <div class="navbar-right">
-          <ul class="nav navbar-nav">
-            <% if current_account %>
-              <li><a href="/me/edit">
-                  <%=I18n.t(:edit_profile_and_connect_accounts).capitalize%>
-                  <% if (x = current_account.provider_links.count)/(y = Provider.registered.count).to_f < 0.5 %>
-                    (<%=x%>/<%=y%> connected)
+                <% unless ENV['HIDE_DIRECTORY_TAB'] %>
+                  <li><a href="/groups/directory"><i class="fa fa-book"></i> <%=I18n.t(:all_groups).capitalize%></a></li>
+                <% end %>      
+                <% unless ENV['HIDE_GROUP_TYPE_TABS'] %>
+                  <% if GroupType.count > 0 %>
+                    <% GroupType.all.each { |group_type| %>
+                      <li><a href="/groups/directory/<%=group_type.slug%>"><i class="fa <%=group_type.icon%>"></i> <%=group_type.name%> groups</a></li>
+                    <% } %>
                   <% end %>
-                </a></li>
-              <li><a href="/sign_out"><%=I18n.t(:sign_out).capitalize%></a></li>
-            <% elsif Fragment.find_by(slug: 'public-homepage') %> 
-              <li><a href="/sign_in"><%=I18n.t(:sign_in).capitalize%></a></li>
-            <% end %>
-          </ul>
+                <% end %>
+                <% unless ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+                  <% unless ENV['HIDE_ORGANISATIONS_TAB'] %>
+                    <li><a href="/organisations"><i class="fa <%=ENV['ICON_ORGANISATIONS'] || 'fa-bullhorn'%>"></i> <%=I18n.t(:organisations).capitalize%></a></li>
+                  <% end %>
+                  <% unless ENV['HIDE_SECTORS_TAB'] %>
+                    <li><a href="/sectors"><i class="fa <%=ENV['ICON_SECTORS'].try(:body) || 'fa-th-list'%>"></i> <%=I18n.t(:sectors).capitalize%></a></li>
+                  <% end %>
+                <% end %>
+              <%  end %>
+              <%= eval(f('navbar')) %>
+            </ul>  
+          <% end %>
+          <div class="navbar-right">
+            <ul class="nav navbar-nav">
+              <% if current_account %>
+                <li><a href="/me/edit">
+                    <%=I18n.t(:edit_profile_and_connect_accounts).capitalize%>
+                    <% if (x = current_account.provider_links.count)/(y = Provider.registered.count).to_f < 0.5 %>
+                      (<%=x%>/<%=y%> connected)
+                    <% end %>
+                  </a></li>
+                <li><a href="/sign_out"><%=I18n.t(:sign_out).capitalize%></a></li>
+              <% elsif Fragment.find_by(slug: 'public-homepage') %> 
+                <li><a href="/sign_in"><%=I18n.t(:sign_in).capitalize%></a></li>
+              <% end %>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>    

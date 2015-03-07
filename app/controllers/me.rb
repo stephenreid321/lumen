@@ -64,5 +64,18 @@ Lumen::App.controllers do
       erb :'accounts/build'
     end
   end  
+    
+  post '/me/destroy' do
+    sign_in_required!
+    if params[:name] and params[:name].downcase == current_account.name.downcase
+      flash[:notice] = "Your account was deleted"
+      current_account.destroy
+      session.clear
+      redirect '/'
+    else
+      flash[:notice] = "The name you typed didn't match the name on this account"
+      redirect back
+    end
+  end
                       
 end

@@ -24,7 +24,7 @@ class Organisation
   has_many :affiliations, :dependent => :restrict
   
   def members
-    Account.where(:id.in => affiliations.only(:account_id).map(&:account_id))
+    Account.where(:id.in => affiliations.pluck(:account_id))
   end  
   
   validates_presence_of :name

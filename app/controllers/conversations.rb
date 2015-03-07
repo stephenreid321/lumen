@@ -10,10 +10,10 @@ Lumen::App.controllers do
     if @q
       q = []
       q << {:body => /#{@q}/i }
-      q << {:conversation_id.in => Conversation.where(:subject => /#{@q}/i).only(:_id).map(&:_id)}
-      q << {:account_id.in => Account.where(:name => /#{@q}/i).only(:_id).map(&:_id)}
+      q << {:conversation_id.in => Conversation.where(:subject => /#{@q}/i).pluck(:id)}
+      q << {:account_id.in => Account.where(:name => /#{@q}/i).pluck(:id)}
       conversation_posts = @group.visible_conversation_posts.or(q)
-      @conversations = @conversations.where(:id.in => conversation_posts.only(:conversation_id).map(&:conversation_id))
+      @conversations = @conversations.where(:id.in => conversation_posts.pluck(:conversation_id))
     end                         
     @conversations = @conversations.order_by(:updated_at.desc).per_page(10).page(params[:page])            
     if request.xhr?
@@ -130,7 +130,7 @@ Lumen::App.controllers do
   get '/conversation_posts/:id/read_receipts' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])    
-    @accounts = Account.where(:id.in => @conversation_post.conversation_post_read_receipts.only(:account_id).map(&:account_id))
+    @accounts = Account.where(:id.in => @conversation_post.conversation_post_read_receipts.pluck(:account_id))
     @accounts = @accounts.order(:name.asc).per_page(params[:per_page] || 50).page(params[:page])
     @title = "People who read this"
     partial :'accounts/results_compact', :layout => 'modal'
@@ -139,7 +139,7 @@ Lumen::App.controllers do
   get '/conversation_posts/:id/plus_ones' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])    
-    @accounts = Account.where(:id.in => @conversation_post.plus_ones.only(:account_id).map(&:account_id))
+    @accounts = Account.where(:id.in => @conversation_post.plus_ones.pluck(:account_id))
     @accounts = @accounts.order(:name.asc).per_page(params[:per_page] || 50).page(params[:page])
     @title = "People who +1'd this"
     partial :'accounts/results_compact', :layout => 'modal'    

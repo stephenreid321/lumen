@@ -123,8 +123,8 @@ Lumen::App.controllers do
       erb :'surveys/results'
     when :csv
       CSV.generate do |csv|
-        question_ids = @survey.questions.order('order asc').only(:id).map(&:id)
-        csv << [nil,nil]+@survey.questions.order('order asc').only(:text).map(&:text)
+        question_ids = @survey.questions.order('order asc').pluck(:id)
+        csv << [nil,nil]+@survey.questions.order('order asc').pluck(:text)
         @survey.survey_takers.each do |survey_taker|
           account = survey_taker.account
           answers = {}

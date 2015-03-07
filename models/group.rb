@@ -100,7 +100,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
   
   def new_people(from,to)
-    Account.where(:id.in => memberships.where(:created_at.gte => from).where(:created_at.lt => to+1).only(:account_id).map(&:account_id)).where(:has_picture => true)
+    Account.where(:id.in => memberships.where(:created_at.gte => from).where(:created_at.lt => to+1).pluck(:account_id)).where(:has_picture => true)
   end
   
   def hot_conversations(from,to)
@@ -116,15 +116,15 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end  
   
   def members
-    Account.where(:id.in => memberships.where(:status => 'confirmed').only(:account_id).map(&:account_id))
+    Account.where(:id.in => memberships.where(:status => 'confirmed').pluck(:account_id))
   end
   
   def admins
-    Account.where(:id.in => memberships.where(:admin => true).only(:account_id).map(&:account_id))
+    Account.where(:id.in => memberships.where(:admin => true).pluck(:account_id))
   end
   
   def admins_receiving_membership_requests
-    Account.where(:id.in => memberships.where(:admin => true, :receive_membership_requests => true).only(:account_id).map(&:account_id))
+    Account.where(:id.in => memberships.where(:admin => true, :receive_membership_requests => true).pluck(:account_id))
   end  
     
   def request_questions_a

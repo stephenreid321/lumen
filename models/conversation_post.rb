@@ -103,7 +103,7 @@ class ConversationPost
    
   def accounts_to_notify
     Account.where(:id.in => 
-        group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').only(:account_id).map(&:account_id) - conversation.conversation_mutes.only(:account_id).map(&:account_id)    
+        group.memberships.where(:notification_level => 'each').where(:status => 'confirmed').pluck(:account_id) - conversation.conversation_mutes.pluck(:account_id)    
     )
   end
         

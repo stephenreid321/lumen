@@ -28,8 +28,8 @@ Lumen::App.controllers do
     end 
     @q = []
     @q << {:id => @account_id} if @account_id
-    @q << {:id.in => Affiliation.where(organisation_id: @organisation_id).only(:account_id).map(&:account_id)} if @organisation_id
-    @q << {:id.in => AccountTagship.where(account_tag_id: @account_tag_id).only(:account_id).map(&:account_id)} if @account_tag_id    
+    @q << {:id.in => Affiliation.where(organisation_id: @organisation_id).pluck(:account_id)} if @organisation_id
+    @q << {:id.in => AccountTagship.where(account_tag_id: @account_tag_id).pluck(:account_id)} if @account_tag_id    
     @accounts = @accounts.and(@q)
     case content_type      
     when :json
@@ -41,11 +41,11 @@ Lumen::App.controllers do
           }
         when :organisation
           {
-            results: Organisation.where(:name => /#{params[:q]}/i).where(:id.in => Affiliation.where(:account_id.in => @accounts.only(:id).map(&:id)).only(:organisation_id).map(&:organisation_id)).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
+            results: Organisation.where(:name => /#{params[:q]}/i).where(:id.in => Affiliation.where(:account_id.in => @accounts.pluck(:id)).pluck(:organisation_id)).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
           }
         when :account_tag
           {
-            results: AccountTag.where(:name => /#{params[:q]}/i).where(:id.in => AccountTagship.where(:account_id.in => @accounts.only(:id).map(&:id)).only(:account_tag_id).map(&:account_tag_id)).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
+            results: AccountTag.where(:name => /#{params[:q]}/i).where(:id.in => AccountTagship.where(:account_id.in => @accounts.pluck(:id)).pluck(:account_tag_id)).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
           }          
         end.to_json     
       end

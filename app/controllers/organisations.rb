@@ -21,7 +21,7 @@ Lumen::App.controllers do
     @organisations = current_account.network_organisations
     @q = []
     @q << {:id => @organisation_id} if @organisation_id
-    @q << {:id.in => Sectorship.where(sector_id: @sector_id).only(:organisation_id).map(&:organisation_id)} if @sector_id    
+    @q << {:id.in => Sectorship.where(sector_id: @sector_id).pluck(:organisation_id)} if @sector_id    
     @organisations = @organisations.and(@q)
     case content_type      
     when :json
@@ -33,7 +33,7 @@ Lumen::App.controllers do
           }
         when :sector
           {
-            results: Sector.where(:name => /#{params[:sector_q]}/i).where(:id.in => Sectorship.where(:organisation_id.in => @organisations.only(:id).map(&:id)).only(:sector_id).map(&:sector_id)).map { |sector| {id: sector.id.to_s, text: sector.name} }
+            results: Sector.where(:name => /#{params[:sector_q]}/i).where(:id.in => Sectorship.where(:organisation_id.in => @organisations.pluck(:id)).pluck(:sector_id)).map { |sector| {id: sector.id.to_s, text: sector.name} }
           }          
         end.to_json   
       end      

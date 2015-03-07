@@ -93,11 +93,11 @@ class Account
   end
   
   def network_organisations
-    Organisation.where(:id.in => Affiliation.where(:account_id.in => network.only(:id).map(&:id)).only(:organisation_id).map(&:organisation_id))
+    Organisation.where(:id.in => Affiliation.where(:account_id.in => network.pluck(:id)).pluck(:organisation_id))
   end
   
   def network_sectors
-    Sector.where(:id.in => Sectorship.where(:organisation_id.in => network_organisations.only(:id).map(&:id)).only(:sector_id).map(&:sector_id))
+    Sector.where(:id.in => Sectorship.where(:organisation_id.in => network_organisations.pluck(:id)).pluck(:sector_id))
   end
     
   def events

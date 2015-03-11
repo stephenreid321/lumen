@@ -43,15 +43,19 @@ We'll add the DNS records shortly.
 
 ###  2. Purchase a VPS and set up Virtualmin
 
-Purchase a VPS (Try [RamNode](http://www.ramnode.com/) or [Digital Ocean](http://www.digitalocean.com), 512mb RAM should do). Use `mail.yourdomain.org` as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. SSH into the VPS and install Virtualmin with:
+Purchase a VPS (Try [RamNode](http://www.ramnode.com/) or [Digital Ocean](http://www.digitalocean.com), 512mb RAM should do). Use `mail.yourdomain.org` as the hostname and if in doubt choose CentOS 6 64-bit as your operating system.
+
+SSH into the VPS and install Virtualmin with (you may need to `yum install perl`):
 
 ```
-wget http://software.virtualmin.com/gpl/scripts/install.sh
+curl -O http://software.virtualmin.com/gpl/scripts/install.sh
 chmod +x install.sh
 ./install.sh
 ```
 
-When the install is finished, visit https://{your VPS IP}:10000. Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password.
+When the install is finished, visit https://{your VPS IP}:10000 and login as `root` (if you haven't previously set a password for the root user, run `passwd`).
+
+Follow the post-installation wizard, verify the configuration check passes and then create a virtual server for yourdomain.org with an administration password set to the same as the root password.
 
 ### 3. Push code to Heroku
 

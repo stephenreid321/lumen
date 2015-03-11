@@ -227,7 +227,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       f.user = ENV['VIRTUALMIN_USERNAME']
       f.pass = ENV['VIRTUALMIN_PASSWORD']
     end.submit
-    form = index.frame_with(:src => 'left.cgi').click.form_with(:action =>'left.cgi')
+    form = index.frames[0].click.forms[0]
     form.field_with(:name => 'dom').option_with(:text => /#{ENV['MAIL_DOMAIN'][0..9]}/).click
     domain_page = form.submit
     users_page = domain_page.link_with(:text => 'Edit Users').click
@@ -246,6 +246,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form = add_user_page.form_with(:action => 'save_user.cgi')
     form['mailuser'] = "#{self.slug}-noreply"
     form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
+    form.checkbox_with(:name => /forward/).uncheck
     form['quota'] = 0
     form.submit    
     # Add pipe

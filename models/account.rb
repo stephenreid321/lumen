@@ -85,7 +85,7 @@ class Account
   end
     
   def public_memberships
-    Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:_id))
+    Membership.where(:id.in => memberships.select { |membership| !membership.group.secret? }.map(&:id))
   end  
           
   def network    

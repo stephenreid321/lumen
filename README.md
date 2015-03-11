@@ -57,6 +57,8 @@ When the install is finished, visit https://{your VPS IP}:10000 and login as `ro
 
 Follow the post-installation wizard, verify the configuration check passes and then create a virtual server for yourdomain.org with an administration password set to the same as the root password.
 
+Since we're using password authentication, it's highly recommended that you install [DenyHosts](https://community.rackspace.com/products/f/25/t/468).
+
 ### 3. Push code to Heroku
 
 ```

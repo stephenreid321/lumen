@@ -37,15 +37,15 @@ Lumen::App.controllers do
         case params[:rtype].to_sym
         when :account
           {
-            results: @accounts.where(:name => /#{params[:q]}/i).map { |account| {id: account.id.to_s, text: account.name} }
+            results: @accounts.where(:name => /#{Regexp.escape(params[:q])}/i).map { |account| {id: account.id.to_s, text: account.name} }
           }
         when :organisation
           {
-            results: Organisation.where(:name => /#{params[:q]}/i).where(:id.in => Affiliation.where(:account_id.in => @accounts.pluck(:id)).pluck(:organisation_id)).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
+            results: Organisation.where(:name => /#{Regexp.escape(params[:q])}/i).where(:id.in => Affiliation.where(:account_id.in => @accounts.pluck(:id)).pluck(:organisation_id)).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
           }
         when :account_tag
           {
-            results: AccountTag.where(:name => /#{params[:q]}/i).where(:id.in => AccountTagship.where(:account_id.in => @accounts.pluck(:id)).pluck(:account_tag_id)).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
+            results: AccountTag.where(:name => /#{Regexp.escape(params[:q])}/i).where(:id.in => AccountTagship.where(:account_id.in => @accounts.pluck(:id)).pluck(:account_tag_id)).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
           }          
         end.to_json     
       end

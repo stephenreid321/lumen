@@ -9,9 +9,9 @@ Lumen::App.controllers do
     @q = params[:q] if params[:q]        
     if @q
       q = []
-      q << {:body => /#{@q}/i }
-      q << {:conversation_id.in => Conversation.where(:subject => /#{@q}/i).pluck(:id)}
-      q << {:account_id.in => Account.where(:name => /#{@q}/i).pluck(:id)}
+      q << {:body => /#{Regexp.escape(@q)}/i }
+      q << {:conversation_id.in => Conversation.where(:subject => /#{Regexp.escape(@q)}/i).pluck(:id)}
+      q << {:account_id.in => Account.where(:name => /#{Regexp.escape(@q)}/i).pluck(:id)}
       conversation_posts = @group.visible_conversation_posts.or(q)
       @conversations = @conversations.where(:id.in => conversation_posts.pluck(:conversation_id))
     end                         

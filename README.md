@@ -53,6 +53,8 @@ chmod +x install.sh
 ./install.sh
 ```
 
+(See [this guide on LowEndBox](http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/) for more on using Virtualmin as a mail server.)
+
 When the install is finished, visit https://{your VPS IP}:10000 and login as `root` (if you haven't previously set a password for the root user, run `passwd`).
 
 Follow the post-installation wizard, verify the configuration check passes and then create a virtual server for yourdomain.org with an administration password set to the same as the root password.

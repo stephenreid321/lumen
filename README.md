@@ -45,7 +45,7 @@ We'll add the DNS records shortly.
 
 Purchase a VPS (Try [RamNode](http://www.ramnode.com/) or [Digital Ocean](http://www.digitalocean.com), 512mb RAM should do). Use `mail.yourdomain.org` as the hostname and if in doubt choose CentOS 6 64-bit as your operating system.
 
-SSH into the VPS and install Virtualmin with (you may need to `yum install perl`):
+SSH into the VPS and install Virtualmin with:
 
 ```
 curl -O http://software.virtualmin.com/gpl/scripts/install.sh
@@ -53,7 +53,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-(See [this guide on LowEndBox](http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/) for more on using Virtualmin as a mail server.)
+(You may need to `yum install perl` first. See [this guide on LowEndBox](http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/) for more on using Virtualmin as a mail server.)
 
 When the install is finished, visit https://{your VPS IP}:10000 and login as `root` (if you haven't previously set a password for the root user, run `passwd`).
 

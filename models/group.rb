@@ -265,7 +265,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def rename
     if persisted? and @renamed
       queue_setup_mail_accounts_and_forwarder
-      conversation_posts.each { |conversation_post| conversation_post.update_attribute(:imap_uid, nil) }
+      conversation_posts.update_all(imap_uid: nil)
     end
   end
     

@@ -101,8 +101,8 @@ Visit www.yourdomain.org for the first time. (You should be automatically logged
 
 If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (`heroku run padrino c`) and run:
 ```
-Group.all.each { |g| g.setup_mail_accounts_and_forwarder }
-ConversationPost.all.each { |c| c.update_attribute(:imap_uid, nil) }
+Group.each { |group| group.setup_mail_accounts_and_forwarder }
+ConversationPost.update_all(imap_uid: nil)
 ```
 
 ## Gallery

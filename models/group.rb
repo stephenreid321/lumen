@@ -104,7 +104,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
   
   def hot_conversations(from,to)
-    visible_conversations.where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.visible_conversation_posts.count >= (ENV['HOT_CONVERSATION_THRESHOLD'] || 3) }
+    visible_conversations.where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.visible_conversation_posts.count >= (ENV['HOT_CONVERSATION_THRESHOLD'].to_i || 3) }
   end
   
   def new_events(from,to)
@@ -356,7 +356,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     if conversation = ConversationPostBcc.find_by(message_id: mail.in_reply_to).try(:conversation) and conversation.group == group      
       new_conversation = false
       puts "part of conversation id #{conversation.id}"
-      [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________'].each { |pattern|
+      [/On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________'].each { |pattern|
         html = html.split(pattern).first
       }
     else      

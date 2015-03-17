@@ -24,7 +24,7 @@ Lumen::App.controllers do
       :SITE_NAME_DEFINITE => "Name of site with 'the' if appropriate e.g. The Lumen Users Network",
       :SITE_NAME_SHORT => 'Short site name e.g. LUN',
       :HELP_ADDRESS => 'Email address for general queries',
-      :DEFAULT_TIME_ZONE => 'Default time zone e.g. London',
+      :DEFAULT_TIME_ZONE => 'Default time zone (see dropdown in profile for options, defaults to London)',
       :SANITIZE => ['Sanitize user input'],
   
       :REQUIRE_ACCOUNT_LOCATION => ['Requires the completion of the location field on account profiles'],

@@ -39,7 +39,7 @@ class ConversationPostBcc
     self.conversation = self.conversation_post.conversation if self.conversation_post
     self.accounts.each { |account|
       conversation_post_bcc_recipients.build account: account
-    } if self.accounts
+    }
     self.accounts = []
   end  
             

@@ -70,7 +70,7 @@ class ConversationPost
   
   after_create :touch_conversation
   def touch_conversation
-    conversation.update_attribute(:updated_at, Time.now) unless conversation.hidden
+    conversation.set(:updated_at, Time.now) unless conversation.hidden
   end
   
   def didyouknow_replacements(string)

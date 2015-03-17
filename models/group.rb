@@ -256,6 +256,17 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form['val_0'] = "/notify/#{ENV['APP_NAME']}.php #{slug}"
     form.submit      
   end  
+  
+  attr_accessor :renamed
+  before_validation do
+    @renamed = slug_changed?
+  end
+  def rename
+    if persisted? and @renamed
+      queue_setup_mail_accounts_and_forwarder
+      conversation_posts.each { |conversation_post| conversation_post.update_attribute(:imap_uid, nil) }
+    end
+  end
     
   def check!
     return unless ENV['VIRTUALMIN_IP']

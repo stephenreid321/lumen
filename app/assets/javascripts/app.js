@@ -24,7 +24,7 @@ $(function () {
           theme: 'monokai'
         }
       });
-      $('.note-image-input').hide().prev().hide();
+      $('.note-image-input').parent().hide();
       $(textarea).prop('required', false);
       $(summernote).code($(textarea).val());
       $(textarea).addClass('wysified').hide();

@@ -11,8 +11,7 @@ Lumen::App.controllers do
   
   post '/accounts/forgot_password' do
     if params[:email] and @account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i)
-      @password = Account.generate_password(8)
-      @account.update_attribute(:password, @password)
+      @account.update_attribute(:password_reset_token, SecureRandom.uuid)
          
       s = smtp_settings
       Mail.defaults do
@@ -25,11 +24,35 @@ Lumen::App.controllers do
         :body => erb(:'emails/forgot_password', :layout => false)
       )
       mail.deliver 
-      flash[:notice] = "A new password was sent to #{@account.email}"
+      flash[:notice] = "Further instructions were sent to #{@account.email}"
     else
       flash[:error] = "There's no account registered under that email address. Please contact #{ENV['HELP_ADDRESS']} for assistance."
     end
     redirect back
+  end
+  
+  get '/accounts/reset_password/:password_reset_token' do
+    if @account = Account.find_by(password_reset_token: params[:password_reset_token])
+      erb :'accounts/reset_password'
+    else
+      flash[:error] = 'That link has expired'
+      redirect '/sign_in'      
+    end
+  end
+  
+  post '/accounts/reset_password/:password_reset_token' do
+    if @account = Account.find_by(password_reset_token: params[:password_reset_token])
+      if @account.update_attributes(params[:account])
+        @account.update_attribute(:password_reset_token, nil)
+        flash[:notice] = 'Your password was reset. You can sign in below.'
+        redirect '/sign_in'
+      else
+        erb :'accounts/reset_password'
+      end
+    else
+      flash[:error] = 'That link has expired'
+      redirect '/sign_in'      
+    end
   end
   
   get '/auth/failure' do

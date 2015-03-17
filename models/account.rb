@@ -18,6 +18,7 @@ class Account
   field :location, :type => String 
   field :coordinates, :type => Array 
   field :translator, :type => Boolean
+  field :password_reset_token, :type => String
     
   EnvFields.set(self)
   

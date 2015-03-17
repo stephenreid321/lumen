@@ -352,12 +352,8 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     rescue => e
       Airbrake.notify(e)
     end
-                             
-    if (
-        html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and
-          (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)) and
-          conversation = group.conversations.find_by(slug: conversation_url_match[-1])
-      )      
+                                   
+    if conversation = ConversationPostBcc.find_by(message_id: mail.in_reply_to).try(:conversation) and conversation.group == group      
       new_conversation = false
       puts "part of conversation id #{conversation.id}"
       [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________'].each { |pattern|

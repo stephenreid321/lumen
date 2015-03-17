@@ -4,7 +4,7 @@ require_once('PlancakeEmailParser.php');
 
 $domain = '<%=ENV['DOMAIN']%>';
 $maildomain = '<%=ENV['MAIL_DOMAIN']%>';
-$token = '<%=Account.find_by(admin: true).generate_secret_token.gsub('$','\$')%>';
+$token = '<%=Account.find_by(admin: true).secret_token.gsub('$','\$')%>';
 
 $fd = fopen("php://stdin", "r");
 $email = "";

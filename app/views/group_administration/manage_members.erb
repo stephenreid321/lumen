@@ -143,15 +143,16 @@
 
       <div class="checkbox">
         <label>
+          <%= check_box_tag :status, :value => 'confirmed' %>
           Start receiving emails immediately (even if never signed in)
           <i class="status-tip fa fa-question-circle" title="By default, people will only start receiving email notifications once they sign in for the first time.
-             Check this box if you want them to start receiving emails immediately."></i>
-             <%= check_box_tag :status, :value => 'confirmed' %>
+             Check this box if you want them to start receiving emails immediately."></i>             
         </label>
       </div>        
       <div class="checkbox">
         <label>
-          Admin <%= check_box_tag :admin, :value => 1 %>
+          <%= check_box_tag :admin, :value => 1 %>
+          Admin
         </label>
       </div>    
       <button type="submit" class="btn btn-default">Add</button>

@@ -182,6 +182,7 @@ class Account
   index({email: 1 }, {unique: true})
   
   before_validation do
+    self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
   end  
     
@@ -190,12 +191,7 @@ class Account
     self.has_picture = (self.picture ? true : false)
     return true
   end
-    
-  def generate_secret_token
-    update_attribute(:secret_token, ::BCrypt::Password.create(self.id)) if !self.secret_token
-    self.secret_token
-  end  
-    
+  
   def self.new_tips
     {
       :location => 'Your home location, to appear on maps'

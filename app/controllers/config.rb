@@ -16,6 +16,9 @@ Lumen::App.controllers do
       :S3_ACCESS_KEY => 'S3 access key',
       :S3_SECRET => 'S3 secret',  
       :S3_REGION => 'S3 region',  
+      
+      :AIRBRAKE_HOST => 'Airbrake host (no http://)',
+      :AIRBRAKE_API_KEY => 'Airbrake API key',      
 
       :SITE_NAME => 'Name of site e.g. Lumen Users Network',
       :SITE_NAME_DEFINITE => "Name of site with 'the' if appropriate e.g. The Lumen Users Network",
@@ -59,7 +62,7 @@ Lumen::App.controllers do
       :ICON_ORGANISATIONS => 'Alternative Font Awesome icon name for organisations tab',
       :ICON_SECTORS => 'Alternative Font Awesome icon name for sectors tab',
     
-      :NEWSME_SWITCH_HOUR => "Hour to switch over to today's news summaries e.g. 11",  
+      :NEWSME_SWITCH_HOUR => "Hour to switch over to today's news summaries e.g. 11 (default 7)",  
 
       :FACEBOOK_KEY => 'Facebook API key',
       :FACEBOOK_SECRET => 'Facebook API secret',
@@ -69,9 +72,6 @@ Lumen::App.controllers do
       :GOOGLE_SECRET => 'Google API secret',
       :TWITTER_KEY => 'Twitter API key',
       :TWITTER_SECRET => 'Twitter API secret',
-
-      :AIRBRAKE_HOST => 'Airbrake host (no http://)',
-      :AIRBRAKE_API_KEY => 'Airbrake API key',
       
       :GOOGLE_ANALYTICS_TRACKING_ID => 'Google Analytics tracking ID',
             

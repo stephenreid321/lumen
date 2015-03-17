@@ -72,7 +72,7 @@ heroku domains:add www.yourdomain.org
 heroku addons:add mongolab
 heroku addons:add papertrail
 heroku addons:add scheduler
-heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` APP_NAME=yourappname HEROKU_OAUTH_TOKEN=youroauthtoken DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org DEFAULT_TIME_ZONE=London MONGO_URL=`heroku config:get MONGOLAB_URI`
+heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` APP_NAME=yourappname HEROKU_OAUTH_TOKEN=youroauthtoken DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org DEFAULT_TIME_ZONE=London MONGO_URL=`heroku config:get MONGOLAB_URI` VIRTUALMIN_IP=yourvirtualminip VIRTUALMIN_USERNAME=root VIRTUALMIN_PASSWORD=yourvirtualminpassword S3_BUCKET_NAME=yourbucketname S3_ACCESS_KEY=youraccesskey S3_SECRET=yours3secret AIRBRAKE_HOST=yourairbrakehost AIRBRAKE_API_KEY=yourairbrakeapikey
 ```
 
 (See [https://github.com/heroku/platform-api](https://github.com/heroku/platform-api) for details of how to generate your Heroku OAuth token.)
@@ -88,12 +88,10 @@ heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` AP
 ### 5. Rake tasks
 
 Run `heroku run rake languages:default[English,en]` to set a default language and `heroku run rake mi:create_indexes` to create the database indexes. Open the Scheduler add-on with `heroku addons:open scheduler` and add the following tasks:
-```
-rake news:update 7am
-rake digests:daily 7.30am
-rake digests:weekly 11pm (only runs on Sunday)
-rake cleanup 4am
-```
+* `rake news:update` at 7am
+* `rake digests:daily` at 7.30am
+* `rake digests:weekly` at 11pm (only runs on Sunday)
+* `rake cleanup` at 4am
 
 ### 6. Configuration
 

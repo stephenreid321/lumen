@@ -50,8 +50,8 @@ class ConversationPostBcc
     conversation_post_bcc = self
     conversation_post = conversation_post_bcc.conversation_post
     conversation = conversation_post.conversation
-    group = conversation.group
-    previous_conversation_post = conversation.visible_conversation_posts.order_by(:created_at.desc)[1]
+    group = conversation.group    
+    previous_conversation_posts = conversation.visible_conversation_posts.order_by(:created_at.desc)[1..-1]
         
     Mail.defaults do
       delivery_method :smtp, group.smtp_settings
@@ -64,13 +64,15 @@ class ConversationPostBcc
     mail.subject = conversation.visible_conversation_posts.count == 1 ? "[#{group.slug}] #{conversation.subject}" : "Re: [#{group.slug}] #{conversation.subject}"
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
         
-    if previous_conversation_post
+    if previous_conversation_posts
       if ENV['BCC_EACH']
         account = self.conversation_post_bcc_recipient.account
-        mail.in_reply_to = "<#{previous_conversation_post.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>"
+        references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>" }
       else
-        mail.in_reply_to = "<#{previous_conversation_post.conversation_post_bcc.message_id}>"
+        references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc.message_id}>" }
       end
+      mail.in_reply_to = references.first
+      mail.references = references.join(' ')      
     end
     mail.html_part do
       content_type 'text/html; charset=UTF-8'

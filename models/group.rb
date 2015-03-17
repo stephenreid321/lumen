@@ -261,6 +261,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   before_validation do
     @renamed = slug_changed?
   end
+  after_save :rename
   def rename
     if persisted? and @renamed
       queue_setup_mail_accounts_and_forwarder

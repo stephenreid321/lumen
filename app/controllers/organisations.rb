@@ -29,11 +29,11 @@ Lumen::App.controllers do
         case params[:rtype].to_sym
         when :organisation
           {
-            results: @organisations.where(:name => /#{Regexp.escape(params[:organisation_q])}/i).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
+            results: @organisations.where(:name => /#{Regexp.escape(params[:q])}/i).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
           }
         when :sector
           {
-            results: Sector.where(:name => /#{Regexp.escape(params[:sector_q])}/i).where(:id.in => Sectorship.where(:organisation_id.in => @organisations.pluck(:id)).pluck(:sector_id)).map { |sector| {id: sector.id.to_s, text: sector.name} }
+            results: Sector.where(:name => /#{Regexp.escape(params[:q])}/i).where(:id.in => Sectorship.where(:organisation_id.in => @organisations.pluck(:id)).pluck(:sector_id)).map { |sector| {id: sector.id.to_s, text: sector.name} }
           }          
         end.to_json   
       end      

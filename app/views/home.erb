@@ -54,9 +54,9 @@ if ENV['HOME_TAB_ORDER']
     </div>
   <% end %>
   <div class="<%=ENV['STACKED_HOME'] ? 'col-md-8' : 'col-md-7' %>">        
-    <div class="tab-content">
+    <div class="<%=ENV['STACKED_HOME'] ? '' : 'tab-content' %>">
       <% tabs.each { |k,v| %>
-        <div class="tab-pane page-container" id="<%=k%>-tab">
+        <div class="tab-pane page-container" id="<%=k%>-tab" style="<%='display: none' if ENV['STACKED_HOME']%>">
           <h2><i class="fa fa-spin fa-spinner"></i></h2>        
         </div>      
       <% } %>

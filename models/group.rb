@@ -368,7 +368,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     if conversation = ConversationPostBcc.find_by(message_id: mail.in_reply_to).try(:conversation) and conversation.group == group      
       new_conversation = false
       puts "part of conversation id #{conversation.id}"
-      [/On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________'].each { |pattern|
+      [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
         html = html.split(pattern).first
       }
     else      

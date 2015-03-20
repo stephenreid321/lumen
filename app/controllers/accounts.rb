@@ -33,7 +33,7 @@ Lumen::App.controllers do
     @accounts = @accounts.and(@q)
     case content_type      
     when :json
-      if params[:rtype]
+      if params[:rtype] and params[:q]
         case params[:rtype].to_sym
         when :account
           {

@@ -7,6 +7,7 @@ gem 'rake'
 gem 'erubis'
 gem 'rack', '1.5.2'
 gem 'rack-timeout'
+gem 'json', '1.8.1'
 
 # Admin
 gem 'will_paginate', github: 'mislav/will_paginate'

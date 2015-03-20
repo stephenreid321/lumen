@@ -25,7 +25,7 @@ Lumen::App.controllers do
     @organisations = @organisations.and(@q)
     case content_type      
     when :json
-      if params[:rtype]
+      if params[:rtype] and params[:q]
         case params[:rtype].to_sym
         when :organisation
           {

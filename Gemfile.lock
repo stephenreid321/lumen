@@ -172,7 +172,7 @@ GEM
     i18n (0.7.0)
     inflecto (0.0.2)
     ipaddress (0.8.0)
-    json (1.8.1)
+    json (1.8.2)
     jwt (1.4.1)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -344,7 +344,6 @@ DEPENDENCIES
   erubis
   factory_girl
   geocoder
-  json (= 1.8.1)
   launchy
   mail
   mechanize

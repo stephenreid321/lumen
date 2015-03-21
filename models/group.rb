@@ -267,7 +267,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     return unless ENV['VIRTUALMIN_IP']
     group = self
     imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
-    imap.authenticate('LOGIN', group.username('-inbox'), ENV['VIRTUALMIN_PASSWORD'])
+    begin
+      imap.authenticate('LOGIN', group.username('-inbox'), ENV['VIRTUALMIN_PASSWORD'])
+    rescue # try former/deprecated account form
+      imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
+    end
     imap.select('INBOX')  
     
     # delete messages sent by lumen

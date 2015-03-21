@@ -60,14 +60,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
       
   def username(add = '')
-    u = "#{slug}"
-    u << add
-    u << (ENV['VIRTUALMIN_USERNAME_SUFFIX'] || ENV['MAIL_DOMAIN'].split('.').first)
-    u
+    "#{slug}#{add}.#{ENV['VIRTUALMIN_USERNAME_SUFFIX'] || ENV['MAIL_DOMAIN'].split('.').first}"
   end
                
   def smtp_settings
-    {:address => ENV['VIRTUALMIN_IP'], :user_name => username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
+    {:address => ENV['VIRTUALMIN_IP'], :user_name => self.username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
   end  
   
   has_many :conversations, :dependent => :destroy
@@ -218,6 +215,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     
   def setup_mail_accounts_and_forwarder  
     return unless ENV['VIRTUALMIN_IP']
+    group = self
     agent = Mechanize.new
     agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     index = agent.get("https://#{ENV['VIRTUALMIN_IP']}:10000").form_with(:action => '/session_login.cgi') do |f|
@@ -233,23 +231,23 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
     # Add inbound user
     form = add_user_page.form_with(:action => 'save_user.cgi')
-    form['mailuser'] = "#{self.slug}-inbox"
+    form['mailuser'] = "#{group.slug}-inbox"
     form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
     form['quota'] = 0
     form.submit
     # Add outbound user
     form = add_user_page.form_with(:action => 'save_user.cgi')
-    form['mailuser'] = "#{self.slug}-noreply"
+    form['mailuser'] = "#{group.slug}-noreply"
     form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
     form['quota'] = 0
     form.submit    
     # Add pipe
     form = add_alias_page.form_with(:action => 'save_alias.cgi')
-    form['complexname'] = "#{self.slug}"
+    form['complexname'] = "#{group.slug}"
     form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
-    form['val_0'] = self.username('-inbox')
+    form['val_0'] = group.username('-inbox')
     form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
-    form['val_1'] = "/notify/#{ENV['APP_NAME']}.php #{slug}"
+    form['val_1'] = "/notify/#{ENV['APP_NAME']}.php #{group.slug}"
     form.submit      
   end  
   

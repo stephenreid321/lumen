@@ -236,24 +236,23 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
     # Add inbound user
     form = add_user_page.form_with(:action => 'save_user.cgi')
-    form['mailuser'] = self.slug
+    form['mailuser'] = "#{self.slug}-inbox"
     form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
     form['quota'] = 0
-    form.checkbox_with(:name => /forward/).check
-    form['forwardto'] = "#{self.slug}-pipe@#{ENV['MAIL_DOMAIN']}"
     form.submit
     # Add outbound user
     form = add_user_page.form_with(:action => 'save_user.cgi')
     form['mailuser'] = "#{self.slug}-noreply"
     form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
-    form.checkbox_with(:name => /forward/).uncheck
     form['quota'] = 0
     form.submit    
     # Add pipe
     form = add_alias_page.form_with(:action => 'save_alias.cgi')
-    form['complexname'] = "#{self.slug}-pipe"
-    form.field_with(:name => 'type_0').option_with(:text => /Feed to program/).click
-    form['val_0'] = "/notify/#{ENV['APP_NAME']}.php #{slug}"
+    form['complexname'] = "#{self.slug}"
+    form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
+    form['val_0'] = self.username('-inbox')
+    form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
+    form['val_1'] = "/notify/#{ENV['APP_NAME']}.php #{slug}"
     form.submit      
   end  
   
@@ -273,7 +272,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     return unless ENV['VIRTUALMIN_IP']
     group = self
     imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
-    imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
+    imap.authenticate('LOGIN', group.username('-inbox'), ENV['VIRTUALMIN_PASSWORD'])
     imap.select('INBOX')  
     
     # delete messages sent by lumen

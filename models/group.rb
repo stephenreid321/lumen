@@ -59,16 +59,13 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     "#{self.slug}#{suffix}@#{ENV['MAIL_DOMAIN']}"
   end
       
-  def username(suffix = '')
+  def username(add = '')
     u = "#{slug}"
-    u << suffix
-    unless u == (mail_domain_root = ENV['MAIL_DOMAIN'].split('.').first)
-      u << '.'
-      u << mail_domain_root
-    end
+    u << add
+    u << (ENV['VIRTUALMIN_USERNAME_SUFFIX'] || ENV['MAIL_DOMAIN'].split('.').first)
     u
   end
-             
+               
   def smtp_settings
     {:address => ENV['VIRTUALMIN_IP'], :user_name => username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
   end  

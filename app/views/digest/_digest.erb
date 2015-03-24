@@ -34,9 +34,6 @@
 </h2> 
 
 <%= partial :'digest/hot_conversations', locals: {group: group, hot_conversations: hot_conversations} %>    
-<% if group and group.show_full_conversations_in_digests %>
-  <%= partial :'digest/hot_conversation_posts', locals: {group: group, hot_conversations: hot_conversations} %>
-<% end %>
 <%= partial :'digest/upcoming_events', locals: {group: group, upcoming_events: upcoming_events} %>    
 <%= partial :'digest/new_events', locals: {group: group, new_events: new_events} %>    
 <%= partial :'digest/new_people', locals: {group: group, new_people: new_people} %>    

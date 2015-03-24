@@ -12,8 +12,8 @@
         <% end %>
       </h3>
 
-      <% conversation.visible_conversation_posts.order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
-        <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post, :hide_footer => true} %>
+      <% conversation.visible_conversation_posts.order_by(:created_at.asc).each { |conversation_post|  %>
+        <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post} %>
       <% } %>
 
     <% } %>

@@ -19,11 +19,7 @@ class NewsSummary
       :order => :text
     }
   end
-  
-  def self.date
-    Time.now.hour >= group.news_switch_hour ? Date.today - 1 : Date.today - 2
-  end
-  
+    
   after_save :get_current_digest!
   def get_current_digest!
     daily_digests.create :date => Date.yesterday, :body => begin

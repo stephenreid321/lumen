@@ -191,7 +191,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :default_notification_level => 'Email notification default',
       :slug => 'Name'
     }[attr.to_sym] || super  
-  end   
+  end  
+  
+  def self.news_date
+    Time.now.hour >= news_switch_hour ? Date.today - 1 : Date.today - 2
+  end
   
   def self.privacies
     {'Open' => 'open', 'Closed' => 'closed', 'Secret' => 'secret'}

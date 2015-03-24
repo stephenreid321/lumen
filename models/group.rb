@@ -239,7 +239,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       mail = Mail.new
       mail.bcc = emails
       mail.from = "#{group.slug} <#{group.email('-noreply')}>"
-      mail.subject = "#{h2}: #{to.to_s(:no_year)} - #{to.to_s(:no_year)}" # + compact_daterange(from,to)
+      mail.subject = "#{h2}: #{from.to_s(:no_year)} - #{to.to_s(:no_year)}" # + compact_daterange(from,to)
       mail.html_part do
         content_type 'text/html; charset=UTF-8'
         body html

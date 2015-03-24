@@ -6,7 +6,7 @@ Lumen::App.controllers do
   
   get '/sign_out' do
     session.clear
-    redirect '/'
+    redirect '/sign_in'
   end  
   
   post '/accounts/forgot_password' do

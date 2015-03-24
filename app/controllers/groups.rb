@@ -145,7 +145,7 @@ Lumen::App.controllers do
       mail.deliver        
       
       flash[:notice] = 'Your request was sent.'
-      redirect '/'
+      redirect '/sign_in'
     end    
   end
   

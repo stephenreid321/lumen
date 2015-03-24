@@ -71,7 +71,7 @@ Lumen::App.controllers do
       flash[:notice] = "Your account was deleted"
       current_account.destroy
       session.clear
-      redirect '/'
+      redirect '/sign_in'
     else
       flash[:notice] = "The name you typed didn't match the name on this account"
       redirect back

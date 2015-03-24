@@ -260,6 +260,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   attr_accessor :renamed
   before_validation do
     @renamed = slug_changed?
+    true
   end
   after_save :rename
   def rename

@@ -1,7 +1,7 @@
-<% if @top_stories.any? { |news_summary,stories| stories.length > 0 } %>  
+<% if top_stories.any? { |news_summary,stories| stories.length > 0 } %>  
   <h3>Top stories</h3>
-  <% @top_stories.each { |news_summary,stories|  %>
-    <h4 style="font-size: 18px; line-height: 110%; color: #999"><%=news_summary.title%><% if !@group %> <small><i class="fa fa-group"></i> <%=news_summary.group.slug%></small><% end %></h4>
+  <% top_stories.each { |news_summary,stories|  %>
+    <h4 style="font-size: 18px; line-height: 110%; color: #999"><%=news_summary.title%><% if !group %> <small><i class="fa fa-group"></i> <%=news_summary.group.slug%></small><% end %></h4>
     <div class="news-summary" style="margin-bottom: 20px">
       <ol class="top-stories stories-list">
         <% stories.each_with_index { |e,i| %>

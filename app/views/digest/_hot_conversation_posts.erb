@@ -1,8 +1,8 @@
-<% if @hot_conversations.length > 0 %>
-  <% @hot_conversations.each { |conversation| %>
+<% if hot_conversations.length > 0 %>
+  <% hot_conversations.each { |conversation| %>
     <h3 id="conversation-<%=conversation.id%>">
       <a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a>
-      <% if !@group %>
+      <% if !group %>
         <small>
           <i class="fa fa-group"></i> <%=conversation.group.slug%></span>
         </small>

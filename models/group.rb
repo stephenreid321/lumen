@@ -212,6 +212,42 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def secret?
     privacy == 'secret'
   end
+  
+  def send_digests(notification_level)
+    group = self        
+    emails = group.memberships.where(notification_level: notification_level.to_s).map { |membership| membership.account.email }
+    if emails.length > 0                        
+      # if top_stories.any? { |news_summary,stories| stories.length > 0 } or [new_people, hot_conversations, new_events, upcoming_events].any? { |x| x.length > 0 }
+      
+      case notification_level
+      when :daily
+        from = 1.day.ago.to_date
+        to = Date.today
+      when :weekly      
+        from = 1.week.ago.to_date
+        to = Date.today
+      end   
+      
+      h2 = "Digest for #{group.slug}"        
+      # is there a better way of accessing the controller context?
+      html = open("http://#{ENV['DOMAIN']}/groups/#{group.slug}/digest?from=#{from.to_s(:db)}&to=#{to.to_s(:db)}&for_email=true&h2=#{URI.escape(h2)}&token=#{Account.find_by(admin: true).secret_token}").read
+        
+      Mail.defaults do
+        delivery_method :smtp, group.smtp_settings
+      end    
+              
+      mail = Mail.new
+      mail.bcc = emails
+      mail.from = "#{group.slug} <#{group.email('-noreply')}>"
+      mail.subject = h2 # + compact_daterange(from,to)
+      mail.html_part do
+        content_type 'text/html; charset=UTF-8'
+        body html
+      end
+      mail.deliver                      
+
+    end    
+  end
       
   after_create :queue_setup_mail_accounts_and_forwarder
   def queue_setup_mail_accounts_and_forwarder

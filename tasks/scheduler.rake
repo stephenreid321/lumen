@@ -1,32 +1,35 @@
 
-def path(x)
-  open("http://#{ENV['DOMAIN']}#{x}?token=#{Account.find_by(admin: true).secret_token}")
-end
-
 namespace :cleanup do
   task :organisations => :environment do
-    path '/organisations/cleanup'
+    Organisation.all.each { |organisation|
+      organisation.destroy if organisation.affiliations.count == 0      
+    }
   end
   task :sectors => :environment do
-    path '/sectors/cleanup'
+    Sector.all.each { |sector|
+      sector.destroy if sector.sectorships.count == 0      
+    }
   end      
 end
-
 task :cleanup => ['cleanup:organisations', 'cleanup:sectors']
 
 namespace :news do
   task :update => :environment do
-    path '/update_news'
+    NewsSummary.each { |news_summary| news_summary.get_current_digest! }
   end
 end
 
 namespace :digests do
   task :daily => :environment do
-    path '/send_digests/daily'
+    Group.each { |group|  
+      group.send_digests(:daily)
+    }
   end
   task :weekly => :environment do
     if Date.today.wday == 0
-      path '/send_digests/weekly'
+      Group.each { |group| 
+        group.send_digests(:weekly)
+      }
     end
   end
 end

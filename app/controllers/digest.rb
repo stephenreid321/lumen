@@ -12,7 +12,7 @@ Lumen::App.controllers do
     @upcoming_events = current_account.events.where(:start_time.gte => Date.today).where(:start_time.lt => Date.today+7).order_by(:start_time.asc)
     
     if request.xhr?      
-      partial :'digest/digest'
+      partial :'digest/digest', locals: {group: nil, message: nil, h2: nil, from: @from, to: @to, top_stories: @top_stories, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}
     else
       redirect "/#digest-tab"
     end
@@ -29,17 +29,16 @@ Lumen::App.controllers do
     @hot_conversations = @group.hot_conversations(@from,@to)
     @new_events = @group.new_events(@from,@to)
     @upcoming_events = @group.upcoming_events
-           
-    if request.xhr?
-      if params[:review]
-        @review = true
-        @h2 = params[:h2]
-        @message = params[:message]
-        @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
-        Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-      else
-        partial :'digest/digest'
-      end
+               
+    if params[:for_email]
+      @h2 = params[:h2]
+      @message = params[:message]
+      @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
+      Premailer.new(
+        partial(:'digest/digest', locals: {group: @group, message: @message, h2: @h2, from: @from, to: @to, top_stories: @top_stories, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}, :layout => :email),
+        :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
+    elsif request.xhr?
+      partial :'digest/digest', locals: {group: @group, message: nil, h2: nil, from: @from, to: @to, top_stories: @top_stories, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}
     else    
       redirect "/groups/#{@group.slug}#digest-tab"
     end  
@@ -69,51 +68,5 @@ Lumen::App.controllers do
     flash[:notice] = "The review was sent."
     redirect "/groups/#{@group.slug}"
   end   
-  
-  get '/send_digests/:notification_level' do
-    site_admins_only!
     
-    case params[:notification_level]
-    when 'daily'
-      @from = 1.day.ago.to_date
-      @to = Date.today
-    when 'weekly'      
-      @from = 1.week.ago.to_date
-      @to = Date.today
-    end     
-    
-    Group.each { |group|  
-      @group = group
-      emails = group.memberships.where(notification_level: params[:notification_level]).map { |membership| membership.account.email }
-      if emails.length > 0        
-
-        @top_stories = @group.top_stories(@from,@to)
-        @new_people = @group.new_people(@from,@to)
-        @hot_conversations = @group.hot_conversations(@from,@to)
-        @new_events = @group.new_events(@from,@to)
-        @upcoming_events = @group.upcoming_events      
-      
-        if @top_stories.any? { |news_summary,stories| stories.length > 0 } or [@new_people, @hot_conversations, @new_events, @upcoming_events].any? { |x| x.length > 0 }
-          @h2 = "Digest for #{group.slug}"
-          html = Premailer.new(partial(:'digest/digest', :layout => :email), :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-      
-          Mail.defaults do
-            delivery_method :smtp, group.smtp_settings
-          end    
-              
-          mail = Mail.new
-          mail.bcc = emails
-          mail.from = "#{group.slug} <#{group.email('-noreply')}>"
-          mail.subject = "#{@h2}: #{compact_daterange(@from,@to)}"
-          mail.html_part do
-            content_type 'text/html; charset=UTF-8'
-            body html
-          end
-          mail.deliver                      
-        end
-      end             
-    }
-    halt 200
-  end  
-  
 end

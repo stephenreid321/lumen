@@ -1,15 +1,15 @@
 
 <style>h3 a.btn { float: right }</style>
 
-<% if @message %>
-  <%= @message %>
+<% if message %>
+  <%= message %>
 <% end %>
 
 <h2>       
-  <% if @h2 %>
-    <%=@h2%> <small><%=compact_daterange(@from,@to)%></small>      
+  <% if h2 %>
+    <%=h2%> <small><%=compact_daterange(from,to)%></small>      
   <% else %>
-    Digest for <%= @group ? "#{@group.slug}" : 'your groups' %>
+    Digest for <%= group ? "#{group.slug}" : 'your groups' %>
 
     <small>
       <script>
@@ -18,26 +18,26 @@
           $('#from-to').submit(function (e) {
             e.preventDefault();
             $('.fa-spinner', this).show();
-            $('#digest-tab').load('<%= @group ? "/groups/#{@group.slug}/digest" : "/digest" %>?' + $(this).serialize());
+            $('#digest-tab').load('<%= group ? "/groups/#{group.slug}/digest" : "/digest" %>?' + $(this).serialize());
             return false;
           });
         });
       </script>
       <form style="display: inline" id="from-to">
-        <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=@from.strftime('%d-%b-%Y')%>"/>
+        <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=from.strftime('%d-%b-%Y')%>"/>
         &ndash;
-        <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=@to.strftime('%d-%b-%Y')%>"/>
+        <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=to.strftime('%d-%b-%Y')%>"/>
         <i style="display:none" class="fa fa-spin fa-spinner"></i>
       </form>
     </small>
   <% end %>    
 </h2> 
 
-<%= partial :'digest/hot_conversations' %>    
-<% if @group and @group.show_full_conversations_in_digests %>
-  <%= partial :'digest/hot_conversation_posts' %>  
+<%= partial :'digest/hot_conversations', locals: {group: group, hot_conversations: hot_conversations} %>    
+<% if group and group.show_full_conversations_in_digests %>
+  <%= partial :'digest/hot_conversation_posts', locals: {group: group, hot_conversations: hot_conversations} %>
 <% end %>
-<%= partial :'digest/upcoming_events' %>
-<%= partial :'digest/new_events' %>      
-<%= partial :'digest/new_people' %>        
-<%= partial :'digest/top_stories' %>   
+<%= partial :'digest/upcoming_events', locals: {group: group, upcoming_events: upcoming_events} %>    
+<%= partial :'digest/new_events', locals: {group: group, new_events: new_events} %>    
+<%= partial :'digest/new_people', locals: {group: group, new_people: new_people} %>    
+<%= partial :'digest/top_stories', locals: {group: group, top_stories: top_stories} %>    

@@ -4,15 +4,7 @@ Lumen::App.controllers do
     sign_in_required!
     erb :'organisations/index'
   end
-  
-  get '/organisations/cleanup' do
-    site_admins_only!
-    Organisation.all.each { |organisation|
-      organisation.destroy if organisation.affiliations.count == 0      
-    }
-    redirect '/organisations'
-  end
-  
+    
   get '/organisations/results', :provides => [:json, :html] do
     sign_in_required!
     @o = (params[:o] ? params[:o] : 'date').to_sym

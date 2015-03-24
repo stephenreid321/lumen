@@ -130,7 +130,7 @@ Lumen::App.controllers do
   get '/conversation_posts/:id/read_receipts' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])    
-    redirect "/conversations/#{@conversation_post.conversation.slug}" unless request.xhr?    
+    redirect "/conversations/#{@conversation_post.conversation.slug}#conversation-post-#{@conversation_post.id}" unless request.xhr?    
     @accounts = Account.where(:id.in => @conversation_post.conversation_post_read_receipts.pluck(:account_id))
     @accounts = @accounts.order(:name.asc).per_page(params[:per_page] || 50).page(params[:page])
     @title = "People who read this"
@@ -140,7 +140,7 @@ Lumen::App.controllers do
   get '/conversation_posts/:id/plus_ones' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])    
-    redirect "/conversations/#{@conversation_post.conversation.slug}" unless request.xhr?    
+    redirect "/conversations/#{@conversation_post.conversation.slug}#conversation-post-#{@conversation_post.id}" unless request.xhr?    
     @accounts = Account.where(:id.in => @conversation_post.plus_ones.pluck(:account_id))
     @accounts = @accounts.order(:name.asc).per_page(params[:per_page] || 50).page(params[:page])
     @title = "People who +1'd this"

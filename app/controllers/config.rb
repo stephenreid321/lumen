@@ -62,10 +62,7 @@ Lumen::App.controllers do
     
       :ICON_ORGANISATIONS => 'Alternative Font Awesome icon name for organisations tab',
       :ICON_SECTORS => 'Alternative Font Awesome icon name for sectors tab',
-    
-      :NEWSME_SWITCH_HOUR => "Hour to switch over to today's news summaries e.g. 11 (default 7)",  
-      :HOT_CONVERSATION_THRESHOLD => "Posts required for a conversation to appear in the 'hot conversations' section of a digest (default 3)",
-      
+          
       :FACEBOOK_KEY => 'Facebook API key',
       :FACEBOOK_SECRET => 'Facebook API secret',
       :LINKEDIN_KEY => 'LinkedIn API key',

@@ -10,6 +10,9 @@ class Group
   field :request_questions, :type => String
   field :landing_tab, :type => String
   field :redirect_after_first_profile_save, :type => String
+  field :news_switch_hour, :type => Integer, :default => 7
+  field :hot_conversation_threshold, :type => Integer, :default => 3
+  field :show_full_conversations_in_digests, :type => Boolean
     
   field :reminder_email_subject, :type => String, :default => -> { "A reminder to complete your profile on #{ENV['SITE_NAME_SHORT']}" }
   field :reminder_email, :type => String, :default => -> {
@@ -98,7 +101,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
   
   def hot_conversations(from,to)
-    visible_conversations.where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.visible_conversation_posts.count >= (ENV['HOT_CONVERSATION_THRESHOLD'].to_i || 3) }
+    visible_conversations.where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.visible_conversation_posts.count >= hot_conversation_threshold }
   end
   
   def new_events(from,to)
@@ -157,7 +160,10 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :invite_email => :text_area,
       :membership_request_thanks_email => :text_area,
       :membership_request_acceptance_email => :text_area,
-      :redirect_after_first_profile_save => :text,
+      :redirect_after_first_profile_save => :text,      
+      :news_switch_hour => :number,
+      :hot_conversation_threshold => :number,
+      :show_full_conversations_in_digests => :check_box,
       :group_type_id => :lookup,
       :memberships => :collection,
       :conversations => :collection

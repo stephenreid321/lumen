@@ -10,7 +10,7 @@
     <%=@h2%> <small><%=compact_daterange(@from,@to)%></small>      
   <% else %>
     Digest for <%= @group ? "#{@group.slug}" : 'your groups' %>
-    
+
     <small>
       <script>
         $(function () {
@@ -33,16 +33,11 @@
   <% end %>    
 </h2> 
 
-<% if @review %>
-  <%= partial :'digest/upcoming_events' %>
-  <%= partial :'digest/new_events' %>
-  <%= partial :'digest/hot_conversations' %>        
-  <%= partial :'digest/new_people' %>        
-  <%= partial :'digest/top_stories' %>        
-<% else %>        
-  <%= partial :'digest/hot_conversations' %>    
-  <%= partial :'digest/upcoming_events' %>
-  <%= partial :'digest/new_events' %>      
-  <%= partial :'digest/new_people' %>        
-  <%= partial :'digest/top_stories' %>   
+<%= partial :'digest/hot_conversations' %>    
+<% if @group and @group.show_full_conversations_in_digests %>
+  <%= partial :'digest/hot_conversation_posts' %>  
 <% end %>
+<%= partial :'digest/upcoming_events' %>
+<%= partial :'digest/new_events' %>      
+<%= partial :'digest/new_people' %>        
+<%= partial :'digest/top_stories' %>   

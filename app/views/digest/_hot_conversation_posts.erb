@@ -1,7 +1,7 @@
 <% if @hot_conversations.length > 0 %>
   <% @hot_conversations.each { |conversation| %>
     <h3 id="conversation-<%=conversation.id%>">
-      First post from <a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a>
+      <a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a>
       <% if !@group %>
         <small>
           <i class="fa fa-group"></i> <%=conversation.group.slug%></span>
@@ -9,13 +9,9 @@
       <% end %>
     </h3>
 
-    <%= partial :'conversations/conversation_post', :locals => {:conversation_post => (conversation_posts = conversation.visible_conversation_posts.order_by(:created_at.asc)).first} %>
-
-    <h4><%= (conversation_posts.count - 1) %> replies</h4>
-    <%=conversation_posts[1..-1].map { |conversation_post|
-      %Q{<a href="/conversations/#{conversation.slug}#conversation-post-#{conversation_post.id}"><img title="#{conversation_post.account.name} replied on #{conversation_post.created_at}" style="width: 32px" src="#{conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png'}"></a>}
-      }.join(' ') %>
-
+    <% conversation.visible_conversation_posts.order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
+      <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post, :i => i} %>
+    <% } %>
 
   <% } %>
 <% end %> 

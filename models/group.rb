@@ -243,7 +243,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form.submit    
     # Add pipe
     form = add_alias_page.form_with(:action => 'save_alias.cgi')
-    form['complexname'] = "#{group.slug}"
+    form['complexname'] = group.slug
     form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
     form['val_0'] = group.username('-inbox')
     form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click

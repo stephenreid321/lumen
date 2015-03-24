@@ -285,36 +285,42 @@ Lumen::App.controllers do
     group_admins_only!
     membership_request = @group.membership_requests.find(params[:id])    
     if params[:accept]
-      @account = membership_request.account      
-      if @account.sign_ins.count == 0
-        password = Account.generate_password(8)
-        @account.update_attribute(:password, password) 
-        sign_in_details = "You need to sign in to start receiving email notifications. Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}"
-      else
-        sign_in_details = "Sign in at http://#{ENV['DOMAIN']}/sign_in."
+      account = membership_request.account           
+      membership_request.update_attribute(:status, 'accepted')
+      membership = @group.memberships.create(:account => account, :status => params[:status])            
+      
+      sign_in_details = ''
+      if membership.status == 'pending'
+        sign_in_details << "You need to sign in to start receiving email notifications. "
       end
-    
+        
+      if account.sign_ins.count == 0
+        password = Account.generate_password(8)
+        account.update_attribute(:password, password) 
+        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{account.email} and the password #{password}"
+      else
+        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in."
+      end 
+            
       group = @group # instance var not available in defaults block
       Mail.defaults do
         delivery_method :smtp, group.smtp_settings
       end      
       
-      b = @group.membership_request_acceptance_email
-      .gsub('[firstname]',@account.name.split(' ').first)
+      b = group.membership_request_acceptance_email
+      .gsub('[firstname]',account.name.split(' ').first)
       .gsub('[sign_in_details]', sign_in_details)
               
       mail = Mail.new
-      mail.to = @account.email
-      mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
-      mail.subject = @group.membership_request_acceptance_email_subject
+      mail.to = account.email
+      mail.from = "#{group.slug} <#{group.email('-noreply')}>"
+      mail.subject = group.membership_request_acceptance_email_subject
       mail.html_part do
         content_type 'text/html; charset=UTF-8'
         body b
       end
-      mail.deliver      
-            
-      membership_request.update_attribute(:status, 'accepted')
-      @group.memberships.create(:account => @account)      
+      mail.deliver  
+
     else
       membership_request.update_attribute(:status, 'rejected')
     end

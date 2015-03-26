@@ -193,7 +193,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     }[attr.to_sym] || super  
   end  
   
-  def self.news_date
+  def news_date
     Time.now.hour >= news_switch_hour ? Date.today - 1 : Date.today - 2
   end
   
@@ -266,7 +266,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     end
   end
     
-  def setup_mail_accounts_and_forwarder  
+  def setup_mail_accounts_and_forwarder
     return unless ENV['VIRTUALMIN_IP']
     group = self
     agent = Mechanize.new
@@ -301,8 +301,8 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form['val_0'] = group.username('-inbox')
     form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
     form['val_1'] = "/notify/#{ENV['APP_NAME']}.php #{group.slug}"
-    form.submit      
-  end  
+    form.submit  
+  end
   
   attr_accessor :renamed
   before_validation do

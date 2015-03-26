@@ -10,7 +10,7 @@ Lumen::App.controllers do
   end  
   
   get '/groups/:slug/news' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.open?
     if request.xhr?
       partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => @group.news_date + params[:d].to_i}
@@ -20,27 +20,27 @@ Lumen::App.controllers do
   end  
     
   get '/groups/:slug/news_summaries' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     erb :'group_administration/news_summaries'    
   end  
   
   post '/groups/:slug/news_summaries/add' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @group.news_summaries.create :title => params[:title], :newsme_username => params[:newsme_username]
     redirect back
   end    
   
   get '/groups/:slug/news_summaries/:id/destroy' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @group.news_summaries.find(params[:id]).destroy
     redirect back
   end     
   
   get '/groups/:slug/news_summaries/:id/move_up' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     news_summary = @group.news_summaries.find(params[:id])
     news_summaries = @group.news_summaries.order_by(:order.asc).to_a

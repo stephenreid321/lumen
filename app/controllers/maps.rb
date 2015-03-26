@@ -27,7 +27,7 @@ Lumen::App.controllers do
   end   
       
   get '/groups/:slug/map' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.open?   
     @membership = @group.memberships.find_by(account: current_account)
     @space = @group.spaces.build

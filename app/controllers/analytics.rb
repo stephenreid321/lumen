@@ -12,7 +12,7 @@ Lumen::App.controllers do
   end
 
   get '/groups/:slug/analytics' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!      
     @collection_names = [:conversation_posts, :memberships, :events].select { |collection_name| @group.send(collection_name).count > 0 }      
     @collections = @collection_names.map { |collection_name| @group.send(collection_name).order_by(:created_at.asc) }      

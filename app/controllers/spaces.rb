@@ -10,14 +10,14 @@ Lumen::App.controllers do
   end 
     
   get '/groups/:slug/spaces/new' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @space = @group.spaces.build
     erb :'spaces/build'
   end    
   
   post '/groups/:slug/spaces/new' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @space = @group.spaces.build(params[:space])
     @space.account = current_account
@@ -31,14 +31,14 @@ Lumen::App.controllers do
   end
      
   get '/groups/:slug/spaces/:id/edit' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @space = @group.spaces.find(params[:id]) || not_found
     erb :'spaces/build'
   end
   
   post '/groups/:slug/spaces/:id/edit' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @space = @group.spaces.find(params[:id]) || not_found
     if @space.update_attributes(params[:space])
@@ -51,7 +51,7 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/spaces/:id/destroy' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @space = @group.spaces.find(params[:id]) || not_found
     @space.destroy
@@ -60,7 +60,7 @@ Lumen::App.controllers do
   end  
   
   get '/groups/:slug/spaces/:id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.open?
     @space = @group.spaces.find(params[:id]) || not_found
     erb :'spaces/space'

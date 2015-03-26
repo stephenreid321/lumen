@@ -31,7 +31,7 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/calendar', :provides => [:html, :ics] do    
-    @group = Group.find_by(slug: params[:slug])    
+    @group = Group.find_by(slug: params[:slug]) || not_found    
     membership_required! unless @group.open?
     case content_type   
     when :ics
@@ -46,20 +46,20 @@ Lumen::App.controllers do
   end   
 
   get '/groups/:slug/calendar/feed', :provides => :json do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.open?
     Event.json(@group, params[:start], params[:end])
   end  
     
   get '/groups/:slug/calendar/add' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.build
     erb :'events/build'
   end
   
   post '/groups/:slug/calendar/add' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.build(params[:event])    
     @event.account = current_account
@@ -80,14 +80,14 @@ Lumen::App.controllers do
   end   
     
   get '/groups/:slug/calendar/:id/edit' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.find(params[:id]) || not_found
     erb :'events/build'
   end
   
   post '/groups/:slug/calendar/:id/edit' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.find(params[:id]) || not_found
     if @event.update_attributes(params[:event])
@@ -100,7 +100,7 @@ Lumen::App.controllers do
   end 
   
   get '/groups/:slug/calendar/:id/destroy' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.find(params[:id]) || not_found
     @event.destroy    
@@ -108,14 +108,14 @@ Lumen::App.controllers do
   end 
   
   get '/groups/:slug/calendar/:id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.open?
     @event = @group.events.find(params[:id]) || not_found
     erb :'events/event'
   end  
   
   get '/groups/:slug/calendar/:id/summary' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.open?
     @event = @group.events.find(params[:id]) || not_found
     partial :'events/summary', :locals => {:event => @event, :read_more => true}

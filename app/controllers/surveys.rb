@@ -11,7 +11,7 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/surveys' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.open?
     @surveys = @group.surveys.order_by(:created_at.desc)
     if request.xhr?
@@ -27,14 +27,14 @@ Lumen::App.controllers do
   end 
   
   get '/groups/:slug/surveys/new' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @survey = @group.surveys.build
     erb :'surveys/build'  
   end
   
   post '/groups/:slug/surveys/new' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @survey = @group.surveys.build(params[:survey])
     @survey.account = current_account
@@ -48,14 +48,14 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/surveys/:id/edit' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @survey = @group.surveys.find(params[:id])    
     group_admins_and_creator_only!(account: @survey.account)
     erb :'surveys/build'  
   end
   
   post '/groups/:slug/surveys/:id/edit' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @survey = @group.surveys.find(params[:id])    
     group_admins_and_creator_only!(account: @survey.account)
     if @survey.update_attributes(params[:survey])
@@ -68,7 +68,7 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/surveys/:id/destroy' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @survey = @group.surveys.find(params[:id])    
     group_admins_and_creator_only!(account: @survey.account)
     @survey.destroy
@@ -77,14 +77,14 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/surveys/:id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @survey = @group.surveys.find(params[:id])
     erb :'surveys/survey'
   end    
   
   post '/groups/:slug/surveys/:id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @survey = @group.surveys.find(params[:id])
     @survey.survey_takers.find_by(account: current_account).try(:destroy)
@@ -115,7 +115,7 @@ Lumen::App.controllers do
   end 
   
   get '/groups/:slug/surveys/:id/results', :provides => [:html, :csv] do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @survey = @group.surveys.find(params[:id])    
     group_admins_and_creator_only!(account: @survey.account)    
     case content_type

@@ -8,13 +8,13 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/edit' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     erb :'groups/build'
   end
   
   post '/groups/:slug/edit' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     if @group.update_attributes(params[:group])
       flash[:notice] = "<strong>Great!</strong> The group was updated successfully."
@@ -26,13 +26,13 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/emails' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     erb :'group_administration/emails'
   end
   
   post '/groups/:slug/emails' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     if @group.update_attributes(params[:group])
       flash[:notice] = "<strong>Great!</strong> The group emails were updated successfully."
@@ -45,13 +45,13 @@ Lumen::App.controllers do
   
   
   get '/groups/:slug/landing_tab' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     erb :'group_administration/landing_tab'
   end
   
   post '/groups/:slug/landing_tab' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     if @group.update_attributes(params[:group])
       flash[:notice] = "<strong>Great!</strong> The landing tab was updated successfully."
@@ -63,7 +63,7 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/manage_members' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @view = params[:view] ? params[:view].to_sym : :admins
     @memberships = case @view
@@ -98,7 +98,7 @@ Lumen::App.controllers do
   end
    
   get '/groups/:slug/remove_member/:account_id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.destroy
@@ -107,7 +107,7 @@ Lumen::App.controllers do
   end 
   
   get '/groups/:slug/receive_membership_requests/:account_id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:receive_membership_requests, true)
@@ -116,7 +116,7 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/stop_receiving_membership_requests/:account_id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:receive_membership_requests, false)
@@ -125,7 +125,7 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/make_admin/:account_id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:admin, true)
@@ -134,7 +134,7 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/unadmin/:account_id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:admin, false)
@@ -144,7 +144,7 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/mute/:account_id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:muted, true)
@@ -153,7 +153,7 @@ Lumen::App.controllers do
   end   
   
   get '/groups/:slug/unmute/:account_id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:muted, false)
@@ -162,7 +162,7 @@ Lumen::App.controllers do
   end     
 
   get '/groups/:slug/set_notification_level/:account_id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @membership = @group.memberships.find_by(account_id: params[:account_id])
     @membership.update_attribute(:notification_level, params[:level])
@@ -171,7 +171,7 @@ Lumen::App.controllers do
   end   
   
   post '/groups/:slug/invite' do 
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     notices = []
     data = params[:data] || "#{params[:name]}\t#{params[:email]}"
@@ -223,7 +223,7 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/reminder' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     membership = @group.memberships.find_by(account_id: params[:account_id])
     @account = membership.account
@@ -261,27 +261,27 @@ Lumen::App.controllers do
   end
           
   get '/groups/:slug/didyouknows' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!       
     erb :'group_administration/didyouknows'
   end  
   
   post '/groups/:slug/didyouknows/add' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @group.didyouknows.create :body => params[:body]
     redirect back
   end    
   
   get '/groups/:slug/didyouknows/:id/destroy' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @group.didyouknows.find(params[:id]).destroy
     redirect back
   end 
   
   get '/groups/:slug/process_membership_request/:id' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     membership_request = @group.membership_requests.find(params[:id])    
     if params[:accept]

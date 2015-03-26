@@ -24,7 +24,7 @@ Lumen::App.controllers do
   end
   
   post '/groups/:slug/conversations' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @conversation = @group.conversations.build(params[:conversation])
     @conversation.body ||= ''

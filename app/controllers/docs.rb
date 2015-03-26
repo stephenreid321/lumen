@@ -11,7 +11,7 @@ Lumen::App.controllers do
   end
     
   get '/groups/:slug/docs' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.open?
     @docs = @group.docs.order_by(:created_at.desc)
     if request.xhr?
@@ -22,7 +22,7 @@ Lumen::App.controllers do
   end  
     
   post '/groups/:slug/docs/new' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @doc = @group.docs.build(url: params[:url])    
     @doc.account = current_account

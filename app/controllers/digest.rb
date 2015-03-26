@@ -19,7 +19,7 @@ Lumen::App.controllers do
   end
   
   digest = lambda do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless (@group.open? or (current_account and current_account.admin?)) # via token
     @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today
@@ -47,13 +47,13 @@ Lumen::App.controllers do
   post '/groups/:slug/digest', &digest
   
   get '/groups/:slug/review' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     erb :'group_administration/review'
   end  
   
   post '/groups/:slug/review' do
-    @group = Group.find_by(slug: params[:slug])
+    @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today    

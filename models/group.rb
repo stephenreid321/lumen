@@ -217,7 +217,6 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     group = self        
     emails = group.memberships.where(notification_level: notification_level.to_s).map { |membership| membership.account.email }
     if emails.length > 0                        
-      # if top_stories.any? { |news_summary,stories| stories.length > 0 } or [new_people, hot_conversations, new_events, upcoming_events].any? { |x| x.length > 0 }
       
       case notification_level
       when :daily
@@ -232,26 +231,28 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       # is there a better way of accessing the controller context?
       html = open("http://#{ENV['DOMAIN']}/groups/#{group.slug}/digest?from=#{from.to_s(:db)}&to=#{to.to_s(:db)}&for_email=true&h2=#{URI.escape(h2)}&token=#{Account.find_by(admin: true).secret_token}").read
         
-      Mail.defaults do
-        delivery_method :smtp, group.smtp_settings
-      end    
+      if html.include?('<h3>')
+        Mail.defaults do
+          delivery_method :smtp, group.smtp_settings
+        end    
       
-      # can we access the compact_daterange helper?
-      daterange = if from.strftime("%b %Y") == to.strftime("%b %Y")
-        from.day.ordinalize + " – " + to.strftime("#{to.day.ordinalize} %b %Y")
-      else
-        from.strftime("#{from.day.ordinalize} %b %Y") + " – " + to.strftime("#{to.day.ordinalize} %b %Y")
-      end
+        # can we access the compact_daterange helper?
+        daterange = if from.strftime("%b %Y") == to.strftime("%b %Y")
+          from.day.ordinalize + " – " + to.strftime("#{to.day.ordinalize} %b %Y")
+        else
+          from.strftime("#{from.day.ordinalize} %b %Y") + " – " + to.strftime("#{to.day.ordinalize} %b %Y")
+        end
               
-      mail = Mail.new
-      mail.bcc = emails
-      mail.from = "#{group.slug} <#{group.email('-noreply')}>"
-      mail.subject = "#{h2}: #{daterange}"
-      mail.html_part do
-        content_type 'text/html; charset=UTF-8'
-        body html
+        mail = Mail.new
+        mail.bcc = emails
+        mail.from = "#{group.slug} <#{group.email('-noreply')}>"
+        mail.subject = "#{h2}: #{daterange}"
+        mail.html_part do
+          content_type 'text/html; charset=UTF-8'
+          body html
+        end
+        mail.deliver  
       end
-      mail.deliver                      
 
     end    
   end

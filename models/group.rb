@@ -269,8 +269,8 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     
   def setup_mail_accounts_and_forwarder
     return unless ENV['MAIL_SERVER_URL']
-    if ENV['VIRTUALMIN']
-      group = self
+    group = self
+    if ENV['VIRTUALMIN']      
       agent = Mechanize.new
       agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       index = agent.get("https://#{ENV['MAIL_SERVER_URL']}:10000").form_with(:action => '/session_login.cgi') do |f|

@@ -1,0 +1,12 @@
+#!/bin/bash
+domain="<%=ENV['DOMAIN']%>"
+maildomain="<%=ENV['MAIL_DOMAIN']%>"
+token="<%=Account.find_by(admin: true).secret_token.gsub('$','\$')%>"
+mailfile=`mktemp`
+cat - > $mailfile
+
+if ! grep -q "Sender: $1-noreply@$maildomain" $mailfile; then 
+  curl -o /notify/check http://$domain/groups/$1/check/?token=$token
+fi
+
+rm $mailfile

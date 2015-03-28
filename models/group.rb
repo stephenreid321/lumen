@@ -63,11 +63,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
       
   def username(add = '')
-    "#{slug}#{add}.#{ENV['VIRTUALMIN_USERNAME_SUFFIX'] || ENV['MAIL_DOMAIN'].split('.').first}"
+    "#{slug}#{add}.#{ENV['GROUP_USERNAME_SUFFIX'] || ENV['MAIL_DOMAIN'].split('.').first}"
   end
                
   def smtp_settings
-    {:address => ENV['VIRTUALMIN_IP'], :user_name => self.username('-noreply'), :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
+    {:address => ENV['MAIL_SERVER_URL'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
   end  
   
   has_many :conversations, :dependent => :destroy
@@ -236,7 +236,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
           delivery_method :smtp, group.smtp_settings
         end    
       
-        # can we access the compact_daterange helper?
+        # can't access the compact_daterange helper, so...
         daterange = if from.strftime("%b %Y") == to.strftime("%b %Y")
           from.day.ordinalize + " – " + to.strftime("#{to.day.ordinalize} %b %Y")
         else
@@ -251,7 +251,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
           content_type 'text/html; charset=UTF-8'
           body html
         end
-        mail.deliver  
+        mail.deliver                      
       end
 
     end    
@@ -268,42 +268,51 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
     
   def setup_mail_accounts_and_forwarder
-    return unless ENV['VIRTUALMIN_IP']
-    group = self
-    agent = Mechanize.new
-    agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    index = agent.get("https://#{ENV['VIRTUALMIN_IP']}:10000").form_with(:action => '/session_login.cgi') do |f|
-      f.user = ENV['VIRTUALMIN_USERNAME']
-      f.pass = ENV['VIRTUALMIN_PASSWORD']
-    end.submit
-    form = index.frames[0].click.forms[0]
-    form.field_with(:name => 'dom').option_with(:text => /#{Regexp.escape(ENV['MAIL_DOMAIN'][0..9])}/).click
-    domain_page = form.submit
-    users_page = domain_page.link_with(:text => 'Edit Users').click
-    add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
-    aliases_page = domain_page.link_with(:text => 'Edit Mail Aliases').click
-    add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
-    # Add inbound user
-    form = add_user_page.form_with(:action => 'save_user.cgi')
-    form['mailuser'] = "#{group.slug}-inbox"
-    form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
-    form['quota'] = 0
-    form.submit
-    # Add outbound user
-    form = add_user_page.form_with(:action => 'save_user.cgi')
-    form['mailuser'] = "#{group.slug}-noreply"
-    form['mailpass'] = ENV['VIRTUALMIN_PASSWORD']
-    form['quota'] = 0
-    form.submit    
-    # Add pipe
-    form = add_alias_page.form_with(:action => 'save_alias.cgi')
-    form['complexname'] = group.slug
-    form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
-    form['val_0'] = group.username('-inbox')
-    form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
-    form['val_1'] = "/notify/#{ENV['APP_NAME']}.php #{group.slug}"
-    form.submit  
-  end
+    return unless ENV['MAIL_SERVER_URL']
+    if ENV['VIRTUALMIN']
+      group = self
+      agent = Mechanize.new
+      agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      index = agent.get("https://#{ENV['MAIL_SERVER_URL']}:10000").form_with(:action => '/session_login.cgi') do |f|
+        f.user = ENV['MAIL_SERVER_USERNAME']
+        f.pass = ENV['MAIL_SERVER_PASSWORD']
+      end.submit
+      form = index.frames[0].click.forms[0]
+      form.field_with(:name => 'dom').option_with(:text => /#{Regexp.escape(ENV['MAIL_DOMAIN'][0..9])}/).click
+      domain_page = form.submit
+      users_page = domain_page.link_with(:text => 'Edit Users').click
+      add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
+      aliases_page = domain_page.link_with(:text => 'Edit Mail Aliases').click
+      add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
+      # Add inbound user
+      form = add_user_page.form_with(:action => 'save_user.cgi')
+      form['mailuser'] = "#{group.slug}-inbox"
+      form['mailpass'] = ENV['MAIL_SERVER_PASSWORD']
+      form['quota'] = 0
+      form.submit
+      # Add outbound user
+      form = add_user_page.form_with(:action => 'save_user.cgi')
+      form['mailuser'] = "#{group.slug}-noreply"
+      form['mailpass'] = ENV['MAIL_SERVER_PASSWORD']
+      form['quota'] = 0
+      form.submit    
+      # Add pipe
+      form = add_alias_page.form_with(:action => 'save_alias.cgi')
+      form['complexname'] = group.slug
+      form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
+      form['val_0'] = group.username('-inbox')
+      form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
+      form['val_1'] = "/notify/#{ENV['APP_NAME']}.php #{group.slug}"
+      form.submit  
+    else
+      Net::SSH.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
+        ssh.exec!("useradd #{group.slug}-inbox; echo #{group.slug}-inbox:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")
+        ssh.exec!("useradd #{group.slug}-noreply; echo #{group.slug}-noreply:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")              
+        ssh.exec!(%Q{echo "#{group.slug}@#{ENV['MAIL_DOMAIN']} #{group.slug}-inbox, \"| /notify/notify.sh #{group.slug}\"" >> /etc/aliases})
+        ssh.exec!("newaliases")
+      end
+    end
+  end  
   
   attr_accessor :renamed
   before_validation do
@@ -319,13 +328,13 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
     
   def check!
-    return unless ENV['VIRTUALMIN_IP']
+    return unless ENV['MAIL_SERVER_URL']
     group = self
-    imap = Net::IMAP.new(ENV['VIRTUALMIN_IP'])
+    imap = Net::IMAP.new(ENV['MAIL_SERVER_URL'])
     begin
-      imap.authenticate('LOGIN', group.username('-inbox'), ENV['VIRTUALMIN_PASSWORD'])
+      imap.authenticate('LOGIN', group.username('-inbox'), ENV['MAIL_SERVER_PASSWORD'])
     rescue # try former/deprecated account form
-      imap.authenticate('LOGIN', group.username, ENV['VIRTUALMIN_PASSWORD'])
+      imap.authenticate('LOGIN', group.username, ENV['MAIL_SERVER_PASSWORD'])
     end
     imap.select('INBOX')  
     

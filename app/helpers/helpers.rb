@@ -9,7 +9,7 @@ Lumen::App.helpers do
   end
   
   def smtp_settings
-    {:address => ENV['VIRTUALMIN_IP'], :user_name => ENV['MAIL_DOMAIN'].split('.').first, :password => ENV['VIRTUALMIN_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
+    {:address => ENV['MAIL_SERVER_URL'], :user_name => (ENV['GROUP_USERNAME_SUFFIX'] || ENV['MAIL_DOMAIN'].split('.').first), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
   end
   
   def page_entries_info(collection, model: nil)

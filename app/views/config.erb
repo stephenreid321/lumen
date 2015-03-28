@@ -41,7 +41,7 @@
     </label>
     <div class="col-md-2">
       <% if ENV['APP_NAME'] %>
-        <% if ENV['VIRTUALMIN_IP'] %>
+        <% if ENV['MAIL_SERVER_URL'] %>
           <% if @notification_script %>
             <i class="fa fa-check"></i> Present
             <a class="btn btn-default" href="/config/create_notification_script">Recreate notification script</a>
@@ -50,7 +50,7 @@
             <a class="btn btn-primary" href="/config/create_notification_script">Create notification script</a>
           <% end %>
         <% else %>
-          <i class="fa fa-warning"></i> Set Virtualmin details first
+          <i class="fa fa-warning"></i> Set mail server details first
         <% end %>
       <% else %>
         <i class="fa fa-warning"></i> Set app name first

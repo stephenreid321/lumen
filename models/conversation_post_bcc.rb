@@ -47,7 +47,7 @@ class ConversationPostBcc
             
   after_create :send_email
   def send_email
-    return unless ENV['VIRTUALMIN_IP']
+    return unless ENV['MAIL_SERVER_URL']
     # set locals for ERB binding
     conversation_post_bcc = self
     conversation_post = conversation_post_bcc.conversation_post

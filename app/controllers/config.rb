@@ -8,9 +8,10 @@ Lumen::App.controllers do
       :DOMAIN => 'Domain of Lumen install',
       :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
 
-      :VIRTUALMIN_IP => 'IP for Virtualmin installation',
-      :VIRTUALMIN_USERNAME => 'Username for Virtualmin',
-      :VIRTUALMIN_PASSWORD => 'Password for Virtualmin',
+      :MAIL_SERVER_URL => 'Mail server URL',
+      :MAIL_SERVER_USERNAME => 'Mail server username',
+      :MAIL_SERVER_PASSWORD => 'Mail server password',
+      :VIRTUALMIN => ['Check this box if using Virtualmin as your mail server'],
       
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',
@@ -78,7 +79,7 @@ Lumen::App.controllers do
       :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)',
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 5s.',
       
-      :VIRTUALMIN_USERNAME_SUFFIX => 'Custom suffix for Virtualmin users',
+      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups',
     } 
     
     @fragments = {
@@ -106,8 +107,8 @@ Lumen::App.controllers do
   
   get '/config' do
     site_admins_only!
-    if ENV['APP_NAME'] and ENV['VIRTUALMIN_IP']
-      Net::SSH.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do |ssh|
+    if ENV['APP_NAME'] and ENV['MAIL_SERVER_URL']
+      Net::SSH.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |ssh|
         result = ''
         ssh.exec!("ls /notify") do |channel, stream, data|
           result << data
@@ -134,13 +135,12 @@ Lumen::App.controllers do
   end
     
   get '/config/create_notification_script' do
-    site_admins_only!
-    require 'net/scp'
-    Net::SSH.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do  |ssh|
+    site_admins_only!    
+    Net::SSH.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
       ssh.exec!("mkdir /notify")
       ssh.exec!("chmod 777 /notify")
-      Net::SCP.start(ENV['VIRTUALMIN_IP'], ENV['VIRTUALMIN_USERNAME'], :password => ENV['VIRTUALMIN_PASSWORD']) do |scp|
-        scp.upload! StringIO.new(erb(:'notify/notify.php', :layout => false)), "/notify/#{ENV['APP_NAME']}.php"
+      Net::SCP.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |scp|
+        scp.upload! StringIO.new(erb(:'notify/notify.sh', :layout => false)), "/notify/#{ENV['APP_NAME']}.sh"
         scp.upload! Padrino.root('app','views','notify','PlancakeEmailParser.php'), "/notify"
       end
       ssh.exec!("chmod 777 /notify/*")

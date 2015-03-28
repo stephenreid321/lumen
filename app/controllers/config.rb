@@ -141,7 +141,6 @@ Lumen::App.controllers do
       ssh.exec!("chmod 777 /notify")
       Net::SCP.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |scp|
         scp.upload! StringIO.new(erb(:'notify/notify.sh', :layout => false)), "/notify/#{ENV['APP_NAME']}.sh"
-        scp.upload! Padrino.root('app','views','notify','PlancakeEmailParser.php'), "/notify"
       end
       ssh.exec!("chmod 777 /notify/*")
     end

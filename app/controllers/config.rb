@@ -140,7 +140,18 @@ Lumen::App.controllers do
       ssh.exec!("mkdir /notify")
       ssh.exec!("chmod 777 /notify")
       Net::SCP.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |scp|
-        scp.upload! StringIO.new(erb(:'notify/notify.sh', :layout => false)), "/notify/#{ENV['APP_NAME']}.sh"
+        scp.upload! StringIO.new(%Q{#!/bin/bash
+domain="#{ENV['DOMAIN']}"
+maildomain="#{ENV['MAIL_DOMAIN']}"
+token="#{Account.find_by(admin: true).secret_token}"
+mailfile=`mktemp`
+cat - > $mailfile
+
+if ! grep -q "Sender: $1-noreply@$maildomain" $mailfile; then 
+  curl -o /notify/check http://$domain/groups/$1/check/?token=$token
+fi
+
+rm $mailfile}), "/notify/#{ENV['APP_NAME']}.sh"
       end
       ssh.exec!("chmod 777 /notify/#{ENV['APP_NAME']}.sh")
     end

@@ -113,7 +113,7 @@ Lumen::App.controllers do
         ssh.exec!("ls /notify") do |channel, stream, data|
           result << data
         end
-        @notification_script = result.include?("#{ENV['APP_NAME']}.php")      
+        @notification_script = result.include?("#{ENV['APP_NAME']}.sh")      
       end
     end
     erb :config
@@ -142,7 +142,7 @@ Lumen::App.controllers do
       Net::SCP.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |scp|
         scp.upload! StringIO.new(erb(:'notify/notify.sh', :layout => false)), "/notify/#{ENV['APP_NAME']}.sh"
       end
-      ssh.exec!("chmod 777 /notify/*")
+      ssh.exec!("chmod 777 /notify/#{ENV['APP_NAME']}.sh")
     end
     redirect '/config'
   end 

@@ -302,7 +302,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
       form['val_0'] = group.username('-inbox')
       form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
-      form['val_1'] = "/notify/#{ENV['APP_NAME']}.php #{group.slug}"
+      form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
       form.submit  
     else
       Net::SSH.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|

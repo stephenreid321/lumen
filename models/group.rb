@@ -67,7 +67,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
                
   def smtp_settings
-    {:address => ENV['MAIL_SERVER_URL'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 25, :authentication => 'login', :enable_starttls_auto => false}
+    {:address => ENV['MAIL_SERVER_URL'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => "none"}
   end  
   
   has_many :conversations, :dependent => :destroy
@@ -306,10 +306,13 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       form.submit  
     else
       Net::SSH.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
-        ssh.exec!("useradd #{group.slug}-inbox; echo #{group.slug}-inbox:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")
-        ssh.exec!("useradd #{group.slug}-noreply; echo #{group.slug}-noreply:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")              
-        ssh.exec!(%Q{echo "#{group.slug}@#{ENV['MAIL_DOMAIN']} #{group.slug}-inbox, \"| /notify/notify.sh #{group.slug}\"" >> /etc/aliases})
-        ssh.exec!("newaliases")
+        ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")
+        ssh.exec!("useradd -d /home/#{group.username('-noreply')} -m #{group.username('-noreply')}; echo #{group.username('-noreply')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")                      
+        ssh.exec!(%Q{echo '#{group.slug}@#{ENV['MAIL_DOMAIN']} #{group.username}' >> /etc/postfix/virtual})
+        ssh.exec!(%Q{echo '#{group.username}: #{group.username('-inbox')}, "| /notify/#{ENV['APP_NAME']}.sh #{group.slug}"' >> /etc/aliases})
+        ssh.exec!("newaliases")        
+        ssh.exec!("postmap /etc/postfix/virtual")
+        ssh.exec!("service postfix restart")
       end
     end
   end  
@@ -330,11 +333,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def check!
     return unless ENV['MAIL_SERVER_URL']
     group = self
-    imap = Net::IMAP.new(ENV['MAIL_SERVER_URL'])
+    imap = Net::IMAP.new(ENV['MAIL_SERVER_URL'], :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
     begin
-      imap.authenticate('LOGIN', group.username('-inbox'), ENV['MAIL_SERVER_PASSWORD'])
+      imap.authenticate('PLAIN', group.username('-inbox'), ENV['MAIL_SERVER_PASSWORD'])
     rescue # try former/deprecated account form
-      imap.authenticate('LOGIN', group.username, ENV['MAIL_SERVER_PASSWORD'])
+      imap.authenticate('PLAIN', group.username, ENV['MAIL_SERVER_PASSWORD'])
     end
     imap.select('INBOX')  
     

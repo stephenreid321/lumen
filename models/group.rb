@@ -67,7 +67,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
                
   def smtp_settings
-    {:address => ENV['MAIL_SERVER_URL'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => "none"}
+    {:address => ENV['MAIL_SERVER_URL'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
   end  
   
   has_many :conversations, :dependent => :destroy

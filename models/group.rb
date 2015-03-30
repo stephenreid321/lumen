@@ -257,53 +257,16 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     end    
   end
       
-  after_create :queue_setup_mail_accounts_and_forwarder
-  def queue_setup_mail_accounts_and_forwarder
-    if ENV['HEROKU_OAUTH_TOKEN']
-      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-      heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:setup_mail_accounts_and_forwarder[#{id}]"})
-    else
-      setup_mail_accounts_and_forwarder
-    end
-  end
-    
+  after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
     return unless ENV['MAIL_SERVER_ADDRESS']
-    group = self
-    if ENV['VIRTUALMIN']      
-      agent = Mechanize.new
-      agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      index = agent.get("https://#{ENV['MAIL_SERVER_ADDRESS']}:10000").form_with(:action => '/session_login.cgi') do |f|
-        f.user = ENV['MAIL_SERVER_USERNAME']
-        f.pass = ENV['MAIL_SERVER_PASSWORD']
-      end.submit
-      form = index.frames[0].click.forms[0]
-      form.field_with(:name => 'dom').option_with(:text => /#{Regexp.escape(ENV['MAIL_DOMAIN'][0..9])}/).click
-      domain_page = form.submit
-      users_page = domain_page.link_with(:text => 'Edit Users').click
-      add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
-      aliases_page = domain_page.link_with(:text => 'Edit Mail Aliases').click
-      add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
-      # Add inbound user
-      form = add_user_page.form_with(:action => 'save_user.cgi')
-      form['mailuser'] = "#{group.slug}-inbox"
-      form['mailpass'] = ENV['MAIL_SERVER_PASSWORD']
-      form['quota'] = 0
-      form.submit
-      # Add outbound user
-      form = add_user_page.form_with(:action => 'save_user.cgi')
-      form['mailuser'] = "#{group.slug}-noreply"
-      form['mailpass'] = ENV['MAIL_SERVER_PASSWORD']
-      form['quota'] = 0
-      form.submit    
-      # Add pipe
-      form = add_alias_page.form_with(:action => 'save_alias.cgi')
-      form['complexname'] = group.slug
-      form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
-      form['val_0'] = group.username('-inbox')
-      form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
-      form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
-      form.submit  
+    if ENV['VIRTUALMIN']
+      if ENV['HEROKU_OAUTH_TOKEN']
+        heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+        heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:setup_mail_accounts_and_forwarder_via_virtualmin[#{id}]"})
+      else
+        setup_mail_accounts_and_forwarder_via_virtualmin
+      end
     else
       Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
         ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")
@@ -315,7 +278,44 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         ssh.exec!("service postfix restart")
       end
     end
-  end  
+  end
+    
+  def setup_mail_accounts_and_forwarder_via_virtualmin    
+    group = self   
+    agent = Mechanize.new
+    agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    index = agent.get("https://#{ENV['MAIL_SERVER_ADDRESS']}:10000").form_with(:action => '/session_login.cgi') do |f|
+      f.user = ENV['MAIL_SERVER_USERNAME']
+      f.pass = ENV['MAIL_SERVER_PASSWORD']
+    end.submit
+    form = index.frames[0].click.forms[0]
+    form.field_with(:name => 'dom').option_with(:text => /#{Regexp.escape(ENV['MAIL_DOMAIN'][0..9])}/).click
+    domain_page = form.submit
+    users_page = domain_page.link_with(:text => 'Edit Users').click
+    add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
+    aliases_page = domain_page.link_with(:text => 'Edit Mail Aliases').click
+    add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
+    # Add inbound user
+    form = add_user_page.form_with(:action => 'save_user.cgi')
+    form['mailuser'] = "#{group.slug}-inbox"
+    form['mailpass'] = ENV['MAIL_SERVER_PASSWORD']
+    form['quota'] = 0
+    form.submit
+    # Add outbound user
+    form = add_user_page.form_with(:action => 'save_user.cgi')
+    form['mailuser'] = "#{group.slug}-noreply"
+    form['mailpass'] = ENV['MAIL_SERVER_PASSWORD']
+    form['quota'] = 0
+    form.submit    
+    # Add pipe
+    form = add_alias_page.form_with(:action => 'save_alias.cgi')
+    form['complexname'] = group.slug
+    form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
+    form['val_0'] = group.username('-inbox')
+    form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
+    form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
+    form.submit
+  end
   
   attr_accessor :renamed
   before_validation do
@@ -325,7 +325,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   after_save :rename
   def rename
     if persisted? and @renamed
-      queue_setup_mail_accounts_and_forwarder
+      setup_mail_accounts_and_forwarder
       conversation_posts.update_all(imap_uid: nil)
     end
   end

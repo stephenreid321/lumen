@@ -268,6 +268,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         setup_mail_accounts_and_forwarder_via_virtualmin
       end
     else
+      group = self
       Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
         ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")
         ssh.exec!("useradd -d /home/#{group.username('-noreply')} -m #{group.username('-noreply')}; echo #{group.username('-noreply')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")                      

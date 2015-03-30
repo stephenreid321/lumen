@@ -67,7 +67,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
                
   def smtp_settings
-    {:address => ENV['MAIL_SERVER_URL'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
+    {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
   end  
   
   has_many :conversations, :dependent => :destroy
@@ -268,12 +268,12 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
     
   def setup_mail_accounts_and_forwarder
-    return unless ENV['MAIL_SERVER_URL']
+    return unless ENV['MAIL_SERVER_ADDRESS']
     group = self
     if ENV['VIRTUALMIN']      
       agent = Mechanize.new
       agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      index = agent.get("https://#{ENV['MAIL_SERVER_URL']}:10000").form_with(:action => '/session_login.cgi') do |f|
+      index = agent.get("https://#{ENV['MAIL_SERVER_ADDRESS']}:10000").form_with(:action => '/session_login.cgi') do |f|
         f.user = ENV['MAIL_SERVER_USERNAME']
         f.pass = ENV['MAIL_SERVER_PASSWORD']
       end.submit
@@ -305,7 +305,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
       form.submit  
     else
-      Net::SSH.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
+      Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
         ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")
         ssh.exec!("useradd -d /home/#{group.username('-noreply')} -m #{group.username('-noreply')}; echo #{group.username('-noreply')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")                      
         ssh.exec!(%Q{echo '#{group.slug}@#{ENV['MAIL_DOMAIN']} #{group.username}' >> /etc/postfix/virtual})
@@ -331,9 +331,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
     
   def check!
-    return unless ENV['MAIL_SERVER_URL']
+    return unless ENV['MAIL_SERVER_ADDRESS']
     group = self
-    imap = Net::IMAP.new(ENV['MAIL_SERVER_URL'], :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
+    imap = Net::IMAP.new(ENV['MAIL_SERVER_ADDRESS'], :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
     begin
       imap.authenticate('PLAIN', group.username('-inbox'), ENV['MAIL_SERVER_PASSWORD'])
     rescue # try former/deprecated account form

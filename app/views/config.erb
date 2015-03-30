@@ -41,7 +41,7 @@
     </label>
     <div class="col-md-2">
       <% if ENV['APP_NAME'] %>
-        <% if ENV['MAIL_SERVER_URL'] %>
+        <% if ENV['MAIL_SERVER_ADDRESS'] %>
           <% if @notification_script %>
             <i class="fa fa-check"></i> Present
             <a class="btn btn-default" href="/config/create_notification_script">Recreate notification script</a>

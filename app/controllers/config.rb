@@ -8,10 +8,11 @@ Lumen::App.controllers do
       :DOMAIN => 'Domain of Lumen install',
       :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
 
-      :MAIL_SERVER_URL => 'Mail server URL',
+      :MAIL_SERVER_ADDRESS => 'Mail server URL',
       :MAIL_SERVER_USERNAME => 'Mail server username',
       :MAIL_SERVER_PASSWORD => 'Mail server password',
-      :VIRTUALMIN => ['Check this box if using Virtualmin as your mail server'],
+      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups',
+      :VIRTUALMIN => ['Create mail accounts via Virtualmin'],
       
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',
@@ -79,7 +80,6 @@ Lumen::App.controllers do
       :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)',
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 5s.',
       
-      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups',
     } 
     
     @fragments = {
@@ -107,8 +107,8 @@ Lumen::App.controllers do
   
   get '/config' do
     site_admins_only!
-    if ENV['APP_NAME'] and ENV['MAIL_SERVER_URL']
-      Net::SSH.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |ssh|
+    if ENV['APP_NAME'] and ENV['MAIL_SERVER_ADDRESS']
+      Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |ssh|
         result = ''
         ssh.exec!("ls /notify") do |channel, stream, data|
           result << data
@@ -136,10 +136,10 @@ Lumen::App.controllers do
     
   get '/config/create_notification_script' do
     site_admins_only!    
-    Net::SSH.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
+    Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
       ssh.exec!("mkdir /notify")
       ssh.exec!("chmod 777 /notify")
-      Net::SCP.start(ENV['MAIL_SERVER_URL'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |scp|
+      Net::SCP.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |scp|
         scp.upload! StringIO.new(%Q{#!/bin/bash
 domain="#{ENV['DOMAIN']}"
 maildomain="#{ENV['MAIL_DOMAIN']}"

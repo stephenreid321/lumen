@@ -41,9 +41,9 @@
 
 <ul>
 <li>Open-source (under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported</a>)</li>
-<li>Hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of a few pounds per month)</li>
+<li>Hosted using dokku or Heroku (web app), Amazon S3 (file attachments) and a VPS (mail sever). You can run dokku and the mail server on the same VPS.</li>
 <li>Designed for custom domains (group email addresses of the form <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>)</li>
-<li>Sends and receives mail via regular SMTP and IMAP accounts on Virtualmin</li>
+<li>Sends and receives mail via regular SMTP and IMAP accounts</li>
 <li>Dual web/email access</li>
 <li>Extensible member profiles</li>
 <li>Flexible digest engine</li>
@@ -65,11 +65,11 @@
 <a id="how-the-mailing-lists-work-in-brief" class="anchor" href="#how-the-mailing-lists-work-in-brief" aria-hidden="true"><span class="octicon octicon-link"></span></a> How the mailing lists work, in brief</h2>
 
 <ol>
-<li>Your VPS (running Postfix/Virtualmin) receives a mail to <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>
+<li>Your mail server receives a mail to <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>
 </li>
-<li>The mail triggers a simple notification script on the VPS that in turn alerts your Heroku app to the fact there's a new message for the group</li>
-<li>Your Heroku app connects to the VPS via IMAP to fetch the new mail</li>
-<li>Your Heroku app distributes the message to group members via SMTP</li>
+<li>The mail triggers a simple notification script on the mail server that in turn alerts your web app to the fact there's a new message for the group</li>
+<li>Your web app connects to the mail server via IMAP to fetch the new mail</li>
+<li>Your web app distributes the message to group members via SMTP</li>
 </ol>
 
 <h2>
@@ -81,76 +81,99 @@
 <p>We'll add the DNS records shortly.</p>
 
 <h3>
-<a id="2-purchase-a-vps-and-set-up-virtualmin" class="anchor" href="#2-purchase-a-vps-and-set-up-virtualmin" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Purchase a VPS and set up Virtualmin</h3>
+<a id="2-set-up-the-mail-server" class="anchor" href="#2-set-up-the-mail-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Set up the mail server</h3>
 
-<p>Purchase a VPS (Try <a href="http://www.ramnode.com/">RamNode</a> or <a href="http://www.digitalocean.com">Digital Ocean</a>, 512mb RAM should do). Use <code>mail.yourdomain.org</code> as the hostname and if in doubt choose CentOS 6 64-bit as your operating system. SSH into the VPS and install Virtualmin with:</p>
+<p>Purchase a VPS (Try <a href="http://www.ramnode.com/">RamNode</a> or <a href="http://www.digitalocean.com">Digital Ocean</a>, 512mb RAM should do). If in doubt use <code>mail.yourdomain.org</code> as the hostname and choose Ubuntu 14.04 64-bit as your operating system.
+Make sure you obtain a password for the root user. (Since we're using password authentication, it's highly recommended that you install <a href="https://www.liberiangeek.net/2014/10/install-configure-fail2ban-ubuntu-14-04-servers/">fail2ban</a>.)</p>
 
-<pre><code>wget http://software.virtualmin.com/gpl/scripts/install.sh
-chmod +x install.sh
-./install.sh
+<p>Follow the guide on <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot">How To Set Up a Postfix E-Mail Server with Dovecot</a> and
+then the guide on <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy">How To Install and Configure DKIM with Postfix</a>.</p>
+
+<p>Add the following lines to <code>/etc/postfix/main.cf</code>:</p>
+
+<pre><code>virtual_alias_domains = lists.lumenapp.com
+virtual_alias_maps = hash:/etc/postfix/virtual
+home_mailbox = Maildir/
 </code></pre>
 
-<p>When the install is finished, visit https://{your VPS IP}:10000. Create a virtual server for yourdomain.org with an administration password set to the same as the Virtualmin user password. Go to 'Edit Users' an create a user <a href="mailto:no-reply@yourdomain.org">no-reply@yourdomain.org</a> with the same password again.</p>
+<p>In <code>nano /etc/dovecot/dovecot.conf</code>, change <code>mail_location = mbox:~/mail:INBOX=/var/mail/%u</code> to</p>
 
-<h3>
-<a id="3-push-code-to-heroku" class="anchor" href="#3-push-code-to-heroku" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Push code to Heroku</h3>
-
-<pre><code>git clone https://github.com/wordsandwriting/lumen.git
-cd lumen
-heroku create yourappname
-git push heroku master
-heroku domains:add www.yourdomain.org
-heroku addons:add mongohq
-heroku addons:add papertrail
-heroku addons:add scheduler
-heroku config:set SESSION_SECRET=`rake secret`
-heroku config:set DRAGONFLY_SECRET=`rake secret`
-heroku config:set APP_NAME=yourappname
-heroku config:set HEROKU_OAUTH_TOKEN=youroauthtoken
-heroku config:set DOMAIN=www.yourdomain.org
-heroku config:set MAIL_DOMAIN=yourdomain.org
-git push yourappname master
+<pre><code>mail_location = maildir:~/Maildir
 </code></pre>
 
-<p>(See <a href="https://github.com/heroku/platform-api">https://github.com/heroku/platform-api</a> for details of how to generate your Heroku OAuth token.)</p>
+<p>In <code>/etc/opendkim.conf</code>, add the line</p>
+
+<pre><code>SenderHeaders           Sender,From
+</code></pre>
+
+<p>Restart postfix, dovecot and opendkim.</p>
 
 <h3>
-<a id="4-set-dns" class="anchor" href="#4-set-dns" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Set DNS</h3>
+<a id="3-set-up-the-web-app" class="anchor" href="#3-set-up-the-web-app" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Set up the web app</h3>
+
+<p>Clone the Lumen repo and push it to dokku/Heroku.</p>
+
+<p>Prepare a MongoDB database: you can use <a href="https://github.com/jeffutter/dokku-mongodb-plugin">dokku-mongodb-plugin</a> on dokku
+or <a href="https://addons.heroku.com/mongolab">MongoLab</a> on Heroku.</p>
+
+<p>Optionally, add a custom domain (see instructions for <a href="http://progrium.viewdocs.io/dokku/nginx">dokku</a> or <a href="https://devcenter.heroku.com/articles/custom-domains">Heroku</a>.)</p>
+
+<p>Set the following configuration variables:</p>
+
+<pre><code>APP_NAME=yourappname DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org MONGO_URL=yourmongourl MAIL_SERVER_ADDRESS=yourmailserveraddress MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=yourmailserverpassword S3_BUCKET_NAME=yourbucketname S3_ACCESS_KEY=youraccesskey S3_SECRET=yours3secret AIRBRAKE_HOST=yourairbrakehost AIRBRAKE_API_KEY=yourairbrakeapikey SESSION_SECRET=somelongsecretstring DRAGONFLY_SECRET=somelongsecretstring
+</code></pre>
+
+<p>If using Heroku, also set <code>HEROKU_OAUTH_TOKEN</code> (see <a href="https://github.com/heroku/platform-api">https://github.com/heroku/platform-api</a> for details of how to generate it).</p>
+
+<p>Run <code>rake languages:default[English,en]</code> to set a default language and <code>rake mi:create_indexes</code> to create the database indexes.</p>
+
+<p>Schedule the following tasks using <a href="https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-on-a-vps">cron</a> (dokku) or the <a href="https://devcenter.heroku.com/articles/scheduler">Scheduler addon</a> (Heroku):</p>
 
 <ul>
-<li>Point <a href="http://www">www</a>. to Heroku <code>www.yourdomain.org CNAME yourappname.herokuapp.com</code>
-</li>
-<li>Naked domain redirect via <a href="http://wwwizer.com">wwwizer.com</a> <code>yourdomain.org A 174.129.25.170</code> </li>
+<li>
+<code>rake cleanup</code> (daily, 4am)</li>
+<li>
+<code>rake news:update</code> (daily, suggested 7am)</li>
+<li>
+<code>rake digests:daily</code> (daily, 8am)</li>
+<li>
+<code>rake digests:weekly</code> (weekly, but you can schedule it daily and it will only run on Sunday)</li>
+</ul>
+
+<p>If using dokku, your crontab should look something like this:</p>
+
+<pre><code>0 4 * * * dokku run yourappname rake cleanup
+0 7 * * * dokku run yourappname rake news:update
+0 8 * * * dokku run yourappname rake digests:daily
+0 0 * * 0 dokku run yourappname rake digests:weekly
+</code></pre>
+
+<h3>
+<a id="4-check-dns" class="anchor" href="#4-check-dns" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Check DNS</h3>
+
+<ul>
 <li>For mail delivery <code>yourdomain.org MX mail.yourdomain.org</code> and <code>mail.yourdomain.org A {your VPS IP}</code>
 </li>
 <li>SPF <code>yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"</code>
 </li>
-<li>DKIM: Visit Email Messages &gt; DomainKeys Identified Mail in Virtualmin. Set 'Reject incoming email with invalid DKIM signature?' to 'No' and enter yourdomain.org to 'Additional domains to sign for'. Then add the record under 'DNS records for additional domains'.</li>
+<li>DKIM: see DKIM guide above</li>
 </ul>
 
-<h3>
-<a id="5-rake-tasks" class="anchor" href="#5-rake-tasks" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Rake tasks</h3>
-
-<p>Run <code>heroku run rake languages:default[English,en]</code> to set a default language and <code>heroku run rake mi:create_indexes</code> to create the database indexes. Open the Scheduler add-on with <code>heroku addons:open scheduler</code> and add the following tasks:</p>
-
-<pre><code>rake news:update 7am
-rake digests:daily 7.30am
-rake digests:weekly 11pm (only runs on Sunday)
-rake cleanup 4am
-</code></pre>
+<p>If using a custom domain with Heroku you'll also have something like <code>www.yourdomain.org CNAME yourappname.herokuapp.com</code>. 
+You can also make use of <a href="http://wwwizer.com">wwwizer.com</a>'s free naked domain redirect <code>yourdomain.org A 174.129.25.170</code>.</p>
 
 <h3>
-<a id="6-configuration" class="anchor" href="#6-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. Configuration</h3>
+<a id="5-configuration" class="anchor" href="#5-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Configuration</h3>
 
-<p>Visit <a href="http://www.yourdomain.org">www.yourdomain.org</a> and change the admin name, email address and password. Click 'Lumen configuration' and complete the configuration. You're done!</p>
+<p>Visit <a href="http://www.yourdomain.org">www.yourdomain.org</a> for the first time. (You should be automatically logged in as an administrator. If not, sign in with the email address '<a href="mailto:admin@example.com">admin@example.com</a>' and the password 'lumen'.) Change the admin name, email address and password. Click 'Lumen configuration' in the footer and complete the configuration. You're done!</p>
 
 <h2>
 <a id="switching-mail-servers" class="anchor" href="#switching-mail-servers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Switching mail servers</h2>
 
-<p>If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (<code>heroku run bash; padrino c</code>) and run:</p>
+<p>If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (<code>padrino c</code>) and run:</p>
 
-<pre><code>Group.all.each { |g| g.setup_mail_accounts_and_forwarder }
-ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
+<pre><code>Group.each { |group| group.setup_mail_accounts_and_forwarder }
+ConversationPost.update_all(imap_uid: nil)
 </code></pre>
 
 <h2>
@@ -187,7 +210,7 @@ ConversationPost.all.each { |c| c.update_attribute(:mid, nil) }
 <p><a href="http://wordsandwriting.github.io/lumen/images/profile.jpg"><img src="http://wordsandwriting.github.io/lumen/images/profile.jpg"></a></p>
 
 <h3>
-<a id="email-accounts-on-virtualmin-corresponding-to-groups" class="anchor" href="#email-accounts-on-virtualmin-corresponding-to-groups" aria-hidden="true"><span class="octicon octicon-link"></span></a>Email accounts on Virtualmin corresponding to groups</h3>
+<a id="email-accounts-corresponding-to-groups" class="anchor" href="#email-accounts-corresponding-to-groups" aria-hidden="true"><span class="octicon octicon-link"></span></a>Email accounts corresponding to groups</h3>
 
 <p><a href="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg"><img src="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg"></a></p>
       </section>

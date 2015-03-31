@@ -75,7 +75,7 @@ Restart postfix, dovecot and opendkim.
 Clone the Lumen repo and push it to dokku/Heroku.
 
 Prepare a MongoDB database: you can use [dokku-mongodb-plugin](https://github.com/jeffutter/dokku-mongodb-plugin) on dokku
-or [MongoLab](https://addons.heroku.com/mongolab) on Heroku (`heroku addons:add mongolab`).
+or [MongoLab](https://addons.heroku.com/mongolab) on Heroku.
 
 Optionally, add a custom domain (see instructions for [dokku](http://progrium.viewdocs.io/dokku/nginx) or [Heroku](https://devcenter.heroku.com/articles/custom-domains).)
 

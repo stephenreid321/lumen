@@ -111,9 +111,11 @@ If using dokku, your crontab should look something like this:
 If using a custom domain with Heroku you'll also have something like `www.yourdomain.org CNAME yourappname.herokuapp.com`. 
 You can also make use of [wwwizer.com](http://wwwizer.com)'s free naked domain redirect `yourdomain.org A 174.129.25.170`.
 
-### 5. Configuration
+### 5. Further app configuration
 
-Visit www.yourdomain.org for the first time. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password. Click 'Lumen configuration' in the footer and complete the configuration. You're done!
+Visit www.yourdomain.org for the first time. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.
+
+Click 'Lumen configuration' in the footer and customise as you please!
 
 ## Switching mail servers
 

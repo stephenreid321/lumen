@@ -11,8 +11,6 @@ Lumen::App.controllers do
       :MAIL_SERVER_ADDRESS => 'Mail server URL',
       :MAIL_SERVER_USERNAME => 'Mail server username',
       :MAIL_SERVER_PASSWORD => 'Mail server password',
-      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups',
-      :VIRTUALMIN => ['Create mail accounts via Virtualmin'],
       
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',
@@ -80,6 +78,8 @@ Lumen::App.controllers do
       :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)',
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 5s.',
       
+      :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
+      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to MAIL_DOMAIN)'
     } 
     
     @fragments = {

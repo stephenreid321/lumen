@@ -9,9 +9,9 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 [Mailman](http://www.list.org/) or [Sympa](http://www.sympa.org/). Since then, it's gained some powerful extras. An outline of its features:
 
 * Open-source (under [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported](http://creativecommons.org/licenses/by-nc-sa/3.0/))
-* Hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies per month) and Virtualmin (for the mail sever, requires a low-end VPS at a cost of a few pounds per month)
+* Hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies per month) and a cheap VPS (for the mail sever, a few pounds per month)
 * Designed for custom domains (group email addresses of the form yourgroup@yourdomain.org)
-* Sends and receives mail via regular SMTP and IMAP accounts on Virtualmin
+* Sends and receives mail via regular SMTP and IMAP accounts
 * Dual web/email access
 * Extensible member profiles
 * Flexible digest engine
@@ -30,7 +30,7 @@ See below for more images.
 
 ## How the mailing lists work, in brief
 
-1. Your VPS (running Postfix/Virtualmin) receives a mail to yourgroup@yourdomain.org
+1. Your VPS receives a mail to yourgroup@yourdomain.org
 2. The mail triggers a simple notification script on the VPS that in turn alerts your Heroku app to the fact there's a new message for the group
 3. Your Heroku app connects to the VPS via IMAP to fetch the new mail
 4. Your Heroku app distributes the message to group members via SMTP
@@ -41,25 +41,34 @@ See below for more images.
 
 We'll add the DNS records shortly.
 
-###  2. Purchase a VPS and set up Virtualmin
+###  2. Purchase a VPS and set up the mail server
 
-Purchase a VPS (Try [RamNode](http://www.ramnode.com/) or [Digital Ocean](http://www.digitalocean.com), 512mb RAM should do). Use `mail.yourdomain.org` as the hostname and if in doubt choose CentOS 6 64-bit as your operating system.
+Purchase a VPS (Try [RamNode](http://www.ramnode.com/) or [Digital Ocean](http://www.digitalocean.com), 512mb RAM should do). If in doubt use `mail.yourdomain.org` as the hostname and choose Ubuntu 14.04 64-bit as your operating system.
+Make sure you obtain a password for the root user. (Since we're using password authentication, it's highly recommended that you install [DenyHosts](https://community.rackspace.com/products/f/25/t/468).)
 
-SSH into the VPS and install Virtualmin with:
+Follow the guide on [How To Set Up a Postfix E-Mail Server with Dovecot](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot) and
+then the guide on [How To Install and Configure DKIM with Postfix](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy).
+
+Add the following lines to `/etc/postfix/main.cf`:
 
 ```
-curl -O http://software.virtualmin.com/gpl/scripts/install.sh
-chmod +x install.sh
-./install.sh
+virtual_alias_domains = lists.lumenapp.com
+virtual_alias_maps = hash:/etc/postfix/virtual
+home_mailbox = Maildir/
 ```
 
-(You may need to `yum install perl` first. See [this guide on LowEndBox](http://lowendbox.com/blog/your-own-mail-server-with-virtualmin/) for more on using Virtualmin as a mail server.)
+In `nano /etc/dovecot/dovecot.conf`, change `mail_location = mbox:~/mail:INBOX=/var/mail/%u` to
 
-When the install is finished, visit https://{your VPS IP}:10000 and login as `root` (if you haven't previously set a password for the root user, run `passwd`).
+```
+mail_location = maildir:~/Maildir
+```
 
-Follow the post-installation wizard, verify the configuration check passes and then create a virtual server for yourdomain.org with an administration password set to the same as the root password.
+In `/etc/opendkim.conf`, add the line
+```
+SenderHeaders           Sender,From
+```
 
-Since we're using password authentication, it's highly recommended that you install [DenyHosts](https://community.rackspace.com/products/f/25/t/468).
+Restart postfix, dovecot and opendkim.
 
 ### 3. Push code to Heroku
 
@@ -83,7 +92,7 @@ heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` AP
 * Naked domain redirect via [wwwizer.com](http://wwwizer.com) `yourdomain.org A 174.129.25.170` 
 * For mail delivery `yourdomain.org MX mail.yourdomain.org` and `mail.yourdomain.org A {your VPS IP}`
 * SPF `yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"`
-* DKIM: Visit Email Messages > DomainKeys Identified Mail in Virtualmin. Set 'Reject incoming email with invalid DKIM signature?' to 'No' and enter yourdomain.org to 'Additional domains to sign for'. Then add the record under 'DNS records for additional domains'.
+* DKIM: see DKIM guide above
 
 ### 5. Rake tasks
 
@@ -125,6 +134,6 @@ ConversationPost.update_all(imap_uid: nil)
 ### A profile 
 [<img src="http://wordsandwriting.github.io/lumen/images/profile.jpg">](http://wordsandwriting.github.io/lumen/images/profile.jpg)
 
-### Email accounts on Virtualmin corresponding to groups 
+### Email accounts corresponding to groups 
 [<img src="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg">](http://wordsandwriting.github.io/lumen/images/virtualmin.jpg)
 

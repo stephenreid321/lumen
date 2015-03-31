@@ -41,7 +41,7 @@ See below for more images.
 
 We'll add the DNS records shortly.
 
-###  2. Purchase a VPS and set up the mail server
+###  2. Set up the mail server
 
 Purchase a VPS (Try [RamNode](http://www.ramnode.com/) or [Digital Ocean](http://www.digitalocean.com), 512mb RAM should do). If in doubt use `mail.yourdomain.org` as the hostname and choose Ubuntu 14.04 64-bit as your operating system.
 Make sure you obtain a password for the root user. (Since we're using password authentication, it's highly recommended that you install [fail2ban](https://www.liberiangeek.net/2014/10/install-configure-fail2ban-ubuntu-14-04-servers/).)
@@ -70,7 +70,7 @@ SenderHeaders           Sender,From
 
 Restart postfix, dovecot and opendkim.
 
-### 3. Push code and run rake tasks
+### 3. Set up the web app
 
 Clone the Lumen repo and push it to dokku/Heroku.
 

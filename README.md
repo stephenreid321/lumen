@@ -9,7 +9,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 [Mailman](http://www.list.org/) or [Sympa](http://www.sympa.org/). Since then, it's gained some powerful extras. An outline of its features:
 
 * Open-source (under [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported](http://creativecommons.org/licenses/by-nc-sa/3.0/))
-* Hosted using Heroku (for the web interface, free in initial case), Amazon S3 (for file attachments, typically free or a few pennies per month) and a cheap VPS (for the mail sever, a few pounds per month)
+* Hosted using dokku or Heroku (web app), Amazon S3 (file attachments) and a VPS (mail sever). You can run dokku and the mail server on the same VPS.
 * Designed for custom domains (group email addresses of the form yourgroup@yourdomain.org)
 * Sends and receives mail via regular SMTP and IMAP accounts
 * Dual web/email access
@@ -30,10 +30,10 @@ See below for more images.
 
 ## How the mailing lists work, in brief
 
-1. Your VPS receives a mail to yourgroup@yourdomain.org
-2. The mail triggers a simple notification script on the VPS that in turn alerts your Heroku app to the fact there's a new message for the group
-3. Your Heroku app connects to the VPS via IMAP to fetch the new mail
-4. Your Heroku app distributes the message to group members via SMTP
+1. Your mail server receives a mail to yourgroup@yourdomain.org
+2. The mail triggers a simple notification script on the mail server that in turn alerts your web app to the fact there's a new message for the group
+3. Your web app connects to the mail server via IMAP to fetch the new mail
+4. Your web app distributes the message to group members via SMTP
 
 ## Getting up and running
 
@@ -70,45 +70,53 @@ SenderHeaders           Sender,From
 
 Restart postfix, dovecot and opendkim.
 
-### 3. Push code to Heroku
+### 3. Push code and run rake tasks
 
+Clone the Lumen repo and push it to dokku/Heroku.
+
+Prepare a MongoDB database: you can use [dokku-mongodb-plugin](https://github.com/jeffutter/dokku-mongodb-plugin) on dokku
+or [MongoLab](https://addons.heroku.com/mongolab) on Heroku (`heroku addons:add mongolab`).
+
+Optionally, add a custom domain (see instructions for [dokku](http://progrium.viewdocs.io/dokku/nginx) or [Heroku](https://devcenter.heroku.com/articles/custom-domains).)
+
+Set the following configuration variables:
 ```
-git clone https://github.com/wordsandwriting/lumen.git
-cd lumen
-heroku create yourappname
-git push heroku master
-heroku domains:add www.yourdomain.org
-heroku addons:add mongolab
-heroku addons:add papertrail
-heroku addons:add scheduler
-heroku config:set SESSION_SECRET=`rake secret` DRAGONFLY_SECRET=`rake secret` APP_NAME=yourappname HEROKU_OAUTH_TOKEN=youroauthtoken DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org MONGO_URL=`heroku config:get MONGOLAB_URI` MAIL_SERVER_ADDRESS=yourmailserverurl MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=yourmailserverpassword S3_BUCKET_NAME=yourbucketname S3_ACCESS_KEY=youraccesskey S3_SECRET=yours3secret AIRBRAKE_HOST=yourairbrakehost AIRBRAKE_API_KEY=yourairbrakeapikey
+APP_NAME=yourappname DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org MONGO_URL=yourmongourl MAIL_SERVER_ADDRESS=yourmailserveraddress MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=yourmailserverpassword S3_BUCKET_NAME=yourbucketname S3_ACCESS_KEY=youraccesskey S3_SECRET=yours3secret AIRBRAKE_HOST=yourairbrakehost AIRBRAKE_API_KEY=yourairbrakeapikey SESSION_SECRET=somelongsecretstring DRAGONFLY_SECRET=somelongsecretstring
+```
+If using Heroku, also set `HEROKU_OAUTH_TOKEN` (see [https://github.com/heroku/platform-api](https://github.com/heroku/platform-api) for details of how to generate it).
+
+Run `rake languages:default[English,en]` to set a default language and `rake mi:create_indexes` to create the database indexes.
+
+Schedule the following tasks using [cron](https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-on-a-vps) (dokku) or the [Scheduler addon](https://devcenter.heroku.com/articles/scheduler) (Heroku):
+* `rake cleanup` (daily, 4am)
+* `rake news:update` (daily, suggested 7am)
+* `rake digests:daily` (daily, 8am)
+* `rake digests:weekly` (weekly, but you can schedule it daily and it will only run on Sunday)
+
+If using dokku, your crontab should look something like this:
+```
+0 4 * * * dokku run yourappname rake cleanup
+0 7 * * * dokku run yourappname rake news:update
+0 8 * * * dokku run yourappname rake digests:daily
+0 0 * * 0 dokku run yourappname rake digests:weekly
 ```
 
-(See [https://github.com/heroku/platform-api](https://github.com/heroku/platform-api) for details of how to generate your Heroku OAuth token.)
+### 4.Check DNS
 
-### 4. Set DNS
-
-* Point www. to Heroku `www.yourdomain.org CNAME yourappname.herokuapp.com`
-* Naked domain redirect via [wwwizer.com](http://wwwizer.com) `yourdomain.org A 174.129.25.170` 
 * For mail delivery `yourdomain.org MX mail.yourdomain.org` and `mail.yourdomain.org A {your VPS IP}`
 * SPF `yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"`
 * DKIM: see DKIM guide above
 
-### 5. Rake tasks
+If using Heroku you'll probably want `www.yourdomain.org CNAME yourappname.herokuapp.com`. 
+You can also make use of [wwwizer.com](http://wwwizer.com)'s free naked domain redirect `yourdomain.org A 174.129.25.170`.
 
-Run `heroku run rake languages:default[English,en]` to set a default language and `heroku run rake mi:create_indexes` to create the database indexes. Open the Scheduler add-on with `heroku addons:open scheduler` and add the following tasks:
-* `rake news:update` at 7am
-* `rake digests:daily` at 7.30am
-* `rake digests:weekly` at 11pm (only runs on Sunday)
-* `rake cleanup` at 4am
-
-### 6. Configuration
+### 5. Configuration
 
 Visit www.yourdomain.org for the first time. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password. Click 'Lumen configuration' in the footer and complete the configuration. You're done!
 
 ## Switching mail servers
 
-If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (`heroku run padrino c`) and run:
+If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (`padrino c`) and run:
 ```
 Group.each { |group| group.setup_mail_accounts_and_forwarder }
 ConversationPost.update_all(imap_uid: nil)

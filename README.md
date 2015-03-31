@@ -102,7 +102,7 @@ If using dokku, your crontab should look something like this:
 0 0 * * 0 dokku run yourappname rake digests:weekly
 ```
 
-### 4. Check DNS
+### 4. Set up DNS
 
 * For mail delivery `yourdomain.org MX mail.yourdomain.org` and `mail.yourdomain.org A {your VPS IP}`
 * SPF `yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"`

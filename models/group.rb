@@ -259,16 +259,15 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       
   after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
-    return unless ENV['MAIL_SERVER_ADDRESS']
-    if ENV['VIRTUALMIN']
-      if ENV['HEROKU_OAUTH_TOKEN']
-        heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-        heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:setup_mail_accounts_and_forwarder_via_virtualmin[#{id}]"})
-      else
-        setup_mail_accounts_and_forwarder_via_virtualmin
-      end
-    else
-      if !@setup_complete
+    if ENV['MAIL_SERVER_ADDRESS'] and !@setup_complete
+      if ENV['VIRTUALMIN']
+        if ENV['HEROKU_OAUTH_TOKEN']
+          heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+          heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:setup_mail_accounts_and_forwarder_via_virtualmin[#{id}]"})
+        else
+          setup_mail_accounts_and_forwarder_via_virtualmin
+        end
+      else      
         group = self
         Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
           ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")
@@ -278,10 +277,10 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
           ssh.exec!("newaliases")        
           ssh.exec!("postmap /etc/postfix/virtual")
           ssh.exec!("service postfix restart")
-        end
-        @setup_complete = true
+        end        
       end
-    end
+      @setup_complete = true
+    end    
   end
     
   def setup_mail_accounts_and_forwarder_via_virtualmin    

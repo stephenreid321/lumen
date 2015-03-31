@@ -5,7 +5,7 @@ Lumen::App.controllers do
       :APP_NAME => 'App name (lowercase, no spaces) - Heroku app name if using Heroku',
       :HEROKU_OAUTH_TOKEN => 'Heroku OAuth token',
 
-      :DOMAIN => 'Domain of Lumen install',
+      :DOMAIN => 'Domain of Lumen web app',
       :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
 
       :MAIL_SERVER_ADDRESS => 'Mail server URL',

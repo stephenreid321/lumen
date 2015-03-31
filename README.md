@@ -1,4 +1,4 @@
-okk# Lumen
+# Lumen
 
 [![Build Status](https://travis-ci.org/wordsandwriting/lumen.png?branch=master)](https://travis-ci.org/wordsandwriting/lumen)
 [![Code Climate](https://codeclimate.com/github/wordsandwriting/lumen.png)](https://codeclimate.com/github/wordsandwriting/lumen)
@@ -82,7 +82,7 @@ Optionally, add a custom domain (see instructions for [dokku](http://progrium.vi
 
 Set the following configuration variables:
 ```
-APP_NAME=yourappname DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org MONGO_URL=yourmongourl MAIL_SERVER_ADDRESS=yourmailserveraddress MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=yourmailserverpassword S3_BUCKET_NAME=yourbucketname S3_ACCESS_KEY=youraccesskey S3_SECRET=yours3secret AIRBRAKE_HOST=yourairbrakehost AIRBRAKE_API_KEY=yourairbrakeapikey SESSION_SECRET=somelongsecretstring DRAGONFLY_SECRET=somelongsecretstring
+APP_NAME=yourappname DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org MONGO_URL=yourmongourl MAIL_SERVER_ADDRESS=yourmailserveraddress MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=yourmailserverpassword S3_BUCKET_NAME=yours3bucketname S3_ACCESS_KEY=yours3accesskey S3_SECRET=yours3secret AIRBRAKE_HOST=yourairbrakehost AIRBRAKE_API_KEY=yourairbrakeapikey SESSION_SECRET=somelongsecretstring DRAGONFLY_SECRET=somelongsecretstring
 ```
 If using Heroku, also set `HEROKU_OAUTH_TOKEN` (see [https://github.com/heroku/platform-api](https://github.com/heroku/platform-api) for details of how to generate it).
 

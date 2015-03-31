@@ -58,7 +58,7 @@ virtual_alias_maps = hash:/etc/postfix/virtual
 home_mailbox = Maildir/
 ```
 
-In `nano /etc/dovecot/dovecot.conf`, change `mail_location = mbox:~/mail:INBOX=/var/mail/%u` to
+In `/etc/dovecot/dovecot.conf`, change `mail_location = mbox:~/mail:INBOX=/var/mail/%u` to
 
 ```
 mail_location = maildir:~/Maildir

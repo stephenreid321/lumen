@@ -101,13 +101,13 @@ If using dokku, your crontab should look something like this:
 0 0 * * 0 dokku run yourappname rake digests:weekly
 ```
 
-### 4.Check DNS
+### 4. Check DNS
 
 * For mail delivery `yourdomain.org MX mail.yourdomain.org` and `mail.yourdomain.org A {your VPS IP}`
 * SPF `yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"`
 * DKIM: see DKIM guide above
 
-If using Heroku you'll probably want `www.yourdomain.org CNAME yourappname.herokuapp.com`. 
+If using a custom domain with Heroku you'll also have something like `www.yourdomain.org CNAME yourappname.herokuapp.com`. 
 You can also make use of [wwwizer.com](http://wwwizer.com)'s free naked domain redirect `yourdomain.org A 174.129.25.170`.
 
 ### 5. Configuration

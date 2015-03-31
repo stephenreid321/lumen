@@ -44,7 +44,7 @@ We'll add the DNS records shortly.
 ###  2. Purchase a VPS and set up the mail server
 
 Purchase a VPS (Try [RamNode](http://www.ramnode.com/) or [Digital Ocean](http://www.digitalocean.com), 512mb RAM should do). If in doubt use `mail.yourdomain.org` as the hostname and choose Ubuntu 14.04 64-bit as your operating system.
-Make sure you obtain a password for the root user. (Since we're using password authentication, it's highly recommended that you install [DenyHosts](https://community.rackspace.com/products/f/25/t/468).)
+Make sure you obtain a password for the root user. (Since we're using password authentication, it's highly recommended that you install [fail2ban](https://www.liberiangeek.net/2014/10/install-configure-fail2ban-ubuntu-14-04-servers/).)
 
 Follow the guide on [How To Set Up a Postfix E-Mail Server with Dovecot](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot) and
 then the guide on [How To Install and Configure DKIM with Postfix](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy).

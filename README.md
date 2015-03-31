@@ -78,7 +78,7 @@ Clone the Lumen repo and push it to dokku/Heroku.
 Prepare a MongoDB database: you can use [dokku-mongodb-plugin](https://github.com/jeffutter/dokku-mongodb-plugin) on dokku
 or [MongoLab](https://addons.heroku.com/mongolab) on Heroku.
 
-Optionally, add a custom domain (see instructions for [dokku](http://progrium.viewdocs.io/dokku/nginx) or [Heroku](https://devcenter.heroku.com/articles/custom-domains).)
+Add a custom domain (see instructions for [dokku](http://progrium.viewdocs.io/dokku/nginx) or [Heroku](https://devcenter.heroku.com/articles/custom-domains).)
 
 Set the following configuration variables:
 ```
@@ -89,9 +89,9 @@ If using Heroku, also set `HEROKU_OAUTH_TOKEN` (see [https://github.com/heroku/p
 Run `rake languages:default[English,en]` to set a default language and `rake mi:create_indexes` to create the database indexes.
 
 Schedule the following tasks using [cron](https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-on-a-vps) (dokku) or the [Scheduler addon](https://devcenter.heroku.com/articles/scheduler) (Heroku):
-* `rake cleanup` (daily, 4am)
+* `rake cleanup` (daily, suggested 4am)
 * `rake news:update` (daily, suggested 7am)
-* `rake digests:daily` (daily, 8am)
+* `rake digests:daily` (daily, suggested 8am)
 * `rake digests:weekly` (weekly, but you can schedule it daily and it will only run on Sunday)
 
 If using dokku, your crontab should look something like this:

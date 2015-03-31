@@ -28,8 +28,7 @@
         </ul>
       </header>
       <section>
-        <h1>
-<a id="lumen" class="anchor" href="#lumen" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lumen</h1>
+        <p>okk# Lumen</p>
 
 <p><a href="https://travis-ci.org/wordsandwriting/lumen"><img src="https://travis-ci.org/wordsandwriting/lumen.png?branch=master" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/wordsandwriting/lumen"><img src="https://codeclimate.com/github/wordsandwriting/lumen.png" alt="Code Climate"></a></p>
@@ -41,7 +40,8 @@
 
 <ul>
 <li>Open-source (under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported</a>)</li>
-<li>Hosted using dokku or Heroku (web app), Amazon S3 (file attachments) and a VPS (mail sever). You can run dokku and the mail server on the same VPS.</li>
+<li>Hosted using dokku/Heroku (web app), a VPS (mail sever) and Amazon S3 (file attachments)</li>
+<li>You can run dokku and the mail server on the same VPS</li>
 <li>Designed for custom domains (group email addresses of the form <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>)</li>
 <li>Sends and receives mail via regular SMTP and IMAP accounts</li>
 <li>Dual web/email access</li>
@@ -83,7 +83,7 @@
 <h3>
 <a id="2-set-up-the-mail-server" class="anchor" href="#2-set-up-the-mail-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Set up the mail server</h3>
 
-<p>Purchase a VPS (Try <a href="http://www.ramnode.com/">RamNode</a> or <a href="http://www.digitalocean.com">Digital Ocean</a>, 512mb RAM should do). If in doubt use <code>mail.yourdomain.org</code> as the hostname and choose Ubuntu 14.04 64-bit as your operating system.
+<p>Purchase a VPS (Try <a href="http://www.digitalocean.com">Digital Ocean</a> or <a href="http://www.ramnode.com/">RamNode</a>, 512mb RAM should do). If in doubt use <code>mail.yourdomain.org</code> as the hostname and choose Ubuntu 14.04 64-bit as your operating system.
 Make sure you obtain a password for the root user. (Since we're using password authentication, it's highly recommended that you install <a href="https://www.liberiangeek.net/2014/10/install-configure-fail2ban-ubuntu-14-04-servers/">fail2ban</a>.)</p>
 
 <p>Follow the guide on <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot">How To Set Up a Postfix E-Mail Server with Dovecot</a> and
@@ -91,12 +91,12 @@ then the guide on <a href="https://www.digitalocean.com/community/tutorials/how-
 
 <p>Add the following lines to <code>/etc/postfix/main.cf</code>:</p>
 
-<pre><code>virtual_alias_domains = lists.lumenapp.com
+<pre><code>virtual_alias_domains = yourdomain.org
 virtual_alias_maps = hash:/etc/postfix/virtual
 home_mailbox = Maildir/
 </code></pre>
 
-<p>In <code>nano /etc/dovecot/dovecot.conf</code>, change <code>mail_location = mbox:~/mail:INBOX=/var/mail/%u</code> to</p>
+<p>In <code>/etc/dovecot/dovecot.conf</code>, change <code>mail_location = mbox:~/mail:INBOX=/var/mail/%u</code> to</p>
 
 <pre><code>mail_location = maildir:~/Maildir
 </code></pre>

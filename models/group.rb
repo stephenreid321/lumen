@@ -63,7 +63,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
       
   def username(add = '')
-    "#{slug}#{add}.#{ENV['GROUP_USERNAME_SUFFIX'] || ENV['MAIL_DOMAIN']}"
+    "#{slug}#{add}.#{ENV['GROUP_USERNAME_SUFFIX'] || ENV['APP_NAME']}"
   end
                
   def smtp_settings

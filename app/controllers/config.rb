@@ -79,7 +79,7 @@ Lumen::App.controllers do
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 5s.',
       
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
-      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to MAIL_DOMAIN)'
+      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)'
     } 
     
     @fragments = {

@@ -81,7 +81,7 @@ class ConversationPostBcc
       body ERB.new(File.read(Padrino.root('app/views/emails/conversation_post.erb'))).result(binding)
     end
     conversation_post.attachments.each { |attachment|
-      if attachment.file_name and attachment.file.data
+      if attachment.file_name and attachment.file and attachment.file.data
         mail.add_file(:filename => attachment.file_name, :content => attachment.file.data)
       end
     }    

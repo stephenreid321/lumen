@@ -54,13 +54,13 @@
                   <p><%=a.gsub("\n","<br />")%></p>                    
                 <% }  %>
               <% end %>
+            </td>
+            <td>
+              <a class="edit restore-opacity" title="Accept request but wait until first sign in before receiving emails" href="/groups/<%=@group.slug%>/process_membership_request/<%=membership.id%>?accept=true"><i class="fa fa-check"></i> Accept</a>
             </td>            
             <td>
               <a class="edit restore-opacity" title="Accept request and confirm the membership so this person starts receiving emails immediately" href="/groups/<%=@group.slug%>/process_membership_request/<%=membership.id%>?accept=true&status=confirmed"><i class="fa fa-check"></i> Accept and confirm</a>
             </td>
-            <td>
-              <a class="edit restore-opacity" title="Accept request but leave membership pending until first sign in" href="/groups/<%=@group.slug%>/process_membership_request/<%=membership.id%>?accept=true"><i class="fa fa-check"></i> Accept and leave pending</a>
-            </td>            
             <td>
               <a class="edit restore-opacity" title="Silently reject request" href="/groups/<%=@group.slug%>/process_membership_request/<%=membership.id%>"><i class="fa fa-times"></i> Silently reject request</a>
             </td>

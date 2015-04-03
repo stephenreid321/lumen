@@ -8,7 +8,7 @@ Lumen::App.controllers do
       :DOMAIN => 'Domain of Lumen web app',
       :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
 
-      :MAIL_SERVER_ADDRESS => 'Mail server URL',
+      :MAIL_SERVER_ADDRESS => 'Mail server address (no http://)',
       :MAIL_SERVER_USERNAME => 'Mail server username',
       :MAIL_SERVER_PASSWORD => 'Mail server password',
       

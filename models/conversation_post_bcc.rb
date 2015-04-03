@@ -81,7 +81,9 @@ class ConversationPostBcc
       body ERB.new(File.read(Padrino.root('app/views/emails/conversation_post.erb'))).result(binding)
     end
     conversation_post.attachments.each { |attachment|
-      mail.add_file(:filename => attachment.file_name, :content => attachment.file.data)
+      a = Attachment.find(attachment.id)
+      puts a.inspect
+      mail.add_file(:filename => a.file_name, :content => a.file.data)
     }    
     mail.bcc = conversation_post_bcc_recipients.map(&:email)
     mail = mail.deliver

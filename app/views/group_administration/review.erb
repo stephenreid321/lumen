@@ -14,19 +14,20 @@
   <div class="col-md-8 col-md-offset-2">
 
     <script>
-      $(function() {
+      $(function () {
         $("form .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
 
-        $('#grab-button').click(function(e) {
+        $('#grab-button').click(function (e) {
           e.preventDefault();
-          $.post('/groups/<%=@group.slug%>/digest', $(this.form).serialize(), function(data) {
+          $('textarea[name=message]').val($('textarea[name=message]').next().code());
+          $.post('/groups/<%=@group.slug%>/digest', $(this.form).serialize(), function (data) {
             $('textarea[name=customised_html]').val(data);
             open_preview();
           });
           return false;
         });
 
-        $('#preview-button').click(function(e) {
+        $('#preview-button').click(function (e) {
           e.preventDefault();
           open_preview();
           return false;
@@ -38,29 +39,30 @@
         }
       });
     </script>
-    <form method="post" style="display: inline">
-      <input type="hidden" name="for_email" value="true" />
+
+    <% form_tag '' do %>
+      <%= hidden_field_tag :for_email, :value => true %>
 
       <h2>1. Pick your dates</h2>
-      <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=1.week.ago.to_date.strftime('%d-%b-%Y')%>"/>
+      <%= text_field_tag :from, :class => "form-control datepicker", :style => "width: 8em; display: inline-block", :value => 1.week.ago.to_date.strftime('%d-%b-%Y') %>
       &ndash;
-      <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=Date.today.strftime('%d-%b-%Y')%>"/>
+      <%= text_field_tag :to, :class => "form-control datepicker", :style => "width: 8em; display: inline-block", :value => Date.today.strftime('%d-%b-%Y') %>
 
       <h2>2. Set a title</h2>
-      <input type="text" class="form-control" name="h2" value="<%=@group.slug%>'s week in review" />
+      <%= text_field_tag :h2, :class => "form-control", :value => "#{@group.slug}'s week in review" %>
 
       <h2>3. Add a message</h2>
-      <textarea name="message" style="margin-bottom: 10px" class="wysiwyg form-control" rows="6"></textarea>
-      <button id="grab-button" class="btn btn-default">Grab HTML</button>   
+      <%= text_area_tag :message, :class => 'wysiwyg form-control' %>
+      <button id="grab-button" class="btn btn-default" style="margin-top: 5px">Grab HTML</button>   
 
       <h2>4. Customise HTML</h2>
-      <textarea name="customised_html" style="margin-bottom: 10px" class="form-control" rows="10"></textarea>
-      <button id="preview-button" class="btn btn-default">Preview</button> (opens in new window)
+      <%= text_area_tag :customised_html, :class => 'form-control', :rows => 10 %>
+      <button id="preview-button" class="btn btn-default" style="margin-top: 5px">Preview</button> (opens in new window)
 
       <h2>5. Send</h2>
-      <button type="submit" class="btn btn-default">Send</button>
+      <button class="btn btn-default">Send</button>
 
-    </form>
+    <% end %>
 
   </div>
 </div>

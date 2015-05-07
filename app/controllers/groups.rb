@@ -209,7 +209,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/stats' do    
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.open?
+    membership_required! unless @group.publicly_viewable?
     
     @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today

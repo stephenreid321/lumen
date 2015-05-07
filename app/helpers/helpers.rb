@@ -56,7 +56,7 @@ Lumen::App.helpers do
     unless current_account and group and group.memberships.find_by(account: current_account)
       flash[:notice] = 'You must be a member of that group to access that page.'
       session[:return_to] = request.url
-      request.xhr? ? halt(403) : redirect(group.open? ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))
+      request.xhr? ? halt(403) : redirect(group.publicly_viewable? ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))
     end        
   end
   

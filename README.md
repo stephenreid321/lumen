@@ -48,7 +48,7 @@ Purchase a VPS (Try [Digital Ocean](http://www.digitalocean.com) or [RamNode](ht
 Make sure you obtain a password for the root user. (Since we're using password authentication, it's highly recommended that you install [fail2ban](https://www.liberiangeek.net/2014/10/install-configure-fail2ban-ubuntu-14-04-servers/).)
 
 Follow the guide on [How To Set Up a Postfix E-Mail Server with Dovecot](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot) and
-then the guide on [How To Install and Configure DKIM with Postfix](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy).
+then the guide on [How To Install and Configure DKIM with Postfix](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy). Ensure curl is installed (`apt-get install curl`).
 
 Add the following lines to `/etc/postfix/main.cf`:
 

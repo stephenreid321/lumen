@@ -61,7 +61,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/spaces/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.open?
+    membership_required! unless @group.publicly_viewable?
     @space = @group.spaces.find(params[:id]) || not_found
     erb :'spaces/space'
   end    

@@ -18,7 +18,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/wall' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.open?
+    membership_required! unless @group.publicly_viewable?
     @wall_posts = @group.wall_posts.order_by(:created_at.desc)
     @wall_posts = @wall_posts.per_page(10).page(params[:page])
     if request.xhr?
@@ -30,14 +30,14 @@ Lumen::App.controllers do
   
   get  '/groups/:slug/wall/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.open?
+    membership_required! unless @group.publicly_viewable?
     @wall_post = @group.wall_posts.find(params[:id])
     partial :'wall/wall_post', :locals => {:wall_post => @wall_post}, :layout => true
   end
   
   get  '/groups/:slug/wall/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.open?
+    membership_required!
     @group.wall_posts.find(params[:id]).destroy    
     flash[:notice] = 'The wall post was removed.'
     redirect (params[:from_home] ?  "/wall" : "/groups/#{@group.slug}/wall")
@@ -45,7 +45,7 @@ Lumen::App.controllers do
   
   post '/groups/:slug/wall/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.open?
+    membership_required!
     @wall_post = @group.wall_posts.build(params[:wall_post])    
     @wall_post.account = current_account
     @wall_post.save

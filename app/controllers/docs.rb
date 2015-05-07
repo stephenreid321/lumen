@@ -12,7 +12,7 @@ Lumen::App.controllers do
     
   get '/groups/:slug/docs' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.open?
+    membership_required! unless @group.publicly_viewable?
     @docs = @group.docs.order_by(:created_at.desc)
     if request.xhr?
       partial :'docs/docs'

@@ -138,7 +138,7 @@
                     <% end %>
                   </a></li>
                 <li><a href="/sign_out"><%=I18n.t(:sign_out).capitalize%></a></li>
-              <% elsif Fragment.find_by(slug: 'public-homepage') %> 
+              <% else %> 
                 <li><a href="/sign_in"><%=I18n.t(:sign_in).capitalize%></a></li>
               <% end %>
             </ul>

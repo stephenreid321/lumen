@@ -81,7 +81,7 @@ Lumen::App.controllers do
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
       :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',
       
-      :HEROKU_WORKOFF => 'Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'
+      :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)']
     } 
     
     @fragments = {

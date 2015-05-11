@@ -44,6 +44,7 @@ gem 'ri_cal', github: 'espen/ri_cal'
 gem 'geocoder'
 gem 'platform-api'
 gem 'sanitize'
+gem 'delayed_job_mongoid'
 
 group :test do
   gem 'minitest-rg'

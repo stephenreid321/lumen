@@ -109,9 +109,8 @@ class ConversationPost
         
   def send_notifications!
     return if conversation.hidden
-    if ENV['BCC_EACH'] and ENV['HEROKU_OAUTH_TOKEN']
-      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-      heroku.dyno.create(ENV['APP_NAME'], {command: "rake conversation_posts:send_notifications[#{id}]"})
+    if ENV['BCC_EACH']
+      self.bcc_each
     else
       self.conversation_post_bccs.create(accounts: accounts_to_notify)
     end
@@ -142,5 +141,31 @@ class ConversationPost
     end
     self
   end
+  
+  def bcc_each
+    conversation_post = self
+        
+    array = conversation_post.accounts_to_notify
+    no_of_threads = ENV['BCC_EACH_THREADS'] || 10
+    
+    slice_size = (array.length/Float(no_of_threads)).ceil
+    slices = array.each_slice(slice_size).to_a
+    puts "splitting into #{slices.length} groups of #{slices.map(&:length).join(', ')}"
+    threads = []
+
+    slices.each_with_index { |slice, i|
+      threads << Thread.new(slice, i) do |slice, i|
+        slice.each { |account|
+          begin
+            conversation_post.conversation_post_bccs.create(accounts: [account])
+          rescue => e
+            Airbrake.notify(e)
+          end
+        }      
+      end
+    }
+    threads.each { |thread| thread.join }  
+  end
+  handle_asynchronously :bcc_each
   
 end

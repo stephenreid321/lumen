@@ -211,12 +211,7 @@ Lumen::App.controllers do
       notices << "#{email} was added to the group."
     }
     
-    if ENV['HEROKU_OAUTH_TOKEN']
-      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-      heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:send_welcome_emails[#{@group.id}]"})
-    else
-      @group.memberships.where(:welcome_email_pending => true).each(&:send_welcome_email)
-    end
+    @group.send_welcome_emails!
     
     flash[:notice] = notices.join('<br />') if !notices.empty?
     redirect back

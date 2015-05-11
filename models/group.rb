@@ -263,12 +263,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def setup_mail_accounts_and_forwarder
     if ENV['MAIL_SERVER_ADDRESS'] and !@setup_complete
       if ENV['VIRTUALMIN']
-        if ENV['HEROKU_OAUTH_TOKEN']
-          heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-          heroku.dyno.create(ENV['APP_NAME'], {command: "rake groups:setup_mail_accounts_and_forwarder_via_virtualmin[#{id}]"})
-        else
-          setup_mail_accounts_and_forwarder_via_virtualmin
-        end
+        setup_mail_accounts_and_forwarder_via_virtualmin
       else      
         group = self
         Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
@@ -321,6 +316,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
     form.submit
   end
+  handle_asynchronously :setup_mail_accounts_and_forwarder_via_virtualmin
   
   attr_accessor :renamed
   before_validation do
@@ -335,6 +331,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       conversation_posts.update_all(imap_uid: nil)
     end
   end
+  
+  def send_welcome_emails!
+    memberships.where(:welcome_email_pending => true).each(&:send_welcome_email)
+  end
+  handle_asynchronously :send_welcome_emails!
     
   def check!
     return unless ENV['MAIL_SERVER_ADDRESS']

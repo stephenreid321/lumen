@@ -12,5 +12,5 @@ if ENV['HEROKU_WORKOFF'] and ENV['HEROKU_OAUTH_TOKEN']
     end
   end
 
-  Delayed::Worker.plugins << Delayed::Plugins::MyDelayedJobPlugin
+  Delayed::Worker.plugins << Delayed::Plugins::Workoff
 end

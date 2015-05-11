@@ -59,6 +59,8 @@ Lumen::App.controllers do
       :SHOW_ORGS_BY_DEFAULT => ['Shows organisations on maps by default'],
   
       :STACKED_HOME => ['Hides the homepage tabs and stacks the content instead'],
+      
+      :REPLY_TO_GROUP => ['Sets the reply-to header to the group address'],
     
       :ICON_ORGANISATIONS => 'Alternative Font Awesome icon name for organisations tab',
       :ICON_SECTORS => 'Alternative Font Awesome icon name for sectors tab',

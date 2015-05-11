@@ -263,7 +263,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def setup_mail_accounts_and_forwarder
     if ENV['MAIL_SERVER_ADDRESS'] and !@setup_complete
       if ENV['VIRTUALMIN']
-        setup_mail_accounts_and_forwarder_via_virtualmin
+        Delayed::Job.enqueue SetupMailAccountsAndForwarderViaVirtualminJob.new(self.id)
       else      
         group = self
         Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
@@ -316,7 +316,6 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
     form.submit
   end
-  handle_asynchronously :setup_mail_accounts_and_forwarder_via_virtualmin
   
   attr_accessor :renamed
   before_validation do
@@ -332,10 +331,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     end
   end
   
-  def send_welcome_emails!
+  def send_welcome_emails
     memberships.where(:welcome_email_pending => true).each(&:send_welcome_email)
   end
-  handle_asynchronously :send_welcome_emails!
     
   def check!
     return unless ENV['MAIL_SERVER_ADDRESS']

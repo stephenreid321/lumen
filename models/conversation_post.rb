@@ -110,7 +110,7 @@ class ConversationPost
   def send_notifications!
     return if conversation.hidden
     if ENV['BCC_EACH']
-      self.bcc_each
+      Delayed::Job.enqueue BccEachJob.new(self.id)
     else
       self.conversation_post_bccs.create(accounts: accounts_to_notify)
     end
@@ -166,6 +166,5 @@ class ConversationPost
     }
     threads.each { |thread| thread.join }  
   end
-  handle_asynchronously :bcc_each
   
 end

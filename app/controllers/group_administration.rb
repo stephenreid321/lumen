@@ -211,8 +211,8 @@ Lumen::App.controllers do
       notices << "#{email} was added to the group."
     }
     
-    @group.send_welcome_emails!
-    
+    Delayed::Job.enqueue SendWelcomeEmailsJob.new(@group.id)
+        
     flash[:notice] = notices.join('<br />') if !notices.empty?
     redirect back
   end

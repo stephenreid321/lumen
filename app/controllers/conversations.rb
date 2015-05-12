@@ -71,6 +71,15 @@ Lumen::App.controllers do
     end
   end
   
+  post '/conversations/:slug/merge' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    group_admins_only!(@conversation.group)
+    @other_conversation = Conversation.find(params[:conversation_id])
+    group_admins_only!(@other_conversation.group)
+    @conversation.merge(@other_conversation)
+    redirect "/conversations/#{@other_conversation.slug}"
+  end
+  
   get '/conversations/:slug/hide' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     group_admins_only!(@conversation.group)

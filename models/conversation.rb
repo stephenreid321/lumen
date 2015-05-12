@@ -10,6 +10,15 @@ class Conversation
   has_many :conversation_mutes, :dependent => :destroy
   has_many :conversation_post_bccs, :dependent => :destroy
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
+  
+  def merge(other_conversation)
+    [conversation_posts, conversation_post_bccs, conversation_post_bcc_recipients, conversation_mutes].each { |collection|
+      collection.each { |x|
+        x.update_attribute(:conversation_id, other_conversation.id)
+      }
+    }
+    self.update_attribute(:hidden, true)
+  end
     
   def visible_conversation_posts
     conversation_posts.where(:hidden.ne => true)

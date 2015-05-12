@@ -10,6 +10,13 @@
       </li>         
     <% end %>
     <% if @membership.admin? %>    
+      <li>    
+        <i class="fa fa-files-o"></i>
+        Merge to
+        <% form_tag "/conversations/#{@conversation.slug}/merge", :style => 'display:inline' do %>
+          <%= select_tag :conversation_id, :options => [''] + @conversation.group.visible_conversations.order('updated_at desc').map { |conversation| [conversation.subject, conversation.id] if conversation.id != @conversation.id }.compact, :selected => @membership.notification_level, :onchange => "if (confirm('This will move all posts to the other conversation and hide this conversation. Are you sure you want to proceed?')) { this.form.submit() } else { return false }", :class => "form-control", :style => "display:inline-block; width: auto; height: auto; font-size: 12px; padding: 3px; position: relative; top: -1px" %>
+        <% end %>
+      </li>       
       <li>
         <a title="Hide conversation" data-confirm="Are you sure you want to hide this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide"><i class="fa fa-times"></i> Hide conversation</a>
       </li> 
@@ -45,8 +52,8 @@
           <% form_for (@conversation_post ||= @conversation.conversation_posts.build), "/conversations/#{@conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
             <%= f.wysiwyg_block :body, div_class: 'col-md-12' %>
             <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-              $('#attach').show();
-              $('#attach input').click();">Attach a file</a>
+                $('#attach').show();
+                $('#attach input').click();">Attach a file</a>
             <div style="display:none;" id="attach">
               <%= f.file_block :file, div_class: 'col-md-12' %>
             </div>

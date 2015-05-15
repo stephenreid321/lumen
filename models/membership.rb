@@ -42,6 +42,12 @@ class Membership
     end
   end
   
+  after_create do
+    if group.group
+      group.group.memberships.create account: account, notification_level: 'none'
+    end
+  end
+  
   def self.statuses
     ['pending', 'confirmed']
   end

@@ -14,6 +14,9 @@ class Group
   field :news_switch_hour, :type => Integer, :default => 7
   field :hot_conversation_threshold, :type => Integer, :default => 3
   field :show_full_conversations_in_digests, :type => Boolean
+  
+  belongs_to :group, index: true
+  has_many :groups, :dependent => :nullify
     
   field :reminder_email_subject, :type => String, :default => -> { "A reminder to complete your profile on #{ENV['SITE_NAME_SHORT']}" }
   field :reminder_email, :type => String, :default => -> {
@@ -167,6 +170,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :hot_conversation_threshold => :number,
       :show_full_conversations_in_digests => :check_box,
       :group_type_id => :lookup,
+      :group_id => :lookup,
       :memberships => :collection,
       :conversations => :collection
     }

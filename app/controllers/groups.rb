@@ -45,16 +45,14 @@ Lumen::App.controllers do
   get '/groups/:slug/members' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
-    membership_required! if @group.secret?
+    membership_required! unless @group.publicly_viewable?
     erb :'groups/members'    
   end
   
   get '/groups/:slug/global-landing' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
-    membership_required! if @group.secret?
+    membership_required! unless @group.publicly_viewable?
     if request.xhr?
       Fragment.find_by(slug: 'global-landing-tab').try(:body)
     else
@@ -65,8 +63,7 @@ Lumen::App.controllers do
   get '/groups/:slug/landing' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
-    membership_required! if @group.secret?
+    membership_required! unless @group.publicly_viewable?
     if request.xhr?
       @group.landing_tab
     else

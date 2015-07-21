@@ -20,6 +20,7 @@ class Membership
   def self.admin_fields
     {
       :account_id => :lookup,
+      :account_email => {:type => :text, :edit => false}, 
       :group_id => :lookup,
       :added_by_id => :lookup,
       :admin => :check_box,
@@ -30,6 +31,10 @@ class Membership
       :status => :select,
       :notification_level => :select
     }
+  end
+  
+  def account_email
+    account.email
   end
       
   before_validation do

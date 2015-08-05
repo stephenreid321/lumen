@@ -24,18 +24,28 @@
 
       <% if !current_account %>
         <div class="form-group">
-          <label class="control-label col-md-3">Name</label>
+          <label class="control-label col-md-3"><%=I18n.t(:'mongoid.attributes.account.name')%></label>
           <div class="col-md-6">
-            <%= text_field_tag :name, :class => 'form-control' %>
+            <%= text_field_tag :name, :class => 'form-control', :required => true %>
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-md-3">Email</label>
           <div class="col-md-6">  
-            <%= text_field_tag :email, :class => 'form-control' %>
+            <%= text_field_tag :email, :class => 'form-control', :required => true %>
           </div>
         </div>
+
+        <% if ENV['REQUEST_LOCATION'] %>
+          <div class="form-group">
+            <label class="control-label col-md-3"><%=I18n.t(:'mongoid.attributes.account.location')%></label>
+            <div class="col-md-6">  
+              <%= text_field_tag :location, :class => 'form-control', :required => true %>
+            </div>
+          </div>  
+        <% end %>
+
       <% end %>
 
       <% @group.request_questions_a.each { |q| %>

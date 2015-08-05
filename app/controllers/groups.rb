@@ -84,8 +84,8 @@ Lumen::App.controllers do
     if current_account
       @account = current_account
     else     
-      unless name = params[:name] and email = params[:email]    
-        flash[:error] = "Please provide a name and email address"
+      unless name = params[:name] and email = params[:email] and (!ENV['REQUEST_LOCATION'] || (location = params[:location]))
+        flash[:error] = ENV['REQUEST_LOCATION'] ? 'Please provide a name, email address and location' : 'Please provide a name and email address'
         redirect back
       end
       
@@ -94,6 +94,7 @@ Lumen::App.controllers do
         @account = Account.new({
             :name => name,
             :email => email,
+            :location => location,
             :password => Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
           })
         @account.password_confirmation = @account.password 

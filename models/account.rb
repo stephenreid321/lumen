@@ -182,6 +182,21 @@ class Account
   
   index({email: 1 }, {unique: true})
   
+  def firstname
+    name.split(' ').first if name
+  end
+  
+  def lastname
+    if name
+      nameparts = name.split(' ')
+      if nameparts.length > 1
+        nameparts[1..-1].join(' ') 
+      else
+        nil
+      end
+    end
+  end  
+  
   before_validation do
     self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
@@ -206,6 +221,8 @@ class Account
   def self.admin_fields
     {
       :name => :text,
+      :firstname => {:type => :text, :edit => false},
+      :lastname => {:type => :text, :edit => false},
       :full_name => :text,
       :email => :text,
       :secret_token => :text,

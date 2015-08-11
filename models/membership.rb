@@ -46,7 +46,6 @@ class Membership
   def account_lastname
     account.lastname
   end
-  end
       
   before_validation do
     self.receive_membership_requests = false unless admin?

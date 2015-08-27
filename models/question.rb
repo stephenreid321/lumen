@@ -7,6 +7,7 @@ class Question
   field :type, :type => String
   field :options, :type => String
   field :order, :type => Integer
+  field :required, :type => Boolean
   
   belongs_to :survey, index: true
   
@@ -36,6 +37,7 @@ class Question
       :help => :text_area,
       :type => :select,
       :options => :text_area,
+      :required => :check_box,
       :order => :number,
       :survey_id => :lookup,
       :answers => :collection

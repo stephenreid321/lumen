@@ -47,9 +47,9 @@
           <p style="color: #aaa; margin: 0"><%=question.help%></p>
           <div style="margin-top: 5px">
             <% case question.type.to_sym; when :text %>
-              <%= text_field_tag "q[#{question.id}]", :class => 'form-control' %>
+              <%= text_field_tag "q[#{question.id}]", :class => 'form-control', :required => question.required %>
             <% when :text_area %>
-              <%= text_area_tag "q[#{question.id}]", :class => 'form-control' %>
+              <%= text_area_tag "q[#{question.id}]", :class => 'form-control', :required => question.required %>
             <% when :check_box %>
               <%= hidden_field_tag "q[#{question.id}", :value => 'false' %>
               <%= check_box_tag "q[#{question.id}]", :value => 'true'  %>
@@ -59,7 +59,7 @@
               <ul class="list-unstyled" style="margin-bottom: 0">
                 <% question.options_a.each { |option| %>
                   <li>
-                    <%= radio_button_tag "q[#{question.id}]", :value => option %>
+                    <%= radio_button_tag "q[#{question.id}]", :value => option, :required => question.required %>
                     <% if option == 'Other' %>
                       Other: <%= text_field_tag "o[#{question.id}]", :onfocus => "$(this).parent().children().first().prop('checked', 'true')", :class => 'form-control', :style => 'display: inline-block; width: 15em' %>
                     <% else %>

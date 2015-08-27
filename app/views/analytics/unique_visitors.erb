@@ -12,6 +12,8 @@
   <button class="btn btn-primary">Get data</button>
 </form>
 
+<p class="lead" style="margin: 10px 0"><%=pluralize(PageView.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map { |pv| pv.account_id }.uniq.count, 'unique visitor')%> across the entirety of this period</p>
+
 <table class="table table-hover table-condensed">
   <thead>
     <tr>
@@ -25,10 +27,6 @@
       <td><%=PageView.where(:created_at.gte => date).where(:created_at.lt => date+1).map { |pv| pv.account_id }.uniq.count%></td>
     </tr>
   <% } %>
-    <tr>
-      <td></td>
-      <td><%=PageView.where(:created_at.gte => @from).where(:created_at.lt => @to+1).map { |pv| pv.account_id }.uniq.count%></td>
-    </tr>
 </table>
 
 

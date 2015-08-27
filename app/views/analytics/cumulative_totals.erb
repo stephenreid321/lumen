@@ -33,7 +33,7 @@
     <tr>
       <th>Date</th>
       <% @collections.each { |collection| %>
-        <th><%=collection.first.class%></th>      
+        <th><%=collection.first.class.to_s.underscore.humanize.pluralize%></th>      
       <% } %>
     </tr>
   </thead>

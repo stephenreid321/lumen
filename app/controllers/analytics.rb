@@ -23,13 +23,17 @@ Lumen::App.controllers do
     erb :'analytics/cumulative_totals'
   end 
   
-  get '/analytics/sign_ins' do
+  get '/analytics/unique_visitors' do
     site_admins_only!  
-    erb :'analytics/sign_ins'    
+    @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
+    @to =  params[:to] ? Date.parse(params[:to]) : Date.today        
+    erb :'analytics/unique_visitors'    
   end  
   
   get '/analytics/page_views' do
     site_admins_only!  
+    @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
+    @to =  params[:to] ? Date.parse(params[:to]) : Date.today    
     erb :'analytics/page_views'    
   end
   

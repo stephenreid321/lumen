@@ -100,10 +100,12 @@ module Lumen
     post '/merge_tags' do
       site_admins_only!
       at1 = AccountTag.find(params[:at1])
-      at2 = AccountTag.find(params[:at2])
-      at1.account_tagships.each { |account_tagship|
-        AccountTagship.create account: account_tagship.account, account_tag: at2
-      }
+      if params[:at2]
+        at2 = AccountTag.find(params[:at2])
+        at1.account_tagships.each { |account_tagship|
+          AccountTagship.create account: account_tagship.account, account_tag: at2
+        }
+      end
       at1.destroy
       redirect '/merge_tags'
     end

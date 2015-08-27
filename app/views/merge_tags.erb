@@ -1,10 +1,10 @@
 
     
     <% form_tag '', :class => 'form-inline', :style => 'text-align: center; margin: 20px 0 0 0' do %>
-      Delete
+<div style="margin: 5px 0">Delete</div>
       <%= select_tag :at1, :options => AccountTag.order('name asc').map { |at| ["#{at.name} (#{at.account_tagships.count})", at.id] }, :class => 'form-control' %>
-      and tag members instead with
+<div style="margin: 5px 0">and tag members instead with</div>
       <%= select_tag :at2, :options => AccountTag.order('name asc').map { |at| ["#{at.name} (#{at.account_tagships.count})",at.id] }, :class => 'form-control' %>
-      <button class="btn btn-danger">Merge</button>
+<div style="margin: 5px 0"><button class="btn btn-danger">Merge</button></div>
     <% end %>
 

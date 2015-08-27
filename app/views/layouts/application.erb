@@ -62,9 +62,14 @@
           m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', '<%=ENV['GOOGLE_ANALYTICS_TRACKING_ID']%>', 'auto');
-        ga('send', 'pageview');
+        ga('create', '<%=ENV['GOOGLE_ANALYTICS_TRACKING_ID']%>', {'allowAnchor': true});
+        ga('send', 'pageview', {'page': location.pathname + location.search + location.hash});
 
+        $(function () {
+          $('a[data-toggle=tab]').click(function () {
+            ga('send', 'pageview', location.pathname + location.search + $(this).attr('href'));
+          });
+        });
       </script>    
     <% end %>   
 

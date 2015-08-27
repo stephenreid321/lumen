@@ -66,7 +66,7 @@
         ga('send', 'pageview', {'page': location.pathname + location.search + location.hash});
 
         $(function () {
-          $('a[data-toggle=tab]').click(function () {
+          $('a[data-toggle=tab]').on('shown.bs.tab', function (e) {
             ga('send', 'pageview', location.pathname + location.search + $(this).attr('href'));
           });
         });

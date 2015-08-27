@@ -43,9 +43,14 @@
   dates = {}
   resources.each { |x| 
     d = x.created_at.to_date
-    dates[d] = [] if !dates[d] 
-    dates[d] << x
+    if !dates[d]
+      dates[d] = 1 
+      else
+      dates[d] += 1
+    end
     } %>
+
+
         var <%=model.to_s%>Data = new AmCharts.DataSet();
   <%=model.to_s%>Data.title = "<%=model.to_s.underscore.humanize.pluralize%>";
   <%=model.to_s%>Data.fieldMappings = [
@@ -58,7 +63,7 @@
             toField: "increase"
           }];
   <%=model.to_s%>Data.dataProvider = [
-  <%= x=0; start_date.upto(Date.today).map { |d| if dates[d]; x += dates[d].count; end; "{date: '#{d.to_s(:db)}', increase: #{dates[d] ? dates[d].count : 0}, cumulative: #{x}}" }.join(', ') %>
+  <%= x=0; start_date.upto(Date.today).map { |d| if dates[d]; x += dates[d]; end; "{date: '#{d.to_s(:db)}', increase: #{dates[d] ? dates[d] : 0}, cumulative: #{x}}" }.join(', ') %>
         ]
   <%=model.to_s%>Data.categoryField = "date";
 <% } %>

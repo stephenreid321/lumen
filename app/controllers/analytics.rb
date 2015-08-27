@@ -8,7 +8,7 @@ Lumen::App.controllers do
     site_admins_only!      
     @models = [ConversationPost, Account, Event, PageView].select { |model| model.count > 0 }
     @collections = @models.map { |model| model.order_by(:created_at.asc) }            
-    erb :'analytics/analytics'
+    erb :'analytics/cumulative_totals'
   end
 
   get '/groups/:slug/analytics' do
@@ -16,7 +16,7 @@ Lumen::App.controllers do
     group_admins_only!      
     @collection_names = [:conversation_posts, :memberships, :events].select { |collection_name| @group.send(collection_name).count > 0 }      
     @collections = @collection_names.map { |collection_name| @group.send(collection_name).order_by(:created_at.asc) }      
-    erb :'analytics/analytics'
+    erb :'analytics/cumulative_totals'
   end 
   
   get '/analytics/sign_ins' do

@@ -19,6 +19,10 @@ class Account
   field :coordinates, :type => Array 
   field :translator, :type => Boolean
   field :password_reset_token, :type => String
+  field :twitter_profile_url, :type => String
+  field :facebook_profile_url, :type => String
+  field :linkedin_profile_url, :type => String
+  field :google_profile_url, :type => String
     
   EnvFields.set(self)
   
@@ -200,6 +204,11 @@ class Account
   before_validation do
     self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
+    self.twitter_profile_url = "http://#{self.twitter_profile_url}" if self.twitter_profile_url and !(self.twitter_profile_url =~ /\Ahttps?:\/\//)
+    self.facebook_profile_url = "http://#{self.facebook_profile_url}" if self.facebook_profile_url and !(self.facebook_profile_url =~ /\Ahttps?:\/\//)
+    self.google_profile_url = "http://#{self.google_profile_url}" if self.google_profile_url and !(self.google_profile_url =~ /\Ahttps?:\/\//)
+    self.linkedin_profile_url = "http://#{self.linkedin_profile_url}" if self.linkedin_profile_url and !(self.linkedin_profile_url =~ /\Ahttps?:\/\//)
+    self.twitter_profile_url = self.twitter_profile_url.gsub('twitter.com/', 'twitter.com/@') if self.twitter_profile_url and !self.twitter_profile_url.include?('@')
   end  
     
   before_validation :set_has_picture
@@ -231,13 +240,17 @@ class Account
       :website => :text,
       :location => :text,      
       :picture => :image,
+      :twitter_profile_url => :text,
+      :facebook_profile_url => :text,
+      :linkedin_profile_url => :text,
+      :google_profile_url => :text,      
       :admin => :check_box,
       :translator => :check_box,
       :time_zone => :select,
       :language_id => :lookup,
       :password => :password,
       :password_confirmation => :password,
-      :affiliations => :collection
+      :affiliations => :collection,
     }.merge(EnvFields.fields(self))
   end
     
@@ -250,7 +263,11 @@ class Account
   def self.human_attribute_name(attr, options={})  
     {
       :account_tag_ids => I18n.t(:account_tagships).capitalize,
-      :password_confirmation => "Password again"
+      :password_confirmation => "Password again",
+      :twitter_profile_url => "Twitter profile URL",
+      :facebook_profile_url => "Facebook profile URL",
+      :linkedin_profile_url => "LinkedIn profile URL",
+      :google_profile_url => "Google+ profile URL",         
     }[attr.to_sym] || super  
   end     
            

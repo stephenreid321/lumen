@@ -21,10 +21,8 @@ gem 'dragonfly-s3_data_store'
 # Authentication
 gem 'bcrypt'
 gem 'omniauth'
-gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
-gem 'omniauth-linkedin'
 
 # Error reporting
 gem 'airbrake'

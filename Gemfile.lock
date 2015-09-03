@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: b63bfcf9dd9fd48279c6c3f978b05133a8b60bca
+  revision: 5d39e58762b621246c9417c29007f3cd8e06833f
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: ffd7458f96eef9608cc7d33f26522e32dc42d56b
+  revision: b0876ce31f64eb41549e449371dd6b34d0fdff8b
   specs:
     activate-tools (0.0.1)
       padrino
@@ -29,32 +29,31 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    CFPropertyList (2.3.1)
-    activemodel (4.2.1)
-      activesupport (= 4.2.1)
+    activemodel (4.2.4)
+      activesupport (= 4.2.4)
       builder (~> 3.1)
-    activesupport (4.2.1)
+    activesupport (4.2.4)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.7)
-    airbrake (4.1.0)
+    addressable (2.3.8)
+    airbrake (4.3.1)
       builder
       multi_json
     bcrypt (3.1.10)
-    bson (2.3.0)
+    bson (3.2.3)
     builder (3.2.2)
-    capybara (2.4.4)
+    capybara (2.5.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
     cliver (0.3.2)
-    connection_pool (2.1.3)
-    crass (1.0.1)
+    connection_pool (2.2.0)
+    crass (1.0.2)
     css_parser (1.3.6)
       addressable
     delayed_job (4.0.6)
@@ -62,123 +61,58 @@ GEM
     delayed_job_mongoid (2.1.0)
       delayed_job (>= 3.0, < 5)
       mongoid (>= 3.0, < 5)
-    domain_name (0.5.23)
+    domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
-    dragonfly (1.0.7)
+    dragonfly (1.0.10)
       addressable (~> 2.3)
       multi_json (~> 1.0)
-      rack
-    dragonfly-s3_data_store (1.0.4)
+      rack (>= 1.3.0)
+    dragonfly-s3_data_store (1.2)
       dragonfly (~> 1.0)
-      fog
+      fog-aws
     erubis (2.7.0)
-    excon (0.44.4)
+    excon (0.45.4)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
-    fission (0.5.0)
-      CFPropertyList (~> 2.2)
-    fog (1.28.0)
-      fog-atmos
-      fog-aws (~> 0.0)
-      fog-brightbox (~> 0.4)
-      fog-core (~> 1.27, >= 1.27.3)
-      fog-ecloud
-      fog-json
-      fog-profitbricks
-      fog-radosgw (>= 0.0.2)
-      fog-riakcs
-      fog-sakuracloud (>= 0.0.4)
-      fog-serverlove
-      fog-softlayer
-      fog-storm_on_demand
-      fog-terremark
-      fog-vmfusion
-      fog-voxel
-      fog-xml (~> 0.1.1)
-      ipaddress (~> 0.5)
-      nokogiri (~> 1.5, >= 1.5.11)
-    fog-atmos (0.1.0)
-      fog-core
-      fog-xml
-    fog-aws (0.1.1)
+    fog-aws (0.7.6)
       fog-core (~> 1.27)
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
       ipaddress (~> 0.8)
-    fog-brightbox (0.7.1)
-      fog-core (~> 1.22)
-      fog-json
-      inflecto (~> 0.0.2)
-    fog-core (1.29.0)
+    fog-core (1.32.1)
       builder
-      excon (~> 0.38)
+      excon (~> 0.45)
       formatador (~> 0.2)
       mime-types
       net-scp (~> 1.1)
       net-ssh (>= 2.1.3)
-    fog-ecloud (0.0.2)
-      fog-core
-      fog-xml
-    fog-json (1.0.0)
-      multi_json (~> 1.0)
-    fog-profitbricks (0.0.1)
-      fog-core
-      fog-xml
-      nokogiri
-    fog-radosgw (0.0.3)
-      fog-core (>= 1.21.0)
-      fog-json
-      fog-xml (>= 0.0.1)
-    fog-riakcs (0.1.0)
-      fog-core
-      fog-json
-      fog-xml
-    fog-sakuracloud (1.0.0)
-      fog-core
-      fog-json
-    fog-serverlove (0.1.1)
-      fog-core
-      fog-json
-    fog-softlayer (0.4.1)
-      fog-core
-      fog-json
-    fog-storm_on_demand (0.1.0)
-      fog-core
-      fog-json
-    fog-terremark (0.0.4)
-      fog-core
-      fog-xml
-    fog-vmfusion (0.0.1)
-      fission
-      fog-core
-    fog-voxel (0.0.2)
-      fog-core
-      fog-xml
-    fog-xml (0.1.1)
+    fog-json (1.0.2)
+      fog-core (~> 1.0)
+      multi_json (~> 1.10)
+    fog-xml (0.1.2)
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
-    geocoder (1.2.7)
-    hashie (3.4.0)
-    heroics (0.0.13)
+    geocoder (1.2.9)
+    hashie (3.4.2)
+    heroics (0.0.14)
       erubis (~> 2.7.0)
       excon
       moneta
       multi_json (>= 1.9.2)
       netrc
-    htmlentities (4.3.3)
+    htmlentities (4.3.4)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
-    http_router (0.11.1)
+    http_router (0.11.2)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
     i18n (0.7.0)
-    inflecto (0.0.2)
     ipaddress (0.8.0)
-    json (1.8.2)
-    jwt (1.4.1)
+    json (1.8.3)
+    jwt (1.5.1)
     launchy (2.4.3)
       addressable (~> 2.3)
     mail (2.5.4)
@@ -195,8 +129,8 @@ GEM
       webrobots (>= 0.0.9, < 0.2)
     mime-types (1.25.1)
     mini_portile (0.6.2)
-    minitest (5.5.1)
-    minitest-rg (5.1.0)
+    minitest (5.8.0)
+    minitest-rg (5.2.0)
       minitest (~> 5.0)
     moneta (0.7.20)
     mongoid (4.0.2)
@@ -204,11 +138,11 @@ GEM
       moped (~> 2.0.0)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
-    moped (2.0.4)
-      bson (~> 2.2)
+    moped (2.0.7)
+      bson (~> 3.0)
       connection_pool (~> 2.0)
       optionable (~> 0.2.0)
-    multi_json (1.11.0)
+    multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     net-http-digest_auth (1.4)
@@ -219,10 +153,9 @@ GEM
     netrc (0.10.3)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
-    nokogumbo (1.2.0)
+    nokogumbo (1.4.1)
       nokogiri
     ntlm-http (0.1.1)
-    oauth (0.4.7)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
@@ -237,19 +170,9 @@ GEM
     omniauth-google-oauth2 (0.2.6)
       omniauth (> 1.0)
       omniauth-oauth2 (~> 1.1)
-    omniauth-linkedin (0.2.0)
-      omniauth-oauth (~> 1.0)
-    omniauth-oauth (1.0.1)
-      oauth
-      omniauth (~> 1.0)
-    omniauth-oauth2 (1.2.0)
-      faraday (>= 0.8, < 0.10)
-      multi_json (~> 1.3)
+    omniauth-oauth2 (1.3.1)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
-    omniauth-twitter (1.1.0)
-      multi_json (~> 1.3)
-      omniauth-oauth (~> 1.0)
     optionable (0.2.0)
     origin (2.1.1)
     padrino (0.12.4)
@@ -286,7 +209,7 @@ GEM
       padrino-core (= 0.12.4)
     padrino-support (0.12.4)
       activesupport (>= 3.1)
-    platform-api (0.2.0)
+    platform-api (0.3.0)
       heroics (~> 0.0.10)
     poltergeist (1.6.0)
       capybara (~> 2.1)
@@ -297,24 +220,23 @@ GEM
     premailer (1.8.4)
       css_parser (>= 1.3.6)
       htmlentities (>= 4.0.0)
-    puma (2.11.1)
-      rack (>= 1.1, < 2.0)
+    puma (2.13.4)
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rack-timeout (0.2.1)
+    rack-timeout (0.3.1)
     rake (10.4.2)
     rinku (1.7.3)
-    sanitize (3.1.2)
-      crass (~> 1.0.1)
+    sanitize (4.0.0)
+      crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
-      nokogumbo (= 1.2.0)
-    sinatra (1.4.5)
+      nokogumbo (= 1.4.1)
+    sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
-      tilt (~> 1.3, >= 1.3.4)
+      tilt (>= 1.3, < 3)
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
@@ -325,11 +247,11 @@ GEM
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.6)
+    unf_ext (0.0.7.1)
     url_mount (0.2.1)
       rack
     webrobots (0.1.1)
-    websocket-driver (0.5.3)
+    websocket-driver (0.6.2)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
     xpath (2.0.0)
@@ -358,8 +280,6 @@ DEPENDENCIES
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
-  omniauth-linkedin
-  omniauth-twitter
   padrino (= 0.12.4)
   platform-api
   poltergeist

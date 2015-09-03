@@ -28,13 +28,7 @@
           </li>
         <% end %>    
       <% end %>
-      <% Provider.registered.each { |provider| %>
-        <li>
-          <% if provider_link = account.provider_links.find_by(provider: provider.display_name) %>          
-            <i title="<%=provider.display_name%>" class="fa fa-li fa-<%=provider.icon%>"></i><a target="_blank" href="<%=provider.profile_url.call(provider_link.omniauth_hash)%>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
-            <% end %>
-        </li>
-      <% } %>    
+      <%= partial :'accounts/social_media', :locals => {:account => account} %>  
     </ul>
   </div>
 </div> 

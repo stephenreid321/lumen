@@ -17,18 +17,16 @@ Lumen::App.controllers do
     @organisations = @organisations.and(@q)
     case content_type      
     when :json
-      if params[:rtype] and params[:q]
-        case params[:rtype].to_sym
-        when :organisation
-          {
-            results: @organisations.where(:name => /#{Regexp.escape(params[:q])}/i).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
-          }
-        when :sector
-          {
-            results: Sector.where(:name => /#{Regexp.escape(params[:q])}/i).where(:id.in => Sectorship.where(:organisation_id.in => @organisations.pluck(:id)).pluck(:sector_id)).map { |sector| {id: sector.id.to_s, text: sector.name} }
-          }          
-        end.to_json   
-      end      
+      case params[:rtype].to_sym
+      when :organisation
+        {
+          results: (results = @organisations; results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |organisation| {id: organisation.id.to_s, text: organisation.name} })
+        }
+      when :sector
+        {
+          results: (results = Sector.where(:id.in => Sectorship.where(:organisation_id.in => @organisations.pluck(:id)).pluck(:sector_id)); results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |sector| {id: sector.id.to_s, text: sector.name} })
+        }          
+      end.to_json   
     when :html
       @organisations = case @o
       when :name

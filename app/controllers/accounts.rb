@@ -32,23 +32,21 @@ Lumen::App.controllers do
     @q << {:id.in => AccountTagship.where(account_tag_id: @account_tag_id).pluck(:account_id)} if @account_tag_id    
     @accounts = @accounts.and(@q)
     case content_type      
-    when :json
-      if params[:rtype] and params[:q]
-        case params[:rtype].to_sym
-        when :account
-          {
-            results: @accounts.where(:name => /#{Regexp.escape(params[:q])}/i).map { |account| {id: account.id.to_s, text: account.name} }
-          }
-        when :organisation
-          {
-            results: Organisation.where(:name => /#{Regexp.escape(params[:q])}/i).where(:id.in => Affiliation.where(:account_id.in => @accounts.pluck(:id)).pluck(:organisation_id)).map { |organisation| {id: organisation.id.to_s, text: organisation.name} }
-          }
-        when :account_tag
-          {
-            results: AccountTag.where(:name => /#{Regexp.escape(params[:q])}/i).where(:id.in => AccountTagship.where(:account_id.in => @accounts.pluck(:id)).pluck(:account_tag_id)).map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} }
-          }          
-        end.to_json     
-      end
+    when :json      
+      case params[:rtype].to_sym
+      when :account
+        {
+          results: (results = @accounts; results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |account| {id: account.id.to_s, text: account.name} })
+        }
+      when :organisation
+        {
+          results: (results = Organisation.where(:id.in => Affiliation.where(:account_id.in => @accounts.pluck(:id)).pluck(:organisation_id)); results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |organisation| {id: organisation.id.to_s, text: organisation.name} })
+        }
+      when :account_tag
+        {
+          results: (results = AccountTag.where(:id.in => AccountTagship.where(:account_id.in => @accounts.pluck(:id)).pluck(:account_tag_id)); results = where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} })
+        }        
+      end.to_json     
     when :html
       @accounts = case @o
       when :name

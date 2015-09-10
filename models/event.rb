@@ -102,13 +102,13 @@ class Event
   
   def self.json(eventable, period_start, period_end)
     events = eventable.events
-    events = events.where(:start_time.lte => Time.zone.at(period_end.to_i))
-    events = events.where(:end_time.gte => Time.zone.at(period_start.to_i))
+    events = events.where(:start_time.lte => Time.zone.parse(period_end))
+    events = events.where(:end_time.gte => Time.zone.parse(period_start))
     JSON.pretty_generate events.map { |event| 
       {
         :title => event.name,
-        :start => event.start_time.to_s(:rfc822),
-        :end => event.end_time.to_s(:rfc822), 
+        :start => event.start_time.iso8601,
+        :end => event.end_time.iso8601, 
         :allDay => !event.consider_time,
         :when_details => event.when_details,
         :location => event.location,

@@ -56,20 +56,17 @@ See below for more images.
 
   (You can hit enter a bunch of times to leave the fields empty)
 
-* Install mail packages. MAKE SURE YOU REPLACE $MAIL_SERVER_ADDRESS $MAIL_DOMAIN with your domain
+* Install mail packages (*make sure you replace $MAIL_SERVER_ADDRESS and $MAIL_DOMAIN with your domain*):
 
   `aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart`
 
   When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no.
 
-* Get DKIM key (nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt) and add DNS records
+* Get DKIM key (`nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt`) and add DNS records
 
-  `$MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS
-
-  $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP
-
-  $MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"
-
+  `$MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS<br />
+  $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP<br />
+  $MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"<br />
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."`
 
 * Visit $DOMAIN. Enter $DOMAIN as the hostname and check 'Use virtualhost naming for apps'
@@ -90,12 +87,9 @@ See below for more images.
 
 * `crontab -e`
 
-  `0 4 * * * dokku run $APP_NAME rake cleanup
-
-  0 7 * * * dokku run $APP_NAME rake news:update
-
-  0 8 * * * dokku run $APP_NAME rake digests:daily
-
+  `0 4 * * * dokku run $APP_NAME rake cleanup<br />
+  0 7 * * * dokku run $APP_NAME rake news:update<br />
+  0 8 * * * dokku run $APP_NAME rake digests:daily<br />
   0 0 * * 0 dokku run $APP_NAME rake digests:weekly`
 
 * Visit $DOMAIN. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.

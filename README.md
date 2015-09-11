@@ -52,22 +52,22 @@ See below for more images.
 
 * Create certificates:
 
-`openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem`
+  `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem`
 
-(You can hit enter a bunch of times to leave the fields empty)
+  (You can hit enter a bunch of times to leave the fields empty)
 
 * Install mail packages. MAKE SURE YOU REPLACE $MAIL_SERVER_ADDRESS $MAIL_DOMAIN with your domain
 
-`aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart`
+  `aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart`
 
 When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no.
 
 * Get DKIM key (nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt) and add DNS records
 
-`$MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS
-$MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP
-$MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"
-mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."`
+  `$MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS
+  $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP
+  $MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"
+  mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."`
 
 * Visit $DOMAIN. Enter $DOMAIN as the hostname and check 'Use virtualhost naming for apps'
 

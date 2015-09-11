@@ -98,7 +98,7 @@ See below for more images.
 
 * Create default language and database indexes: `dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes`
 
-* Set cron tasks (`crontab -e`)
+* Set cron tasks with `crontab -e`
 
   ```
   0 4 * * * dokku run $APP_NAME rake cleanup  

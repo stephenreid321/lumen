@@ -46,13 +46,13 @@ See below for more images.
 
 * Install fail2ban: `apt-get install fail2ban`
 
-* Install MongoDB and the dokku MongoDB plugin:
+* Install MongoDB and the dokku MongoDB plugin
 
   ```
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10; echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list; apt-get update; apt-get install -y mongodb-org; git clone https://github.com/jeffutter/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb; dokku plugins-install; dokku mongodb:start
   ```
 
-* Create certificates:
+* Create certificates
 
   ```
   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem`
@@ -60,7 +60,7 @@ See below for more images.
 
   (You can hit enter a bunch of times to leave the fields empty)
 
-* Install mail packages (**make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` with your domain**):
+* Install mail packages (**make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` with your domain**)
 
   ```
   aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart
@@ -68,7 +68,7 @@ See below for more images.
 
   When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no.
 
-* Get DKIM key (`nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt`) and add DNS records
+* Get DKIM key with `nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt` and add DNS records
 
   ```
   $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS  
@@ -79,7 +79,7 @@ See below for more images.
 
 * Visit `$DOMAIN`. Enter `$DOMAIN` as the hostname and check 'Use virtualhost naming for apps'
 
-* From your own machine run:
+* From your own machine run
 
   ```
   git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@$DOMAIN:lumen; git push $APP_NAME master
@@ -87,7 +87,7 @@ See below for more images.
 
 * Create a Mongo instance for the app: `dokku mongodb:create lumen`
 
-* Set configuration variables:
+* Set configuration variables
   ```
   dokku config:set lumen APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET`
   ```
@@ -98,7 +98,7 @@ See below for more images.
 
 * Create a default language and database indices: `dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes`
 
-* Set cron tasks (`crontab -e`):
+* Set cron tasks (`crontab -e`)
 
   ```
   0 4 * * * dokku run $APP_NAME rake cleanup  

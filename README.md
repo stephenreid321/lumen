@@ -92,7 +92,7 @@ See below for more images.
   dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
   ```
 
-  (If you didn't obtain a password for the root user, enable password authentication and set one with: `nano /etc/ssh/sshd_config`, set PasswordAuthentication yes; `restart ssh`; `passwd`)
+  You can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`. If you didn't obtain a password for the root user, enable password authentication and set one with: `nano /etc/ssh/sshd_config`, set PasswordAuthentication yes; `restart ssh`; `passwd`
 
 * Start a worker process: `dokku ps:scale $APP_NAME web=1 worker=1`
 

@@ -96,7 +96,7 @@ See below for more images.
 
 * Start a worker process: `dokku ps:scale lumen web=1 worker=1`
 
-* Create a default language and database indices: `dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes`
+* Create default language and database indexes: `dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes`
 
 * Set cron tasks (`crontab -e`)
 

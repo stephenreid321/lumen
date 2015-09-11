@@ -42,14 +42,11 @@ See below for more images.
 
 * Create a 2GB droplet with the hostname $MAIL_SERVER_ADDRESS and select the image 'Dokku 0.3.26 on 14.04' 
 
-* System update
-apt-get update; apt-get dist-upgrade
+* System update: `apt-get update; apt-get dist-upgrade`
 
-* Install fail2ban
-apt-get install fail2ban
+* Install fail2ban: `apt-get install fail2ban`
 
-* Install MongoDB and the dokku MongoDB plugin
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10; echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list; apt-get update; apt-get install -y mongodb-org; git clone https://github.com/jeffutter/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb; dokku plugins-install; dokku mongodb:start
+* Install MongoDB and the dokku MongoDB plugin: `apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10; echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list; apt-get update; apt-get install -y mongodb-org; git clone https://github.com/jeffutter/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb; dokku plugins-install; dokku mongodb:start`
 
 * Create certificates
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem

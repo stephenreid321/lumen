@@ -36,86 +36,61 @@ See below for more images.
 3. Your web app connects to the mail server via IMAP to fetch the new mail
 4. Your web app distributes the message to group members via SMTP
 
-## Getting up and running
+## Installation instructions for DigitalOcean/dokku
 
-### 1. Register a domain
+* Register a domain $DOMAIN. In this simple setup, $DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS.
 
-We'll add the DNS records shortly.
+* Create a 2GB droplet with the hostname $MAIL_SERVER_ADDRESS and select the image 'Dokku 0.3.26 on 14.04' 
 
-###  2. Set up the mail server
+* System update
+apt-get update; apt-get dist-upgrade
 
-Purchase a VPS (Try [Digital Ocean](http://www.digitalocean.com) or [RamNode](http://www.ramnode.com/), 512mb RAM should do). If in doubt use `mail.yourdomain.org` as the hostname and choose Ubuntu 14.04 64-bit as your operating system.
-Make sure you obtain a password for the root user. (Since we're using password authentication, it's highly recommended that you install [fail2ban](https://www.liberiangeek.net/2014/10/install-configure-fail2ban-ubuntu-14-04-servers/).)
+* Install fail2ban
+apt-get install fail2ban
 
-Follow the guide on [How To Set Up a Postfix E-Mail Server with Dovecot](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot) and
-then the guide on [How To Install and Configure DKIM with Postfix](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy). Ensure curl is installed (`apt-get install curl`).
+* Install MongoDB and the dokku MongoDB plugin
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10; echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list; apt-get update; apt-get install -y mongodb-org; git clone https://github.com/jeffutter/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb; dokku plugins-install; dokku mongodb:start
 
-Add the following lines to `/etc/postfix/main.cf`:
+* Create certificates
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem
+(You can hit enter a bunch of times to leave the fields empty)
 
-```
-virtual_alias_domains = yourdomain.org
-virtual_alias_maps = hash:/etc/postfix/virtual
-home_mailbox = Maildir/
-```
+* Install mail packages. MAKE SURE YOU REPLACE $MAIL_SERVER_ADDRESS $MAIL_DOMAIN with your domain
 
-In `/etc/dovecot/dovecot.conf`, change `mail_location = mbox:~/mail:INBOX=/var/mail/%u` to
+aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart
 
-```
-mail_location = maildir:~/Maildir
-```
+When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no.
 
-In `/etc/opendkim.conf`, add the line
-```
-SenderHeaders           Sender,From
-```
+* Get DKIM key (nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt) and add DNS records
+$MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS
+$MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP
+$MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"
+mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
 
-Restart postfix, dovecot and opendkim.
+* Visit $DOMAIN. Enter $DOMAIN as the hostname and check 'Use virtualhost naming for apps'
 
-### 3. Set up the web app
+* From your own computer run:
+git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@$DOMAIN:lumen; git push $APP_NAME master
 
-Clone the Lumen repo and push it to dokku/Heroku.
+* dokku mongodb:create lumen
 
-Prepare a MongoDB database: you can use [dokku-mongodb-plugin](https://github.com/jeffutter/dokku-mongodb-plugin) on dokku
-or [MongoLab](https://addons.heroku.com/mongolab) on Heroku.
+* dokku config:set lumen APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
 
-Add a custom domain (see instructions for [dokku](http://progrium.viewdocs.io/dokku/nginx) or [Heroku](https://devcenter.heroku.com/articles/custom-domains).)
+(If you didn't obtain a password for the root user, enable password authentication and set one with: nano /etc/ssh/sshd_config, set PasswordAuthentication yes; restart ssh; passwd)
 
-Set the following configuration variables:
-```
-APP_NAME=yourappname DOMAIN=www.yourdomain.org MAIL_DOMAIN=yourdomain.org MONGO_URL=yourmongourl MAIL_SERVER_ADDRESS=yourmailserveraddress MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=yourmailserverpassword S3_BUCKET_NAME=yours3bucketname S3_ACCESS_KEY=yours3accesskey S3_SECRET=yours3secret AIRBRAKE_HOST=yourairbrakehost AIRBRAKE_API_KEY=yourairbrakeapikey SESSION_SECRET=somelongsecretstring DRAGONFLY_SECRET=somelongsecretstring
-```
-If using Heroku, also set `HEROKU_OAUTH_TOKEN` (see [https://github.com/heroku/platform-api](https://github.com/heroku/platform-api) for details of how to generate it).
+* dokku ps:scale lumen web=1 worker=1
 
-Run `rake languages:default[English,en]` to set a default language and `rake mi:create_indexes` to create the database indexes.
+* dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes
 
-Schedule the following tasks using [cron](https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-on-a-vps) (dokku) or the [Scheduler addon](https://devcenter.heroku.com/articles/scheduler) (Heroku):
-* `rake cleanup` (daily, suggested 4am)
-* `rake news:update` (daily, suggested 7am)
-* `rake digests:daily` (daily, suggested 8am)
-* `rake digests:weekly` (weekly, but you can schedule it daily and it will only run on Sunday)
+* crontab -e
+0 4 * * * dokku run $APP_NAME rake cleanup
+0 7 * * * dokku run $APP_NAME rake news:update
+0 8 * * * dokku run $APP_NAME rake digests:daily
+0 0 * * 0 dokku run $APP_NAME rake digests:weekly
 
-If using dokku, your crontab should look something like this:
-```
-0 4 * * * dokku run yourappname rake cleanup
-0 7 * * * dokku run yourappname rake news:update
-0 8 * * * dokku run yourappname rake digests:daily
-0 0 * * 0 dokku run yourappname rake digests:weekly
-```
+* Visit $DOMAIN. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.
 
-### 4. Set up DNS
-
-* For mail delivery `yourdomain.org MX mail.yourdomain.org` and `mail.yourdomain.org A {your VPS IP}`
-* SPF `yourdomain.org TXT "v=spf1 a mx a:yourdomain.org ip4:{your VPS IP} ?all"`
-* DKIM: see DKIM guide above
-
-If using a custom domain with Heroku you'll also have something like `www.yourdomain.org CNAME yourappname.herokuapp.com`. 
-You can also make use of [wwwizer.com](http://wwwizer.com)'s free naked domain redirect `yourdomain.org A 174.129.25.170`.
-
-### 5. Further app configuration
-
-Visit www.yourdomain.org for the first time. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.
-
-Click 'Lumen configuration' in the footer and customise as you please!
+* Visit /config and 'Create notification script'. Add additional configuration variables via dokku config:set lumen. You're done!
 
 ## Switching mail servers
 

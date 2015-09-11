@@ -38,9 +38,9 @@ See below for more images.
 
 ## Installation instructions for DigitalOcean/dokku
 
-* Register a domain `$DOMAIN`. In this simple setup, `$DOMAIN` = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
+* Register a domain `$DOMAIN`. In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
 
-* Create a 2GB droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.3.26 on 14.04' 
+* Create a 2GB (or greater) droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.3.26 on 14.04' 
 
 * System update: `apt-get update; apt-get dist-upgrade`
 
@@ -79,25 +79,26 @@ See below for more images.
 
 * Visit `$DOMAIN`. Enter `$DOMAIN` as the hostname and check 'Use virtualhost naming for apps'
 
-* From your own computer run:
+* From your own machine run:
 
   ```
   git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@$DOMAIN:lumen; git push $APP_NAME master
   ```
 
-* `dokku mongodb:create lumen`
+* Create a Mongo instance for the app: `dokku mongodb:create lumen`
 
-* ```
+* Set configuration variables:
+```
   dokku config:set lumen APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET`
   ```
 
   (If you didn't obtain a password for the root user, enable password authentication and set one with: nano /etc/ssh/sshd_config, set PasswordAuthentication yes; restart ssh; passwd)
 
-* `dokku ps:scale lumen web=1 worker=1`
+* Start a worker process: `dokku ps:scale lumen web=1 worker=1`
 
-* `dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes`
+* Create a default language and database indices: `dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes`
 
-* `crontab -e`
+* Set cron tasks (`crontab -e`):
 
   ```
   0 4 * * * dokku run $APP_NAME rake cleanup  
@@ -108,7 +109,7 @@ See below for more images.
 
 * Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.
 
-* Visit /config and 'Create notification script'. Add additional configuration variables via dokku config:set lumen. You're done!
+* Visit /config and 'Create notification script'. Add additional configuration variables via `dokku config:set lumen VAR=$VAR`. You're done!
 
 ## Switching mail servers
 

@@ -60,7 +60,7 @@ See below for more images.
 
   (You can hit enter a bunch of times to leave the fields empty)
 
-* Install mail packages (*make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` with your domain*):
+* Install mail packages (**make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` with your domain**):
 
   ```
   aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart

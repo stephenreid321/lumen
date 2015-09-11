@@ -38,9 +38,9 @@ See below for more images.
 
 ## Installation instructions for DigitalOcean/dokku
 
-* Register a domain $DOMAIN. In this simple setup, $DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS.
+* Register a domain `$DOMAIN`. In this simple setup, `$DOMAIN` = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
 
-* Create a 2GB droplet with the hostname $MAIL_SERVER_ADDRESS and select the image 'Dokku 0.3.26 on 14.04' 
+* Create a 2GB droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.3.26 on 14.04' 
 
 * System update: `apt-get update; apt-get dist-upgrade`
 
@@ -60,7 +60,7 @@ See below for more images.
 
   (You can hit enter a bunch of times to leave the fields empty)
 
-* Install mail packages (*make sure you replace $MAIL_SERVER_ADDRESS and $MAIL_DOMAIN with your domain*):
+* Install mail packages (*make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` with your domain*):
 
   ```
   aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart
@@ -77,7 +77,7 @@ See below for more images.
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```
 
-* Visit $DOMAIN. Enter $DOMAIN as the hostname and check 'Use virtualhost naming for apps'
+* Visit `$DOMAIN`. Enter `$DOMAIN` as the hostname and check 'Use virtualhost naming for apps'
 
 * From your own computer run:
 
@@ -104,7 +104,7 @@ See below for more images.
   0 0 * * 0 dokku run $APP_NAME rake digests:weekly
   ```
 
-* Visit $DOMAIN. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.
+* Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.
 
 * Visit /config and 'Create notification script'. Add additional configuration variables via dokku config:set lumen. You're done!
 

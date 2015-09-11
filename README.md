@@ -46,44 +46,51 @@ See below for more images.
 
 * Install fail2ban: `apt-get install fail2ban`
 
-* Install MongoDB and the dokku MongoDB plugin: `apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10; echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list; apt-get update; apt-get install -y mongodb-org; git clone https://github.com/jeffutter/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb; dokku plugins-install; dokku mongodb:start`
+* Install MongoDB and the dokku MongoDB plugin:
 
-* Create certificates
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem
+`apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10; echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list; apt-get update; apt-get install -y mongodb-org; git clone https://github.com/jeffutter/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb; dokku plugins-install; dokku mongodb:start`
+
+* Create certificates:
+
+`openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem`
+
 (You can hit enter a bunch of times to leave the fields empty)
 
 * Install mail packages. MAKE SURE YOU REPLACE $MAIL_SERVER_ADDRESS $MAIL_DOMAIN with your domain
 
-aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart
+`aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart`
 
 When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no.
 
 * Get DKIM key (nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt) and add DNS records
-$MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS
+
+`$MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS
 $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP
 $MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"
-mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
+mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."`
 
 * Visit $DOMAIN. Enter $DOMAIN as the hostname and check 'Use virtualhost naming for apps'
 
 * From your own computer run:
-git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@$DOMAIN:lumen; git push $APP_NAME master
 
-* dokku mongodb:create lumen
+`git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@$DOMAIN:lumen; git push $APP_NAME master`
 
-* dokku config:set lumen APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
+* `dokku mongodb:create lumen`
+
+* `dokku config:set lumen APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET`
 
 (If you didn't obtain a password for the root user, enable password authentication and set one with: nano /etc/ssh/sshd_config, set PasswordAuthentication yes; restart ssh; passwd)
 
-* dokku ps:scale lumen web=1 worker=1
+* `dokku ps:scale lumen web=1 worker=1`
 
-* dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes
+* `dokku run lumen rake languages:default[English,en]; dokku run lumen rake mi:create_indexes`
 
-* crontab -e
-0 4 * * * dokku run $APP_NAME rake cleanup
+* `crontab -e`
+
+`0 4 * * * dokku run $APP_NAME rake cleanup
 0 7 * * * dokku run $APP_NAME rake news:update
 0 8 * * * dokku run $APP_NAME rake digests:daily
-0 0 * * 0 dokku run $APP_NAME rake digests:weekly
+0 0 * * 0 dokku run $APP_NAME rake digests:weekly`
 
 * Visit $DOMAIN. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.
 

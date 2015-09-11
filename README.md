@@ -38,7 +38,7 @@ See below for more images.
 
 ## Installation instructions for DigitalOcean/dokku
 
-* Register a domain `$DOMAIN`. In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
+* Register a domain `$DOMAIN`. In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`
 
 * Create a 2GB (or greater) droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.3.26 on 14.04' 
 
@@ -92,7 +92,7 @@ See below for more images.
   dokku config:set lumen APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET`
   ```
 
-  (If you didn't obtain a password for the root user, enable password authentication and set one with: nano /etc/ssh/sshd_config, set PasswordAuthentication yes; restart ssh; passwd)
+  (If you didn't obtain a password for the root user, enable password authentication and set one with: `nano /etc/ssh/sshd_config`, set PasswordAuthentication yes; `restart ssh`; `passwd`)
 
 * Start a worker process: `dokku ps:scale lumen web=1 worker=1`
 

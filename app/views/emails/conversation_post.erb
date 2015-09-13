@@ -39,7 +39,7 @@
         </span>
       </div>
 
-      <% if ENV['BCC_EACH'] %>
+      <% if !ENV['BCC_SINGLE'] %>
         <img src="<%=ENV['DOMAIN']%>/conversation_post_bccs/<%=conversation_post_bcc.id%>/read.gif" />
       <% end %>
   </body>

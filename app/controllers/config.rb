@@ -77,8 +77,8 @@ Lumen::App.controllers do
       
       :GOOGLE_ANALYTICS_TRACKING_ID => 'Google Analytics tracking ID',
             
-      :BCC_EACH => ['Send individual BCCs to conversation post subscribers'],
-      :BCC_EACH_THREADS => 'Number of threads to use to send individual BCCs (default 10)',
+      :BCC_SINGLE => ['Send single BCC to conversation post subscribers'],
+      :BCC_EACH_THREADS => 'Number of threads to use when sending individual BCCs (default 10)',
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 5s.',
       
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      

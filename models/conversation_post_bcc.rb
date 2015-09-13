@@ -22,14 +22,14 @@ class ConversationPostBcc
     }
   end
   
-  if ENV['BCC_EACH']
+  if !ENV['BCC_SINGLE']
     def conversation_post_bcc_recipient
       conversation_post_bcc_recipients.first
     end
   end
   
   def read_receipt!
-    if ENV['BCC_EACH']
+    if !ENV['BCC_SINGLE']
       conversation_post.conversation_post_read_receipts.create(account: self.conversation_post_bcc_recipient.try(:account))
     end
   end
@@ -70,11 +70,11 @@ class ConversationPostBcc
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
         
     if previous_conversation_posts
-      if ENV['BCC_EACH']
+      if ENV['BCC_SINGLE']
+        references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc.message_id}>" }
+      else
         account = self.conversation_post_bcc_recipient.account
         references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>" }
-      else
-        references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc.message_id}>" }
       end
       mail.in_reply_to = references.first
       mail.references = references.join(' ')      

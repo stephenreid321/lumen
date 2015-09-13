@@ -15,7 +15,7 @@ class ConversationPost
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
   has_many :conversation_post_read_receipts, :dependent => :destroy
   
-  if !ENV['BCC_EACH']
+  if ENV['BCC_SINGLE']
     def conversation_post_bcc
       conversation_post_bccs.first
     end
@@ -109,7 +109,7 @@ class ConversationPost
         
   def send_notifications!
     return if conversation.hidden
-    if ENV['BCC_EACH']
+    if !ENV['BCC_SINGLE']
       Delayed::Job.enqueue BccEachJob.new(self.id)
     else
       self.conversation_post_bccs.create(accounts: accounts_to_notify)

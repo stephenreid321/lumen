@@ -38,8 +38,9 @@ Lumen::App.controllers do
     end
   end   
       
-  get '/conversations/:slug' do
+  get '/conversations/:slug' do    
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    redirect "/groups/#{@conversation.group.slug}/conversations" if ENV['WALL_STYLE_CONVERSATIONS']
     membership_required!(@conversation.group) unless @conversation.group.publicly_viewable?
     @membership = @conversation.group.memberships.find_by(account: current_account)
     if @conversation.hidden

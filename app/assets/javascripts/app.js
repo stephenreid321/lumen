@@ -47,8 +47,50 @@ $(function () {
 
   function placeholdersOnly() {
     $('form.placeholders-only label[for]').each(function () {
-      $(this).next().children().first().attr('placeholder', $.trim($(this).text()))
+      var input = $(this).next().children().first()
+      if (!$(input).attr('placeholder'))
+        $(input).attr('placeholder', $.trim($(this).text()))
       $(this).hide()
+    });
+  }
+
+  function opengraph() {
+    $('.opengraph textarea, .opengraph input[type=text]').typing({
+      stop: function (event, $elem) {
+        var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
+        var m = $($elem).val().match(urlPattern);        
+        var resource = $($elem).attr('name').split('[')[0]
+        var displayContainer = $($elem).closest('.form-group').next()
+        var fieldContainer = displayContainer.next()
+        if (m) {
+          $(displayContainer).html('<i style="position: absolute; top: 0; right: 5px;" class="fa fa-spinner fa-spin"></i>')
+          $(displayContainer).load('/opengraph?url=' + encodeURIComponent(m[0]), function () {
+            var r = $('<a style="position: absolute; top: 0; right: 5px;" class="edit" title="Remove link" href="javascript:;"><i class="fa fa-times"></i></a>');
+            r.click(function () {
+              $(displayContainer).html('')
+              $(fieldContainer).html('')
+            });
+            r.prependTo(displayContainer);
+          });
+          $(fieldContainer).html('')
+          $.getJSON('/opengraph.json?url=' + encodeURIComponent(m[0]), function (data) {
+            $.each(['title', 'url', 'description', 'player', 'picture'], function (i, x) {
+              if (data[x])
+                $(fieldContainer).append('<input type="hidden" name="' + resource + '[link_' + x + ']" value="' + data[x] + '">')
+            });
+          })
+        }
+      },
+      delay: 400
+    });
+  }
+
+  function modalTrigger() {
+    $('a.modal-trigger').click(function () {
+      $('#modal .modal-content').load(this.href, function () {
+        $('#modal').modal('show');
+      });
+      return false;
     });
   }
 
@@ -56,9 +98,13 @@ $(function () {
     wysify();
     containedPagination();
     placeholdersOnly();
+    opengraph();
+    modalTrigger();
   });
   wysify();
   placeholdersOnly();
+  opengraph();
+  modalTrigger();
 
   $(window).resize(function () {
     if (document.documentElement.clientWidth < 992) {
@@ -140,12 +186,5 @@ $(function () {
   });
 
   $('#results-form').submit();
-
-  $('a.modal-trigger').click(function () {
-    $('#modal .modal-content').load(this.href, function () {
-      $('#modal').modal('show');
-    });
-    return false;
-  });
 
 });

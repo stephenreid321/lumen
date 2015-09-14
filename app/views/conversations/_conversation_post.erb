@@ -6,38 +6,24 @@
   <div class="media-body">
 
     <div>
+      
       <% if @membership and @membership.admin? %>
         <% if defined? i and i > 0 %>
           <a style="float: right" title="Hide post" data-confirm="Are you sure you want to hide this post?" class="edit restore-opacity" href="/conversations/<%=conversation_post.conversation.slug%>/hide_post/<%=conversation_post.id%>"><i class="fa fa-times"></i> Hide post</a>
         <% end %>
       <% end %>
+          
       <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>            
-      <ul class="fa-ul">
-        <% conversation_post.attachments.each { |attachment| %>
-          <li><i class="fa fa-li fa-paperclip"></i><a href="<%=attachment.file.url%>"><%=attachment.file_name%></a></li>
-        <% } %>
-      </ul>
 
-      <div id="conversation-post-<%=conversation_post.id%>"><%= Rinku.auto_link(conversation_post.replace_cids!.body) %></div>
+      <div id="conversation-post-<%=conversation_post.id%>" style="margin-bottom: 1em"><%= Rinku.auto_link(conversation_post.replace_cids!.body) %></div>
+
+      <%= partial :'conversations/conversation_post_attachments', :locals => {:conversation_post => conversation_post} %>
+
     </div>
 
     <div style="color: #aaa; margin-top: 10px; background: #F8F8F8; padding: 5px 10px; border-radius: 4px">
-      <a class="edit" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=time_ago_in_words(conversation_post.created_at)%> ago</a>
-      <% if !ENV['BCC_SINGLE'] %>
-        &middot;
-        <a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/read_receipts"><%=pluralize(conversation_post.conversation_post_read_receipts.count,'person')%> read this</a>
-      <% end %>
-      &middot;
-      <a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/plus_ones"><%=pluralize(conversation_post.plus_ones.count,'person')%> +1'd this</a>
-
-      <% if !conversation_post.plus_ones.find_by(account: current_account) %>
-        <a href="/conversation_posts/<%=conversation_post.id%>/plus_one" class="edit" title="+1 this post" ><i class="fa fa-plus"></i></a>
-      <% else %>        
-        <a href="/conversation_posts/<%=conversation_post.id%>/remove_plus_one" class="edit" title="Remove your +1"><i class="fa fa-times"></i></a>
-        <% end %>
+      <%= partial :'conversations/conversation_post_info', :locals => {:conversation_post => conversation_post} %>
     </div>
 
   </div>
 </div> 
-
-

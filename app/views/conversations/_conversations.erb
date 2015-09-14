@@ -14,8 +14,8 @@
       </div>            
     <% end %> 
     <script>
-      $(function() {
-        $('#conversations-search-form').submit(function(e) {
+      $(function () {
+        $('#conversations-search-form').submit(function (e) {
           $('#conversations-tab').load("/groups/<%=@group.slug%>/conversations?" + $(this).serialize());
           return false;
         });
@@ -24,11 +24,26 @@
   </div>
 </div>
 
-<%= partial :'conversations/conversations_table', :locals => {:conversations => @conversations}  %>
+<% if ENV['WALL_STYLE_CONVERSATIONS'] %>
+
+  <% if @membership %>
+    <%= partial :'conversations/wall_style_build'  %>
+  <% end %>
+
+  <% @conversations.each { |conversation| %>
+    <%= partial :'conversations/wall_style_conversation', :locals => {:conversation => conversation} %>
+  <% } %>
+<% else %>
+  <%= partial :'conversations/conversations_table', :locals => {:conversations => @conversations}  %>
+<% end %>
+
 <%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 
-<% if @membership %>
-  <h4>New conversation</h4>
-  <p>Fill out the form below or send an email to <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
-  <%= partial :'conversations/build'  %>
+<% if !ENV['WALL_STYLE_CONVERSATIONS'] %>
+  <% if @membership %>
+    <h4>New conversation</h4>
+    <p>Fill out the form below or send an email to <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
+    <%= partial :'conversations/build'  %>
+  <% end %>
 <% end %>
+

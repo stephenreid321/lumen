@@ -1,0 +1,13 @@
+<% if conversation_post.attachments.count == 1 and (attachment = conversation_post.attachments.first; %w{png jpg gif}.any? { |x| attachment.file_name.downcase.ends_with? ".#{x}" }) %>
+  <img style="width: 100%;" src="<%=attachment.file.url%>">
+<% elsif conversation_post.attachments.count > 0 %>
+  <ul class="fa-ul" <% if ENV['WALL_STYLE_CONVERSATIONS'] %> style="margin-top: 0; margin-bottom: 0" <% end %>>
+    <% conversation_post.attachments.each { |attachment| %>
+      <li><i class="fa fa-li fa-paperclip"></i><a href="<%=attachment.file.url%>"><%=attachment.file_name%></a></li>
+        <% } %>
+  </ul>
+<% end %>
+
+<% if conversation_post.link_url %>
+  <%= partial :'opengraph', :locals => {:title => conversation_post.link_title, :url => conversation_post.link_url, :description => conversation_post.link_description, :player => conversation_post.link_player, :picture => conversation_post.link_picture} %>
+<% end %>

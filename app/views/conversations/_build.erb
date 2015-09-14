@@ -7,11 +7,11 @@
 
     <% form_for (@conversation ||= @group.conversations.build), "/groups/#{@group.slug}/conversations", :id => 'new-conversation', :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
       <%= f.text_block :subject, div_class: 'col-md-12' %>
-      <%= f.wysiwyg_block :body, div_class: 'col-md-12' %>
+      <%= f.wysiwyg_block :body, div_class: 'col-md-12', required: true %>
       <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-            $('#attach').show();
-            $('#attach input').click();">Attach a file</a>
-      <div style="display:none;" id="attach">
+                $(this).next().show();
+                $(this).next().find('input').click();">Attach a file</a>
+      <div style="display:none;">
         <%= f.file_block :file, div_class: 'col-md-12' %>
       </div>
       <button type="submit" class="btn btn-default">Post</button>

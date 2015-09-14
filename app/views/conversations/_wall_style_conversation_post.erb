@@ -1,0 +1,30 @@
+
+<div style="padding: 7px; position: relative">
+
+  <% if @membership and @membership.admin? %>
+    <% if defined? i and i > 0 %>
+      <a style="position: absolute; top:2px; right: 0" title="Hide post" data-confirm="Are you sure you want to hide this post?" class="edit restore-opacity" href="/conversations/<%=conversation_post.conversation.slug%>/hide_post/<%=conversation_post.id%>"><i class="fa fa-times"></i></a>
+    <% end %>
+  <% end %>  
+
+  <div class="media" style="margin-top: 0">
+    <span class="pull-left">
+      <img class="media-object" style="width: 32px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+    </span>
+    <div class="media-body">
+      
+      <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>                
+      
+      <div id="conversation-post-<%=conversation_post.id%>" style="display: inline-block"><%= Rinku.auto_link(conversation_post.replace_cids!.body) %></div>
+      
+      <%= partial :'conversations/conversation_post_attachments', :locals => {:conversation_post => conversation_post} %>            
+      
+      <div style="font-size: 12px;">
+        <%= partial :'conversations/conversation_post_info', :locals => {:conversation_post => conversation_post} %>
+        &middot;
+        <a class="edit" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=time_ago_in_words(conversation_post.created_at)%> ago</a>      
+      </div>
+    </div>
+  </div> 
+
+</div>

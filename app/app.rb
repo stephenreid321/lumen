@@ -109,6 +109,17 @@ module Lumen
       at1.destroy
       redirect '/merge_tags'
     end
+    
+    get '/opengraph',  :provides => [:html, :json] do    
+      sign_in_required!
+      @og = Opengraph.fetch(params[:url])
+      case content_type   
+      when :json   
+        @og.to_json
+      when :html      
+        partial :opengraph, :locals => {:title => @og[:title], :url => @og[:url], :description => @og[:description], :player => @og[:player], :picture => @og[:picture]}
+      end    
+    end    
                           
   end
 end

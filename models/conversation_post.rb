@@ -6,6 +6,11 @@ class ConversationPost
   field :imap_uid, :type => String
   field :message_id, :type => String
   field :hidden, :type => Boolean, :default => false
+  field :link_title, :type => String
+  field :link_url, :type => String
+  field :link_description, :type => String  
+  field :link_picture, :type => String
+  field :link_player, :type => String  
   
   belongs_to :conversation, index: true
   belongs_to :group, index: true
@@ -45,6 +50,11 @@ class ConversationPost
       :conversation_id => :lookup,
       :group_id => :lookup,      
       :hidden => :check_box,      
+      :link_title => :text,
+      :link_url => :text,
+      :link_description => :text_area,
+      :link_picture => :text,
+      :link_player => :text,      
       :conversation_post_bccs => :collection,
       :conversation_post_read_receipts => :collection      
     }

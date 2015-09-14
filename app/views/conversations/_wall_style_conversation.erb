@@ -1,0 +1,77 @@
+
+<% conversation_posts = conversation.visible_conversation_posts.order_by(:created_at.asc); conversation_post = conversation_posts.first %>
+
+<div style="border: 1px solid #ddd; margin: 1em 0; background: white; position: relative">
+
+  <div style="padding: 10px;">
+
+    <% if @membership %>
+      <ul class="list-inline" style="position: absolute; top:5px; right: 5px">  
+        <% if conversation.conversation_mutes.find_by(account: current_account) %>
+          <li>
+            <a title="Unmute conversation" class="edit restore-opacity" href="/conversations/<%=conversation.slug%>/unmute"><i class="fa fa-volume-up"></i> Unmute</a>
+          </li> 
+        <% else %>
+          <li>
+            <a title="Mute conversation" class="edit restore-opacity" href="/conversations/<%=conversation.slug%>/mute"><i class="fa fa-volume-off"></i> Mute</a>
+          </li>         
+        <% end %>
+        <% if @membership.admin? %>    
+          <li>
+            <a title="Hide conversation" data-confirm="Are you sure you want to hide this conversation?" class="edit restore-opacity" href="/conversations/<%=conversation.slug%>/hide"><i class="fa fa-times"></i> Hide</a>
+          </li> 
+        <% end %>
+      </ul>
+    <% end %>    
+
+    <div class="media" style="margin-top: 0">
+      <span class="pull-left">
+        <img class="media-object" style="width: 48px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('48x48#').url : '/images/silhouette.png' %>">
+      </span>
+      <div class="media-body">
+        <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>  &middot; <strong><%=conversation.subject%></strong>
+        <br />
+        <a style="font-size: 12px; color: #aaa;" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=time_ago_in_words(conversation_post.created_at)%> ago</a>      
+      </div>
+    </div> 
+
+    <div id="conversation-post-<%=conversation_post.id%>" style="margin: 1em 0"><%= Rinku.auto_link(conversation_post.replace_cids!.body) %></div>
+
+    <%= partial :'conversations/conversation_post_attachments', :locals => {:conversation_post => conversation_post} %>
+
+  </div>
+
+  <div style="background: #F6F7F8;">
+    <div style="color: #aaa; margin-top: 10px; padding: 7px; border: 1px solid #ddd; border-width: 1px 0 0 0">
+      <%= partial :'conversations/conversation_post_info', :locals => {:conversation_post => conversation_post} %>
+    </div>
+
+    <div style="margin: 0 7px; border: 1px solid #ddd; border-width: 1px 0 0 0 ">
+      <% conversation_posts[1..-1].each_with_index { |conversation_post, i| i +=1 %>
+        <%= partial :'conversations/wall_style_conversation_post', :locals => {:conversation_post => conversation_post, :i => i} %>
+      <% } %>
+
+      <div style="padding: 7px; position: relative">
+        <div class="media" style="padding-bottom: 5px">
+          <span class="pull-left">
+            <img class="media-object" style="width: 32px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+          </span>
+          <div class="media-body">
+            <% form_for (@conversation_post ||= conversation.conversation_posts.build), "/conversations/#{conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
+              <%= f.text_block :body, div_class: 'col-md-12 opengraph', placeholder: 'Write a comment...' %>
+              <div id="opengraph" style="position: relative; margin-bottom: 5px"></div>
+              <div id="opengraph-json"></div>               
+              <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
+                $(this).next().show();
+                $(this).next().find('input').click();">Attach a file</a>
+              <div style="display:none;">
+                <%= f.file_block :file, div_class: 'col-md-12' %>
+              </div>
+              <button type="submit" class="btn btn-default">Post</button>
+            <% end %>
+          </div>
+        </div>     
+      </div>     
+    </div>   
+  </div>
+</div>

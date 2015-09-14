@@ -45,9 +45,9 @@
           <% form_for (@conversation_post ||= @conversation.conversation_posts.build), "/conversations/#{@conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
             <%= f.wysiwyg_block :body, div_class: 'col-md-12' %>
             <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-                $('#attach').show();
-                $('#attach input').click();">Attach a file</a>
-            <div style="display:none;" id="attach">
+                $(this).next().show();
+                $(this).next().find('input').click();">Attach a file</a>
+            <div style="display:none;">
               <%= f.file_block :file, div_class: 'col-md-12' %>
             </div>
             <button type="submit" class="btn btn-default">Post</button>

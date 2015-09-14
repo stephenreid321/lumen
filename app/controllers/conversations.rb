@@ -14,7 +14,7 @@ Lumen::App.controllers do
       conversation_posts = @group.visible_conversation_posts.or(q)
       @conversations = @conversations.where(:id.in => conversation_posts.pluck(:conversation_id))
     end                         
-    @conversations = @conversations.order_by(:updated_at.desc).per_page(10).page(params[:page])            
+    @conversations = @conversations.order_by(:updated_at.desc).per_page(ENV['WALL_STYLE_CONVERSATIONS'] ? 5 : 10).page(params[:page])            
     if request.xhr?
       partial :'conversations/conversations'
     else

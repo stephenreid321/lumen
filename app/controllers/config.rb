@@ -52,8 +52,8 @@ Lumen::App.controllers do
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
       :REQUEST_LOCATION => ['Adds the location field to the request membership page'],
       
-      :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from global-landing, news, wall, digest, map, docs, surveys, calendar)',      
-      :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, wall, digest, map, docs, surveys, stats, calendar)',
+      :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from global-landing, news, digest, map, docs, surveys, calendar)',      
+      :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, digest, map, docs, surveys, stats, calendar)',
       
       :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
       :SHOW_SPACES_BY_DEFAULT => ['Shows spaces on maps by default'],

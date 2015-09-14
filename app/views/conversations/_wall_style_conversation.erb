@@ -54,7 +54,7 @@
       <div style="padding: 7px; position: relative">
         <div class="media" style="padding-bottom: 5px">
           <span class="pull-left">
-            <img class="media-object" style="width: 32px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+            <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
           </span>
           <div class="media-body">
             <% form_for (@conversation_post ||= conversation.conversation_posts.build), "/conversations/#{conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>

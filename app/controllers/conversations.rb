@@ -15,6 +15,13 @@ Lumen::App.controllers do
       @conversations = @conversations.where(:id.in => conversation_posts.pluck(:conversation_id))
     end                         
     @conversations = @conversations.order_by(:updated_at.desc).per_page(ENV['WALL_STYLE_CONVERSATIONS'] ? 5 : 10).page(params[:page])            
+    if current_account and ENV['WALL_STYLE_CONVERSATIONS']
+      @conversations.each { |conversation|
+        conversation.visible_conversation_posts.each { |conversation_post|
+          conversation_post.conversation_post_read_receipts.create(account: current_account, web: true)
+        }
+      }
+    end      
     if request.xhr?
       partial :'conversations/conversations'
     else

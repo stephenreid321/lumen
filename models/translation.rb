@@ -44,7 +44,6 @@ class Translation
       :news => 'news',
       :digest => 'digest',
       :map => 'map',
-      :wall => 'wall',
       :docs => 'docs',
       :surveys => 'surveys',
       :stats => 'stats',

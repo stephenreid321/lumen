@@ -45,7 +45,6 @@ class Account
   has_many :conversations_as_creator, :class_name => 'Conversation', :dependent => :destroy
   has_many :conversation_posts_as_creator, :class_name => 'ConversationPost', :dependent => :destroy
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
-  has_many :wall_posts_as_creator, :class_name => 'WallPost', :inverse_of => :account, :dependent => :destroy
   has_many :spaces_as_creator, :class_name => 'Space', :inverse_of => :account, :dependent => :destroy
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
   has_many :surveys_as_creator, :class_name => 'Survey', :inverse_of => :account, :dependent => :destroy
@@ -132,11 +131,7 @@ class Account
   def news_summaries
     NewsSummary.where(:group_id.in => memberships.map(&:group_id))
   end
-    
-  def wall_posts
-    WallPost.where(:group_id.in => memberships.map(&:group_id))
-  end  
-  
+      
   def docs
     Doc.where(:group_id.in => memberships.map(&:group_id))
   end 

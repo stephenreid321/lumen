@@ -463,6 +463,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       
     html = Nokogiri::HTML.parse(html)
     html.search('style').remove
+    html.search('.gmail_extra').remove
     html = html.search('body').inner_html
                      
     conversation_post = conversation.conversation_posts.create :body => html, :account => account, :imap_uid => imap_uid, :message_id => mail.message_id

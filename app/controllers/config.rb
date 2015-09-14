@@ -69,12 +69,8 @@ Lumen::App.controllers do
           
       :FACEBOOK_KEY => 'Facebook API key',
       :FACEBOOK_SECRET => 'Facebook API secret',
-      :LINKEDIN_KEY => 'LinkedIn API key',
-      :LINKEDIN_SECRET => 'LinkedIn API secret',
       :GOOGLE_KEY => 'Google API key',
       :GOOGLE_SECRET => 'Google API secret',
-      :TWITTER_KEY => 'Twitter API key',
-      :TWITTER_SECRET => 'Twitter API secret',
       
       :GOOGLE_ANALYTICS_TRACKING_ID => 'Google Analytics tracking ID',
             

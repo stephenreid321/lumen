@@ -15,7 +15,7 @@
       
       <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>                
       
-      <div id="conversation-post-<%=conversation_post.id%>" style="display: inline-block"><%= Rinku.auto_link(conversation_post.replace_cids!.body) %></div>
+      <div id="conversation-post-<%=conversation_post.id%>" style="display: inline"><%= Rinku.auto_link(conversation_post.replace_cids!.body) %></div>
       
       <%= partial :'conversations/conversation_post_attachments', :locals => {:conversation_post => conversation_post} %>            
       

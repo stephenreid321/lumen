@@ -454,8 +454,8 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     else      
       new_conversation = true
       conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account
-      puts "created new conversation id #{conversation.id}"
       return :failed if !conversation.persisted? # failed to find/create a valid conversation - probably a dupe
+      puts "created new conversation id #{conversation.id}"      
       ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
         html = html.split(pattern).first
       }

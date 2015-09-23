@@ -31,7 +31,7 @@
     </style>
     <script>
       $(function() {
-        var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;"><%=I18n.t(:add_another_account_tagship)%></a></div>');
+        var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;"><%=I18n.t(:add_another_account_tagship).capitalize%></a></div>');
         $(icon).click(function() {
           var c = $('.account_tagship').length
           var i = $('<input type="text" />');

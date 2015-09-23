@@ -19,7 +19,7 @@ EOT
 
 myhostname = $MAIL_SERVER_ADDRESS
 myorigin = /etc/mailname
-mydestination = $MAIL_SERVER_ADDRESS, $MAIL_DOMAIN, localhost, localhost.localdomain
+mydestination = $MAIL_SERVER_ADDRESS, localhost, localhost.localdomain
 relayhost =
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0

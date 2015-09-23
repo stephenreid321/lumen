@@ -8,6 +8,10 @@ Lumen::App.helpers do
     end
   end
   
+  def timeago(x)
+    %Q{<abbr class="timeago" title="#{x.iso8601}">#{x}</abbr>}
+  end
+  
   def smtp_settings
     {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
   end

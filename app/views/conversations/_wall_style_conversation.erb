@@ -31,7 +31,7 @@
       <div class="media-body">
         <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>  &middot; <strong><%=conversation.subject%></strong>
         <br />
-        <a style="font-size: 12px; color: #aaa;" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=distance_of_time_in_words(conversation_post.created_at)%></a>      
+        <a style="font-size: 12px; color: #aaa;" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=timeago(conversation_post.created_at)%></a>      
       </div>
     </div> 
 

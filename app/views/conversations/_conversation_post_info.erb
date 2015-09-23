@@ -1,7 +1,7 @@
 
 
 <% if !ENV['WALL_STYLE_CONVERSATIONS'] %>
-  <a class="edit" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=distance_of_time_in_words(conversation_post.created_at)%></a>
+  <a class="edit" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=timeago(conversation_post.created_at)%></a>
   &middot;
 <% end %>
 

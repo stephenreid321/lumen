@@ -3,6 +3,8 @@ body { padding: 60px 0 20px 0; }
 
 .breadcrumb { background: #F8F8F8; border: 0 }
 
+abbr[title] { border: none }
+
 ul.nav.nav-tabs { width: 100% }
 .tabs-left .nav-tabs > li > a { transition: none; color: #aaa }
 .tabs-left .nav-tabs > li.active > a { color: black }

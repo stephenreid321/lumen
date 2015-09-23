@@ -14,7 +14,7 @@
           <span style="font-size: 0.9em; color: #999999"><i class="fa fa-group"></i> <%=survey.group.slug%></span>
         <% end %>
       </td>
-      <td>Created <%=distance_of_time_in_words(survey.created_at)%> by <a href="/accounts/<%=survey.account.id%>"><%=survey.account.name%></a></td>
+      <td>Created <%=timeago(survey.created_at)%> by <a href="/accounts/<%=survey.account.id%>"><%=survey.account.name%></a></td>
       <td>
         <% if survey.survey_takers.find_by(account: current_account) %>
           <i class="fa fa-check"></i> You've taken this survey.

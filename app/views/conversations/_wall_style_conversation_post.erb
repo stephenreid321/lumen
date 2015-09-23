@@ -22,7 +22,7 @@
       <div style="font-size: 12px;">
         <%= partial :'conversations/conversation_post_info', :locals => {:conversation_post => conversation_post} %>
         &middot;
-        <a class="edit" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=distance_of_time_in_words(conversation_post.created_at)%></a>      
+        <a class="edit" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=timeago(conversation_post.created_at)%></a>      
       </div>
     </div>
   </div> 

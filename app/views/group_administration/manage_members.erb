@@ -103,7 +103,7 @@
               <td>
                 <a class="btn btn-default" href="/groups/<%=@group.slug%>/reminder?account_id=<%=membership.account_id%>&issue=<%=@view%>">Send reminder</a>
                 <br />
-                <% if membership.reminder_sent %>Reminder sent <%= distance_of_time_in_words(membership.reminder_sent) %><% end %>
+                <% if membership.reminder_sent %>Reminder sent <%= timeago(membership.reminder_sent) %><% end %>
               </td>
             <% end %>
           <% end %>

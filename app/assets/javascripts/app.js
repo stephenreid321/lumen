@@ -3,6 +3,10 @@ webshims.polyfill();
 
 $(function () {
 
+  function timeago() {
+    $("abbr.timeago").timeago()
+  }
+
   function wysify() {
     $('textarea.wysiwyg').not('textarea.wysified').each(function () {
       var textarea = this;
@@ -58,7 +62,7 @@ $(function () {
     $('.opengraph textarea, .opengraph input[type=text]').typing({
       stop: function (event, $elem) {
         var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
-        var m = $($elem).val().match(urlPattern);        
+        var m = $($elem).val().match(urlPattern);
         var resource = $($elem).attr('name').split('[')[0]
         var displayContainer = $($elem).closest('.form-group').next()
         var fieldContainer = displayContainer.next()
@@ -100,12 +104,13 @@ $(function () {
     placeholdersOnly();
     opengraph();
     modalTrigger();
+    timeago();
   });
   wysify();
   placeholdersOnly();
   opengraph();
   modalTrigger();
-
+  timeago();
   $(window).resize(function () {
     if (document.documentElement.clientWidth < 992) {
       $('.tabs-left-please').removeClass('tabs-left');

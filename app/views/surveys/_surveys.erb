@@ -1,4 +1,6 @@
-<h2>Surveys for <%=@group ? @group.slug : 'your groups'%></h2>
+<h2>
+  <%= @group ? I18n.t(:surveys_for_group, slug: @group.slug).capitalize : I18n.t(:surveys_for_your_groups).capitalize %>
+</h2>
 
 <a class="btn btn-primary" href="<%= @group ? "/groups/#{@group.slug}/surveys/new" : '/surveys/new' %> "><i class="fa fa-plus"></i> Create a survey</a>
 
@@ -12,7 +14,7 @@
           <span style="font-size: 0.9em; color: #999999"><i class="fa fa-group"></i> <%=survey.group.slug%></span>
         <% end %>
       </td>
-      <td>Created <%=time_ago_in_words survey.created_at%> ago by <a href="/accounts/<%=survey.account.id%>"><%=survey.account.name%></a></td>
+      <td>Created <%=distance_of_time_in_words(survey.created_at)%> by <a href="/accounts/<%=survey.account.id%>"><%=survey.account.name%></a></td>
       <td>
         <% if survey.survey_takers.find_by(account: current_account) %>
           <i class="fa fa-check"></i> You've taken this survey.

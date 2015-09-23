@@ -3,7 +3,7 @@
   <div class="col-md-8 col-md-offset-2">
     <div style="text-align: center">
 
-      <p style="margin: 1em">Welcome to <%=ENV['SITE_NAME_DEFINITE']%>!</p>   
+      <p style="margin: 1em"><%=I18n.t(:welcome_to).capitalize%> <%=ENV['SITE_NAME_DEFINITE']%>!</p>   
 
       <% form_tag '/auth/account/callback', :id => 'sign_in', :class => 'form-inline' do %>
         <div class="form-group">
@@ -17,9 +17,9 @@
         <button class="btn btn-primary" type="submit">Sign in</button>  
         <div style="margin: 10px" >
           <a href="javascript:;" onclick="$(this).hide();
-              $('#sign_in').hide();
-              $('#forgot').show();
-              $('#forgot_email').focus();">Forgot your password?</a>
+                $('#sign_in').hide();
+                $('#forgot').show();
+                $('#forgot_email').focus();">Forgot your password?</a>
         </div>
       <% end %>
 

@@ -258,11 +258,6 @@ class Account
   def self.human_attribute_name(attr, options={})  
     {
       :account_tag_ids => I18n.t(:account_tagships).capitalize,
-      :password_confirmation => "Password again",
-      :twitter_profile_url => "Twitter profile URL",
-      :facebook_profile_url => "Facebook profile URL",
-      :linkedin_profile_url => "LinkedIn profile URL",
-      :google_profile_url => "Google+ profile URL",         
     }[attr.to_sym] || super  
   end     
            

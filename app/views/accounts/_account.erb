@@ -9,13 +9,13 @@
         <% if account.public_memberships.count > 0 %>
           <li>
             <i title="Groups" class="fa fa-li fa-group"></i>
-            Member of <%= account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %>
+            <%=I18n.t(:member_of).capitalize%> <%= account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %>
           </li>
         <% end %>    
       <% end %>
       <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
         <% account.affiliations.each { |affiliation|%>
-          <li><i title="<%=affiliation.title%> at <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> at <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
+          <li><i title="<%=affiliation.title%> <%=I18n.t(:at)%> <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> <%=I18n.t(:at)%> <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
         <% } %>
       <% end %>
       <% if !ENV['HIDE_SEARCH_TAGS'] %>

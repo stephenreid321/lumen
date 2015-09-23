@@ -1,6 +1,6 @@
 <ol class="breadcrumb" style="margin-bottom: 20px">
-  <li><a href="/groups">Groups</a></li>
-  <li class="active"><%=@group_type ? @group_type.name : 'All'%> groups</li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li class="active"><%=@group_type ? I18n.t(:"group_type.#{@group_type.slug}") : 'All groups'%></li>
 </ol>
 
 <% if !ENV['GROUP_CREATION_BY_ADMINS_ONLY'] or (current_account and current_account.admin?) %>

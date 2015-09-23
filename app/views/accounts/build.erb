@@ -1,7 +1,7 @@
 <ol class="breadcrumb" style="margin-bottom: 10px">
   <li><a href="/me"><%=current_account.name%></a></li>
   <li class="active">
-    Edit
+    <%=I18n.t(:edit).capitalize%>
   </li>
 </ol>
 
@@ -52,12 +52,12 @@
       <script>
         $(function () {
           $('div[data-group-type]').each(function () {
-            $('.control-label', this).text($(this).attr('data-group-type') + ' groups')
+            $('.control-label', this).text($(this).attr('data-group-type'))
           });
         });
       </script>
       <% GroupType.where(:join_groups_via_profile => true).each { |group_type| %>
-        <div data-group-type="<%=group_type.name%>">
+        <div data-group-type="<%=I18n.t(:"group_type.#{group_type.slug}")%>">
           <%= f.check_boxes_block :group_ids, options: group_type.groups.where(:privacy => 'open').map { |group| [group.slug, group.id] }, checked: current_account.memberships.map(&:group_id) %>
         </div>
       <% } %>      
@@ -107,20 +107,20 @@
       <%= f.image_block :picture, rotate: false, hint: ('Connect an account above to automatically grab a picture' if !@account.picture and Provider.all.any? { |provider| provider.registered? }) %>
       <%= f.password_block :password %>
       <%= f.password_block :password_confirmation %>
-      <%= f.submit_block %>
+      <%= f.submit_block button_text: I18n.t(:update_account).capitalize %>
 
     <% end %>
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Delete account</h3>
+        <h3 class="panel-title"><%= I18n.t(:delete_account).capitalize %></h3>
       </div>
       <div class="panel-body">
-        <p>To completely remove your account, type your name into the box below and click 'Delete account'.</p>
+        <p><%= I18n.t(:delete_account_instructions) %></p>
 
         <% form_tag '/me/destroy', :class => 'form-inline' do %>
           <%= text_field_tag :name, :class => 'form-control' %>
-          <button class="btn btn-danger">Delete account</button>
+          <button class="btn btn-danger"><%= I18n.t(:delete_account).capitalize %></button>
         <% end %>   
       </div>
     </div>

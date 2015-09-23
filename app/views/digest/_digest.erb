@@ -9,7 +9,7 @@
   <% if h2 %>
     <%=h2%> <small><%=compact_daterange(from,to)%></small>      
   <% else %>
-    Digest for <%= group ? "#{group.slug}" : 'your groups' %>
+    <%= group ? I18n.t(:digest_for_group, slug: group.slug).capitalize : I18n.t(:digest_for_your_groups).capitalize %>
 
     <small>
       <script>

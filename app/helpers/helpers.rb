@@ -11,22 +11,7 @@ Lumen::App.helpers do
   def smtp_settings
     {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
   end
-  
-  def page_entries_info(collection, model: nil)
-    if collection.total_pages < 2
-      case collection.to_a.length
-      when 0
-        "No #{model.pluralize.downcase} found"
-      when 1
-        "Displaying <b>1</b> #{model.downcase}"
-      else
-        "Displaying <b>all #{collection.count}</b> #{model.pluralize.downcase}"
-      end
-    else
-      "Displaying #{model.pluralize.downcase} <b>#{collection.offset + 1} - #{collection.offset + collection.to_a.length}</b> of <b>#{collection.count}</b> in total"
-    end
-  end
-  
+    
   def compact_daterange(from,to)
     if from.strftime("%b %Y") == to.strftime("%b %Y")
       from.day.ordinalize + " – " + to.strftime("#{to.day.ordinalize} %b %Y")

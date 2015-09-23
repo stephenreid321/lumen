@@ -12,7 +12,7 @@
       <td><span style="opacity: <%=(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o%>"class="badge"><%=c%></span></td>
       <td>
         <% if conversation.last_conversation_post %>
-          Last post <%= time_ago_in_words(conversation.last_conversation_post.created_at) %> ago
+          <%=I18n.t(:last_post).capitalize%> <%= distance_of_time_in_words(conversation.last_conversation_post.created_at) %>
           by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>
         <% end %>
       </td>

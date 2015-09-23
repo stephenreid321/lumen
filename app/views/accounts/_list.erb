@@ -9,7 +9,7 @@
     $(function () {
       $('#account_id').lookup({
         lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
-        placeholder: 'Filter by name',
+        placeholder: '<%=I18n.t(:filter_by_name).capitalize%>',
         rtype: 'account'
       }).on('change', function () {
         $('#results-form').submit();
@@ -26,7 +26,7 @@
       $(function () {
         $('#organisation_id').lookup({
           lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
-          placeholder: 'Filter by organisation',
+          placeholder: '<%=I18n.t(:filter_by_organisation).capitalize%>',
           rtype: 'organisation'
         }).on('change', function () {
           $('#results-form').submit();
@@ -45,7 +45,7 @@
       $(function () {
         $('#account_tag_id').lookup({
           lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
-          placeholder: 'Filter by <%=I18n.t(:account_tagship)%>',
+          placeholder: '<%=I18n.t(:filter_by_account_tagship).capitalize%>',
           rtype: 'account_tag',
         }).on('change', function () {
           $('#results-form').submit();
@@ -56,8 +56,8 @@
   <% end %>
 
   <div>
-    <label class="radio-inline" style="padding-left: 0">Sort by</label>
-    <% {'Date joined' => :date, 'Name' => :name, 'Last updated' => :updated}.each { |k,v| %>
+    <label class="radio-inline" style="padding-left: 0"><%=I18n.t(:sort_by).capitalize%></label>
+    <% {I18n.t(:date_joined).capitalize => :date, I18n.t(:name).capitalize => :name, I18n.t(:last_updated).capitalize => :updated}.each { |k,v| %>
       <label class="radio-inline">
         <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
       </label>        

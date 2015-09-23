@@ -1,5 +1,6 @@
-<h2>Docs for <%=@group ? @group.slug : 'your groups'%></h2>
-
+<h2>
+  <%= @group ? I18n.t(:docs_for_group, slug: @group.slug).capitalize : I18n.t(:docs_for_your_groups).capitalize %>
+</h2>
 
 <% if (@group ? (current_account and @group.memberships.find_by(account: current_account)) : current_account) %>
   <% form_tag (@group ? "/groups/#{@group.slug}/docs/new" : "/docs/new"), :class => 'form-inline' do %>
@@ -23,7 +24,7 @@
           <span style="font-size: 0.9em; color: #999999"><i class="fa fa-group"></i> <%=doc.group.slug%></span>
         <% end %>
       </td>
-      <td>Created <%=time_ago_in_words doc.created_at%> ago by <a href="/accounts/<%=doc.account.id%>"><%=doc.account.name%></a></td>
+      <td>Created <%=distance_of_time_in_words(doc.created_at)%> by <a href="/accounts/<%=doc.account.id%>"><%=doc.account.name%></a></td>
       <td><a class="edit" href="/docs/<%=doc.id%>/destroy" data-confirm="Are you sure you want to unlist this doc?"><i class="fa fa-times"></i></a></td>
     </tr>
 

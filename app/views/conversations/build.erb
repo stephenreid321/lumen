@@ -1,14 +1,14 @@
 
 <ol class="breadcrumb">
-  <li><a href="/groups">Groups</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
   <li>
     <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
   </li>
   <li>
-    <a href="/groups/<%=@group.slug%>/conversations">Conversations</a>    
+    <a href="/groups/<%=@group.slug%>/conversations"><%=I18n.t(:conversations).capitalize%></a>    
   </li>  
   <li class="active">
-    New conversation
+    <%=I18n.t(:new_conversation).capitalize%>
   </li>    
 </ol>
 

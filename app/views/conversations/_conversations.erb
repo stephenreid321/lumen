@@ -1,4 +1,4 @@
-<h2><%=@group.slug%>'<%="s" unless @group.slug[-1] == 's' %> conversations</h2>
+<h2><%=I18n.t(:group_conversations, slug: @group.slug)%></h2>
 
 <div class="row">
   <div class="col-md-6">          
@@ -41,8 +41,8 @@
 
 <% if !ENV['WALL_STYLE_CONVERSATIONS'] %>
   <% if @membership %>
-    <h4>New conversation</h4>
-    <p>Fill out the form below or send an email to <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
+    <h4><%=I18n.t(:new_conversation).capitalize%></h4>
+    <p><%=I18n.t(:fill_out_the_form_below_or_send_a_mail_to)%> <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
     <%= partial :'conversations/build'  %>
   <% end %>
 <% end %>

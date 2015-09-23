@@ -1,11 +1,11 @@
 <ol class="breadcrumb">
-  <li><a href="/groups">Groups</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
   <% if @group.persisted? %>
     <li>
       <a href="/groups/<%=@group.slug%>/"><%= @group.slug%></a>    
     </li>      
     <li class="active">
-      Edit
+      <%=I18n.t(:edit).capitalize%>
     </li>
   <% else %>
     <li class="active">
@@ -47,7 +47,7 @@
       <%= f.check_box_block :publicly_viewable %>      
       <%= f.select_block :default_notification_level %>
       <% if GroupType.count > 0 %>
-        <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [group_type.name,group_type.id] } %>
+        <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [I18n.t(:"group_type.#{group_type.slug}"),group_type.id] } %>
       <% end %>
       <%= f.text_block :redirect_after_first_profile_save %>
       <% if @group.persisted? %>

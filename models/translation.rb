@@ -135,6 +135,13 @@ class Translation
       :surveys_for_your_groups => 'surveys for your groups',      
       :docs_for_group => "docs for %{slug}",
       :docs_for_your_groups => 'docs for your groups',            
+      :hot_conversations => 'hot conversations',
+      :new_events => 'new events',
+      :add_an_event => 'add an event',
+      :new_people => 'new people',
+      :view_all_people => 'view all people',
+      :top_stories => 'top stories',
+      :upcoming_events => 'upcoming events'
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

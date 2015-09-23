@@ -1,5 +1,5 @@
 <% if new_people.length > 0 %>
-  <h3>New people <a class="btn btn-default btn-sm" href="<%= group ? "/groups/#{group.slug}" : "/"%>"><i class="fa fa-group"></i> View all people</a></h3>
+  <h3><%=I18n.t(:new_people).capitalize%> <a class="btn btn-default btn-sm" href="<%= group ? "/groups/#{group.slug}" : "/"%>"><i class="fa fa-group"></i> <%=I18n.t(:view_all_people).capitalize%></a></h3>
   <ul class="list-unstyled clearfix" style="margin-top: 26px">    
     <% new_people.each { |account| %>
       <li style="display: block; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; padding: 5px">      

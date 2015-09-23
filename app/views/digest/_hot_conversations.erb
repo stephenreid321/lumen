@@ -1,5 +1,5 @@
 <% if hot_conversations.length > 0 %>
-  <h3><% if group and group.hot_conversation_threshold == 1 %>Conversations<% else %>Hot conversations<% end %> <% if group %><a class="btn btn-default btn-sm" href="/groups/<%=group.slug%>"><i class="fa fa-comments"></i> Browse all conversations</a><% end%></h3>
+  <h3><% if group and group.hot_conversation_threshold == 1 %><%=I18n.t(:conversations).capitalize%><% else %><%=I18n.t(:hot_conversations).capitalize%><% end %> <% if group %><a class="btn btn-default btn-sm" href="/groups/<%=group.slug%>"><i class="fa fa-comments"></i> Browse all conversations</a><% end%></h3>
 
   <% if group and group.show_full_conversations_in_digests %>
     <% hot_conversations.each { |conversation| %>

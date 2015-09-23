@@ -1,5 +1,5 @@
 <% if upcoming_events.length > 0 %> 
-  <h3>Upcoming events</h3>
+  <h3><%=I18n.t(:upcoming_events).capitalize%></h3>
   <ul class="list-unstyled">
     <% upcoming_events.each { |event| %>
       <li><a href="/groups/<%=event.group.slug%>/calendar/<%=event.id%>"><%=event.name%></a> <%= event.when_details %> <% if !group%><span style="color: #999999;"><i class="fa fa-group"></i> <%=event.group.slug%></span><% end%></li>

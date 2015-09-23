@@ -142,7 +142,9 @@ class Translation
       :view_all_people => 'view all people',
       :top_stories => 'top stories',
       :upcoming_events => 'upcoming events',
-      :created => 'created'
+      :created => 'created',
+      :attach_a_file => 'attach a file',
+      :post => 'post'
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

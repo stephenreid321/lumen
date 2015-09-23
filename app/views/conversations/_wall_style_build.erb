@@ -18,11 +18,11 @@
           <div id="opengraph-json"></div>                       
           <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
                 $(this).next().show();
-                $(this).next().find('input').click();">Attach a file</a>
+                $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
           <div style="display:none;">
             <%= f.file_block :file, div_class: 'col-md-12' %>
           </div>
-          <button type="submit" class="btn btn-default">Post</button>
+          <button type="submit" class="btn btn-default"><%=I18n.t(:post).capitalize%></button>
         <% end %>
       </div>
     </div> 

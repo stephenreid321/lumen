@@ -149,7 +149,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/join' do
     @group = Group.find_by(slug: params[:slug]) || not_found    
-    redirect back unless @group.open?    
+    redirect back unless @group.public? or @group.open?    
     if current_account
       @account = current_account
     else     

@@ -19,7 +19,7 @@
     </small>
     <% if !current_account or !(membership = group.memberships.find_by(account: current_account)) %>
 
-      <% if group.open? %>
+      <% if group.public? or group.open? %>
         <a class="btn btn-default btn-sm" href="/groups/<%=group.slug%>/join"><i class="fa fa-sign-in"></i> Join group</a>
       <% elsif group.closed? %>
         <% if current_account and group.membership_requests.find_by(account: current_account) %>  

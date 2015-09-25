@@ -1,6 +1,6 @@
 <div style="text-align: center">
 
-  <div class="panel panel-success" style="margin-top: 20px">
+  <div class="panel panel-primary" style="margin-top: 20px">
     <div class="panel-heading">
       <h3 class="panel-title"><%=group.slug%> has <%=pluralize(group.members.count,'member')%></h3>
     </div>
@@ -19,7 +19,7 @@
             <%= text_field_tag :email, :class => 'form-control input-sm', :placeholder => 'Your email address' %>
           </div>    
         <% end %>
-        <button type="submit" class="btn-sm btn btn-success">Join</button>
+        <button type="submit" class="btn btn-primary">Join</button>
       <% end %> 
 
 

@@ -5,7 +5,6 @@ class Group
   field :slug, :type => String
   field :description, :type => String
   field :privacy, :type => String
-  field :publicly_viewable, :type => Boolean
   field :default_notification_level, :type => String, :default => 'each'
   field :request_intro, :type => String  
   field :request_questions, :type => String
@@ -156,7 +155,6 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :slug => :text,
       :description => :text_area,
       :privacy => :radio,
-      :publicly_viewable => :check_box,
       :default_notification_level => :text,
       :request_intro => :text_area,      
       :request_questions => :text_area,
@@ -203,8 +201,12 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
   
   def self.privacies
-    {'Open: anyone can choose to join' => 'open', 'Closed: people must request membership' => 'closed', 'Secret: group is hidden and people can only join via invitation' => 'secret'}
+    {'Public: group content is public and anyone can choose to join' => 'public', 'Open: anyone can choose to join' => 'open', 'Closed: people must request membership' => 'closed', 'Secret: group is hidden and people can only join via invitation' => 'secret'}
   end
+  
+  def public?
+    privacy == 'public'
+  end  
   
   def open?
     privacy == 'open'
@@ -319,10 +321,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
     form.submit
   end
-  
+    
   attr_accessor :renamed
   before_validation do
-    self.publicly_viewable = false if self.secret?
     @renamed = slug_changed?
     true
   end

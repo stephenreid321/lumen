@@ -20,7 +20,7 @@ Lumen::App.controllers do
   
   digest = lambda do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless (@group.publicly_viewable? or (current_account and current_account.admin?)) # via token
+    membership_required! unless (@group.public? or (current_account and current_account.admin?)) # via token
     @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today
 

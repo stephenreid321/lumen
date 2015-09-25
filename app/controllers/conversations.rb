@@ -3,7 +3,7 @@ Lumen::App.controllers do
   get '/groups/:slug/conversations' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     @conversations = @group.visible_conversations
     @q = params[:q] if params[:q]        
     if @q
@@ -48,7 +48,7 @@ Lumen::App.controllers do
   get '/conversations/:slug' do    
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     redirect "/groups/#{@conversation.group.slug}/conversations" if ENV['WALL_STYLE_CONVERSATIONS']
-    membership_required!(@conversation.group) unless @conversation.group.publicly_viewable?
+    membership_required!(@conversation.group) unless @conversation.group.public?
     @membership = @conversation.group.memberships.find_by(account: current_account)
     if @conversation.hidden
       flash[:notice] = "That conversation has been removed."

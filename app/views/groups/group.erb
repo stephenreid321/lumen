@@ -49,51 +49,55 @@ if ENV['GROUP_TAB_ORDER']
   end
 %>
 
-<div class="row">
-  <div class="col-md-1">
-    <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
-      <ul class="nav nav-tabs">
-        <% tabs.each { |k,v| if v %>
-            <li>
-              <a title="<%=v[0]%>" href="#<%=k%>-tab" data-toggle="tab">                
-                <i class="fa-fw fa <%=v[1]%> hidden-xs hidden-sm"></i>
-                <span><%= v[0] %></span>                
-              </a>
-              <script>
-                $(function () {
-                  $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function (e) {
-                    $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>')
-                    window.location.hash = this.hash;
-                    window.scrollTo(0, 0);
+<% if @membership or @group.public? %>
+  <div class="row">
+    <div class="col-md-1">
+      <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
+        <ul class="nav nav-tabs">
+          <% tabs.each { |k,v| if v %>
+              <li>
+                <a title="<%=v[0]%>" href="#<%=k%>-tab" data-toggle="tab">                
+                  <i class="fa-fw fa <%=v[1]%> hidden-xs hidden-sm"></i>
+                  <span><%= v[0] %></span>                
+                </a>
+                <script>
+                  $(function () {
+                    $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function (e) {
+                      $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>')
+                      window.location.hash = this.hash;
+                      window.scrollTo(0, 0);
+                    });
                   });
-                });
-              </script>
-            </li>
-          <% end } %>
-      </ul>
+                </script>
+              </li>
+            <% end } %>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-7">        
+      <div class="tab-content">
+        <% tabs.each { |k,v| %>
+          <div class="tab-pane page-container" id="<%=k%>-tab">
+            <h2><i class="fa fa-spin fa-spinner"></i></h2>        
+          </div>      
+        <% } %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <% if current_account %>
+        <h2>
+          <%=I18n.t(:members_in_this_group, count: @group.members.count)%>
+          <small><a class="edit" title="Full page" href="/groups/<%=@group.slug%>/members"><i class="fa fa-th-list"></i></a></small>
+        </h2>
+        <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
+      <% else %>
+        <%= partial 'groups/join', :locals => {:group => @group} %>
+      <% end %>
     </div>
   </div>
-  <div class="col-md-7">        
-    <div class="tab-content">
-      <% tabs.each { |k,v| %>
-        <div class="tab-pane page-container" id="<%=k%>-tab">
-          <h2><i class="fa fa-spin fa-spinner"></i></h2>        
-        </div>      
-      <% } %>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <% if current_account %>
-      <h2>
-        <%=I18n.t(:members_in_this_group, count: @group.members.count)%>
-        <small><a class="edit" title="Full page" href="/groups/<%=@group.slug%>/members"><i class="fa fa-th-list"></i></a></small>
-      </h2>
-      <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
-    <% else %>
-      <%= partial 'groups/join', :locals => {:group => @group} %>
-    <% end %>
-  </div>
-</div>
+<% else %>
+  <%= partial 'groups/join', :locals => {:group => @group} %>
+<% end %>
 
 <script>
 

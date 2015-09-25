@@ -11,7 +11,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/news' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     if request.xhr?
       partial :'news/summaries', :locals => {:news_summaries => @group.news_summaries, :date => @group.news_date + params[:d].to_i}
     else

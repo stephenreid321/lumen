@@ -9,14 +9,16 @@
       <p class="lead">Join them!</p>
 
       <% form_tag "/groups/#{group.slug}/join", :style => 'margin-top: -4px', :class => 'form-inline', :method => 'get' do %>
-        <div class="form-group">
-          <label class="sr-only">Name</label>
-          <%= text_field_tag :name, :class => 'form-control input-sm', :placeholder => 'Your name' %>
-        </div>
-        <div class="form-group">
-          <label class="sr-only">Email</label>    
-          <%= text_field_tag :email, :class => 'form-control input-sm', :placeholder => 'Your email address' %>
-        </div>    
+        <% if !current_account %>
+          <div class="form-group">
+            <label class="sr-only">Name</label>
+            <%= text_field_tag :name, :class => 'form-control input-sm', :placeholder => 'Your name' %>
+          </div>
+          <div class="form-group">
+            <label class="sr-only">Email</label>    
+            <%= text_field_tag :email, :class => 'form-control input-sm', :placeholder => 'Your email address' %>
+          </div>    
+        <% end %>
         <button type="submit" class="btn-sm btn btn-success">Join</button>
       <% end %> 
 

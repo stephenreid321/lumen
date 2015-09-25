@@ -12,7 +12,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/surveys' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     @surveys = @group.surveys.order_by(:created_at.desc)
     if request.xhr?
       partial :'surveys/surveys'

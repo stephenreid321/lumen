@@ -32,7 +32,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/calendar', :provides => [:html, :ics] do    
     @group = Group.find_by(slug: params[:slug]) || not_found    
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     case content_type   
     when :ics
       Event.ical(@group)
@@ -47,7 +47,7 @@ Lumen::App.controllers do
 
   get '/groups/:slug/calendar/feed', :provides => :json do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     Event.json(@group, params[:start], params[:end])
   end  
     
@@ -109,14 +109,14 @@ Lumen::App.controllers do
   
   get '/groups/:slug/calendar/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     @event = @group.events.find(params[:id]) || not_found
     erb :'events/event'
   end  
   
   get '/groups/:slug/calendar/:id/summary' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     @event = @group.events.find(params[:id]) || not_found
     partial :'events/summary', :locals => {:event => @event, :read_more => true}
   end    

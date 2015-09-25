@@ -111,6 +111,7 @@ $(function () {
   opengraph();
   modalTrigger();
   timeago();
+  
   $(window).resize(function () {
     if (document.documentElement.clientWidth < 992) {
       $('.tabs-left-please').removeClass('tabs-left');

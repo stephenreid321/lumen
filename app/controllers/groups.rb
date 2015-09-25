@@ -45,14 +45,14 @@ Lumen::App.controllers do
   get '/groups/:slug/members' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     erb :'groups/members'    
   end
   
   get '/groups/:slug/global-landing' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     if request.xhr?
       Fragment.find_by(slug: 'global-landing-tab').try(:body)
     else
@@ -63,7 +63,7 @@ Lumen::App.controllers do
   get '/groups/:slug/landing' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     if request.xhr?
       @group.landing_tab
     else
@@ -207,7 +207,7 @@ Lumen::App.controllers do
   
   get '/groups/:slug/stats' do    
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.publicly_viewable?
+    membership_required! unless @group.public?
     
     @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today

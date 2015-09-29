@@ -174,7 +174,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     notices = []
-    data = params[:data] || "#{params[:name]}\t#{params[:email]}"
+    data = params[:data] || (params[:account_id] ? (account = Account.find(params[:account_id]); "#{account.name}\t#{account.email}") : "#{params[:name]}\t#{params[:email]}")
     data.split("\n").reject { |line| line.blank? }.each { |line|
       name, email = line.split("\t")
       if !email

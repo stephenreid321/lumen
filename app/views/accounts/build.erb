@@ -71,7 +71,7 @@
         });
       </script>
 
-      <% ['Twitter', 'Facebook', 'Google', 'LinkedIn'].each { |display_name| %>
+      <% ['Facebook', 'Google', 'Twitter', 'LinkedIn'].each { |display_name| %>
 
         <% if provider = Provider.all.find { |provider| provider.display_name == display_name } and provider.registered? %>                       
           <div class="row" style="margin-bottom: 10px">

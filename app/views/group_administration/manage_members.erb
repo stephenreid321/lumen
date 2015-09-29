@@ -123,10 +123,22 @@
 
     <% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
 
+      <style>
+        #add-single h3 { font-size: 16px }
+      </style>
       <div id="add-single">
         <p><a href="javascript:;" onclick="$('#add-single input').val('');
               $('#add-single').hide();
               $('#add-multiple').show();">Add multiple</a></p>        
+
+        <% if (invitables = Account.where(:id.in => (current_account.network.pluck(:id) - @group.memberships.pluck(:account_id)))).count > 0 %>
+          <h3>Someone already in your groups</h3>
+          <div class="form-group">
+            <%= select_tag :account_id, :class => 'form-control', :options => invitables.sort_by { |account| account.name }.map { |account| [account.name, account.id] } %>
+          </div>
+          <h3>Someone new</h3>
+        <% end %>
+
         <div class="form-group">
           <label class="sr-only">Name</label>
           <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>

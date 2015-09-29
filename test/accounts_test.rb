@@ -16,7 +16,7 @@ class TestAccounts < ActiveSupport::TestCase
   test 'editing profile' do
     @account = FactoryGirl.create(:account)
     login_as(@account)
-    click_link 'Edit profile & connect accounts'
+    click_link 'Edit profile'
     fill_in 'Name', :with => 'New Name'
     fill_in 'account[affiliations_attributes][0][title]', :with => 'Activist'
     fill_in 'account[affiliations_attributes][0][organisation_name]', :with => 'UK Uncut'

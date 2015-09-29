@@ -134,7 +134,7 @@
         <% if (invitables = Account.where(:id.in => (current_account.network.pluck(:id) - @group.memberships.pluck(:account_id)))).count > 0 %>
           <h3>Someone already in your groups</h3>
           <div class="form-group">
-            <%= select_tag :account_id, :class => 'form-control', :options => invitables.sort_by { |account| account.name }.map { |account| [account.name, account.id] } %>
+            <%= select_tag :account_id, :class => 'form-control', :options => [''] + invitables.sort_by { |account| account.name }.map { |account| [account.name, account.id] } %>
           </div>
           <h3>Someone new</h3>
         <% end %>

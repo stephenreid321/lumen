@@ -165,6 +165,8 @@ class ConversationPost
     conversation_post = self
         
     array = conversation_post.accounts_to_notify
+    return if array.length == 0
+    
     no_of_threads = ENV['BCC_EACH_THREADS'] || 10
     
     slice_size = (array.length/Float(no_of_threads)).ceil

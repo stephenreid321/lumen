@@ -7,13 +7,17 @@ Lumen::App.controllers do
     @conversations = @group.visible_conversations
     @q = params[:q] if params[:q]        
     if @q
-      q = []
-      q << {:body => /#{Regexp.escape(@q)}/i }
-      q << {:conversation_id.in => Conversation.where(:subject => /#{Regexp.escape(@q)}/i).pluck(:id)}
-      q << {:account_id.in => Account.where(:name => /#{Regexp.escape(@q)}/i).pluck(:id)}
-      conversation_posts = @group.visible_conversation_posts.or(q)
-      @conversations = @conversations.where(:id.in => conversation_posts.pluck(:conversation_id))
-    end                         
+      if @q.starts_with?('slug:')
+        @conversations = @conversations.where(:slug => @q.split('slug:').last)        
+      else            
+        q = []
+        q << {:body => /#{Regexp.escape(@q)}/i }
+        q << {:conversation_id.in => Conversation.where(:subject => /#{Regexp.escape(@q)}/i).pluck(:id)}
+        q << {:account_id.in => Account.where(:name => /#{Regexp.escape(@q)}/i).pluck(:id)}
+        conversation_posts = @group.visible_conversation_posts.or(q)
+        @conversations = @conversations.where(:id.in => conversation_posts.pluck(:conversation_id))
+      end
+    end    
     @conversations = @conversations.order_by(:updated_at.desc).per_page(ENV['WALL_STYLE_CONVERSATIONS'] ? 5 : 10).page(params[:page])            
     if current_account and ENV['WALL_STYLE_CONVERSATIONS']
       @conversations.each { |conversation|
@@ -25,7 +29,7 @@ Lumen::App.controllers do
     if request.xhr?
       partial :'conversations/conversations'
     else
-      redirect "/groups/#{@group.slug}#conversations-tab"
+      redirect "/groups/#{@group.slug}?#{request.query_string}#conversations-tab"
     end
   end
   
@@ -47,7 +51,7 @@ Lumen::App.controllers do
       
   get '/conversations/:slug' do    
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
-    redirect "/groups/#{@conversation.group.slug}/conversations" if ENV['WALL_STYLE_CONVERSATIONS']
+    redirect "/groups/#{@conversation.group.slug}/conversations?q=slug:#{params[:slug]}" if ENV['WALL_STYLE_CONVERSATIONS']
     membership_required!(@conversation.group) unless @conversation.group.public?
     @membership = @conversation.group.memberships.find_by(account: current_account)
     if @conversation.hidden

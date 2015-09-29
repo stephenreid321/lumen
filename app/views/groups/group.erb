@@ -56,7 +56,7 @@ if ENV['GROUP_TAB_ORDER']
                 <script>
                   $(function () {
                     $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function (e) {
-                      $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>')
+                      $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>' + location.search)
                       window.location.hash = this.hash;
                       window.scrollTo(0, 0);
                     });

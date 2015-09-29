@@ -84,6 +84,10 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   has_many :docs, :dependent => :destroy
   has_many :surveys, :dependent => :destroy
   
+  def tags
+    conversations.where(subject: /(?:\s|^)(?:#(?!(?:\d+|\w+?_|_\w+?)(?:\s|$)))(\w+)(?=\s|$)/i).map(&:tags).flatten
+  end
+  
   def visible_conversations
     conversations.where(:hidden.ne => true)
   end

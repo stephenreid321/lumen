@@ -29,7 +29,7 @@ class Translation
       :home => 'home',
       :my_groups => 'my groups',
       :all_groups => 'all groups',
-      :edit_profile_and_connect_accounts => 'edit profile & connect accounts',
+      :edit_profile => 'edit profile',
       :sign_out => 'sign out',
       :sign_in => 'sign in',
       :edit => 'edit',

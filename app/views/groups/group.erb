@@ -1,12 +1,5 @@
 <ul class="page-options">  
   <% if @membership %>
-    <li>    
-      <i class="fa fa-envelope"></i>
-      <%=I18n.t(:email_notifications).capitalize%>
-      <form style="display:inline" method="get" action="/groups/<%=@group.slug%>/notification_level">
-        <%= select_tag :level, :options => {I18n.t(:on).capitalize => 'each', I18n.t(:off).capitalize => 'none', I18n.t(:daily_digest).capitalize => 'daily', I18n.t(:weekly_digest).capitalize => 'weekly'}, :selected => @membership.notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto; height: auto; font-size: 12px; padding: 3px; position: relative; top: -1px" %>
-      </form>   
-    </li> 
     <li>
       <a title="<%=I18n.t(:leave_group).capitalize%>" data-confirm="<%=I18n.t(:leave_group_confirm)%>" class="edit restore-opacity" href="/groups/<%=@group.slug%>/leave"><i class="fa fa-sign-out"></i> <%=I18n.t(:leave_group).capitalize%></a>
     </li>   

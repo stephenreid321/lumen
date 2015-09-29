@@ -18,7 +18,8 @@
       'bootstrap-datepicker/1.3.1' => 'js/bootstrap-datepicker.min.js css/datepicker.min.css',
       'moment.js/2.10.6' => 'moment.min.js',
       'fullcalendar/2.4.0' => 'fullcalendar.min.js fullcalendar.min.css',
-      'jquery-timeago/1.4.3' => 'jquery.timeago.min.js'
+      'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
+      'chosen/1.4.2' => 'chosen.jquery.min.js'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>
@@ -34,7 +35,8 @@
 
     <% [
       '/stylesheets/app.css',
-      '/stylesheets/news.css' 
+      '/stylesheets/news.css',
+      'https://cdn.rawgit.com/alxlit/bootstrap-chosen/5e0f79a22da6b4030af67f49a192cafc5f82fabf/bootstrap-chosen.css'
       ].each { |f| %> 
       <link rel="stylesheet" href="<%=f%>" />    
     <% } %>
@@ -44,7 +46,7 @@
       'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/js/jquery.geopicker.js',
       'https://cdn.rawgit.com/wordsandwriting/activate-tools/72fe3fc8f38067c084d4278d1cf6d6f5af546a42/js/jquery.lookup.js',
       'https://cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/d5d71f28b00a16766d2661aef6a75f80f1f604da/bootstrap3-typeahead.min.js',      
-      'https://cdn.rawgit.com/m1ket/jquery-typing/7bfdbca1014b418fac5de12c86a91850bc8edd25/plugin/jquery.typing-0.3.0.min.js',      
+      'https://cdn.rawgit.com/m1ket/jquery-typing/7bfdbca1014b418fac5de12c86a91850bc8edd25/plugin/jquery.typing-0.3.0.min.js',
       ("https://cdn.rawgit.com/rmm5t/jquery-timeago/5293dacee881e78b25bd4f699161fca81dff5205/locales/jquery.timeago.#{I18n.locale}.js" if I18n.locale != :en),
       '/javascripts/app.js'
       ].compact.each { |f| %>
@@ -139,12 +141,7 @@
           <div class="navbar-right">
             <ul class="nav navbar-nav">
               <% if current_account %>
-                <li><a href="/me/edit">
-                    <%=I18n.t(:edit_profile_and_connect_accounts).capitalize%>
-                    <% if (x = current_account.provider_links.count)/(y = Provider.registered.count).to_f < 0.5 %>
-                      (<%=x%>/<%=y%> connected)
-                    <% end %>
-                  </a></li>
+                <li><a href="/me/edit"><%=I18n.t(:edit_profile).capitalize%></a></li>
                 <li><a href="/sign_out"><%=I18n.t(:sign_out).capitalize%></a></li>
               <% else %> 
                 <li><a href="/sign_in"><%=I18n.t(:sign_in).capitalize%></a></li>

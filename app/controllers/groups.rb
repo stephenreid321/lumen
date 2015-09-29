@@ -200,9 +200,12 @@ Lumen::App.controllers do
   get '/groups/:slug/notification_level' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
-    @group.memberships.find_by(account: current_account).update_attribute(:notification_level, params[:level]) if Membership.notification_levels.include? params[:level]
+    @membership =  @group.memberships.find_by(account: current_account)
+    @membership.update_attribute(:notification_level, params[:level]) if Membership.notification_levels.include? params[:level]
+    @membership.update_attribute(:dont_send, " #{params[:dont_send].join(' ')} ") if params[:dont_send]
+    @membership.update_attribute(:still_send, " #{params[:still_send].join(' ')} ") if params[:still_send]
     flash[:notice] = 'Notification options updated!'
-    redirect "/groups/#{@group.slug}"
+    redirect "/groups/#{@group.slug}/conversations"
   end   
   
   get '/groups/:slug/stats' do    

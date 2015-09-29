@@ -32,6 +32,10 @@ class Conversation
   
   validates_presence_of :subject, :slug, :group, :account
   validates_uniqueness_of :slug
+  
+  def tags
+    subject.scan(/(?:\s|^)(?:#(?!(?:\d+|\w+?_|_\w+?)(?:\s|$)))(\w+)(?=\s|$)/i).flatten
+  end
           
   before_validation :set_slug
   def set_slug

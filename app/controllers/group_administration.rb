@@ -80,7 +80,7 @@ Lumen::App.controllers do
     when :notification_level_none
       @group.memberships.where(:notification_level => 'none')
     when :twitter_profile_url
-      @group.memberships.where(:twitter_profile_url.ne => nil)
+      @group.memberships.where(:account_id.in => Account.where(:twitter_profile_url.ne => nil))
     when :geocoding_failed
       @group.memberships.where(:account_id.in => Account.where(:location.ne => nil, :coordinates => nil).pluck(:id))
     when :requests

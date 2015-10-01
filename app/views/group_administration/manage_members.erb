@@ -41,11 +41,8 @@
           </td>
           <% case @view; when :twitter_profile_url %>
             <td>
-              <i class="fa fa-twitter"></i><a target="_blank" href="<%=account.twitter_profile_url%>"><%=account.twitter_profile_url.split('/')[3..-1].join('/')%></a>
-            </td>         
-            <td>
-              Connected <%= provider_link.created_at %>
-            </td>          
+              <a target="_blank" href="<%=account.twitter_profile_url%>"><%=account.twitter_profile_url.split('/')[3..-1].join('/')%></a>
+            </td>    
           <% when :requests %>
             <td>
               <% if membership.answers %>

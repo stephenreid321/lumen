@@ -201,9 +201,9 @@ class Account
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
     
     self.twitter_profile_url = "twitter.com/#{self.twitter_profile_url}" if self.twitter_profile_url and !self.twitter_profile_url.include?('twitter.com')      
-    self.facebook_profile_url = "facebook.com/#{self.facebook_profile_url}" if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')
-    self.linkedin_profile_url = "linkedin.com/#{self.linkedin_profile_url}" if self.linkedin_profile_url and !self.linkedin_profile_url.include?('linkedin.com')
-    self.google_profile_url = "google.com/#{self.google_profile_url}" if self.google_profile_url and !self.google_profile_url.include?('google.com')
+    errors.add(:facebook_profile_url, 'must contain facebook.com') if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')
+    errors.add(:linkedin_profile_url, 'must contain linkedin.com') if self.linkedin_profile_url and !self.linkedin_profile_url.include?('linkedin.com')
+    errors.add(:google_profile_url, 'must contain google.com') if self.google_profile_url and !self.google_profile_url.include?('google.com')
     
     self.twitter_profile_url = self.twitter_profile_url.gsub('twitter.com/', 'twitter.com/@') if self.twitter_profile_url and !self.twitter_profile_url.include?('@')
                 

@@ -200,11 +200,13 @@ class Account
     self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
     
-    self.twitter_profile_url = "twitter.com/#{self.twitter_profile_url}" if self.twitter_profile_url and !self.twitter_profile_url.include?('twitter.com')
-    self.twitter_profile_url = self.twitter_profile_url.gsub('twitter.com/', 'twitter.com/@') if self.twitter_profile_url and !self.twitter_profile_url.include?('@')
-        
+    self.twitter_profile_url = "twitter.com/#{self.twitter_profile_url}" if self.twitter_profile_url and !self.twitter_profile_url.include?('twitter.com')      
     self.facebook_profile_url = "facebook.com/#{self.facebook_profile_url}" if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')
+    self.linkedin_profile_url = "linkedin.com/#{self.linkedin_profile_url}" if self.linkedin_profile_url and !self.linkedin_profile_url.include?('linkedin.com')
+    self.google_profile_url = "google.com/#{self.google_profile_url}" if self.google_profile_url and !self.google_profile_url.include?('google.com')
     
+    self.twitter_profile_url = self.twitter_profile_url.gsub('twitter.com/', 'twitter.com/@') if self.twitter_profile_url and !self.twitter_profile_url.include?('@')
+                
     self.twitter_profile_url = "http://#{self.twitter_profile_url}" if self.twitter_profile_url and !(self.twitter_profile_url =~ /\Ahttps?:\/\//)
     self.facebook_profile_url = "http://#{self.facebook_profile_url}" if self.facebook_profile_url and !(self.facebook_profile_url =~ /\Ahttps?:\/\//)   
     self.google_profile_url = "http://#{self.google_profile_url}" if self.google_profile_url and !(self.google_profile_url =~ /\Ahttps?:\/\//)

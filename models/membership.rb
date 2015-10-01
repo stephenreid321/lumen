@@ -25,6 +25,7 @@ class Membership
       :account_firstname => {:type => :text, :edit => false},
       :account_lastname => {:type => :text, :edit => false},
       :account_email => {:type => :text, :edit => false}, 
+      :account_phone => {:type => :text, :edit => false}, 
       :group_id => :lookup,
       :added_by_id => :lookup,
       :admin => :check_box,
@@ -42,6 +43,10 @@ class Membership
   def account_email
     account.email
   end
+  
+  def account_phone
+    account.phone
+  end  
   
   def account_firstname
     account.firstname

@@ -14,7 +14,7 @@ gem 'activate-tools', github: 'wordsandwriting/activate-tools'
 gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 
 # Data storage
-gem 'mongoid', '4.0.2'
+gem 'mongoid'
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
 

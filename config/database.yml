@@ -1,21 +1,20 @@
 development:
-  sessions:
+  clients:
     default:
       database: <%= File.basename(PADRINO_ROOT) %>
       hosts:
         - localhost:27017
         
 test:
-  sessions:
+  clients:
     default:
       database: <%= File.basename(PADRINO_ROOT) %>_test
       hosts:
         - localhost:27017        
 
 production:
-  sessions:
+  clients:
     default:
       uri: <%= ENV['MONGO_URL'] %>
       options:
-       pool_timeout: <%= ENV['POOL_TIMEOUT'] || 5 %>
-      
+       pool_timeout: <%= ENV['POOL_TIMEOUT'] || 5 %>    

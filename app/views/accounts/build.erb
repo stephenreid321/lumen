@@ -71,11 +71,16 @@
         });
       </script>
 
-      <% ['Facebook', 'Google', 'Twitter', 'LinkedIn'].each { |display_name| %>
+      <style>
+        @media(min-width: 768px) {
+          .provider-display-name { text-align: right }
+        }
+      </style>      
 
+      <% ['Facebook', 'Google', 'Twitter', 'LinkedIn'].each { |display_name| %>      
         <% if provider = Provider.all.find { |provider| provider.display_name == display_name } and provider.registered? %>                       
           <div class="row" style="margin-bottom: 10px">
-            <div class="col-md-3" style="text-align: right"><%=provider.display_name%></div>
+            <div class="col-md-3" class="provider-display-name"><%=provider.display_name%></div>
             <div class="col-md-8">   
               <div class="row">
                 <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>

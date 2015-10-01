@@ -79,16 +79,16 @@ Lumen::App.controllers do
       @group.memberships.where(:account_id.nin => Affiliation.pluck(:account_id))
     when :notification_level_none
       @group.memberships.where(:notification_level => 'none')
-    when :connected_to_twitter
-      @group.memberships.where(:account_id.in => ProviderLink.where(provider: 'Twitter').pluck(:account_id))
+    when :twitter_profile_url
+      @group.memberships.where(:twitter_profile_url.ne => nil)
     when :geocoding_failed
       @group.memberships.where(:account_id.in => Account.where(:location.ne => nil, :coordinates => nil).pluck(:id))
     when :requests
       @group.membership_requests.where(:status => 'pending') # quacks like a membership
     end
     @memberships = case @view
-    when :connected_to_twitter
-      @memberships.sort_by { |membership| membership.account.provider_links.find_by(provider: 'Twitter').created_at }.reverse
+    when :twitter_profile_url
+      @memberships.order(:created_at.desc)
     when :requests
       @memberships.order(:created_at.desc)
     else

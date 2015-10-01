@@ -33,10 +33,10 @@
 
     <style>#members td { padding: 0.5em; vertical-align: top }</style>
     <table id="members" >
-      <% @memberships.each { |membership| %>
+      <% @memberships.each { |membership| account = membership.account %>
         <tr>
           <td>
-            <a href="/accounts/<%=membership.account_id%>"><%= membership.account.name %></a>
+            <a href="/accounts/<%=account.id%>"><%= account.name %></a>
             <% if @view == :requests %><p style="color: #bfbfbf; margin: 0"><%=membership.created_at%></p><% end %>
           </td>
           <% case @view; when :twitter_profile_url %>
@@ -66,42 +66,42 @@
             </td>
           <%  else %>
             <td>
-              <%= (sign_in = membership.account.sign_ins.order_by(:created_at.desc).limit(1).first) ? "Last signed in #{sign_in.created_at}" : "Never signed in" %>
+              <%= (sign_in = account.sign_ins.order_by(:created_at.desc).limit(1).first) ? "Last signed in #{sign_in.created_at}" : "Never signed in" %>
             </td>
             <td>
-              <a title="Remove from group" data-confirm="Are you sure you want to remove this member?" class="edit" href="/groups/<%=@group.slug%>/remove_member/<%=membership.account_id%>"><i class="fa fa-times"></i></a>
+              <a title="Remove from group" data-confirm="Are you sure you want to remove this member?" class="edit" href="/groups/<%=@group.slug%>/remove_member/<%=account.id%>"><i class="fa fa-times"></i></a>
             </td>      
             <td>
               <% if membership.muted? %>
-                <a title="Unmute" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/unmute/<%=membership.account_id%>"><i class="fa fa-volume-off"></i></a>
+                <a title="Unmute" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/unmute/<%=account.id%>"><i class="fa fa-volume-off"></i></a>
               <% else %>
-                <a title="Mute" class="edit" href="/groups/<%=@group.slug%>/mute/<%=membership.account_id%>"><i class="fa fa-volume-off"></i></a>
+                <a title="Mute" class="edit" href="/groups/<%=@group.slug%>/mute/<%=account.id%>"><i class="fa fa-volume-off"></i></a>
               <% end %>
             </td>                          
             <td>
               <% if membership.admin? %>
-                <a title="Unadmin" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/unadmin/<%=membership.account_id%>"><i class="fa fa-key"></i></a>
+                <a title="Unadmin" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/unadmin/<%=account.id%>"><i class="fa fa-key"></i></a>
               <% else %>
-                <a title="Make admin" class="edit" href="/groups/<%=@group.slug%>/make_admin/<%=membership.account_id%>"><i class="fa fa-key"></i></a>
+                <a title="Make admin" class="edit" href="/groups/<%=@group.slug%>/make_admin/<%=account.id%>"><i class="fa fa-key"></i></a>
               <% end %>
             </td>
             <td>
               <% if membership.admin? %>
                 <% if membership.receive_membership_requests? %>
-                  <a title="Stop receiving membership requests" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/stop_receiving_membership_requests/<%=membership.account_id%>"><i class="fa fa-envelope-o"></i></a>
+                  <a title="Stop receiving membership requests" class="edit" style="opacity: 1" href="/groups/<%=@group.slug%>/stop_receiving_membership_requests/<%=account.id%>"><i class="fa fa-envelope-o"></i></a>
                 <% else %>
-                  <a title="Receive membership requests" class="edit" href="/groups/<%=@group.slug%>/receive_membership_requests/<%=membership.account_id%>"><i class="fa fa-envelope-o"></i></a>
+                  <a title="Receive membership requests" class="edit" href="/groups/<%=@group.slug%>/receive_membership_requests/<%=account.id%>"><i class="fa fa-envelope-o"></i></a>
                 <% end %>
               <% end %>
             </td>            
             <td>
-              <form style="display:inline" method="get" action="/groups/<%=@group.slug%>/set_notification_level/<%=membership.account_id%>">
+              <form style="display:inline" method="get" action="/groups/<%=@group.slug%>/set_notification_level/<%=account.id%>">
                 <%= select_tag :level, :options => {'On' => 'each', 'Off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => membership.notification_level, :onchange => "this.form.submit()", :class => "form-control", :style => "display:inline-block; width: auto;" %>
               </form>                       
             </td>
             <% if [:not_completed_signup, :no_affiliations, :no_picture].include? @view %>
               <td>
-                <a class="btn btn-default" href="/groups/<%=@group.slug%>/reminder?account_id=<%=membership.account_id%>&issue=<%=@view%>">Send reminder</a>
+                <a class="btn btn-default" href="/groups/<%=@group.slug%>/reminder?account_id=<%=account.id%>&issue=<%=@view%>">Send reminder</a>
                 <br />
                 <% if membership.reminder_sent %>Reminder sent <%= timeago(membership.reminder_sent) %><% end %>
               </td>

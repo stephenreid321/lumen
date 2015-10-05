@@ -442,9 +442,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     rescue => e
       Airbrake.notify(e)
     end
-                                   
+
     if (
-        (conversation = ConversationPostBcc.find_by(message_id: mail.in_reply_to).try(:conversation) and conversation.group == group) or
+        (mail.in_reply_to and (conversation = ConversationPostBcc.find_by(message_id: mail.in_reply_to).try(:conversation)) and conversation.group == group) or
           (
           html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and
             (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)) and

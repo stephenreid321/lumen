@@ -5,6 +5,7 @@ class Fragment
   field :slug, :type => String
   field :body, :type => String  
   field :page, :type => Boolean
+  field :public, :type => Boolean
   
   validates_presence_of :slug
   validates_uniqueness_of :slug
@@ -14,7 +15,8 @@ class Fragment
     {
       :slug => :text,
       :body => :wysiwyg,
-      :page => :check_box
+      :page => :check_box,
+      :public => :check_box
     }
   end
     

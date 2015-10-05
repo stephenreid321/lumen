@@ -85,7 +85,7 @@ module Lumen
        
     get '/:slug' do      
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
-        sign_in_required!
+        sign_in_required! unless @fragment.public?
         erb :page
       else
         pass

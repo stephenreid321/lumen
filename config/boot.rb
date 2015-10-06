@@ -21,3 +21,5 @@ I18n.enforce_available_locales = false
 
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")
 Mongoid.raise_not_found_error = false
+Mongoid.logger.level = Logger::INFO
+Mongo::Logger.logger.level = Logger::INFO

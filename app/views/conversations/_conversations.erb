@@ -13,18 +13,18 @@
           if ($(this).val() == 'none')
             $('#still-send-container').show()
         })
-        $('#dont-send-container select, #still-send-container select').chosen({width: "168px"})
+        $('#dont-send-container select, #still-send-container select').chosen({create_option: true, persistent_create_option: true, skip_no_results: true, width: "168px"})
         $('#notification-level').change()
       })
     </script>
     <%= select_tag :level, :id => 'notification-level', :options => {I18n.t(:on).capitalize => 'each', I18n.t(:off).capitalize => 'none', I18n.t(:daily_digest).capitalize => 'daily', I18n.t(:weekly_digest).capitalize => 'weekly'}, :selected => @membership.notification_level, :class => "form-control", :style => "display:inline-block; width: auto; height: auto;" %>
     <span id="dont-send-container" style="display: none">
       <span>except for conversations tagged</span>
-      <%= select_tag :dont_send, :multiple => true, :options => @group.tags, :selected => (@membership.dont_send.split(' ') if @membership.dont_send), :'data-placeholder' => ' ' %>        
+      <%= select_tag :dont_send, :multiple => true, :options => (@group.tags + (@membership.dont_send ? @membership.dont_send.split(' ') : [])).compact.uniq, :selected => (@membership.dont_send.split(' ') if @membership.dont_send), :'data-placeholder' => ' ' %>        
     </span>   
     <span id="still-send-container" style="display: none">
       <span>except for conversations tagged</span>
-      <%= select_tag :still_send, :multiple => true, :options => @group.tags, :selected => (@membership.still_send.split(' ') if @membership.still_send), :'data-placeholder' => ' ' %>
+      <%= select_tag :still_send, :multiple => true, :options => (@group.tags + (@membership.still_send ? @membership.still_send.split(' ') : [])).compact.uniq, :selected => (@membership.still_send.split(' ') if @membership.still_send), :'data-placeholder' => ' ' %>
     </span>   
     <button class="btn btn-primary">Submit</button>
   </form>

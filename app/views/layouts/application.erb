@@ -18,8 +18,7 @@
       'bootstrap-datepicker/1.3.1' => 'js/bootstrap-datepicker.min.js css/datepicker.min.css',
       'moment.js/2.10.6' => 'moment.min.js',
       'fullcalendar/2.4.0' => 'fullcalendar.min.js fullcalendar.min.css',
-      'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
-      'chosen/1.4.2' => 'chosen.jquery.min.js'
+      'jquery-timeago/1.4.3' => 'jquery.timeago.min.js'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>
@@ -48,6 +47,7 @@
       'https://cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/d5d71f28b00a16766d2661aef6a75f80f1f604da/bootstrap3-typeahead.min.js',      
       'https://cdn.rawgit.com/m1ket/jquery-typing/7bfdbca1014b418fac5de12c86a91850bc8edd25/plugin/jquery.typing-0.3.0.min.js',
       ("https://cdn.rawgit.com/rmm5t/jquery-timeago/5293dacee881e78b25bd4f699161fca81dff5205/locales/jquery.timeago.#{I18n.locale}.js" if I18n.locale != :en),
+      '/javascripts/chosen/chosen.jquery.min.js',
       '/javascripts/app.js'
       ].compact.each { |f| %>
       <script src="<%=f%>"></script>

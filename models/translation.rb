@@ -103,7 +103,7 @@ class Translation
       :emails => 'emails',
       :landing_tab => 'landing tab',
       :did_you_know => 'did you know...',
-      :news_summaries => 'news sumamries',
+      :news_summaries => 'news summaries',
       :post_review => 'post review',
       :analytics => 'analytics',
       :email_notifications => 'email notifications',

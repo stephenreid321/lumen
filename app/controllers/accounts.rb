@@ -44,7 +44,7 @@ Lumen::App.controllers do
         }
       when :account_tag
         {
-          results: (results = AccountTag.where(:id.in => AccountTagship.where(:account_id.in => @accounts.pluck(:id)).pluck(:account_tag_id)); results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |account_tag| {id: account_tag.id.to_s, text: account_tag.name} })
+          results: (results = AccountTag.where(:id.in => AccountTagship.where(:account_id.in => @accounts.pluck(:id)).pluck(:account_tag_id)); results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |account_tag| {id: account_tag.id.to_s, text: "#{account_tag.name} (#{account_tag.account_tagships.count})"} })
         }        
       end.to_json     
     when :html

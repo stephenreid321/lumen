@@ -17,4 +17,4 @@ production:
     default:
       uri: <%= ENV['MONGO_URL'] %>
       options:
-       wait_queue_timeout: <%= ENV['POOL_TIMEOUT'] || 5 %>
+       wait_queue_timeout: <%= ENV['POOL_TIMEOUT'] || 30 %>

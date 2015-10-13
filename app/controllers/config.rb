@@ -76,7 +76,7 @@ Lumen::App.controllers do
             
       :BCC_SINGLE => ['Send single BCC to conversation post subscribers'],
       :BCC_EACH_THREADS => 'Number of threads to use when sending individual BCCs (default 10)',
-      :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 5s.',
+      :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 30s.',
       
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
       :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',

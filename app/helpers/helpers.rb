@@ -7,14 +7,18 @@ Lumen::App.helpers do
       Account.find_by(secret_token: params[:token]) 
     end
   end
+    
+  def smtp_settings
+    {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
+  end
   
   def timeago(x)
     %Q{<abbr class="timeago" title="#{x.iso8601}">#{x}</abbr>}
   end
   
-  def smtp_settings
-    {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
-  end
+  def g(group)
+    %Q{<a class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.slug}</a>}
+  end    
     
   def compact_daterange(from,to)
     if from.strftime("%b %Y") == to.strftime("%b %Y")
@@ -77,7 +81,7 @@ Lumen::App.helpers do
         "\"#{fragment.body.to_s.gsub('"','\"')}\""
       end).to_s
   end 
-  
+    
   def refreshParent
     %q{
       <script>

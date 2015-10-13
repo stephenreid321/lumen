@@ -47,6 +47,8 @@ select[name*=day], select[name*=month], select[name*=year], select[name*=hour], 
 
 table a:not(.btn), .table a:not(.btn) { text-decoration: none }
 
+a.group { color: #999 }
+
 
 // stacked tabs
 

@@ -11,7 +11,7 @@
       <td>
         <a href="/groups/<%=survey.group.slug%>/surveys/<%=survey.id%>"><%= survey.title %></a>
         <% if !@group %>
-          <span style="font-size: 0.9em; color: #999999"><i class="fa fa-group"></i> <%=survey.group.slug%></span>
+          <small><%=g survey.group%></small>
         <% end %>
       </td>
       <td><%=I18n.t(:created).capitalize%> <%=timeago(survey.created_at)%> by <a href="/accounts/<%=survey.account.id%>"><%=survey.account.name%></a></td>

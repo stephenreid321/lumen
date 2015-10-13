@@ -21,7 +21,7 @@
       <td>
         <a target="_blank" href="<%=doc.url%>"><%= doc.title %></a>
         <% if !@group %>
-          <span style="font-size: 0.9em; color: #999999"><i class="fa fa-group"></i> <%=doc.group.slug%></span>
+          <small><%=g doc.group%></small>
         <% end %>
       </td>
       <td><%=I18n.t(:created).capitalize%> <%=timeago(doc.created_at)%> by <a href="/accounts/<%=doc.account.id%>"><%=doc.account.name%></a></td>

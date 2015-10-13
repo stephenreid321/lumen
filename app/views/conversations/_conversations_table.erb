@@ -7,7 +7,7 @@
     <tr>
       <td><a class="conversation-title" href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a></td>
       <% if !@group %>
-        <td><span style="color: #999999;"><i class="fa fa-group"></i> <%=conversation.group.slug%></span></td>
+        <td><%=g conversation.group%></td>
       <% end %>
       <td><span style="opacity: <%=(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o%>"class="badge"><%=c%></span></td>
       <td>

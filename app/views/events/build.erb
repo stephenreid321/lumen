@@ -45,6 +45,7 @@
       </style>
       <script>
         $(function () {
+          $('.time select').attr('required', false)
           var add = $('<a href="javascript:;" style="margin-left: 5px">Add a time</a>');
           $(add).click(function () {
             $('.time').show();

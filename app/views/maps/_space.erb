@@ -1,4 +1,4 @@
-<h3><%=space.name%> <% if !@group %><small><i class="fa fa-group"></i> <%=space.group.slug%></small><% end%></h3>
+<h3><%=space.name%> <% if !@group %><small><%=g space.group%></small><% end%></h3>
 
 <%= partial :'spaces/summary', :locals => {:space => space} %>
 

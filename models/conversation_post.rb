@@ -10,7 +10,7 @@ class ConversationPost
   field :link_url, :type => String
   field :link_description, :type => String  
   field :link_picture, :type => String
-  field :link_player, :type => String  
+  field :link_player, :type => String
   
   belongs_to :conversation, index: true
   belongs_to :group, index: true
@@ -34,6 +34,7 @@ class ConversationPost
   validates_uniqueness_of :imap_uid, :scope => :group, :allow_nil => true
   
   index({imap_uid: 1 })
+  index({message_id: 1}, {unique: true, sparse: true})
   
   before_validation :set_group
   def set_group

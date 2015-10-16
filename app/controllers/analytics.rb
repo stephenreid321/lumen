@@ -6,7 +6,7 @@ Lumen::App.controllers do
 
   get '/analytics/cumulative_totals' do
     site_admins_only!      
-    @models = [ConversationPost, Account, Event, PageView].select { |model| model.count > 0 }
+    @models = [ConversationPost, Account, Event].select { |model| model.count > 0 }
     @collections = @models
     @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today

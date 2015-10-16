@@ -1,13 +1,13 @@
 Lumen::App.controllers do
   
   get '/analytics' do
-    redirect '/analytics/cumulative_totals'
+    redirect '/analytics/unique_visitors'
   end
 
   get '/analytics/cumulative_totals' do
     site_admins_only!      
     @models = [ConversationPost, Account, Event, PageView].select { |model| model.count > 0 }
-    @collections = @models.map { |model| model.order_by(:created_at.asc) }            
+    @collections = @models
     @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today
     erb :'analytics/cumulative_totals'
@@ -17,7 +17,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!      
     @collection_names = [:conversation_posts, :memberships, :events].select { |collection_name| @group.send(collection_name).count > 0 }      
-    @collections = @collection_names.map { |collection_name| @group.send(collection_name).order_by(:created_at.asc) }      
+    @collections = @collection_names.map { |collection_name| @group.send(collection_name) }      
     @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
     @to =  params[:to] ? Date.parse(params[:to]) : Date.today    
     erb :'analytics/cumulative_totals'

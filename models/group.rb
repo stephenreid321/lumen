@@ -452,8 +452,13 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         )
       )
       new_conversation = false
-      puts "part of conversation id #{conversation.id}"
-      [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
+      puts "part of conversation id #{conversation.id}"      
+      parts = html.split(/Respond\s+by\s+replying\s+above\s+this\s+line/)
+      html = parts[0]
+      if html.blank? # if there was nothing above the line, assume this is an inline reply
+        html = parts[1]
+      end
+      [/On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
         html = html.split(pattern).first
       }
     else      

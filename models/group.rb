@@ -459,7 +459,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         html = html.split(pattern).first
       }      
       if Nokogiri::HTML.parse(html).text.blank? # if there was nothing above the line, assume this is an inline reply
-        html = parts[1].split(/\+1\s+this\s+post/)[1]
+        html = %Q{<blockquote>#{parts[1].split(/\+1\s+this\s+post/)[1]}}
       end
     else      
       new_conversation = true

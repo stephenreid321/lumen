@@ -455,12 +455,12 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       puts "part of conversation id #{conversation.id}"      
       parts = html.split(/Respond\s+by\s+replying\s+above\s+this\s+line/)
       html = parts[0]
-      if html.blank? # if there was nothing above the line, assume this is an inline reply
-        html = parts[1]
-      end
       [/On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
         html = html.split(pattern).first
-      }
+      }      
+      if Nokogiri::HTML.parse(html).text.blank? # if there was nothing above the line, assume this is an inline reply
+        html = parts[1].split(/\+1\s+this\s+post/)[1]
+      end
     else      
       new_conversation = true
       conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account

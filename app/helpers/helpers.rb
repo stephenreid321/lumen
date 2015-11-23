@@ -46,7 +46,7 @@ Lumen::App.helpers do
   
   def membership_required!(group=nil)
     group = @group if !group
-    unless current_account and group and group.memberships.find_by(account: current_account)
+    unless current_account and group and (group.memberships.find_by(account: current_account) or current_account.admin?)
       flash[:notice] = 'You must be a member of that group to access that page.'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(group.public? ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))
@@ -55,7 +55,7 @@ Lumen::App.helpers do
   
   def group_admins_only!(group=nil)
     group = @group if !group
-    unless current_account and group and (membership = group.memberships.find_by(account: current_account)) and membership.admin?
+    unless current_account and group and (((membership = group.memberships.find_by(account: current_account)) and membership.admin?) or current_account.admin?)
       flash[:notice] = 'You must be an admin of that group to access that page.'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(membership ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))
@@ -64,7 +64,7 @@ Lumen::App.helpers do
   
   def group_admins_and_creator_only!(group: nil, account: nil)
     group = @group if !group
-    unless (account == current_account) or (current_account and group and (membership = group.memberships.find_by(account: current_account)) and membership.admin?)
+    unless current_account and group and ((account == current_account) or (((membership = group.memberships.find_by(account: current_account)) and membership.admin?) or current_account.admin?))
       flash[:notice] = 'You must be an admin or creator to access that page.'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(membership ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))

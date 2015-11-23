@@ -452,14 +452,13 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         )
       )
       new_conversation = false
-      puts "part of conversation id #{conversation.id}"      
-      parts = html.split(/Respond\s+by\s+replying\s+above\s+this\s+line/)
-      html = parts[0]
-      [/On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
+      puts "part of conversation id #{conversation.id}"
+      unsplit_html = html
+      [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
         html = html.split(pattern).first
-      }      
+      }   
       if Nokogiri::HTML.parse(html).text.blank? # if there was nothing above the line, assume this is an inline reply
-        html = %Q{<blockquote>#{parts[1].split(/\+1\s+this\s+post/)[1]}}
+        html = unsplit_html.split(/\+1\s+this\s+post/)[1].split(/Too\s+many\s+emails\?/)[0]
       end
     else      
       new_conversation = true

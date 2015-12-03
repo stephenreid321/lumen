@@ -253,6 +253,7 @@ class Account
       :password => :password,
       :password_confirmation => :password,
       :affiliations => :collection,
+      :memberships => :collection,
     }.merge(EnvFields.fields(self))
   end
     

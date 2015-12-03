@@ -22,10 +22,6 @@ class Membership
   def self.admin_fields
     {
       :account_id => :lookup,
-      :account_firstname => {:type => :text, :edit => false},
-      :account_lastname => {:type => :text, :edit => false},
-      :account_email => {:type => :text, :edit => false}, 
-      :account_phone => {:type => :text, :edit => false}, 
       :group_id => :lookup,
       :added_by_id => :lookup,
       :admin => :check_box,
@@ -39,23 +35,7 @@ class Membership
       :notification_level => :select
     }
   end
-  
-  def account_email
-    account.email
-  end
-  
-  def account_phone
-    account.phone
-  end  
-  
-  def account_firstname
-    account.firstname
-  end
-  
-  def account_lastname
-    account.lastname
-  end
-      
+        
   before_validation do    
     self.receive_membership_requests = false unless admin?
     if self.group and !self.notification_level

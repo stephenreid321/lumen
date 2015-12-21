@@ -40,7 +40,7 @@ class TestGroups < ActiveSupport::TestCase
     @conversation = @group.conversations.create! :subject => 'black holes', :account => @account1
     @conversation.conversation_posts.create! :body => 'real dark', :account => @account1
     login_as(@account2)   
-    visit '/'  
+    visit "/groups/#{@group.slug}"
     click_link 'black holes'
     assert page.has_content? '1 participant in this conversation'
     fill_in_summernote 'i agree'

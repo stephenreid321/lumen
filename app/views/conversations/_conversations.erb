@@ -1,3 +1,8 @@
+
+<% if @group.landing_tab %>
+  <%= @group.landing_tab %>
+<% end %>
+
 <h2><%=I18n.t(:group_conversations, slug: @group.slug)%></h2>
 
 <% if @membership %>

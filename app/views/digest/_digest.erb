@@ -1,4 +1,6 @@
 
+<%= Fragment.find_by(slug: 'global-landing-tab').try(:body) %>
+
 <style>h3 a.btn { float: right }</style>
 
 <% if message %>

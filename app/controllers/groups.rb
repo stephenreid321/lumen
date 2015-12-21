@@ -48,29 +48,7 @@ Lumen::App.controllers do
     membership_required! unless @group.public?
     erb :'groups/members'    
   end
-  
-  get '/groups/:slug/global-landing' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    membership_required! unless @group.public?
-    if request.xhr?
-      Fragment.find_by(slug: 'global-landing-tab').try(:body)
-    else
-      redirect "/groups/#{@group.slug}#global-landing-tab"
-    end          
-  end
-    
-  get '/groups/:slug/landing' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    membership_required! unless @group.public?
-    if request.xhr?
-      @group.landing_tab
-    else
-      redirect "/groups/#{@group.slug}#landing-tab"
-    end    
-  end
-    
+          
   get '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     redirect back unless @group.closed?

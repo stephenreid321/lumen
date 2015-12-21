@@ -52,12 +52,8 @@ module Lumen
       end      
       sign_in_required! unless Fragment.find_by(slug: 'public-homepage')
       if current_account
-        if current_account.memberships.count == 1
-          redirect "/groups/#{current_account.memberships.first.group.slug}"
-        else
-          @o = :updated       
-          erb :home
-        end
+        @o = :updated       
+        erb :home
       else
         @containerless = true
         erb :'public/homepage'

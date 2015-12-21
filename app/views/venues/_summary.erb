@@ -1,0 +1,30 @@
+<ul class="fa-ul">
+  <% if venue.address %>
+    <li><i title="Address<%= ' (approx)' if venue.approx %>" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(venue.address) %>" target="map"><%= venue.address %></a><%= ' (approx)' if venue.approx %></li>
+  <% end %>  
+  <% if venue.capacity %>
+    <li><i title="Capacity <%=venue.capacity%>" class="fa-li fa fa-building"></i> Capacity <%=venue.capacity%></li>
+  <% end %>
+  <% if venue.accessibility %>
+    <li><i title="<%=venue.accessibility%>" class="fa-li fa fa-wheelchair"></i> <%=venue.accessibility%></li>    
+  <% end %>
+  <% if venue.private %>
+    <li><i title="<%=venue.private%>" class="fa-li fa fa-volume-down"></i> Private room available</li>    
+  <% end %>    
+  <% if venue.serves_food %>
+    <li><i title="Serves food" class="fa-li fa fa-cutlery"></i> Serves food</li>
+  <% end %>    
+  <% if venue.serves_alcohol %>
+    <li><i title="Serves alcohol" class="fa-li fa fa-beer"></i> Serves alcohol</li>
+  <% end %>        
+  <% if venue.hourly_cost %>
+    <li><i title="Approximate hourly cost" class="fa-li fa fa-gbp"></i>£<%=venue.hourly_cost%>/hour</li>
+  <% end %>     
+  <% if venue.link %>
+    <li><i title="Website" class="fa-li fa fa-info"></i>
+      <a href="<%=venue.link%>"><%=venue.link%></a>
+    </li>
+  <% end %>      
+</ul>
+
+<p style="white-space: normal"><%=venue.description%></p>

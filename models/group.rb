@@ -79,7 +79,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   has_many :membership_requests, :dependent => :destroy
   has_many :events, :dependent => :destroy
   has_many :didyouknows, :dependent => :destroy
-  has_many :spaces, :dependent => :destroy
+  has_many :venues, :dependent => :destroy
   has_many :docs, :dependent => :destroy
   has_many :surveys, :dependent => :destroy
   

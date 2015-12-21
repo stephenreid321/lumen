@@ -1,6 +1,6 @@
 <ul class="page-options">  
   <li>
-    <a title="Edit space" class="edit restore-opacity" href="/groups/<%=@group.slug%>/spaces/<%=@space.id%>/edit"><i class="fa fa-pencil"></i> Edit space</a>
+    <a title="Edit venue" class="edit restore-opacity" href="/groups/<%=@group.slug%>/venues/<%=@venue.id%>/edit"><i class="fa fa-pencil"></i> Edit venue</a>
   </li>    
 </ul>
 
@@ -10,24 +10,24 @@
     <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
   </li>
   <li>
-    <a href="/groups/<%=@group.slug%>/spaces">Spaces</a>    
+    <a href="/groups/<%=@group.slug%>/venues">Venues</a>    
   </li>  
   <li class="active">
-    <%= @space.name %>
+    <%= @venue.name %>
   </li>     
 </ol>
 
 <div class="row">
   <div class="col-md-6">
 
-    <h1><%= @space.name %></h1>
+    <h1><%= @venue.name %></h1>
 
-    <%= partial :'spaces/summary', :locals => {:space => @space} %>
+    <%= partial :'venues/summary', :locals => {:venue => @venue} %>
 
   </div>
   <div class="col-md-6">
     <div  style="margin-top: 20px">
-      <%= partial :'maps/map', :locals => {:points => [@space]} %>
+      <%= partial :'maps/map', :locals => {:points => [@venue]} %>
     </div>
   </div>
 </div>

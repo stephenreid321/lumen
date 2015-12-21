@@ -5,7 +5,7 @@
         <div class="form-group">
           <label class="control-label col-md-3">Pick a group</label>
           <div class="col-md-6"> 
-            <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/spaces/new'" %>
+            <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/venues/new'" %>
           </div>
         </div>
       <% end %>
@@ -19,18 +19,18 @@
       <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
     </li>
     <li>
-      <a href="/groups/<%=@group.slug%>/spaces">Spaces</a>    
+      <a href="/groups/<%=@group.slug%>/venues">Venues</a>    
     </li>  
-    <% if @space.persisted? %>
+    <% if @venue.persisted? %>
       <li>
-        <a href="/groups/<%=@group.slug%>/spaces/<%=@space.id%>"><%= @space.name %></a>    
+        <a href="/groups/<%=@group.slug%>/venues/<%=@venue.id%>"><%= @venue.name %></a>    
       </li>      
       <li class="active">
         Edit
       </li>
     <% else %>
       <li class="active">
-        Add space
+        Add venue
       </li>    
     <% end %>
   </ol>
@@ -39,23 +39,23 @@
   <div class="row" style="margin-top: 10px">
     <div class="col-md-8 col-md-offset-2">
 
-      <% form_for @space, @space.new_record? ? "/groups/#{@group.slug}/spaces/new" : "/groups/#{@group.slug}/spaces/#{@space.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+      <% form_for @venue, @venue.new_record? ? "/groups/#{@group.slug}/venues/new" : "/groups/#{@group.slug}/venues/#{@venue.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
 
         <script>
           $(function () {
-    <% if @space.new_record? %>
-              $('#space_address').keyup(function () {
+    <% if @venue.new_record? %>
+              $('#venue_address').keyup(function () {
                 if ($(this).val().length > 0)
-                  $('label[for=space_coordinates]').parent().hide()
+                  $('label[for=venue_coordinates]').parent().hide()
                 else
-                  $('label[for=space_coordinates]').parent().show()
+                  $('label[for=venue_coordinates]').parent().show()
               }).keyup();              
     <% end %>
 
             var inputGroup = $('<div class="input-group"></div>');
-            $('#space_hourly_cost').wrap(inputGroup);
-            $('<span class="input-group-addon">£</span>').prependTo($('#space_hourly_cost').parent());
+            $('#venue_hourly_cost').wrap(inputGroup);
+            $('<span class="input-group-addon">£</span>').prependTo($('#venue_hourly_cost').parent());
           });
         </script>
 
@@ -71,7 +71,7 @@
         <%= f.geopicker_block :coordinates %>
         <%= f.wysiwyg_block :description %>      
 
-        <%= f.submit_block destroy_url: "/groups/#{@group.slug}/spaces/#{@space.id}/destroy" %>
+        <%= f.submit_block destroy_url: "/groups/#{@group.slug}/venues/#{@venue.id}/destroy" %>
 
       <% end %>
 

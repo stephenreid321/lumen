@@ -1,4 +1,4 @@
-class Space
+class Venue
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -76,14 +76,14 @@ class Space
     }[attr.to_sym] || super  
   end   
   
-  def self.filtered(spaces, params)
-    spaces = spaces.or({:capacity.gte => params[:min_capacity]}, {:capacity => nil}) if params[:min_capacity]        
-    spaces = spaces.where(:accessibility.ne => 'Not accessible') if params[:accessible]
-    spaces = spaces.where(:private => true) if params[:private]
-    spaces = spaces.where(:serves_food => true) if params[:serves_food]
-    spaces = spaces.where(:serves_alcohol => true) if params[:serves_alcohol]
-    spaces = spaces.or({:hourly_cost.lte => params[:max_hourly_cost]}, {:hourly_cost => nil}) if params[:max_hourly_cost]
-    spaces
+  def self.filtered(venues, params)
+    venues = venues.or({:capacity.gte => params[:min_capacity]}, {:capacity => nil}) if params[:min_capacity]        
+    venues = venues.where(:accessibility.ne => 'Not accessible') if params[:accessible]
+    venues = venues.where(:private => true) if params[:private]
+    venues = venues.where(:serves_food => true) if params[:serves_food]
+    venues = venues.where(:serves_alcohol => true) if params[:serves_alcohol]
+    venues = venues.or({:hourly_cost.lte => params[:max_hourly_cost]}, {:hourly_cost => nil}) if params[:max_hourly_cost]
+    venues
   end
     
     

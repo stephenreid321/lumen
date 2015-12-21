@@ -11,10 +11,10 @@
       <script>
         $(function() {
           $('#map-form input, #map-form select').change(function() {
-            if ($('input[name=spaces]').prop('checked'))
-              $('#space-filters').show()
+            if ($('input[name=venues]').prop('checked'))
+              $('#venue-filters').show()
             else
-              $('#space-filters').hide()
+              $('#venue-filters').hide()
             $(this.form).submit();
           });
           $('#map-form').submit(function(e) {
@@ -42,11 +42,11 @@
         </div>   
         <div class="checkbox">
           <label>
-            <%= check_box_tag :spaces, :value => true, :checked => ENV['SHOW_SPACES_BY_DEFAULT'] ? true : false  %>
-            <%= I18n.t(:spaces).capitalize%> <i class="fa fa-map-marker" style="color: <%= "##{Space.marker_color}" %>"></i>
+            <%= check_box_tag :venues, :value => true, :checked => ENV['SHOW_VENUES_BY_DEFAULT'] ? true : false  %>
+            <%= I18n.t(:venues).capitalize%> <i class="fa fa-map-marker" style="color: <%= "##{Venue.marker_color}" %>"></i>
           </label>
         </div>  
-        <div id="space-filters" style="padding: 10px; background: #F8F8F8" >
+        <div id="venue-filters" style="padding: 10px; background: #F8F8F8" >
 
           <div class="form-group"> 
             <label><%= I18n.t(:capacity_of_at_least).capitalize%></label>
@@ -102,7 +102,7 @@
 
     </div>
 
-    <a style="display:inline-block;margin-top: 10px" class="btn btn-primary" href="<%= @group ? "/groups/#{@group.slug}/spaces/new" : "/spaces/new" %>"><i class="fa fa-plus"></i> <%= I18n.t(:add_a_space).capitalize%></a>
+    <a style="display:inline-block;margin-top: 10px" class="btn btn-primary" href="<%= @group ? "/groups/#{@group.slug}/venues/new" : "/venues/new" %>"><i class="fa fa-plus"></i> <%= I18n.t(:add_a_venue).capitalize%></a>
 
   </div>
 

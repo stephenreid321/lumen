@@ -1,0 +1,12 @@
+<h3><%=venue.name%> <% if !@group %><small><%=g venue.group%></small><% end%></h3>
+
+<%= partial :'venues/summary', :locals => {:venue => venue} %>
+
+<p class="small">
+  Added by <a href="/accounts/<%=venue.account.id%>"><%=venue.account.name%></a> on <%=venue.created_at%>
+  <% if venue.group.memberships.find_by(account: current_account) %>
+    &middot;
+    <a href="/groups/<%=venue.group.slug%>/venues/<%=venue.id%>/edit">Edit venue</a>
+  <% end %>
+</p>
+

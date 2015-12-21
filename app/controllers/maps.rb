@@ -6,10 +6,10 @@ Lumen::App.controllers do
     if params[:organisations]
       @points += current_account.network.map(&:affiliations).flatten.map(&:organisation).uniq
     end
-    if params[:spaces]
-      spaces = current_account.spaces
-      spaces = Space.filtered(spaces, params)
-      @points += spaces
+    if params[:venues]
+      venues = current_account.venues
+      venues = Venue.filtered(venues, params)
+      @points += venues
     end
     if params[:accounts]
       @points += current_account.network

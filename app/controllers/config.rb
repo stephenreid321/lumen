@@ -56,7 +56,7 @@ Lumen::App.controllers do
       :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, digest, map, docs, surveys, stats, calendar)',
       
       :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
-      :SHOW_SPACES_BY_DEFAULT => ['Shows spaces on maps by default'],
+      :SHOW_VENUES_BY_DEFAULT => ['Shows venues on maps by default'],
       :SHOW_ORGS_BY_DEFAULT => ['Shows organisations on maps by default'],
   
       :STACKED_HOME => ['Hides the homepage tabs and stacks the content instead'],

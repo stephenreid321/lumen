@@ -24,7 +24,7 @@ class TestGroups < ActiveSupport::TestCase
     @group = FactoryGirl.create(:group)    
     @group.memberships.create! :account => @account
     login_as(@account)
-    visit '/'
+    visit "/groups/#{@group.slug}"
     fill_in 'Subject', :with => 'oh hai'
     fill_in_summernote 'something very interesting'
     click_button 'Post'

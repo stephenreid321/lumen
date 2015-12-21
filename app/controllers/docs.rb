@@ -3,11 +3,7 @@ Lumen::App.controllers do
   get '/docs' do
     sign_in_required!
     @docs = current_account.docs.order_by(:created_at.desc)
-    if request.xhr?
-      partial :'docs/docs'
-    else
-      erb :'docs/docs'
-    end     
+    erb :'docs/docs'
   end
         
   post '/groups/:slug/docs/new' do

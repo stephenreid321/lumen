@@ -6,11 +6,7 @@ Lumen::App.controllers do
     when :ics      
       Event.ical(current_account)
     when :html   
-      if request.xhr?
-        partial :'events/calendar', :locals => {:calendar_path => '/calendar'}
-      else
-        erb :'events/calendar'
-      end            
+      erb :'events/calendar'    
     end     
   end
         

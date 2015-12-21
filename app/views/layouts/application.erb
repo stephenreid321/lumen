@@ -106,35 +106,22 @@
                     <a class="dropdown-toggle"
                        data-toggle="dropdown"
                        href="#">
-                      <i class="fa fa-group"></i> <%=I18n.t(:my_groups).capitalize%>
+                      <i class="fa fa-group"></i> <%=I18n.t(:groups).capitalize%>
                       <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                       <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
                         <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
                       <% } %>  
+                      <li role="separator" class="divider"></li>
+                      <li><a href="/groups/directory"><%=I18n.t(:all_groups).capitalize%></a></li>
                     </ul>        
                   </li>    
                 <% end %>
-                <% unless ENV['HIDE_DIRECTORY_TAB'] %>
-                  <li><a href="/groups/directory"><i class="fa fa-book"></i> <%=I18n.t(:all_groups).capitalize%></a></li>
-                <% end %>      
-                <% unless ENV['HIDE_GROUP_TYPE_TABS'] %>
-                  <% if GroupType.count > 0 %>
-                    <% GroupType.each { |group_type| %>
-                      <li><a href="/groups/directory/<%=group_type.slug%>"><i class="fa <%=group_type.icon%>"></i> <%=I18n.t(:"group_type.#{group_type.slug}")%></a></li>
-                    <% } %>
-                  <% end %>
-                <% end %>
-                <% unless ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
-                  <% unless ENV['HIDE_ORGANISATIONS_TAB'] %>
-                    <li><a href="/organisations"><i class="fa <%=ENV['ICON_ORGANISATIONS'] || 'fa-bullhorn'%>"></i> <%=I18n.t(:organisations).capitalize%></a></li>
-                  <% end %>
-                  <% unless ENV['HIDE_SECTORS_TAB'] %>
-                    <li><a href="/sectors"><i class="fa <%=ENV['ICON_SECTORS'].try(:body) || 'fa-th-list'%>"></i> <%=I18n.t(:sectors).capitalize%></a></li>
-                  <% end %>
-                <% end %>
               <%  end %>
+                  <li><a href="/map"><i class="fa fa-map-marker"></i> <%=I18n.t(:map).capitalize%></a></li>
+                  <li><a href="/docs"><i class="fa fa-file-text-o"></i> <%=I18n.t(:docs).capitalize%></a></li>                  
+                  <li><a href="/calendar"><i class="fa fa-calendar"></i> <%=I18n.t(:calendar).capitalize%></a></li>                  
               <%= eval(f('navbar')) %>
             </ul>  
           <% end %>

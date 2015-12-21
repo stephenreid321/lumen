@@ -23,6 +23,7 @@
             $('.fa-spinner', this).show();
             $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this).serialize(), function() {
               $('.fa-spinner', form).hide();
+              $('button[type=submit]', form).attr('disabled', false).html('<%= I18n.t(:search).capitalize%>');
             });
             return false;
           });

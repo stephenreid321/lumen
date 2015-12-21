@@ -9,7 +9,7 @@ Lumen::App.controllers do
       if request.xhr?
         partial :'events/calendar', :locals => {:calendar_path => '/calendar'}
       else
-        redirect "/#calendar-tab"
+        erb :'events/calendar'
       end            
     end     
   end

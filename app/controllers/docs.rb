@@ -6,7 +6,7 @@ Lumen::App.controllers do
     if request.xhr?
       partial :'docs/docs'
     else
-      redirect "/#docs-tab"
+      erb :'docs/docs'
     end     
   end
     

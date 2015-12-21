@@ -19,62 +19,15 @@
   <%= partial :'group_administration/header' %>
 <% end %>  
 
-<%
-possible_tabs = {
-  :'global-landing' => ([I18n.t(:home).capitalize, 'fa-home'] if Fragment.find_by(slug: 'global-landing-tab')),
-  :landing => ([I18n.t(:home).capitalize, 'fa-home'] if @group.landing_tab),
-  :conversations => [I18n.t(:conversations).capitalize, 'fa-comments-o'],
-  :news => ([I18n.t(:news).capitalize, 'fa-twitter'] if @group.news_summaries.count > 0),
-  :digest => [I18n.t(:digest).capitalize, 'fa-star'],
-  :map => [I18n.t(:map).capitalize, 'fa-map-marker'],
-  :docs => [I18n.t(:docs).capitalize, 'fa-file-text-o'],
-  :surveys => [I18n.t(:surveys).capitalize, 'fa-question'],
-  :stats => [I18n.t(:stats).capitalize, 'fa-signal'],  
-  :calendar => [I18n.t(:calendar).capitalize, 'fa-calendar']
-  }
-if ENV['GROUP_TAB_ORDER']
-  tabs = {}
-  ENV['GROUP_TAB_ORDER'].split(',').map(&:strip).map(&:to_sym).each { |tab|
-    tabs[tab] = possible_tabs[tab]
-  }
-  else
-  tabs = possible_tabs
-  end
-%>
-
 <% if @membership or @group.public? %>
+  <script>
+    $(function () {
+      $('#main').load('/groups/<%=@group.slug%>/conversations' + location.search)      
+    })
+  </script>
   <div class="row">
-    <div class="col-md-1">
-      <div class="tabbable tabs-left tabs-left-please" style="margin-top: 20px">
-        <ul class="nav nav-tabs">
-          <% tabs.each { |k,v| if v %>
-              <li>
-                <a title="<%=v[0]%>" href="#<%=k%>-tab" data-toggle="tab">                
-                  <i class="fa-fw fa <%=v[1]%> hidden-xs hidden-sm"></i>
-                  <span><%= v[0] %></span>                
-                </a>
-                <script>
-                  $(function () {
-                    $("a[href='#<%=k%>-tab']").on('shown.bs.tab', function (e) {
-                      $('#<%=k%>-tab').load('/groups/<%=@group.slug%>/<%=k%>' + location.search)
-                      window.location.hash = this.hash;
-                      window.scrollTo(0, 0);
-                    });
-                  });
-                </script>
-              </li>
-            <% end } %>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-7">        
-      <div class="tab-content">
-        <% tabs.each { |k,v| %>
-          <div class="tab-pane page-container" id="<%=k%>-tab">
-            <h2><i class="fa fa-spin fa-spinner"></i></h2>        
-          </div>      
-        <% } %>
-      </div>
+    <div class="col-md-8" id="main">    
+      <h2><i class="fa fa-spin fa-spinner"></i></h2>
     </div>
     <div class="col-md-4">
       <% if current_account %>
@@ -91,31 +44,3 @@ if ENV['GROUP_TAB_ORDER']
 <% else %>
   <%= partial 'groups/join', :locals => {:group => @group} %>
 <% end %>
-
-<script>
-
-  /* Calendar tooltip */
-
-  $(function () {
-<% if (c = @group.events.where(:start_time.gt => Time.now).count) > 0 %>
-      $("a[href='#calendar-tab']").attr('title', '<%=pluralize(c,'upcoming event')%>').tooltip({
-        placement: 'bottom',
-        trigger: 'manual'
-      }).tooltip('show');
-<% end %>
-    $("a[href='#calendar-tab']").on('shown.bs.tab', function (e) {
-      $("a[href='#calendar-tab']").tooltip('hide');
-    });
-
-    /* Navigate to tab via hash */
-
-    var hash = window.location.hash;
-    if (hash) {
-      $('a[href="' + hash + '"]').tab('show');
-      window.scrollTo(0, 0);
-    } else {
-      $(".tabs-left-please a:first").tab('show');
-    }
-
-  });
-</script>

@@ -48,7 +48,7 @@
     <script>
       $(function () {
         $('#conversations-search-form').submit(function (e) {
-          $('#conversations-tab').load("/groups/<%=@group.slug%>/conversations?" + $(this).serialize());
+          $('#main').load("/groups/<%=@group.slug%>/conversations?" + $(this).serialize());
           return false;
         });
       });

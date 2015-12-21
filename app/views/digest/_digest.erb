@@ -14,11 +14,11 @@
     <small>
       <script>
         $(function () {
-          $("#digest-tab .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
+          $("#main .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
           $('#from-to').submit(function (e) {
             e.preventDefault();
             $('.fa-spinner', this).show();
-            $('#digest-tab').load('<%= group ? "/groups/#{group.slug}/digest" : "/digest" %>?' + $(this).serialize());
+            $('#main').load('<%= group ? "/groups/#{group.slug}/digest" : "/digest" %>?' + $(this).serialize());
             return false;
           });
         });

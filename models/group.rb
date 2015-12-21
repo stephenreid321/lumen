@@ -78,7 +78,6 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
   has_many :events, :dependent => :destroy
-  has_many :news_summaries, :dependent => :destroy
   has_many :didyouknows, :dependent => :destroy
   has_many :spaces, :dependent => :destroy
   has_many :docs, :dependent => :destroy
@@ -97,11 +96,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end
   
   belongs_to :group_type, index: true
-      
-  def top_stories(from,to)
-    Hash[news_summaries.order_by(:order.asc).map { |news_summary| [news_summary, news_summary.top_stories(from, to)[0..2]] }]
-  end
-  
+        
   def new_people(from,to)
     Account.where(:id.in => memberships.where(:created_at.gte => from).where(:created_at.lt => to+1).pluck(:account_id)).where(:has_picture => true)
   end

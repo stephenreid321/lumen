@@ -13,12 +13,6 @@ namespace :cleanup do
 end
 task :cleanup => ['cleanup:organisations', 'cleanup:sectors']
 
-namespace :news do
-  task :update => :environment do
-    NewsSummary.each { |news_summary| news_summary.get_current_digest! }
-  end
-end
-
 namespace :digests do
   task :daily => :environment do
     Group.each { |group|  

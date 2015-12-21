@@ -127,11 +127,7 @@ class Account
   def spaces
     Space.where(:group_id.in => memberships.map(&:group_id))
   end  
-  
-  def news_summaries
-    NewsSummary.where(:group_id.in => memberships.map(&:group_id))
-  end
-      
+        
   def docs
     Doc.where(:group_id.in => memberships.map(&:group_id))
   end 

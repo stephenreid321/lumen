@@ -453,27 +453,22 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       )
       new_conversation = false
       puts "part of conversation id #{conversation.id}"
-      unsplit_html = html
-      [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
-        html = html.split(pattern).first
-      }   
-      if Nokogiri::HTML.parse(html).text.blank? # if there was nothing above the line, assume this is an inline reply
-        html = unsplit_html.split(/\+1\s+this\s+post/)[1].split(/Too\s+many\s+emails\?/)[0]        
-        html = %Q{<blockquote>#{html}}
+      if (blockquote_close_index = html.index('</blockquote>')) and (too_many_emails_index = html.index(/Too\s+many\s+emails\?/)) and (blockquote_close_index < too_many_emails_index)
+        html = html.split(/Too\s+many\s+emails\?/).first       
+      else
+        [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
+          html = html.split(pattern).first
+        }
       end
     else      
       new_conversation = true
       conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account
       return :failed if !conversation.persisted? # failed to find/create a valid conversation - probably a dupe
-      puts "created new conversation id #{conversation.id}"      
-      ['DISCLAIMER: This e-mail is confidential'].each { |pattern|
-        html = html.split(pattern).first
-      }
+      puts "created new conversation id #{conversation.id}"
     end
       
     html = Nokogiri::HTML.parse(html)
     html.search('style').remove
-    html.search('blockquote').remove_attr('style')
     # html.search('.gmail_extra').remove
     html = html.search('body').inner_html
                      

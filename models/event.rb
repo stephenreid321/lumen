@@ -93,7 +93,7 @@ class Event
           revent.dtstart =  event.consider_time ? event.start_time : event.start_time.to_date
           revent.dtend = event.consider_time ? event.end_time : (event.end_time.to_date + 1.day)
           (revent.location = event.location) if event.location
-          revent.description = "http://#{ENV['DOMAIN']}/groups/#{event.group.slug}/calendar/#{event.id}"
+          revent.description = "http://#{ENV['DOMAIN']}/groups/#{event.group.slug}/events/#{event.id}"
         end
       }
     end

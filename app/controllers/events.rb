@@ -1,6 +1,6 @@
 Lumen::App.controllers do
   
-  get '/calendar', :provides => [:html, :ics] do    
+  get '/events', :provides => [:html, :ics] do    
     sign_in_required!
     case content_type   
     when :ics      
@@ -10,30 +10,30 @@ Lumen::App.controllers do
     end     
   end
         
-  get '/calendar/feed' do
+  get '/events/feed' do
     sign_in_required!
     Event.json(current_account, params[:start], params[:end])
   end  
   
-  get '/calendar/add' do
+  get '/events/add' do
     sign_in_required!
     erb :'events/build'
   end  
   
-  get '/calendar/:id/edit' do
+  get '/events/:id/edit' do
     @event = current_account.events.find(params[:id]) || not_found
     membership_required!(@event.group)
-    redirect "/groups/#{@event.group.slug}/calendar/#{@event.id}/edit"
+    redirect "/groups/#{@event.group.slug}/events/#{@event.id}/edit"
   end   
       
-  get '/groups/:slug/calendar/add' do
+  get '/groups/:slug/events/add' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.build
     erb :'events/build'
   end
   
-  post '/groups/:slug/calendar/add' do
+  post '/groups/:slug/events/add' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.build(params[:event])    
@@ -43,53 +43,53 @@ Lumen::App.controllers do
       if @event.start_conversation == '1'
         conversation = @event.group.conversations.create!(subject: "New event: #{@event.name}", account: current_account)
         conversation_post = conversation.conversation_posts.create!(
-          :body => %Q{<h2><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/calendar/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
+          :body => %Q{<h2><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/events/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
           :account => @event.account)
         conversation_post.send_notifications!  
       end
-      redirect "/groups/#{@group.slug}/calendar/#{@event.id}"
+      redirect "/groups/#{@group.slug}/events/#{@event.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the event from being saved."
       erb :'events/build'
     end
   end   
     
-  get '/groups/:slug/calendar/:id/edit' do
+  get '/groups/:slug/events/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.find(params[:id]) || not_found
     erb :'events/build'
   end
   
-  post '/groups/:slug/calendar/:id/edit' do
+  post '/groups/:slug/events/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.find(params[:id]) || not_found
     if @event.update_attributes(params[:event])
       flash[:notice] = "<strong>Great!</strong> The event was updated successfully."
-      redirect "/groups/#{@group.slug}/calendar/#{@event.id}"
+      redirect "/groups/#{@group.slug}/events/#{@event.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the event from being saved."
       erb :'events/build'
     end
   end 
   
-  get '/groups/:slug/calendar/:id/destroy' do
+  get '/groups/:slug/events/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.find(params[:id]) || not_found
     @event.destroy    
-    redirect "/groups/#{@group.slug}/calendar/"
+    redirect "/groups/#{@group.slug}/events/"
   end 
   
-  get '/groups/:slug/calendar/:id' do
+  get '/groups/:slug/events/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.public?
     @event = @group.events.find(params[:id]) || not_found
     erb :'events/event'
   end  
   
-  get '/groups/:slug/calendar/:id/summary' do
+  get '/groups/:slug/events/:id/summary' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.public?
     @event = @group.events.find(params[:id]) || not_found

@@ -141,7 +141,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     
   def default_didyouknows
     [
-      %Q{Every group has its own <a href="http://#{ENV['DOMAIN']}/groups/#{slug}/calendar">events calendar</a>, and #{slug} has [upcoming_events].},
+      %Q{Every group has its own <a href="http://#{ENV['DOMAIN']}/groups/#{slug}/events">events calendar</a>, and #{slug} has [upcoming_events].},
       %Q{You can <a href="[conversation_url]">view this conversation on the web</a> to learn more about its participants.},
       %Q{You can <a href="http://#{ENV['DOMAIN']}/groups/#{slug}">search past conversations</a> of this group.},
       %Q{#{slug} has <a href="http://#{ENV['DOMAIN']}/groups/#{slug}">[members]</a>.},      

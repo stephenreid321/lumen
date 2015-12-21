@@ -50,6 +50,7 @@ class Translation
       :surveys => 'surveys',
       :stats => 'stats',
       :calendar => 'calendar',
+      :events => 'events',
       :conversations => 'conversations',
       :welcome_to => 'welcome to',
       :affiliations => 'affiliations',

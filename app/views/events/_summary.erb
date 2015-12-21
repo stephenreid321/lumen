@@ -30,7 +30,7 @@
 
 <% if !(defined? no_more) %>
   <% if defined? read_more %>
-    <a class="read-more" href="/groups/<%=event.group.slug%>/calendar/<%=event.id%>">Read more&hellip;</a>
+    <a class="read-more" href="/groups/<%=event.group.slug%>/events/<%=event.id%>">Read more&hellip;</a>
   <% else %>  
 
     <%= event.details  %>

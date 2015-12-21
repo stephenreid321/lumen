@@ -5,7 +5,7 @@
         <div class="form-group">
           <label class="control-label col-md-3">Pick a group</label>
           <div class="col-md-6"> 
-            <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/calendar/add'" %>
+            <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/events/add'" %>
           </div>
         </div>
       <% end %>
@@ -19,11 +19,11 @@
       <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
     </li>
     <li>
-      <a href="/groups/<%=@group.slug%>/calendar">Calendar</a>    
+      <a href="/groups/<%=@group.slug%>/events">Events</a>    
     </li>  
     <% if @event.persisted? %>
       <li>
-        <a href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>"><%= @event.name %></a>    
+        <a href="/groups/<%=@group.slug%>/events/<%=@event.id%>"><%= @event.name %></a>    
       </li>      
       <li class="active">
         Edit
@@ -72,7 +72,7 @@
         });
       </script>        
 
-      <% form_for @event, @event.new_record? ? "/groups/#{@group.slug}/calendar/add" : "/groups/#{@group.slug}/calendar/#{@event.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+      <% form_for @event, @event.new_record? ? "/groups/#{@group.slug}/events/add" : "/groups/#{@group.slug}/events/#{@event.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
         <%= f.text_block :name %>
         <%= f.datetime_block :start_time, div_class: 'col-md-9', fives: true %>
@@ -94,7 +94,7 @@
           <%= f.check_box_block :start_conversation %>    
         <% end %>
 
-        <%= f.submit_block destroy_url: "/groups/#{@group.slug}/calendar/#{@event.id}/destroy" %>
+        <%= f.submit_block destroy_url: "/groups/#{@group.slug}/events/#{@event.id}/destroy" %>
 
       <% end %>
 

@@ -1,6 +1,6 @@
 <ul class="page-options">  
   <li>
-    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/calendar/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
+    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/events/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
   </li>    
 </ul>
 
@@ -10,7 +10,7 @@
     <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
   </li>
   <li>
-    <a href="/groups/<%=@group.slug%>/calendar">Calendar</a>    
+    <a href="/groups/<%=@group.slug%>/events">Events</a>    
   </li>  
   <li class="active">
     <%= @event.name %>
@@ -27,6 +27,6 @@
   </div>
   <div class="col-md-6">
     <style>#calendar { margin-top: 20px }</style>
-    <%= partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar"} %>  
+    <%= partial :'events/calendar' %>  
   </div>
 </div>

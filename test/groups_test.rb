@@ -11,7 +11,8 @@ class TestGroups < ActiveSupport::TestCase
   test 'creating a group' do
     @account = FactoryGirl.create(:account)
     login_as(@account)
-    click_link 'All groups'
+    # TODO: navigate via dropdown
+    visit '/groups'
     click_link 'Create a group'
     fill_in 'Name', :with => 'sparrow'
     choose 'Open'

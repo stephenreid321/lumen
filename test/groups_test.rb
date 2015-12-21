@@ -11,7 +11,6 @@ class TestGroups < ActiveSupport::TestCase
   test 'creating a group' do
     @account = FactoryGirl.create(:account)
     login_as(@account)
-    # TODO: navigate via dropdown
     visit '/groups'
     click_link 'Create a group'
     fill_in 'Name', :with => 'sparrow'
@@ -25,7 +24,7 @@ class TestGroups < ActiveSupport::TestCase
     @group = FactoryGirl.create(:group)    
     @group.memberships.create! :account => @account
     login_as(@account)
-    click_link 'Home'    
+    visit '/'
     fill_in 'Subject', :with => 'oh hai'
     fill_in_summernote 'something very interesting'
     click_button 'Post'
@@ -41,7 +40,7 @@ class TestGroups < ActiveSupport::TestCase
     @conversation = @group.conversations.create! :subject => 'black holes', :account => @account1
     @conversation.conversation_posts.create! :body => 'real dark', :account => @account1
     login_as(@account2)   
-    click_link 'Home'  
+    visit '/'  
     click_link 'black holes'
     assert page.has_content? '1 participant in this conversation'
     fill_in_summernote 'i agree'

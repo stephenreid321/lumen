@@ -101,27 +101,25 @@
             <ul class="nav navbar-nav">
               <% if current_account %>
                 <li><a href="/"><i class="fa fa-home"></i> <%=I18n.t(:home).capitalize%></a></li>
-                <% if current_account.memberships.count > 1 %>
-                  <li class="dropdown">
-                    <a class="dropdown-toggle"
-                       data-toggle="dropdown"
-                       href="#">
-                      <i class="fa fa-group"></i> <%=I18n.t(:groups).capitalize%>
-                      <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
-                        <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
-                      <% } %>  
-                      <li role="separator" class="divider"></li>
-                      <li><a href="/groups/directory"><%=I18n.t(:all_groups).capitalize%></a></li>
-                    </ul>        
-                  </li>    
-                <% end %>
+                <li class="dropdown">
+                  <a class="dropdown-toggle"
+                     data-toggle="dropdown"
+                     href="#">
+                    <i class="fa fa-group"></i> <%=I18n.t(:groups).capitalize%>
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
+                      <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
+                    <% } %>  
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/groups/directory"><%=I18n.t(:all_groups).capitalize%></a></li>
+                  </ul>        
+                </li>    
               <%  end %>
-                  <li><a href="/map"><i class="fa fa-map-marker"></i> <%=I18n.t(:map).capitalize%></a></li>
-                  <li><a href="/docs"><i class="fa fa-file-text-o"></i> <%=I18n.t(:docs).capitalize%></a></li>                  
-                  <li><a href="/calendar"><i class="fa fa-calendar"></i> <%=I18n.t(:calendar).capitalize%></a></li>                  
+              <li><a href="/map"><i class="fa fa-map-marker"></i> <%=I18n.t(:map).capitalize%></a></li>
+              <li><a href="/docs"><i class="fa fa-file-text-o"></i> <%=I18n.t(:docs).capitalize%></a></li>                  
+              <li><a href="/calendar"><i class="fa fa-calendar"></i> <%=I18n.t(:calendar).capitalize%></a></li>                  
               <%= eval(f('navbar')) %>
             </ul>  
           <% end %>

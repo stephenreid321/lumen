@@ -29,28 +29,7 @@ Lumen::App.controllers do
     membership_required!(@event.group)
     redirect "/groups/#{@event.group.slug}/calendar/#{@event.id}/edit"
   end   
-  
-  get '/groups/:slug/calendar', :provides => [:html, :ics] do    
-    @group = Group.find_by(slug: params[:slug]) || not_found    
-    membership_required! unless @group.public?
-    case content_type   
-    when :ics
-      Event.ical(@group)
-    when :html     
-      if request.xhr?
-        partial :'events/calendar', :locals => {:calendar_path => "/groups/#{@group.slug}/calendar"}
-      else
-        redirect "/groups/#{@group.slug}#calendar-tab"
-      end
-    end    
-  end   
-
-  get '/groups/:slug/calendar/feed', :provides => :json do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.public?
-    Event.json(@group, params[:start], params[:end])
-  end  
-    
+      
   get '/groups/:slug/calendar/add' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!

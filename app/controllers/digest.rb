@@ -14,38 +14,10 @@ Lumen::App.controllers do
     if request.xhr?      
       partial :'digest/digest', locals: {group: nil, message: nil, h2: nil, from: @from, to: @to, top_stories: @top_stories, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}
     else
-      redirect "/#digest-tab"
+      redirect "/"
     end
   end
-  
-  digest = lambda do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless (@group.public? or (current_account and current_account.admin?)) # via token
-    @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
-    @to =  params[:to] ? Date.parse(params[:to]) : Date.today
-
-    @top_stories = @group.top_stories(@from,@to)
-    @new_people = @group.new_people(@from,@to)
-    @hot_conversations = @group.hot_conversations(@from,@to)
-    @new_events = @group.new_events(@from,@to)
-    @upcoming_events = @group.upcoming_events
-               
-    if params[:for_email]
-      @h2 = params[:h2]
-      @message = params[:message]
-      @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
-      Premailer.new(
-        partial(:'digest/digest', locals: {group: @group, message: @message, h2: @h2, from: @from, to: @to, top_stories: @top_stories, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}, :layout => :email),
-        :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-    elsif request.xhr?
-      partial :'digest/digest', locals: {group: @group, message: nil, h2: nil, from: @from, to: @to, top_stories: @top_stories, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}
-    else    
-      redirect "/groups/#{@group.slug}#digest-tab"
-    end  
-  end  
-  get  '/groups/:slug/digest', &digest
-  post '/groups/:slug/digest', &digest
-  
+    
   get '/groups/:slug/review' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!

@@ -9,28 +9,17 @@ Lumen::App.controllers do
       erb :'docs/docs'
     end     
   end
-    
-  get '/groups/:slug/docs' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.public?
-    @docs = @group.docs.order_by(:created_at.desc)
-    if request.xhr?
-      partial :'docs/docs'
-    else
-      redirect "/groups/#{@group.slug}#docs-tab"
-    end  
-  end  
-    
+        
   post '/groups/:slug/docs/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @doc = @group.docs.build(url: params[:url])    
     @doc.account = current_account
     if @doc.save
-      redirect "#{back}#docs-tab"
+      redirect back
     else
       flash[:error] = "There was an error listing the doc. Make sure it's publicly viewable!"
-      redirect "#{back}#docs-tab"
+      redirect back
     end
   end
   
@@ -39,7 +28,7 @@ Lumen::App.controllers do
     membership_required!(@doc.group)
     @doc.destroy    
     flash[:notice] = 'The doc was removed.'
-    redirect "#{back}#docs-tab"
+    redirect back
   end    
     
 end

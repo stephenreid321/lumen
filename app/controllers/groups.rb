@@ -218,11 +218,7 @@ Lumen::App.controllers do
       @e[event.account_id] << event.id
     }    
     
-    if request.xhr?
-      partial :'groups/stats'
-    else
-      redirect "/groups/#{@group.slug}#stats"
-    end      
+    erb :'groups/stats'
     
   end   
           

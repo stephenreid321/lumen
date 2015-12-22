@@ -17,7 +17,7 @@ Lumen::App.controllers do
     end
   end
   
-  digest = lambda do
+  get '/groups/:slug/digest' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless (@group.public? or (current_account and current_account.admin?)) # via token
     @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
@@ -41,7 +41,5 @@ Lumen::App.controllers do
       erb :'digest/digest'
     end  
   end  
-  get  '/groups/:slug/digest', &digest
-  post '/groups/:slug/digest', &digest
        
 end

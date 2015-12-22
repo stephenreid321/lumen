@@ -77,7 +77,7 @@ Lumen::App.controllers do
       :'about' => 'Text of about page',
       :'sign-in' => 'Text displayed on sign in page',
       :'first-time' => 'Text displayed on account edit page upon first login',
-      :'global-landing-tab' => 'Landing tab that can be displayed via HOME_TAB_ORDER and GROUP_TAB_ORDER',
+      :'global-landing-tab' => 'Landing tab displayed on the logged-in homepage',
       :'public-homepage' => 'If defined, creates a public homepage with this HTML',
       :'head' => 'Extra content for &lt;head&gt;',
       :'navbar' => 'Extra content for the navbar',

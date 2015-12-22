@@ -24,7 +24,7 @@
   <% (@from..@to).to_a.each { |date| %>
     <tr>
       <td><%=date%></td>
-      <td><%=PageView.where(:created_at.gte => date).where(:created_at.lt => date+1).map { |pv| pv.account_id }.uniq.count%></td>
+      <td><%=PageView.where(:created_at.gte => date).where(:created_at.lt => date+1).pluck(:account_id).uniq.count%></td>
     </tr>
   <% } %>
 </table>

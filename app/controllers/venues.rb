@@ -18,7 +18,6 @@ Lumen::App.controllers do
     if params[:accounts]
       @points += current_account.network
     end
-    @disable_scrollwheel = true if ENV['STACKED_HOME']    
     if params[:map_only]
       partial :'maps/map', :locals => {:points => @points}
     else

@@ -34,10 +34,6 @@ Lumen::App.controllers do
           
       :HIDE_SEARCH_MEMBERSHIPS => ['Hides group memberships on profile search results'],
       :HIDE_SEARCH_TAGS => ['Hides tags on profile search results'],
-      :HIDE_ORGANISATIONS_TAB => ['Hides the \'organisations\' tab'],
-      :HIDE_SECTORS_TAB => ['Hides the \'sectors\' tab'],
-      :HIDE_DIRECTORY_TAB => ['Hides the \'All groups\' tab'],
-      :HIDE_GROUP_TYPE_TABS => ['Hides tabs for group types'],
       :HIDE_MAP_FORM => ['Hides map form'],
             
       :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
@@ -51,22 +47,15 @@ Lumen::App.controllers do
       :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],      
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
       :REQUEST_LOCATION => ['Adds the location field to the request membership page'],
-      
-      :HOME_TAB_ORDER => 'Custom tab order for homepage (comma-separated list from global-landing, news, digest, map, docs, surveys, calendar)',      
-      :GROUP_TAB_ORDER => 'Custom tab order for groups (comma-separated list from global-landing, landing, conversations, news, digest, map, docs, surveys, stats, calendar)',
-      
+            
       :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
       :SHOW_VENUES_BY_DEFAULT => ['Shows venues on maps by default'],
       :SHOW_ORGS_BY_DEFAULT => ['Shows organisations on maps by default'],
   
-      :STACKED_HOME => ['Hides the homepage tabs and stacks the content instead'],
       :WALL_STYLE_CONVERSATIONS => ['Wall-style conversations'],
         
       :REPLY_TO_GROUP => ['Sets the reply-to header to the group address'],
-    
-      :ICON_ORGANISATIONS => 'Alternative Font Awesome icon name for organisations tab',
-      :ICON_SECTORS => 'Alternative Font Awesome icon name for sectors tab',
-          
+              
       :FACEBOOK_KEY => 'Facebook API key',
       :FACEBOOK_SECRET => 'Facebook API secret',
       :GOOGLE_KEY => 'Google API key',

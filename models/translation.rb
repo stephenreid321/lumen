@@ -104,7 +104,6 @@ class Translation
       :emails => 'emails',
       :landing_tab => 'landing tab',
       :did_you_know => 'did you know...',
-      :post_review => 'post review',
       :analytics => 'analytics',
       :email_notifications => 'email notifications',
       :join_group => 'join group',

@@ -16,28 +16,5 @@ Lumen::App.controllers do
       redirect "/"
     end
   end
-    
-  get '/groups/:slug/review' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    group_admins_only!
-    erb :'group_administration/review'
-  end  
-  
-  post '/groups/:slug/review' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    group_admins_only!
-    @from = params[:from] ? Date.parse(params[:from]) : 1.week.ago.to_date
-    @to =  params[:to] ? Date.parse(params[:to]) : Date.today    
-    @h2 = params[:h2]
-    @customised_html = params[:customised_html]
-    conversation = @group.conversations.create!(subject: "#{@h2}: #{compact_daterange(@from,@to)}", account: current_account)
-    conversation_post = conversation.conversation_posts.create!(      
-      :body => @customised_html,
-      :account => current_account
-    )
-    conversation_post.send_notifications!
-    flash[:notice] = "The review was sent."
-    redirect "/groups/#{@group.slug}"
-  end   
-    
+        
 end

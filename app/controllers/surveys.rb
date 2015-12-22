@@ -1,26 +1,15 @@
 Lumen::App.controllers do
   
+  get '/groups/:slug/surveys' do
+    redirect '/surveys'
+  end      
+  
   get '/surveys' do
     sign_in_required!
     @surveys = current_account.surveys.order_by(:created_at.desc)
-    if request.xhr?
-      partial :'surveys/surveys'
-    else
-      redirect "/#surveys-tab"
-    end      
+    erb :'surveys/surveys'    
   end
-  
-  get '/groups/:slug/surveys' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required! unless @group.public?
-    @surveys = @group.surveys.order_by(:created_at.desc)
-    if request.xhr?
-      partial :'surveys/surveys'
-    else
-      redirect "/groups/#{@group.slug}#surveys-tab"
-    end  
-  end    
-  
+    
   get '/surveys/new' do
     sign_in_required!
     erb :'surveys/build' 

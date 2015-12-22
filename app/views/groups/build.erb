@@ -50,7 +50,6 @@
       <% end %>
       <%= f.text_block :redirect_after_first_profile_save %>
       <% if @group.persisted? %>
-        <%= f.number_block :news_switch_hour, tip: "Hour to switch over to today's news summaries e.g. 11" %>
         <%= f.number_block :hot_conversation_threshold, tip: "Posts required for a conversation to appear in the 'hot conversations' section of a digest" %>
         <%= f.check_box_block :show_full_conversations_in_digests %>
       <% end %>

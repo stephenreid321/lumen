@@ -10,7 +10,6 @@ class Group
   field :request_questions, :type => String
   field :landing_tab, :type => String
   field :redirect_after_first_profile_save, :type => String
-  field :news_switch_hour, :type => Integer, :default => 7
   field :hot_conversation_threshold, :type => Integer, :default => 3
   field :show_full_conversations_in_digests, :type => Boolean
   
@@ -162,7 +161,6 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :membership_request_thanks_email => :text_area,
       :membership_request_acceptance_email => :text_area,
       :redirect_after_first_profile_save => :text,      
-      :news_switch_hour => :number,
       :hot_conversation_threshold => :number,
       :show_full_conversations_in_digests => :check_box,
       :group_type_id => :lookup,
@@ -194,11 +192,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :slug => 'Name'
     }[attr.to_sym] || super  
   end  
-  
-  def news_date
-    Time.now.hour >= news_switch_hour ? Date.today - 1 : Date.today - 2
-  end
-  
+    
   def self.privacies
     {'Public: group content is public and anyone can choose to join' => 'public', 'Open: anyone can choose to join' => 'open', 'Closed: people must request membership' => 'closed', 'Secret: group is hidden and people can only join via invitation' => 'secret'}
   end

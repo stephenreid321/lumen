@@ -3,6 +3,28 @@ Lumen::App.controllers do
   get '/groups/:slug/venues' do
     redirect '/map'
   end
+  
+  get '/map' do
+    sign_in_required!    
+    @points = []
+    if params[:organisations]
+      @points += current_account.network.map(&:affiliations).flatten.map(&:organisation).uniq
+    end
+    if params[:venues]
+      venues = current_account.venues
+      venues = Venue.filtered(venues, params)
+      @points += venues
+    end
+    if params[:accounts]
+      @points += current_account.network
+    end
+    @disable_scrollwheel = true if ENV['STACKED_HOME']    
+    if params[:map_only]
+      partial :'maps/map', :locals => {:points => @points}
+    else
+      erb :'maps/map'
+    end
+  end  
 
   get '/venues/new' do
     sign_in_required!

@@ -31,7 +31,7 @@
   <div class="col-md-4">
 
     <h2>Did you know&hellip;</h2>
-    <% form_tag "/groups/#{@group.slug}/didyouknows/add", :method => 'post' do %>
+    <% form_tag "/groups/#{@group.slug}/didyouknows/new", :method => 'post' do %>
       <div class="form-group">
         <%= text_area_tag :body, :class => 'form-control' %>
       </div>    

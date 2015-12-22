@@ -1,5 +1,5 @@
 <% if new_events.length > 0 %>
-  <h3><%=I18n.t(:new_events).capitalize%> <a class="btn btn-default btn-sm" href="<%= group ? "/groups/#{group.slug}/events/add" : "/events/add"%>"><i class="fa fa-plus"></i> <%=I18n.t(:add_an_event).capitalize%></a></h3>
+  <h3><%=I18n.t(:new_events).capitalize%> <a class="btn btn-default btn-sm" href="<%= group ? "/groups/#{group.slug}/events/new" : "/events/new"%>"><i class="fa fa-plus"></i> <%=I18n.t(:add_an_event).capitalize%></a></h3>
   <ul class="list-unstyled">
     <% new_events.each { |event| %>
       <li><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%=event.name%></a> <%= event.when_details %> <% if !group%><%=g event.group%><% end%></li>

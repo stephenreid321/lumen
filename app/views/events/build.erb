@@ -5,7 +5,7 @@
         <div class="form-group">
           <label class="control-label col-md-3">Pick a group</label>
           <div class="col-md-6"> 
-            <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/events/add'" %>
+            <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug), :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/events/new'" %>
           </div>
         </div>
       <% end %>
@@ -72,7 +72,7 @@
         });
       </script>        
 
-      <% form_for @event, @event.new_record? ? "/groups/#{@group.slug}/events/add" : "/groups/#{@group.slug}/events/#{@event.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+      <% form_for @event, @event.new_record? ? "/groups/#{@group.slug}/events/new" : "/groups/#{@group.slug}/events/#{@event.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
         <%= f.text_block :name %>
         <%= f.datetime_block :start_time, div_class: 'col-md-9', fives: true %>

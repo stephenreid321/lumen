@@ -261,7 +261,7 @@ Lumen::App.controllers do
     erb :'group_administration/didyouknows'
   end  
   
-  post '/groups/:slug/didyouknows/add' do
+  post '/groups/:slug/didyouknows/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @group.didyouknows.create :body => params[:body]

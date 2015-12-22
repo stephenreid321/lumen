@@ -1,5 +1,9 @@
 Lumen::App.controllers do
   
+  get '/groups/:slug/events' do
+    redirect '/events'
+  end  
+  
   get '/events', :provides => [:html, :ics] do    
     sign_in_required!
     case content_type   
@@ -15,7 +19,7 @@ Lumen::App.controllers do
     Event.json(current_account, params[:start], params[:end])
   end  
   
-  get '/events/add' do
+  get '/events/new' do
     sign_in_required!
     erb :'events/build'
   end  
@@ -26,14 +30,14 @@ Lumen::App.controllers do
     redirect "/groups/#{@event.group.slug}/events/#{@event.id}/edit"
   end   
       
-  get '/groups/:slug/events/add' do
+  get '/groups/:slug/events/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.build
     erb :'events/build'
   end
   
-  post '/groups/:slug/events/add' do
+  post '/groups/:slug/events/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @event = @group.events.build(params[:event])    

@@ -1,5 +1,9 @@
 Lumen::App.controllers do
   
+  get '/groups/:slug/docs' do
+    redirect '/docs'
+  end    
+  
   get '/docs' do
     sign_in_required!
     @docs = current_account.docs.order_by(:created_at.desc)

@@ -38,7 +38,7 @@ Lumen::App.controllers do
     elsif request.xhr?
       partial :'digest/digest', locals: {group: @group, message: nil, h2: nil, from: @from, to: @to, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}
     else    
-      redirect "/groups/#{@group.slug}/digest"
+      erb :'digest/digest'
     end  
   end  
   get  '/groups/:slug/digest', &digest

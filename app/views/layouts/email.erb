@@ -8,7 +8,6 @@
     <%
     [
       'email.css',
-      'news.css'
     ].each { |file| %> 
       <%= "<style>#{File.open("#{Padrino.root}/app/assets/stylesheets/#{file}", "r").read}</style>" %>
     <% } %>         

@@ -12,7 +12,7 @@ class Slide
 
   dragonfly_accessor :image
   
-  validates_presence_of :image, :title, :link
+  validates_presence_of :title, :link
     
   def self.admin_fields
     {

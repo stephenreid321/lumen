@@ -1,8 +1,1 @@
-<script>
-  $(function () {
-    $('#main').load('/groups/<%=@group.slug%>/digest')
-  })
-</script>
-<div id="main">
-    <h2><i class="fa fa-spin fa-spinner"></i></h2>
-</div>
+<%= partial :'digest/digest', locals: {group: @group, message: nil, h2: nil, from: @from, to: @to, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events} %>    

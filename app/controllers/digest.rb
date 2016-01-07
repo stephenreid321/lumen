@@ -10,11 +10,7 @@ Lumen::App.controllers do
     @new_events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1).where(:start_time.gte => @to).order_by(:start_time.asc)
     @upcoming_events = current_account.upcoming_events
     
-    if request.xhr?      
-      partial :'digest/digest', locals: {group: nil, message: nil, h2: nil, from: @from, to: @to, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}
-    else
-      redirect "/"
-    end
+    erb :'digest/digest'      
   end
   
   get '/groups/:slug/digest' do
@@ -34,9 +30,7 @@ Lumen::App.controllers do
       @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
       Premailer.new(
         partial(:'digest/digest', locals: {group: @group, message: @message, h2: @h2, from: @from, to: @to, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}, :layout => :email),
-        :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
-    elsif request.xhr?
-      partial :'digest/digest', locals: {group: @group, message: nil, h2: nil, from: @from, to: @to, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}
+        :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css      
     else    
       erb :'digest/digest'
     end  

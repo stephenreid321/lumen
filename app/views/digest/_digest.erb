@@ -1,6 +1,4 @@
 
-<%= Fragment.find_by(slug: 'global-landing-tab').try(:body) %>
-
 <style>h3 a.btn { float: right }</style>
 
 <% if message %>
@@ -16,21 +14,15 @@
     <small>
       <script>
         $(function () {
-          $("#main .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
-          $('#from-to').submit(function (e) {
-            e.preventDefault();
-            $('.fa-spinner', this).show();
-            $('#main').load('<%= group ? "/groups/#{group.slug}/digest" : "/digest" %>?' + $(this).serialize());
-            return false;
-          });
+          $(".datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
         });
       </script>
-      <form style="display: inline" id="from-to">
+      <% form_tag (group ? "/groups/#{group.slug}/digest" : "/digest"), style: 'display: inline', id: 'from-to', method: :get do %>
         <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=from.strftime('%d-%b-%Y')%>"/>
         &ndash;
         <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=to.strftime('%d-%b-%Y')%>"/>
         <i style="display:none" class="fa fa-spin fa-spinner"></i>
-      </form>
+      <% end %>
     </small>
   <% end %>    
 </h2> 

@@ -5,7 +5,7 @@
   </span>
   <div class="media-body">
 
-    <% form_for (@conversation ||= @group.conversations.build), "/groups/#{@group.slug}/conversations", :id => 'new-conversation', :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
+    <% form_for (@conversation ||= @group.conversations.build), "/groups/#{@group.slug}/conversations/new", :id => 'new-conversation', :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
       <%= f.text_block :subject, div_class: 'col-md-12' %>
       <%= f.wysiwyg_block :body, div_class: 'col-md-12', required: true %>
       <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();

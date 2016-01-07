@@ -33,7 +33,19 @@ Lumen::App.controllers do
     end
   end
   
-  post '/groups/:slug/conversations' do
+  get '/conversations/new' do
+    sign_in_required!
+    erb :'conversations/build'
+  end
+  
+  get '/groups/:slug/conversations/new' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    membership_required!
+    @conversations = @group.conversations.build
+    erb :'conversations/build'
+  end  
+  
+  post '/groups/:slug/conversations/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @conversation = @group.conversations.build(params[:conversation])

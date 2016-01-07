@@ -37,23 +37,26 @@
   </div>
 <% end %>
 
-<div class="row">
+<div class="row" style="margin-top: 10px">
+
   <div class="col-md-4">        
+    <a style="display:block" class="btn btn-primary" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
     <h2>Latest conversations</h2>
     <%= partial :'conversations/conversations_table', :locals => {:conversations => current_account.latest_conversations.limit(5)} %>
   </div>
-  <div class="col-md-4">        
+
+  <div class="col-md-4">      
+    <a style="display:block" class="btn btn-primary" href="/events/new"><i class="fa fa-calendar"></i> Create an event</a>
     <h2>Upcoming events</h2>
     <% current_account.upcoming_events.each { |event| %>
       <h3 style="font-size: 18px"><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><i class="fa fa-group"></i> <%=event.group.slug%></small></h3>
       <%= partial :'events/summary', :locals => {:event => event, :no_more => true} %>
     <% } %>
   </div>  
+
   <div class="col-md-4">
-    <h2>
-      Recent members
-      <small><a class="edit" title="Full page" href="/network"><i class="fa fa-th-list"></i></a></small>
-    </h2>
+    <a style="display:block" class="btn btn-primary" href="/network"><i class="fa fa-search"></i> Search all members</a>
+    <h2>Recent members</h2>
     <div class="row">
       <% current_account.network.order('updated_at desc').limit(4).each { |account| %>
         <div class="col-md-6">
@@ -67,5 +70,5 @@
       <% } %>
     </div>
   </div>
-</div>
+
 </div>

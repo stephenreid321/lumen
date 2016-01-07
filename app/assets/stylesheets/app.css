@@ -1,5 +1,6 @@
 
-body { padding: 60px 0 20px 0; }
+body { padding: 10px 0 10px 0; }
+.container-fluid { max-width: 1170px }
 
 .breadcrumb { background: #F8F8F8; border: 0 }
 

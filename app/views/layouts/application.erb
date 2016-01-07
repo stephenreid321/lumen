@@ -166,31 +166,27 @@
       </div>
     <% end %>
 
-    <div class="container-fluid">
-      <div id="footer" class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <hr />
-          <div class="restore-opacity" style="text-align: center">              
+
+    <div id="footer">
+      <div class="container-fluid">
+        <div style="text-align: center">       
+          <ul class="list-inline">
             <% if current_account %>
-              <a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a>
-              &middot;
-            <% end %>
-            <a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a>
-            &middot;
-            Powered by <a target="_blank" href="http://wordsandwriting.github.io/lumen/">Lumen</a>
-            <% if current_account %>
+              <li><a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a></li>
               <% if current_account.admin? %>
-                &middot; <a href="/analytics">Sitewide analytics</a>
-                &middot; <a href="/config">Lumen configuration</a>
+                <li><a href="/analytics">Sitewide analytics</a></li>
+                <li><a href="/config">Lumen configuration</a></li>
               <% end %>          
               <% if current_account.admin? or current_account.translator %>
-                &middot; <a href="/translations">Translations</a>
+                <li><a href="/translations">Translations</a></li>
               <% end %>
             <% end %>
-          </div>
+            <li><a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a></li>
+            <li>Powered by <a target="_blank" href="http://wordsandwriting.github.io/lumen/">Lumen</a></li>
         </div>
       </div>
     </div>
+
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
       <div class="modal-dialog">

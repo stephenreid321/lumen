@@ -37,6 +37,8 @@
   </div>
 <% end %>
 
+<%= Fragment.find_by(slug: 'global-landing-tab').try(:body) %>
+
 <style>
   #home-panels h3 { margin: 0; line-height: 150%; font-size: 18px }
 </style>
@@ -72,7 +74,7 @@
     <a style="display:block" class="btn btn-primary" href="/network"><i class="fa fa-search"></i> Search all members</a>
     <h2>Recent members</h2>
     <div class="row">
-      <% current_account.network.order_by([:has_picture.desc, :updated_at.desc]).limit(4).each { |account| %>
+      <% current_account.network.order_by([:has_picture.desc, :created_at.desc]).limit(4).each { |account| %>
         <div class="col-sm-6 account-minimal">
           <%= partial :'accounts/minimal', :locals => {:account => account} %>
         </div>

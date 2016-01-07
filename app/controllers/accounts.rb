@@ -56,7 +56,7 @@ Lumen::App.controllers do
       when :updated
         @accounts.order_by([:has_picture.desc, :updated_at.desc])
       end      
-      @accounts = @accounts.per_page(params[:per_page] || 10).page(params[:page])
+      @accounts = @accounts.per_page(params[:per_page] || 8).page(params[:page])
       partial :'accounts/results', locals: {container_class: (scope == 'network' ? 'col-sm-4 col-md-2' : 'col-sm-6'), page_links: (scope == 'network')}
     end
   end  

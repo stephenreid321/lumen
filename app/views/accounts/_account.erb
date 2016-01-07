@@ -5,7 +5,9 @@
   <div class="media-body">
     <h4 class="media-heading"><a href="/accounts/<%=account.id%>"><%=account.name%></a></h4>   
     <ul class="fa-ul">    
-      <%= partial :'accounts/details', :locals => {:account => account} %>
+      <%= partial :'accounts/memberships', :locals => {:account => account} %>
+      <%= partial :'accounts/affiliations_list', :locals => {:account => account} %>
+      <%= partial :'accounts/tags', :locals => {:account => account} %>
       <%= partial :'accounts/social_media', :locals => {:account => account, :display_placeholder => false} %>  
     </ul>
   </div>

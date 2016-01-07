@@ -55,12 +55,13 @@
       <small><a class="edit" title="Full page" href="/network"><i class="fa fa-th-list"></i></a></small>
     </h2>
     <div class="row">
-      <% current_account.network.limit(4).each { |account| %>
+      <% current_account.network.order('updated_at desc').limit(4).each { |account| %>
         <div class="col-md-6">
           <a href="/accounts/<%=account.id%>"><img style="display: block; margin: 0 auto; width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>"></a>
           <h4><a href="/accounts/<%=account.id%>"><%=account.name%></a></h4>
           <ul class="fa-ul">    
-            <%= partial :'accounts/details', :locals => {:account => account} %>
+            <%= partial :'accounts/memberships', :locals => {:account => account} %>
+            <%= partial :'accounts/affiliations_list', :locals => {:account => account} %>
           </ul>
         </div>
       <% } %>

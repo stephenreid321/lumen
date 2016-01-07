@@ -53,7 +53,7 @@
     <script>
       $(function () {
         $('#conversations-search-form').submit(function (e) {
-          $('#main').load("/groups/<%=@group.slug%>/conversations?" + $(this).serialize());
+          $('#conversations').load("/groups/<%=@group.slug%>/conversations?" + $(this).serialize());
           return false;
         });
       });

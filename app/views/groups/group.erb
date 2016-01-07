@@ -22,11 +22,11 @@
 <% if @membership or @group.public? %>
   <script>
     $(function () {
-      $('#main').load('/groups/<%=@group.slug%>/conversations' + location.search)      
+      $('#conversations').load('/groups/<%=@group.slug%>/conversations' + location.search)      
     })
   </script>
   <div class="row">
-    <div class="col-md-8" id="main">    
+    <div class="col-md-8" id="conversations">    
       <h2><i class="fa fa-spin fa-spinner"></i></h2>
     </div>
     <div class="col-md-4">

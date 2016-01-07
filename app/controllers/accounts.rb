@@ -57,7 +57,7 @@ Lumen::App.controllers do
         @accounts.order_by([:has_picture.desc, :updated_at.desc])
       end      
       @accounts = @accounts.per_page(params[:per_page] || 10).page(params[:page])
-      partial :'accounts/results'
+      partial :'accounts/results', locals: {page_links: (scope == 'network')}
     end
   end  
     

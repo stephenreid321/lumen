@@ -45,7 +45,7 @@
   <div class="col-md-4">        
     <h2>Upcoming events</h2>
     <% current_account.upcoming_events.each { |event| %>
-      <h3><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><i class="fa fa-group"></i> <%=event.group.slug%></small></h3>
+      <h3 style="font-size: 18px"><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><i class="fa fa-group"></i> <%=event.group.slug%></small></h3>
       <%= partial :'events/summary', :locals => {:event => event, :no_more => true} %>
     <% } %>
   </div>  
@@ -54,6 +54,6 @@
       <%=I18n.t(:people_in_your_groups, count: current_account.network.count)%>
       <small><a class="edit" title="Full page" href="/network"><i class="fa fa-th-list"></i></a></small>
     </h2>
-    <%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil} %>
+    <%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil, :per_page => 5} %>
   </div>
 </div>

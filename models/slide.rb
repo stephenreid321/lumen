@@ -5,8 +5,9 @@ class Slide
 
   field :image_uid, :type => String 
   field :title, :type => String  
-  field :link, :type => String  
   field :caption, :type => String
+  field :link, :type => String   
+  field :darken, :type => Boolean
 
   dragonfly_accessor :image
   
@@ -16,8 +17,9 @@ class Slide
     {
       :image => :image,
       :title => :text,
-      :link => :text,
-      :caption => :text
+      :caption => :text,
+      :link => :text,   
+      :darken => :check_box
     }
   end
     

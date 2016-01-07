@@ -14,12 +14,12 @@
         <div class="item <%  if i == 0 %>active<% end %>">
 
           <div style="background-image: url(<%=slide.image.url%>); background-position: center; background-size: cover; height: 315px">
-            <div style="background-color: rgba(0,0,0,0.5); height: 100%"></div>              
+            <% if slide.darken %><div style="background-color: rgba(0,0,0,0.5); height: 100%"></div><% end %>
           </div>
 
           <div class="carousel-caption">
             <h3><a style="color: white; font-weight: bold; text-transform: uppercase" href="<%=slide.link%>"><%=slide.title%></a></h3>
-            <p><%=slide.caption%></p>
+            <p><a style="color: white;" href="<%=slide.link%>"><%=slide.caption%></a></p>
           </div>
         </div>    
       <% } %>    

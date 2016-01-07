@@ -1,0 +1,6 @@
+<a href="/accounts/<%=account.id%>"><img style="display: block; margin: 0 auto; width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>"></a>
+<h3><a href="/accounts/<%=account.id%>"><%=account.name%></a></h3>
+<ul class="fa-ul">    
+  <%= partial :'accounts/memberships', :locals => {:account => account} %>
+  <%= partial :'accounts/affiliations_list', :locals => {:account => account} %>
+</ul>

@@ -3,7 +3,7 @@
 
 <div class="row">
   <% @accounts.each { |account| %>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <%= partial :'accounts/minimal', :locals => {:account => account}  %>
     </div>
   <% } %>

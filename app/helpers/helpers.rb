@@ -19,6 +19,21 @@ Lumen::App.helpers do
   def g(group)
     %Q{<a title="Posted in the group #{group.slug}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.slug}</a>}
   end    
+  
+  def page_entries_info(collection, model: nil)
+    if collection.total_pages < 2
+      case collection.to_a.length
+      when 0
+        "No #{model.pluralize.downcase} found"
+      when 1
+        "Displaying <b>1</b> #{model.downcase}"
+      else
+        "Displaying <b>all #{collection.count}</b> #{model.pluralize.downcase}"
+      end
+    else
+      "Displaying #{model.pluralize.downcase} <b>#{collection.offset + 1} - #{collection.offset + collection.to_a.length}</b> of <b>#{collection.count}</b> in total"
+    end
+  end  
     
   def compact_daterange(from,to)
     if from.strftime("%b %Y") == to.strftime("%b %Y")

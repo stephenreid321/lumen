@@ -2,13 +2,14 @@
 <% form_tag '/accounts/results', :method => 'get', :id => 'results-form' do %>
   <%= hidden_field_tag :per_page, :value => (per_page if defined? per_page)%> 
   <%= hidden_field_tag :scope, :value => scope %> 
-  <%= hidden_field_tag :scope_id, :value => scope_id %> 
+  <%= hidden_field_tag :scope_id, :value => scope_id %>
+  <%= hidden_field_tag :full_width, :value => full_width %>
 
   <%= hidden_field_tag :account_id, :id => 'account_id' %>
   <script>
     $(function () {
       $('#account_id').lookup({
-        lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
+        lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>&<%='full_width=true' if full_width %>',
         placeholder: '<%=I18n.t(:filter_by_name).capitalize%>',
         rtype: 'account'
       }).on('change', function () {
@@ -25,7 +26,7 @@
     <script>
       $(function () {
         $('#organisation_id').lookup({
-          lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
+          lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>&<%='full_width=true' if full_width %>',
           placeholder: '<%=I18n.t(:filter_by_organisation).capitalize%>',
           rtype: 'organisation'
         }).on('change', function () {
@@ -44,7 +45,7 @@
     <script>
       $(function () {
         $('#account_tag_id').lookup({
-          lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>',
+          lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>&<%='full_width=true' if full_width %>',
           placeholder: '<%=I18n.t(:filter_by_account_tagship).capitalize%>',
           rtype: 'account_tag',
         }).on('change', function () {

@@ -3,10 +3,10 @@
 
 <div class="row">
   <% @accounts.each { |account| %>
-    <div class="<%= container_class %> account-minimal">
+    <div class="<%= full_width ? 'col-sm-4 col-md-2' : 'col-sm-6' %> account-minimal">
       <%= partial :'accounts/minimal', :locals => {:account => account}  %>
     </div>
   <% } %>
 </div>
 
-<%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :page_links => page_links %>
+<%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :page_links => full_width %>

@@ -8,7 +8,7 @@ Lumen::App.controllers do
     @new_people = current_account.network.where(:created_at.gte => @from).where(:created_at.lt => @to+1).where(:has_picture => true)
     @hot_conversations = current_account.visible_conversations.where(:updated_at.gte => @from).where(:updated_at.lt => @to+1).order_by(:updated_at.desc).select { |conversation| conversation.visible_conversation_posts.count >= 3 }
     @new_events = current_account.events.where(:created_at.gte => @from).where(:created_at.lt => @to+1).where(:start_time.gte => @to).order_by(:start_time.asc)
-    @upcoming_events = current_account.events.where(:start_time.gte => Date.today).where(:start_time.lt => Date.today+7).order_by(:start_time.asc)
+    @upcoming_events = current_account.upcoming_events
     
     if request.xhr?      
       partial :'digest/digest', locals: {group: nil, message: nil, h2: nil, from: @from, to: @to, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}

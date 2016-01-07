@@ -37,15 +37,18 @@
   </div>
 <% end %>
 
-<script>
-  $(function () {
-    $('#main').load('/digest')
-  })
-</script>
 <div class="row">
-  <div class="col-md-8" id="main">        
-    <h2><i class="fa fa-spin fa-spinner"></i></h2>
+  <div class="col-md-4">        
+    <h2>Latest conversations</h2>
+    <%= partial :'conversations/conversations_table', :locals => {:conversations => current_account.latest_conversations} %>
   </div>
+  <div class="col-md-4">        
+    <h2>Upcoming events</h2>
+    <% current_account.upcoming_events.each { |event| %>
+      <h3><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><i class="fa fa-group"></i> <%=event.group.slug%></small></h3>
+      <%= partial :'events/summary', :locals => {:event => event, :no_more => true} %>
+    <% } %>
+  </div>  
   <div class="col-md-4">
     <h2>
       <%=I18n.t(:people_in_your_groups, count: current_account.network.count)%>

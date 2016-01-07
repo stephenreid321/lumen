@@ -108,8 +108,16 @@ class Account
     Event.where(:group_id.in => memberships.map(&:group_id))
   end  
   
+  def upcoming_events
+    events.where(:start_time.gte => Date.today).where(:start_time.lt => Date.today+7).order_by(:start_time.asc)
+  end
+  
   def conversations
     Conversation.where(:group_id.in => memberships.map(&:group_id))
+  end
+  
+  def latest_conversations
+    conversations.order('updated_at desc')
   end
   
   def visible_conversations

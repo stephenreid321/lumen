@@ -1,25 +1,9 @@
 
 <p><%= page_entries_info @accounts, :model => 'Person' %></p>
 
-<style>
-
-  .account-minimal { height: 250px; margin-top: 20px; overflow-y: hidden }
-  .account-minimal:before {
-    content:'';
-    width:100%;
-    height:100%;    
-    position:absolute;
-    left:0;
-    top:0;
-    background:linear-gradient(transparent 200px, white);
-    z-index: 99
-  }
-
-</style>
-
 <div class="row">
   <% @accounts.each { |account| %>
-    <div class="col-md-2 account-minimal">
+    <div class="col-sm-2 account-minimal">
       <%= partial :'accounts/minimal', :locals => {:account => account}  %>
     </div>
   <% } %>

@@ -73,7 +73,7 @@
     <h2>Recent members</h2>
     <div class="row">
       <% current_account.network.order_by([:has_picture.desc, :updated_at.desc]).limit(4).each { |account| %>
-        <div class="col-md-6">
+        <div class="col-sm-6 account-minimal">
           <%= partial :'accounts/minimal', :locals => {:account => account} %>
         </div>
       <% } %>

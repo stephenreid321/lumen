@@ -11,6 +11,21 @@ body { padding: 10px 0 60px 0; }
 
 abbr[title] { border: none }
 
+.account-minimal { margin-top: 20px;}
+@media(min-width: 768px) {
+  .account-minimal { height: 250px; overflow-y: hidden }
+  .account-minimal:before {
+    content:'';
+    width:100%;
+    height:100%;    
+    position:absolute;
+    left:0;
+    top:0;
+    background:linear-gradient(transparent 200px, white);
+    z-index: 99
+  }
+}
+
 ul.nav.nav-tabs { width: 100% }
 .tabs-left .nav-tabs > li > a { transition: none; color: #aaa }
 .tabs-left .nav-tabs > li.active > a { color: black }
@@ -85,8 +100,8 @@ a.group { color: #999 }
 
 .tabs-below > .nav-tabs > li > a {
   -webkit-border-radius: 0 0 4px 4px;
-     -moz-border-radius: 0 0 4px 4px;
-          border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
 }
 
 .tabs-below > .nav-tabs > li > a:hover,
@@ -121,8 +136,8 @@ a.group { color: #999 }
 .tabs-left > .nav-tabs > li > a {
   margin-right: -1px;
   -webkit-border-radius: 4px 0 0 4px;
-     -moz-border-radius: 4px 0 0 4px;
-          border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
 }
 
 .tabs-left > .nav-tabs > li > a:hover,
@@ -146,8 +161,8 @@ a.group { color: #999 }
 .tabs-right > .nav-tabs > li > a {
   margin-left: -1px;
   -webkit-border-radius: 0 4px 4px 0;
-     -moz-border-radius: 0 4px 4px 0;
-          border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
 }
 
 .tabs-right > .nav-tabs > li > a:hover,

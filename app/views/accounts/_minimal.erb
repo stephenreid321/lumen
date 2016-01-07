@@ -1,4 +1,4 @@
-<a href="/accounts/<%=account.id%>"><img style="display: block; margin: 0 auto; width: 150px" class="img-circle" src="<%=account.picture ? account.picture.thumb('150x150#').url : '/images/silhouette.png' %>"></a>
+<a href="/accounts/<%=account.id%>"><img style="display: block; margin: 0 auto; width: 130px" class="img-circle" src="<%=account.picture ? account.picture.thumb('130x130#').url : '/images/silhouette.png' %>"></a>
 <h3><a href="/accounts/<%=account.id%>"><%=account.name%></a></h3>
 <ul class="fa-ul">    
   <%= partial :'accounts/memberships', :locals => {:account => account} %>

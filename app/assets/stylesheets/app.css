@@ -13,7 +13,7 @@ abbr[title] { border: none }
 
 .account-minimal { margin-bottom: 20px;}
 @media(min-width: 768px) {
-  .account-minimal { height: 300px; overflow-y: hidden }
+  .account-minimal { height: 280px; overflow-y: hidden }
   .account-minimal:before {
     content:'';
     width:100%;
@@ -21,7 +21,7 @@ abbr[title] { border: none }
     position:absolute;
     left:0;
     top:0;
-    background:linear-gradient(transparent 250px, white);
+    background:linear-gradient(transparent 230px, white);
     z-index: 99;
     pointer-events: none
   }

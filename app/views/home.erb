@@ -49,10 +49,11 @@
       <div>
         <h3><a class="conversation-title" href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a> <small><%=g conversation.group%></small></h3>
       </div>
-      <%= pluralize(conversation.visible_conversation_posts.pluck(:account_id).uniq.count,'participant') %>.
+      <%= pluralize(conversation.participants.count,'participant') %>.
       <% if conversation.last_conversation_post %>
         <%=I18n.t(:last_post).capitalize%> <%=timeago(conversation.last_conversation_post.created_at)%>        
         by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>
+        <hr />
       <% end %>
     <% } %>
   </div>
@@ -63,6 +64,7 @@
     <% current_account.events.where(:start_time.gte => Date.today).order_by(:start_time.asc).limit(3).each { |event| %>
       <h3><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><%=g event.group%></small></h3>
       <%= partial :'events/summary', :locals => {:event => event, :no_more => true} %>
+      <hr />
     <% } %>
   </div>  
 

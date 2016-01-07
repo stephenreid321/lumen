@@ -37,19 +37,31 @@
   </div>
 <% end %>
 
-<div class="row" style="margin-top: 10px">
+<style>
+  #home-panels h3 { margin: 0; line-height: 150%; font-size: 18px }
+</style>
+<div id="home-panels" class="row" style="margin-top: 10px">
 
   <div class="col-md-4">        
     <a style="display:block" class="btn btn-primary" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
     <h2>Latest conversations</h2>
-    <%= partial :'conversations/conversations_table', :locals => {:conversations => current_account.latest_conversations.limit(5)} %>
+    <% current_account.latest_conversations.limit(5).each { |conversation| %>
+      <div>
+        <h3><a class="conversation-title" href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a> <small><%=g conversation.group%></small></h3>
+      </div>
+      <%= pluralize(conversation.visible_conversation_posts.pluck(:account_id).uniq.count,'participant') %>.
+      <% if conversation.last_conversation_post %>
+        <%=I18n.t(:last_post).capitalize%> <%=timeago(conversation.last_conversation_post.created_at)%>        
+        by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>
+      <% end %>
+    <% } %>
   </div>
 
   <div class="col-md-4">      
     <a style="display:block" class="btn btn-primary" href="/events/new"><i class="fa fa-calendar"></i> Create an event</a>
     <h2>Upcoming events</h2>
     <% current_account.events.where(:start_time.gte => Date.today).order_by(:start_time.asc).limit(3).each { |event| %>
-      <h3 style="font-size: 18px"><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><i class="fa fa-group"></i> <%=event.group.slug%></small></h3>
+      <h3><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><%=g event.group%></small></h3>
       <%= partial :'events/summary', :locals => {:event => event, :no_more => true} %>
     <% } %>
   </div>  
@@ -61,7 +73,7 @@
       <% current_account.network.order_by([:has_picture.desc, :updated_at.desc]).limit(4).each { |account| %>
         <div class="col-md-6">
           <a href="/accounts/<%=account.id%>"><img style="display: block; margin: 0 auto; width: 100px" class="img-circle" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>"></a>
-          <h4><a href="/accounts/<%=account.id%>"><%=account.name%></a></h4>
+          <h3><a href="/accounts/<%=account.id%>"><%=account.name%></a></h3>
           <ul class="fa-ul">    
             <%= partial :'accounts/memberships', :locals => {:account => account} %>
             <%= partial :'accounts/affiliations_list', :locals => {:account => account} %>

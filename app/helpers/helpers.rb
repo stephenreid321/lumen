@@ -17,7 +17,7 @@ Lumen::App.helpers do
   end
   
   def g(group)
-    %Q{<a class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.slug}</a>}
+    %Q{<a title="Posted in the group #{group.slug}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.slug}</a>}
   end    
     
   def compact_daterange(from,to)

@@ -8,6 +8,7 @@ class Slide
   field :caption, :type => String
   field :link, :type => String   
   field :darken, :type => Boolean
+  field :order, :type => Integer
 
   dragonfly_accessor :image
   
@@ -19,7 +20,8 @@ class Slide
       :title => :text,
       :caption => :text,
       :link => :text,   
-      :darken => :check_box
+      :darken => :check_box,
+      :order => :number
     }
   end
     

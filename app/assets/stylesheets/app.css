@@ -22,7 +22,8 @@ abbr[title] { border: none }
     left:0;
     top:0;
     background:linear-gradient(transparent 200px, white);
-    z-index: 99
+    z-index: 99;
+    pointer-events: none
   }
 }
 

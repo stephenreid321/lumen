@@ -48,7 +48,7 @@
   <div class="col-md-4">      
     <a style="display:block" class="btn btn-primary" href="/events/new"><i class="fa fa-calendar"></i> Create an event</a>
     <h2>Upcoming events</h2>
-    <% current_account.events.where(:start_time.gte => Date.today).order_by(:start_time.asc).limit(4).each { |event| %>
+    <% current_account.events.where(:start_time.gte => Date.today).order_by(:start_time.asc).limit(3).each { |event| %>
       <h3 style="font-size: 18px"><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><i class="fa fa-group"></i> <%=event.group.slug%></small></h3>
       <%= partial :'events/summary', :locals => {:event => event, :no_more => true} %>
     <% } %>

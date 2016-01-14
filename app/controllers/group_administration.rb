@@ -81,8 +81,8 @@ Lumen::App.controllers do
       @group.memberships.where(:notification_level => 'none')
     when :twitter_profile_url
       @group.memberships.where(:account_id.in => Account.where(:twitter_profile_url.ne => nil).pluck(:id))
-    when :geocoding_failed
-      @group.memberships.where(:account_id.in => Account.where(:location.ne => nil, :coordinates => nil).pluck(:id))
+    when :not_geocoded
+      @group.memberships.where(:account_id.in => Account.where(:coordinates => nil).pluck(:id))
     when :requests
       @group.membership_requests.where(:status => 'pending') # quacks like a membership
     end

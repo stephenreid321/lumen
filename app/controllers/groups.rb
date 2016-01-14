@@ -39,6 +39,7 @@ Lumen::App.controllers do
     @membership = @group.memberships.find_by(account: current_account)
     redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
     membership_required! if @group.secret?
+    @account = Account.new if !current_account
     erb :'groups/group'
   end
     
@@ -53,6 +54,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     redirect back unless @group.closed?
     (flash[:notice] = "You've already requested membership to that group" and redirect back) if @group.membership_requests.find_by(account: current_account, status: 'pending')
+    @account = Account.new if !current_account    
     erb :'groups/request_membership'
   end
 
@@ -61,24 +63,14 @@ Lumen::App.controllers do
     redirect back unless @group.closed?
     if current_account
       @account = current_account
-    else     
-      unless name = params[:name] and email = params[:email] and (!ENV['REQUEST_LOCATION'] || (location = params[:location]))
-        flash[:error] = ENV['REQUEST_LOCATION'] ? 'Please provide a name, email address and location' : 'Please provide a name and email address'
-        redirect back
-      end
-      
-      if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   
-        @new_account = true
-        @account = Account.new({
-            :name => name,
-            :email => email,
-            :location => location,
-            :password => Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
-          })
+    else           
+      if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))
+        @account = Account.new(params[:account])
+        @account.password = Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
         @account.password_confirmation = @account.password 
         if !@account.save
-          flash[:error] = "Failed to create an account for #{email} - is this a valid email address?"
-          redirect back
+          flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
+          halt 400, (erb :'groups/request_membership')
         end
       end
     end    
@@ -130,23 +122,15 @@ Lumen::App.controllers do
     redirect back unless @group.public? or @group.open?    
     if current_account
       @account = current_account
-    else     
-      unless name = params[:name] and email = params[:email]    
-        flash[:error] = "Please provide a name and email address"
-        redirect back
-      end
-      
-      if !(@account = Account.find_by(email: /^#{Regexp.escape(email)}$/i))   
+    else           
+      if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))   
         @new_account = true
-        @account = Account.new({
-            :name => name,
-            :email => email,
-            :password => Account.generate_password(8),            
-          })
+        @account = Account.new(params[:account])
+        @account.password = Account.generate_password(8)
         @account.password_confirmation = @account.password
         if !@account.save
-          flash[:error] = "Failed to create an account for #{email} - is this a valid email address?"
-          redirect back
+          flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
+          halt 400, (erb :'groups/group')
         end
       end
     end

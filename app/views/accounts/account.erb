@@ -21,8 +21,8 @@
           <li><i title="<%=affiliation.title%> <%=I18n.t(:at)%> <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> <%=I18n.t(:at)%> <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
         <% } %>          
       <% end %>
-      <% if @account.location %>
-        <li><i title="Location" class="fa fa-li fa-location-arrow"></i>Based in <%=@account.location%></li>
+      <% if [@account.town, @account.country].compact.length > 0 %>
+        <li><i title="Location" class="fa fa-li fa-location-arrow"></i><%=[@account.town, @account.country].join(', ')%></li>
       <% else %>
         <li><i style="opacity: 0.25" class="fa fa-li fa-location-arrow"></i></li> &nbsp;
       <% end %>                  

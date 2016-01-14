@@ -15,7 +15,9 @@ class Account
   field :phone, :type => String 
   field :website, :type => String 
   field :headline, :type => String 
-  field :location, :type => String 
+  field :town, :type => String
+  field :postcode, :type => String
+  field :country, :type => String
   field :coordinates, :type => Array 
   field :translator, :type => Boolean
   field :password_reset_token, :type => String
@@ -27,10 +29,10 @@ class Account
   EnvFields.set(self)
   
   include Geocoder::Model::Mongoid
-  def location_for_geocoding
-    "#{location}#{", #{ENV['GEOCODE_APPEND']}" if ENV['GEOCODE_APPEND']  }"
+  def location
+    [town, postcode, country].compact.join(', ')
   end
-  geocoded_by :location_for_geocoding
+  geocoded_by :location
   def lat; coordinates[1] if coordinates; end  
   def lng; coordinates[0] if coordinates; end  
   after_validation do
@@ -171,8 +173,9 @@ class Account
     errors.add(:affiliations, 'must be present') if self.require_account_affiliations and self.affiliations.empty?
   end  
   
-  attr_accessor :require_account_location
-  validates_presence_of :location, :if => :require_account_location
+  validates_presence_of :town, :if => ENV['REQUIRE_ACCOUNT_LOCATION']
+  validates_presence_of :postcode, :if => ENV['REQUIRE_ACCOUNT_LOCATION']
+  validates_presence_of :country, :if => ENV['REQUIRE_ACCOUNT_LOCATION']
 
   validates_presence_of :name, :email
   validates_presence_of :password, :if => :password_required
@@ -228,7 +231,7 @@ class Account
   
   def self.new_tips
     {
-      :location => 'Your home location, to appear on maps'
+      :postcode => 'For internal use only, not displayed publicly'
     }
   end
   
@@ -247,7 +250,9 @@ class Account
       :headline => :text,
       :phone => :text, 
       :website => :text,
-      :location => :text,
+      :town => :text,
+      :postcode => :text,
+      :country => :select,
       :coordinates => :geopicker,      
       :picture => :image,
       :twitter_profile_url => :text,
@@ -263,6 +268,10 @@ class Account
       :affiliations => :collection,
       :memberships => :collection,
     }.merge(EnvFields.fields(self))
+  end
+  
+  def self.countries
+    [''] + ISO3166::Country.all_translated(I18n.locale)
   end
     
   def self.edit_hints

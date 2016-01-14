@@ -12,59 +12,44 @@
 <div class="row">       
 
   <div class="col-md-8 col-md-offset-2" style="margin-top: 20px">
-    <% form_tag "/groups/#{@group.slug}/request_membership", :class => 'form-horizontal', :id => 'request-form' do %>
 
-      <% if !@group.request_intro %>          
-        <div class="form-group">
-          <div class="col-md-offset-3 col-md-6"> 
-            You must be a member to access <strong><%=@group.slug%></strong>.
-          </div>
-        </div>          
-      <% end %>
+    <% form_for @account, "/groups/#{@group.slug}/request_membership", :id => 'request-form', :class => 'form-horizontal' do |f| %>
 
-      <% if !current_account %>
-        <div class="form-group">
-          <label class="control-label col-md-3"><%=I18n.t(:'mongoid.attributes.account.name')%></label>
-          <div class="col-md-6">
-            <%= text_field_tag :name, :class => 'form-control', :required => true %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="control-label col-md-3">Email</label>
-          <div class="col-md-6">  
-            <%= text_field_tag :email, :class => 'form-control', :required => true %>
-          </div>
-        </div>
-
-        <% if ENV['REQUEST_LOCATION'] %>
+        <% if !@group.request_intro %>          
           <div class="form-group">
-            <label class="control-label col-md-3"><%=I18n.t(:'mongoid.attributes.account.location')%></label>
-            <div class="col-md-6">  
-              <%= text_field_tag :location, :class => 'form-control', :required => true %>
+            <div class="col-md-offset-3 col-md-6"> 
+              You must be a member to access <strong><%=@group.slug%></strong>.
             </div>
-          </div>  
+          </div>          
         <% end %>
 
-      <% end %>
+        <% if !current_account %>
+          <%= f.text_block :name %>
+          <%= f.text_block :email %>
+          <% if ENV['REQUIRE_ACCOUNT_LOCATION'] %>
+            <%= f.text_block :town %>
+            <%= f.text_block :postcode %>
+            <%= f.select_block :country %>  
+          <% end %>
+        <% end %>
 
-      <% @group.request_questions_a.each { |q| %>
+        <% @group.request_questions_a.each { |q| %>
+          <div class="form-group">
+            <label class="control-label col-md-3"><%=q%></label>
+            <div class="col-md-6">  
+              <%= text_area_tag "answers[]", :class => 'form-control' %>
+            </div>
+          </div>  
+        <% } %>
+
         <div class="form-group">
-          <label class="control-label col-md-3"><%=q%></label>
-          <div class="col-md-6">  
-            <%= text_area_tag "answers[]", :class => 'form-control' %>
+          <div class="col-md-offset-3 col-md-6">
+            <button class="btn btn-primary"><i class="fa fa-bell"></i> Request membership</button>
           </div>
-        </div>  
-      <% } %>
+        </div>            
 
-      <div class="form-group">
-        <div class="col-md-offset-3 col-md-6">
-          <button class="btn btn-primary"><i class="fa fa-bell"></i> Request membership</button>
-        </div>
-      </div>            
+      <% end %>
+    </div>
 
-    <% end %>
   </div>
-
-</div>
 

@@ -13,7 +13,7 @@
       <%= eval(f('first-time')) %>
     <% end %>
 
-    <% form_for @account, @account.new_record? ? '/me/new' : '/me/edit', :id => 'me-form', :class => 'form-horizontal', :multipart => true do |f| %>
+    <% form_for @account, '/me/edit', :id => 'me-form', :class => 'form-horizontal', :multipart => true do |f| %>
 
       <%= f.text_block :name, tip: eval(f('tip-name')) %>
       <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
@@ -29,7 +29,9 @@
       <% if ENV['SHOW_ACCOUNT_HEADLINE'] %>
         <%= f.text_block :headline, tip: eval(f('tip-headline')) %>
       <% end %>      
-      <%= f.text_block :location, tip: eval(f('tip-location')) %>    
+      <%= f.text_block :town, tip: eval(f('tip-town')) %>
+      <%= f.text_block :postcode, tip: eval(f('tip-postcode')) %>
+      <%= f.select_block :country, tip: eval(f('tip-country')) %>
       <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
         <%= f.text_block :phone, tip: eval(f('tip-phone')) %>
       <% end %>

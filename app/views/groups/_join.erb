@@ -8,16 +8,15 @@
 
       <p class="lead">Join them!</p>
 
-      <% form_tag "/groups/#{group.slug}/join", :style => 'margin-top: -4px', :class => 'form-inline', :method => 'get' do %>
+      <% form_for @account, "/groups/#{group.slug}/join", :method => 'get', :class => 'form-horizontal' do |f| %>
         <% if !current_account %>
-          <div class="form-group">
-            <label class="sr-only">Name</label>
-            <%= text_field_tag :name, :class => 'form-control input-sm', :placeholder => 'Your name' %>
-          </div>
-          <div class="form-group">
-            <label class="sr-only">Email</label>    
-            <%= text_field_tag :email, :class => 'form-control input-sm', :placeholder => 'Your email address' %>
-          </div>    
+          <%= f.text_block :name %>
+          <%= f.text_block :email %>
+          <% if ENV['REQUIRE_ACCOUNT_LOCATION'] %>
+            <%= f.text_block :town %>
+            <%= f.text_block :postcode %>
+            <%= f.select_block :country %>  
+          <% end %>    
         <% end %>
         <button type="submit" class="btn btn-primary">Join</button>
       <% end %> 

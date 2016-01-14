@@ -46,7 +46,6 @@ Lumen::App.controllers do
       :HIDE_ACCOUNT_TIME_ZONE => ['Hides the time zone field on account profiles'],
       :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],      
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
-      :REQUEST_LOCATION => ['Adds the location field to the request membership page'],
             
       :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
       :SHOW_VENUES_BY_DEFAULT => ['Shows venues on maps by default'],
@@ -55,9 +54,7 @@ Lumen::App.controllers do
       :WALL_STYLE_CONVERSATIONS => ['Wall-style conversations'],
         
       :REPLY_TO_GROUP => ['Sets the reply-to header to the group address'],
-      
-      :GEOCODE_APPEND => 'String to append to the end of the account location field when geocoding',
-              
+                    
       :FACEBOOK_KEY => 'Facebook API key',
       :FACEBOOK_SECRET => 'Facebook API secret',
       :GOOGLE_KEY => 'Google API key',
@@ -90,7 +87,9 @@ Lumen::App.controllers do
       :'below-account-email' => 'Text displayed below the email field on the account edit page',      
       :'tip-full-name' => 'Tip for the full name field on account edit page',
       :'tip-headline' => 'Tip for the headline field on account edit page',
-      :'tip-location' => 'Tip for the location field on account edit page',
+      :'tip-town' => 'Tip for the town field on account edit page',
+      :'tip-postcode' => 'Tip for the postcode field on account edit page',
+      :'tip-country' => 'Tip for the country field on account edit page',
       :'tip-phone' => 'Tip for the phone field on account edit page',
       :'tip-website' => 'Tip for the location field on account edit page',
       :'tip-time-zone' => 'Tip for the time zone field on account edit page',

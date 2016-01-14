@@ -27,7 +27,8 @@ Lumen::App.controllers do
       :DEFAULT_TIME_ZONE => 'Default time zone (see dropdown in profile for options, defaults to London)',
       :SANITIZE => ['Sanitize user input'],
   
-      :REQUIRE_ACCOUNT_LOCATION => ['Requires the completion of the location field on account profiles'],
+      :REQUEST_LOCATION => ['Request location on request membership and join group forms'],      
+      :REQUIRE_ACCOUNT_POSTCODE => ['Requires the completion of the location field on account profiles'],
       :REQUIRE_ACCOUNT_AFFILIATIONS => ['Requires some affiliations on account profiles'],
       :GROUP_CREATION_BY_ADMINS_ONLY => ['Only allow admins to create new groups'],
       :GROUPS_TO_JOIN_ON_FIRST_SIGN_IN => 'Comma-separated list of group slugs. People are automatically made members of these groups upon first sign-in',

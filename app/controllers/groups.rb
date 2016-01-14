@@ -39,7 +39,7 @@ Lumen::App.controllers do
     @membership = @group.memberships.find_by(account: current_account)
     redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
     membership_required! if @group.secret?
-    @account = Account.new if !current_account
+    @account = Account.new
     erb :'groups/group'
   end
     
@@ -54,7 +54,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     redirect back unless @group.closed?
     (flash[:notice] = "You've already requested membership to that group" and redirect back) if @group.membership_requests.find_by(account: current_account, status: 'pending')
-    @account = Account.new if !current_account    
+    @account = Account.new
     erb :'groups/request_membership'
   end
 

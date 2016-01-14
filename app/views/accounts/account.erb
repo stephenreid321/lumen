@@ -22,7 +22,7 @@
         <% } %>          
       <% end %>
       <% if [@account.town, @account.country].compact.length > 0 %>
-        <li><i title="Location" class="fa fa-li fa-location-arrow"></i><%=[@account.town, @account.country].join(', ')%></li>
+        <li><i title="Location" class="fa fa-li fa-location-arrow"></i><%=[@account.town, @account.country].compact.join(', ')%></li>
       <% else %>
         <li><i style="opacity: 0.25" class="fa fa-li fa-location-arrow"></i></li> &nbsp;
       <% end %>                  

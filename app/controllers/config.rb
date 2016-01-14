@@ -55,6 +55,8 @@ Lumen::App.controllers do
       :WALL_STYLE_CONVERSATIONS => ['Wall-style conversations'],
         
       :REPLY_TO_GROUP => ['Sets the reply-to header to the group address'],
+      
+      :GEOCODE_APPEND => 'String to append to the end of the account location field when geocoding',
               
       :FACEBOOK_KEY => 'Facebook API key',
       :FACEBOOK_SECRET => 'Facebook API secret',

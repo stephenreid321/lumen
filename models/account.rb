@@ -27,7 +27,10 @@ class Account
   EnvFields.set(self)
   
   include Geocoder::Model::Mongoid
-  geocoded_by :location  
+  def location_for_geocoding
+    "#{location}#{", #{ENV['GEOCODE_APPEND']}" if ENV['GEOCODE_APPEND']  }"
+  end
+  geocoded_by :location_for_geocoding
   def lat; coordinates[1] if coordinates; end  
   def lng; coordinates[0] if coordinates; end  
   after_validation do

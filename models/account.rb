@@ -173,9 +173,12 @@ class Account
     errors.add(:affiliations, 'must be present') if self.require_account_affiliations and self.affiliations.empty?
   end  
   
-  validates_presence_of :town, :if => ENV['REQUIRE_ACCOUNT_LOCATION']
-  validates_presence_of :postcode, :if => ENV['REQUIRE_ACCOUNT_LOCATION']
-  validates_presence_of :country, :if => ENV['REQUIRE_ACCOUNT_LOCATION']
+  def require_account_location
+    ENV['REQUIRE_ACCOUNT_LOCATION']    
+  end
+  validates_presence_of :town, :if => :require_account_location
+  validates_presence_of :postcode, :if => :require_account_location
+  validates_presence_of :country, :if => :require_account_location
 
   validates_presence_of :name, :email
   validates_presence_of :password, :if => :password_required

@@ -6,13 +6,13 @@ GIT
 
 GIT
   remote: git://github.com/mislav/will_paginate.git
-  revision: 1a89440284393af86b861bb61c59716391062134
+  revision: 76d0ef3c096f4a5daf6b16e2e04b4d810c6b78a3
   specs:
-    will_paginate (3.0.4)
+    will_paginate (3.1.0)
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 4a928fd97dc97f1f8d5db85cb80924ac3006848a
+  revision: bfb35e8df1371d9c093948ee262f76ff82ea7cb6
   specs:
     activate-admin (0.0.1)
       activate-tools

@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 600b51a1679426ef3695a16ecbcc52e04bd51893
+  revision: 1330466159ed0ad11a602878084405ce1a1e8fad
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -301,6 +301,3 @@ DEPENDENCIES
   rinku
   sanitize
   will_paginate!
-
-BUNDLED WITH
-   1.10.6

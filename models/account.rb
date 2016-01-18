@@ -110,7 +110,7 @@ class Account
   end
     
   def events
-    Event.where(:group_id.in => memberships.map(&:group_id))
+    Event.where(:group_id.in => memberships.pluck(:group_id))
   end  
   
   def upcoming_events
@@ -118,7 +118,7 @@ class Account
   end
   
   def conversations
-    Conversation.where(:group_id.in => memberships.map(&:group_id))
+    Conversation.where(:group_id.in => memberships.pluck(:group_id))
   end
   
   def latest_conversations
@@ -130,7 +130,7 @@ class Account
   end
   
   def conversation_posts
-    ConversationPost.where(:group_id.in => memberships.map(&:group_id))
+    ConversationPost.where(:group_id.in => memberships.pluck(:group_id))
   end
   
   def visible_conversation_posts
@@ -138,15 +138,15 @@ class Account
   end  
   
   def venues
-    Venue.where(:group_id.in => memberships.map(&:group_id))
+    Venue.where(:group_id.in => memberships.pluck(:group_id))
   end  
         
   def docs
-    Doc.where(:group_id.in => memberships.map(&:group_id))
+    Doc.where(:group_id.in => memberships.pluck(:group_id))
   end 
   
   def surveys
-    Survey.where(:group_id.in => memberships.map(&:group_id))
+    Survey.where(:group_id.in => memberships.pluck(:group_id))
   end   
               
   # Picture

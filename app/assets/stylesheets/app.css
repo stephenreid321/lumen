@@ -3,9 +3,8 @@ html {
   position: relative;
   min-height: 100%;
 }
-body { padding: 10px 0 60px 0; }
+body { padding: 10px 0 80px 0; }
 .container-fluid { max-width: 1170px }
-#footer { background: #F8F8F8; position: absolute; bottom: 0; height: 60px; width: 100%; padding-top: 20px; margin-top: 20px }
 
 .breadcrumb { background: #F8F8F8; border: 0 }
 

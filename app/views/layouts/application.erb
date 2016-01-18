@@ -167,24 +167,22 @@
     <% end %>
 
 
-    <div id="footer" style="position: absolute; bottom: 0; height: 80px; width: 100%;">
-      <div id="footer-inner" style="background: #F8F8F8; height: 60px; margin-top: 20px; padding-top: 20px">
-        <div class="container-fluid">
-          <div style="text-align: center">       
-            <ul class="list-inline">
-              <% if current_account %>
-                <li><a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a></li>
-                <% if current_account.admin? %>
-                  <li><a href="/analytics">Sitewide analytics</a></li>
-                  <li><a href="/config">Lumen configuration</a></li>
-                <% end %>          
-                <% if current_account.admin? or current_account.translator %>
-                  <li><a href="/translations">Translations</a></li>
-                <% end %>
+    <div id="footer" style="position: absolute; bottom: 0; background: #F8F8F8; height: 60px; padding-top: 20px; width: 100%;">
+      <div class="container-fluid">
+        <div style="text-align: center">       
+          <ul class="list-inline">
+            <% if current_account %>
+              <li><a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a></li>
+              <% if current_account.admin? %>
+                <li><a href="/analytics">Sitewide analytics</a></li>
+                <li><a href="/config">Lumen configuration</a></li>
+              <% end %>          
+              <% if current_account.admin? or current_account.translator %>
+                <li><a href="/translations">Translations</a></li>
               <% end %>
-              <li><a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a></li>
-              <li>Powered by <a target="_blank" href="http://wordsandwriting.github.io/lumen/">Lumen</a></li>
-          </div>
+            <% end %>
+            <li><a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a></li>
+            <li>Powered by <a target="_blank" href="http://wordsandwriting.github.io/lumen/">Lumen</a></li>
         </div>
       </div>
     </div>

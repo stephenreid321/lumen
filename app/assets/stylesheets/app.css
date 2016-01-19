@@ -91,4 +91,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 
 .form-group.focus .form-control, .form-control:focus, .form-group.focus .select2-search input[type="text"], .select2-search input[type="text"]:focus { border-color: #E74C3C }
 
-.img-bordered { border: 4px solid #E74C3C; } 
+.img-bordered { border: 4px solid #E74C3C; }
+
+#footer, #footer a { color: #999999 }
+#footer a:hover { color: #F5D74B }

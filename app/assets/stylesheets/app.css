@@ -35,14 +35,6 @@ h6, .h6 {font-size: 18px;}
   }
 }
 
-ul.nav.nav-tabs { width: 100% }
-.nav-tabs > li > a { color: #aaa }
-.nav-tabs > li.active > a { background: #318CBA !important; color: white !important }
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus { border-color: #318CBA !important }
-.nav-tabs > li > a { white-space: nowrap; overflow: hidden; font-weight: bold; text-transform: uppercase; padding: 5px !important }
-.nav-tabs > li > a { font-size: 11px }
-.nav-tabs > li > a > i { font-size: 14px }
-
 ul.admin-options { margin-top: 5px; padding: 8px 15px; list-style-type: none; background: #f8f8f8 }
 ul.admin-options li { display: inline-block; padding: 0px 8px }
 ul.admin-options li:first-child { padding-left: 0 }
@@ -74,3 +66,7 @@ select[name*=day], select[name*=month], select[name*=year], select[name*=hour], 
 table a:not(.btn), .table a:not(.btn) { text-decoration: none }
 
 a.group { color: #999 }
+
+.select2-container .select2-choice .select2-arrow { border: 0 }
+.note-editor .btn-sm { font-size: 11px; line-height: 100% }
+.note-editor .btn-group > .btn + .dropdown-toggle { padding-top: 9px; padding-bottom: 9px }

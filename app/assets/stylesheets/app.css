@@ -95,3 +95,9 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 
 #footer, #footer a { color: #999999 }
 #footer a:hover { color: #F5D74B }
+
+.pagination li > a, .pagination li > span { color: #333 }
+.pagination li.disabled > a, .pagination li.disabled > span { color: #999 }
+.pagination li.active > a, .pagination li.active > span { background: #F5D74B }
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus { background: #CD4435 }
+.pagination li > a:hover, .pagination li > span:hover, .pagination li > a:focus, .pagination li > span:focus { background: #F5D74B }

@@ -2,12 +2,18 @@ html {
   position: relative;
   min-height: 100%;
 }
-body { padding: 10px 0 80px 0; }
+body { padding: 10px 0 0 0; }
 .container-fluid { max-width: 1170px }
 
 .breadcrumb { background: #F8F8F8; border: 0 }
 
 abbr[title] { border: none }
+
+#footer { background: #333333; padding: 20px 0; }
+@media(min-width: 768px) {
+  body { padding-bottom: 80px }
+  #footer { position: absolute; bottom: 0; height: 60px; width: 100%; }
+}
 
 body, p {font-size: 15px; line-height: 135%; }
 h1, .h1 {font-size: 50px; }

@@ -112,15 +112,6 @@ $(function () {
   modalTrigger();
   timeago();
   
-  $(window).resize(function () {
-    if (document.documentElement.clientWidth < 992) {
-      $('.tabs-left-please').removeClass('tabs-left');
-    } else {
-      $('.tabs-left-please').addClass('tabs-left');
-    }
-  });
-  $(window).resize();
-
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
   });

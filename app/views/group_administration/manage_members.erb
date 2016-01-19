@@ -10,26 +10,21 @@
 
 <%= partial :'group_administration/header' %>
 
+<ul class="nav nav-tabs">
+  <% {:admins => 'Admins', :others => 'Others', :not_completed_signup => 'Not completed signup', :notification_level_none => 'Notifications off', :no_affiliations => 'No affiliations', :no_picture => 'No picture', :twitter_profile_url => 'Twitter usernames', :not_geocoded => 'Not geocoded', :requests => 'Requests'}.each { |k,v| %>
+    <li <%= 'class="active"' if @view == k %>>
+      <a style="white-space: normal" href="?view=<%=k%>">
+        <%=v%>
+        <%if k == :requests and (r = @group.membership_requests.where(:status => 'pending').count) > 0 %>
+          (<%=r%>)
+        <% end %>
+      </a>
+    </li>
+  <% } %> 
+</ul>
+
 <div class="row">
-  <div class="col-md-1" style="margin-top: 20px">
-
-    <div class="tabbable tabs-left tabs-left-please">
-      <ul class="nav nav-tabs">
-        <% {:admins => 'Admins', :others => 'Others', :not_completed_signup => 'Not completed signup', :notification_level_none => 'Notifications off', :no_affiliations => 'No affiliations', :no_picture => 'No picture', :twitter_profile_url => 'Twitter usernames', :not_geocoded => 'Not geocoded', :requests => 'Requests'}.each { |k,v| %>
-          <li <%= 'class="active"' if @view == k %>>
-            <a style="white-space: normal" href="?view=<%=k%>">
-              <%=v%>
-              <%if k == :requests and (r = @group.membership_requests.where(:status => 'pending').count) > 0 %>
-                (<%=r%>)
-              <% end %>
-            </a>
-          </li>
-        <% } %> 
-      </ul>
-    </div>
-  </div>
-
-  <div class="col-md-7" style="margin-top: 20px">
+  <div class="col-md-8" style="margin-top: 20px">
 
     <style>#members td { padding: 0.5em; vertical-align: top }</style>
     <table id="members" >
@@ -125,8 +120,8 @@
       </style>
       <div id="add-single">
         <p><a href="javascript:;" onclick="$('#add-single input').val('');
-              $('#add-single').hide();
-              $('#add-multiple').show();">Add multiple</a></p>        
+            $('#add-single').hide();
+            $('#add-multiple').show();">Add multiple</a></p>        
 
         <% if (invitables = Account.where(:id.in => (current_account.network.pluck(:id) - @group.memberships.pluck(:account_id)))).count > 0 %>
           <h3>Someone already in your groups</h3>

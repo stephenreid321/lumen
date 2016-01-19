@@ -8,9 +8,9 @@
 
     <% {            
       'jquery/1.11.2' => 'jquery.min.js',
-      'webshim/1.15.7' => 'minified/polyfiller.js',
-      'bootswatch/3.3.2' => 'lumen/bootstrap.min.css',      
-      'twitter-bootstrap/3.3.2' => 'js/bootstrap.min.js',
+      'webshim/1.15.7' => 'minified/polyfiller.js',   
+      'twitter-bootstrap/3.3.2' => 'css/bootstrap.min.css js/bootstrap.min.js',      
+      'flat-ui/2.2.2' => 'css/flat-ui.min.css',
       'font-awesome/4.3.0' => 'css/font-awesome.min.css',
       'select2/3.5.2' => 'select2.min.js select2.min.css',  
       'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
@@ -33,7 +33,7 @@
     <script src="//google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/src/markerclusterer_packed.js"></script>
 
     <% [
-      '/stylesheets/app.css',
+      '/stylesheets/app.css',      
       '//cdn.rawgit.com/alxlit/bootstrap-chosen/5e0f79a22da6b4030af67f49a192cafc5f82fabf/bootstrap-chosen.css'
       ].each { |f| %> 
       <link rel="stylesheet" href="<%=f%>" />    
@@ -83,7 +83,7 @@
   <body>
 
     <div class="container-fluid">
-      <nav class="navbar navbar-default" style="margin-bottom: 10px">
+      <nav class="navbar navbar-inverse" style="margin-bottom: 10px">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-top" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
@@ -97,10 +97,10 @@
           <% if current_account %>
             <ul class="nav navbar-nav">
               <% if current_account %>
-                <li><a href="/network"><i class="fa fa-user"></i> <%=I18n.t(:people).capitalize%></a></li>
+                <li><a href="/network"><%=I18n.t(:people).capitalize%></a></li>
                 <li class="dropdown">
                   <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-group"></i> <%=I18n.t(:groups).capitalize%>
+                    <%=I18n.t(:groups).capitalize%>
                     <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
@@ -112,9 +112,9 @@
                   </ul>        
                 </li>    
               <%  end %>
-              <li><a href="/events"><i class="fa fa-calendar"></i> <%=I18n.t(:events).capitalize%></a></li>                                                
-              <li><a href="/map"><i class="fa fa-map-marker"></i> <%=I18n.t(:map).capitalize%></a></li>
-              <li><a href="/docs"><i class="fa fa-file-text-o"></i> <%=I18n.t(:docs).capitalize%></a></li>                  
+              <li><a href="/events"><%=I18n.t(:events).capitalize%></a></li>                                                
+              <li><a href="/map"><%=I18n.t(:map).capitalize%></a></li>
+              <li><a href="/docs"><%=I18n.t(:docs).capitalize%></a></li>                  
             </ul>  
           <% end %>
           <div class="navbar-right">
@@ -167,10 +167,10 @@
     <% end %>
 
 
-    <div id="footer" style="position: absolute; bottom: 0; background: #F8F8F8; height: 60px; padding-top: 20px; width: 100%;">
+    <div id="footer" style="position: absolute; bottom: 0; background: #333333; height: 60px; padding-top: 20px; width: 100%; color: #999999">
       <div class="container-fluid">
         <div style="text-align: center">       
-          <ul class="list-inline">
+          <ul class="list-inline" style="margin-bottom: 0">
             <% if current_account %>
               <li><a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a></li>
               <% if current_account.admin? %>

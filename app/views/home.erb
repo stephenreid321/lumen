@@ -41,11 +41,12 @@
 
 <style>
   #home-panels h3 { margin: 0; line-height: 150%; font-size: 18px }
+  #home-panels h2 { margin-top: 20px }
 </style>
-<div id="home-panels" class="row" style="margin-top: 10px">
+<div id="home-panels" class="row" style="margin-top: 20px">
 
   <div class="col-md-4">        
-    <a style="display:block" class="btn btn-primary" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
+    <a class="btn btn-hg btn-primary btn-block" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
     <h2>Latest conversations</h2>
     <% current_account.latest_conversations.limit(5).each { |conversation| %>
       <div>
@@ -61,7 +62,7 @@
   </div>
 
   <div class="col-md-4">      
-    <a style="display:block" class="btn btn-primary" href="/events/new"><i class="fa fa-calendar"></i> Create an event</a>
+    <a class="btn btn-hg btn-primary btn-block" href="/events/new"><i class="fa fa-calendar"></i> Create an event</a>
     <h2>Upcoming events</h2>
     <% current_account.events.where(:start_time.gte => Date.today).order_by(:start_time.asc).limit(3).each { |event| %>
       <h3><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><%=g event.group%></small></h3>
@@ -71,7 +72,7 @@
   </div>  
 
   <div class="col-md-4">
-    <a style="display:block" class="btn btn-primary" href="/network"><i class="fa fa-search"></i> Search all members</a>
+    <a class="btn btn-hg btn-primary btn-block" href="/network"><i class="fa fa-search"></i> Search all members</a>
     <h2>Recent members</h2>
     <div class="row">
       <% current_account.network.order_by([:has_picture.desc, :created_at.desc]).limit(4).each { |account| %>

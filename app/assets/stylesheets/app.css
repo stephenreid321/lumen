@@ -86,6 +86,8 @@ a:hover, a:focus, a:active { color: #CD4435 }
 .navbar-inverse { background: #333333 }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu  { background: #333333 }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu > .divider { background: black }
+.navbar-inverse .navbar-collapse { border-color: black }
+.navbar-inverse .navbar-toggle:hover::before, .navbar-inverse .navbar-toggle:focus::before { color: #F5D74B; }
 .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus { color: #F5D74B }
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus { background-color: black }
 .navbar-inverse .navbar-nav > .dropdown > a .caret { border-bottom-color: #777; border-top-color: #777; }

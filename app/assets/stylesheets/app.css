@@ -70,3 +70,18 @@ a.group { color: #999 }
 .select2-container .select2-choice .select2-arrow { border: 0 }
 .note-editor .btn-sm { font-size: 11px; line-height: 100% }
 .note-editor .btn-group > .btn + .dropdown-toggle { padding-top: 9px; padding-bottom: 9px }
+
+
+a { color: #E74C3C }
+.btn-primary { background: #F5D74B; color: #222 }
+.btn-primary:hover { background: #cda70d; color: #222 }
+
+.navbar-inverse { background: #333333 }
+.navbar-inverse .navbar-nav > .open > .dropdown-menu  { background: #333333 }
+.navbar-inverse .navbar-nav > .open > .dropdown-menu > .divider { background: black }
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus { color: #F5D74B }
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus { background-color: black }
+.navbar-inverse .navbar-nav > .dropdown > a .caret { border-bottom-color: #777; border-top-color: #777; }
+.navbar-inverse .navbar-nav > .dropdown > a:hover .caret, .navbar-inverse .navbar-nav > .dropdown > a:focus .caret { border-bottom-color: #F5D74B; border-top-color: #F5D74B; }
+.navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:focus { background: black; color: #F5D74B }
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: #F5D74B }

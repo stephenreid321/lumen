@@ -66,7 +66,7 @@
     <h2>Upcoming events</h2>
     <% current_account.events.where(:start_time.gte => Date.today).order_by(:start_time.asc).limit(3).each { |event| %>
       <h3><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><%=g event.group%></small></h3>
-      <%= partial :'events/summary', :locals => {:event => event, :no_more => true} %>
+      <%= partial :'events/minimal', :locals => {:event => event} %>
       <hr />
     <% } %>
   </div>  

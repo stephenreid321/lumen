@@ -1,0 +1,6 @@
+<ul class="fa-ul">
+  <li><i title="Happening <%= event.when_details %>" class="fa-li fa fa-calendar"></i><%= event.when_details %></li>
+  <% if event.location %>
+    <li><i title="Location" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(event.location) %>" target="map"><%= event.location %></a></li>
+  <% end %>  
+</ul>

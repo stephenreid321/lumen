@@ -4,3 +4,7 @@
     <li><i title="Location" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(event.location) %>" target="map"><%= event.location %></a></li>
   <% end %>  
 </ul>
+
+<% if defined? read_more %>
+  <a class="read-more" href="/groups/<%=event.group.slug%>/events/<%=event.id%>">Read more&hellip;</a>
+<% end %>

@@ -93,11 +93,11 @@ Lumen::App.controllers do
     erb :'events/event'
   end  
   
-  get '/groups/:slug/events/:id/summary' do
+  get '/groups/:slug/events/:id/minimal' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.public?
     @event = @group.events.find(params[:id]) || not_found
-    partial :'events/summary', :locals => {:event => @event, :read_more => true}
+    partial :'events/minimal', :locals => {:event => @event, :read_more => true}
   end    
   
 end

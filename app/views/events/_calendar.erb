@@ -24,7 +24,7 @@
           $(this).data('popover', false);
           } else {
           el = $(this);
-                  $.get('/groups/' + event.group_slug + '/events/' + event.id + '/summary', function(response) {
+                  $.get('/groups/' + event.group_slug + '/events/' + event.id + '/minimal', function(response) {
                   el.popover({
                   content: response,
                           trigger: 'manual',

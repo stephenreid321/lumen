@@ -17,7 +17,7 @@
                   else
                   $('.fc-left h2 i').remove();
           },
-          eventColor: '#4E88CA',
+          eventColor: '#E74C3C',
           eventClick: function(event, jsEvent, view) {
           $('.fc-event').popover('destroy');
                   if ($(this).data('popover') == true) {
@@ -52,7 +52,7 @@
             }
 <% end %>
   });
-          $('.fc-right').prepend('<a href="/events/new" class="btn btn-primary" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
+          $('.fc-right').prepend('<a href="/events/new" class="btn btn-primary" title="Add an event"><i class="fa fa-plus"></i></a>');
           $('.fc-button-group').addClass('btn-group');
           $('.fc-button').attr('class', 'btn btn-default');
           $('.fc-left > button').attr('disabled', false); //today

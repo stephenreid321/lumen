@@ -10,7 +10,7 @@ body { padding: 10px 0 80px 0; }
 abbr[title] { border: none }
 
 
-body, p {font-size: 17px; line-height: 1.6;}
+body, p {font-size: 15px; line-height: 135%; }
 h1, .h1 {font-size: 50px; }
 h2, .h2 {font-size: 36px;}
 h3, .h3 {font-size: 30px;}
@@ -73,8 +73,10 @@ a.group { color: #999 }
 
 
 a { color: #E74C3C }
+a:hover, a:focus, a:active { color: #777 }
+
 .btn-primary { background: #F5D74B; color: #222 }
-.btn-primary:hover { background: #cda70d; color: #222 }
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active { background: #cda70d; color: #222 }
 
 .navbar-inverse { background: #333333 }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu  { background: #333333 }
@@ -85,3 +87,7 @@ a { color: #E74C3C }
 .navbar-inverse .navbar-nav > .dropdown > a:hover .caret, .navbar-inverse .navbar-nav > .dropdown > a:focus .caret { border-bottom-color: #F5D74B; border-top-color: #F5D74B; }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:focus { background: black; color: #F5D74B }
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: #F5D74B }
+
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
+
+.form-group.focus .form-control, .form-control:focus, .form-group.focus .select2-search input[type="text"], .select2-search input[type="text"]:focus { border-color: #E74C3C }

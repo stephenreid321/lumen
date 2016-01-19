@@ -26,7 +26,10 @@
 
   </div>
   <div class="col-md-6">
-    <style>#calendar { margin-top: 20px }</style>
+    <style>
+      #calendar { margin-top: 20px }
+      .fc-right .fc-button-group { display: none }
+    </style>
     <%= partial :'events/calendar' %>  
   </div>
 </div>

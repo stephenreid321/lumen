@@ -22,12 +22,30 @@
 <% if @membership or @group.public? %>
   <script>
     $(function () {
-      $('#conversations').load('/groups/<%=@group.slug%>/conversations' + location.search)      
+      $('#conversations').load('/groups/<%=@group.slug%>/conversations' + location.search)
     })
   </script>
   <div class="row">
-    <div class="col-md-8 page-container" id="conversations">    
-      <h2><i class="fa fa-spin fa-spinner"></i></h2>
+    <div class="col-md-8">   
+
+      <div class="row">
+        <div class="col-md-2">
+          <img style="width: 100%" src="<%=@group.picture ? @group.picture.thumb('500x500#').url : '/images/blank.png'%>">
+        </div>
+        <div class="col-md-10">
+          <h1 style="margin-top: 0"><%=@group.slug%></h1>
+          <p class="lead"><%=@group.description%></p>
+        </div>
+      </div>
+
+      <% if @group.landing_tab %>
+        <%= @group.landing_tab %>
+      <% end %>
+
+      <div id="conversations" class="page-container"> 
+        <h2><i class="fa fa-spin fa-spinner"></i></h2>
+      </div>
+
     </div>
     <div class="col-md-4">
       <% if current_account %>

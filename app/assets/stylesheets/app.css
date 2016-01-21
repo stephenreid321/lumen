@@ -139,3 +139,5 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 .table-hr td:first-child { width: 1px; white-space: nowrap; font-weight: bold }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td { border: 0; border-bottom: 2px solid #ccc; }
 .table-hr-container { background: #f5f5f5; border-radius: 5px; padding: 5px 10px; margin: 20px 0 }
+
+p.lead { font-size: 20px; line-height: 140% }

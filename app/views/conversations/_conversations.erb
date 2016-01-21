@@ -1,10 +1,4 @@
 
-<% if @group.landing_tab %>
-  <%= @group.landing_tab %>
-<% end %>
-
-<h2><%=I18n.t(:group_conversations, slug: @group.slug)%></h2>
-
 <% if @membership %>
   <div class="well well-sm">
     <i class="fa fa-envelope"></i>

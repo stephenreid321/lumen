@@ -2,7 +2,8 @@
   <li class="active"><%=I18n.t(:sectors).capitalize%></li>
 </ol>
 
+<h1>Sectors</h1>
 
-  <% @sectors.each { |sector| %>
+<% @sectors.each { |sector| %>
   <h2><a href="/sectors/<%=sector.id%>"><%=sector.name%></a> <small><%=pluralize(sector.sectorships.count, 'organisation')%>, <%=pluralize(sector.members.count, 'person')%></small></h2>
-  <% } %>
+<% } %>

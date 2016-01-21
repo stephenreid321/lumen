@@ -13,7 +13,7 @@
           <h4 class="media-heading"><a href="/organisations/<%=organisation.id%>"><%=organisation.name%></a></h4>        
           <ul class="fa-ul">
           <% if !organisation.sectorships.empty?%>
-            <li><i title="Sectors" class="fa-li fa fa-tags"></i><%organisation.sectorships.each { |sectorship|%><a href="/sectors/<%=sectorship.sector_id%>"><span class="label label-default" style="text-indent: 0"><%=sectorship.sector.name%></span></a> <% } %></li>
+            <li><i title="Sectors" class="fa-li fa fa-tags"></i><%organisation.sectorships.each { |sectorship|%><a href="/sectors/<%=sectorship.sector_id%>"><span class="label label-primary" style="text-indent: 0"><%=sectorship.sector.name%></span></a> <% } %></li>
           <% end %>            
           </ul>          
         </div>

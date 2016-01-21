@@ -8,7 +8,7 @@
 <div class="row">
   <div class="col-md-8">
 
-    <h2><%=@sector.name%> <small><%=pluralize(@sector.sectorships.count,'organisation')%></small></h2>
+    <h1><%=@sector.name%> <small><%=pluralize(@sector.sectorships.count,'organisation')%></small></h1>
 
     <% @sector.sectorships.sort_by { |sectorship| sectorship.organisation.name }.each { |sectorship| organisation = sectorship.organisation %>
       <div class="media">

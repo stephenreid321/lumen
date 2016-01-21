@@ -144,3 +144,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 p.lead { font-size: 20px; line-height: 140% }
 
 .breadcrumb > li + li::before { font-family: FontAwesome; content: '\f0da' }
+
+.pagination li.next, .pagination li.previous {
+  position: static;
+}

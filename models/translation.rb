@@ -56,6 +56,8 @@ class Translation
       :affiliations => 'affiliations',
       :groups => 'groups',
       :add_another_affiliation => 'add another affiliation',      
+      :'members.one' => '1 member',
+      :'members.other' => '%{count} members',
       :'members_in_this_group.one' => '1 member in this group',
       :'members_in_this_group.other' => '%{count} members in this group',
       :'people_in_your_groups.one' => '1 person in your groups',

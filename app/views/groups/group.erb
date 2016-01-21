@@ -65,7 +65,7 @@
     <div class="col-md-4">
       <% if current_account %>
         <h2 style="margin-top: 0">
-          <%=I18n.t(:members_in_this_group, count: @group.members.count)%>
+          <%=I18n.t(:members, count: @group.members.count)%>
           <small><a class="edit" title="Full page" href="/groups/<%=@group.slug%>/members"><i class="fa fa-th-list"></i></a></small>
         </h2>
         <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>

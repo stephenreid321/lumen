@@ -85,6 +85,8 @@ yellow #F5D74B
 dark yellow #cda70d
 */
 
+.badge { background:  #E74C3C }
+
 a { color: #E74C3C }
 a:hover, a:focus, a:active { color: #CD4435 }
 

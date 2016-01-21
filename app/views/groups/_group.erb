@@ -1,7 +1,7 @@
 <div class="media">
   <span class="pull-left">      
     <a href="/groups/<%=group.slug%>">
-      <img class="media-object" style="width: 100px" src="<%=group.picture ? account.picture.thumb('100x100#').url : '/images/blank.png'%>">
+      <img class="media-object" style="width: 70px" src="<%=group.picture ? account.picture.thumb('70x70#').url : '/images/blank.png'%>">
     </a>
   </span>
   <div class="media-body">
@@ -23,8 +23,7 @@
     </span>
 
     <p>
-      <strong><%=pluralize(group.members.count, 'member')%></strong> / <strong><%=pluralize(group.conversations.count, 'conversation')%></strong>.
-      <%= group.description %>
+      <strong><%=pluralize(group.members.count, 'member')%></strong> / <strong><%=pluralize(group.conversations.count, 'conversation')%></strong><% if group.description%>. <%= group.description %><% end %>
     </p>
   </div>
 </div>

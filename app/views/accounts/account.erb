@@ -66,34 +66,39 @@
         <% end %>        
 
         <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
-          <tr>
-            <td>Phone</td>
-            <td><%=@account.phone%></td>
-          </tr>
+          <% if @account.phone %>
+            <tr>
+              <td>Phone</td>
+              <td><%=@account.phone%></td>
+            </tr>
+          <% end %>
         <% end %>
 
         <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
-          <tr>
-            <td>Website</td>
-            <td><a href="<%=@account.website%>"><%=@account.website%></a></td>
-          </tr>        
+          <% if @account.website %>
+            <tr>
+              <td>Website</td>
+              <td><a href="<%=@account.website%>"><%=@account.website%></a></td>
+            </tr>        
+          <% end %>
         <% end %>          
 
         <% ['Twitter', 'Facebook', 'Google', 'LinkedIn'].each { |display_name| %>
-          <tr>
-            <td><%=display_name%></td>
-            <td>
-              <% if provider = Provider.all.find { |provider| provider.display_name == display_name } and provider.registered? %>         
-                <% if provider_link = @account.provider_links.find_by(provider: provider.display_name) %>          
-                  <a target="_blank" href="<%=provider.profile_url.call(provider_link.omniauth_hash)%>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
-                <% end %>
-              <% else %>
-                <% if @account.send("#{display_name.downcase}_profile_url") %>
-                  <a target="_blank" href="<%=@account.send("#{display_name.downcase}_profile_url")%>"><%=@account.send("#{display_name.downcase}_profile_url").split('/')[3..-1].join('/')%></a>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
+          <% if provider = Provider.all.find { |provider| provider.display_name == display_name } and provider.registered? and provider_link = @account.provider_links.find_by(provider: provider.display_name) %>          
+            <tr>
+              <td><%=display_name%></td>
+              <td>
+                <a target="_blank" href="<%=provider.profile_url.call(provider_link.omniauth_hash)%>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
+              </td>            
+            </tr>
+          <% elsif @account.send("#{display_name.downcase}_profile_url") %>
+            <tr>
+              <td><%=display_name%></td>
+              <td>
+                <a target="_blank" href="<%=@account.send("#{display_name.downcase}_profile_url")%>"><%=@account.send("#{display_name.downcase}_profile_url").split('/')[3..-1].join('/')%></a>
+              </td>  
+            </tr>
+          <% end %>
         <% } %>
 
       </table>

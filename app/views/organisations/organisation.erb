@@ -19,28 +19,43 @@
         <img style="width: 100%" src="<%=@organisation.picture.try(:url) || '/images/square.png' %>" />
       </div>
       <div class="col-md-9">
-        <h2 style="margin-top: 0"><%=@organisation.name%></h2>          
-        <ul class="fa-ul">
-          <% if @organisation.website%>
-            <li><i title="Website" class="fa fa-li fa-globe"></i><a target="new" href="<%=@organisation.website%>"><%=@organisation.website%></a></li>
-          <% else %>
-            <li><i style="opacity: 0.25" class="fa fa-li fa-globe"></i></li> &nbsp;
-          <% end %>                  
-          <% if @organisation.address%>
-            <li>
-              <i title="Address" class="fa fa-li fa-location-arrow"></i><a target="new" href="http://www.google.co.uk/maps?q=<%=URI.escape(@organisation.address)%>"><%=@organisation.address%></a>
-            </li>
-          <% else %>
-            <li><i style="opacity: 0.25" class="fa fa-li fa-location-arrow"></i></li> &nbsp;
-          <% end %>           
-          <% if !@organisation.sectorships.empty?%>
-            <li><i title="Sectors" class="fa fa-li fa-tags"></i><%@organisation.sectorships.each { |sectorship|%><a href="/sectors/<%=sectorship.sector_id%>"><span class="label label-default" style="text-indent: 0"><%=sectorship.sector.name%></span></a> <% } %></li>
-          <% else %>
-            <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
-          <% end %>             
-        </ul>
+        <h1 style="margin-top: 0"><%=@organisation.name%></h1>          
+
+        <div class="table-hr-container">
+          <table class="table table-hr" >
+
+            <% if @organisation.website%>
+              <tr>
+                <td>Website</td>
+                <td><a target="new" href="<%=@organisation.website%>"><%=@organisation.website%></a></td>
+              </tr>
+            <% end %>                  
+
+            <% if @organisation.address%>
+              <tr>
+                <td>
+                  Address
+                </td>
+                <td>
+                  <a target="new" href="http://www.google.co.uk/maps?q=<%=URI.escape(@organisation.address)%>"><%=@organisation.address%></a>
+                </td>          
+              </tr>
+            <% end %>           
+
+            <% if !@organisation.sectorships.empty?%>
+              <tr>
+                <td>Sectors</td>
+                <td>
+                  <%@organisation.sectorships.each { |sectorship|%><a href="/sectors/<%=sectorship.sector_id%>"><span class="label label-default" style="text-indent: 0"><%=sectorship.sector.name%></span></a> <% } %>
+                </td>
+              </tr>
+            <% end %>             
+
+          </table>
+        </div>
+
         <% if @organisation.coordinates or @organisation.affiliations.any? { |affiliation| affiliation.account.coordinates } %>
-          <%= partial :'maps/map', :locals => {:points => ([@organisation] + @organisation.affiliations.map(&:account))} %>
+          <%= partial :'maps/panel', :locals => {:points => ([@organisation] + @organisation.affiliations.map(&:account))} %>
         <% end %>
       </div>
     </div>

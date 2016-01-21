@@ -113,18 +113,7 @@ class ConversationPost
   end    
    
   def accounts_to_notify   
-    Account.where(:id.in => 
-        (
-        (
-          group.memberships.where(:status => 'confirmed').where(:notification_level => 'each').pluck(:account_id) +
-            conversation.tags.map { |tag| group.memberships.where(:status => 'confirmed').where(:notification_level => 'none').where(:still_send => / #{tag} /i ).pluck(:account_id) }.flatten
-        ) -
-          (
-          conversation.conversation_mutes.pluck(:account_id) +
-            conversation.tags.map { |tag| group.memberships.where(:status => 'confirmed').where(:notification_level => 'each').where(:dont_send => / #{tag} /i ).pluck(:account_id) }.flatten        
-        )
-      )
-    )
+    Account.where(:id.in => (group.memberships.where(:status => 'confirmed').where(:notification_level => 'each').pluck(:account_id) - conversation.conversation_mutes.pluck(:account_id)))
   end
         
   def send_notifications!

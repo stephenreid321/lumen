@@ -85,6 +85,8 @@ yellow #F5D74B
 dark yellow #cda70d
 */
 
+.select2-drop .select2-highlighted > .select2-result-label { background-color: #E74C3C }
+
 .alert-info {
   background-color: #3498DB;
   border-color: #2980B9;

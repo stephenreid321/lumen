@@ -7,7 +7,10 @@
     <ul class="fa-ul">
       <% if organisation.website%>
         <li><i title="Website" class="fa-li fa fa-globe"></i><a target="_blank" href="<%=organisation.website%>"><%=organisation.website%></a></li>
-          <% end %>
+      <% end %>
+      <% if !organisation.sectorships.empty?%>
+        <li><i title="Sectors" class="fa-li fa fa-tags"></i><%organisation.sectorships.each { |sectorship|%><a href="/sectors/<%=sectorship.sector_id%>"><span class="label label-primary" style="text-indent: 0"><%=sectorship.sector.name%></span></a> <% } %></li>
+          <% end %>              
     </ul>
   </div>
-</div>
+</div>   

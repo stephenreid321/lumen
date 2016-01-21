@@ -149,8 +149,14 @@ p.lead { font-size: 20px; line-height: 140% }
   position: static;
 }
 
-.carousel-caption {
+
+@media(max-width: 767px) {
+  .carousel-caption h1 { font-size: 36px }
+}
+@media(min-width: 768px) {
+  .carousel-caption {
   left: 10%;
   padding-bottom: 62px;
   right: 10%;
+}
 }

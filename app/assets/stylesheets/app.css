@@ -115,7 +115,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 #footer, #footer a { color: #999999 }
 #footer a:hover { color: #F5D74B }
 
-.pagination li > a, .pagination li > span { color: #333; background: #f5f5f5 }
+.pagination li.previous > a, .pagination li.next > a, .pagination li.previous > span, .pagination li.next > span, .pagination li > a, .pagination li > span { color: #fff; background: #ddd }
 .pagination li.disabled > a, .pagination li.disabled > span { color: #999 }
 .pagination li.disabled > a:hover, .pagination li.disabled > span:hover, .pagination li.disabled > a:focus, .pagination li.disabled > span:focus, .pagination li.disabled > a:active, .pagination li.disabled > span:active { color: #999 }
 .pagination li.active > a, .pagination li.active > span { background: #F5D74B }

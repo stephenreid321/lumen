@@ -1,4 +1,4 @@
-<h1>Your docs</h1>
+<h1>Docs from your groups</h1>
 
 <% if (@group ? (current_account and @group.memberships.find_by(account: current_account)) : current_account) %>
   <% form_tag (@group ? "/groups/#{@group.slug}/docs/new" : "/docs/new"), :class => 'form-inline' do %>

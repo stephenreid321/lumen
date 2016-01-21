@@ -11,19 +11,7 @@
     <h1><%=@sector.name%> <small><%=pluralize(@sector.sectorships.count,'organisation')%></small></h1>
 
     <% @sector.sectorships.sort_by { |sectorship| sectorship.organisation.name }.each { |sectorship| organisation = sectorship.organisation %>
-      <div class="media">
-        <a class="pull-left">
-          <img style="max-width: 64px" src="<%=organisation.picture ? organisation.picture.thumb('64x64#').url : '/images/square.png' %>">
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading"><a href="/organisations/<%=organisation.id%>"><%=organisation.name%></a></h4>      
-          <ul class="fa-ul">
-            <% if organisation.website%>
-              <li><i title="Website" class="fa-li fa fa-globe"></i><a target="new" href="<%=organisation.website%>"><%=organisation.website%></a></li>
-            <% end %>                                        
-          </ul>
-        </div>
-      </div>
+      <%= partial :'organisations/organisation', :object => organisation %>
     <% } %>
 
   </div>

@@ -5,7 +5,6 @@
       <td><%= event.when_details %></td>
     </tr>
 
-
     <% if event.location %>
       <tr>
         <td>Location</td>
@@ -36,7 +35,7 @@
     <% if event.more_info %>
       <tr>
         <td>Full details</td>
-        <td><a href="<%=event.more_info%>"><%=event.more_info%></td>
+        <td><a target="_blank" href="<%=event.more_info%>"><%=event.more_info%></td>
       </tr>
     <% end %>   
 

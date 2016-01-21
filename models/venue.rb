@@ -4,7 +4,7 @@ class Venue
 
   field :name, :type => String  
   field :description, :type => String
-  field :link, :type => String
+  field :website, :type => String
   field :capacity, :type => Integer
   field :accessibility, :type => String
   field :serves_food, :type => Boolean
@@ -37,7 +37,7 @@ class Venue
   validates_presence_of :name
       
   before_validation do
-    self.link = "http://#{self.link}" if self.link and !(self.link =~ /\Ahttps?:\/\//)
+    self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
     errors.add(:coordinates, 'must be present') if !coordinates or coordinates.all? { |x| x.blank? }
   end  
   
@@ -53,7 +53,7 @@ class Venue
     {
       :name => :text,
       :description => :wysiwyg,
-      :link => :text,
+      :website => :text,
       :capacity => :number,
       :accessibility => :select,
       :private => :check_box,

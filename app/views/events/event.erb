@@ -17,19 +17,15 @@
   </li>     
 </ol>
 
-<div class="row">
-  <div class="col-md-6">
+<div class="row" style="margin-top: 20px">
+  <div class="col-md-8">
 
-    <h1><%= @event.name %></h1>
+    <h1 style="margin-top: 0; "><%= @event.name %></h1>
 
     <%= partial 'events/summary', :locals => {:event => @event} %>
 
   </div>
-  <div class="col-md-6">
-    <style>
-      #calendar { margin-top: 20px }
-      .fc-right .fc-button-group { display: none }
-    </style>
-    <%= partial :'events/calendar' %>  
+  <div class="col-md-4">
+    <%= partial :'maps/panel', :locals => {:points => [@event]} %>
   </div>
 </div>

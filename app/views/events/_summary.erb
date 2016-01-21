@@ -1,32 +1,62 @@
-<ul class="fa-ul">
-  <li><i title="Happening <%= event.when_details %>" class="fa-li fa fa-calendar"></i><%= event.when_details %></li>
-  <% if event.location %>
-    <li><i title="Location" class="fa-li fa fa-map-marker"></i><a href="http://www.google.co.uk/maps?q=<%= URI.encode(event.location) %>" target="map"><%= event.location %></a></li>
-  <% end %>  
-  <% if event.organisation %>
-    <li>Hosted by <i title="<%=I18n.t(:host_organisation).capitalize%>" class="fa-li fa fa-bullhorn"></i><a href="http://<%=ENV['DOMAIN']%>/organisations/<%=event.organisation_id%>"><%= event.organisation.name %></a></li>
-  <% end %> 
-  <% if event.ticketing %>
-    <li><i title="Ticketing" class="fa-li fa fa-ticket"></i>
-      <% if event.tickets_link %>
-        <a target="_blank" href="<%= event.tickets_link.include?('@') ? "mailto:#{event.tickets_link}?subject=RSVP for #{event.name}" : event.tickets_link %>"><%=event.ticketing %></a>
-      <% else %>
-        <%=event.ticketing %>
-      <% end %>
-    </li>
-  <% end %>
-  <% if event.more_info %>
-    <li><i title="Full details" class="fa-li fa fa-info"></i>
-      Full details at <a href="<%=event.more_info%>"><%=event.more_info%></a>
-    </li>
-  <% end %>   
-  <% if event.publicity_tweet %>
-    <li><i title="Tweet this to help publicise this event" class="fa-li fa fa-twitter"></i>
-      Tweet this to publicise: <a target="_blank" href="http://twitter.com/intent/tweet?text=<%=CGI::escape(event.publicity_tweet)%>"><%=event.publicity_tweet%></a>
-    </li>
-  <% end %> 
-  <li><i title="Listed by <%=event.account.name%>" class="fa-li fa fa-user"></i> Listed by <a href="http://<%=ENV['DOMAIN']%>/accounts/<%=event.account_id %>"><%=event.account.name%></a></li>
-</ul>
+<div class="table-hr-container">
+  <table class="table table-hr" >
+    <tr>
+      <td>Date</td>
+      <td><%= event.when_details %></td>
+    </tr>
+
+
+    <% if event.location %>
+      <tr>
+        <td>Location</td>
+        <td><a href="http://www.google.co.uk/maps?q=<%= URI.encode(event.location) %>" target="map"><%= event.location %></a></td>
+      </tr>
+    <% end %>  
+
+    <% if event.organisation %>
+      <tr>
+        <td>Host</td>
+        <td><a href="http://<%=ENV['DOMAIN']%>/organisations/<%=event.organisation_id%>"><%= event.organisation.name %></a></td>
+      </tr>
+    <% end %> 
+
+    <% if event.ticketing %>
+      <tr>
+        <td>Tickets</td>
+        <td>
+          <% if event.tickets_link %>
+            <a target="_blank" href="<%= event.tickets_link.include?('@') ? "mailto:#{event.tickets_link}?subject=RSVP for #{event.name}" : event.tickets_link %>"><%=event.ticketing %></a>
+          <% else %>
+            <%=event.ticketing %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+
+    <% if event.more_info %>
+      <tr>
+        <td>Full details</td>
+        <td><a href="<%=event.more_info%>"><%=event.more_info%></td>
+      </tr>
+    <% end %>   
+
+    <% if event.publicity_tweet %>
+      <tr>
+        <td>
+          Tweet this!
+        </td>
+        <td>
+          <a target="_blank" href="http://twitter.com/intent/tweet?text=<%=CGI::escape(event.publicity_tweet)%>"><%=event.publicity_tweet%></a>
+        </td>
+      </tr>
+    <% end %> 
+
+    <tr>
+      <td>Listed by</td>
+      <td><a href="http://<%=ENV['DOMAIN']%>/accounts/<%=event.account_id %>"><%=event.account.name%></a></td>
+    </tr>
+  </table>
+</div>
 
 <% if !(defined? no_more) %>
   <% if defined? read_more %>
@@ -34,7 +64,7 @@
   <% else %>  
 
     <%= event.details  %>
-    
+
     <% if event.reason %>
       <br />
       <br />

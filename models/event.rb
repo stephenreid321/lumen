@@ -11,12 +11,25 @@ class Event
   field :end_time, :type => ActiveSupport::TimeWithZone
   field :consider_time, :type => Boolean
   field :location, :type => String
+  field :coordinates, :type => Array
   field :details, :type => String
   field :reason, :type => String
   field :ticketing, :type => String
   field :tickets_link, :type => String
   field :more_info, :type => String
   field :publicity_tweet, :type => String
+  
+  include Geocoder::Model::Mongoid
+  geocoded_by :location
+  def lat; coordinates[1] if coordinates; end  
+  def lng; coordinates[0] if coordinates; end  
+  after_validation do
+    self.geocode || (self.coordinates = nil)
+  end  
+  
+  def self.marker_color
+    '3DA2E4'
+  end  
     
   attr_accessor :start_conversation
   
@@ -38,6 +51,7 @@ class Event
       :end_time => :datetime,
       :consider_time => :check_box,
       :location => :text,
+      :coordinates => :geopicker,              
       :details => :text_area,
       :more_info => :text,
       :reason => :text,

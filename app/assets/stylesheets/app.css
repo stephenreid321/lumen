@@ -85,6 +85,12 @@ yellow #F5D74B
 dark yellow #cda70d
 */
 
+.alert-info {
+  background-color: #3498DB;
+  border-color: #2980B9;
+  color: #fff;
+}
+
 .badge { background:  #E74C3C }
 
 a { color: #E74C3C }

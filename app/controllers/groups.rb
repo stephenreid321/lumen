@@ -20,20 +20,9 @@ Lumen::App.controllers do
   end
   
   get '/groups' do      
-    redirect '/groups/directory'
+    erb :'groups/groups'
   end
-    
-  get '/groups/directory' do
-    @groups = Group.all
-    erb :'groups/directory'
-  end    
-  
-  get '/groups/directory/:slug' do
-    @group_type = GroupType.find_by(slug: params[:slug])
-    @groups = @group_type.groups
-    erb :'groups/directory'
-  end  
-                          
+                                
   get '/groups/:slug' do    
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)

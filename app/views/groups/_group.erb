@@ -1,0 +1,30 @@
+<div class="media">
+  <span class="pull-left">      
+    <a href="/groups/<%=group.slug%>">
+      <img class="media-object" style="width: 100px" src="<%=group.picture ? account.picture.thumb('100x100#').url : '/images/blank.png'%>">
+    </a>
+  </span>
+  <div class="media-body">
+    <h4 class="media-heading" style="display:inline; margin-right: 5px"><a href="/groups/<%=group.slug%>"><%=group.slug%></a></h4>
+
+
+    <span style="position: relative; top: -3px">
+      <% if !current_account or !(membership = group.memberships.find_by(account: current_account)) %>
+        <% if group.public? or group.open? %>
+          <a class="btn btn-primary btn-xs" href="/groups/<%=group.slug%>/join">Join group</a>
+        <% elsif group.closed? %>
+          <% if current_account and group.membership_requests.find_by(account: current_account) %>  
+            <a class="btn btn-primary btn-xs disabled">Membership requested</a>
+          <% else %>
+            <a class="btn btn-primary btn-xs" href="/groups/<%=group.slug%>/request_membership">Request membership</a>
+          <% end %>
+        <% end %>
+      <% end %>
+    </span>
+
+    <p>
+      <strong><%=pluralize(group.members.count, 'member')%></strong> / <strong><%=pluralize(group.conversations.count, 'conversation')%></strong>.
+      <%= group.description %>
+    </p>
+  </div>
+</div>

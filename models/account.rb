@@ -148,6 +148,10 @@ class Account
   def surveys
     Survey.where(:group_id.in => memberships.pluck(:group_id))
   end   
+  
+  def groups
+    Group.where(:id.in => memberships.pluck(:group_id))
+  end
               
   # Picture
   dragonfly_accessor :picture do

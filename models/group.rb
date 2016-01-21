@@ -1,6 +1,7 @@
 class Group
   include Mongoid::Document
   include Mongoid::Timestamps
+  extend Dragonfly::Model
 
   field :slug, :type => String
   field :description, :type => String
@@ -12,9 +13,14 @@ class Group
   field :redirect_after_first_profile_save, :type => String
   field :hot_conversation_threshold, :type => Integer, :default => 3
   field :show_full_conversations_in_digests, :type => Boolean
+  field :picture_uid, :type => String  
   
   belongs_to :group, index: true
   has_many :groups, :dependent => :nullify
+  
+  dragonfly_accessor :picture do
+    after_assign { |picture| self.picture = picture.thumb('500x500>') }
+  end  
     
   field :reminder_email_subject, :type => String, :default => -> { "A reminder to complete your profile on #{ENV['SITE_NAME_SHORT']}" }
   field :reminder_email, :type => String, :default => -> {
@@ -152,6 +158,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     {
       :slug => :text,
       :description => :text_area,
+      :picture => :image,
       :privacy => :radio,
       :default_notification_level => :text,
       :request_intro => :text_area,      

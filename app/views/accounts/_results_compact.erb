@@ -3,7 +3,7 @@
 
 <% @accounts.each { |account| %>
   <div class="media">
-    <span class="pull-left" >      
+    <span class="pull-left">      
       <a href="/accounts/<%=account.id%>">
         <img class="media-object" style="width: 32px" src="<%=account.picture ? account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
       </a>

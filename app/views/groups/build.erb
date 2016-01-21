@@ -25,6 +25,7 @@
 
       <%= f.text_block :slug, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>}, :tip => 'Lowercase letters, numbers and dashes only (no spaces)' %>     
       <%= f.text_area_block :description %>
+      <%= f.image_block :picture %>    
       <%= f.radio_block :privacy %>
       <script>
         $(function () {

@@ -85,6 +85,9 @@ yellow #F5D74B
 dark yellow #cda70d
 */
 
+.dropdown-menu.typeahead { border-color: #E74C3C }
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus { background: #E74C3C }
+
 .select2-drop .select2-highlighted > .select2-result-label { background-color: #E74C3C }
 
 .alert-info {

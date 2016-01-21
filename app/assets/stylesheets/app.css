@@ -142,3 +142,5 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 .table-hr-container { background: #f5f5f5; border-radius: 5px; padding: 5px 10px; margin: 20px 0 }
 
 p.lead { font-size: 20px; line-height: 140% }
+
+.breadcrumb > li + li::before { font-family: FontAwesome; content: '\f0da' }

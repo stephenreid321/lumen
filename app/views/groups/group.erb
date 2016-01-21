@@ -33,7 +33,22 @@
           <img style="width: 100%" src="<%=@group.picture ? @group.picture.thumb('500x500#').url : '/images/blank.png'%>">
         </div>
         <div class="col-md-10">
-          <h1 style="margin-top: 0"><%=@group.slug%></h1>
+            <style>
+              @media(min-width: 768px) {
+                #group-title { display: inline; margin-top: 0; margin-right: 10px }
+                #notification-level-form {  display:inline }
+                #notification-level { position: relative; top: -11px; display:inline-block; width: auto; height: auto; }
+              }
+            </style>          
+          
+          <h1 id="group-title"><%=@group.slug%></h1>
+
+          <% if @membership %>
+            <form id="notification-level-form" method="get" action="/groups/<%=@group.slug%>/notification_level">
+              <%= select_tag :level, :id => 'notification-level', :options => {'Emails on' => 'each', 'Emails off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => @membership.notification_level, :class => "form-control input-sm", :onchange => "this.form.submit()" %>  
+            </form>
+          <% end %>
+
           <p class="lead"><%=@group.description%></p>
         </div>
       </div>
@@ -49,7 +64,7 @@
     </div>
     <div class="col-md-4">
       <% if current_account %>
-        <h2>
+        <h2 style="margin-top: 0">
           <%=I18n.t(:members_in_this_group, count: @group.members.count)%>
           <small><a class="edit" title="Full page" href="/groups/<%=@group.slug%>/members"><i class="fa fa-th-list"></i></a></small>
         </h2>

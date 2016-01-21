@@ -148,3 +148,9 @@ p.lead { font-size: 20px; line-height: 140% }
 .pagination li.next, .pagination li.previous {
   position: static;
 }
+
+.carousel-caption {
+  left: 10%;
+  padding-bottom: 62px;
+  right: 10%;
+}

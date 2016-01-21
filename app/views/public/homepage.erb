@@ -1,11 +1,27 @@
 
-<div class="container-fluid">
-  <div style="text-align: center">
-    <%= eval(f('public-homepage')) %>
+<%= eval(f('public-homepage')) %>
+
+<div style="padding: 20px; text-align: center">
+  <h2 style="font-size: 42px; margin-bottom: 20px">People using <%=ENV['SITE_NAME']%></h2>
+  <div>
+    <% random(Account.where(:picture_uid.ne => nil), 9).each {  |account| %>
+      <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle img-bordered" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
+    <% } %>
   </div>
 </div>
 
-<%= partial :'public/people' %>
-
-<%= partial :'public/groups' %>
+<div style="padding: 20px; text-align: center">
+  <h2 style="font-size: 42px; margin-bottom: 20px"><%=I18n.t(:groups).capitalize%></h2>
+  <div>
+    <% Group.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
+      <h3>
+        <a href="/groups/<%=group.slug%>"><%=group.slug%></a>
+        <small>
+          <%=pluralize(group.members.count, 'member')%>
+        </small>
+      </h3>
+      <p><%= group.description %></p>
+    <% } %>
+  </div>
+</div>
 

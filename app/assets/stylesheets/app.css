@@ -77,6 +77,14 @@ a.group { color: #999 }
 .note-editor .btn-group > .btn + .dropdown-toggle { padding-top: 9px; padding-bottom: 9px }
 
 
+/*
+red #E74C3C
+dark red #CD4435
+light red #F9DFDD
+yellow #F5D74B
+dark yellow #cda70d
+*/
+
 a { color: #E74C3C }
 a:hover, a:focus, a:active { color: #CD4435 }
 
@@ -100,6 +108,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 .form-group.focus .form-control, .form-control:focus, .form-group.focus .select2-search input[type="text"], .select2-search input[type="text"]:focus { border-color: #E74C3C }
 
 .img-bordered { border: 4px solid #E74C3C; }
+.img-bordered-lg { border: 8px solid #F5D74B; }
 
 #footer, #footer a { color: #999999 }
 #footer a:hover { color: #F5D74B }
@@ -110,3 +119,22 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 .pagination li.active > a, .pagination li.active > span { background: #E74C3C }
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus { background: #CD4435 }
 .pagination li > a:hover, .pagination li > span:hover, .pagination li > a:focus, .pagination li > span:focus { background: #E74C3C }
+
+.label-primary { background: #F5D74B; color: #222 }
+.label-primary[href]:hover, .label-primary[href]:focus { background: #cda70d; color: #222 }
+
+.panel-primary {
+  border-color: #F5D74B;
+}
+.panel-primary > .panel-heading {
+  background-color: #F5D74B;
+  border-color: #F5D74B;
+  color: #222;
+}
+
+.progress-bar {
+  background: #E74C3C;
+}
+
+.table-hr td:first-child { width: 1px; white-space: nowrap; font-weight: bold }
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td { border: 0; border-bottom: 2px solid #ccc; }

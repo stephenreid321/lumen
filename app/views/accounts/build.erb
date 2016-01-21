@@ -26,9 +26,7 @@
       <% if ENV['SHOW_ACCOUNT_FULL_NAME'] %>
         <%= f.text_block :full_name, tip: eval(f('tip-full-name')) %>
       <% end %>    
-      <% if ENV['SHOW_ACCOUNT_HEADLINE'] %>
-        <%= f.text_block :headline, tip: eval(f('tip-headline')) %>
-      <% end %>      
+      <%= f.text_block :headline, tip: eval(f('tip-headline')) %>  
       <%= f.text_block :town, tip: eval(f('tip-town')) %>
       <%= f.text_block :postcode, tip: eval(f('tip-postcode')) %>
       <%= f.select_block :country, tip: eval(f('tip-country')) %>

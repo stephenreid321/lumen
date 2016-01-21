@@ -55,7 +55,6 @@ module Lumen
         @o = :updated       
         erb :home
       else
-        @containerless = true
         erb :'public/homepage'
       end
     end

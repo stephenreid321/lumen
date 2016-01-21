@@ -1,61 +1,98 @@
 <div class="row" style="margin-top: 20px">
-  <div class="col-md-3">
-    <img style="width: 100%" src="<%=@account.picture.try(:url) || '/images/silhouette.png' %>" />
-  </div>
-  <div class="col-md-5">
-    <h2 style="margin-top: 0"><%=@account.name%></h2>  
-    <% if ENV['SHOW_ACCOUNT_HEADLINE'] %>
-      <% if @account.headline %>
-        <p class="lead"><%=@account.headline%></p>
-      <% end %>
-    <% end %>
-    <ul class="fa-ul">
-      <% if @account.public_memberships.count > 0 %>
-        <li>
-          <i title="Groups" class="fa fa-li fa-group"></i>
-          <%=I18n.t(:member_of).capitalize%> <%= @account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %>
-        </li>
-      <% end %>
-      <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
-        <% @account.affiliations.each { |affiliation|%>
-          <li><i title="<%=affiliation.title%> <%=I18n.t(:at)%> <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> <%=I18n.t(:at)%> <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
-        <% } %>          
-      <% end %>
-      <% if [@account.town, @account.country].compact.length > 0 %>
-        <li><i title="Location" class="fa fa-li fa-location-arrow"></i><%=[@account.town, @account.country].compact.join(', ')%></li>
-      <% else %>
-        <li><i style="opacity: 0.25" class="fa fa-li fa-location-arrow"></i></li> &nbsp;
-      <% end %>                  
-      <% if @account.account_tagships.count > 0 %>
-        <li>
-          <i title="<%=I18n.t(:account_tagships).capitalize%>" class="fa fa-li fa-tags"></i>
-          <%@account.account_tagships.each { |account_tagship|%>
-            <a href="/network?account_tag_id=<%=account_tagship.account_tag_id%>" class="label label-primary" style="text-indent: 0"><%=account_tagship.account_tag.name%></a>
-          <% } %>
-        </li>
-      <% elsif !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
-        <li><i style="opacity: 0.25" class="fa fa-li fa-tags"></i></li> &nbsp;
-      <% end %>       
-      <% if !ENV['HIDE_ACCOUNT_EMAIL'] %>
-        <li><i title="Email" class="fa fa-li fa-envelope"></i><a target="_blank" href="mailto:<%=@account.email%>"><%=@account.email%></a></li>         
-      <% end %>
-      <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
-        <% if @account.phone %>
-          <li><i title="Phone" class="fa fa-li fa-phone"></i><%=@account.phone%></li>
-        <% else %>
-          <li><i style="opacity: 0.25" class="fa fa-li fa-phone"></i></li> &nbsp;
-        <% end %>
-      <% end %>
-      <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
-        <% if @account.website %>
-          <li><i title="Website" class="fa fa-li fa-globe"></i><a href="<%=@account.website%>"><%=@account.website%></a></li>
-        <% else %>
-          <li><i style="opacity: 0.25" class="fa fa-li fa-globe"></i></li> &nbsp;
-        <% end %>        
-      <% end %>
+  <div class="col-md-8">
 
-      <%= partial :'accounts/social_media', :locals => {:account => @account, :display_placeholder => true} %>
-    </ul>
+    <div class="row">
+      <div class="col-md-4">
+        <img style="display: block; margin: 0 auto; width: 100%" class="img-circle img-bordered-lg" src="<%=@account.picture ? @account.picture.thumb('500x500#').url : '/images/silhouette.png' %>">
+      </div>
+      <div class="col-md-8">
+        <h2 style="text-transform: uppercase; margin-top: 0"><%=@account.name%></h2>  
+        <% if @account.headline %>
+          <p class="lead"><%=@account.headline%></p>
+        <% end %>
+      </div>
+    </div>
+
+    <div style="background: #f5f5f5; border-radius: 5px; padding: 10px; margin: 20px 0">
+      <table class="table table-hr" >
+
+        <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+          <tr>
+            <td>Affiliations</td>
+            <td>  
+              <% @account.affiliations.each { |affiliation|%>
+                <%=affiliation.title%> <%=I18n.t(:at)%> <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a> <br />
+              <% } %>        
+            </td>
+          </tr>
+        <% end %>
+
+        <% if @account.account_tagships.count > 0 %>
+          <tr>
+            <td><%=I18n.t(:account_tagships).capitalize%></td>
+            <td>
+              <%@account.account_tagships.each { |account_tagship|%>
+                <a href="/network?account_tag_id=<%=account_tagship.account_tag_id%>" class="label label-primary" style="text-indent: 0"><%=account_tagship.account_tag.name%></a>
+              <% } %>
+            </td>
+          </tr>
+        <% end %>
+
+
+        <% if @account.public_memberships.count > 0 %>
+          <tr>
+            <td><%=I18n.t(:member_of).capitalize%> </td>
+            <td><%= @account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %></td>
+          </tr>
+        <% end %>          
+
+        <% if [@account.town, @account.country].compact.length > 0 %>
+          <tr>
+            <td>Location</td>
+            <td><%=[@account.town, @account.country].compact.join(', ')%></td>
+          </tr>
+        <% end %>          
+
+        <% if !ENV['HIDE_ACCOUNT_EMAIL'] %>
+          <tr>
+            <td>Email</td>
+            <td><a target="_blank" href="mailto:<%=@account.email%>"><%=@account.email%></a></td>
+          </tr>
+        <% end %>        
+
+        <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
+          <tr>
+            <td>Phone</td>
+            <td><%=@account.phone%></td>
+          </tr>
+        <% end %>
+
+        <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
+          <tr>
+            <td>Website</td>
+            <td><a href="<%=@account.website%>"><%=@account.website%></a></td>
+          </tr>        
+        <% end %>          
+
+        <% ['Twitter', 'Facebook', 'Google', 'LinkedIn'].each { |display_name| %>
+          <tr>
+            <td><%=display_name%></td>
+            <td>
+              <% if provider = Provider.all.find { |provider| provider.display_name == display_name } and provider.registered? %>         
+                <% if provider_link = @account.provider_links.find_by(provider: provider.display_name) %>          
+                  <a target="_blank" href="<%=provider.profile_url.call(provider_link.omniauth_hash)%>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
+                <% end %>
+              <% else %>
+                <% if @account.send("#{display_name.downcase}_profile_url") %>
+                  <a target="_blank" href="<%=@account.send("#{display_name.downcase}_profile_url")%>"><%=@account.send("#{display_name.downcase}_profile_url").split('/')[3..-1].join('/')%></a>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% } %>
+
+      </table>
+    </div>
 
     <dl class="dl-horizontal">
       <% EnvFields.fields(Account).each { |fieldname, fieldtype|; if result = @account.send(fieldname) %>
@@ -72,7 +109,15 @@
   </div>
   <div class="col-md-4">
     <% if @account.coordinates or @account.affiliations.any? { |affiliation| affiliation.organisation.coordinates } %>
-      <%= partial :'maps/map', :locals => {:points => ([@account] + @account.affiliations.map(&:organisation))} %>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title" style="font-size: 26px; text-transform: uppercase">Location</h3>
+        </div>
+        <div class="panel-body" style="padding: 0; margin: 0">
+          <style>#map-canvas { height: 50vh !important }</style>
+          <%= partial :'maps/map', :locals => {:points => ([@account] + @account.affiliations.map(&:organisation))} %>          
+        </div>
+      </div>
     <% end %>
   </div>
 </div>

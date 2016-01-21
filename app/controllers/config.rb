@@ -41,7 +41,6 @@ Lumen::App.controllers do
       :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],      
       :HIDE_ACCOUNT_AFFILIATIONS => ['Hides affiliations on account profiles'],
       :SHOW_ACCOUNT_FULL_NAME => ['Shows the full name on account profiles'],
-      :SHOW_ACCOUNT_HEADLINE => ['Shows the headline field on account profiles'],
       :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],
       :HIDE_ACCOUNT_PHONE => ['Hides the phone field on account profiles'],
       :HIDE_ACCOUNT_TIME_ZONE => ['Hides the time zone field on account profiles'],

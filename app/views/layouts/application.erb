@@ -158,15 +158,10 @@
       });
     </script>
 
-    <% unless @containerless %>
-      <div class="container-fluid">
-      <% end %>
+    <div class="container-fluid">
       <%= yield %>
-      <% unless @containerless %>
-      </div>
-    <% end %>
-
-
+    </div>
+    
     <div id="footer">
       <div class="container-fluid">
         <div style="text-align: center">       

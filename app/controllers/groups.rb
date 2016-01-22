@@ -20,6 +20,7 @@ Lumen::App.controllers do
   end
   
   get '/groups' do      
+    sign_in_required!
     erb :'groups/groups'
   end
                                 

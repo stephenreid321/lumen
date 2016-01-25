@@ -112,7 +112,8 @@ Lumen::App.controllers do
     redirect back unless @group.public? or @group.open?    
     if current_account
       @account = current_account
-    else           
+    else
+      redirect back if !params[:account]
       if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))   
         @new_account = true
         @account = Account.new(params[:account])

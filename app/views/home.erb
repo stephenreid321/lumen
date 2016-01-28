@@ -70,10 +70,11 @@
   </div>  
 
   <div class="col-md-4">
-    <a class="btn btn-hg btn-primary btn-block" href="/network"><i class="fa fa-search"></i> Browse members</a>
-    <h2 style="font-size: 30px">Recent members</h2>
-    <div class="row">
-      <%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil, :per_page => 4} %>
+    <a class="btn btn-hg btn-primary btn-block" href="/network"><i class="fa fa-search"></i> Browse members</a>    
+    <div class="row" style="margin-top: 20px">
+      <div style="margin: 0 15px">
+        <%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil, :per_page => 4, :o => :updated} %>
+      </div>
     </div>
   </div>
 

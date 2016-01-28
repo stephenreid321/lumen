@@ -163,13 +163,13 @@
     <div class="container-fluid">
       <%= yield %>
     </div>
-    
+
     <div id="footer">
-      <div class="container-fluid">
-        <div style="text-align: center">       
+      <div class="container-fluid">         
+        <div style="text-align: center">
+          <%= eval(f('footer')) %>
           <ul class="list-inline" style="margin-bottom: 0">
             <% if current_account %>
-              <li><a href="/about">About <%=ENV['SITE_NAME_SHORT']%></a></li>
               <% if current_account.admin? %>
                 <li><a href="/analytics">Sitewide analytics</a></li>
                 <li><a href="/config">Lumen configuration</a></li>
@@ -178,8 +178,8 @@
                 <li><a href="/translations">Translations</a></li>
               <% end %>
             <% end %>
-            <li><a href="mailto:<%=ENV['HELP_ADDRESS']%>">Feedback/questions</a></li>
             <li><a target="_blank" href="http://wordsandwriting.github.io/lumen/">Powered by Lumen</a></li>
+          </ul>
         </div>
       </div>
     </div>

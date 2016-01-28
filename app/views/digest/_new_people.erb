@@ -3,7 +3,7 @@
   <ul class="list-unstyled clearfix" style="margin-top: 26px">    
     <% new_people.each { |account| %>
       <li style="display: block; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; padding: 5px">      
-        <%= partial :'accounts/account', :locals => {:account => account} %>
+        <%= partial :'accounts/minimal', :locals => {:account => account} %>
       </li>
     <% } %>    
   </ul>

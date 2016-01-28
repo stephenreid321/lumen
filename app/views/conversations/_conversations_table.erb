@@ -5,11 +5,13 @@
 <table class="table" style="margin-top: 10px">
   <% conversations.each { |conversation| %>
     <tr>
-      <td><a class="conversation-title" href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a></td>
-      <% if !@group %>
-        <td><%=g conversation.group%></td>
-      <% end %>
-      <td><span style="opacity: <%=(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o%>"class="badge"><%=c%></span></td>
+      <td>
+        <a class="conversation-title" href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a>
+        <% if !@group %>
+          <%=g conversation.group%>
+        <% end %>        
+      </td>
+      <td><span style="opacity: <%=(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o%>" title="<%=pluralize(c,'post')%>" class="badge"><%=c%></span></td>
       <td>
         <% if conversation.last_conversation_post %>
           <%=I18n.t(:last_post).capitalize%> <%=timeago(conversation.last_conversation_post.created_at)%>        

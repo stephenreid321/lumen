@@ -80,6 +80,8 @@ a.group { color: #999 }
 .note-editor .btn-group > .btn + .dropdown-toggle { padding-top: 9px; padding-bottom: 9px }
 .note-editable { background: white }
 
+hr { border-color: #ccc; margin-top: 18px; margin-bottom: 18px }
+
 
 /*
 red #E74C3C

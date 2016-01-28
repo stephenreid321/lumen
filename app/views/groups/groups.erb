@@ -14,13 +14,13 @@
 
 <h2>Your groups</h2>
 <% current_account.groups.order_by(:slug.asc).each { |group| %>
-  <%= partial :'groups/group', :object => group %>
   <hr />
+  <%= partial :'groups/group', :object => group %>  
 <% } %>
 
 
 <h2>Other groups</h2>
 <% Group.where(:id.nin => current_account.groups.pluck(:id)).where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
-  <%= partial :'groups/group', :object => group %>
   <hr />
+  <%= partial :'groups/group', :object => group %>
 <% } %>

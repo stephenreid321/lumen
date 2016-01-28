@@ -42,9 +42,11 @@
 
 <% if !ENV['WALL_STYLE_CONVERSATIONS'] %>
   <% if @membership %>
-    <h4><%=I18n.t(:new_conversation).capitalize%></h4>
-    <p><%=I18n.t(:fill_out_the_form_below_or_send_a_mail_to)%> <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
-    <%= partial :'conversations/build'  %>
+    <div style="background: #F3F4F5; border-radius: 8px; padding: 12px">
+      <h4 style="margin-top: 0"><%=I18n.t(:new_conversation).capitalize%></h4>
+      <p><%=I18n.t(:fill_out_the_form_below_or_send_a_mail_to)%> <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
+      <%= partial :'conversations/build'  %>
+    </div>
   <% end %>
 <% end %>
 

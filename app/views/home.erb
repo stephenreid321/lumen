@@ -55,7 +55,7 @@
       <strong><%= pluralize(conversation.participants.count,'participant') %>.</strong>
       <% if conversation.last_conversation_post %>
         <%=I18n.t(:last_post).capitalize%> <%=timeago(conversation.last_conversation_post.created_at)%>        
-        by <a href="/accounts/<%=conversation.last_conversation_post.account.id%>"><%=conversation.last_conversation_post.account.name%></a>
+        by <strong><%=conversation.last_conversation_post.account.name%></strong>
         <hr />
       <% end %>
     <% } %>

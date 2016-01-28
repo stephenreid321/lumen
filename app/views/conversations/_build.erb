@@ -1,21 +1,12 @@
 
-<div class="media">
-  <span class="pull-left">
-    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
-  </span>
-  <div class="media-body">
-
-    <% form_for (@conversation ||= @group.conversations.build), "/groups/#{@group.slug}/conversations/new", :id => 'new-conversation', :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
-      <%= f.text_block :subject, div_class: 'col-md-12' %>
-      <%= f.wysiwyg_block :body, div_class: 'col-md-12', required: true %>
-      <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-                $(this).next().show();
-                $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
-      <div style="display:none;">
-        <%= f.file_block :file, div_class: 'col-md-12' %>
-      </div>
-      <button type="submit" class="btn btn-default"><%=I18n.t(:post).capitalize%></button>
-    <% end %>
+<% form_for (@conversation ||= @group.conversations.build), "/groups/#{@group.slug}/conversations/new", :id => 'new-conversation', :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
+  <%= f.text_block :subject, div_class: 'col-md-12' %>
+  <%= f.wysiwyg_block :body, div_class: 'col-md-12', required: true %>
+  <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
+            $(this).next().show();
+            $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
+  <div style="display:none;">
+    <%= f.file_block :file, div_class: 'col-md-12' %>
   </div>
-</div> 
-
+  <button type="submit" class="btn btn-primary"><%=I18n.t(:post).capitalize%></button>
+<% end %>

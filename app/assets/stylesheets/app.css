@@ -78,6 +78,7 @@ a.group { color: #999 }
 .select2-container .select2-choice .select2-arrow { border: 0 }
 .note-editor .btn-sm { font-size: 11px; line-height: 100% }
 .note-editor .btn-group > .btn + .dropdown-toggle { padding-top: 9px; padding-bottom: 9px }
+.note-editable { background: white }
 
 
 /*

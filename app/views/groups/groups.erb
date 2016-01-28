@@ -25,7 +25,7 @@
 
 
     <h2>Other groups</h2>
-    <% Group.where(:id.nin => current_account.groups.pluck(:id)).where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
+    <% Group.where(:id.nin => current_account.groups.pluck(:id)).where(:privacy.ne => 'secret').order_by(:primary.desc, :slug.asc).each { |group| %>
       <hr />
       <%= partial :'groups/group', :object => group %>
     <% } %>

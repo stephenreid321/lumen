@@ -17,7 +17,9 @@ Lumen::App.helpers do
   end
   
   def g(group)
-    %Q{<a title="Posted in the group #{group.slug}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.slug}</a>}
+    unless ENV['PRIMARY_GROUP'] and ENV['PRIMARY_GROUP'] == group.slug
+      %Q{<a title="Posted in the group #{group.slug}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.slug}</a>}
+    end
   end    
   
   def page_entries_info(collection, model: nil)

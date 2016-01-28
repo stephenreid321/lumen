@@ -115,6 +115,9 @@ a:hover, a:focus, a:active { color: #CD4435 }
 .btn-primary { background: #F5D74B; color: #222 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active { background: #cda70d; color: #222 }
 
+.btn-info { background: #E74C3C; color: white }
+.btn-info:hover, .btn-info:focus, .btn-info:active  { background: #CD4435}
+
 .navbar-inverse { background: #333333 }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu  { background: #333333 }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu > .divider { background: black }

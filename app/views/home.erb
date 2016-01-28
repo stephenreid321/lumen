@@ -73,11 +73,7 @@
     <a class="btn btn-hg btn-primary btn-block" href="/network"><i class="fa fa-search"></i> Browse members</a>
     <h2 style="font-size: 30px">Recent members</h2>
     <div class="row">
-      <% current_account.network.order_by([:has_picture.desc, :created_at.desc]).limit(4).each { |account| %>
-        <div class="col-sm-6 account-minimal">
-          <%= partial :'accounts/minimal', :locals => {:account => account} %>
-        </div>
-      <% } %>
+      <%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil, :per_page => 4} %>
     </div>
   </div>
 

@@ -59,7 +59,7 @@
     <label class="radio-inline" style="padding-left: 0"><%=I18n.t(:sort_by).capitalize%></label>
     <% {I18n.t(:date_joined).capitalize => :date, I18n.t(:name).capitalize => :name, I18n.t(:last_updated).capitalize => :updated}.each { |k,v| %>
       <label class="radio-inline">
-        <%= radio_button_tag 'o', :value => v, :checked => (@o == v) %> <%=k%>
+        <%= radio_button_tag 'o', :value => v, :checked => (defined?(o) ? (v == o) : (v == :date)) %> <%=k%>
       </label>        
     <% } %>      
     <label class="radio-inline">

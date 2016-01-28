@@ -1,7 +1,8 @@
 <ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
   <li class="active">People</li>
 </ol>
 
-<h1><%=I18n.t(:people_in_your_groups, count: current_account.network.count)%></h1>
+<h1>People</h1>
 
-<%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil, :per_page => 18, :full_width => true} %>
+<%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil, :per_page => 18, :o => :updated, :full_width => true} %>

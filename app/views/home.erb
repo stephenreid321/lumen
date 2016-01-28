@@ -72,7 +72,7 @@
   </div>  
 
   <div class="col-md-4">
-    <a class="btn btn-hg btn-primary btn-block" href="/network"><i class="fa fa-search"></i> Search all members</a>
+    <a class="btn btn-hg btn-primary btn-block" href="/network"><i class="fa fa-search"></i> Browse members</a>
     <h2>Recent members</h2>
     <div class="row">
       <% current_account.network.order_by([:has_picture.desc, :created_at.desc]).limit(4).each { |account| %>

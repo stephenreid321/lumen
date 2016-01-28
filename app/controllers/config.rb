@@ -78,6 +78,7 @@ Lumen::App.controllers do
       :'first-time' => 'Text displayed on account edit page upon first login',
       :'global-landing-tab' => 'Landing tab displayed on the logged-in homepage',
       :'public-homepage' => 'If defined, creates a public homepage with this HTML',
+      :'groups' => 'Content to display on /groups',
       :'head' => 'Extra content for &lt;head&gt;',
       :'navbar' => 'Extra content for the navbar',
       :'tip-name' => 'Tip for the name field on account edit page',

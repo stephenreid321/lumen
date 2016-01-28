@@ -53,7 +53,7 @@ Lumen::App.controllers do
       :SHOW_ORGS_BY_DEFAULT => ['Shows organisations on maps by default'],
   
       :WALL_STYLE_CONVERSATIONS => ['Wall-style conversations'],
-        
+      :INLINE_REPLIES => ['Allow inline replies'],        
       :REPLY_TO_GROUP => ['Sets the reply-to header to the group address'],
                     
       :FACEBOOK_KEY => 'Facebook API key',

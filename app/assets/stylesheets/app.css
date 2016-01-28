@@ -128,7 +128,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 .form-group.focus .form-control, .form-control:focus, .form-group.focus .select2-search input[type="text"], .select2-search input[type="text"]:focus { border-color: #E74C3C }
 
 .img-bordered { border: 6px solid #F5D74B; }
-.img-bordered:hover { border: 6px solid #999; }
+.img-bordered:hover { border: 6px solid #CD4435; }
 .img-bordered-lg { border: 8px solid #F5D74B; }
 
 #footer, #footer a { color: #999999 }

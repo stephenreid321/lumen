@@ -28,53 +28,44 @@
 
     <%  if defined? full_width %>
 
-      <% unless ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
-
-        <div class="<%=col_class%>">   
-          <div style="position: relative; top: 4px">
-            <%= hidden_field_tag :organisation_id, :id => 'organisation_id', :value => params[:organisation_id] %>
-            <script>
-              $(function () {
-                $('#organisation_id').lookup({
-                  lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>&<%='full_width=true' if (defined? full_width) %>',
-                  placeholder: '<%=I18n.t(:filter_by_organisation).capitalize%>',
-                  rtype: 'organisation'
-                }).on('change', function () {
-                  $('#results-form').submit();
-                });
+      <div class="<%=col_class%>">   
+        <div style="position: relative; top: 4px">
+          <%= hidden_field_tag :organisation_id, :id => 'organisation_id', :value => params[:organisation_id] %>
+          <script>
+            $(function () {
+              $('#organisation_id').lookup({
+                lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>&<%='full_width=true' if (defined? full_width) %>',
+                placeholder: '<%=I18n.t(:filter_by_organisation).capitalize%>',
+                rtype: 'organisation'
+              }).on('change', function () {
+                $('#results-form').submit();
               });
-            </script>  
-          </div>
+            });
+          </script>  
         </div>
+      </div>
 
-      <% end %>
-
-
-      <% if !ENV['ACCOUNT_TAGS_PREDEFINED'] or AccountTag.count > 0 %>
-
-        <div class="<%=col_class%>">   
-          <div style="position: relative; top: 4px">
-            <%= hidden_field_tag :account_tag_id, :id => 'account_tag_id', :value => params[:account_tag_id] %>
-            <script>
-              $(function () {
-                $('#account_tag_id').lookup({
-                  lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>&<%='full_width=true' if (defined? full_width) %>',
-                  placeholder: '<%=I18n.t(:filter_by_account_tagship).capitalize%>',
-                  rtype: 'account_tag',
-                }).on('change', function () {
-                  $('#results-form').submit();
-                });
+      <div class="<%=col_class%>">   
+        <div style="position: relative; top: 4px">
+          <%= hidden_field_tag :account_tag_id, :id => 'account_tag_id', :value => params[:account_tag_id] %>
+          <script>
+            $(function () {
+              $('#account_tag_id').lookup({
+                lookup_url: '/accounts/results?scope=<%=scope%>&scope_id=<%=scope_id%>&<%='full_width=true' if (defined? full_width) %>',
+                placeholder: '<%=I18n.t(:filter_by_account_tagship).capitalize%>',
+                rtype: 'account_tag',
+              }).on('change', function () {
+                $('#results-form').submit();
               });
-            </script>  
-          </div>
+            });
+          </script>  
         </div>
-
-      <% end %>
+      </div>
 
     <% end %>
 
     <div class="<%=col_class%>">
-      <div <% if defined? full_width%> style="text-align: right" <% end %> >      
+      <div style="text-align: right" >      
         <i style="margin-right: 4px" title="Sort by" class="fa fa-sort"></i>
         <%= select_tag :o, :class => 'form-control input-sm', :style => 'display: inline; width: auto', :options => {I18n.t(:date_joined).capitalize => :date, I18n.t(:name).capitalize => :name, I18n.t(:last_updated).capitalize => :updated}, :selected => (defined?(o) ? o : :date) %>                      
       </div>

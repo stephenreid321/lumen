@@ -1,3 +1,9 @@
+<h3 style="margin-top: 0">
+  <a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a>
+  <% if event.highlighted %><span class="label label-primary" style="font-weight: normal; font-size: 12px; position: relative; top: -2px"><%=ENV['HIGHLIGHTED_EVENT_LABEL_TEXT'] || '<i class="fa fa-star"></i>'%></span><% end %> 
+  <small><%=g event.group%></small>
+</h3>
+
 <ul class="fa-ul">
   <li><i title="Happening <%= event.when_details %>" class="fa-li fa fa-calendar"></i><%= event.when_details %></li>
   <% if event.location %>

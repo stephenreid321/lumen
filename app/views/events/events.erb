@@ -16,15 +16,15 @@
       <h1 style="margin-top: 0">Events</h1>
     </div>
 
-    <% current_account.events.future.each { |event| %>
-      <hr />
-      <h3 style="font-size: 22px; line-height: 150%; margin-bottom: 8px; margin-top: 0">
-        <a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a>
-        <% if event.highlighted %><span class="label label-primary" style="font-weight: normal; font-size: 12px; position: relative; top: -2px"><%=ENV['HIGHLIGHTED_EVENT_LABEL_TEXT'] || '<i class="fa fa-star"></i>'%></span><% end %> 
-        <small><%=g event.group%></small>
-      </h3>
-      <%= partial :'events/minimal', :locals => {:event => event} %>
-    <% } %>
+    <style>
+      #events h3 { font-size: 22px; line-height: 150%; margin-bottom: 8px; margin-top: 0 }
+    </style>
+    <div id="events">
+      <% current_account.events.future.each { |event| %>
+        <hr />
+        <%= partial :'events/minimal', :locals => {:event => event} %>
+      <% } %>
+    </div>
 
     <%= partial :'events/ical_instructions' %>
 

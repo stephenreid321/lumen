@@ -28,7 +28,7 @@
           el.popover({
           content: response,
                   trigger: 'manual',
-                  title: event.title <% if !@group %> + ' <a class="group" href="/groups/' + event.group_slug + '"><i class="fa fa-group"></i> ' + event.group_slug + '</a>' <% end%>,
+                  title: false,
                   placement:'auto top',
                   container:'body',
                   html: true

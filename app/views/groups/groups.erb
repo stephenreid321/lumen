@@ -3,24 +3,39 @@
   <li class="active">Groups</li>
 </ol>
 
-<%= Fragment.find_by(slug: 'groups').try(:body) %>
 
-<div style="margin-top: 20px">
-  <% if !ENV['GROUP_CREATION_BY_ADMINS_ONLY'] or (current_account and current_account.admin?) %>
-    <a style="float: right" title="Create a group" class="btn btn-primary" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
+<div class="page">
+  <% if Fragment.find_by(slug: 'right-col') %>
+    <div class="row">
+      <div class="col-md-8">
+      <% end %>
+
+      <%= Fragment.find_by(slug: 'groups').try(:body) %>
+
+      <div style="margin-top: 20px">
+        <% if !ENV['GROUP_CREATION_BY_ADMINS_ONLY'] or (current_account and current_account.admin?) %>
+          <a style="float: right" title="Create a group" class="btn btn-primary" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
+        <% end %>
+        <h1 style="margin-top: 0">Groups</h1>
+      </div>
+
+      <h2>Your groups</h2>
+      <% current_account.groups.order_by(:slug.asc).each { |group| %>
+        <hr />
+        <%= partial :'groups/group', :object => group %>  
+      <% } %>
+
+
+      <h2>Other groups</h2>
+      <% Group.where(:id.nin => current_account.groups.pluck(:id)).where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
+        <hr />
+        <%= partial :'groups/group', :object => group %>
+      <% } %>
+
+      <% if Fragment.find_by(slug: 'right-col') %>
+      </div>
+      <div class="col-md-4">
+        <%= eval(f('right-col')) %>    
+      </div>
+    </div>
   <% end %>
-  <h1 style="margin-top: 0">Groups</h1>
-</div>
-
-<h2>Your groups</h2>
-<% current_account.groups.order_by(:slug.asc).each { |group| %>
-  <hr />
-  <%= partial :'groups/group', :object => group %>  
-<% } %>
-
-
-<h2>Other groups</h2>
-<% Group.where(:id.nin => current_account.groups.pluck(:id)).where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
-  <hr />
-  <%= partial :'groups/group', :object => group %>
-<% } %>

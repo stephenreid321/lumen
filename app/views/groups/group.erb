@@ -68,7 +68,12 @@
         <h2 style="margin-top: 0">
           <%=I18n.t(:members, count: @group.members.count)%>
         </h2>
-        <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
+        <style>
+          #group-members .pagination { display: none }
+        </style>
+        <div id="group-members">
+          <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
+        </div>
         <a class="btn btn-hg btn-primary btn-block" href="/groups/<%=@group.slug%>/members"><i class="fa fa-search"></i> Browse members</a>      
       <% else %>
         <%= partial 'groups/join', :locals => {:group => @group} %>

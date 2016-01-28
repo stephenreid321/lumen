@@ -19,7 +19,7 @@
   <%= partial :'group_administration/header' %>
 <% end %>  
 
-<div class="row" style="margin-top: 10px">
+<div class="row">
   <div class="col-md-8 col-md-offset-2" id="group-form">
 
     <% form_for @group, @group.new_record? ? '/groups/new' : "/groups/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>

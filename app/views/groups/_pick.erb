@@ -1,4 +1,11 @@
-<div class="row" style="margin-top: 10px">
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li> 
+    <li class="active">
+      New <%=collection.singularize%>
+    </li>    
+  </ol>
+
+<div class="row">
   <div class="col-md-8 col-md-offset-2">
     <% form_tag '', :class => 'form-horizontal' do %>
       <div class="form-group">

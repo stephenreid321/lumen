@@ -5,7 +5,7 @@ html {
 body { padding: 10px 0 0 0; }
 .container-fluid { max-width: 1170px }
 
-.breadcrumb { background: #F8F8F8; border: 0 }
+.breadcrumb { background: #F8F8F8; border: 0; margin-bottom: 20px }
 
 abbr[title] { border: none }
 
@@ -18,7 +18,7 @@ abbr[title] { border: none }
 body, p {font-size: 15px; line-height: 135%; }
 .page, .page p  {  font-size: 17px; line-height: 1.6; }
 .panel-title { font-family: 'loveloblack'; font-weight: normal }
-h1, .h1 {font-size: 44px; text-transform: uppercase; font-family: 'loveloblack' }
+h1, .h1 {font-size: 44px; text-transform: uppercase; font-family: 'loveloblack'; margin-top: 20px }
 h2, .h2 {font-size: 36px;}
 h3, .h3 {font-size: 30px;}
 h4, .h4 {font-size: 24px;}
@@ -59,7 +59,6 @@ table a:hover, .table a:hover { text-decoration: underline }
 a.edit { color: black; text-decoration: none; opacity: 0.3 }
 a.edit:hover { opacity: 1 }      
 
-ol.breadcrumb { margin-bottom: 0 }
 ol.breadcrumb li[style*=float]:before { content: '' }
 
 select[name*=day], select[name*=month], select[name*=year], select[name*=hour], select[name*=min] { display:inline; width: auto } 

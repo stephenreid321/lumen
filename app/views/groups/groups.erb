@@ -12,7 +12,7 @@
 
       <%= Fragment.find_by(slug: 'groups').try(:body) %>
 
-      <div style="margin-top: 20px">
+      <div>
         <% if !ENV['GROUP_CREATION_BY_ADMINS_ONLY'] or (current_account and current_account.admin?) %>
           <a style="float: right" title="Create a group" class="btn btn-primary" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
         <% end %>

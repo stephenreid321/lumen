@@ -37,7 +37,7 @@
   </div>
 <% end %>
 
-<%= Fragment.find_by(slug: 'global-landing-tab').try(:body) %>
+<%= Fragment.find_by(slug: 'home-above').try(:body) %>
 
 <style>
   #home-panels h3 { margin: 0; line-height: 150%; font-size: 18px }
@@ -78,3 +78,5 @@
   </div>
 
 </div>
+
+<%= Fragment.find_by(slug: 'home-below').try(:body) %>

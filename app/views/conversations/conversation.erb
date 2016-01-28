@@ -29,7 +29,7 @@
 
   <div class="col-md-8">
 
-    <h1><%=@conversation.subject%></h1>
+    <h1 style="margin-top: 0"><%=@conversation.subject%></h1>
 
     <% @conversation.visible_conversation_posts.order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
       <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post, :i => i} %>
@@ -63,7 +63,7 @@
   </div>
   <div class="col-md-4">
     <% if current_account %>
-      <h2><%=pluralize(@conversation.participants.count,'participant')%> in this conversation</h2>
+      <h2 style="margin-top: 0"><%=pluralize(@conversation.participants.count,'participant')%> in this conversation</h2>
       <%= partial :'accounts/list', :locals => {:scope => 'conversation', :scope_id => @conversation.id} %>
     <% else %>
       <%= partial 'groups/join', :locals => {:group => @conversation.group} %>

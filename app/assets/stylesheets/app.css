@@ -16,6 +16,7 @@ abbr[title] { border: none }
 }
 
 body, p {font-size: 15px; line-height: 135%; }
+.page, .page p  {  font-size: 17px; line-height: 1.6; }
 h1, .h1 {font-size: 44px; text-transform: uppercase; font-family: 'loveloblack' }
 h2, .h2 {font-size: 36px;}
 h3, .h3 {font-size: 30px;}
@@ -28,7 +29,7 @@ h6, .h6 {font-size: 18px;}
 .account-minimal h3 { font-size: 16px; margin: 8px 0 4px 0 }
 .account-minimal ul { font-size: 14px }
 @media(min-width: 768px) {
-  .account-minimal { height: 280px; overflow-y: hidden }
+  .account-minimal { height: 280px; overflow-y: hidden; overflow-x: hidden }
   .account-minimal:before {
     content:'';
     width:100%;
@@ -181,4 +182,5 @@ p.lead { font-size: 20px; line-height: 140% }
   padding-bottom: 62px;
   right: 10%;
 }
+.carousel-caption p { font-size: 22px; line-height: 130% }
 }

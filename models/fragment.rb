@@ -2,7 +2,8 @@ class Fragment
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :slug, :type => String
+  field :title, :type => String
+  field :slug, :type => String  
   field :body, :type => String  
   field :page, :type => Boolean
   field :public, :type => Boolean
@@ -13,7 +14,8 @@ class Fragment
     
   def self.admin_fields
     {
-      :slug => :text,
+      :title => :text,
+      :slug => :slug,
       :body => :wysiwyg,
       :page => :check_box,
       :public => :check_box

@@ -166,21 +166,18 @@
 
     <div id="footer">
       <div class="container-fluid">         
-        <%= eval(f('footer')) %>
-        <div style="text-align: right">        
-          <ul class="list-inline" style="margin-bottom: 0">
-            <% if current_account %>
-              <% if current_account.admin? %>
-                <li><a href="/analytics">Sitewide analytics</a></li>
-                <li><a href="/config">Lumen configuration</a></li>
-              <% end %>          
-              <% if current_account.admin? or current_account.translator %>
-                <li><a href="/translations">Translations</a></li>
-              <% end %>
+        <%= eval(f('footer')) %>      
+        <ul class="list-inline" style="margin-bottom: 0">
+          <% if current_account %>
+            <% if current_account.admin? %>
+              <li><a href="/analytics">Sitewide analytics</a></li>
+              <li><a href="/config">Lumen configuration</a></li>
+            <% end %>          
+            <% if current_account.admin? or current_account.translator %>
+              <li><a href="/translations">Translations</a></li>
             <% end %>
-            <li><a target="_blank" href="http://wordsandwriting.github.io/lumen/">Powered by Lumen</a></li>
-          </ul>
-        </div>
+          <% end %>
+        </ul>
       </div>
     </div>
 

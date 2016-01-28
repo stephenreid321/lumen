@@ -10,7 +10,12 @@ Lumen::App.controllers do
     when :ics      
       Event.ical(current_account)
     when :html   
-      erb :'events/calendar'    
+      case params[:view]
+      when 'calendar'
+        erb :'events/calendar'    
+      else
+        erb :'events/events'    
+      end
     end     
   end
         

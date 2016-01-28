@@ -1,5 +1,5 @@
 <style>
-  .fc button { height: auto; line-height: 1.42857; padding: 6px 12px } 
+  .fc button { height: auto; line-height: 1.42857; padding: 10px 12px } 
 </style>
 
 <script>
@@ -52,10 +52,11 @@
             }
 <% end %>
   });
-          $('.fc-right').prepend('<a href="/events/new" class="btn btn-primary" title="Add an event"><i class="fa fa-plus"></i> Add an event</a>');
+          $('.fc-right').prepend('<a href="/events" class="btn btn-default"><i class="fa fa-list"></i> List view</a><a href="/events/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add an event</a>');
           $('.fc-button-group').addClass('btn-group');
           $('.fc-button').attr('class', 'btn btn-default');
-          $('.fc-left > button').attr('disabled', false); //today
+          $('.fc-left > button').attr('disabled', false) //today
+          $('.fc-left > button, .fc-right .fc-button-group .btn').css('text-transform', 'capitalize');
   });
 </script>
 

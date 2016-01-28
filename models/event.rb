@@ -114,6 +114,10 @@ class Event
     cal.export
   end
   
+  def self.future
+    self.where(:start_time.gte => Date.today).order_by(:start_time.asc)
+  end
+  
   def self.json(eventable, period_start, period_end)
     events = eventable.events
     events = events.where(:start_time.lte => Time.zone.parse(period_end))

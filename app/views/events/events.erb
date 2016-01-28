@@ -1,0 +1,33 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">Events</li>
+</ol>
+
+<% if Fragment.find_by(slug: 'right-col') %>
+  <div class="row">
+    <div class="col-md-8">
+    <% end %>
+
+    <%= Fragment.find_by(slug: 'events').try(:body) %>
+
+    <div>
+      <a style="float: right" class="btn btn-primary" href="/events/new"><i class="fa fa-plus"></i> Add an event</a>
+      <a style="float: right; margin-right: 5px" class="btn btn-default" href="/events?view=calendar" ><i class="fa fa-calendar"></i> Calendar view</a>
+      <h1 style="margin-top: 0">Events</h1>
+    </div>
+
+    <% current_account.events.future.each { |event| %>
+      <hr />
+      <h3 style="font-size: 22px; line-height: 150%; margin-bottom: 8px; margin-top: 0
+          "><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%= event.name %></a> <small><%=g event.group%></small></h3>
+      <%= partial :'events/minimal', :locals => {:event => event} %>
+    <% } %>
+
+
+    <% if Fragment.find_by(slug: 'right-col') %>
+    </div>
+    <div class="col-md-4">
+      <%= eval(f('right-col')) %>    
+    </div>
+  </div>
+<% end %>

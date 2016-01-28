@@ -166,8 +166,8 @@
 
     <div id="footer">
       <div class="container-fluid">         
-        <div style="text-align: center">
-          <%= eval(f('footer')) %>
+        <%= eval(f('footer')) %>
+        <div style="text-align: right">        
           <ul class="list-inline" style="margin-bottom: 0">
             <% if current_account %>
               <% if current_account.admin? %>

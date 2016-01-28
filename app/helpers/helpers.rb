@@ -17,7 +17,7 @@ Lumen::App.helpers do
   end
   
   def g(group)
-    unless ENV['PRIMARY_GROUP'] and ENV['PRIMARY_GROUP'] == group.slug
+    unless group.primary
       %Q{<a title="Posted in the group #{group.slug}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.slug}</a>}
     end
   end    

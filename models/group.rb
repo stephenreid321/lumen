@@ -4,6 +4,7 @@ class Group
   extend Dragonfly::Model
 
   field :slug, :type => String
+  field :primary, :type => Boolean
   field :description, :type => String
   field :privacy, :type => String
   field :default_notification_level, :type => String, :default => 'each'
@@ -64,6 +65,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   
   validates_presence_of :slug, :privacy
   validates_uniqueness_of :slug
+  validates_uniqueness_of :primary, :allow_nil => true
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/  
   
   def email(suffix = '')
@@ -157,6 +159,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def self.admin_fields
     {
       :slug => :text,
+      :primary => :check_box,
       :description => :text_area,
       :picture => :image,
       :privacy => :radio,

@@ -18,7 +18,7 @@
     </div>
 
     <h2>Your groups</h2>
-    <% current_account.groups.order_by(:slug.asc).each { |group| %>
+    <% current_account.groups.order_by(:primary.desc, :slug.asc).each { |group| %>
       <hr />
       <%= partial :'groups/group', :object => group %>  
     <% } %>

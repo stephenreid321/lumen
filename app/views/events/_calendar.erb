@@ -14,34 +14,34 @@
           loading: function(isLoading) {
           if (isLoading == true)
                   $('.fc-left h2').append(' <i class="fa fa-spinner fa-spin"></i>');
-                  else
+          else
                   $('.fc-left h2 i').remove();
           },
           eventColor: '#E74C3C',
           eventClick: function(event, jsEvent, view) {
           $('.fc-event').popover('destroy');
-                  if ($(this).data('popover') == true) {
+          if ($(this).data('popover') == true) {
           $(this).data('popover', false);
           } else {
           el = $(this);
-                  $.get('/groups/' + event.group_slug + '/events/' + event.id + '/minimal', function(response) {
-                  el.popover({
-                  content: response,
-                          trigger: 'manual',
-                          title: event.title <% if !@group %> + ' <a class="group" href="/groups/' + event.group_slug + '"><i class="fa fa-group"></i> ' + event.group_slug + '</a>' <% end%>,
-                          placement:'auto top',
-                          container:'body',
-                          html: true
-                  }).popover('show');
-                  });
-                  $('.fc-event').data('popover', false);
-                  $(this).data('popover', true);
+          $.get('/groups/' + event.group_slug + '/events/' + event.id + '/minimal', function(response) {
+          el.popover({
+          content: response,
+                  trigger: 'manual',
+                  title: event.title <% if !@group %> + ' <a class="group" href="/groups/' + event.group_slug + '"><i class="fa fa-group"></i> ' + event.group_slug + '</a>' <% end%>,
+                  placement:'auto top',
+                  container:'body',
+                  html: true
+          }).popover('show');
+          });
+          $('.fc-event').data('popover', false);
+          $(this).data('popover', true);
           }
           return false;
           },
           viewDestroy: function() {
           $('.fc-event').popover('destroy');
-                  $('.fc-event').data('popover', false);
+          $('.fc-event').data('popover', false);
           },
 <% if params[:event_id]; event = Event.find(params[:event_id]) %>
     year: <%=event.start_time.year%>,
@@ -52,20 +52,16 @@
             }
 <% end %>
   });
-          $('.fc-right').prepend('<a href="/events" class="btn btn-default"><i class="fa fa-list"></i> List view</a><a href="/events/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add an event</a>');
-          $('.fc-button-group').addClass('btn-group');
-          $('.fc-button').attr('class', 'btn btn-default');
-          $('.fc-left > button').attr('disabled', false) //today
+  $('.fc-right').prepend('<a href="/events" class="btn btn-default"><i class="fa fa-list"></i> List view</a><a href="/events/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add an event</a>');
+  $('.fc-button-group').addClass('btn-group');
+  $('.fc-button').attr('class', 'btn btn-default');
+  $('.fc-left > button').attr('disabled', false) //today
           $('.fc-left > button, .fc-right .fc-button-group .btn').css('text-transform', 'capitalize');
   });
 </script>
 
 <div id="calendar"></div>
 
-<% if current_account %>
-  <p style="text-align: center; margin-top: 10px">
-    Add this calendar to your Google Calendar (<a href="https://support.google.com/calendar/answer/37100?hl=en">instructions</a>), Apple Calendar, etc:<br />
-    <input class="form-control" style="width: 20em; display: inline" type="text" value="http://<%=ENV['DOMAIN']%>/events.ics?token=<%=current_account.secret_token%>">
-  </p>
-<% end %>
+<%= partial :'events/ical_instructions' %>
+
 

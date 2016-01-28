@@ -69,6 +69,7 @@ select[name*=day], select[name*=month], select[name*=year], select[name*=hour], 
 .page-options li { display:inline-block; padding: 0.5em }
 
 #results-form .select2-container { margin-bottom: 5px }
+#results-form { background: #ECF0F1; border-radius: 5px; padding: 10px }
 
 table a:not(.btn), .table a:not(.btn) { text-decoration: none }
 
@@ -91,6 +92,9 @@ dark yellow #cda70d
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus { background: #E74C3C }
 
 .select2-drop .select2-highlighted > .select2-result-label { background-color: #E74C3C }
+.select2-container .select2-choice, .select2-container .select2-default { background: white; font-size: 13px }
+.select2-container .select2-choice abbr { top: 6px }
+.select2-container .select2-choice .select2-arrow b { position: relative; top: -1px }
 
 .alert-info {
   background-color: #3498DB;

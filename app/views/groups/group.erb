@@ -34,14 +34,14 @@
           <img style="width: 100%" src="<%=@group.picture ? @group.picture.thumb('500x500#').url : '/images/blank.png'%>">
         </div>
         <div class="col-md-10">
-            <style>
-              @media(min-width: 768px) {
-                #group-title { display: inline; margin-top: 0; margin-right: 10px }
-                #notification-level-form {  display:inline }
-                #notification-level { position: relative; top: -11px; display:inline-block; width: auto; height: auto; }
-              }
-            </style>          
-          
+          <style>
+            @media(min-width: 768px) {
+              #group-title { display: inline; margin-top: 0; margin-right: 10px }
+              #notification-level-form {  display:inline }
+              #notification-level { position: relative; top: -11px; display:inline-block; width: auto; height: auto; }
+            }
+          </style>          
+
           <h1 id="group-title"><%=@group.slug%></h1>
 
           <% if @membership %>
@@ -67,9 +67,9 @@
       <% if current_account %>
         <h2 style="margin-top: 0">
           <%=I18n.t(:members, count: @group.members.count)%>
-          <small><a class="edit" title="Full page" href="/groups/<%=@group.slug%>/members"><i class="fa fa-th-list"></i></a></small>
         </h2>
         <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
+        <a class="btn btn-hg btn-primary btn-block" href="/groups/<%=@group.slug%>/members"><i class="fa fa-search"></i> Browse members</a>      
       <% else %>
         <%= partial 'groups/join', :locals => {:group => @group} %>
       <% end %>

@@ -5,6 +5,6 @@
   <li class="active">Members</li>
 </ol>
 
-<h1><%=I18n.t(:members_in_this_group, count: @group.members.count)%></h1>
+<h1>Members of <%=@group.slug%></h1>
 
 <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id, :per_page => 18, :full_width => true} %>

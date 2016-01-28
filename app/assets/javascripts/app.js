@@ -178,7 +178,7 @@ $(function () {
     });
   });
 
-  $('#results-form input[type=radio]').change(function () {
+  $('#results-form input[type=radio], #results-form select').change(function () {
     $(this.form).submit();
   });
 

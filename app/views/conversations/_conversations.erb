@@ -36,7 +36,9 @@
   <%= partial :'conversations/conversations_table', :locals => {:conversations => @conversations}  %>
 <% end %>
 
-<%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+<div style="text-align: center">
+  <%= will_paginate @conversations, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>
 
 <% if !ENV['WALL_STYLE_CONVERSATIONS'] %>
   <% if @membership %>

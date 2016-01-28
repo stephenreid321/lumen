@@ -55,6 +55,7 @@ Lumen::App.controllers do
       :WALL_STYLE_CONVERSATIONS => ['Wall-style conversations'],
       :INLINE_REPLIES => ['Allow inline replies'],        
       :REPLY_TO_GROUP => ['Sets the reply-to header to the group address'],
+      :HIGHLIGHTED_EVENT_LABEL_TEXT => 'Custom label text for highlighted events',
                     
       :FACEBOOK_KEY => 'Facebook API key',
       :FACEBOOK_SECRET => 'Facebook API secret',

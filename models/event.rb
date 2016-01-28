@@ -18,6 +18,7 @@ class Event
   field :tickets_link, :type => String
   field :more_info, :type => String
   field :publicity_tweet, :type => String
+  field :highlighted, :type => Boolean
   
   include Geocoder::Model::Mongoid
   geocoded_by :location
@@ -58,6 +59,7 @@ class Event
       :publicity_tweet => :text,
       :ticketing => :select,
       :tickets_link => :text,
+      :highlighted => :check_box,
       :group_id => :lookup,
       :account_id => :lookup,
       :organisation_id => :lookup

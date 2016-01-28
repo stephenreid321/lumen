@@ -9,7 +9,7 @@ body { padding: 10px 0 0 0; }
 
 abbr[title] { border: none }
 
-#footer { background: #333333; padding: 20px 0; }
+#footer { background: #333333; padding: 20px 0; font-size: 14px; line-height: 130% }
 @media(min-width: 768px) {
   body { padding-bottom: 120px }
   #footer { position: absolute; bottom: 0; height: 100px; width: 100%; }

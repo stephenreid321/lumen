@@ -41,7 +41,7 @@
 
   </div>
 
-  <div style="background: #F5F5F5;">
+  <div class="wall-conversation-post-replies">
     <div style="color: #aaa; margin-top: 10px; padding: 7px; border: 1px solid #ddd; border-width: 1px 0 0 0">
       <%= partial :'conversations/conversation_post_info', :locals => {:conversation_post => conversation_post} %>
     </div>
@@ -67,7 +67,7 @@
               <div style="display:none;">
                 <%= f.file_block :file, div_class: 'col-md-12' %>
               </div>
-              <button type="submit" class="btn btn-default"><%=I18n.t(:post).capitalize%></button>
+              <button type="submit" class="btn btn-primary"><%=I18n.t(:post).capitalize%></button>
             <% end %>
           </div>
         </div>     

@@ -417,4 +417,7 @@ ul.admin-options li a:hover, ul.admin-options li.active a {
 #map-canvas {
   background: #ECF0F1 !important; }
 
+.wall-conversation-post-replies {
+  background: #ECF0F1; }
+
 /*# sourceMappingURL=app.css.map */

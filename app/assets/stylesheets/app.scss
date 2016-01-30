@@ -1,8 +1,8 @@
-$red: #E74C3C;
-$red-dark: #CD4435;
-$red-light: #F9DFDD;
-$yellow: #F5D74B;
-$yellow-dark: #cda70d;
+$primary: #F5D74B;
+$primary-dark: #cda70d;
+$secondary: #E74C3C;
+$secondary-dark: #CD4435;
+$secondary-light: #F9DFDD;
 $grey-light: #ECF0F1;
 $grey-mid: #D6DBDF;
 
@@ -97,10 +97,10 @@ a.group { color: #999 }
 
 hr { border-color: #ccc; margin-top: 18px; margin-bottom: 18px }
 
-.dropdown-menu.typeahead { border-color: $red }
-.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus { background: $red }
+.dropdown-menu.typeahead { border-color: $secondary }
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus { background: $secondary }
 
-.select2-drop .select2-highlighted > .select2-result-label { background-color: $red }
+.select2-drop .select2-highlighted > .select2-result-label { background-color: $secondary }
 .select2-container .select2-choice, .select2-container .select2-default { background: white; font-size: 13px }
 .select2-container .select2-choice abbr { top: 6px }
 .select2-container .select2-choice .select2-arrow b { position: relative; top: -1px }
@@ -111,61 +111,61 @@ hr { border-color: #ccc; margin-top: 18px; margin-bottom: 18px }
   color: #fff;
 }
 
-.badge { background:  $red }
+.badge { background:  $secondary }
 
-a { color: $red }
-a:hover, a:focus, a:active { color: $red-dark }
+a { color: $secondary }
+a:hover, a:focus, a:active { color: $secondary-dark }
 
-.btn-primary { background: $yellow; color: #222 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active { background: $yellow-dark; color: #222 }
+.btn-primary { background: $primary; color: #222 }
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active { background: $primary-dark; color: #222 }
 
-.btn-info { background: $red; color: white }
-.btn-info:hover, .btn-info:focus, .btn-info:active  { background: $red-dark}
+.btn-info { background: $secondary; color: white }
+.btn-info:hover, .btn-info:focus, .btn-info:active  { background: $secondary-dark}
 
 .navbar-inverse { background: #333333 }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu  { background: #333333 }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu > .divider { background: black }
 .navbar-inverse .navbar-collapse { border-color: black }
-.navbar-inverse .navbar-toggle:hover::before, .navbar-inverse .navbar-toggle:focus::before { color: $yellow; }
-.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus { color: $yellow }
+.navbar-inverse .navbar-toggle:hover::before, .navbar-inverse .navbar-toggle:focus::before { color: $primary; }
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus { color: $primary }
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus { background-color: black }
 .navbar-inverse .navbar-nav > .dropdown > a .caret { border-bottom-color: #777; border-top-color: #777; }
-.navbar-inverse .navbar-nav > .dropdown > a:hover .caret, .navbar-inverse .navbar-nav > .dropdown > a:focus .caret { border-bottom-color: $yellow; border-top-color: $yellow; }
-.navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:focus { background: black; color: $yellow }
-.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: $yellow }
+.navbar-inverse .navbar-nav > .dropdown > a:hover .caret, .navbar-inverse .navbar-nav > .dropdown > a:focus .caret { border-bottom-color: $primary; border-top-color: $primary; }
+.navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:focus { background: black; color: $primary }
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: $primary }
 .navbar-nav > li > .dropdown-menu { margin-top: 2px }
 
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 
-.form-group.focus .form-control, .form-control:focus, .form-group.focus .select2-search input[type="text"], .select2-search input[type="text"]:focus { border-color: $red }
+.form-group.focus .form-control, .form-control:focus, .form-group.focus .select2-search input[type="text"], .select2-search input[type="text"]:focus { border-color: $secondary }
 
-.img-bordered { border: 6px solid $yellow; }
-.img-bordered:hover { border: 6px solid $red; }
-.img-bordered-lg { border: 8px solid $yellow; }
+.img-bordered { border: 6px solid $primary; }
+.img-bordered:hover { border: 6px solid $secondary; }
+.img-bordered-lg { border: 8px solid $primary; }
 
 #footer, #footer a { color: #999999 }
-#footer a:hover { color: $yellow }
+#footer a:hover { color: $primary }
 
 .pagination li.previous > a, .pagination li.next > a, .pagination li.previous > span, .pagination li.next > span, .pagination li > a, .pagination li > span { color: #fff; background: #grey-mid }
 .pagination li.disabled > a, .pagination li.disabled > span, .pagination li.disabled > a:hover, .pagination li.disabled > span:hover, .pagination li.disabled > a:focus, .pagination li.disabled > span:focus, .pagination li.disabled > a:active, .pagination li.disabled > span:active { color: #999 }
-.pagination li.active > a, .pagination li.active > span { background: $yellow }
-.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus { background: $yellow-dark }
-.pagination li > a:hover, .pagination li > span:hover, .pagination li > a:focus, .pagination li > span:focus { background: $yellow }
+.pagination li.active > a, .pagination li.active > span { background: $primary }
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus { background: $primary-dark }
+.pagination li > a:hover, .pagination li > span:hover, .pagination li > a:focus, .pagination li > span:focus { background: $primary }
 
-.label-primary { background: $yellow; color: #222 }
-.label-primary[href]:hover, .label-primary[href]:focus { background: $yellow-dark; color: #222 }
+.label-primary { background: $primary; color: #222 }
+.label-primary[href]:hover, .label-primary[href]:focus { background: $primary-dark; color: #222 }
 
 .panel-primary {
-  border-color: $yellow;
+  border-color: $primary;
 }
 .panel-primary > .panel-heading {
-  background-color: $yellow;
-  border-color: $yellow;
+  background-color: $primary;
+  border-color: $primary;
   color: #222;
 }
 
 .progress-bar {
-  background: $red;
+  background: $secondary;
 }
 
 .table-hr td:first-child { width: 1px; white-space: nowrap; font-weight: bold; padding-right: 20px }
@@ -210,5 +210,5 @@ p.lead { font-size: 20px; line-height: 140% }
   #venue-filters { background: $grey-light }
   #map-canvas { background: $grey-light !important; }
   .wall-conversation-post-replies { background: $grey-light }
-  .stats-highlight { background: $red-light }
+  .stats-highlight { background: $secondary-light }
   

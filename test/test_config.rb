@@ -2,6 +2,7 @@ RACK_ENV = 'test' unless defined?(RACK_ENV)
 require File.expand_path('../../config/boot', __FILE__)
 
 require 'capybara'
+require 'capybara/dsl'
 require 'capybara/poltergeist'
 require 'factory_girl'
 require 'minitest/autorun'

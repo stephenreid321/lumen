@@ -15,6 +15,7 @@ gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 
 # Data storage
 gem 'mongoid'
+gem 'delayed_job_mongoid'
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
 
@@ -24,29 +25,26 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 
-# Error reporting
-gem 'airbrake', '4.3.5'
-
-# Autolinking
+# Text processing
 gem 'rinku'
+gem 'sanitize'
+gem 'sass'
 
 # Email
 gem 'mail'
 gem 'premailer'
 
 # Interacting with other websites
+gem 'airbrake', '4.3.5'
 gem 'mechanize'
-
-# Extras
-gem 'ri_cal', github: 'espen/ri_cal'
-gem 'geocoder'
 gem 'platform-api'
-gem 'sanitize'
-gem 'delayed_job_mongoid'
-gem 'countries'
-gem 'sass'
+gem 'geocoder'
 gem 'net-ssh'
 gem 'net-scp'
+
+# Others
+gem 'ri_cal', github: 'espen/ri_cal'
+gem 'countries'
 
 group :test do
   gem 'minitest-rg'
@@ -55,4 +53,3 @@ group :test do
   gem 'launchy'
   gem 'poltergeist'
 end
-

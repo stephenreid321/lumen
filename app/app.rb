@@ -1,5 +1,11 @@
 module Lumen
   class App < Padrino::Application
+
+    require 'sass/plugin/rack'
+    Sass::Plugin.options[:template_location] = Padrino.root('app', 'assets', 'stylesheets')
+    Sass::Plugin.options[:css_location] = Padrino.root('app', 'assets', 'stylesheets')
+    use Sass::Plugin::Rack
+    
     register Padrino::Rendering
     register Padrino::Helpers
     register WillPaginate::Sinatra

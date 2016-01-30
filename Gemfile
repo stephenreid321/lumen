@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 gem 'puma'
-gem 'padrino', '0.12.4'
+gem 'padrino'
 gem 'rake'
 gem 'erubis'
-gem 'rack', '1.5.2'
+gem 'rack'
 gem 'rack-timeout'
 
 # Admin
@@ -25,7 +25,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 
 # Error reporting
-gem 'airbrake'
+gem 'airbrake', '4.3.5'
 
 # Autolinking
 gem 'rinku'
@@ -44,6 +44,9 @@ gem 'platform-api'
 gem 'sanitize'
 gem 'delayed_job_mongoid'
 gem 'countries'
+gem 'sass'
+gem 'net-ssh'
+gem 'net-scp'
 
 group :test do
   gem 'minitest-rg'

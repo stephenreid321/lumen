@@ -10,7 +10,6 @@ Bundler.require(:default, RACK_ENV)
 Rack::Timeout.timeout = 25
 
 require 'net/imap'
-require 'net/scp'
 
 Padrino.load!
 

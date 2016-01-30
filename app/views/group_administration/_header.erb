@@ -1,12 +1,4 @@
 
-<style>
-  ul.admin-options { margin-top: -15px; padding: 8px 15px; list-style-type: none; background: #f8f8f8; margin-bottom: 20px; }
-  ul.admin-options li { display: inline-block; padding: 0px 8px }
-  ul.admin-options li:first-child { padding-left: 0 }
-  ul.admin-options li a { color: black; text-decoration: none; opacity: 0.25 }
-  ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
-</style>
-
 <%= ul_nav 'admin-options', [
   ['<i class="fa fa-group"></i> ' + I18n.t(:manage_members).capitalize, 'manage_members'],
   ['<i class="fa fa-pencil"></i> ' + I18n.t(:settings).capitalize, 'edit'],

@@ -10,7 +10,7 @@ body {
   max-width: 1170px; }
 
 .breadcrumb {
-  background: #F8F8F8;
+  background: #ECF0F1;
   border: 0;
   margin-bottom: 20px; }
 
@@ -95,7 +95,7 @@ ul.admin-options {
   margin-top: 5px;
   padding: 8px 15px;
   list-style-type: none;
-  background: #f8f8f8; }
+  background: #ECF0F1; }
 
 ul.admin-options li {
   display: inline-block;
@@ -187,13 +187,6 @@ hr {
   margin-top: 18px;
   margin-bottom: 18px; }
 
-/*
-red #E74C3C
-dark red #CD4435
-light red #F9DFDD
-yellow #F5D74B
-dark yellow #cda70d
-*/
 .dropdown-menu.typeahead {
   border-color: #E74C3C; }
 
@@ -305,7 +298,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .pagination li.previous > a, .pagination li.next > a, .pagination li.previous > span, .pagination li.next > span, .pagination li > a, .pagination li > span {
   color: #fff;
-  background: #D6DBDF; }
+  background: #grey-mid; }
 
 .pagination li.disabled > a, .pagination li.disabled > span, .pagination li.disabled > a:hover, .pagination li.disabled > span:hover, .pagination li.disabled > a:focus, .pagination li.disabled > span:focus, .pagination li.disabled > a:active, .pagination li.disabled > span:active {
   color: #999; }
@@ -377,5 +370,51 @@ p.lead {
   .carousel-caption p {
     font-size: 22px;
     line-height: 130%; } }
+.conversation-form {
+  background: #ECF0F1;
+  border-radius: 8px;
+  padding: 12px; }
+
+.ical-instructions {
+  text-align: center;
+  margin-top: 10px;
+  padding: 10px;
+  background: #ECF0F1;
+  border-radius: 5px; }
+
+.conversation-post-info {
+  color: #aaa;
+  margin-top: 10px;
+  background: #ECF0F1;
+  padding: 5px 10px;
+  border-radius: 4px; }
+
+ul.admin-options {
+  margin-top: -15px;
+  padding: 8px 15px;
+  list-style-type: none;
+  background: #ECF0F1;
+  margin-bottom: 20px; }
+
+ul.admin-options li {
+  display: inline-block;
+  padding: 0px 8px; }
+
+ul.admin-options li:first-child {
+  padding-left: 0; }
+
+ul.admin-options li a {
+  color: black;
+  text-decoration: none;
+  opacity: 0.25; }
+
+ul.admin-options li a:hover, ul.admin-options li.active a {
+  opacity: 1; }
+
+#venue-filters {
+  background: #ECF0F1; }
+
+#map-canvas {
+  background: #ECF0F1 !important; }
 
 /*# sourceMappingURL=app.css.map */

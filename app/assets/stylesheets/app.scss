@@ -1,9 +1,16 @@
 $red: #E74C3C;
 $red-dark: #CD4435;
+$red-light: #F9DFDD;
 $yellow: #F5D74B;
 $yellow-dark: #cda70d;
 $grey-light: #ECF0F1;
 $grey-mid: #D6DBDF;
+
+/*
+elsewhere:
+eventColor
+blank.png
+*/
 
 html {
   position: relative;
@@ -203,3 +210,5 @@ p.lead { font-size: 20px; line-height: 140% }
   #venue-filters { background: $grey-light }
   #map-canvas { background: $grey-light !important; }
   .wall-conversation-post-replies { background: $grey-light }
+  .stats-highlight { background: $red-light }
+  

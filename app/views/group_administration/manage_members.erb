@@ -33,7 +33,7 @@
         <tr>
           <td>
             <a href="/accounts/<%=account.id%>"><%= account.name %></a>
-            <% if @view == :requests %><p style="color: #bfbfbf; margin: 0"><%=membership.created_at%></p><% end %>
+            <% if @view == :requests %><p style="color: #bbb; margin: 0"><%=membership.created_at%></p><% end %>
           </td>
           <% case @view; when :twitter_profile_url %>
             <td>

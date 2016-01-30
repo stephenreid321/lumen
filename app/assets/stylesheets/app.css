@@ -1,4 +1,9 @@
 @charset "UTF-8";
+/*
+elsewhere:
+eventColor
+blank.png
+*/
 html {
   position: relative;
   min-height: 100%; }
@@ -419,5 +424,8 @@ ul.admin-options li a:hover, ul.admin-options li.active a {
 
 .wall-conversation-post-replies {
   background: #ECF0F1; }
+
+.stats-highlight {
+  background: #F9DFDD; }
 
 /*# sourceMappingURL=app.css.map */

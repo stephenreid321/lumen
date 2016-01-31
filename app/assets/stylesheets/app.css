@@ -3,6 +3,7 @@
 elsewhere:
 eventColor
 blank.png
+.alert-info
 */
 html {
   position: relative;
@@ -303,7 +304,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .pagination li.previous > a, .pagination li.next > a, .pagination li.previous > span, .pagination li.next > span, .pagination li > a, .pagination li > span {
   color: #fff;
-  background: #grey-mid; }
+  background: #D6DBDF; }
 
 .pagination li.disabled > a, .pagination li.disabled > span, .pagination li.disabled > a:hover, .pagination li.disabled > span:hover, .pagination li.disabled > a:focus, .pagination li.disabled > span:focus, .pagination li.disabled > a:active, .pagination li.disabled > span:active {
   color: #999; }

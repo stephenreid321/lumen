@@ -10,6 +10,7 @@ $grey-mid: #D6DBDF;
 elsewhere:
 eventColor
 blank.png
+.alert-info
 */
 
 html {
@@ -146,7 +147,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 #footer, #footer a { color: #999999 }
 #footer a:hover { color: $primary }
 
-.pagination li.previous > a, .pagination li.next > a, .pagination li.previous > span, .pagination li.next > span, .pagination li > a, .pagination li > span { color: #fff; background: #grey-mid }
+.pagination li.previous > a, .pagination li.next > a, .pagination li.previous > span, .pagination li.next > span, .pagination li > a, .pagination li > span { color: #fff; background: $grey-mid }
 .pagination li.disabled > a, .pagination li.disabled > span, .pagination li.disabled > a:hover, .pagination li.disabled > span:hover, .pagination li.disabled > a:focus, .pagination li.disabled > span:focus, .pagination li.disabled > a:active, .pagination li.disabled > span:active { color: #999 }
 .pagination li.active > a, .pagination li.active > span { background: $primary }
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus { background: $primary-dark }

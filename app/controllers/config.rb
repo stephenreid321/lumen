@@ -70,7 +70,17 @@ Lumen::App.controllers do
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
       :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',
       
-      :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)']
+      :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],
+      
+      :PRIMARY_COLOR => 'Default #F5D74B',
+      :PRIMARY_CONTRAST_COLOR => 'Default #222222',
+      :PRIMARY_DARK_COLOR => 'Default #CDA70D',
+      :SECONDARY_COLOR => 'Default #E74C3C',
+      :SECONDARY_DARK_COLOR => 'Default #CD4435',
+      :SECONDARY_LIGHT_COLOR => 'Default #F9DFDD',
+      :GREY_LIGHT => 'Default #ECF0F1',
+      :GREY_MID => 'Default #D6DBDF',
+      :DARK_CONTRAST => 'Default #F5D74B'    
     } 
     
     @fragments = {

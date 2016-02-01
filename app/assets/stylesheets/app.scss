@@ -6,6 +6,7 @@ $secondary-dark: colors('secondary-dark');
 $secondary-light: colors('secondary-light');
 $grey-light: colors('grey-light');
 $grey-mid: colors('grey-mid');
+$dark-contrast: colors('dark-contrast');
 
 /*
 elsewhere:
@@ -128,13 +129,13 @@ a:hover, a:focus, a:active { color: $secondary-dark }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu  { background: #333333 }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu > .divider { background: black }
 .navbar-inverse .navbar-collapse { border-color: black }
-.navbar-inverse .navbar-toggle:hover::before, .navbar-inverse .navbar-toggle:focus::before { color: $primary; }
-.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus { color: $primary }
+.navbar-inverse .navbar-toggle:hover::before, .navbar-inverse .navbar-toggle:focus::before { color: $dark-contrast; }
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus { color: $dark-contrast }
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus { background-color: black }
 .navbar-inverse .navbar-nav > .dropdown > a .caret { border-bottom-color: #777; border-top-color: #777; }
-.navbar-inverse .navbar-nav > .dropdown > a:hover .caret, .navbar-inverse .navbar-nav > .dropdown > a:focus .caret { border-bottom-color: $primary; border-top-color: $primary; }
-.navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:focus { background: black; color: $primary }
-.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: $primary }
+.navbar-inverse .navbar-nav > .dropdown > a:hover .caret, .navbar-inverse .navbar-nav > .dropdown > a:focus .caret { border-bottom-color: $primary; border-top-color: $dark-contrast; }
+.navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:focus { background: black; color: $dark-contrast }
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: $dark-contrast }
 .navbar-nav > li > .dropdown-menu { margin-top: 2px }
 
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }

@@ -30,7 +30,7 @@ module Lumen
     set :default_builder, 'ActivateFormBuilder'
         
     before do
-      redirect "http://#{ENV['DOMAIN']}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
+      redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : (ENV['DEFAULT_TIME_ZONE'] || 'London')
       I18n.locale = (current_account and current_account.language) ? current_account.language.code : Language.default.code
       fix_params!    

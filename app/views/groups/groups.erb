@@ -8,14 +8,14 @@
     <div class="col-md-8">
     <% end %>
 
-    <%= Fragment.find_by(slug: 'groups').try(:body) %>
-
     <div>
       <% if !ENV['GROUP_CREATION_BY_ADMINS_ONLY'] or (current_account and current_account.admin?) %>
         <a style="float: right" title="Create a group" class="btn btn-primary" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
       <% end %>
       <h1 style="margin-top: 0">Groups</h1>
     </div>
+
+    <%= Fragment.find_by(slug: 'groups').try(:body) %>
 
     <h2>Your groups</h2>
     <% current_account.groups.order_by(:primary.desc, :slug.asc).each { |group| %>

@@ -1,10 +1,10 @@
-$primary: #F5D74B;
-$primary-dark: #cda70d;
-$secondary: #E74C3C;
-$secondary-dark: #CD4435;
-$secondary-light: #F9DFDD;
-$grey-light: #ECF0F1;
-$grey-mid: #D6DBDF;
+$primary: colors('primary');
+$primary-dark: colors('primary-dark');
+$secondary: colors('secondary');
+$secondary-dark: colors('secondary-dark');
+$secondary-light: colors('secondary-light');
+$grey-light: colors('grey-light');
+$grey-mid: colors('grey-mid');
 
 /*
 elsewhere:

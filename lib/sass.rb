@@ -8,6 +8,7 @@ module Sass::Script::Functions
     
     defaults = {
       'primary' => '#F5D74B',
+      'primary-contrast' => '#222222',
       'primary-dark' => '#CDA70D',
       'secondary' => '#E74C3C',
       'secondary-dark' => '#CD4435',

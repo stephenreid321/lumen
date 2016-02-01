@@ -1,4 +1,5 @@
 $primary: colors('primary');
+$primary-contrast: colors('primary-contrast');
 $primary-dark: colors('primary-dark');
 $secondary: colors('secondary');
 $secondary-dark: colors('secondary-dark');
@@ -117,8 +118,8 @@ hr { border-color: #ccc; margin-top: 18px; margin-bottom: 18px }
 a { color: $secondary }
 a:hover, a:focus, a:active { color: $secondary-dark }
 
-.btn-primary { background: $primary; color: #222 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active { background: $primary-dark; color: #222 }
+.btn-primary { background: $primary; color: $primary-contrast }
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active { background: $primary-dark; color: $primary-contrast }
 
 .btn-info { background: $secondary; color: white }
 .btn-info:hover, .btn-info:focus, .btn-info:active  { background: $secondary-dark}
@@ -153,8 +154,8 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus { background: $primary-dark }
 .pagination li > a:hover, .pagination li > span:hover, .pagination li > a:focus, .pagination li > span:focus { background: $primary }
 
-.label-primary { background: $primary; color: #222 }
-.label-primary[href]:hover, .label-primary[href]:focus { background: $primary-dark; color: #222 }
+.label-primary { background: $primary; color: $primary-contrast }
+.label-primary[href]:hover, .label-primary[href]:focus { background: $primary-dark; color: $primary-contrast }
 
 .panel-primary {
   border-color: $primary;
@@ -162,7 +163,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 .panel-primary > .panel-heading {
   background-color: $primary;
   border-color: $primary;
-  color: #222;
+  color: $primary-contrast;
 }
 
 .progress-bar {

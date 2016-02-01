@@ -17,8 +17,6 @@ module Sass::Script::Functions
     }
     
     v = ENV["#{color.underscore.upcase}_COLOR"] || defaults[color]
-    puts color
-    puts "#{"#{color.underscore.upcase}_COLOR"}: #{v}"
     Sass::Script::Value::String.new(v)
   end 
 end

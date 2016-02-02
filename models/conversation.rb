@@ -78,7 +78,7 @@ class Conversation
   end
   
   after_create do
-    if group.conversations_require_approval
+    if ENV['MAIL_SERVER_ADDRESS'] and group.conversations_require_approval
       group = self.group
       Mail.defaults do
         delivery_method :smtp, group.smtp_settings

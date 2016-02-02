@@ -67,7 +67,7 @@ Lumen::App.controllers do
     membership_required!(@conversation.group) unless @conversation.group.public?
     @membership = @conversation.group.memberships.find_by(account: current_account)
     if @conversation.hidden
-      flash[:notice] = "That conversation has been removed."
+      flash[:notice] = "That conversation is hidden."
       redirect "/groups/#{@conversation.group.slug}"
     else
       if current_account

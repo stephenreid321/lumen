@@ -9,7 +9,7 @@
   </head>
   <body>
     <span style="display:none !important;visibility: hidden;opacity: 0;font-size: 0"><%=(n = Nokogiri::HTML.parse(conversation_post.body)).css('style').remove; n.text[0..255]%><br /></span>
-    <span style="font-size: 80%">Respond by replying above this line or visit <a href="http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%><% if !ENV['BCC_SINGLE'] %>token=<%=conversation_post_bcc_recipient.secret_token%><% end%>">http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%></a></span>
+    <span style="font-size: 80%">Respond by replying above this line or visit <a href="http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%><% if !ENV['BCC_SINGLE'] %>token=<%==conversation_post_bcc.conversation_post_bcc_recipient.secret_token%><% end%>">http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%></a></span>
     <br />
 
     <% if group.didyouknows.count > 0 %>

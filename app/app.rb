@@ -34,6 +34,9 @@ module Lumen
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : (ENV['DEFAULT_TIME_ZONE'] || 'London')
       I18n.locale = (current_account and current_account.language) ? current_account.language.code : Language.default.code
       fix_params!    
+      if params[:token] and account = Account.find_by(secret_token: params[:token])
+        session[:account_id] = account.id
+      end
       PageView.create(:account => current_account, :path => request.path) if current_account and !request.xhr? and !params[:token]
     end     
      

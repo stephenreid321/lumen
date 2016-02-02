@@ -1,10 +1,8 @@
 Lumen::App.helpers do
   
   def current_account
-    @current_account ||= if session[:account_id]
-      Account.find(session[:account_id])
-    elsif params[:token]
-      Account.find_by(secret_token: params[:token]) 
+    if session[:account_id]
+      @current_account ||= Account.find(session[:account_id])
     end
   end
     

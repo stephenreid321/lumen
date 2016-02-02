@@ -78,9 +78,9 @@ Lumen::App.controllers do
       :SECONDARY_COLOR => 'Default #E74C3C',
       :SECONDARY_DARK_COLOR => 'Default #CD4435',
       :SECONDARY_LIGHT_COLOR => 'Default #F9DFDD',
-      :GREY_LIGHT => 'Default #ECF0F1',
-      :GREY_MID => 'Default #D6DBDF',
-      :DARK_CONTRAST => 'Default #F5D74B'    
+      :GREY_LIGHT_COLOR => 'Default #ECF0F1',
+      :GREY_MID_COLOR => 'Default #D6DBDF',
+      :DARK_CONTRAST_COLOR => 'Default #F5D74B'    
     } 
     
     @fragments = {

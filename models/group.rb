@@ -14,7 +14,8 @@ class Group
   field :redirect_after_first_profile_save, :type => String
   field :hot_conversation_threshold, :type => Integer, :default => 3
   field :show_full_conversations_in_digests, :type => Boolean
-  field :picture_uid, :type => String  
+  field :picture_uid, :type => String 
+  field :conversations_require_approval, :type => Boolean
   
   belongs_to :group, index: true
   has_many :groups, :dependent => :nullify
@@ -108,6 +109,14 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     Account.where(:id.in => memberships.where(:created_at.gte => from).where(:created_at.lt => to+1).pluck(:account_id)).where(:has_picture => true)
   end
   
+  def approved_conversations
+    conversations.where(:approved => true)
+  end  
+  
+  def unapproved_conversations
+    conversations.where(:hidden => true).where(:approved => nil)
+  end
+  
   def hot_conversations(from,to)
     visible_conversations.where(:updated_at.gte => from).where(:updated_at.lt => to+1).order_by(:updated_at.desc).select { |conversation| conversation.visible_conversation_posts.count >= hot_conversation_threshold }
   end
@@ -163,6 +172,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :description => :text_area,
       :picture => :image,
       :privacy => :radio,
+      :conversations_require_approval => :check_box,
       :default_notification_level => :text,
       :request_intro => :text_area,      
       :request_questions => :text_area,

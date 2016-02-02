@@ -28,6 +28,7 @@
       <%= f.text_area_block :description %>
       <%= f.image_block :picture %>    
       <%= f.radio_block :privacy %>
+      <%= f.check_box_block :conversations_require_approval %>
       <script>
         $(function () {
           function toggle_request_questions() {

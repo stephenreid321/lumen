@@ -43,6 +43,11 @@ Lumen::App.controllers do
     end    
   end 
   
+  get '/groups/:slug/conversations_requiring_approval' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    group_admins_only!
+    erb :'group_administration/conversations_requiring_approval'    
+  end
   
   get '/groups/:slug/landing_tab' do
     @group = Group.find_by(slug: params[:slug]) || not_found

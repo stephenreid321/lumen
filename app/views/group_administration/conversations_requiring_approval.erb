@@ -1,0 +1,25 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/"><%= @group.slug%></a>    
+  </li>      
+  <li class="active">
+    Landing tab
+  </li>
+</ol>
+
+<%= partial :'group_administration/header' %>
+
+<% if @group.unapproved_conversations.count == 0 %>
+  <p>No conversations to approve.</p>
+<% else %>
+  <% @group.unapproved_conversations.each_with_index { |conversation, i| %>
+    <h2 <% if i == 0 %> style="margin-top: 0" <% end %> >
+      <%=conversation.subject%>
+      <a class="btn btn-primary" href="/conversations/<%=conversation.slug%>/approve">Approve</a>
+      <a class="btn btn-danger" href="/conversations/<%=conversation.slug%>/disapprove">Keep hidden</a>
+    </h2>  
+    <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation.conversation_posts.first, :i => 0} %>
+  <% } %>
+<% end %>

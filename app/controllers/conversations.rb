@@ -93,6 +93,24 @@ Lumen::App.controllers do
       erb :'conversations/conversation'      
     end
   end
+  
+  get '/conversations/:slug/approve' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    group_admins_only!(@conversation.group)
+    @conversation.update_attribute(:approved, true)
+    @conversation.update_attribute(:hidden, false)
+    @conversation.conversation_posts.first.send_notifications!
+    flash[:notice] = "The conversation was approved."
+    redirect back
+  end    
+  
+  get '/conversations/:slug/disapprove' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    group_admins_only!(@conversation.group)
+    @conversation.update_attribute(:approved, false)
+    flash[:notice] = "The conversation was kept hidden."
+    redirect back
+  end   
     
   get '/conversations/:slug/hide' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found

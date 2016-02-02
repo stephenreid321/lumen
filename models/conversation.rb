@@ -86,7 +86,7 @@ class Conversation
       mail = Mail.new(
         :to => group.admins.map(&:email),
         :from => "#{group.slug} <#{group.email('-noreply')}>",
-        :subject => "Conversation for approval in #{group.slug} on #{ENV['SITE_NAME_SHORT']}",
+        :subject => "Conversation requires approval in #{group.slug} on #{ENV['SITE_NAME_SHORT']}",
         :body => ERB.new(File.read(Padrino.root('app/views/emails/approval_required.erb'))).result(binding)
       )
       mail.deliver        

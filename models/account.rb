@@ -212,6 +212,7 @@ class Account
   end  
   
   before_validation do
+    self.email = self.email.gsub(' ','') # strip unicode \u00a0
     self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
     

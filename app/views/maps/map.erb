@@ -14,25 +14,26 @@
     <div id="search-options">
 
       <script>
-        $(function() {
-          $('#map-form input, #map-form select').change(function() {
-            if ($('input[name=venues]').prop('checked'))
+        $(function () {
+          $('input[name=venues]').change(function () {
+            if ($(this).prop('checked'))
               $('#venue-filters').show()
             else
               $('#venue-filters').hide()
+          }).change();
+          $('#map-form input, #map-form select').change(function () {
             $(this.form).submit();
           });
-          $('#map-form').submit(function(e) {
+          $('#map-form').submit(function (e) {
             var form = this;
             e.preventDefault();
             $('.fa-spinner', this).show();
-            $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this).serialize(), function() {
+            $('#map').load('<%= @group ? "/groups/#{@group.slug}/map" : "/map" %>?' + $(this).serialize(), function () {
               $('.fa-spinner', form).hide();
               $('button[type=submit]', form).attr('disabled', false).html('<%= I18n.t(:search).capitalize%>');
             });
             return false;
-          });
-          $('#map-form input').change();
+          }).submit();
         });</script>
       <style>
         #map-form i.fa-map-marker { float: right }
@@ -64,7 +65,7 @@
               <%= I18n.t(:accessible).capitalize%>
             </label>
           </div> 
-          
+
           <div class="form-group"> 
             <label>
               <%= check_box_tag :private, :value => 1 %>

@@ -34,7 +34,7 @@ class Membership
   end
   
   def summary
-    "#{self.account.name} - #{self.group.name}"
+    "#{self.account.name} - #{self.group.slug}"
   end  
         
   before_validation do    

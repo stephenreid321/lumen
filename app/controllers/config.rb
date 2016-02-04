@@ -28,7 +28,7 @@ Lumen::App.controllers do
       :SANITIZE => ['Sanitize user input'],
   
       :REQUEST_LOCATION => ['Request location on request membership and join group forms'],      
-      :REQUIRE_ACCOUNT_POSTCODE => ['Requires the completion of the location field on account profiles'],
+      :REQUIRE_ACCOUNT_POSTCODE => ['Requires the completion of the postcode field on account profiles'],
       :REQUIRE_ACCOUNT_AFFILIATIONS => ['Requires some affiliations on account profiles'],
       :GROUP_CREATION_BY_ADMINS_ONLY => ['Only allow admins to create new groups'],
       :PRIVATE_NETWORK => ['Disables public membership requests and the Public group privacy option'],
@@ -109,7 +109,7 @@ Lumen::App.controllers do
       :'tip-postcode' => 'Tip for the postcode field on account edit page',
       :'tip-country' => 'Tip for the country field on account edit page',
       :'tip-phone' => 'Tip for the phone field on account edit page',
-      :'tip-website' => 'Tip for the location field on account edit page',
+      :'tip-website' => 'Tip for the website field on account edit page',
       :'tip-time-zone' => 'Tip for the time zone field on account edit page',
       :'tip-language' => 'Tip for the language field on account edit page',
     }     

@@ -214,7 +214,12 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   end  
     
   def self.privacies
-    {'Public: group content is public and anyone can choose to join' => 'public', 'Open: anyone can choose to join' => 'open', 'Closed: people must request membership' => 'closed', 'Secret: group is hidden and people can only join via invitation' => 'secret'}
+    p = {}
+    (p['Public: group content is public and anyone can choose to join'] = 'public') unless ENV['PRIVATE_NETWORK']
+    p['Open: anyone can choose to join'] = 'open'
+    p['Closed: people must request membership'] = 'closed'
+    p['Secret: group is hidden and people can only join via invitation'] = 'secret'      
+    p
   end
   
   def public?

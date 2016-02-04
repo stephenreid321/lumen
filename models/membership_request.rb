@@ -20,7 +20,7 @@ class MembershipRequest
         
   def self.admin_fields
     {
-      :summary => {:type => :text, :edit => false},
+      :summary => {:type => :text, :index => false, :edit => false},
       :account_id => :lookup,
       :group_id => :lookup,
       :status => :select,

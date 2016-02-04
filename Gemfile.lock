@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 1330466159ed0ad11a602878084405ce1a1e8fad
+  revision: 2c67035a0eda52e8e43d02ecd531f914d5af04c1
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -297,4 +297,4 @@ DEPENDENCIES
   will_paginate!
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

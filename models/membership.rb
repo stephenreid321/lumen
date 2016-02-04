@@ -19,7 +19,7 @@ class Membership
       
   def self.admin_fields
     {
-      :summary => {:type => :text, :edit => false},
+      :summary => {:type => :text, :index => false, :edit => false},
       :account_id => :lookup,
       :group_id => :lookup,
       :added_by_id => :lookup,

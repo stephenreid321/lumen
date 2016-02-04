@@ -47,7 +47,8 @@ Lumen::App.controllers do
       :HIDE_ACCOUNT_TIME_ZONE => ['Hides the time zone field on account profiles'],
       :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],      
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
-            
+      
+      :MAP_DEFAULTS => 'Comma-separated latitude, longitude and zoom',            
       :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
       :SHOW_VENUES_BY_DEFAULT => ['Shows venues on maps by default'],
       :SHOW_ORGS_BY_DEFAULT => ['Shows organisations on maps by default'],

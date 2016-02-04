@@ -16,10 +16,8 @@ class Group
   field :show_full_conversations_in_digests, :type => Boolean
   field :picture_uid, :type => String 
   field :conversations_require_approval, :type => Boolean
-  
-  belongs_to :group, index: true
-  has_many :groups, :dependent => :nullify
-  
+  field :coordinates, :type => Array
+        
   dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }
   end  
@@ -66,7 +64,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   
   validates_presence_of :slug, :privacy
   validates_uniqueness_of :slug
-  validates_uniqueness_of :primary, :allow_nil => true
+  validates_uniqueness_of :primary, :if => -> { self.primary }
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/  
   
   def email(suffix = '')
@@ -184,7 +182,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :hot_conversation_threshold => :number,
       :show_full_conversations_in_digests => :check_box,
       :group_type_id => :lookup,
-      :group_id => :lookup,
+      :coordinates => :geopicker,      
       :memberships => :collection,
       :conversations => :collection
     }

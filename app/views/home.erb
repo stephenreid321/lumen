@@ -39,6 +39,16 @@
 
 <%= eval(f('home-above')) %>
 
+<% Group.where(:coordinates.ne => nil).each { |group| %>
+  <% if current_account and current_account.coordinates and ((d = current_account.distance_from(group.coordinates.reverse)) < 20) and !group.memberships.find_by(account: current_account) and !group.membership_requests.find_by(account: current_account) %>
+    <div class="panel panel-default" style="margin-top: 20px">
+      <div class="panel-body">
+        <i class="fa fa-globe"></i> You're based just <%=pluralize(d.ceil,'mile')%> from the group <a href="/groups/<%=group.slug%>"><%=group.slug%></a> — <a href="/groups/<%=group.slug%>">why not join?</a>
+      </div>
+    </div>
+  <% end %>
+<% } %>
+
 <style>
   #home-panels h3 { margin: 0; line-height: 150%; font-size: 18px }
   #home-panels h2 { margin-top: 20px }

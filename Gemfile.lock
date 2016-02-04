@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: c5612838b134c35bcacee51877636144b8d2f7f1
+  revision: bfb3b15e1797b0e5ce900b8d465db72aba0c04e8
   specs:
     activate-tools (0.0.1)
       padrino
@@ -295,3 +295,6 @@ DEPENDENCIES
   sanitize
   sass
   will_paginate!
+
+BUNDLED WITH
+   1.10.6

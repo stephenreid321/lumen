@@ -19,6 +19,7 @@ class Membership
       
   def self.admin_fields
     {
+      :summary => {:type => :text, :edit => false},
       :account_id => :lookup,
       :group_id => :lookup,
       :added_by_id => :lookup,
@@ -31,6 +32,10 @@ class Membership
       :notification_level => :select
     }
   end
+  
+  def summary
+    "#{self.account.name} - #{self.group.name}"
+  end  
         
   before_validation do    
     self.receive_membership_requests = false unless admin?

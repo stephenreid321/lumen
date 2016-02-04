@@ -20,11 +20,16 @@ class MembershipRequest
         
   def self.admin_fields
     {
+      :summary => {:type => :text, :edit => false},
       :account_id => :lookup,
       :group_id => :lookup,
       :status => :select,
       :answers => :text_area
     }
+  end
+  
+  def summary
+    "#{self.account.name} - #{self.group.name}"
   end
     
   def self.statuses

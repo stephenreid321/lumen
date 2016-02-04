@@ -184,6 +184,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       :group_type_id => :lookup,
       :coordinates => :geopicker,      
       :memberships => :collection,
+      :membership_requests => :collection,
       :conversations => :collection
     }
   end

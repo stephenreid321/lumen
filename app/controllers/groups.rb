@@ -45,7 +45,7 @@ Lumen::App.controllers do
     redirect back unless @group.closed?    
     (flash[:notice] = "You're already a member of that group" and redirect back) if @group.memberships.find_by(account: current_account)
     (flash[:notice] = "You've already requested membership to that group" and redirect back) if @group.membership_requests.find_by(account: current_account, status: 'pending')
-    (flash[:notice] = "You must sign in to request membership" and redirect '/') if ENV['PRIVATE_NETWORK'] and !current_account and !@group.primary
+    (flash[:notice] = "You must sign in to request membership" and redirect '/sign_in') if ENV['PRIVATE_NETWORK'] and !current_account and !@group.primary
     @account = Account.new
     erb :'groups/request_membership'
   end

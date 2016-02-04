@@ -14,13 +14,6 @@ Lumen::App.controllers do
     @collections = [ConversationPost, Account, Event]
     erb :'analytics/cumulative_totals'
   end
-
-  get '/groups/:slug/analytics' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    group_admins_only!
-    @collections = [@group.conversation_posts, @group.memberships, @group.events]
-    erb :'analytics/cumulative_totals'
-  end 
   
   get '/analytics/unique_visitors' do
     site_admins_only!  

@@ -169,8 +169,8 @@
         <ul class="list-inline" style="margin-bottom: 0">
           <% if current_account %>
             <% if current_account.admin? %>
-              <li><a href="/analytics">Sitewide analytics</a></li>
-              <li><a href="/config">Lumen configuration</a></li>
+              <li><a href="/config">Configuration</a></li>
+              <li><a href="/analytics">Analytics</a></li>              
             <% end %>          
             <% if current_account.admin? or current_account.translator %>
               <li><a href="/translations">Translations</a></li>

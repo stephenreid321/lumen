@@ -326,5 +326,40 @@ Lumen::App.controllers do
     end
     redirect back
   end
+  
+  get '/groups/:slug/stats' do    
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    group_admins_only!
+    
+    @from = params[:from] ? Date.parse(params[:from]) : 1.month.ago.to_date
+    @to =  params[:to] ? Date.parse(params[:to]) : Date.today
+    @all = params[:all]
+      
+    @c = {}    
+    conversations = @group.visible_conversations    
+    conversations = conversations.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
+    conversations.only(:id, :account_id).each_with_index { |conversation|
+      @c[conversation.account_id] = [] if !@c[conversation.account_id]
+      @c[conversation.account_id] << conversation.id
+    }
+        
+    @cp = {}  
+    conversation_posts = @group.visible_conversation_posts
+    conversation_posts = conversation_posts.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
+    conversation_posts.only(:id, :account_id).each_with_index { |conversation_post|
+      @cp[conversation_post.account_id] = [] if !@cp[conversation_post.account_id]
+      @cp[conversation_post.account_id] << conversation_post.id    
+    }
+    
+    @e = {}
+    events = @group.events
+    events = events.where(:created_at.gte => @from).where(:created_at.lt => @to+1)
+    events.only(:id, :account_id).each { |event|
+      @e[event.account_id] = [] if !@e[event.account_id]
+      @e[event.account_id] << event.id
+    }    
+    
+    erb :'group_administration/stats'    
+  end   
         
 end

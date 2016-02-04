@@ -1,29 +1,30 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/"><%= @group.slug%></a>    
+  </li>      
+  <li class="active">
+    Stats
+  </li>
+</ol>
 
-<h2 style="display: inline-block">
-  Stats for <%=@group.slug%>
-</h2>
-<div style="display: inline">
-  <script>
-    $(function () {
-      $("#stats-tab .datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
-      $('#from-to').submit(function (e) {
-        e.preventDefault();
-        $('.fa-spinner', this).show();
-        $('#stats-tab').load('<%="/groups/#{@group.slug}/stats" %>?' + $(this).serialize());
-        return false;
-      });
-    });
-  </script>
-  <form style="display: inline" id="from-to">
-    <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=@from.strftime('%d-%b-%Y')%>"/>
-    &ndash;
-    <input type="text" onchange="$(this).closest('form').submit()" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=@to.strftime('%d-%b-%Y')%>"/>
-    Show all posters <input onchange="$(this).closest('form').submit()" type="checkbox" name="all" value="1" <% if @all %>checked="checked"<% end %> />
-    <i style="display:none" class="fa fa-spin fa-spinner"></i>
-  </form>
-</div>
+<%= partial :'group_administration/header' %>
 
-<table class="table">
+<script>
+  $(function () {
+    $(".datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
+  });
+</script>
+<form style="display: inline">
+  <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=@from.strftime('%d-%b-%Y')%>"/>
+  &ndash;
+  <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=@to.strftime('%d-%b-%Y')%>"/>
+  Show all posters <input onchange="$(this).closest('form').submit()" type="checkbox" name="all" value="1" <% if @all %>checked="checked"<% end %> />
+  <button class="btn btn-primary">Submit</button>  
+</form>
+
+<table class="table" style="margin-top: 20px">
 
   <%{'Most posts' => @cp, 'Most conversations started' => @c, 'Most events created' => @e}.each { |h,hash| %>
 

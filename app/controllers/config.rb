@@ -67,6 +67,7 @@ Lumen::App.controllers do
             
       :BCC_SINGLE => ['Send single BCC to conversation post subscribers'],
       :ONE_CLICK_LOGIN => ['Allow one-click logins from conversation post emails'],
+      :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
       :BCC_EACH_THREADS => 'Number of threads to use when sending individual BCCs (default 10)',
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 30s.',
       

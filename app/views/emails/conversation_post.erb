@@ -33,6 +33,10 @@
       <% } %>
       <%= close_divs %>     
 
+      <% if ENV['INCLUDE_SENDER_PROFILE'] %>
+        <%= partial :'accounts/minimal', :locals => {:account => conversation_post.account} %>
+      <% end %>        
+
       <div style="margin-top: 1em">
         <span style="font-size: 80%">
           Too many emails? <a href="http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>/mute">Mute this conversation</a>, switch to a <a href="http://<%=ENV['DOMAIN']%>/groups/<%=group.slug%>">digest</a>, or <a href="http://<%=ENV['DOMAIN']%>/groups/<%=group.slug%>">turn off email notifications completely</a>

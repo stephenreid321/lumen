@@ -45,6 +45,7 @@ class Membership
     if self.account and !self.status
       self.status = (account.sign_ins.count == 0 ? 'pending' : 'confirmed')
     end
+    errors.add(:account, 'is prevented from having new memberships') if self.account.prevent_new_memberships
   end
   
   def self.statuses

@@ -25,6 +25,7 @@ class Account
   field :facebook_profile_url, :type => String
   field :linkedin_profile_url, :type => String
   field :google_profile_url, :type => String
+  field :prevent_new_memberships, :type => Boolean
     
   EnvFields.set(self)
   
@@ -271,6 +272,7 @@ class Account
       :language_id => :lookup,
       :password => :password,
       :password_confirmation => :password,
+      :prevent_new_memberships => :check_box,
       :affiliations => :collection,
       :memberships => :collection,
       :membership_requests => :collection

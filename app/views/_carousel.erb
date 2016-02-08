@@ -8,7 +8,7 @@
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <% Slide.order('order asc').each_with_index { |slide,i| %>
+    <% slides.order('order asc').each_with_index { |slide,i| %>
       <div class="item <%  if i == 0 %>active<% end %>">
 
         <div style="background-image: url('<%=slide.image.url%>'); background-position: center; background-size: cover; height: 315px">

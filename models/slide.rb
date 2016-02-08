@@ -9,6 +9,7 @@ class Slide
   field :link, :type => String   
   field :darken, :type => Boolean
   field :order, :type => Integer
+  field :series, :type => String
 
   dragonfly_accessor :image
   
@@ -22,8 +23,13 @@ class Slide
       :caption => :text,
       :link => :text,   
       :darken => :check_box,
-      :order => :number
+      :order => :number,
+      :series => :select
     }
+  end
+  
+  def self.series
+    ['signed-in','not-signed-in']
   end
     
 end

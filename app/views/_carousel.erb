@@ -1,0 +1,35 @@
+<div id="home-carousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <% slides.order('order asc').each_with_index { |slide,i| %>
+      <li data-target="#home-carousel" data-slide-to="<%=i%>" class="<% if i == 0 %>active<% end%>"></li>
+    <% } %>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <% Slide.order('order asc').each_with_index { |slide,i| %>
+      <div class="item <%  if i == 0 %>active<% end %>">
+
+        <div style="background-image: url('<%=slide.image.url%>'); background-position: center; background-size: cover; height: 315px">
+          <% if slide.darken %><div style="background-color: rgba(0,0,0,0.3); height: 100%"></div><% end %>
+        </div>
+
+        <div class="carousel-caption">
+          <h1><a style="color: white; font-weight: bold; text-transform: uppercase" href="<%=slide.link%>"><%=slide.title%></a></h1>
+          <p><a style="color: white;" href="<%=slide.link%>"><%=slide.caption%></a></p>
+        </div>
+      </div>    
+    <% } %>    
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#home-carousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#home-carousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>

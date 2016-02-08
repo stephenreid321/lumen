@@ -1,4 +1,8 @@
 
+<% if (slides = Slide.where(series: 'not-signed-in')).count > 0 %>
+  <%= partial :carousel, :locals => {:slides => slides} %>
+<% end %>
+
 <%= eval(f('public-homepage')) %>
 
 <div style="padding: 20px; text-align: center">

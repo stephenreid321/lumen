@@ -34,7 +34,7 @@
       <%= close_divs %>     
 
       <% if ENV['INCLUDE_SENDER_PROFILE'] %>
-        <%= partial :'accounts/minimal', :locals => {:account => conversation_post.account} %>
+        <%= account = conversation_post.account; ERB.new(File.read(Padrino.root('app/views/accounts/_minimal.erb'))).result(binding) %>
       <% end %>        
 
       <div style="margin-top: 1em">

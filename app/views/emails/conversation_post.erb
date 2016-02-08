@@ -34,7 +34,7 @@
       <%= close_divs %>     
 
       <% if ENV['INCLUDE_SENDER_PROFILE'] %>
-        <%= account = conversation_post.account; ERB.new(File.read(Padrino.root('app/views/accounts/_minimal.erb'))).result(binding) %>
+        <%= account = conversation_post.account; ERB.new(File.read(Padrino.root('app/views/accounts/_minimal.erb')), nil, nil, '_minimal').result(binding) %>
       <% end %>        
 
       <div style="margin-top: 1em">

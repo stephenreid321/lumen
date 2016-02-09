@@ -288,7 +288,7 @@ Lumen::App.controllers do
       account = membership_request.account           
       membership_request.update_attribute(:status, 'accepted')
       membership = @group.memberships.create(:account => account, :status => params[:status])            
-      (flash[:error] = "The membership could not be created" and redirect back) unless membership.persisted?
+      (flash[:error] = "That person has been prevented from joining other groups" and redirect back) unless membership.persisted?
       
       sign_in_details = ''
       if membership.status == 'pending'

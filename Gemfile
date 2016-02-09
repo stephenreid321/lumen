@@ -25,11 +25,6 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 
-# Text processing
-gem 'rinku'
-gem 'sanitize'
-gem 'sass'
-
 # Email
 gem 'mail'
 gem 'premailer'
@@ -41,6 +36,11 @@ gem 'platform-api'
 gem 'geocoder'
 gem 'net-ssh'
 gem 'net-scp'
+
+# Text processing
+gem 'rinku'
+gem 'sanitize'
+gem 'sass'
 
 # Others
 gem 'ri_cal', github: 'espen/ri_cal'

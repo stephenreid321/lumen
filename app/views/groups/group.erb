@@ -58,7 +58,7 @@
         <%= @group.landing_tab %>
       <% end %>
 
-      <% if @group.conversations_require_approval and @group.unapproved_conversations.count > 0 %>
+      <% if @membership and @membership.admin? and @group.conversations_require_approval and @group.unapproved_conversations.count > 0 %>
         <div class="alert alert-warning" style="margin-top: 10px">
           <a href="/groups/<%=@group.slug%>/conversations_requiring_approval"><%=pluralize(@group.unapproved_conversations.count,'conversation') %> to approve</a>
         </div>

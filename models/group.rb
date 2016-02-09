@@ -74,6 +74,10 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def username(add = '')
     "#{slug}#{add}.#{ENV['GROUP_USERNAME_SUFFIX'] || ENV['APP_NAME']}"
   end
+  
+  def self.max_slug_length
+    32 - "-noreply.#{ENV['GROUP_USERNAME_SUFFIX'] || ENV['APP_NAME']}".length
+  end  
                
   def smtp_settings
     {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
@@ -339,9 +343,10 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
     form.submit
   end
-    
+      
   attr_accessor :renamed
   before_validation do
+    errors.add(:slug, "is too long: max #{Group.max_slug_length} characters") if self.slug and self.slug.length > Group.max_slug_length
     @renamed = slug_changed?
     true
   end

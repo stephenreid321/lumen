@@ -26,9 +26,8 @@
 
       <%= f.text_block :slug, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>}, :tip => 'Lowercase letters, numbers and dashes only (no spaces)' %>     
       <%= f.text_area_block :description %>
-      <%= f.image_block :picture %>    
+      <%= f.image_block :picture %>        
       <%= f.radio_block :privacy %>
-      <%= f.check_box_block :conversations_require_approval %>
       <script>
         $(function () {
           function toggle_request_questions() {
@@ -47,6 +46,8 @@
         <%= f.wysiwyg_block :request_intro %>
         <%= f.text_area_block :request_questions %>
       </div>
+      <%= f.wysiwyg_block :landing_tab %>      
+      <%= f.check_box_block :conversations_require_approval %>      
       <%= f.select_block :default_notification_level %>
       <% if GroupType.count > 0 %>
         <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [I18n.t(:"group_type.#{group_type.slug}"),group_type.id] } %>

@@ -207,6 +207,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   
   def self.human_attribute_name(attr, options={})  
     {
+      :landing_tab => 'Group homepage content',
       :default_notification_level => 'Email notification default',
       :slug => 'Name'
     }[attr.to_sym] || super  

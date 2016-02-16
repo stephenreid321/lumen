@@ -6,13 +6,13 @@ GIT
 
 GIT
   remote: git://github.com/mislav/will_paginate.git
-  revision: 76d0ef3c096f4a5daf6b16e2e04b4d810c6b78a3
+  revision: 2f0b4694b3cc7ffcb265daad13eb95c972fa0bb1
   specs:
     will_paginate (3.1.0)
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 10e5698e60a7ec26c61a402296f7cc7b69899d29
+  revision: 0e21eb922fe392cf4baaec9ebe6a74673e0b738b
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: bfb3b15e1797b0e5ce900b8d465db72aba0c04e8
+  revision: 38099559a719899892c1bf77236d3d8459c90d5d
   specs:
     activate-tools (0.0.1)
       padrino

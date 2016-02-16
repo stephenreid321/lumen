@@ -28,6 +28,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
+    sign_in_required! if ((@group.open? or @group.public?) and ENV['PRIVATE_NETWORK'])
     membership_required! if @group.secret?
     @account = Account.new
     erb :'groups/group'
@@ -110,8 +111,9 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/join' do
-    @group = Group.find_by(slug: params[:slug]) || not_found    
-    redirect back unless @group.public? or @group.open?    
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    redirect back if @group.closed? or @group.secret?
+    redirect back if !current_account and ENV['PRIVATE_NETWORK']
     if current_account
       @account = current_account
     else

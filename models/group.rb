@@ -346,7 +346,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       
   attr_accessor :renamed
   before_validation do
-    errors.add(:slug, "is too long: max #{Group.max_slug_length} characters") if self.slug and self.slug.length > Group.max_slug_length
+    errors.add(:slug, "is too long: max #{Group.max_slug_length} characters") if !ENV['VIRTUALMIN'] and self.slug and self.slug.length > Group.max_slug_length
     @renamed = slug_changed?
     true
   end

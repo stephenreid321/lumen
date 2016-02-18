@@ -34,13 +34,23 @@
 
         <script>
           $(function () {
+
+            var autocomplete = new google.maps.places.Autocomplete($('#venue_name')[0]);
+            autocomplete.addListener('place_changed', placeChanged);
+            function placeChanged() {
+              var place = autocomplete.getPlace();
+              $('#venue_name').val(place.name)
+              $("#venue_website").val(place.website)
+              $("#venue_address").val(place.formatted_address).keyup()
+            }
+
     <% if @venue.new_record? %>
               $('#venue_address').keyup(function () {
                 if ($(this).val().length > 0)
                   $('label[for=venue_coordinates]').parent().hide()
                 else
                   $('label[for=venue_coordinates]').parent().show()
-              }).keyup();              
+              }).keyup();
     <% end %>
 
             var inputGroup = $('<div class="input-group"></div>');

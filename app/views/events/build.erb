@@ -35,6 +35,14 @@
       </style>
       <script>
         $(function () {
+
+          var autocomplete = new google.maps.places.Autocomplete($('#event_location')[0]);
+          autocomplete.addListener('place_changed', placeChanged);
+          function placeChanged() {
+            var place = autocomplete.getPlace();
+            $('#event_location').val(place.name + ', ' + place.formatted_address)
+          }
+
           $('.time select').attr('required', false)
           var add = $('<a href="javascript:;" style="margin-left: 5px">Add a time</a>');
           $(add).click(function () {

@@ -1,21 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    
-    <title><%=@title || ENV['SITE_NAME']%></title>
-
-    <%
-    [
-      'email.css',
-    ].each { |file| %> 
-      <%= "<style>#{File.open("#{Padrino.root}/app/assets/stylesheets/#{file}", "r").read}</style>" %>
-    <% } %>         
-
+    <meta charset="utf-8">    
+    <title><%=@title || ENV['SITE_NAME']%></title>      
   </head>
   <body>
-
-    <%= yield %>
-    
+    <%= yield %>   
   </body>
 </html>

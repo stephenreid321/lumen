@@ -100,6 +100,7 @@ Lumen::App.controllers do
       :'navbar' => 'Extra content for the navbar',
       :'right-col' => 'Right hand sidebar for fragment pages',
       :'footer' => 'Extra content for footer',
+      :'nearby-group' => 'Content to display if user has a nearby group',
       :'tip-name' => 'Tip for the name field on account edit page',
       :'tip-affiliations' => 'Tip for affiliations field on account edit page',
       :'tip-tagships' => 'Tip for the areas of expertise field on account edit page',

@@ -1,6 +1,7 @@
 
 <%= ul_nav 'admin-options', [
   ['<i class="fa fa-group"></i> ' + I18n.t(:manage_members).capitalize, 'manage_members'],
+  (['<i class="fa fa-question"></i> ' + 'Membership requests' + (@group.membership_requests.where(:status => 'pending').count > 0 ? %Q{<span class="badge">#{@group.membership_requests.where(:status => 'pending').count}</span>}  : ''), 'membership_requests'] if @group.closed?),
   ['<i class="fa fa-pencil"></i> ' + I18n.t(:settings).capitalize, 'edit'],
   ['<i class="fa fa-envelope"></i> ' + I18n.t(:emails).capitalize, 'emails'],
   ['<i class="fa fa-question"></i> ' + I18n.t(:did_you_know).capitalize, 'didyouknows'],

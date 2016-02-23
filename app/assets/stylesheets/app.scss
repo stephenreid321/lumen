@@ -42,6 +42,9 @@ h4, .h4 {font-size: 24px;}
 h5, .h5 {font-size: 20px;}
 h6, .h6 {font-size: 18px;}
 
+#members td, #members th { padding: 0.5em; vertical-align: top }
+th[data-fieldname] a { color:black; text-decoration: none !important }
+a.odn { visibility:hidden; }
 
 .account-minimal { margin-bottom: 20px;}
 .account-minimal h3 { font-size: 16px; margin: 8px 0 4px 0 }
@@ -189,11 +192,11 @@ p.lead { font-size: 20px; line-height: 140% }
 }
 @media(min-width: 768px) {
   .carousel-caption {
-  left: 10%;
-  padding-bottom: 62px;
-  right: 10%;
-}
-.carousel-caption p { font-size: 22px; line-height: 130% }
+    left: 10%;
+    padding-bottom: 62px;
+    right: 10%;
+  }
+  .carousel-caption p { font-size: 22px; line-height: 130% }
 }
 
 .conversation-form {
@@ -204,14 +207,13 @@ p.lead { font-size: 20px; line-height: 140% }
 
 .conversation-post-info { color: #aaa; margin-top: 10px; background: $grey-light; padding: 5px 10px; border-radius: 4px }
 
-  ul.admin-options { margin-top: -15px; padding: 8px 15px; list-style-type: none; background: $grey-light; margin-bottom: 20px; }
-  ul.admin-options li { display: inline-block; padding: 0px 8px }
-  ul.admin-options li:first-child { padding-left: 0 }
-  ul.admin-options li a { color: black; text-decoration: none; opacity: 0.25 }
-  ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
-  
-  #venue-filters { background: $grey-light }
-  #map-canvas { background: $grey-light !important; }
-  .wall-conversation-post-replies { background: $grey-light }
-  .stats-highlight { background: $secondary-light }
-  
+ul.admin-options { margin-top: -15px; padding: 8px 15px; list-style-type: none; background: $grey-light; margin-bottom: 20px; }
+ul.admin-options li { display: inline-block; padding: 0px 8px }
+ul.admin-options li:first-child { padding-left: 0 }
+ul.admin-options li a { color: black; text-decoration: none; opacity: 0.25 }
+ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
+
+#venue-filters { background: $grey-light }
+#map-canvas { background: $grey-light !important; }
+.wall-conversation-post-replies { background: $grey-light }
+.stats-highlight { background: $secondary-light }

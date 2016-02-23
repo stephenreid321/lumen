@@ -111,7 +111,7 @@ $(function () {
   opengraph();
   modalTrigger();
   timeago();
-  
+
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
   });
@@ -183,5 +183,19 @@ $(function () {
   });
 
   $('#results-form').submit();
+
+  if ($('th[data-fieldname]').length > 0) {
+    var params = $.deparam(location.href.split('?')[1] || '');
+    $('th').hover(function () {
+      $('a.odn', this).css('visibility', 'visible')
+    }, function () {
+      $('a.odn', this).css('visibility', 'hidden')
+    });
+    $('a.od').click(function () {
+      params['o'] = $(this).closest('th').data('fieldname')
+      params['d'] = params['d'] == 'asc' ? 'desc' : 'asc'
+      location.assign(location.pathname + '?' + $.param(params));
+    });
+  }
 
 });

@@ -1,0 +1,99 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
+  </li>
+  <li class="active">
+    Membership requests
+  </li>
+</ol>
+
+<%= partial :'group_administration/header' %>
+
+<div class="row" style="margin-bottom: 10px">
+  <div class="col-md-6">          
+    <%= page_entries_info @accounts, :model => 'Person' %>
+  </div>
+  <div class="col-md-offset-2 col-md-4" style="text-align: right;">
+    <% form_tag '', :style => "display: inline", :method => 'get' do %>      
+      <div class="input-group" style="text-align: right">
+        <%= search_field_tag :q, :class => 'form-control', :value => @q %>
+        <span class="input-group-btn">
+          <button class="btn btn-default"><i class="fa fa-search"></i></button>
+        </span>            
+      </div>            
+    <% end %> 
+  </div>
+</div>
+
+<table class="members table">
+  <thead>
+    <tr>
+      <% {'Name' => :name, 'Email' => :email, 'Answers' => nil, 'Requested' => nil, 'Actions' => nil}.each { |k,v| %>
+        <th data-fieldname="<%=v%>">
+          <%=k%>
+
+          <% if @o == v %>
+            <a title="Ordered by <%=k.downcase%>; click to reverse" href="javascript:;" class="od">
+              <% if @d == :asc %>
+                <i class="fa fa-caret-down"></i>
+              <% elsif @d == :desc %>
+                <i class="fa fa-caret-up"></i>
+              <% end %>
+            </a>
+          <% elsif v %>     
+            <a title="Order by <%=k.downcase%>" href="javascript:;" class="od odn">
+              <i class="fa fa-caret-right"></i>
+            </a>
+          <% end %>
+
+        </th>
+      <% } %>
+    </tr>
+  </thead>
+  <% @accounts.each { |account| membership_request = @group.membership_requests.find_by(account: account) %>
+    <tr>
+      <td>
+        <a href="/accounts/<%=account.id%>"><%= account.name %></a>        
+      </td>      
+      <td>
+        <%=account.email%>
+      </td>
+      <td>
+        <% if membership_request.answers %>
+          <% membership_request.answers.each { |q,a| %>
+            <p><strong><%=q%></strong></p>
+            <p><%=a.gsub("\n","<br />")%></p>                    
+          <% }  %>
+        <% end %>
+      </td>      
+      <td>
+        <%=membership_request.created_at%>
+      </td>     
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a title="Accept request but wait until first sign in before receiving emails" href="/groups/<%=@group.slug%>/process_membership_request/<%=membership.id%>?accept=true">Accept</a>
+            </li>          
+            <li>
+              <a title="Accept request and confirm the membership so this person starts receiving emails immediately" href="/groups/<%=@group.slug%>/process_membership_request/<%=membership.id%>?accept=true&status=confirmed">Accept and confirm</a>
+            </li>          
+            <li>
+              <a title="Silently reject request" href="/groups/<%=@group.slug%>/process_membership_request/<%=membership.id%>">Silently reject request</a>
+            </li>          
+          </ul>
+        </div>        
+      </td>            
+    </tr>
+  <% } %>
+</table>
+
+<div style="text-align: center">
+  <%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>
+

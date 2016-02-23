@@ -52,37 +52,28 @@ Lumen::App.controllers do
   get '/groups/:slug/manage_members' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
-    @view = params[:view] ? params[:view].to_sym : :admins
-    @memberships = case @view
-    when :admins
-      @group.memberships.where(:admin => true)
-    when :others
-      @group.memberships.where(:admin.ne => true)
-    when :not_completed_signup
-      @group.memberships.where(:status => 'pending')
-    when :no_picture
-      @group.memberships.where(:account_id.in => Account.where(:has_picture => false).pluck(:id))
-    when :no_affiliations
-      @group.memberships.where(:account_id.nin => Affiliation.pluck(:account_id))
-    when :notification_level_none
-      @group.memberships.where(:notification_level => 'none')
-    when :twitter_profile_url
-      @group.memberships.where(:account_id.in => Account.where(:twitter_profile_url.ne => nil).pluck(:id))
-    when :not_geocoded
-      @group.memberships.where(:account_id.in => Account.where(:coordinates => nil).pluck(:id))
-    when :requests
-      @group.membership_requests.where(:status => 'pending') # quacks like a membership
-    end
-    @memberships = case @view
-    when :twitter_profile_url
-      @memberships.order(:created_at.desc)
-    when :requests
-      @memberships.order(:created_at.desc)
-    else
-      @memberships.sort_by { |membership| membership.account.name }
-    end
+    @q = params[:q]
+    @o = params[:o] ? params[:o].to_sym : :name
+    @d = params[:d] ? params[:d].to_sym : :asc
+    @accounts = Account.where(:id.in => @group.memberships.pluck(:account_id))
+    @accounts = @accounts.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]) if @q
+    @accounts = @accounts.order("#{@o} #{@d}")
+    @accounts = @accounts.page(params[:page])
     erb :'group_administration/manage_members'
   end
+  
+  get '/groups/:slug/membership_requests' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    group_admins_only!
+    @q = params[:q]
+    @o = params[:o] ? params[:o].to_sym : :name
+    @d = params[:d] ? params[:d].to_sym : :asc
+    @accounts = Account.where(:id.in => @group.membership_requests.where(:status => 'pending').pluck(:account_id))
+    @accounts = @accounts.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]) if @q
+    @accounts = @accounts.order("#{@o} #{@d}")
+    @accounts = @accounts.page(params[:page])
+    erb :'group_administration/membership_requests'
+  end  
    
   get '/groups/:slug/remove_member/:account_id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
@@ -212,12 +203,12 @@ Lumen::App.controllers do
     @issue = case params[:issue].to_sym
     when :not_completed_signup
       "signed in to complete your profile"
-    when :no_affiliations
-      "provided your organisational affiliations"
     when :no_picture
       "uploaded a profile picture"
+    when :no_affiliations
+      "provided your organisational affiliations"      
     end
-
+    
     group = @group # instance var not available in defaults block
     Mail.defaults do
       delivery_method :smtp, group.smtp_settings

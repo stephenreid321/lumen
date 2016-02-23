@@ -55,7 +55,8 @@ Lumen::App.controllers do
     @q = params[:q]
     @o = params[:o] ? params[:o].to_sym : :name
     @d = params[:d] ? params[:d].to_sym : :asc
-    @accounts = Account.where(:id.in => @group.memberships.pluck(:account_id))
+    @admins_only = params[:admins_only]
+    @accounts = Account.where(:id.in => (@admins_only ? @group.admins.pluck(:id) : @group.memberships.pluck(:account_id)))
     @accounts = @accounts.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]) if @q
     @accounts = @accounts.order("#{@o} #{@d}")
     @accounts = @accounts.page(params[:page])

@@ -30,6 +30,14 @@
 
 <%= partial :'group_administration/add_member' %>
 
+<% form_tag '', :style => "display: inline", :method => 'get' do %>      
+  <div class="checkbox">
+    <label>
+      <%= check_box_tag :admins_only, :onchange => 'this.form.submit()', :checked => @admins_only %> Show admins only
+    </label>
+  </div>  
+<% end %>
+
 <table class="members table">
   <thead>
     <tr>

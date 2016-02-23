@@ -66,12 +66,12 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @q = params[:q]
-    @o = params[:o] ? params[:o].to_sym : :name
-    @d = params[:d] ? params[:d].to_sym : :asc
-    @accounts = Account.where(:id.in => @group.membership_requests.where(:status => 'pending').pluck(:account_id))
-    @accounts = @accounts.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]) if @q
-    @accounts = @accounts.order("#{@o} #{@d}")
-    @accounts = @accounts.page(params[:page])
+    @o = params[:o] ? params[:o].to_sym : :created_at
+    @d = params[:d] ? params[:d].to_sym : :desc
+    @membership_requests = @group.membership_requests.where(:status => 'pending')
+    @membership_requests = @membership_requests.where(:account_id.in => Account.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]).pluck(:id)) if @q
+    @membership_requests = @membership_requests.order("#{@o} #{@d}")
+    @membership_requests = @membership_requests.page(params[:page])
     erb :'group_administration/membership_requests'
   end  
    

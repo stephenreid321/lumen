@@ -13,7 +13,7 @@
 
 <div class="row" style="margin-bottom: 10px">
   <div class="col-md-6">          
-    <%= page_entries_info @accounts, :model => 'Person' %>
+    <%= page_entries_info @membership_requests, :model => 'Request' %>
   </div>
   <div class="col-md-offset-2 col-md-4" style="text-align: right;">
     <% form_tag '', :style => "display: inline", :method => 'get' do %>      
@@ -30,7 +30,7 @@
 <table class="members table">
   <thead>
     <tr>
-      <% {'Name' => :name, 'Email' => :email, 'Answers' => nil, 'Requested' => nil, 'Actions' => nil}.each { |k,v| %>
+      <% {'Name' => nil, 'Email' => nil, 'Answers' => nil, 'Requested' => :created_at, 'Actions' => nil}.each { |k,v| %>
         <th data-fieldname="<%=v%>">
           <%=k%>
 
@@ -52,7 +52,7 @@
       <% } %>
     </tr>
   </thead>
-  <% @accounts.each { |account| membership_request = @group.membership_requests.find_by(account: account) %>
+  <% @membership_requests.each { |membership_request| account = membership_request.account %>
     <tr>
       <td>
         <a href="/accounts/<%=account.id%>"><%= account.name %></a>        
@@ -94,6 +94,6 @@
 </table>
 
 <div style="text-align: center">
-  <%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  <%= will_paginate @membership_requests, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 </div>
 

@@ -33,7 +33,7 @@
 <table class="members table">
   <thead>
     <tr>
-      <% {'Name' => :name, 'Email' => :email, 'Phone number' => nil, 'Affiliations' => nil, I18n.t(:account_tagships).capitalize => nil, 'Twitter username' => nil, 'Joined' => nil, 'Last signed in' => nil, 'Actions' => nil, 'Notifications' => nil}.each { |k,v| %>
+      <% {'Name' => :name, 'Email' => :email, 'Phone number' => nil, 'Twitter username' => nil, 'Affiliations' => nil, I18n.t(:account_tagships).capitalize => nil, 'Joined' => nil, 'Last signed in' => nil, 'Actions' => nil, 'Notifications' => nil}.each { |k,v| %>
         <th data-fieldname="<%=v%>">
           <%=k%>
 
@@ -76,6 +76,11 @@
         <%=account.phone%>
       </td>
       <td>
+        <% if account.twitter_profile_url %>
+          <a target="_blank" href="<%=account.twitter_profile_url%>"><%=account.twitter_profile_url.split('/')[3..-1].join('/')%></a>
+        <% end %>
+      </td>       
+      <td>
         <% account.affiliations.each { |affiliation|%>
           <%=affiliation.title%> <%=I18n.t(:at)%> <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a> <br />
         <% } %> 
@@ -85,11 +90,6 @@
           <a href="/network?account_tag_id=<%=account_tagship.account_tag_id%>" class="label label-primary" style="text-indent: 0"><%=account_tagship.account_tag.name%></a>
         <% } %>
       </td>       
-      <td>
-        <% if account.twitter_profile_url %>
-          <a target="_blank" href="<%=account.twitter_profile_url%>"><%=account.twitter_profile_url.split('/')[3..-1].join('/')%></a>
-        <% end %>
-      </td> 
       <td>
         <%=membership.created_at%>
       </td>     

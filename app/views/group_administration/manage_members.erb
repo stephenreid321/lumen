@@ -12,12 +12,12 @@
 <%= partial :'group_administration/header' %>
 
 <div class="row" style="margin-bottom: 10px">
-  <div class="col-md-6">          
+  <div class="col-md-9">          
     <%= page_entries_info @accounts, :model => 'Member' %>
     <a class="btn btn-primary" href="javascript:;" onclick="$('#add-member').slideDown()"><i class="fa fa-plus"></i> Add a member</a>    
     <a class="btn btn-default" href="/groups/<%=@group.slug%>/manage_members.csv?<%=request.query_string%>"><i class="fa fa-download"></i> Download as CSV</a>    
   </div>
-  <div class="col-md-offset-2 col-md-4" style="text-align: right;">
+  <div class="col-md-3" style="text-align: right;">
     <% form_tag '', :style => "display: inline", :method => 'get' do %>      
       <div class="input-group" style="text-align: right">
         <%= search_field_tag :q, :class => 'form-control', :value => @q %>

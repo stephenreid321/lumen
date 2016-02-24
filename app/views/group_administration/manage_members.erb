@@ -36,7 +36,7 @@
     <%= check_box_tag :admins_only, :onchange => 'this.form.submit()', :checked => @admins_only %> Admin
   </label>
   <label class="checkbox-inline">
-    <%= check_box_tag :never_signed_in, :onchange => 'this.form.submit()', :checked => @never_signed_in %> Never signed in
+    <%= check_box_tag :not_yet_receiving_emails, :onchange => 'this.form.submit()', :checked => @not_yet_receiving_emails %> Not yet receiving emails
   </label>
 <% end %>
 
@@ -66,9 +66,12 @@
     </tr>
   </thead>
   <% @accounts.each { |account| membership = @group.memberships.find_by(account: account) %>
-    <tr>
+    <tr <% if membership.status == 'pending' %> style="opacity: 0.5" <% end %>  >
       <td>
         <a href="/accounts/<%=account.id%>"><%= account.name %></a>
+        <% if membership.status == 'pending' %>
+          <span title="<%=account.firstname%> needs to sign in to start receiving emails" class="label label-primary">Not yet receiving emails</span>
+        <% end %>                  
         <% if membership.admin? %>
           <span class="label label-primary">Admin</span>
         <% end %>

@@ -56,9 +56,9 @@ Lumen::App.controllers do
     @o = params[:o] ? params[:o].to_sym : :name
     @d = params[:d] ? params[:d].to_sym : :asc
     @admins_only = params[:admins_only]
-    @never_signed_in = params[:never_signed_in]
+    @not_yet_receiving_emails = params[:not_yet_receiving_emails]
     @accounts = Account.where(:id.in => (@admins_only ? @group.admins.pluck(:id) : @group.memberships.pluck(:account_id)))
-    @accounts = @accounts.where(:id.nin => SignIn.pluck(:account_id)) if @never_signed_in
+    @accounts = @accounts.where(:id.nin => @group.memberships.where(:status => 'confirmed').pluck(:account_id)) if @not_yet_receiving_emails
     @accounts = @accounts.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]) if @q
     @accounts = @accounts.order("#{@o} #{@d}")    
     @cols = {'Name' => :name, 'Email' => :email, 'Phone number' => nil, 'Twitter username' => nil, 'Affiliations' => nil, I18n.t(:account_tagships).capitalize => nil, 'Joined' => nil, 'Last signed in' => nil, 'Actions' => nil, 'Notifications' => nil}

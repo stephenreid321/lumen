@@ -73,7 +73,7 @@ Lumen::App.controllers do
             account.name,
             account.email,
             account.phone,
-            account.twitter_profile_url,
+            account.twitter_profile_url.split('.com/')[1],
             account.affiliations.map { |affiliation| "#{affiliation.title} at #{affiliation.organisation.name}" }.join("\n"),
             account.account_tagships.map { |account_tagship| account_tagship.account_tag.name }.join("\n"),
             membership.created_at.to_s(:db),

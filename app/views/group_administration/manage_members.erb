@@ -86,7 +86,7 @@
       </td>
       <td>
         <% if account.twitter_profile_url %>
-          <a target="_blank" href="<%=account.twitter_profile_url%>"><%=account.twitter_profile_url.split('/')[3..-1].join('/')%></a>
+          <a target="_blank" href="<%=account.twitter_profile_url%>"><%=account.twitter_profile_url.split('.com/')[1]%></a>
         <% end %>
       </td>       
       <td>

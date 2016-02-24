@@ -32,11 +32,12 @@
 <%= partial :'group_administration/add_member' %>
 
 <% form_tag '', :style => "display: inline", :method => 'get' do %>      
-  <div class="checkbox">
-    <label>
-      <%= check_box_tag :admins_only, :onchange => 'this.form.submit()', :checked => @admins_only %> Show admins only
-    </label>
-  </div>  
+  <label class="checkbox-inline" style="padding-left: 0">
+    <%= check_box_tag :admins_only, :onchange => 'this.form.submit()', :checked => @admins_only %> Admin
+  </label>
+  <label class="checkbox-inline">
+    <%= check_box_tag :never_signed_in, :onchange => 'this.form.submit()', :checked => @never_signed_in %> Never signed in
+  </label>
 <% end %>
 
 <table class="members table">

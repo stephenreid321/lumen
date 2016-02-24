@@ -5,6 +5,7 @@ class Group
 
   field :slug, :type => String
   field :primary, :type => Boolean
+  field :allow_external_membership_requests, :type => Boolean
   field :description, :type => String
   field :privacy, :type => String
   field :default_notification_level, :type => String, :default => 'each'
@@ -171,6 +172,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     {
       :slug => :text,
       :primary => :check_box,
+      :allow_external_membership_requests => :check_box,
       :description => :text_area,
       :picture => :image,
       :privacy => :radio,

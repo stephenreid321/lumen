@@ -49,7 +49,7 @@ Lumen::App.controllers do
     erb :'group_administration/conversations_requiring_approval'    
   end
    
-  get '/groups/:slug/manage_members' do
+  get '/groups/:slug/manage_members', :provides => [:html, :csv] do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @q = params[:q]
@@ -58,9 +58,30 @@ Lumen::App.controllers do
     @admins_only = params[:admins_only]
     @accounts = Account.where(:id.in => (@admins_only ? @group.admins.pluck(:id) : @group.memberships.pluck(:account_id)))
     @accounts = @accounts.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]) if @q
-    @accounts = @accounts.order("#{@o} #{@d}")
-    @accounts = @accounts.page(params[:page])
-    erb :'group_administration/manage_members'
+    @accounts = @accounts.order("#{@o} #{@d}")    
+    @cols = {'Name' => :name, 'Email' => :email, 'Phone number' => nil, 'Twitter username' => nil, 'Affiliations' => nil, I18n.t(:account_tagships).capitalize => nil, 'Joined' => nil, 'Last signed in' => nil, 'Actions' => nil, 'Notifications' => nil}
+    case content_type
+    when :html    
+      @accounts = @accounts.page(params[:page])      
+      erb :'group_administration/manage_members'
+    when :csv
+      CSV.generate do |csv|
+        csv << @cols.keys[0..-3]
+        @accounts.each do |account|
+          membership = @group.memberships.find_by(account: account)
+          csv << [
+            account.name,
+            account.email,
+            account.phone,
+            account.twitter_profile_url,
+            account.affiliations.map { |affiliation| "#{affiliation.title} at #{affiliation.organisation.name}" }.join("\n"),
+            account.account_tagships.map { |account_tagship| account_tagship.account_tag.name }.join("\n"),
+            membership.created_at.to_s(:db),
+            (sign_in = account.sign_ins.order_by(:created_at.desc).limit(1).first) ? sign_in.created_at.to_s(:db) : "Never signed in"            
+          ]
+        end
+      end       
+    end
   end
   
   get '/groups/:slug/membership_requests' do

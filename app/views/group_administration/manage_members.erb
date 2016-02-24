@@ -15,6 +15,7 @@
   <div class="col-md-6">          
     <%= page_entries_info @accounts, :model => 'Member' %>
     <a class="btn btn-primary" href="javascript:;" onclick="$('#add-member').slideDown()"><i class="fa fa-plus"></i> Add a member</a>    
+    <a class="btn btn-default" href="/groups/<%=@group.slug%>/manage_members.csv?<%=request.query_string%>"><i class="fa fa-download"></i> Download as CSV</a>    
   </div>
   <div class="col-md-offset-2 col-md-4" style="text-align: right;">
     <% form_tag '', :style => "display: inline", :method => 'get' do %>      
@@ -41,7 +42,7 @@
 <table class="members table">
   <thead>
     <tr>
-      <% {'Name' => :name, 'Email' => :email, 'Phone number' => nil, 'Twitter username' => nil, 'Affiliations' => nil, I18n.t(:account_tagships).capitalize => nil, 'Joined' => nil, 'Last signed in' => nil, 'Actions' => nil, 'Notifications' => nil}.each { |k,v| %>
+      <% @cols.each { |k,v| %>
         <th data-fieldname="<%=v%>">
           <%=k%>
 

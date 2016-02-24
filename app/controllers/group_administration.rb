@@ -95,6 +95,9 @@ Lumen::App.controllers do
     @membership_requests = @group.membership_requests.where(:status => 'pending')
     @membership_requests = @membership_requests.where(:account_id.in => Account.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]).pluck(:id)) if @q
     @membership_requests = @membership_requests.order("#{@o} #{@d}")
+    @cols = {'Name' => nil, 'Email' => nil}
+    (@cols['Answers'] = nil) if @group.request_questions
+    @cols.merge!({'Requested' => :created_at, 'Actions' => nil})
     @membership_requests = @membership_requests.page(params[:page])
     erb :'group_administration/membership_requests'
   end  

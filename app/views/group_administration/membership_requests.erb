@@ -30,7 +30,7 @@
 <table class="members table">
   <thead>
     <tr>
-      <% {'Name' => nil, 'Email' => nil, 'Answers' => nil, 'Requested' => :created_at, 'Actions' => nil}.each { |k,v| %>
+      <% @cols.each { |k,v| %>
         <th data-fieldname="<%=v%>">
           <%=k%>
 
@@ -60,14 +60,16 @@
       <td>
         <%=account.email%>
       </td>
-      <td>
-        <% if membership_request.answers %>
-          <% membership_request.answers.each { |q,a| %>
-            <p><strong><%=q%></strong></p>
-            <p><%=a.gsub("\n","<br />")%></p>                    
-          <% }  %>
-        <% end %>
-      </td>      
+      <% if @group.request_questions %>
+        <td>
+          <% if membership_request.answers %>
+            <% membership_request.answers.each { |q,a| %>
+              <p><strong><%=q%></strong></p>
+              <p><%=a.gsub("\n","<br />")%></p>                    
+            <% }  %>
+          <% end %>
+        </td>    
+      <% end %>
       <td>
         <%=membership_request.created_at%>
       </td>     

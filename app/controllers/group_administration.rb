@@ -61,7 +61,7 @@ Lumen::App.controllers do
     @accounts = @accounts.where(:id.nin => @group.memberships.where(:status => 'confirmed').pluck(:account_id)) if @not_yet_receiving_emails
     @accounts = @accounts.or([{:name => /#{Regexp.escape(@q)}/i}, {:email => /#{Regexp.escape(@q)}/i}]) if @q
     @accounts = @accounts.order("#{@o} #{@d}")    
-    @cols = {'Name' => :name, 'Email' => :email, 'Phone number' => nil, 'Twitter username' => nil, 'Affiliations' => nil, I18n.t(:account_tagships).capitalize => nil, 'Joined' => nil, 'Last signed in' => nil, 'Actions' => nil, 'Notifications' => nil}
+    @cols = {'Name' => :name, 'Email' => :email, 'Phone' => nil, 'Twitter' => nil, 'Affiliations' => nil, I18n.t(:account_tagships).capitalize => nil, 'Joined' => nil, 'Last signed in' => nil, 'Actions' => nil, 'Notifications' => nil}
     case content_type
     when :html    
       @accounts = @accounts.page(params[:page])      

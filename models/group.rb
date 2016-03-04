@@ -454,7 +454,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       nl2br = true
     end                            
               
-    html = body.decoded.force_encoding(charset).encode('UTF-8')              
+    html = begin; body.decoded.force_encoding(charset).encode('UTF-8'); rescue; body; end
     html = html.gsub("\n", "<br>\n") if nl2br
     html = html.gsub(/<o:p>/, '')
     html = html.gsub(/<\/o:p>/, '')

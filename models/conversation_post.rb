@@ -119,7 +119,11 @@ class ConversationPost
   def send_notifications!
     return if conversation.hidden
     if ENV['BCC_SINGLE']
-      self.conversation_post_bccs.create(accounts: accounts_to_notify)
+      if ENV['BCC_SINGLE_JOB']
+        Delayed::Job.enqueue BccSingleJob.new(self.id)
+      else
+        bcc_single
+      end               
     else
       Delayed::Job.enqueue BccEachJob.new(self.id)
     end
@@ -150,6 +154,10 @@ class ConversationPost
     end
     self
   end
+  
+  def bcc_single    
+    conversation_post_bccs.create(accounts: accounts_to_notify)
+  end  
   
   def bcc_each
     conversation_post = self

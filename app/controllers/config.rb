@@ -67,6 +67,7 @@ Lumen::App.controllers do
       :GOOGLE_ANALYTICS_TRACKING_ID => 'Google Analytics tracking ID',
             
       :BCC_SINGLE => ['Send single BCC to conversation post subscribers'],
+      :BCC_SINGLE_JOB => ['Handle single BCCs in the background'],      
       :ONE_CLICK_LOGIN => ['Allow one-click logins from conversation post emails'],
       :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
       :BCC_EACH_THREADS => 'Number of threads to use when sending individual BCCs (default 10)',

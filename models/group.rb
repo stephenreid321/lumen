@@ -364,7 +364,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     memberships.where(:welcome_email_pending => true).each(&:send_welcome_email)
   end
     
-  def check!
+  def check!(since: Date.yesterday)
     return unless ENV['MAIL_SERVER_ADDRESS']
     group = self
     imap = Net::IMAP.new(ENV['MAIL_SERVER_ADDRESS'], :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
@@ -382,7 +382,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       imap.expunge
     end
 
-    imap.search(["SINCE", Date.yesterday.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', group.email('-noreply')]).each do |sequence_id|
+    imap.search(["SINCE", since.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', group.email('-noreply')]).each do |sequence_id|
       
       # skip messages we've already dealt with
       imap_uid = imap.fetch(sequence_id,'UID')[0].attr['UID']

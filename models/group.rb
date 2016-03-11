@@ -435,7 +435,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
         :subject => "Delivery failed: #{mail.subject}",
         :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
       )
-      mail.deliver 
+      begin; mail.deliver; rescue; end        
       puts "this message was sent by a stranger"
       return :delete
     end    

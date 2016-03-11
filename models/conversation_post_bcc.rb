@@ -72,14 +72,18 @@ class ConversationPostBcc
     mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
         
     if previous_conversation_posts
-      if ENV['BCC_SINGLE']
-        references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc.message_id}>" }
-      else
-        account = self.conversation_post_bcc_recipient.account
-        references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>" }
+      begin
+        if ENV['BCC_SINGLE']
+          references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc.message_id}>" }
+        else
+          account = self.conversation_post_bcc_recipient.account
+          references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>" }
+        end
+        mail.in_reply_to = references.first
+        mail.references = references.join(' ')
+      rescue => e
+        Airbrake.notify(e)
       end
-      mail.in_reply_to = references.first
-      mail.references = references.join(' ')      
     end
     mail.html_part do
       content_type 'text/html; charset=UTF-8'

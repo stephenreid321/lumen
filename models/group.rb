@@ -425,17 +425,22 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     # skip messages from people that aren't in the group
     account = Account.find_by(email: /^#{Regexp.escape(from)}$/i)     
     if !account or !account.memberships.find_by(:group => group, :status => 'confirmed', :muted.ne => true)
-      Mail.defaults do
-        delivery_method :smtp, group.smtp_settings
-      end 
-      mail = Mail.new(
-        :to => from,
-        :bcc => ENV['HELP_ADDRESS'],
-        :from => "#{group.slug} <#{group.email('-noreply')}>",
-        :subject => "Delivery failed: #{mail.subject}",
-        :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
-      )
-      begin; mail.deliver; rescue; end        
+      begin
+        Mail.defaults do
+          delivery_method :smtp, group.smtp_settings
+        end 
+        mail = Mail.new(
+          :to => from,
+          :bcc => ENV['HELP_ADDRESS'],
+          :from => "#{group.slug} <#{group.email('-noreply')}>",
+          :subject => "Delivery failed: #{mail.subject}",
+          :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
+        )
+        mail.deliver
+      rescue => e
+        Airbrake.notify(e)
+      end
+        
       puts "this message was sent by a stranger"
       return :delete
     end    

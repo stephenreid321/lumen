@@ -40,17 +40,9 @@ See below for more images.
 
 * Register a domain `$DOMAIN`. In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`
 
-* Create a 2GB (or greater) droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.3.26 on 14.04' 
-
-* System update: `apt-get update; apt-get dist-upgrade`
+* Create a 2GB (or greater) droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.4.14 on 14.04' 
 
 * Install fail2ban: `apt-get install fail2ban`
-
-* Install MongoDB and the dokku MongoDB plugin:
-
-  ```
-  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10; echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list; apt-get update; apt-get install -y mongodb-org; git clone https://github.com/jeffutter/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb; dokku plugins-install; dokku mongodb:start
-  ```
 
 * Create certificates:
 
@@ -60,13 +52,11 @@ See below for more images.
 
   (You can hit enter a bunch of times to leave the fields empty)
 
-* Install mail packages (**make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` with your domain**):
+* Install mail packages (**make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` with your domain**). When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no:
 
   ```
   aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart
   ```
-
-  When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no.
 
 * Get DKIM key with `nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt` and add DNS records:
 
@@ -79,21 +69,26 @@ See below for more images.
 
 * Visit `$DOMAIN`. Enter `$DOMAIN` as the hostname and check 'Use virtualhost naming for apps'
 
+* Create the dokku app and add the mongo plugin:
+
+  ```
+  dokku apps:create $APP_NAME
+  dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
+  dokku mongo:create $MONGO_SERVICE_NAME
+  dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
+  ```
+
 * From your own machine run:
 
   ```
   git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@$DOMAIN:$APP_NAME; git push $APP_NAME master
   ```
 
-* Create a Mongo instance for the app: `dokku mongodb:create $APP_NAME`
-
-* Set configuration variables:
+* Set configuration variables. You can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`. If you didn't obtain a password for the root user, enable password authentication and set one with: `nano /etc/ssh/sshd_config`, set PasswordAuthentication yes; `restart ssh`; `passwd`:
   ```
-  dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
+  dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET S3_REGION=$S3_REGION SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
   ```
-
-  You can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`. If you didn't obtain a password for the root user, enable password authentication and set one with: `nano /etc/ssh/sshd_config`, set PasswordAuthentication yes; `restart ssh`; `passwd`
-
+  
 * Start a worker process: `dokku ps:scale $APP_NAME web=1 worker=1`
 
 * Create default language and database indexes: `dokku run $APP_NAME rake languages:default[English,en]; dokku run $APP_NAME rake mi:create_indexes`

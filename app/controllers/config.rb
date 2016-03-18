@@ -47,6 +47,7 @@ Lumen::App.controllers do
       :HIDE_ACCOUNT_PHONE => ['Hides the phone field on account profiles'],
       :HIDE_ACCOUNT_TIME_ZONE => ['Hides the time zone field on account profiles'],
       :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],      
+      :MAX_HEADLINE_LENGTH => 'Maximum length for the headline field',
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
       
       :MAP_DEFAULTS => 'Comma-separated latitude, longitude and zoom',            

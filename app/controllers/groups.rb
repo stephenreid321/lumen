@@ -161,7 +161,7 @@ Lumen::App.controllers do
     @membership =  @group.memberships.find_by(account: current_account)
     @membership.update_attribute(:notification_level, params[:level]) if Membership.notification_levels.include? params[:level]
     flash[:notice] = 'Notification options updated!'
-    redirect "/groups/#{@group.slug}/conversations"
+    redirect back
   end   
             
 end

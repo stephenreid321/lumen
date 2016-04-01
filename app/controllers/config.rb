@@ -31,6 +31,7 @@ Lumen::App.controllers do
       :REQUEST_LOCATION => ['Request location on request membership and join group forms'],      
       :REQUIRE_ACCOUNT_POSTCODE => ['Requires the completion of the postcode field on account profiles'],
       :REQUIRE_ACCOUNT_AFFILIATIONS => ['Requires some affiliations on account profiles'],
+      :PREVENT_EMAIL_CHANGES => ['Prevents people from changing their email address'],
       :GROUP_CREATION_BY_ADMINS_ONLY => ['Only allow admins to create new groups'],
       :PRIVATE_NETWORK => ['Disables public membership requests and the Public group privacy option'],
       :GROUPS_TO_JOIN_ON_FIRST_SIGN_IN => 'Comma-separated list of group slugs. People are automatically made members of these groups upon first sign-in',

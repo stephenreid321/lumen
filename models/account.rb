@@ -90,6 +90,11 @@ class Account
     end
   end  
   
+  attr_accessor :prevent_email_changes
+  before_validation do    
+    errors.add(:email, "cannot be changed") if prevent_email_changes and persisted? and email_changed?
+  end  
+  
   def self.marker_color
     '3DA2E4'
   end

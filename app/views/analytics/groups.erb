@@ -31,7 +31,7 @@
         <% end %>
       </td>
       <td>
-        <% m1 = group.memberships.where(:created_at.lte => @to).count; m2 = group.memberships.where(:created_at.lte => @from).count %>
+        <% m1 = group.memberships.where(:created_at.lte => @from).count; m2 = group.memberships.where(:created_at.lte => @to).count %>
         <% if m1 > 0 and m2 > 0 %>
           <%= (((m2-m1).to_f/m1)*100).round %>% (<%=m1%> <i class="fa fa-arrow-right"></i> <%=m2%>)
         <% end %>

@@ -42,7 +42,7 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/list_emails' do
-    if ENV['ENABLE_LIST_EMAIL_ADDRESSES']
+    if ENV['LIST_EMAIL_ADDRESSES']
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required! unless @group.public?

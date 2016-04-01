@@ -40,6 +40,18 @@ Lumen::App.controllers do
     membership_required! unless @group.public?
     erb :'groups/members'    
   end
+  
+  get '/groups/:slug/list_emails' do
+    if ENV['ENABLE_LIST_EMAIL_ADDRESSES']
+      @group = Group.find_by(slug: params[:slug]) || not_found
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required! unless @group.public?
+      erb :'groups/list_emails'    
+    else
+      flash[:error] = 'That feature is not enabled'
+      redirect back
+    end
+  end
           
   get '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found

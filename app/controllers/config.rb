@@ -34,7 +34,8 @@ Lumen::App.controllers do
       :GROUP_CREATION_BY_ADMINS_ONLY => ['Only allow admins to create new groups'],
       :PRIVATE_NETWORK => ['Disables public membership requests and the Public group privacy option'],
       :GROUPS_TO_JOIN_ON_FIRST_SIGN_IN => 'Comma-separated list of group slugs. People are automatically made members of these groups upon first sign-in',
-          
+      :LIST_EMAIL_ADDRESSES => ['Enables the \'List email addresses\' link in groups, allowing group members to copy a full list of emails'],
+      
       :HIDE_SEARCH_MEMBERSHIPS => ['Hides group memberships on profile search results'],
       :HIDE_SEARCH_TAGS => ['Hides tags on profile search results'],
       :HIDE_MAP_FORM => ['Hides map form'],

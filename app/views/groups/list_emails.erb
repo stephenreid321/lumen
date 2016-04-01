@@ -1,0 +1,12 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li><a href="/groups/<%=@group.slug%>"><%=@group.slug%></a></li>
+  <li class="active">List email addresses</li>
+</ol>
+
+<textarea class="form-control" style="height: 20em">
+  <% @group.members.each { |member| %>
+    <%=member.name%> &lt;<%=member.email%>&gt;
+  <% } %>
+</textarea>

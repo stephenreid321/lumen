@@ -3,6 +3,11 @@
     <li>
       <a title="<%=I18n.t(:leave_group).capitalize%>" data-confirm="<%=I18n.t(:leave_group_confirm)%>" class="edit restore-opacity" href="/groups/<%=@group.slug%>/leave"><i class="fa fa-sign-out"></i> <%=I18n.t(:leave_group).capitalize%></a>
     </li>   
+    <% if ENV['LIST_EMAIL_ADDRESSES'] %>
+      <li>
+        <a title="List email addresses" class="edit restore-opacity" href="/groups/<%=@group.slug%>/list_emails"><i class="fa fa-list"></i> List email addresses</a>
+      </li>       
+    <% end %>
   <% elsif current_account %>
     <li>
       <a title="<%=I18n.t(:join_group).capitalize%>" class="edit restore-opacity" href="/groups/<%=@group.slug%>/join"><i class="fa fa-sign-in"></i> <%=I18n.t(:join_group).capitalize%></a>

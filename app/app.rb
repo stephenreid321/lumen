@@ -81,7 +81,7 @@ module Lumen
         pass
       end
     end   
-    
+        
     get '/merge_tags' do
       site_admins_only!
       erb :merge_tags

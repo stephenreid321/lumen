@@ -90,6 +90,15 @@ class Account
     end
   end  
   
+  attr_accessor :groups_to_join
+  attr_accessor :confirm_memberships  
+  after_create :join_groups
+  def join_groups
+    groups_to_join.each { |group_id|
+      memberships.create(:group_id => group_id, :status => ('confirmed' if self.confirm_memberships.to_i == 1))
+    }
+  end
+  
   attr_accessor :prevent_email_changes
   before_validation do    
     errors.add(:email, "cannot be changed") if prevent_email_changes and persisted? and email_changed?

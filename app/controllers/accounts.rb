@@ -1,4 +1,22 @@
 Lumen::App.controllers do
+  
+  get '/accounts/new' do
+    site_admins_only!
+    @account = Account.new
+    erb :'accounts/new'      
+  end  
+    
+  post '/accounts/new' do
+    site_admins_only!
+    @account = Account.new(params[:account])
+    if @account.save
+      flash[:notice] = 'The account was created successfully'
+      redirect back
+    else
+      flash.now[:error] = 'Some errors prevented the account from being saved'
+      erb :'accounts/new'      
+    end
+  end    
     
   get '/accounts/results', :provides => [:json, :html] do
     sign_in_required!

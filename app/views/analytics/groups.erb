@@ -28,7 +28,7 @@
       <td><%=m2 = group.memberships.where(:created_at.lte => @to).count%></td>
       <td>
         <% if m1 > 0 and m2 > 0 %>
-          <%= (((m2-m1).to_f/m1)*100).round %>&#37; (<%=m1%> <i class="fa fa-arrow-right"></i> <%=m2%>)
+          <%= (((m2-m1).to_f/m1)*100).round %>&#37;
         <% end %>
       </td>      
       <td><%=group.conversations.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>

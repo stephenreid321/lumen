@@ -5,7 +5,7 @@
   <%= f.text_block :email %>
   <%= f.password_block :password %>
   <%= f.password_block :password_confirmation %>
-  <%= f.check_boxes_block :groups_to_join, options: Group.all.map { |group| [group.slug, group.id] } %>
+  <%= f.check_boxes_block :groups_to_join, options: Group.order(:slug.asc).map { |group| [group.slug, group.id] } %>
   <%= f.check_box_block :confirm_memberships %>
   <%= f.check_box_block :prevent_new_memberships %>
   <%= f.submit_block %>

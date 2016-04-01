@@ -282,11 +282,11 @@ class Account
   end
   
   def affiliations_summary
-    affiliations.map { |affiliation| "#{affiliation.title} at #{affiliation.organisation.name}" }.join(',')
+    affiliations.map { |affiliation| "#{affiliation.title} at #{affiliation.organisation.name}" }.join(', ')
   end
   
   def memberships_summary
-    memberships.map { |membership| membership.group.slug }.join(',')
+    memberships.map { |membership| membership.group.slug }.join(', ')
   end
   
   def self.countries

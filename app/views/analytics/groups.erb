@@ -12,28 +12,31 @@
   <thead>
     <tr>
       <th>Group</th>
+      <th>Members at start of period</th>
+      <th>Members at end of period</th>
+      <th>Change in group size<th>
       <th>Conversations</th>
       <th>Conversation posts</th>
       <th>Distinct posters</th>
-      <th>Fraction of people that posted</th>
-      <th>Change in group size<th>
+      <th>Fraction of people that posted</th>      
     </tr>
   </thead>
   <% Group.order(:slug.asc).each { |group| %>
     <tr>
       <td><%=group.slug%></td>
+      <td><%=m1 = group.memberships.where(:created_at.lte => @from).count%></td>
+      <td><%=m2 = group.memberships.where(:created_at.lte => @to).count%></td>
+      <td>
+        <% if m1 > 0 and m2 > 0 %>
+          <%= (((m2-m1).to_f/m1)*100).round %>&#37; (<%=m1%> <i class="fa fa-arrow-right"></i> <%=m2%>)
+        <% end %>
+      </td>      
       <td><%=group.conversations.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
       <td><%=group.conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
       <td><%=d = group.conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to).pluck(:account_id).uniq.count%></td>
       <td>
-        <% if (c = group.memberships.where(:created_at.lte => @to).count) > 0 %>
-          <%= ((d.to_f/c)*100).round %>%
-        <% end %>
-      </td>
-      <td>
-        <% m1 = group.memberships.where(:created_at.lte => @from).count; m2 = group.memberships.where(:created_at.lte => @to).count %>
-        <% if m1 > 0 and m2 > 0 %>
-          <%= (((m2-m1).to_f/m1)*100).round %>% (<%=m1%> <i class="fa fa-arrow-right"></i> <%=m2%>)
+        <% if m2 > 0 %>
+          <%= ((d.to_f/m2)*100).round %>&#37;
         <% end %>
       </td>
     </tr>

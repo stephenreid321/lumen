@@ -1,0 +1,47 @@
+
+<p><%= page_entries_info @accounts, :model => 'Person' %></p>
+
+<table class="members table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Twitter</th>
+      <th>Affiliations</th>
+      <th><%=I18n.t(:account_tagships).capitalize%></th>
+    </tr>
+  </thead>  
+  <% @accounts.each { |account| %>
+    <tr>
+      <td>
+        <a href="/accounts/<%=account.id%>"><%= account.name %></a>   
+      </td>      
+      <td>
+        <%=account.email%>
+      </td>
+      <td>
+        <%=account.phone%>
+      </td>
+      <td>
+        <% if account.twitter_profile_url %>
+          <a target="_blank" href="<%=account.twitter_profile_url%>"><%=account.twitter_profile_url.split('.com/')[1]%></a>
+        <% end %>
+      </td>       
+      <td>
+        <% account.affiliations.each { |affiliation|%>
+          <%=affiliation.title%> <%=I18n.t(:at)%> <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a> <br />
+        <% } %> 
+      </td>
+      <td>
+        <%account.account_tagships.each { |account_tagship|%>
+          <a href="/network?account_tag_id=<%=account_tagship.account_tag_id%>" class="label label-primary" style="text-indent: 0"><%=account_tagship.account_tag.name%></a>
+        <% } %>
+      </td>             
+    </tr>
+  <% } %>
+</table>
+
+<div style="text-align: center">
+  <%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>

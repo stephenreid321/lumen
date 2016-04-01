@@ -25,4 +25,9 @@ Lumen::App.controllers do
     erb :'analytics/page_views'    
   end
   
+  get '/analytics/groups' do
+    site_admins_only!
+    erb :'analytics/groups'
+  end
+  
 end

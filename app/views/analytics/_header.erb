@@ -2,5 +2,18 @@
   ['<i class="fa fa-user"></i> Unique visitors', 'unique_visitors'],
   ['<i class="fa fa-th-large"></i> Page views', 'page_views'],  
   ['<i class="fa fa-dashboard"></i> Cumulative totals', 'cumulative_totals'],  
+  ['<i class="fa fa-users"></i> Group activity', 'groups'],  
   ], prefix: '/analytics/'
 %>
+
+<script>
+  $(function () {
+    $(".datepicker").datepicker({format: 'dd-M-yyyy', autoclose: true});
+  });
+</script>
+<form style="display: inline">
+  <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="from" value="<%=@from.strftime('%d-%b-%Y')%>"/>
+  &ndash;
+  <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=@to.strftime('%d-%b-%Y')%>"/>
+  <button class="btn btn-primary">Get data</button>
+</form>

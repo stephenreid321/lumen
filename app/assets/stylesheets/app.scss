@@ -221,3 +221,5 @@ ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
 #map-canvas { background: $grey-light !important; }
 .wall-conversation-post-replies { background: $grey-light }
 .stats-highlight { background: $secondary-light }
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control, .select2-search input[type="text"][disabled], .select2-search input[type="text"][readonly], fieldset[disabled] .select2-search input[type="text"] { color: #999 }

@@ -28,7 +28,7 @@
           <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
             <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
           <% end %>
-          <%= f.email_block :email, tip: eval(f('tip-email')) %>
+          <%= f.email_block :email, tip: eval(f('tip-email')), disabled: ENV['PREVENT_EMAIL_CHANGES'] %>
 
           <%= eval(f('below-account-email')) %>
 

@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 4782f59f804da0c6984e9f3b7d8fe7588f7f236a
+  revision: fac307c56248215f423146135eb9e32ff507e9c1
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -116,8 +116,8 @@ GEM
     jwt (1.5.1)
     launchy (2.4.3)
       addressable (~> 2.3)
-    mail (2.6.3)
-      mime-types (>= 1.16, < 3)
+    mail (2.6.4)
+      mime-types (>= 1.16, < 4)
     mechanize (2.7.4)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -146,7 +146,7 @@ GEM
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mustermann19 (0.4.2)
+    mustermann19 (0.4.3)
       enumerable-lazy
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)

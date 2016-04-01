@@ -272,11 +272,21 @@ class Account
       :language_id => :lookup,
       :password => :password,
       :password_confirmation => :password,
-      :prevent_new_memberships => :check_box,
+      :prevent_new_memberships => :check_box,      
       :affiliations => :collection,
+      :affiliations_summary => {:type => :text, :edit => false},
       :memberships => :collection,
+      :memberships_summary => {:type => :text, :edit => false},
       :membership_requests => :collection
     }.merge(EnvFields.fields(self))
+  end
+  
+  def affiliations_summary
+    affiliations.map { "#{affiliation.title} at #{affiliation.organisation.name}" }.join(',')
+  end
+  
+  def memberships_summary
+    memberships.map { membership.group.slug }.join(',')
   end
   
   def self.countries

@@ -94,9 +94,11 @@ class Account
   attr_accessor :confirm_memberships  
   after_create :join_groups
   def join_groups
-    groups_to_join.each { |group_id|
-      memberships.create(:group_id => group_id, :status => ('confirmed' if self.confirm_memberships.to_i == 1))
-    }
+    if @groups_to_join
+      @groups_to_join.each { |group_id|
+        memberships.create(:group_id => group_id, :status => ('confirmed' if self.confirm_memberships.to_i == 1))
+      }
+    end
   end
   
   attr_accessor :prevent_email_changes

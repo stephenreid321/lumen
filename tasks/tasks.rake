@@ -27,3 +27,15 @@ namespace :digests do
     end
   end
 end
+
+namespace :groups do
+  task :test_creating_a_conversation_via_email, [:slug] => :environment do |t, args|
+    Group.find_by(slug: args[:slug]).test_creating_a_conversation_via_email
+  end 
+end
+
+namespace :languages do
+  task :default, [:name, :code] => :environment do |t, args|
+    Language.create :name => args[:name], :code => args[:code], :default => true
+  end 
+end

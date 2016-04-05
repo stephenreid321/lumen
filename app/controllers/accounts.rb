@@ -27,7 +27,7 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
       end
       
       sign_in_details = ''
-      if !@account.confirm_memberships
+      if @account.confirm_memberships.to_i == 0
         sign_in_details << "You need to sign in to start receiving email notifications. "
       end       
       sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}"

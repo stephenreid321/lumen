@@ -1,4 +1,4 @@
-class Group
+class Group    
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model
@@ -519,6 +519,25 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     end         
     puts "sending notifications"
     conversation_post.send_notifications!
+  end
+  
+  def test_creating_a_conversation_via_email
+    group = self
+    Mail.defaults do
+      delivery_method :smtp, group.smtp_settings
+    end    
+    mail = Mail.new
+    mail.to = group.email
+    mail.from = group.members.first.email
+    subject = "test #{Time.now}"
+    mail.subject = subject
+    mail.body = '.'
+    mail.deliver          
+    sleep 120
+    conversation = group.conversations.order(:created_at.desc).limit(1).first
+    unless conversation and conversation.subject == subject
+      raise "Failed to create conversation: #{subject}"
+    end
   end
       
 end

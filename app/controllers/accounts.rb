@@ -3,7 +3,7 @@ Lumen::App.controllers do
   get '/accounts/new' do
     site_admins_only!
     @account = Account.new
-    @account.welcome_email_subject = "You were added to #{ENV['SITE_NAME']}"
+    @account.welcome_email_subject = "You were added to #{ENV['SITE_NAME_DEFINITE']}"
     @account.welcome_email_body = %Q{Hi [firstname],
 <br /><br />
 You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
@@ -32,7 +32,7 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
       end       
       sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}"
                
-      b = params[:welcome_email_body]
+      b = @account.welcome_email_body
       .gsub('[firstname]',@account.name.split(' ').first)
       .gsub('[group_list]',@account.groups.map(&:slug).to_sentence)
       .gsub('[sign_in_details]', sign_in_details)      
@@ -40,7 +40,7 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
       mail = Mail.new
       mail.to = @account.email
       mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>",
-      mail.subject = params[:welcome_email_subject]
+      mail.subject = @account.welcome_email_subject
       mail.html_part do
         content_type 'text/html; charset=UTF-8'
         body b

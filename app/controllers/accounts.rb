@@ -3,14 +3,50 @@ Lumen::App.controllers do
   get '/accounts/new' do
     site_admins_only!
     @account = Account.new
+    @account.welcome_email_subject = "You were added to #{ENV['SITE_NAME']}"
+    @account.welcome_email_body = %Q{Hi [firstname],
+<br /><br />
+You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
+<br /><br />
+[sign_in_details]}
     erb :'accounts/new'      
   end  
     
   post '/accounts/new' do
     site_admins_only!
     @account = Account.new(params[:account])
+    password = Account.generate_password(8)
+    @account.password = password
+    @account.password_confirmation = password
     if @account.save
       flash[:notice] = 'The account was created successfully'
+      
+      s = smtp_settings
+      Mail.defaults do
+        delivery_method :smtp, s
+      end
+      
+      sign_in_details = ''
+      if !@account.confirm_memberships
+        sign_in_details << "You need to sign in to start receiving email notifications. "
+      end       
+      sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}"
+               
+      b = params[:welcome_email_body]
+      .gsub('[firstname]',@account.name.split(' ').first)
+      .gsub('[group_list]',@account.groups.map(&:slug).to_sentence)
+      .gsub('[sign_in_details]', sign_in_details)      
+            
+      mail = Mail.new
+      mail.to = @account.email
+      mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>",
+      mail.subject = params[:welcome_email_subject]
+      mail.html_part do
+        content_type 'text/html; charset=UTF-8'
+        body b
+      end
+      mail.deliver 
+    
       redirect back
     else
       flash.now[:error] = 'Some errors prevented the account from being saved'

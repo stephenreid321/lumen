@@ -91,7 +91,9 @@ class Account
   end  
   
   attr_accessor :groups_to_join
-  attr_accessor :confirm_memberships  
+  attr_accessor :confirm_memberships
+  attr_accessor :welcome_email_body
+  attr_accessor :welcome_email_subject
   after_create :join_groups
   def join_groups
     if @groups_to_join

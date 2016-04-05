@@ -29,6 +29,11 @@ namespace :digests do
 end
 
 namespace :groups do
+  task :check => :environment do
+    Group.each { |group|
+      group.check!
+    }
+  end
   task :test_creating_a_conversation_via_email, [:slug] => :environment do |t, args|
     Group.find_by(slug: args[:slug]).test_creating_a_conversation_via_email
   end 

@@ -101,7 +101,7 @@ See below for more images.
   0 0 * * 0 dokku run $APP_NAME rake digests:weekly
   ```
 
-* Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address 'admin@example.com' and the password 'lumen'.) Change the admin name, email address and password.
+* Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address `admin@example.com` and the password `lumen`.) Change the admin name, email address and password.
 
 * Visit /config and click 'Create notification script'. Add additional configuration variables via `dokku config:set $APP_NAME VAR=$VAR`. You're done!
 

@@ -544,6 +544,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       begin
         raise "Failed to create conversation: #{subject}"
       rescue => e
+        puts "error!"
         Airbrake.notify(e)
       end
     end

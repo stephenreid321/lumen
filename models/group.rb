@@ -529,13 +529,18 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     mail = Mail.new
     mail.to = group.email
     mail.from = group.members.first.email
-    subject = "test #{Time.now}"
+    subject = "test #{Time.now.to_s(:db)}"
     mail.subject = subject
     mail.body = '.'
+    puts "sending email with subject #{subject}"
     mail.deliver          
-    sleep 120
+    puts "sleeping for 1 minute"
+    sleep 60
+    puts "checking for conversation with subject #{subject}"
     conversation = group.conversations.order(:created_at.desc).limit(1).first
-    unless conversation and conversation.subject == subject
+    if conversation and conversation.subject == subject
+      puts "success!"
+    else
       raise "Failed to create conversation: #{subject}"
     end
   end

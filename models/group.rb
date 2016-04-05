@@ -541,7 +541,11 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     if conversation and conversation.subject == subject
       puts "success!"
     else
-      raise "Failed to create conversation: #{subject}"
+      begin
+        raise "Failed to create conversation: #{subject}"
+      rescue => e
+        Airbrake.notify(e)
+      end
     end
   end
       

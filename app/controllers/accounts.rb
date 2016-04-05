@@ -39,7 +39,7 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
             
       mail = Mail.new
       mail.to = @account.email
-      mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>",
+      mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>"
       mail.subject = @account.welcome_email_subject
       mail.html_part do
         content_type 'text/html; charset=UTF-8'

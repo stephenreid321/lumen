@@ -320,6 +320,7 @@ class Account
   def self.human_attribute_name(attr, options={})  
     {
       :account_tag_ids => I18n.t(:account_tagships).capitalize,
+      :welcome_email_body => 'HTML. Replacements: [firstname], [group_list], [sign_in_details]'
     }[attr.to_sym] || super  
   end     
            

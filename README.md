@@ -27,8 +27,6 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 
 [<img src="http://wordsandwriting.github.io/lumen/images/top.jpg">](http://wordsandwriting.github.io/lumen/images/neon.png)
 
-See below for more images.
-
 ## How the mailing lists work, in brief
 
 1. Your mail server receives a mail to yourgroup@yourdomain.org

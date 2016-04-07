@@ -25,7 +25,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 
 Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. It was originally created for the [New Economy Organisers Network](http://neweconomyorganisersnetwork.org/) (hosted by the [New Economics Foundation](http://neweconomics.org/)) who kindly agreed to open source the project and continue to sponsor its development.
 
-[<img src="http://wordsandwriting.github.io/lumen/images/top.jpg">](http://wordsandwriting.github.io/lumen/images/top.jpg)
+[<img src="http://wordsandwriting.github.io/lumen/images/top.jpg">](http://wordsandwriting.github.io/lumen/images/neon.png)
 
 See below for more images.
 
@@ -112,27 +112,3 @@ If you switch your mail server, you'll need to re-setup the group mail accounts 
 Group.each { |group| group.setup_mail_accounts_and_forwarder }
 ConversationPost.update_all(imap_uid: nil)
 ```
-
-## Gallery
-
-### Homepage (amalgamates newsfeeds from all groups)
-[<img src="http://wordsandwriting.github.io/lumen/images/home.jpg">](http://wordsandwriting.github.io/lumen/images/home.jpg)
-
-### Home calendar (amalgamates events from all groups)
-[<img src="http://wordsandwriting.github.io/lumen/images/calendar.jpg">](http://wordsandwriting.github.io/lumen/images/calendar.jpg)
-
-### A group
-[<img src="http://wordsandwriting.github.io/lumen/images/group.jpg">](http://wordsandwriting.github.io/lumen/images/group.jpg)
-
-### A group digest
-[<img src="http://wordsandwriting.github.io/lumen/images/digest.jpg">](http://wordsandwriting.github.io/lumen/images/digest.jpg)
-
-### A group's map
-[<img src="http://wordsandwriting.github.io/lumen/images/map.jpg">](http://wordsandwriting.github.io/lumen/images/map.jpg)
-
-### A profile 
-[<img src="http://wordsandwriting.github.io/lumen/images/profile.jpg">](http://wordsandwriting.github.io/lumen/images/profile.jpg)
-
-### Email accounts corresponding to groups 
-[<img src="http://wordsandwriting.github.io/lumen/images/virtualmin.jpg">](http://wordsandwriting.github.io/lumen/images/virtualmin.jpg)
-

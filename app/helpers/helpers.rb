@@ -16,7 +16,7 @@ Lumen::App.helpers do
   
   def g(group)
     unless group.primary
-      %Q{<a title="Posted in the group #{group.slug}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.slug}</a>}
+      %Q{<a title="Posted in the group #{group.name}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.name}</a>}
     end
   end    
   

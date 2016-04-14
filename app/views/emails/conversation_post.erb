@@ -33,7 +33,7 @@
             <% if conversation_post.account.public_memberships.count > 0 %>
               <li>
                 <i title="Groups" class="fa fa-li fa-group"></i>
-                <%=I18n.t(:member_of).capitalize%> <%= conversation_post.account.public_memberships.map { |membership| %Q{<a href="http://#{ENV['DOMAIN']}/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %>
+                <%=I18n.t(:member_of).capitalize%> <%= conversation_post.account.public_memberships.map { |membership| %Q{<a href="http://#{ENV['DOMAIN']}/groups/#{membership.group.slug}">#{membership.group.name}</a>} }.to_sentence %>
               </li>
             <% end %>    
           <% end %>

@@ -23,7 +23,7 @@
   </thead>
   <% Group.order(:slug.asc).each { |group| %>
     <tr>
-      <td><%=group.slug%></td>
+      <td><%=group.name%></td>
       <td><%=m1 = group.memberships.where(:created_at.lte => @from).count%></td>
       <td><%=m2 = group.memberships.where(:created_at.lte => @to).count%></td>
       <td>

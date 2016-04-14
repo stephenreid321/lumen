@@ -29,7 +29,7 @@ class MembershipRequest
   end
   
   def summary
-    "#{self.account.name} - #{self.group.slug}"
+    "#{self.account.name} - #{self.group.name}"
   end
     
   def self.statuses

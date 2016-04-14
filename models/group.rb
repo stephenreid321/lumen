@@ -2,7 +2,8 @@ class Group
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model
-
+  
+  field :name, :type => String  
   field :slug, :type => String
   field :primary, :type => Boolean
   field :allow_external_membership_requests, :type => Boolean
@@ -63,8 +64,8 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     
   index({slug: 1 }, {unique: true})
   
-  validates_presence_of :slug, :privacy
-  validates_uniqueness_of :slug
+  validates_presence_of :name, :slug, :privacy
+  validates_uniqueness_of :name, :slug
   validates_uniqueness_of :primary, :if => -> { self.primary }
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/  
   
@@ -170,6 +171,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       
   def self.admin_fields
     {
+      :name => :text,
       :slug => :text,
       :primary => :check_box,
       :allow_external_membership_requests => :check_box,
@@ -197,6 +199,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   
   def self.new_tips
     {
+      :name => 'Full group name, all characters allowed',
       :redirect_after_first_profile_save => 'URL. Can be used to direct new members to a survey or conversation.',
       :request_intro => 'HTML to display above request form',
       :request_questions => 'Questions to ask to people requesting membership. One per line.',
@@ -215,7 +218,6 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
     {
       :landing_tab => 'Group homepage content',
       :default_notification_level => 'Email notification default',
-      :slug => 'Name'
     }[attr.to_sym] || super  
   end  
     

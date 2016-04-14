@@ -48,7 +48,7 @@
         <% if @account.public_memberships.count > 0 %>
           <tr>
             <td><%=I18n.t(:member_of).capitalize%> </td>
-            <td><%= @account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.slug}</a>} }.to_sentence %></td>
+            <td><%= @account.public_memberships.map { |membership| %Q{<a href="/groups/#{membership.group.slug}">#{membership.group.name}</a>} }.to_sentence %></td>
           </tr>
         <% end %>          
 

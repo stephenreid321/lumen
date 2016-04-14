@@ -103,8 +103,8 @@
                     <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
-                    <% current_account.memberships.map(&:group).sort_by(&:slug).each { |group| %>
-                      <li><a href="/groups/<%=group.slug%>"><%= group.slug %></a></li>
+                    <% current_account.memberships.map(&:group).sort_by(&:name).each { |group| %>
+                      <li><a href="/groups/<%=group.slug%>"><%= group.name %></a></li>
                     <% } %>  
                     <li role="separator" class="divider"></li>
                     <li><a href="/groups"><%=I18n.t(:all_groups).capitalize%></a></li>

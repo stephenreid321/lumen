@@ -3,7 +3,7 @@
   <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
   <% if @group.persisted? %>
     <li>
-      <a href="/groups/<%=@group.slug%>/"><%= @group.slug%></a>    
+      <a href="/groups/<%=@group.slug%>/"><%= @group.name%></a>
     </li>      
     <li class="active">
       <%=I18n.t(:edit).capitalize%>
@@ -24,7 +24,8 @@
 
     <% form_for @group, @group.new_record? ? '/groups/new' : "/groups/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
-      <%= f.text_block :slug, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>}, :tip => 'Lowercase letters, numbers and dashes only (no spaces)' %>     
+      <%= f.text_block :name %>    
+      <%= f.slug_block :slug, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>}, :tip => 'Lowercase letters, numbers and dashes only (no spaces)' %>           
       <%= f.text_area_block :description %>
       <%= f.image_block :picture %>        
       <%= f.radio_block :privacy %>

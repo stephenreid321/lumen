@@ -20,7 +20,7 @@
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
-  <li><a href="/groups/<%=@conversation.group.slug%>"><%=@conversation.group.slug%></a></li>
+  <li><a href="/groups/<%=@conversation.group.slug%>"><%=@conversation.group.name%></a></li>
   <li><a href="/groups/<%=@conversation.group.slug%>/conversations">Conversations</a></li>
   <li class="active"><%=@conversation.subject%></li>
 </ol>

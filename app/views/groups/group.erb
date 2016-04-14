@@ -18,7 +18,7 @@
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
-  <li class="active"><%=@group.slug%></li>
+  <li class="active"><%=@group.name%></li>
 </ol>
 
 <% if @membership and @membership.admin? %>
@@ -47,7 +47,7 @@
             }
           </style>          
 
-          <h1 id="group-title"><%=@group.slug%></h1>
+          <h1 id="group-title"><%= @group.name %> <small><%=@group.slug%></small></h1>
 
           <% if @membership %>
             <form id="notification-level-form" method="get" action="/groups/<%=@group.slug%>/notification_level">

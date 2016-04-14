@@ -17,14 +17,14 @@
 
     <%= Fragment.find_by(slug: 'groups').try(:body) %>
 
-    <h2>Your groups</h2>
+    <h2><%=I18n.t(:your_groups).capitalize%></h2>
     <% current_account.groups.order_by(:primary.desc, :slug.asc).each { |group| %>
       <hr />
       <%= partial :'groups/group', :object => group %>  
     <% } %>
 
 
-    <h2>Other groups</h2>
+    <h2><%=I18n.t(:other_groups).capitalize%></h2>
     <% Group.where(:id.nin => current_account.groups.pluck(:id)).where(:privacy.ne => 'secret').order_by(:primary.desc, :slug.asc).each { |group| %>
       <hr />
       <%= partial :'groups/group', :object => group %>

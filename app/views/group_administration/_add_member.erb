@@ -18,7 +18,7 @@
               $('#add-multiple').show();">Add multiple</a></p>        
 
         <% if (invitables = Account.where(:id.in => (current_account.network.pluck(:id) - @group.memberships.pluck(:account_id)))).count > 0 %>
-          <h3>Someone already in your groups</h3>
+          <h3><%=I18n.t(:someone_already_in_your_groups).capitalize%></h3>
           <div class="form-group">
             <%= select_tag :account_id, :class => 'form-control', :options => [''] + invitables.sort_by { |account| account.name.downcase }.map { |account| ["#{account.name} (#{account.email})", account.id] } %>
           </div>

@@ -148,7 +148,10 @@ class Translation
       :upcoming_events => 'upcoming events',
       :created => 'created',
       :attach_a_file => 'attach a file',
-      :post => 'post'
+      :post => 'post',
+      :someone_already_in_your_groups => 'Someone already in your groups',
+      :your_groups => 'Your groups',
+      :other_groups => 'Other groups'
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

@@ -23,7 +23,8 @@ FactoryGirl.define do
   end
   
   factory :group do
-    sequence(:slug) { |n| "group-#{n}" }
+    sequence(:name) { |n| "Test Group #{n}" }
+    sequence(:slug) { |n| "test-group-#{n}" }
     privacy 'Open'
   end  
   

@@ -10,7 +10,7 @@
 
     <div>
       <% if !ENV['GROUP_CREATION_BY_ADMINS_ONLY'] or (current_account and current_account.admin?) %>
-        <a style="float: right" title="Create a group" class="btn btn-primary" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
+        <a style="float: right" title="<%=I18n.t(:create_a_group).capitalize%>" class="btn btn-primary" href="/groups/new"><i class="fa fa-plus"></i> <%=I18n.t(:create_a_group).capitalize%></a>
       <% end %>
       <h1 style="margin-top: 0"><%=I18n.t(:groups).capitalize%></h1>
     </div>

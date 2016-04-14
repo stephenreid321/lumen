@@ -152,8 +152,11 @@ class Translation
       :someone_already_in_your_groups => 'Someone already in your groups',
       :your_groups => 'Your groups',
       :other_groups => 'Other groups',
-      :add_an_event => 'Add an event',
-      :edit_event => 'Edit event'      
+      :edit_event => 'Edit event',
+      :create_a_group => 'Create a group',
+      :add_events_to_your_google_calendar => 'Add events to your Google Calendar (<a href="https://support.google.com/calendar/answer/37100?hl=en">instructions</a>), Apple Calendar, etc:<br />',
+      :new_event => 'New event',
+      :new_group => 'New group'
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

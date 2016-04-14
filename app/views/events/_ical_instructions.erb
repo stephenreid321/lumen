@@ -1,4 +1,4 @@
 <div class="ical-instructions">
-  Add events to your Google Calendar (<a href="https://support.google.com/calendar/answer/37100?hl=en">instructions</a>), Apple Calendar, etc:<br />
+  <%=I18n.t(:add_events_to_your_google_calendar).capitalize%>
   <span style="border: 1px dotted #999; border-width: 0 0 1px 0">http://<%=ENV['DOMAIN']%>/events.ics?token=<%=current_account.secret_token%></span>
 </div>

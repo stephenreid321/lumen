@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
-  <li class="active">Groups</li>
+  <li class="active"><%=I18n.t(:groups).capitalize%></li>
 </ol>
 
 <% if Fragment.find_by(slug: 'right-col') %>
@@ -12,7 +12,7 @@
       <% if !ENV['GROUP_CREATION_BY_ADMINS_ONLY'] or (current_account and current_account.admin?) %>
         <a style="float: right" title="Create a group" class="btn btn-primary" href="/groups/new"><i class="fa fa-plus"></i> Create a group</a>
       <% end %>
-      <h1 style="margin-top: 0">Groups</h1>
+      <h1 style="margin-top: 0"><%=I18n.t(:groups).capitalize%></h1>
     </div>
 
     <%= Fragment.find_by(slug: 'groups').try(:body) %>

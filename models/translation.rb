@@ -54,6 +54,7 @@ class Translation
       :conversations => 'conversations',
       :welcome_to => 'welcome to',
       :affiliations => 'affiliations',
+      :group => 'group',
       :groups => 'groups',
       :add_another_affiliation => 'add another affiliation',      
       :'members.one' => '1 member',

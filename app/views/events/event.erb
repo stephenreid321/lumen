@@ -1,6 +1,6 @@
 <ul class="page-options">  
   <li>
-    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/events/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
+    <a title="Edit event" class="edit restore-opacity" href="/groups/<%=@group.slug%>/events/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> <%=I18n.t(:edit_event).capitalize%></a>
   </li>    
 </ul>
 
@@ -11,7 +11,7 @@
     <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
   </li>
   <li>
-    <a href="/groups/<%=@group.slug%>/events">Events</a>    
+    <a href="/groups/<%=@group.slug%>/events"><%=I18n.t(:events).capitalize%></a>    
   </li>  
   <li class="active">
     <%= @event.name %>

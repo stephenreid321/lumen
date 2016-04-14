@@ -151,7 +151,9 @@ class Translation
       :post => 'post',
       :someone_already_in_your_groups => 'Someone already in your groups',
       :your_groups => 'Your groups',
-      :other_groups => 'Other groups'
+      :other_groups => 'Other groups',
+      :add_an_event => 'Add an event',
+      :edit_event => 'Edit event'      
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

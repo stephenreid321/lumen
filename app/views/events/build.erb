@@ -9,7 +9,7 @@
       <a href="/groups/<%=@group.slug%>"><%=@group.slug%></a>    
     </li>
     <li>
-      <a href="/groups/<%=@group.slug%>/events">Events</a>    
+      <a href="/groups/<%=@group.slug%>/events"><%=I18n.t(:events).capitalize%></a>    
     </li>  
     <% if @event.persisted? %>
       <li>

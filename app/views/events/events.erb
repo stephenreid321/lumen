@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
-  <li class="active">Events</li>
+  <li class="active"><%=I18n.t(:events).capitalize%></li>
 </ol>
 
 <% if Fragment.find_by(slug: 'right-col') %>
@@ -11,9 +11,9 @@
     <%= Fragment.find_by(slug: 'events').try(:body) %>
 
     <div>
-      <a style="float: right" class="btn btn-primary" href="/events/new"><i class="fa fa-plus"></i> Add an event</a>
+      <a style="float: right" class="btn btn-primary" href="/events/new"><i class="fa fa-plus"></i> <%=I18n.t(:add_an_event).capitalize%></a>
       <a style="float: right; margin-right: 5px" class="btn btn-default" href="/events?view=calendar" ><i class="fa fa-calendar"></i> Calendar view</a>
-      <h1 style="margin-top: 0">Events</h1>
+      <h1 style="margin-top: 0"><%=I18n.t(:events).capitalize%></h1>
     </div>
 
     <style>

@@ -16,7 +16,7 @@ Lumen::App.helpers do
   
   def g(group)
     unless group.primary
-      %Q{<a title="Posted in the group #{group.name}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.name}</a>}
+      %Q{<a title="#{I18n.t(:posted_in_the_group, name: @group.name).capitalize}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.name}</a>}
     end
   end    
   

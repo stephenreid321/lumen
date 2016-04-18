@@ -43,6 +43,7 @@ Lumen::App.controllers do
             
       :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
       :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],      
+      :HIDE_ACCOUNT_HEADLINE => ['Hides headline on account profiles'],
       :HIDE_ACCOUNT_AFFILIATIONS => ['Hides affiliations on account profiles'],
       :SHOW_ACCOUNT_FULL_NAME => ['Shows the full name on account profiles'],
       :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],

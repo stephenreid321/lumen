@@ -48,6 +48,12 @@
         </div>   
         <div class="checkbox">
           <label>
+            <%= check_box_tag :events, :value => true, :checked => ENV['SHOW_EVENTS_BY_DEFAULT'] ? true : false %>
+            <%= I18n.t(:events).capitalize%>  <i class="fa fa-map-marker" style="color: <%= "##{Event.marker_color}" %>"></i>
+          </label>
+        </div>           
+        <div class="checkbox">
+          <label>
             <%= check_box_tag :venues, :value => true, :checked => ENV['SHOW_VENUES_BY_DEFAULT'] ? true : false  %>
             <%= I18n.t(:venues).capitalize%> <i class="fa fa-map-marker" style="color: <%= "##{Venue.marker_color}" %>"></i>
           </label>

@@ -67,16 +67,5 @@ class Venue
       :account_id => :lookup
     }
   end
-  
-  def self.filtered(venues, params)
-    venues = venues.or({:capacity.gte => params[:min_capacity]}, {:capacity => nil}) if params[:min_capacity]        
-    venues = venues.where(:accessibility.ne => 'Not accessible') if params[:accessible]
-    venues = venues.where(:private => true) if params[:private]
-    venues = venues.where(:serves_food => true) if params[:serves_food]
-    venues = venues.where(:serves_alcohol => true) if params[:serves_alcohol]
-    venues = venues.or({:hourly_cost.lte => params[:max_hourly_cost]}, {:hourly_cost => nil}) if params[:max_hourly_cost]
-    venues
-  end
-    
-    
+      
 end

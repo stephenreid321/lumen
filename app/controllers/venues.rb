@@ -12,12 +12,20 @@ Lumen::App.controllers do
     end
     if params[:venues]
       venues = current_account.venues
-      venues = Venue.filtered(venues, params)
+      venues = venues.or({:capacity.gte => params[:min_capacity]}, {:capacity => nil}) if params[:min_capacity]        
+      venues = venues.where(:accessibility.ne => 'Not accessible') if params[:accessible]
+      venues = venues.where(:private => true) if params[:private]
+      venues = venues.where(:serves_food => true) if params[:serves_food]
+      venues = venues.where(:serves_alcohol => true) if params[:serves_alcohol]
+      venues = venues.or({:hourly_cost.lte => params[:max_hourly_cost]}, {:hourly_cost => nil}) if params[:max_hourly_cost]
       @points += venues
     end
     if params[:accounts]
       @points += current_account.network
     end
+    if params[:events]
+      @points += current_account.events.future
+    end    
     if params[:map_only]
       partial :'maps/map', :locals => {:points => @points}
     else

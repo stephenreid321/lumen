@@ -29,7 +29,7 @@ class Event
   end  
   
   def self.marker_color
-    '3DA2E4'
+    '9C3DE4'
   end  
     
   attr_accessor :start_conversation

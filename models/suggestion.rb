@@ -6,7 +6,7 @@ class Suggestion
 
   field :to, :type => String 
   field :subject, :type => String  
-  field :body, :type => Boolean
+  field :body, :type => String
   
   validates_presence_of :to, :account, :subject, :body
   validates_format_of :to, :with => /\A[^@\s]+@[^@\s]+\.[^@\s]+\Z/i

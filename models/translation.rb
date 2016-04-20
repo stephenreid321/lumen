@@ -160,6 +160,7 @@ class Translation
       :new_group => 'New group',
       :posted_in_the_group => 'Posted in the group %{name}',
       :latest_conversations => 'Latest conversations',
+      :pick_a_group => 'Pick a group',
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

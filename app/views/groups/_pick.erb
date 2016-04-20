@@ -9,9 +9,9 @@
   <div class="col-md-8 col-md-offset-2">
     <% form_tag '', :class => 'form-horizontal' do %>
       <div class="form-group">
-        <label class="control-label col-md-3">Pick a group</label>
+        <label class="control-label col-md-3"><%=I18n.t(:pick_a_group).capitalize%></label>
         <div class="col-md-6"> 
-          <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map(&:slug).sort, :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/#{collection}/new'" %>
+          <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group) { |group| [group.name, group.slug] }.sort_by { |name,slug| name }, :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/#{collection}/new'" %>
         </div>
       </div>
     <% end %>

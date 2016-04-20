@@ -158,7 +158,8 @@ class Translation
       :add_events_to_your_google_calendar => 'Add events to your Google Calendar (<a href="https://support.google.com/calendar/answer/37100?hl=en">instructions</a>), Apple Calendar, etc:<br />',
       :new_event => 'New event',
       :new_group => 'New group',
-      :posted_in_the_group => 'Posted in the group %{name}'
+      :posted_in_the_group => 'Posted in the group %{name}',
+      :latest_conversations => 'Latest conversations',
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

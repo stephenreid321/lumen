@@ -72,16 +72,13 @@ Lumen::App.controllers do
             
       :BCC_SINGLE => ['Send single BCC to conversation post subscribers'],
       :BCC_SINGLE_JOB => ['Handle single BCCs in the background'],      
-      :ONE_CLICK_LOGIN => ['Allow one-click logins from conversation post emails'],
-      :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
+      :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],      
       :BCC_EACH_THREADS => 'Number of threads to use when sending individual BCCs (default 10)',
-      :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 30s.',
-      
+      :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 30s.',      
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
-      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',
-      
-      :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],
-      
+      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',      
+      :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
+            
       :PRIMARY_COLOR => 'Default #F5D74B',
       :PRIMARY_CONTRAST_COLOR => 'Default #222222',
       :PRIMARY_DARK_COLOR => 'Default #CDA70D',

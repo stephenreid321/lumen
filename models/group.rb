@@ -481,13 +481,9 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       )
       new_conversation = false
       puts "part of conversation id #{conversation.id}"
-      if ENV['INLINE_REPLIES'] and (blockquote_close_index = html.index('</blockquote>')) and (too_many_emails_index = html.index(/Too\s+many\s+emails\?/)) and (blockquote_close_index < too_many_emails_index)
-        html = html.split(/Too\s+many\s+emails\?/).first       
-      else
-        [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
-          html = html.split(pattern).first
-        }
-      end
+      [/Respond\s+by\s+replying\s+above\s+this\s+line/, /On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
+        html = html.split(pattern).first
+      }
     else      
       new_conversation = true
       conversation = group.conversations.create :subject => (mail.subject.blank? ? '(no subject)' : mail.subject), :account => account

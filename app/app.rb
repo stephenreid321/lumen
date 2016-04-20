@@ -110,6 +110,6 @@ module Lumen
         partial :opengraph, :locals => {:title => @og[:title], :url => @og[:url], :description => @og[:description], :player => @og[:player], :picture => @og[:picture]}
       end    
     end    
-                          
+                  
   end
 end

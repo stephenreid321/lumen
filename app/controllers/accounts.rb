@@ -20,10 +20,9 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
     @account.password_confirmation = password
     if @account.save
       flash[:notice] = 'The account was created successfully'
-      
-      s = smtp_settings
+           
       Mail.defaults do
-        delivery_method :smtp, s
+        delivery_method :smtp, Account.smtp_settings
       end
       
       sign_in_details = ''

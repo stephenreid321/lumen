@@ -91,6 +91,10 @@ class Account
     end
   end  
   
+  def self.smtp_settings
+    {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
+  end  
+  
   attr_accessor :groups_to_join
   attr_accessor :confirm_memberships
   attr_accessor :welcome_email_body

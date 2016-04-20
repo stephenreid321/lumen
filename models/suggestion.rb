@@ -21,6 +21,10 @@ class Suggestion
   end
   
   after_create do
+    Mail.defaults do
+      delivery_method :smtp, Account.smtp_settings
+    end
+      
     mail = Mail.new
     mail.to = self.to
     mail.from = "#{account.name} <#{account.email}>"

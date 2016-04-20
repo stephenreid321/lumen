@@ -68,14 +68,6 @@ class Venue
     }
   end
   
-  def self.human_attribute_name(attr, options={})  
-    {
-      :hourly_cost => 'Approximate hourly cost',
-      :private => 'Private room available',
-      :coordinates => 'Location'
-    }[attr.to_sym] || super  
-  end   
-  
   def self.filtered(venues, params)
     venues = venues.or({:capacity.gte => params[:min_capacity]}, {:capacity => nil}) if params[:min_capacity]        
     venues = venues.where(:accessibility.ne => 'Not accessible') if params[:accessible]

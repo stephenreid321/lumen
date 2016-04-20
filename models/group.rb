@@ -213,14 +213,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
   def self.edit_tips
     self.new_tips
   end
-  
-  def self.human_attribute_name(attr, options={})  
-    {
-      :landing_tab => 'Group homepage content',
-      :default_notification_level => 'Email notification default',
-    }[attr.to_sym] || super  
-  end  
-    
+      
   def self.privacies
     p = {}
     (p['Public: group content is public and anyone can choose to join'] = 'public') unless ENV['PRIVATE_NETWORK']

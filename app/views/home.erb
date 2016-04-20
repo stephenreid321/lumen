@@ -24,7 +24,9 @@
 <div id="home-panels" class="row">
 
   <div class="col-md-4">        
-    <a class="btn btn-hg btn-primary btn-block" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
+    <% unless ENV['HIDE_HOMEPAGE_ACTION_BUTTONS'] %>
+      <a class="btn btn-hg btn-primary btn-block" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
+    <% end %>
     <h2 style="font-size: 30px">Latest conversations</h2>
     <% current_account.latest_conversations.limit(5).each { |conversation| %>
       <hr />
@@ -37,8 +39,10 @@
     <% } %>
   </div>
 
-  <div class="col-md-4">      
-    <a class="btn btn-hg btn-primary btn-block" href="/events/new"><i class="fa fa-calendar"></i> <%=I18n.t(:add_an_event).capitalize%></a>
+  <div class="col-md-4">   
+    <% unless ENV['HIDE_HOMEPAGE_ACTION_BUTTONS'] %>
+      <a class="btn btn-hg btn-primary btn-block" href="/events/new"><i class="fa fa-calendar"></i> <%=I18n.t(:add_an_event).capitalize%></a>
+    <% end %>
     <h2 style="font-size: 30px">Upcoming events</h2>
     <% current_account.events.future.limit(5).each { |event| %>
       <hr />
@@ -47,7 +51,9 @@
   </div>  
 
   <div class="col-md-4">
-    <a class="btn btn-hg btn-primary btn-block" href="/network"><i class="fa fa-search"></i> Browse members</a>    
+    <% unless ENV['HIDE_HOMEPAGE_ACTION_BUTTONS'] %>
+      <a class="btn btn-hg btn-primary btn-block" href="/network"><i class="fa fa-search"></i> Browse members</a>    
+    <% end %>
     <div class="row" style="margin-top: 20px">
       <div style="margin: 0 15px">
         <%= partial :'accounts/list', :locals => {:scope => 'network', :scope_id => nil, :per_page => 4, :o => :updated} %>

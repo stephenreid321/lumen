@@ -81,6 +81,7 @@ class Translation
       :'mongoid.attributes.account.postcode' => 'Postcode',
       :'mongoid.attributes.account.country' => 'Country',
       :'mongoid.attributes.account.headline' => 'Headline',
+      # mongoid.errors.models.account.attributes.name[.blank, .not_found]
       :delete_account => 'delete account',
       :delete_account_instructions => "To completely remove your account, type your name into the box below and click 'Delete account'.",                
       :update_account => 'update account',

@@ -34,7 +34,7 @@
 <p><a href="https://travis-ci.org/wordsandwriting/lumen"><img src="https://travis-ci.org/wordsandwriting/lumen.png?branch=master" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/wordsandwriting/lumen"><img src="https://codeclimate.com/github/wordsandwriting/lumen.png" alt="Code Climate"></a></p>
 
-<p><strong>For a live preview of Lumen, feel free to <a href="http://www.lumenapp.com/groups/previewers/request_membership">request access to the previewers group on lumenapp.com</a>.</strong></p>
+<p><strong>For a live preview of Lumen, feel free to <a href="http://www.lumenapp.com/groups/previewers/request_membership">join the previewers group on lumenapp.com</a>.</strong></p>
 
 <p>Lumen started life as a group discussion platform akin to <a href="http://groups.google.com">Google Groups</a>, <a href="http://groupserver.org/">GroupServer</a>, 
 <a href="http://www.list.org/">Mailman</a> or <a href="http://www.sympa.org/">Sympa</a>. Since then, it's gained some powerful extras. An outline of its features:</p>
@@ -74,7 +74,7 @@
 
 <ul>
 <li><p>Register a domain <code>$DOMAIN</code>. In this simple setup, <code>$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS</code></p></li>
-<li><p>Create a 2GB (or greater) droplet with the hostname <code>$MAIL_SERVER_ADDRESS</code> and select the image 'Dokku 0.4.14 on 14.04' </p></li>
+<li><p>Create a 2GB (or greater) droplet with the hostname <code>$MAIL_SERVER_ADDRESS</code> and select the image 'Dokku 0.5.4 on 14.04' </p></li>
 <li><p>Install fail2ban: <code>apt-get install fail2ban</code></p></li>
 <li>
 <p>Create certificates:</p>
@@ -116,7 +116,7 @@ dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
 </code></pre>
 </li>
 <li>
-<p>Set configuration variables. You can get secrets for <code>$DRAGONFLY_SECRET</code> and <code>$SESSION_SECRET</code> by running <code>dokku run $APP_NAME rake secret</code>. If you didn't obtain a password for the root user, enable password authentication and set one with: <code>nano /etc/ssh/sshd_config</code>, <code>set PasswordAuthentication yes</code>; <code>restart ssh</code>; <code>passwd</code>:</p>
+<p>Set configuration variables. You can get secrets for <code>$DRAGONFLY_SECRET</code> and <code>$SESSION_SECRET</code> by running <code>dokku run $APP_NAME rake secret</code>. If you didn't obtain a password for the root user, enable password authentication and set one with: <code>nano /etc/ssh/sshd_config</code>; uncomment <code>set PasswordAuthentication yes</code>; <code>restart ssh</code>; <code>passwd</code>:</p>
 
 <pre><code>dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET S3_REGION=$S3_REGION SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
 </code></pre>

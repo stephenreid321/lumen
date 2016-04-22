@@ -9,6 +9,7 @@ Lumen::App.controllers do
   get '/sectors/:id' do
     sign_in_required!
     @sector = Sector.find(params[:id])
+    @title = @sector.name
     erb :'sectors/sector'
   end  
   

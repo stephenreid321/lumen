@@ -75,6 +75,7 @@ Lumen::App.controllers do
           conversation_post.conversation_post_read_receipts.create(account: current_account, web: true)
         }
       end
+      @title = @conversation.subject
       erb :'conversations/conversation'
     end
   end

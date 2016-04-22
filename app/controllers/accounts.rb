@@ -118,6 +118,7 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
     sign_in_required!
     @account = Account.find(params[:id]) || not_found
     @shared_conversations = current_account.visible_conversation_posts.where(account_id: @account.id).order_by(:created_at.desc).limit(10).map(&:conversation).uniq if current_account
+    @title = @account.name
     erb :'accounts/account'
   end    
               

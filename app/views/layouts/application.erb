@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title><%=ENV['SITE_NAME']%></title>
+    <title><% if @title %><%=@title%>  · <% end %><%=ENV['SITE_NAME']%></title>
 
     <% {            
       'jquery/1.11.2' => 'jquery.min.js',

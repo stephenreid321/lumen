@@ -69,6 +69,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
     @survey = @group.surveys.find(params[:id])
+    @title = @survey.title
     erb :'surveys/survey'
   end    
   

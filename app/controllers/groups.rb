@@ -31,6 +31,7 @@ Lumen::App.controllers do
     sign_in_required! if ((@group.open? or @group.public?) and ENV['PRIVATE_NETWORK'])
     membership_required! if @group.secret?
     @account = Account.new
+    @title = @group.name
     erb :'groups/group'
   end
     

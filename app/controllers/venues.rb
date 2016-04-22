@@ -92,6 +92,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required! unless @group.public?
     @venue = @group.venues.find(params[:id]) || not_found
+    @title = @venue.name
     erb :'venues/venue'
   end    
               

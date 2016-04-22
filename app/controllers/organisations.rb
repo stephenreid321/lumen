@@ -42,6 +42,7 @@ Lumen::App.controllers do
   get '/organisations/:id' do
     sign_in_required!
     @organisation = Organisation.find(params[:id]) || not_found
+    @title = @organisation.name
     erb :'organisations/organisation'
   end
        

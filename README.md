@@ -80,7 +80,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
   git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@$DOMAIN:$APP_NAME; git push $APP_NAME master
   ```
 
-* Set configuration variables. You can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`. If you didn't obtain a password for the root user, enable password authentication and set one with: `nano /etc/ssh/sshd_config`; uncomment `set PasswordAuthentication yes`; `restart ssh`; `passwd`:
+* Set configuration variables. You can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`. If you didn't obtain a password for the root user, enable password authentication and set one with: `nano /etc/ssh/sshd_config`; uncomment `PasswordAuthentication yes`; `restart ssh`; `passwd`:
   ```
   dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET S3_REGION=$S3_REGION SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
   ```

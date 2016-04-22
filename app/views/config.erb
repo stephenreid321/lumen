@@ -8,31 +8,6 @@
   a.delete:hover { opacity: 1 }
 </style>
 
-<h2>Environment variables</h2>
-
-<% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
-  <% @environment_variables.each { |k,v| if v.is_a? Array; v = v[0]; check_box = true; else; check_box = false; end %>
-    <div class="form-group">
-      <label class="control-label col-md-4">
-        <%=k%>
-        <p style="font-weight: normal" class="help-block"><%=v%></p>
-      </label>
-      <div class="col-md-4">
-        <% if check_box %>
-          <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] ? true : false), :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
-        <% else %>
-          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
-        <% end %>
-      </div>
-    </div>
-  <% } %>
-  <div class="form-group">
-    <div class="col-md-offset-4 col-md-6">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </div>
-<% end %>
-
 <h2>Notification script check</h2>
 
 <form class="form-horizontal">
@@ -59,6 +34,31 @@
     </div>
   </div>
 </form>
+
+<h2>Environment variables</h2>
+
+<% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
+  <% @environment_variables.each { |k,v| if v.is_a? Array; v = v[0]; check_box = true; else; check_box = false; end %>
+    <div class="form-group">
+      <label class="control-label col-md-4">
+        <%=k%>
+        <p style="font-weight: normal" class="help-block"><%=v%></p>
+      </label>
+      <div class="col-md-4">
+        <% if check_box %>
+          <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] ? true : false), :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
+        <% else %>
+          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
+        <% end %>
+      </div>
+    </div>
+  <% } %>
+  <div class="form-group">
+    <div class="col-md-offset-4 col-md-6">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+<% end %>
 
 <h2>Fragments</h2>
 

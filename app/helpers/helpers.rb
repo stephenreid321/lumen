@@ -10,6 +10,10 @@ Lumen::App.helpers do
     %Q{<abbr class="timeago" title="#{x.iso8601}">#{x}</abbr>}
   end
   
+  def conversation_posts_badge(conversation)
+    %Q{<span style="opacity: #{(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o}" title="#{pluralize(c,'post')}" class="badge">#{c}</span>}
+  end
+  
   def g(group)
     unless group.primary
       %Q{<a title="#{I18n.t(:posted_in_the_group, name: group.name).capitalize}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.name}</a>}

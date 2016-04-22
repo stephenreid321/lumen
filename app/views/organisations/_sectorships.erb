@@ -21,7 +21,7 @@
     </style>
     <script>
       $(function() {
-        var icon = $('<i style="cursor: pointer" class="fa fa-plus-square"></i>');
+        var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;"><%= I18n.t(:add_another_sector).capitalize %></a></div>');
         $(icon).click(function() {
           var c = $('.sectorship').length
           var i = $('<input type="text" />');

@@ -56,6 +56,7 @@ class Translation
       :group => 'group',
       :groups => 'groups',
       :add_another_affiliation => 'add another affiliation',      
+      :add_another_sector => 'add another sector',      
       :'members.one' => '1 member',
       :'members.other' => '%{count} members',
       :'members_in_this_group.one' => '1 member in this group',

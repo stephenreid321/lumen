@@ -42,6 +42,8 @@ h4, .h4 {font-size: 24px;}
 h5, .h5 {font-size: 20px;}
 h6, .h6 {font-size: 18px;}
 
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small { color: #ced0d3 }
+
 .checkbox, .radio { padding-left: 0 }
 .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] { position: relative; margin-left: 0; margin-right: 5px }
 .radio label, .checkbox label { padding-left: 0 }

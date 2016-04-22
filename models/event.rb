@@ -7,8 +7,8 @@ class Event
   belongs_to :organisation, index: true
 
   field :name, :type => String
-  field :start_time, :type => ActiveSupport::TimeWithZone
-  field :end_time, :type => ActiveSupport::TimeWithZone
+  field :start_time, :type => Time
+  field :end_time, :type => Time
   field :consider_time, :type => Boolean
   field :location, :type => String
   field :coordinates, :type => Array

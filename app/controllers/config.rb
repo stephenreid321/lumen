@@ -55,7 +55,7 @@ Lumen::App.controllers do
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
       
       :MAP_DEFAULTS => 'Comma-separated latitude, longitude and zoom',            
-      :SHOW_PEOPLE_BY_DEFAULT => ['Shows people on maps by default'],
+      :HIDE_PEOPLE_BY_DEFAULT => ['Hides people on maps by default'],
       :SHOW_EVENTS_BY_DEFAULT => ['Shows events on maps by default'],
       :SHOW_VENUES_BY_DEFAULT => ['Shows venues on maps by default'],
       :SHOW_ORGS_BY_DEFAULT => ['Shows organisations on maps by default'],

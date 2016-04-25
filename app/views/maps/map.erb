@@ -42,7 +42,7 @@
         <%= hidden_field_tag :map_only, :value => true  %>
         <div class="checkbox">
           <label>
-            <%= check_box_tag :accounts, :value => true, :checked => ENV['SHOW_PEOPLE_BY_DEFAULT'] ? true : false %>
+            <%= check_box_tag :accounts, :value => true, :checked => ENV['HIDE_PEOPLE_BY_DEFAULT'] ? false : true %>
             <%= I18n.t(:people).capitalize%>  <i class="fa fa-map-marker" style="color: <%= "##{Account.marker_color}" %>"></i>
           </label>
         </div>   

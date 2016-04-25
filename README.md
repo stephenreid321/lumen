@@ -57,8 +57,8 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 * Get DKIM key with `nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt` and add DNS records:
 
   ```
-  $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS  
   $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP  
+  $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS   
   $MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"  
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```

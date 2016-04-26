@@ -1,1 +1,2 @@
-<a target="_parent" href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%=event.name%></a>
+<a target="_parent" href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%=event.name%></a> 
+<% if event.highlighted %><span class="label label-primary" style="font-weight: normal; font-size: 12px; position: relative; top: -2px"><%=ENV['HIGHLIGHTED_EVENT_LABEL_TEXT'] || '<i class="fa fa-star"></i>'%></span><% end %>

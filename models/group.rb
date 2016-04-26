@@ -255,7 +255,7 @@ You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME
       
       h2 = "Digest for #{group.slug}"        
       # is there a better way of accessing the controller context?
-      html = open("http://#{ENV['DOMAIN']}/groups/#{group.slug}/digest?from=#{from.to_s(:db)}&to=#{to.to_s(:db)}&for_email=true&h2=#{URI.escape(h2)}&token=#{Account.find_by(admin: true).secret_token}").read
+      html = open("#{ENV['FORCE_SSL'] ? 'https://' : 'http://'}#{ENV['DOMAIN']}/groups/#{group.slug}/digest?from=#{from.to_s(:db)}&to=#{to.to_s(:db)}&for_email=true&h2=#{URI.escape(h2)}&token=#{Account.find_by(admin: true).secret_token}").read
         
       if html.include?('Conversations') or html.include?('Hot conversations') or html.include?('New people') or html.include?('New events') or html.include?('Top stories')
         Mail.defaults do

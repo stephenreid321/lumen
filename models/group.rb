@@ -35,29 +35,29 @@ Well-maintained profiles help build a stronger community. Will you spare a minut
 You can sign in at http://#{ENV['DOMAIN']}/sign_in.}
   }
     
-  field :invite_email_subject, :type => String, :default => -> { "You were added to the '#{self.slug}' group on #{ENV['SITE_NAME_SHORT']}" }
+  field :invite_email_subject, :type => String, :default => -> { "You were added to the group #{self.name} (#{self.email}) on #{ENV['SITE_NAME_SHORT']}" }
   field :invite_email, :type => String, :default => -> { 
     %Q{Hi [firstname],
 <br /><br />
-[admin] added you to the '#{self.slug}' group on #{ENV['SITE_NAME_DEFINITE']}.
+[admin] added you to the group #{self.name} (#{self.email}) on #{ENV['SITE_NAME_DEFINITE']}.
 <br /><br />
 [sign_in_details]}
   }    
   
-  field :membership_request_thanks_email_subject, :type => String, :default => -> { "Thanks for requesting membership of '#{self.slug}' on #{ENV['SITE_NAME_SHORT']}" }
+  field :membership_request_thanks_email_subject, :type => String, :default => -> { "Thanks for requesting membership of #{self.name} (#{self.email}) on #{ENV['SITE_NAME_SHORT']}" }
   field :membership_request_thanks_email, :type => String, :default => -> {
     %Q{Hi [firstname],
 <br /><br />
-Thanks for requesting membership of the '#{self.slug}' group on on #{ENV['SITE_NAME_DEFINITE']}.
+Thanks for requesting membership of the group #{self.name} (#{self.email}) on #{ENV['SITE_NAME_DEFINITE']}.
 <br /><br />
 The group administrators have been notified and will process your request shortly.}
   }
   
-  field :membership_request_acceptance_email_subject, :type => String, :default => -> { "You're now a member of '#{self.slug}' on #{ENV['SITE_NAME_SHORT']}" }
+  field :membership_request_acceptance_email_subject, :type => String, :default => -> { "You're now a member of #{self.name} (#{self.email}) on #{ENV['SITE_NAME_SHORT']}" }
   field :membership_request_acceptance_email, :type => String, :default => -> {
     %Q{Hi [firstname],
 <br /><br />
-You have been granted membership of the '#{self.slug}' group on #{ENV['SITE_NAME_DEFINITE']}.
+You have been granted membership of the group #{self.name} (#{self.email}) on #{ENV['SITE_NAME_DEFINITE']}.
 <br /><br />
 [sign_in_details]}
   }

@@ -6,7 +6,9 @@ Lumen::App.controllers do
   
   get '/docs' do
     sign_in_required!
-    @docs = current_account.docs.order_by(:created_at.desc)
+    @docs = current_account.docs
+    @docs = @docs.where(group_id: Group.find_by(slug: params[:slug]).id) if !params[:slug].blank?
+    @docs = @docs.order_by(:created_at.desc)
     erb :'docs/docs'
   end
         

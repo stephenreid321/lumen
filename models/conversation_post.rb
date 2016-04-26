@@ -117,7 +117,7 @@ class ConversationPost
   end
         
   def send_notifications!(force: false)
-    # force helps with caching issues
+    # force may help with caching issues
     unless force
       return if conversation.hidden
     end

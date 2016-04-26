@@ -26,6 +26,14 @@ class Organisation
   def members
     Account.where(:id.in => affiliations.pluck(:account_id))
   end  
+    
+  def conversation_posts
+    ConversationPost.where(:account_id.in => members.pluck(:account_id))
+  end  
+  
+  def conversations
+    Conversation.where(:id.in => conversation_posts.pluck(:conversation_id))
+  end  
   
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false 

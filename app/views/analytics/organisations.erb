@@ -1,0 +1,44 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/analytics">Analytics</a></li>
+  <li class="active">
+    Groups
+  </li>
+</ol>
+
+<%= partial :'analytics/header' %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th><%=I18n.t(:organisation).capitalize%></th>
+      <th>Members at start of period</th>
+      <th>Members at end of period</th>
+      <th>Change in organisation size</th>
+      <th>Conversations</th>
+      <th>Conversation posts</th>
+      <th>Distinct posters</th>
+      <th>Fraction of people that posted</th>      
+    </tr>
+  </thead>
+  <% Organisation.order(:slug.asc).each { |organisation| %>
+    <tr>
+      <td><%=organisation.name%></td>
+      <td><%=m1 = organisation.affiliations.where(:created_at.lte => @from).count%></td>
+      <td><%=m2 = organisation.affiliations.where(:created_at.lte => @to).count%></td>
+      <td>
+        <% if m1 > 0 and m2 > 0 %>
+          <%= (((m2-m1).to_f/m1)*100).round %>&#37;
+        <% end %>
+      </td>      
+      <td><%=organisation.conversations.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
+      <td><%=organisation.conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
+      <td><%=d = organisation.conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to).pluck(:account_id).uniq.count%></td>
+      <td>
+        <% if m2 > 0 %>
+          <%= ((d.to_f/m2)*100).round %>&#37;
+        <% end %>
+      </td>
+    </tr>
+  <% } %>
+</table>

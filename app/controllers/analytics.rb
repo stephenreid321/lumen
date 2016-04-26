@@ -30,4 +30,9 @@ Lumen::App.controllers do
     erb :'analytics/groups'
   end
   
+  get '/analytics/organisations' do
+    site_admins_only!
+    erb :'analytics/organisations'
+  end  
+  
 end

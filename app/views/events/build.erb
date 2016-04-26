@@ -91,6 +91,9 @@
         <% if @event.new_record? %>
           <%= f.check_box_block :start_conversation %>    
         <% end %>
+        <% if current_account.admin? %>
+          <%= f.check_box_block :highlighted %>    
+        <% end %>      
 
         <%= f.submit_block destroy_url: "/groups/#{@group.slug}/events/#{@event.id}/destroy" %>
 

@@ -7,8 +7,6 @@ module Lumen
     else
       set :sessions, :expire_after => 1.year    
     end
-    set :public_folder, Padrino.root('app', 'assets')
-    set :default_builder, 'ActivateFormBuilder'    
 
     require 'sass/plugin/rack'
     Sass::Plugin.options[:template_location] = Padrino.root('app', 'assets', 'stylesheets')
@@ -33,6 +31,9 @@ module Lumen
     OmniAuth.config.on_failure = Proc.new { |env|
       OmniAuth::FailureEndpoint.new(env).redirect_to_failure
     }    
+    
+    set :public_folder, Padrino.root('app', 'assets')
+    set :default_builder, 'ActivateFormBuilder'    
                       
     before do
       redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']

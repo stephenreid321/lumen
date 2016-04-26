@@ -1,0 +1,12 @@
+<h2><%=I18n.t(:groups).capitalize%></h2>
+<div>
+  <% Group.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>
+    <h3>
+      <a href="/groups/<%=group.slug%>"><%=group.name%></a>
+      <small>
+        <%=pluralize(group.members.count, 'member')%>
+      </small>
+    </h3>
+    <p><%= group.description %></p>
+  <% } %>
+</div>

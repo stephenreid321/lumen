@@ -82,9 +82,9 @@ Lumen::App.controllers do
       :BCC_SINGLE_JOB => ['Handle single BCCs in the background'],      
       :BCC_EACH_THREADS => 'Number of threads to use when sending individual BCCs (default 10)',
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 30s.',      
-      :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
       :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
       
+      :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
       :HEROKU_OAUTH_TOKEN => 'Heroku OAuth token',
       :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],            
       

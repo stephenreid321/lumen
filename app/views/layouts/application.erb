@@ -103,7 +103,7 @@
                     <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
-                    <% current_account.memberships.map(&:group).sort_by(&:name).each { |group| %>
+                    <% current_account.memberships.map(&:group).reject { |group| group.hide_from_dropdown }.sort_by(&:name).each { |group| %>
                       <li><a href="/groups/<%=group.slug%>"><%= group.name %></a></li>
                     <% } %>  
                     <li role="separator" class="divider"></li>

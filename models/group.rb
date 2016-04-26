@@ -19,6 +19,7 @@ class Group
   field :picture_uid, :type => String 
   field :conversations_require_approval, :type => Boolean
   field :coordinates, :type => Array
+  field :hide_from_dropdown, :type => Boolean
         
   dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }
@@ -191,6 +192,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       :show_full_conversations_in_digests => :check_box,
       :group_type_id => :lookup,
       :coordinates => :geopicker,      
+      :hide_from_dropdown => :check_box,
       :memberships => :collection,
       :membership_requests => :collection,
       :conversations => :collection

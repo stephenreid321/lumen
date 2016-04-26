@@ -25,10 +25,15 @@ module Lumen
       OmniAuth::FailureEndpoint.new(env).redirect_to_failure
     }    
         
-    set :sessions, :expire_after => 1.year
+    if ENV['FORCE_SSL']
+      use Rack::SslEnforcer
+      use Rack::Session::Cookie, :key => '_rack_session', :path => '/', :expire_after => 365*24*60*60, :secret => settings.session_secret
+    else
+      set :sessions, :expire_after => 1.year    
+    end
     set :public_folder, Padrino.root('app', 'assets')
     set :default_builder, 'ActivateFormBuilder'
-        
+              
     before do
       redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : (ENV['DEFAULT_TIME_ZONE'] || 'London')

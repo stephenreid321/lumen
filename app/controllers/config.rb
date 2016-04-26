@@ -87,6 +87,8 @@ Lumen::App.controllers do
       
       :HEROKU_OAUTH_TOKEN => 'Heroku OAuth token',
       :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],            
+      
+      :FORCE_SSL => ['Forces SSL'],
             
       :PRIMARY_COLOR => 'Default #F5D74B',
       :PRIMARY_CONTRAST_COLOR => 'Default #222222',

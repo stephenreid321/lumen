@@ -45,6 +45,7 @@ gem 'sass'
 # Others
 gem 'ri_cal', github: 'espen/ri_cal'
 gem 'countries'
+gem 'rack-ssl-enforcer'
 
 group :test do
   gem 'minitest-rg'

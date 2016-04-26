@@ -12,9 +12,7 @@
       <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle img-bordered" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">
     <% } %>
   </div>
-</div>
 
-<div style="padding: 20px; text-align: center">
   <h2><%=I18n.t(:groups).capitalize%></h2>
   <div>
     <% Group.where(:privacy.ne => 'secret').order_by(:slug.asc).each { |group| %>

@@ -4,7 +4,7 @@ Lumen::App.controllers do
     @environment_variables = {
       :APP_NAME => 'App name (lowercase, no spaces) - Heroku app name if using Heroku',
       :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',      
-
+      
       :DOMAIN => 'Domain of Lumen web app',
       :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
 
@@ -25,6 +25,7 @@ Lumen::App.controllers do
       :SITE_NAME_SHORT => 'Short site name e.g. LUN',
       :NAVBAR_BRAND => 'Content to appear in a.navbar-brand in the header',
       :HELP_ADDRESS => 'Email address for general queries',
+      
       :DEFAULT_TIME_ZONE => 'Default time zone (see dropdown in profile for options, defaults to London)',
       :SANITIZE => ['Sanitize user input'],
   

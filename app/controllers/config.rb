@@ -64,6 +64,10 @@ Lumen::App.controllers do
       :WALL_STYLE_CONVERSATIONS => ['Wall-style conversations'],
       :REPLY_TO_GROUP => ['Sets the reply-to header to the group address'],
       :HIGHLIGHTED_EVENT_LABEL_TEXT => 'Custom label text for highlighted events',
+      
+      :SHOW_COMPACT_ORG_FILTER => ['Shows the organisation filter on the compact account search form'],
+      :SHOW_COMPACT_TAG_FILTER => ['Shows the account tag filter on the compact account search form'],
+      :HIDE_COMPACT_SORT => ['Hides the sort field on the compact account search form'],
                     
       :FACEBOOK_KEY => 'Facebook API key',
       :FACEBOOK_SECRET => 'Facebook API secret',

@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <%  if defined? full_width %>
+    <%  if defined?(full_width) or ENV['SHOW_COMPACT_ORG_FILTER'] %>
 
       <div class="<%=col_class%>">   
         <div style="position: relative; top: 4px">
@@ -44,6 +44,10 @@
           </script>  
         </div>
       </div>
+
+    <% end %>
+
+    <%  if defined?(full_width) or ENV['SHOW_COMPACT_TAG_FILTER'] %>
 
       <div class="<%=col_class%>">   
         <div style="position: relative; top: 4px">
@@ -64,12 +68,16 @@
 
     <% end %>
 
-    <div class="<%=col_class%>">
-      <div style="text-align: right" >      
-        <i style="margin-right: 4px" title="Sort by" class="fa fa-sort"></i>
-        <%= select_tag :o, :class => 'form-control input-sm', :style => 'display: inline; width: auto', :options => {I18n.t(:date_joined).capitalize => :date, I18n.t(:name).capitalize => :name, I18n.t(:last_updated).capitalize => :updated}, :selected => (defined?(o) ? o : :date) %>                      
+    <% unless ENV['HIDE_COMPACT_SORT'] %>
+
+      <div class="<%=col_class%>">
+        <div style="text-align: right" >      
+          <i style="margin-right: 4px" title="Sort by" class="fa fa-sort"></i>
+          <%= select_tag :o, :class => 'form-control input-sm', :style => 'display: inline; width: auto', :options => {I18n.t(:date_joined).capitalize => :date, I18n.t(:name).capitalize => :name, I18n.t(:last_updated).capitalize => :updated}, :selected => (defined?(o) ? o : :date) %>                      
+        </div>
       </div>
-    </div>
+
+    <% end %>
 
   </div>
 

@@ -100,7 +100,6 @@ Lumen::App.controllers do
     } 
     
     @fragments = {
-      :'about' => 'Text of about page',
       :'sign-in' => 'Text displayed on sign in page',
       :'first-time' => 'Text displayed on account edit page upon first login',
       :'home-above' => 'Content displayed above the buttons on the logged-in homepage',

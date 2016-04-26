@@ -28,7 +28,7 @@ class Organisation
   end  
     
   def conversation_posts
-    ConversationPost.where(:account_id.in => members.pluck(:account_id))
+    ConversationPost.where(:account_id.in => affiliations.pluck(:account_id))
   end  
   
   def conversations

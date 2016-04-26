@@ -100,7 +100,7 @@ Lumen::App.controllers do
     group_admins_only!(@conversation.group)
     @conversation.update_attribute(:approved, true)
     @conversation.update_attribute(:hidden, false)
-    @conversation.conversation_posts.first.send_notifications!
+    @conversation.conversation_posts.first.send_notifications!(force: true)
     flash[:notice] = "The conversation was approved."
     redirect back
   end    

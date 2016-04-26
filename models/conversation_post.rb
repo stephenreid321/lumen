@@ -116,8 +116,11 @@ class ConversationPost
     Account.where(:id.in => (group.memberships.where(:status => 'confirmed').where(:notification_level => 'each').pluck(:account_id) - conversation.conversation_mutes.pluck(:account_id)))
   end
         
-  def send_notifications!
-    return if conversation.hidden
+  def send_notifications!(force: false)
+    # force helps with caching issues
+    unless force
+      return if conversation.hidden
+    end
     if ENV['BCC_SINGLE']
       if ENV['BCC_SINGLE_JOB']
         Delayed::Job.enqueue BccSingleJob.new(self.id)

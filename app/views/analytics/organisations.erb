@@ -21,7 +21,7 @@
       <th>Fraction of people that posted</th>      
     </tr>
   </thead>
-  <% Organisation.order(:slug.asc).each { |organisation| %>
+  <% Organisation.order(:name.asc).each { |organisation| %>
     <tr>
       <td><%=organisation.name%></td>
       <td><%=m1 = organisation.affiliations.where(:created_at.lte => @from).count%></td>

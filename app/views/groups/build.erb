@@ -64,8 +64,8 @@
 
     <script>
       $(function () {
-        $('#group_slug').keyup(function () {
-          $('.slug-replace').text($(this).val());
+        $('#group_slug, #group_name').keyup(function () {
+          $('.slug-replace').text($('#group_slug').val());
         });
       }).keyup();
     </script>     

@@ -7,7 +7,6 @@
   <div class="media-body">
     <h4 class="media-heading" style="display:inline; margin-right: 5px"><a href="/groups/<%=group.slug%>"><%= group.name %></a> <% if group.name != group.slug %><small><%=group.email%></small><% end %></h4>
 
-
     <span style="position: relative; top: -3px">
       <% if !current_account or !(membership = group.memberships.find_by(account: current_account)) %>
         <% if group.public? or group.open? %>
@@ -25,5 +24,9 @@
     <p>
       <strong><%=pluralize(group.members.count, 'member')%></strong> / <strong><%=pluralize(group.conversations.count, 'conversation')%></strong><% if group.description%>. <%= group.description %><% end %>
     </p>
+    
+      <% if ENV['GROUP_INDEX_CONVERSATION_LIMIT'] %>
+        <%= partial :'conversations/conversations_table', :locals => {:conversations => group.visible_conversations.order_by(:updated_at.desc).limit(ENV['GROUP_INDEX_CONVERSATION_LIMIT'])}  %>
+      <% end %>    
   </div>
 </div>

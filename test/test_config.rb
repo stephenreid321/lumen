@@ -45,7 +45,7 @@ class ActiveSupport::TestCase
     
   def fill_in_summernote(text)
     page.execute_script("$('.summernote').code('#{text}')")
-end
+  end
 
 end
 

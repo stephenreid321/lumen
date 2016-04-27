@@ -79,108 +79,110 @@
 <div style="position: relative">
   <div style="width: 100%; height: 80vh" id="map-canvas"></div>
 
-  <script>
-            $(function () {
-              $('input[name=venues]').change(function () {
-                if ($(this).prop('checked'))
-                  $('#venue-filters').show()
-                else
-                  $('#venue-filters').hide()
-              }).change();
-              $('#map-form input, #map-form select').change(function () {
-                $(this.form).submit();
-              });
-              $('#map-form').submit(function (e) {
-                var form = this;
-                e.preventDefault();
-                $('.fa-spinner', this).show();
-                $('#map').load('/map?' + $(this).serialize(), function () {
-                  $('.fa-spinner', form).hide();
-                  $('button[type=submit]', form).attr('disabled', false).html('<%= I18n.t(:search).capitalize%>');
+  <% if params[:form] %>
+    <script>
+              $(function () {
+                $('input[name=venues]').change(function () {
+                  if ($(this).prop('checked'))
+                    $('#venue-filters').show()
+                  else
+                    $('#venue-filters').hide()
+                }).change();
+                $('#map-form input, #map-form select').change(function () {
+                  $(this.form).submit();
                 });
-                return false;
-              });
-            });</script>
-  <style>
-    #map-form i.fa-map-marker { float: right }
-    @media(min-width: 768px) {
-      #map-form { position: absolute; width: 20%; top: 0; right: 0; background: rgba(255,255,255,0.8); padding: 20px }
-    }
-  </style>
-  <form id="map-form">
-    <div class="checkbox">
-      <label>
-        <%= check_box_tag :accounts, :value => true, :checked => params[:accounts] %>
-        <%= I18n.t(:people).capitalize%>  <i class="fa fa-map-marker" style="color: <%= "##{Account.marker_color}" %>"></i>
-      </label>
-    </div>   
-    <div class="checkbox">
-      <label>
-        <%= check_box_tag :events, :value => true, :checked => params[:events] %>
-        <%= I18n.t(:events).capitalize%>  <i class="fa fa-map-marker" style="color: <%= "##{Event.marker_color}" %>"></i>
-      </label>
-    </div>           
-    <div class="checkbox">
-      <label>
-        <%= check_box_tag :venues, :value => true, :checked => params[:venues] %>
-        <%= I18n.t(:venues).capitalize%> <i class="fa fa-map-marker" style="color: <%= "##{Venue.marker_color}" %>"></i>
-      </label>
-    </div>  
-    <div id="venue-filters" style="padding: 10px;" >
-
-      <div class="form-group"> 
-        <label><%= I18n.t(:capacity_of_at_least).capitalize%></label>
-        <%= number_field_tag :min_capacity, :class => 'form-control', :min => 0, :step => 1, :value => params[:min_capacity] %>
-      </div>    
-
-      <div class="form-group"> 
+                $('#map-form').submit(function (e) {
+                  var form = this;
+                  e.preventDefault();
+                  $('.fa-spinner', this).show();
+                  $('#map').load('/map?' + $(this).serialize(), function () {
+                    $('.fa-spinner', form).hide();
+                    $('button[type=submit]', form).attr('disabled', false).html('<%= I18n.t(:search).capitalize%>');
+                  });
+                  return false;
+                });
+              });</script>
+    <style>
+      #map-form i.fa-map-marker { float: right }
+      @media(min-width: 768px) {
+        #map-form { position: absolute; width: 20%; top: 0; right: 0; background: rgba(255,255,255,0.8); padding: 20px }
+      }
+    </style>
+    <form id="map-form">
+      <div class="checkbox">
         <label>
-          <%= check_box_tag :accessible, :value => 1, :checked => params[:accessible] %>
-          <%= I18n.t(:accessible).capitalize%>
+          <%= check_box_tag :accounts, :value => true, :checked => params[:accounts] %>
+          <%= I18n.t(:people).capitalize%>  <i class="fa fa-map-marker" style="color: <%= "##{Account.marker_color}" %>"></i>
         </label>
-      </div> 
-
-      <div class="form-group"> 
+      </div>   
+      <div class="checkbox">
         <label>
-          <%= check_box_tag :private, :value => 1, :checked => params[:private] %>
-          <%= I18n.t(:private_room_available).capitalize%>
+          <%= check_box_tag :events, :value => true, :checked => params[:events] %>
+          <%= I18n.t(:events).capitalize%>  <i class="fa fa-map-marker" style="color: <%= "##{Event.marker_color}" %>"></i>
         </label>
       </div>           
-
-      <div class="form-group"> 
+      <div class="checkbox">
         <label>
-          <%= check_box_tag :serves_food, :value => 1, :checked => params[:serves_food] %>
-          <%= I18n.t(:serves_food).capitalize%>
+          <%= check_box_tag :venues, :value => true, :checked => params[:venues] %>
+          <%= I18n.t(:venues).capitalize%> <i class="fa fa-map-marker" style="color: <%= "##{Venue.marker_color}" %>"></i>
         </label>
-      </div>    
+      </div>  
+      <div id="venue-filters" style="padding: 10px;" >
 
-      <div class="form-group"> 
-        <label>
-          <%= check_box_tag :serves_alcohol, :value => 1, :checked => params[:serves_alcohol] %>
-          <%= I18n.t(:serves_alcohol).capitalize%>
+        <div class="form-group"> 
+          <label><%= I18n.t(:capacity_of_at_least).capitalize%></label>
+          <%= number_field_tag :min_capacity, :class => 'form-control', :min => 0, :step => 1, :value => params[:min_capacity] %>
+        </div>    
+
+        <div class="form-group"> 
+          <label>
+            <%= check_box_tag :accessible, :value => 1, :checked => params[:accessible] %>
+            <%= I18n.t(:accessible).capitalize%>
+          </label>
+        </div> 
+
+        <div class="form-group"> 
+          <label>
+            <%= check_box_tag :private, :value => 1, :checked => params[:private] %>
+            <%= I18n.t(:private_room_available).capitalize%>
+          </label>
+        </div>           
+
+        <div class="form-group"> 
+          <label>
+            <%= check_box_tag :serves_food, :value => 1, :checked => params[:serves_food] %>
+            <%= I18n.t(:serves_food).capitalize%>
+          </label>
+        </div>    
+
+        <div class="form-group"> 
+          <label>
+            <%= check_box_tag :serves_alcohol, :value => 1, :checked => params[:serves_alcohol] %>
+            <%= I18n.t(:serves_alcohol).capitalize%>
+          </label>
+        </div>      
+
+        <div class="form-group"> 
+          <label><%= I18n.t(:maximum_hourly_cost).capitalize%></label>
+          <div class="input-group">
+            <span class="input-group-addon">£</span>
+            <%= number_field_tag :max_hourly_cost, :class => 'form-control', :min => 0, :step => 1, :value => params[:max_hourly_cost] %>
+          </div>
+        </div>            
+
+      </div>
+      <div class="checkbox">
+        <label>          
+          <%= check_box_tag :organisations, :value => true, :checked => params[:organisations]  %>
+          <%= I18n.t(:organisations).capitalize%> <i class="fa fa-map-marker" style="color: <%= "##{Organisation.marker_color}" %>"></i>
         </label>
-      </div>      
-
-      <div class="form-group"> 
-        <label><%= I18n.t(:maximum_hourly_cost).capitalize%></label>
-        <div class="input-group">
-          <span class="input-group-addon">£</span>
-          <%= number_field_tag :max_hourly_cost, :class => 'form-control', :min => 0, :step => 1, :value => params[:max_hourly_cost] %>
-        </div>
-      </div>            
-
-    </div>
-    <div class="checkbox">
-      <label>          
-        <%= check_box_tag :organisations, :value => true, :checked => params[:organisations]  %>
-        <%= I18n.t(:organisations).capitalize%> <i class="fa fa-map-marker" style="color: <%= "##{Organisation.marker_color}" %>"></i>
-      </label>
-    </div>     
-    <button type="submit" class="btn btn-default"><%= I18n.t(:search).capitalize%></button>
-    <i class="fa fa-spin fa-spinner" style="display: none"></i>
-    <div>
-      <a style="display:inline-block;margin-top: 10px" class="btn btn-primary" href="<%= @group ? "/groups/#{@group.slug}/venues/new" : "/venues/new" %>"><i class="fa fa-plus"></i> <%= I18n.t(:add_a_venue).capitalize%></a>
-    </div>
-  </form>
+      </div>     
+      <button type="submit" class="btn btn-default"><%= I18n.t(:search).capitalize%></button>
+      <i class="fa fa-spin fa-spinner" style="display: none"></i>
+      <div>
+        <a style="display:inline-block;margin-top: 10px" class="btn btn-primary" href="<%= @group ? "/groups/#{@group.slug}/venues/new" : "/venues/new" %>"><i class="fa fa-plus"></i> <%= I18n.t(:add_a_venue).capitalize%></a>
+      </div>
+    </form>
+  <% end %>
 
 </div>

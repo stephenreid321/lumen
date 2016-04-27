@@ -1,13 +1,13 @@
 Lumen::App.controllers do
-  
+    
   get '/groups/:slug/docs' do
     redirect '/docs'
   end    
   
   get '/docs' do
     sign_in_required!
-    @docs = current_account.docs
-    @docs = @docs.where(group_id: Group.find_by(slug: params[:slug]).id) if !params[:slug].blank?
+    @docs = current_account.docs    
+    @docs = @docs.where(group_id: params[:group_id]) if params[:group_id]
     @docs = @docs.order_by(:created_at.desc)
     erb :'docs/docs'
   end

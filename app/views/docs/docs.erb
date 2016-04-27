@@ -17,7 +17,7 @@
       <% form_tag '', :class => 'form-inline' do %>
         <%= text_field_tag :url, :class => 'form-control', :placeholder => 'Google Doc URL' %>
         <% if !@group %>
-          <%=I18n.t(:group).capitalize%> <%=select_tag :slugs, :options => [''] + current_account.memberships.map(&:group).map { |group| [group.name, group.slug] }.sort_by { |name,slug| name }, :class => 'form-control', :onchange => "this.form.action = '/groups/' + $(this).val() + '/docs/new'" %>
+          <%=I18n.t(:group).capitalize%> <%=select_tag :slug, :options => [''] + current_account.memberships.map(&:group).map { |group| [group.name, group.slug] }.sort_by { |name,slug| name }, :class => 'form-control', :onchange => "this.form.action = '/groups/' + $(this).val() + '/docs/new'" %>
         <% end %>
         <button class="btn btn-primary">Add</button>
       <% end %>

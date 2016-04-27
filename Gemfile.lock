@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/mislav/will_paginate.git
-  revision: 2f0b4694b3cc7ffcb265daad13eb95c972fa0bb1
+  revision: 5d92ee219d4a941a18c0de8a24a11973548495ac
   specs:
     will_paginate (3.1.0)
 
@@ -29,10 +29,10 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.2.5.2)
-      activesupport (= 4.2.5.2)
+    activemodel (4.2.6)
+      activesupport (= 4.2.6)
       builder (~> 3.1)
-    activesupport (4.2.5.2)
+    activesupport (4.2.6)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -43,9 +43,9 @@ GEM
       builder
       multi_json
     bcrypt (3.1.11)
-    bson (4.0.4)
+    bson (4.1.1)
     builder (3.2.2)
-    capybara (2.6.2)
+    capybara (2.7.0)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -57,7 +57,7 @@ GEM
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
     crass (1.0.2)
-    css_parser (1.3.7)
+    css_parser (1.4.1)
       addressable
     currencies (0.4.2)
     delayed_job (4.1.1)
@@ -66,7 +66,7 @@ GEM
       delayed_job (>= 3.0, < 5)
       mongoid (>= 3.0, < 6)
       mongoid-compatibility
-    domain_name (0.5.20160216)
+    domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
     dragonfly (1.0.12)
       addressable (~> 2.3)
@@ -77,19 +77,19 @@ GEM
       fog-aws
     enumerable-lazy (0.0.1)
     erubis (2.7.0)
-    excon (0.47.0)
-    factory_girl (4.5.0)
+    excon (0.49.0)
+    factory_girl (4.7.0)
       activesupport (>= 3.0.0)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
-    fog-aws (0.9.1)
+    fog-aws (0.9.2)
       fog-core (~> 1.27)
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
       ipaddress (~> 0.8)
-    fog-core (1.36.0)
+    fog-core (1.38.0)
       builder
-      excon (~> 0.45)
+      excon (~> 0.49)
       formatador (~> 0.2)
     fog-json (1.0.2)
       fog-core (~> 1.0)
@@ -98,10 +98,10 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
-    geocoder (1.3.1)
+    geocoder (1.3.4)
     hashie (3.4.3)
-    heroics (0.0.14)
-      erubis (~> 2.7.0)
+    heroics (0.0.16)
+      erubis (~> 2.0)
       excon
       moneta
       multi_json (>= 1.9.2)
@@ -135,7 +135,7 @@ GEM
     moneta (0.7.20)
     mongo (2.2.4)
       bson (~> 4.0)
-    mongoid (5.1.1)
+    mongoid (5.1.3)
       activemodel (~> 4.0)
       mongo (~> 2.1)
       origin (~> 2.2)
@@ -143,7 +143,7 @@ GEM
     mongoid-compatibility (0.3.1)
       activesupport
       mongoid (>= 2.0)
-    multi_json (1.11.2)
+    multi_json (1.11.3)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mustermann19 (0.4.3)
@@ -152,7 +152,7 @@ GEM
     net-http-persistent (2.9.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (3.0.2)
+    net-ssh (3.1.1)
     netrc (0.11.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -170,8 +170,8 @@ GEM
       rack (>= 1.0, < 3)
     omniauth-facebook (3.0.0)
       omniauth-oauth2 (~> 1.2)
-    omniauth-google-oauth2 (0.3.1)
-      jwt (~> 1.0)
+    omniauth-google-oauth2 (0.4.0)
+      jwt (~> 1.5.0)
       multi_json (~> 1.3)
       omniauth (>= 1.1.1)
       omniauth-oauth2 (>= 1.3.1)
@@ -213,7 +213,7 @@ GEM
       padrino-core (= 0.13.1)
     padrino-support (0.13.1)
       activesupport (>= 3.1)
-    platform-api (0.5.0)
+    platform-api (0.6.0)
       heroics
     poltergeist (1.9.0)
       capybara (~> 2.1)
@@ -223,21 +223,21 @@ GEM
     premailer (1.8.6)
       css_parser (>= 1.3.6)
       htmlentities (>= 4.0.0)
-    puma (3.1.0)
+    puma (3.4.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
     rack-ssl-enforcer (0.2.9)
     rack-test (0.6.3)
       rack (>= 1.0)
-    rack-timeout (0.3.2)
-    rake (10.5.0)
+    rack-timeout (0.4.2)
+    rake (11.1.2)
     rinku (1.7.3)
     sanitize (4.0.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
       nokogumbo (~> 1.4.1)
-    sass (3.4.21)
+    sass (3.4.22)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)

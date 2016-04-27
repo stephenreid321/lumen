@@ -38,8 +38,9 @@ module Lumen
     before do
       redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : (ENV['DEFAULT_TIME_ZONE'] || 'London')
-      I18n.locale = (current_account and current_account.language) ? current_account.language.code : Language.default.code
-      fix_params!    
+      I18n.locale = (current_account and current_account.language) ? current_account.language.code : Language.default.code      
+      fix_params!
+      @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       if params[:token] and account = Account.find_by(secret_token: params[:token])
         session[:account_id] = account.id
       end

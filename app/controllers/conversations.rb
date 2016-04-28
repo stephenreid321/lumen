@@ -145,21 +145,21 @@ Lumen::App.controllers do
     redirect "/conversations/#{@conversation.slug}"
   end      
   
-  get '/conversation_posts/:id/plus_one' do
+  get '/conversation_posts/:id/like' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])
     membership_required!(@conversation_post.conversation.group)
-    @conversation_post.plus_ones.create(account: current_account)
-    flash[:notice] = "You +1'd the post by #{@conversation_post.account.name}"
+    @conversation_post.likes.create(account: current_account)
+    flash[:notice] = "You liked the post by #{@conversation_post.account.name}"
     redirect "/conversations/#{@conversation_post.conversation.slug}" 
   end
     
-  get '/conversation_posts/:id/remove_plus_one' do
+  get '/conversation_posts/:id/remove_like' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])
     membership_required!(@conversation_post.conversation.group)
-    @conversation_post.plus_ones.find_by(account: current_account).destroy
-    flash[:notice] = 'Your +1 was removed'
+    @conversation_post.likes.find_by(account: current_account).destroy
+    flash[:notice] = 'Your like was removed'
     redirect "/conversations/#{@conversation_post.conversation.slug}" 
   end 
   
@@ -179,13 +179,13 @@ Lumen::App.controllers do
     partial :'accounts/results_compact', :layout => 'modal'
   end
   
-  get '/conversation_posts/:id/plus_ones' do
+  get '/conversation_posts/:id/likes' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])    
     redirect "/conversations/#{@conversation_post.conversation.slug}#conversation-post-#{@conversation_post.id}" unless request.xhr?    
-    @accounts = Account.where(:id.in => @conversation_post.plus_ones.pluck(:account_id))
+    @accounts = Account.where(:id.in => @conversation_post.likes.pluck(:account_id))
     @accounts = @accounts.order(:name.asc).per_page(params[:per_page] || 50).page(params[:page])
-    @title = "People who +1'd this"
+    @title = "People who liked this"
     partial :'accounts/results_compact', :layout => 'modal'    
   end
     

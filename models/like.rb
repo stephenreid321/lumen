@@ -1,4 +1,4 @@
-class PlusOne
+class Like
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -23,8 +23,8 @@ class PlusOne
     mail = Mail.new(
       :to => conversation_post.account.email,
       :from => "#{group.name} <#{group.email('-noreply')}>",
-      :subject => "#{account.name} +1'd your post in #{conversation_post.conversation.subject}",
-      :body => ERB.new(File.read(Padrino.root('app/views/emails/plus_one.erb'))).result(binding)
+      :subject => "#{account.name} liked your post in #{conversation_post.conversation.subject}",
+      :body => ERB.new(File.read(Padrino.root('app/views/emails/like.erb'))).result(binding)
     )
     mail.deliver         
   end

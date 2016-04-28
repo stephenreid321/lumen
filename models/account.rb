@@ -56,7 +56,7 @@ class Account
   has_many :surveys_as_creator, :class_name => 'Survey', :inverse_of => :account, :dependent => :destroy
   has_many :answers, :dependent => :destroy
   has_many :survey_takers, :dependent => :destroy
-  has_many :plus_ones, :dependent => :destroy
+  has_many :likes, :dependent => :destroy
   has_many :suggestions, :dependent => :destroy
   
   belongs_to :language, index: true

@@ -28,7 +28,7 @@ class ConversationPost
   
   has_many :attachments, :dependent => :destroy
   accepts_nested_attributes_for :attachments
-  has_many :plus_ones, :dependent => :destroy
+  has_many :likes, :dependent => :destroy
   
   validates_presence_of :body, :account, :conversation, :group
   validates_uniqueness_of :imap_uid, :scope => :group, :allow_nil => true

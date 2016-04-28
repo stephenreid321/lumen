@@ -10,10 +10,15 @@
   &middot;  
 <% end %>
 
-<a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/plus_ones"><%=pluralize(conversation_post.plus_ones.count,'person')%> +1'd this</a>
+<a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/likes"><%=pluralize(conversation_post.likes.count,'person')%> liked this</a>
 
-<% if !conversation_post.plus_ones.find_by(account: current_account) %>
-  <a href="/conversation_posts/<%=conversation_post.id%>/plus_one" class="edit" title="+1 this post" ><i class="fa fa-plus"></i></a>
+&middot;  
+
+<% if !conversation_post.likes.find_by(account: current_account) %>
+  <a href="/conversation_posts/<%=conversation_post.id%>/like" class="edit" title="Like this post" ><i class="fa fa-thumbs-o-up"></i> Like</a>
 <% else %>        
-  <a href="/conversation_posts/<%=conversation_post.id%>/remove_plus_one" class="edit" title="Remove your +1"><i class="fa fa-times"></i></a>
-<% end %>
+  <a href="/conversation_posts/<%=conversation_post.id%>/remove_like" title="Remove your like"><i class="fa fa-thumbs-up"></i> Like</a>
+  <% end %>
+
+
+

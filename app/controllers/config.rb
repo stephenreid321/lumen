@@ -172,7 +172,7 @@ mailfile=`mktemp`
 cat - > $mailfile
 
 if ! grep -q "Sender: $1-noreply@$maildomain" $mailfile; then 
-  curl -L http://$domain/groups/$1/check/?token=$token
+  curl -L --insecure http://$domain/groups/$1/check/?token=$token
 fi
 
 rm $mailfile}), "/notify/#{ENV['APP_NAME']}.sh"

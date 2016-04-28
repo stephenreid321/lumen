@@ -90,7 +90,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><%=ENV['NAVBAR_BRAND'] || '<i class="fa fa-home"></i>'%></a>        
+          <a class="navbar-brand" href="/"><%= Fragment.find_by(slug: 'navbar-brand').try(:body) || ENV['NAVBAR_BRAND'] || '<i class="fa fa-home"></i>'%></a>        
         </div>
         <div class="collapse navbar-collapse" id="navbar-top">        
           <% if current_account %>

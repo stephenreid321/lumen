@@ -1,6 +1,8 @@
 module Lumen
   class App < Padrino::Application
     
+    use Rack::Timeout, service_timeout: 25
+    
     if ENV['FORCE_SSL']
       use Rack::SslEnforcer
       use Rack::Session::Cookie, :key => '_rack_session', :path => '/', :expire_after => 365*24*60*60, :secret => settings.session_secret

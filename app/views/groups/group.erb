@@ -85,7 +85,7 @@
         <div id="group-members">
           <%= partial :'accounts/list', :locals => {:scope => 'group', :scope_id => @group.id} %>
         </div>
-        <a class="btn btn-hg btn-primary btn-block" href="/groups/<%=@group.slug%>/members"><i class="fa fa-search"></i> Browse members</a>      
+        <a style="margin-bottom: 10px" class="btn btn-hg btn-primary btn-block" href="/groups/<%=@group.slug%>/members"><i class="fa fa-search"></i> Browse members</a>      
       <% else %>
         <%= partial 'groups/join', :locals => {:group => @group} %>
       <% end %>

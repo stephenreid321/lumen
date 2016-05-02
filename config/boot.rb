@@ -7,8 +7,6 @@ require 'rubygems' unless defined?(Gem)
 require 'bundler/setup'
 Bundler.require(:default, RACK_ENV)
 
-Rack::Timeout.timeout = 25
-
 require 'net/imap'
 
 Padrino.load!

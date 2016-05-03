@@ -305,6 +305,22 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       @setup_complete = true
     end    
   end
+  
+  after_destroy :remove_mail_accounts_and_forwarder
+  def remove_mail_accounts_and_forwarder
+    if ENV['MAIL_SERVER_ADDRESS'] and !ENV['VIRTUALMIN']
+      group = self
+      Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
+        ssh.exec!("deluser #{group.username('-inbox')} --remove-home")
+        ssh.exec!("deluser #{group.username('-noreply')} --remove-home")
+        ssh.exec!(%Q{sed -i '/#{Regexp.escape(%Q{#{group.slug}@#{ENV['MAIL_DOMAIN']} #{group.username}}).gsub('/','\/')}/d' /etc/postfix/virtual})
+        ssh.exec!(%Q{sed -i '/#{Regexp.escape(%Q{#{group.username}: #{group.username('-inbox')}, "| /notify/#{ENV['APP_NAME']}.sh #{group.slug}"}).gsub('/','\/')}/d' /etc/aliases})
+        ssh.exec!("newaliases")        
+        ssh.exec!("postmap /etc/postfix/virtual")
+        ssh.exec!("service postfix restart")    
+      end
+    end
+  end  
     
   def setup_mail_accounts_and_forwarder_via_virtualmin    
     group = self   

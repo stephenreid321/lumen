@@ -5,6 +5,8 @@ require File.expand_path('../../config/boot', __FILE__)
 Rack::Timeout::Logger.disable
 ActiveSupport::TestCase.test_order = :sorted
 
+require 'dragonfly'
+
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'

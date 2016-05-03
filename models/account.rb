@@ -4,7 +4,6 @@ class Account
   extend Dragonfly::Model
     
   field :name, :type => String
-  field :full_name, :type => String
   field :name_transliterated, :type => String
   field :email, :type => String
   field :secret_token, :type => String
@@ -276,7 +275,6 @@ class Account
       :name => :text,
       :firstname => {:type => :text, :edit => false},
       :lastname => {:type => :text, :edit => false},
-      :full_name => :text,
       :email => :text,
       :secret_token => :text,
       :headline => :text,

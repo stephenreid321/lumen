@@ -8,7 +8,6 @@ require 'bundler/setup'
 Bundler.require(:default, RACK_ENV)
 
 require 'net/imap'
-require 'dragonfly'
 
 Padrino.load!
 

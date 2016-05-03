@@ -1,5 +1,9 @@
+$VERBOSE = nil
 RACK_ENV = 'test' unless defined?(RACK_ENV)
 require File.expand_path('../../config/boot', __FILE__)
+
+Rack::Timeout::Logger.disable
+ActiveSupport::TestCase.test_order = :sorted
 
 require 'capybara'
 require 'capybara/dsl'

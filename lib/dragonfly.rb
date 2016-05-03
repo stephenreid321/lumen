@@ -1,5 +1,3 @@
-require 'dragonfly'
-
 Dragonfly.app.configure do    
   plugin :imagemagick
   url_format '/media/:job/:name'    

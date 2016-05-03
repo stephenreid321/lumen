@@ -5,6 +5,7 @@ class Account
     
   field :name, :type => String
   field :full_name, :type => String
+  field :name_transliterated, :type => String
   field :email, :type => String
   field :secret_token, :type => String
   field :crypted_password, :type => String
@@ -239,6 +240,7 @@ class Account
     self.email = self.email.gsub(' ','') # strip unicode \u00a0
     self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
+    self.name_transliterated = I18n.transliterate(self.name)
     
     self.twitter_profile_url = "twitter.com/#{self.twitter_profile_url}" if self.twitter_profile_url and !self.twitter_profile_url.include?('twitter.com')      
     errors.add(:facebook_profile_url, 'must contain facebook.com') if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')

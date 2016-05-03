@@ -89,7 +89,7 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
       case params[:rtype].to_sym
       when :account
         {
-          results: (results = @accounts; results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |account| {id: account.id.to_s, text: account.name} })
+          results: (results = @accounts; results = results.or({:name => /#{Regexp.escape(params[:q])}/i}, {:name_transliterated => /#{Regexp.escape(params[:q])}/i}) if params[:q]; results.map { |account| {id: account.id.to_s, text: account.name} })
         }
       when :organisation
         {

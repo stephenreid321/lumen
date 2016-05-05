@@ -53,14 +53,14 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
     end
   end    
     
-  get '/accounts/results', :provides => [:json, :html] do
+  get '/accounts/results' do
     sign_in_required!
     scope = params[:scope]
     scope_id = params[:scope_id]
     @o = (params[:o] ? params[:o] : 'date').to_sym
-    @account_id = params[:account_id]    
-    @organisation_id = params[:organisation_id]
-    @account_tag_id = params[:account_tag_id]     
+    @name = params[:name]    
+    @organisation_name = params[:organisation_name]
+    @account_tag_name = params[:account_tag_name]
     @accounts = case scope
     when 'network'
       current_account.network
@@ -79,39 +79,21 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
       sector = Sector.find(scope_id)
       sector.members
     end 
-    @q = []
-    @q << {:id => @account_id} if @account_id
-    @q << {:id.in => Affiliation.where(organisation_id: @organisation_id).pluck(:account_id)} if @organisation_id
-    @q << {:id.in => AccountTagship.where(account_tag_id: @account_tag_id).pluck(:account_id)} if @account_tag_id    
-    @accounts = @accounts.and(@q)
-    case content_type      
-    when :json      
-      case params[:rtype].to_sym
-      when :account
-        {
-          results: (results = @accounts; results = results.or({:name => /#{Regexp.escape(params[:q])}/i}, {:name_transliterated => /#{Regexp.escape(params[:q])}/i}) if params[:q]; results.map { |account| {id: account.id.to_s, text: account.name} })
-        }
-      when :organisation
-        {
-          results: (results = Organisation.where(:id.in => Affiliation.where(:account_id.in => @accounts.pluck(:id)).pluck(:organisation_id)); results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |organisation| {id: organisation.id.to_s, text: organisation.name} })
-        }
-      when :account_tag
-        {
-          results: (results = AccountTag.where(:id.in => AccountTagship.where(:account_id.in => @accounts.pluck(:id)).pluck(:account_tag_id)); results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |account_tag| {id: account_tag.id.to_s, text: "#{account_tag.name} (#{account_tag.account_tagships.count})"} })
-        }        
-      end.to_json     
-    when :html
-      @accounts = case @o
-      when :name
-        @accounts.order_by(:name.asc)
-      when :date
-        @accounts.order_by(:created_at.desc)
-      when :updated
-        @accounts.order_by([:has_picture.desc, :updated_at.desc])
-      end      
-      @accounts = @accounts.per_page(params[:per_page] || 8).page(params[:page])
-      partial :'accounts/results', locals: {full_width: params[:full_width]}
-    end
+    @q = []    
+    @q << {:id.in => Affiliation.where(:organisation_id.in => Organisation.where(:name => /#{Regexp.escape(@organisation_name)}/i).pluck(:id)).pluck(:account_id)} if @organisation_name
+    @q << {:id.in => AccountTagship.where(:account_tag_id.in => AccountTag.where(:name => /#{Regexp.escape(@account_tag_name)}/i).pluck(:id)).pluck(:account_id)} if @account_tag_name    
+    @accounts = @accounts.and(@q)    
+    @accounts = @accounts.or({:name => /#{Regexp.escape(@name)}/i}, {:name_transliterated => /#{Regexp.escape(@name)}/i}) if @name            
+    @accounts = case @o
+    when :name
+      @accounts.order_by(:name.asc)
+    when :date
+      @accounts.order_by(:created_at.desc)
+    when :updated
+      @accounts.order_by([:has_picture.desc, :updated_at.desc])
+    end      
+    @accounts = @accounts.per_page(params[:per_page] || 8).page(params[:page])
+    partial :'accounts/results', locals: {full_width: params[:full_width]}
   end  
     
   get '/accounts/:id' do

@@ -77,9 +77,9 @@ module Lumen
       end
     end
             
-    get '/network' do
+    get '/people' do
       sign_in_required!
-      erb :network
+      erb :people
     end    
                    
     get '/:slug' do      

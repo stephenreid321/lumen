@@ -4,16 +4,13 @@
 
   <div class="row">
 
-    <div class="<%=col_class%>"> 
-      <div style="position: relative; top: 4px">
-        <%= text_field_tag :name, :class => 'input-sm form-control', :placeholder => I18n.t(:filter_by_name).capitalize %>
-      </div>
+    <div class="<%=col_class%>" style="position: relative"> 
+      <%= text_field_tag :name, :class => 'input-sm form-control', :placeholder => I18n.t(:filter_by_name).capitalize %>
+      <i id="filter-spin" style="display: none; position: absolute; right: -4px; top: 0" class="fa fa-spin fa-spinner"></i>
     </div>
 
     <div class="<%=col_class%>"> 
-      <div style="position: relative; top: 4px">
-        <%= text_field_tag :sector_name, :class => 'input-sm form-control', :placeholder => I18n.t(:filter_by_sector).capitalize %> 
-      </div>
+      <%= text_field_tag :sector_name, :class => 'input-sm form-control', :placeholder => I18n.t(:filter_by_sector).capitalize %> 
     </div>
 
     <div class="<%=col_class%>">
@@ -29,5 +26,4 @@
 
 <% end %>  
 
-<i id="filter-spin" style="display:none" class="fa fa-spin fa-spinner"></i>
 <div id="results" class="page-container" style="margin-top: 10px"></div>

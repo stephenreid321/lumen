@@ -5,38 +5,24 @@ Lumen::App.controllers do
     erb :'organisations/index'
   end
     
-  get '/organisations/results', :provides => [:json, :html] do
+  get '/organisations/results' do
     sign_in_required!
     @o = (params[:o] ? params[:o] : 'date').to_sym
-    @organisation_id = params[:organisation_id]
-    @sector_id = params[:sector_id]
-    @organisations = current_account.network_organisations
+    @name = params[:name]
+    @sector_name = params[:sector_name]
+    @organisations = current_account.network_organisations    
     @q = []
-    @q << {:id => @organisation_id} if @organisation_id
-    @q << {:id.in => Sectorship.where(sector_id: @sector_id).pluck(:organisation_id)} if @sector_id    
+    @q << {:id.in => Sectorship.where(:sector_id.in => Sector.where(:name => /#{Regexp.escape(@sector_name)}/i).pluck(:id)).pluck(:organisation_id)} if @sector_name
     @organisations = @organisations.and(@q)
-    case content_type      
-    when :json
-      case params[:rtype].to_sym
-      when :organisation
-        {
-          results: (results = @organisations; results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |organisation| {id: organisation.id.to_s, text: organisation.name} })
-        }
-      when :sector
-        {
-          results: (results = Sector.where(:id.in => Sectorship.where(:organisation_id.in => @organisations.pluck(:id)).pluck(:sector_id)); results = results.where(:name => /#{Regexp.escape(params[:q])}/i) if params[:q]; results.map { |sector| {id: sector.id.to_s, text: sector.name} })
-        }          
-      end.to_json   
-    when :html
-      @organisations = case @o
-      when :name
-        @organisations.order_by(:name.asc)
-      when :date
-        @organisations.order_by(:updated_at.desc)
-      end      
-      @organisations = @organisations.per_page(10).page(params[:page])
-      partial :'organisations/results'
-    end    
+    @organisations = @organisations.where(:name => /#{Regexp.escape(@name)}/i) if @name    
+    @organisations = case @o
+    when :name
+      @organisations.order_by(:name.asc)
+    when :date
+      @organisations.order_by(:updated_at.desc)
+    end      
+    @organisations = @organisations.per_page(10).page(params[:page])
+    partial :'organisations/results'    
   end  
   
   get '/organisations/:id' do

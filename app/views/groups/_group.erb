@@ -24,9 +24,23 @@
     <p>
       <strong><%=pluralize(group.members.count, 'member')%></strong> / <strong><%=pluralize(group.conversations.count, 'conversation')%></strong><% if group.description%>. <%= group.description %><% end %>
     </p>
-    
-      <% if ENV['GROUP_INDEX_CONVERSATION_LIMIT'] %>
-        <%= partial :'conversations/conversations_table', :locals => {:conversations => group.visible_conversations.order_by(:updated_at.desc).limit(ENV['GROUP_INDEX_CONVERSATION_LIMIT'])}  %>
-      <% end %>    
+
+    <% if ENV['GROUP_INDEX_CONVERSATION_LIMIT'] %>
+      <table class="table">
+        <% group.visible_conversations.order_by(:updated_at.desc).limit(ENV['GROUP_INDEX_CONVERSATION_LIMIT']).each { |conversation| %>
+          <tr>
+            <td>          
+              <a class="conversation-title" href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a> <%= conversation_posts_badge(conversation) %>
+            </td>          
+            <td style="text-align: right">
+              <% if conversation.last_conversation_post %>
+                <%=I18n.t(:last_post).capitalize%> <%=timeago(conversation.last_conversation_post.created_at)%>        
+                by <strong><%=conversation.last_conversation_post.account.name%></strong>
+              <% end %>        
+            </td>
+          </tr>
+        <% } %>
+      </table>
+    <% end %>    
   </div>
 </div>

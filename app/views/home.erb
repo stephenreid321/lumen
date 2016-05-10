@@ -30,7 +30,7 @@
     <h2 style="font-size: 30px"><%=I18n.t(:latest_conversations).capitalize%></h2>
     <% current_account.latest_conversations.limit(5).each { |conversation| %>
       <hr />
-      <h3><a class="conversation-title" href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a> <%= conversation_posts_badge(conversation) %> <small><%=g conversation.group%></small></h3>      
+      <h3><a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a> <%= conversation_posts_badge(conversation) %> <small><%=g conversation.group%></small></h3>      
       <% if conversation.last_conversation_post %>
         <%=I18n.t(:last_post).capitalize%> <%=timeago(conversation.last_conversation_post.created_at)%>        
         by <strong><%=conversation.last_conversation_post.account.name%></strong>

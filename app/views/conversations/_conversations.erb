@@ -41,12 +41,14 @@
 </div>
 
 <% if !ENV['WALL_STYLE_CONVERSATIONS'] %>
-  <% if @membership %>
-    <div class="conversation-form">
-      <h4 style="margin-top: 0"><%=I18n.t(:new_conversation).capitalize%></h4>
-      <p><%=I18n.t(:fill_out_the_form_below_or_send_a_mail_to)%> <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
-      <%= partial :'conversations/build'  %>
-    </div>
+  <% if !@group.conversation_creation_by_admins_only or (@group.conversation_creation_by_admins_only and @membership.admin?) %>
+    <% if @membership %>
+      <div class="conversation-form">
+        <h4 style="margin-top: 0"><%=I18n.t(:new_conversation).capitalize%></h4>
+        <p><%=I18n.t(:fill_out_the_form_below_or_send_a_mail_to)%> <a href="mailto:<%=@group.email%>"><%=@group.email%></a></p>
+        <%= partial :'conversations/build'  %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
 

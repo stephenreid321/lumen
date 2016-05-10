@@ -40,14 +40,24 @@ Lumen::App.controllers do
   
   get '/groups/:slug/conversations/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
+    if @group.conversation_creation_by_admins_only and !@membership.admin?
+      flash[:error] = 'Only admins can create conversations in that group'
+      redirect back
+    end
     @conversations = @group.conversations.build
     erb :'conversations/build'
   end  
   
   post '/groups/:slug/conversations/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
+    if @group.conversation_creation_by_admins_only and !@membership.admin?
+      flash[:error] = 'Only admins can create conversations in that group'
+      redirect back
+    end    
     @conversation = @group.conversations.build(params[:conversation])
     @conversation.body ||= ''
     @conversation.account = current_account

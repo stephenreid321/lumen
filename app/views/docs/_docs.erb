@@ -1,0 +1,27 @@
+<table style="margin-top: 1em" class="table table-hover">
+  <% @docs.each { |doc| %>
+
+    <tr>
+      <td>
+        <% if doc.file %>
+          <i class="fa fa-paperclip" title="file"></i>
+        <% else %>
+          <img style="width: 16px" src="/images/<%=doc.type%>.png" title="<%=doc.type%>">
+        <% end %>
+      </td>
+      <td>
+        <% if doc.file %>
+          <a target="_blank" href="<%=doc.file.url%>"><%= doc.file_name %></a>
+        <% else %>
+          <a target="_blank" href="<%=doc.url%>"><%= doc.title %></a>
+        <% end %>
+        <% if !@group %>
+          <small><%=g doc.group%></small>
+        <% end %>
+      </td>
+      <td><%=I18n.t(:listed).capitalize%> <%=timeago(doc.created_at)%> by <a href="/accounts/<%=doc.account.id%>"><%=doc.account.name%></a></td>
+      <td><a class="edit" href="/docs/<%=doc.id%>/destroy" data-confirm="Are you sure you want to unlist this doc?"><i class="fa fa-times"></i></a></td>
+    </tr>
+
+  <% } %>
+</table>

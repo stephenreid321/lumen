@@ -98,7 +98,7 @@ class Translation
       :'mongoid.attributes.venue.hourly_cost' => 'Approximate hourly cost',
       :'mongoid.attributes.venue.private' => 'Private room available',
       :'mongoid.attributes.venue.coordinates' => 'Location',
-      :'mongoid.attributes.doc.url' => 'Google Doc URL',
+      :'mongoid.attributes.doc.url' => 'URL',
       # mongoid.errors.models.account.attributes.name[.blank, .not_found]
       :delete_account => 'delete account',
       :delete_account_instructions => "To completely remove your account, type your name into the box below and click 'Delete account'.",                

@@ -9,7 +9,6 @@ class Doc
   field :file_name, :type => String  
   
   validates_presence_of :account, :group
-  validates_format_of :url, :with => /google\.com/, :allow_nil => true
   
   belongs_to :account, index: true
   belongs_to :group, index: true
@@ -27,13 +26,14 @@ class Doc
       self.url = "http://#{self.url}" if !(self.url =~ /\Ahttps?:\/\//)
       if page = begin; Mechanize.new.get(self.url); rescue; errors.add(:url, 'not found'); nil; end      
         errors.add(:url, 'is not public') if page.uri.host == 'accounts.google.com'
-        self.title = page.title.gsub(' - Google Docs','').gsub(' - Google Drive','').gsub(' - Google Sheets', '')        
+        self.title = page.title.gsub(' - Google Docs','').gsub(' - Google Drive','').gsub(' - Google Sheets', '').gsub(' - YouTube', '')
       end
     end
   end
       
-  def type
-    return 'folder' if url.include?('folderview')
+  def type    
+    return 'youtube' if url.include?('youtube.com')
+    return 'folder' if url.include?('folderview')    
     url.include?('/d/') ? url.split('/d/').first.split('/').last : url.split('/')[3]
   end
   

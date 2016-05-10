@@ -9,7 +9,11 @@ Lumen::App.controllers do
     @docs = current_account.docs    
     @docs = @docs.where(group_id: params[:group_id]) if params[:group_id]
     @docs = @docs.order_by(:created_at.desc)
-    erb :'docs/docs'
+    if request.xhr?
+      partial :'docs/docs'
+    else
+      erb :'docs/docs'
+    end
   end
   
   get '/docs/new' do

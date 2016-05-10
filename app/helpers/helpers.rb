@@ -11,7 +11,7 @@ Lumen::App.helpers do
   end
   
   def conversation_posts_badge(conversation)
-    %Q{<span style="opacity: #{(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o}" title="#{pluralize(c,'post')}" class="badge">#{c}</span>}
+    %Q{<span style="position: relative; top: -2px; opacity: #{(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o}" title="#{pluralize(c,'post')}" class="badge">#{c}</span>}
   end
   
   def g(group)

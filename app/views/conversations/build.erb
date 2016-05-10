@@ -1,25 +1,19 @@
-<% if !@group %>
-  <%= partial :'groups/pick', :locals => {:collection => 'conversations'} %>
-<% else %>
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/conversations"><%=I18n.t(:conversations).capitalize%></a>    
+  </li>  
+  <li class="active">
+    <%=I18n.t(:new_conversation).capitalize%>
+  </li>    
+</ol>
 
-  <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
-    <li>
-      <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>
-    </li>
-    <li>
-      <a href="/groups/<%=@group.slug%>/conversations"><%=I18n.t(:conversations).capitalize%></a>    
-    </li>  
-    <li class="active">
-      <%=I18n.t(:new_conversation).capitalize%>
-    </li>    
-  </ol>
-
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <%= partial :'conversations/build' %>
-    </div>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <%= partial :'conversations/build' %>
   </div>
-
-<% end %>
+</div>

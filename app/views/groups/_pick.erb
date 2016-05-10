@@ -1,22 +1,17 @@
+<% if !request.xhr? %>
   <ol class="breadcrumb">
     <li><a href="/">Home</a></li> 
     <li class="active">
       New <%=collection.singularize%>
     </li>    
   </ol>
+<% end %>
 
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <% form_tag '', :class => 'form-horizontal' do %>
-      <div class="form-group">
-        <label class="control-label col-md-3"><%=I18n.t(:pick_a_group).capitalize%></label>
-        <div class="col-md-6"> 
-          <%=select_tag :slug, :options => [''] + current_account.memberships.map(&:group).map { |group| [group.name, group.slug] }.sort_by { |name,slug| name }, :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/#{collection}/new'" %>
-        </div>
-      </div>
-    <% end %>
+<% form_tag '', :class => 'form-horizontal' do %>
+  <div class="form-group">
+    <label class="control-label col-md-3"><%=I18n.t(:pick_a_group).capitalize%></label>
+    <div class="col-md-6"> 
+      <%=select_tag :slug, :options => [''] + current_account.memberships.map(&:group).map { |group| [group.name, group.slug] }.sort_by { |name,slug| name }, :class => 'form-control', :onchange => "location = '/groups/' + $(this).val() + '/#{collection}/new'" %>
+    </div>
   </div>
-</div>
-
-
-
+<% end %>

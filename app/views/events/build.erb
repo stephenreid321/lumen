@@ -1,7 +1,3 @@
-<% if !@group %>
-  <%= partial :'groups/pick', :locals => {:collection => 'events'} %>
-<% else %>
-
   <ol class="breadcrumb">
     <li><a href="/">Home</a></li>
     <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
@@ -105,6 +101,3 @@
 
     </div>
   </div>
-
-<% end %>
-

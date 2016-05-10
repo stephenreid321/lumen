@@ -11,7 +11,7 @@
     <%= Fragment.find_by(slug: 'events').try(:body) %>
 
     <div>
-      <a style="float: right" class="btn btn-primary" href="/events/new"><i class="fa fa-plus"></i> <%=I18n.t(:add_an_event).capitalize%></a>
+      <a style="float: right" class="btn btn-primary modal-trigger" href="/events/new"><i class="fa fa-plus"></i> <%=I18n.t(:add_an_event).capitalize%></a>
       <a style="float: right; margin-right: 5px" class="btn btn-default" href="/events?view=calendar" ><i class="fa fa-calendar"></i> Calendar view</a>
       <h1 style="margin-top: 0"><%=I18n.t(:events).capitalize%></h1>
     </div>

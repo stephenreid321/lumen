@@ -1,81 +1,75 @@
-<% if !@group %>
-  <%= partial :'groups/pick', :locals => {:collection => 'venues'} %>
-<% else %>
-
-  <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>    
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/venues">Venues</a>    
+  </li>  
+  <% if @venue.persisted? %>
     <li>
-      <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>    
+      <a href="/groups/<%=@group.slug%>/venues/<%=@venue.id%>"><%= @venue.name %></a>    
+    </li>      
+    <li class="active">
+      Edit
     </li>
-    <li>
-      <a href="/groups/<%=@group.slug%>/venues">Venues</a>    
-    </li>  
-    <% if @venue.persisted? %>
-      <li>
-        <a href="/groups/<%=@group.slug%>/venues/<%=@venue.id%>"><%= @venue.name %></a>    
-      </li>      
-      <li class="active">
-        Edit
-      </li>
-    <% else %>
-      <li class="active">
-        Add venue
-      </li>    
+  <% else %>
+    <li class="active">
+      Add venue
+    </li>    
+  <% end %>
+</ol>
+
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+
+    <% form_for @venue, @venue.new_record? ? "/groups/#{@group.slug}/venues/new" : "/groups/#{@group.slug}/venues/#{@venue.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+
+
+      <script>
+        $(function () {
+
+          var autocomplete = new google.maps.places.Autocomplete($('#venue_name')[0]);
+          autocomplete.addListener('place_changed', placeChanged);
+          function placeChanged() {
+            var place = autocomplete.getPlace();
+            $('#venue_name').val(place.name)
+            $("#venue_website").val(place.website)
+            $("#venue_address").val(place.formatted_address).keyup()
+          }
+
+  <% if @venue.new_record? %>
+            $('#venue_address').keyup(function () {
+              if ($(this).val().length > 0)
+                $('label[for=venue_coordinates]').parent().hide()
+              else
+                $('label[for=venue_coordinates]').parent().show()
+            }).keyup();
+  <% end %>
+
+          var inputGroup = $('<div class="input-group"></div>');
+          $('#venue_hourly_cost').wrap(inputGroup);
+          $('<span class="input-group-addon">£</span>').prependTo($('#venue_hourly_cost').parent());
+        });
+      </script>
+
+      <%= f.text_block :name %>
+      <%= f.number_block :capacity %>
+      <%= f.select_block :accessibility %>
+      <%= f.check_box_block :private %>
+      <%= f.check_box_block :serves_food %>
+      <%= f.check_box_block :serves_alcohol %>
+      <%= f.number_block :hourly_cost %>
+      <%= f.text_block :website %>        
+      <%= f.text_block :address, :tip => "If you don't know the exact address, leave this blank and click to place a marker on the map below" %>
+      <%= f.geopicker_block :coordinates %>
+      <%= f.wysiwyg_block :description %>      
+
+      <%= f.submit_block destroy_url: "/groups/#{@group.slug}/venues/#{@venue.id}/destroy" %>
+
     <% end %>
-  </ol>
 
-
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-
-      <% form_for @venue, @venue.new_record? ? "/groups/#{@group.slug}/venues/new" : "/groups/#{@group.slug}/venues/#{@venue.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
-
-
-        <script>
-          $(function () {
-
-            var autocomplete = new google.maps.places.Autocomplete($('#venue_name')[0]);
-            autocomplete.addListener('place_changed', placeChanged);
-            function placeChanged() {
-              var place = autocomplete.getPlace();
-              $('#venue_name').val(place.name)
-              $("#venue_website").val(place.website)
-              $("#venue_address").val(place.formatted_address).keyup()
-            }
-
-    <% if @venue.new_record? %>
-              $('#venue_address').keyup(function () {
-                if ($(this).val().length > 0)
-                  $('label[for=venue_coordinates]').parent().hide()
-                else
-                  $('label[for=venue_coordinates]').parent().show()
-              }).keyup();
-    <% end %>
-
-            var inputGroup = $('<div class="input-group"></div>');
-            $('#venue_hourly_cost').wrap(inputGroup);
-            $('<span class="input-group-addon">£</span>').prependTo($('#venue_hourly_cost').parent());
-          });
-        </script>
-
-        <%= f.text_block :name %>
-        <%= f.number_block :capacity %>
-        <%= f.select_block :accessibility %>
-        <%= f.check_box_block :private %>
-        <%= f.check_box_block :serves_food %>
-        <%= f.check_box_block :serves_alcohol %>
-        <%= f.number_block :hourly_cost %>
-        <%= f.text_block :website %>        
-        <%= f.text_block :address, :tip => "If you don't know the exact address, leave this blank and click to place a marker on the map below" %>
-        <%= f.geopicker_block :coordinates %>
-        <%= f.wysiwyg_block :description %>      
-
-        <%= f.submit_block destroy_url: "/groups/#{@group.slug}/venues/#{@venue.id}/destroy" %>
-
-      <% end %>
-
-    </div>
   </div>
-
-<% end %>
+</div>

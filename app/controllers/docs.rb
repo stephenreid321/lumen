@@ -18,7 +18,8 @@ Lumen::App.controllers do
   
   get '/docs/new' do
     sign_in_required!
-    erb :'docs/build'
+    @title = 'Add a doc'
+    partial :'groups/pick', :locals => {:collection => 'docs'}, :layout => (:modal if request.xhr?)
   end
   
   get '/groups/:slug/docs/new' do

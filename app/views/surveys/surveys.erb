@@ -2,7 +2,7 @@
   <%= @group ? I18n.t(:surveys_for_group, slug: @group.slug).capitalize : I18n.t(:surveys_for_your_groups).capitalize %>
 </h2>
 
-<a class="btn btn-primary" href="<%= @group ? "/groups/#{@group.slug}/surveys/new" : '/surveys/new' %> "><i class="fa fa-plus"></i> Create a survey</a>
+<a class="btn btn-primary modal-trigger" href="/surveys/new"><i class="fa fa-plus"></i> Create a survey</a>
 
 <table style="margin-top: 1em" class="table table-hover">
   <% @surveys.each { |survey| %>

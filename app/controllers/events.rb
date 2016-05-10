@@ -26,7 +26,8 @@ Lumen::App.controllers do
   
   get '/events/new' do
     sign_in_required!
-    erb :'events/build'
+    @title = 'Add an event'
+    partial :'groups/pick', :locals => {:collection => 'events'}, :layout => (:modal if request.xhr?)
   end  
   
   get '/events/:id/edit' do

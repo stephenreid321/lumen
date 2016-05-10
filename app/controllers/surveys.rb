@@ -12,7 +12,8 @@ Lumen::App.controllers do
     
   get '/surveys/new' do
     sign_in_required!
-    erb :'surveys/build' 
+    @title = 'Create a survey'
+    partial :'groups/pick', :locals => {:collection => 'surveys'}, :layout => (:modal if request.xhr?)
   end 
   
   get '/groups/:slug/surveys/new' do

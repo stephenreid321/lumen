@@ -1,38 +1,41 @@
-<% if !@group %>
-  <%= partial :'groups/pick', :locals => {:collection => 'docs'} %>
-<% else %>
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/docs"><%=I18n.t(:docs).capitalize%></a>    
+  </li>  
+  <li class="active">
+    Add a doc
+  </li>    
+</ol>
 
-  <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
-    <li>
-      <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>
-    </li>
-    <li>
-      <a href="/groups/<%=@group.slug%>/docs"><%=I18n.t(:docs).capitalize%></a>    
-    </li>  
-    <li class="active">
-      Add a doc
-    </li>    
-  </ol>
+<div style="text-align: center" id="pick">
+  <a class="btn btn-primary" href="javascript:;" onclick="$('#pick').hide();
+        $('#doc_file').closest('.form-group').hide();
+        $('#doc-form').show();
+        $('#doc_url').focus()">
+    <img src="/images/file.png" style="width: 16px"> Add a Google Doc
+  </a>
+  <a class="btn btn-primary" href="javascript:;" onclick="$('#pick').hide();
+          $('#doc_file').closest('.form-group').hide();
+          $('#doc-form').show();
+          $('#doc_url').focus()">
+    <img src="/images/youtube.png" style="width: 16px"> Add a YouTube video
+  </a>
 
-  <div style="text-align: center" id="pick">
-    <a class="btn btn-primary" href="javascript:;" onclick="$('#pick').hide();$('#doc_file').closest('.form-group').hide();$('#doc-form').show();$('#doc_url').focus()">
-      <img src="/images/file.png" style="width: 16px"> Add a Google Doc
-    </a>
-      <a class="btn btn-primary" href="javascript:;" onclick="$('#pick').hide();$('#doc_file').closest('.form-group').hide();$('#doc-form').show();$('#doc_url').focus()">
-      <img src="/images/youtube.png" style="width: 16px"> Add a YouTube video
-    </a>
-     
-    <a class="btn btn-primary" href="javascript:;" onclick="$('#pick').hide();$('#doc_url').closest('.form-group').hide();$('#doc-form').show();$('#doc_file').click()">
-      <i class="fa fa-paperclip"></i> Add a file
-    </a>
-  </div>    
+  <a class="btn btn-primary" href="javascript:;" onclick="$('#pick').hide();
+        $('#doc_url').closest('.form-group').hide();
+        $('#doc-form').show();
+        $('#doc_file').click()">
+    <i class="fa fa-paperclip"></i> Add a file
+  </a>
+</div>    
 
-  <% form_for @doc, "/groups/#{@group.slug}/docs/new", :id => 'doc-form', :class => 'form-horizontal', :multipart => true, :style => 'display: none' do |f| %>
-    <%= f.text_block :url %>
-    <%= f.file_block :file %>
-    <%= f.submit_block %>
-  <% end %>
-
+<% form_for @doc, "/groups/#{@group.slug}/docs/new", :id => 'doc-form', :class => 'form-horizontal', :multipart => true, :style => 'display: none' do |f| %>
+  <%= f.text_block :url %>
+  <%= f.file_block :file %>
+  <%= f.submit_block %>
 <% end %>

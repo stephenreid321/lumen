@@ -2,7 +2,7 @@
 webshims.polyfill();
 
 $(function () {
-  
+
   $('input[type=text].slug').each(function () {
     var slug = $(this);
     var start_length = slug.val().length;
@@ -15,7 +15,7 @@ $(function () {
       if (start_length == 0 && slug.data('focus') != true)
         slug.val(title.val().toLowerCase().replace(/ /g, '-').replace(/[^a-z0-9\-]/g, ''));
     });
-  });  
+  });
 
   function timeago() {
     $("abbr.timeago").timeago()
@@ -49,17 +49,6 @@ $(function () {
       $(textarea.form).submit(function () {
         $(textarea).val($(summernote).code());
       });
-    });
-  }
-
-  function containedPagination() {
-    $('.pagination a').click(function (e) {
-      if ($(this).attr('href') != '#') {
-        $(this).closest('.page-container').load($(this).attr('href'), function () {
-          scroll(0, 0);
-        });
-      }
-      return false;
     });
   }
 
@@ -103,28 +92,34 @@ $(function () {
     });
   }
 
-  function modalTrigger() {
-    $('a.modal-trigger').click(function () {
-      $('#modal .modal-content').load(this.href, function () {
-        $('#modal').modal('show');
-      });
-      return false;
-    });
-  }
-
   $(document).ajaxComplete(function () {
     wysify();
-    containedPagination();
     placeholdersOnly();
     opengraph();
-    modalTrigger();
     timeago();
   });
   wysify();
   placeholdersOnly();
   opengraph();
-  modalTrigger();
   timeago();
+
+
+
+  $(document).on('click', '.pagination a', function (e) {
+    if ($(this).attr('href') != '#') {
+      $(this).closest('.page-container').load($(this).attr('href'), function () {
+        scroll(0, 0);
+      });
+    }
+    return false;
+  });
+
+  $(document).on('click', 'a.modal-trigger', function (e) {
+    $('#modal .modal-content').load(this.href, function () {
+      $('#modal').modal('show');
+    });
+    return false;
+  });
 
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');

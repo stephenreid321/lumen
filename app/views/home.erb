@@ -25,7 +25,7 @@
 
   <div class="col-md-4">        
     <% unless ENV['HIDE_HOMEPAGE_ACTION_BUTTONS'] %>
-      <a class="btn btn-hg btn-primary btn-block" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
+      <a class="btn btn-hg btn-primary btn-block modal-trigger" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
     <% end %>
     <h2 style="font-size: 30px"><%=I18n.t(:latest_conversations).capitalize%></h2>
     <% current_account.latest_conversations.limit(5).each { |conversation| %>
@@ -40,7 +40,7 @@
 
   <div class="col-md-4">   
     <% unless ENV['HIDE_HOMEPAGE_ACTION_BUTTONS'] %>
-      <a class="btn btn-hg btn-primary btn-block" href="/events/new"><i class="fa fa-calendar"></i> <%=I18n.t(:add_an_event).capitalize%></a>
+      <a class="btn btn-hg btn-primary btn-block modal-trigger" href="/events/new"><i class="fa fa-calendar"></i> <%=I18n.t(:add_an_event).capitalize%></a>
     <% end %>
     <h2 style="font-size: 30px"><%=I18n.t(:upcoming_events).capitalize%></h2>
     <% current_account.events.future.limit(5).each { |event| %>

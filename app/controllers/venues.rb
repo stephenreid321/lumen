@@ -35,7 +35,8 @@ Lumen::App.controllers do
 
   get '/venues/new' do
     sign_in_required!
-    erb :'venues/build'
+    @title = 'Add a venue'
+    partial :'groups/pick', :locals => {:collection => 'venues'}, :layout => (:modal if request.xhr?)
   end 
     
   get '/groups/:slug/venues/new' do

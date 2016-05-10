@@ -35,7 +35,8 @@ Lumen::App.controllers do
   
   get '/conversations/new' do
     sign_in_required!
-    erb :'conversations/build'
+    @title = 'Start a conversation'
+    partial :'groups/pick', :locals => {:collection => 'conversations'}, :layout => (:modal if request.xhr?)
   end
   
   get '/groups/:slug/conversations/new' do

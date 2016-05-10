@@ -83,6 +83,7 @@ class Translation
       :'mongoid.attributes.account.headline' => 'Headline',
       :'mongoid.attributes.account.welcome_email_body' => 'HTML. Replacements: [firstname], [group_list], [sign_in_details]',
       :'mongoid.attributes.account.account_tag_ids' => 'Areas of expertise',
+      :'mongoid.attributes.event.organisation_name' => 'Host organisation',
       :'mongoid.attributes.event.organisation_id' => 'Host organisation',
       :'mongoid.attributes.event.name' => 'Event name',     
       :'mongoid.attributes.event.start_time' => 'From',

@@ -18,6 +18,7 @@ class Event
   field :tickets_link, :type => String
   field :more_info, :type => String
   field :publicity_tweet, :type => String
+  field :organisation_name, :type => String
   field :highlighted, :type => Boolean
   
   include Geocoder::Model::Mongoid
@@ -42,6 +43,7 @@ class Event
   end
   
   before_validation do
+    self.organisation = Organisation.find_by(name: self.organisation_name) if self.organisation_name
     self.more_info = "http://#{self.more_info}" if self.more_info and !(self.more_info =~ /\Ahttps?:\/\//)
   end  
     
@@ -62,6 +64,7 @@ class Event
       :highlighted => :check_box,
       :group_id => :lookup,
       :account_id => :lookup,
+      :organisation_name => :text,
       :organisation_id => :lookup
     }
   end
@@ -125,7 +128,7 @@ class Event
         :account_id => event.account_id.to_s,
         :account_name => event.account.name,
         :organisation_id => event.organisation_id.to_s,
-        :organisation_name => event.organisation.try(:name),        
+        :organisation_name => event.organisation_name,
         :id => event.id.to_s,
         :className => "event-#{event.id}",
         :group_slug => event.group.slug,

@@ -12,10 +12,16 @@
       </tr>
     <% end %>  
 
-    <% if event.organisation %>
+    <% if event.organisation_id or event.organisation_name %>
       <tr>
         <td>Host</td>
-        <td><a href="http://<%=ENV['DOMAIN']%>/organisations/<%=event.organisation_id%>"><%= event.organisation.name %></a></td>
+        <td>
+          <% if event.organisation_id %>
+            <a href="http://<%=ENV['DOMAIN']%>/organisations/<%=event.organisation_id%>"><%= event.organisation.name %></a>
+          <% else %>
+            <%= event.organisation_name %>
+          <% end %>
+        </td>
       </tr>
     <% end %> 
 

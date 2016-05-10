@@ -77,9 +77,13 @@
         <%= f.datetime_block :end_time, div_class: 'col-md-9', fives: true %>
         <%= f.check_box :consider_time, :style => 'display: none'%>
         <%= f.text_block :location %>      
-        <% unless ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
-          <%= f.select_block :organisation_id, options: ['']+Organisation.order_by(:name.asc).map { |organisation| [organisation.name, organisation.id] } %>
-        <% end %>
+        <%= f.text_block :organisation_name%>
+        <script>
+          $(function () {
+            var organisations = <%=Organisation.all.map(&:name).to_json %>;
+            $('#event_organisation_name').typeahead({source: organisations}).attr('autocomplete', 'off');
+          })
+        </script>
         <%= f.wysiwyg_block :details, div_class: 'col-md-9' %>        
         <%= f.text_block :more_info %>        
         <%= f.radio_block :ticketing %>

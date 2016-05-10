@@ -11,17 +11,30 @@ Lumen::App.controllers do
     @docs = @docs.order_by(:created_at.desc)
     erb :'docs/docs'
   end
+  
+  get '/docs/new' do
+    sign_in_required!
+    erb :'docs/build'
+  end
+  
+  get '/groups/:slug/docs/new' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    membership_required!
+    @doc = @group.docs.build
+    erb :'docs/build'
+  end  
         
   post '/groups/:slug/docs/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     membership_required!
-    @doc = @group.docs.build(url: params[:url])    
+    @doc = @group.docs.build(params[:doc])    
     @doc.account = current_account
     if @doc.save
-      redirect back
+      flash[:notice] = "<strong>Great!</strong> The doc was added successfully."
+      redirect "/groups/#{@group.slug}/docs"
     else
-      flash[:error] = "There was an error listing the doc. Make sure it's publicly viewable!"
-      redirect back
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the doc from being saved."
+      erb :'docs/build'      
     end
   end
   

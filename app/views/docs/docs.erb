@@ -5,25 +5,7 @@
 
 <h1>Docs</h1>
 
-<a style="float: right" class="btn btn-primary" href="javascript:;" onclick="$(this).hide();
-    $('#add-doc').slideDown()"><i class="fa fa-plus"></i> Add a doc</a>    
-
-<div class="panel panel-default" style="display: none" id="add-doc">
-  <div class="panel-heading">
-    <h3 class="panel-title">Add a doc</h3>
-  </div>
-  <div class="panel-body">
-    <% if current_account %>
-      <% form_tag '', :class => 'form-inline' do %>
-        <%= text_field_tag :url, :class => 'form-control', :placeholder => 'Google Doc URL' %>
-        <% if !@group %>
-          <%=I18n.t(:group).capitalize%> <%=select_tag :slug, :options => [''] + current_account.memberships.map(&:group).map { |group| [group.name, group.slug] }.sort_by { |name,slug| name }, :class => 'form-control', :onchange => "this.form.action = '/groups/' + $(this).val() + '/docs/new'" %>
-        <% end %>
-        <button class="btn btn-primary">Add</button>
-      <% end %>
-    <% end %>
-  </div>
-</div>
+<a style="float: right" class="btn btn-primary" href="/docs/new"><i class="fa fa-plus"></i> Add a doc</a>    
 
 <% form_tag '', :method => 'get', :class => 'form-inline' do %>    
   <%=I18n.t(:filter_by_group).capitalize%>
@@ -34,9 +16,19 @@
   <% @docs.each { |doc| %>
 
     <tr>
-      <td><img style="width: 16px" src="/images/<%=doc.type%>.png" title="<%=doc.type%>"></td>
       <td>
-        <a target="_blank" href="<%=doc.url%>"><%= doc.title %></a>
+        <% if doc.file %>
+          <i class="fa fa-paperclip" title="file"></i>
+        <% else %>
+          <img style="width: 16px" src="/images/<%=doc.type%>.png" title="<%=doc.type%>">
+        <% end %>
+      </td>
+      <td>
+        <% if doc.file %>
+          <a target="_blank" href="<%=doc.file.url%>"><%= doc.file_name %></a>
+        <% else %>
+          <a target="_blank" href="<%=doc.url%>"><%= doc.title %></a>
+        <% end %>
         <% if !@group %>
           <small><%=g doc.group%></small>
         <% end %>

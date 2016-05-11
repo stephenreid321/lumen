@@ -58,6 +58,9 @@
         <%= f.number_block :hot_conversation_threshold, tip: "Posts required for a conversation to appear in the 'hot conversations' section of a digest" %>
         <%= f.check_box_block :show_full_conversations_in_digests %>
       <% end %>
+      <% if current_account.admin? %>
+        <%= f.check_box_block :conversation_creation_by_admins_only %>
+      <% end %>      
       <%= f.submit_block %>
 
     <% end %> 

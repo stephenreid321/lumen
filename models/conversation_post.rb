@@ -32,6 +32,7 @@ class ConversationPost
   
   validates_presence_of :body, :account, :conversation, :group
   validates_uniqueness_of :imap_uid, :scope => :group, :allow_nil => true
+  validates_uniqueness_of :message_id, :allow_nil => true
   
   index({imap_uid: 1 })
   index({message_id: 1}, {unique: true, sparse: true})

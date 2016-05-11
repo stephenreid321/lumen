@@ -39,8 +39,7 @@ Lumen::App.controllers do
       :LIST_EMAIL_ADDRESSES => ['Enables the \'List email addresses\' link in groups, allowing group members to copy a full list of emails'],
       
       :HIDE_SEARCH_MEMBERSHIPS => ['Hides group memberships on profile search results'],
-      :HIDE_SEARCH_TAGS => ['Hides tags on profile search results'],
-      :HIDE_HOMEPAGE_ACTION_BUTTONS => ['Hides homepage action buttons'],
+      :HIDE_SEARCH_TAGS => ['Hides tags on profile search results'],      
             
       :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
       :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],      

@@ -92,8 +92,8 @@ Lumen::App.helpers do
   end
   
   def f(slug)
-    (if fragment = Fragment.find_by(slug: slug) and fragment.body
-        "\"#{fragment.body.to_s.gsub('"','\"')}\""
+    (if fragment = Fragment.find_by(slug: slug) and fragment.body        
+        "\"#{fragment.erb ? ERB.new(fragment.body).result(binding) : fragment.body.gsub('"','\"')}\""
       end).to_s
   end 
     

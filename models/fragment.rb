@@ -6,6 +6,7 @@ class Fragment
   field :slug, :type => String  
   field :body, :type => String  
   field :page, :type => Boolean
+  field :erb, :type => Boolean
   field :public, :type => Boolean
   
   validates_presence_of :slug
@@ -18,6 +19,7 @@ class Fragment
       :slug => :slug,
       :body => :wysiwyg,
       :page => :check_box,
+      :erb => :check_box,
       :public => :check_box
     }
   end

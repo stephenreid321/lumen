@@ -24,70 +24,64 @@
   </li>     
 </ol>
 
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-
-    <% if @survey.survey_takers.find_by(account: current_account) %>
-      <div style="margin: 20px 0" class="alert alert-info">
-        You've already taken this survey. Taking it again will overwrite your previous answers.
-      </div>
-    <% end %>
-
-    <h1><%=@survey.title%></h1>
-
-    <% if @survey.intro %>
-      <p class="lead">
-        <%=@survey.intro.gsub("\n",'<br />')%>
-      </p>
-    <% end %>
-
-    <% form_for (@survey_taker ||= @survey.survey_takers.build), "/groups/#{@group.slug}/surveys/#{@survey.id}" do %>
-      <% @survey.questions.order('order asc').each { |question| %>
-        <div style="margin-bottom: 20px;">
-          <p style="font-weight:bold; margin: 0"><%=question.text%></p>
-          <p style="color: #aaa; margin: 0"><%=question.help%></p>
-          <div style="margin-top: 5px">
-            <% case question.type.to_sym; when :text %>
-              <%= text_field_tag "q[#{question.id}]", :class => 'form-control', :required => question.required %>
-            <% when :text_area %>
-              <%= text_area_tag "q[#{question.id}]", :class => 'form-control', :required => question.required %>
-            <% when :check_box %>
-              <%= hidden_field_tag "q[#{question.id}", :value => 'false' %>
-              <%= check_box_tag "q[#{question.id}]", :value => 'true'  %>
-            <% when :select %>
-              <%= select_tag "q[#{question.id}]", :options => question.options_a, :class => 'form-control'  %>
-            <% when :radio_buttons %>
-              <ul class="list-unstyled" style="margin-bottom: 0">
-                <% question.options_a.each { |option| %>
-                  <li>
-                    <%= radio_button_tag "q[#{question.id}]", :value => option, :required => question.required %>
-                    <% if option == 'Other' %>
-                      Other: <%= text_field_tag "o[#{question.id}]", :onfocus => "$(this).parent().children().first().prop('checked', 'true')", :class => 'form-control', :style => 'display: inline-block; width: 15em' %>
-                    <% else %>
-                      <%=option%>
-                    <% end %>
-                  </li>
-                <% } %>
-              </ul>  
-            <% when :check_boxes %>
-              <ul class="list-unstyled" style="margin-bottom: 0">
-                <% question.options_a.each { |option| %>
-                  <li>
-                    <%= check_box_tag "q[#{question.id}][]", :value => option %>
-                    <% if option == 'Other' %>
-                      Other: <%= text_field_tag "o[#{question.id}]", :onfocus => "$(this).parent().children().first().prop('checked', 'true')", :class => 'form-control', :style => 'display: inline-block; width: 15em' %>
-                    <% else %>
-                      <%=option%>
-                    <% end %>
-                  </li>
-                <% } %>                  
-              </ul>    
-            <% end %>
-          </div>
-        </div>
-      <% } %>
-      <button class="btn btn-primary">Submit</button>
-    <% end %>
-
+<% if @survey.survey_takers.find_by(account: current_account) %>
+  <div style="margin: 20px 0" class="alert alert-info">
+    You've already taken this survey. Taking it again will overwrite your previous answers.
   </div>
-</div>
+<% end %>
+
+<h1><%=@survey.title%></h1>
+
+<% if @survey.intro %>
+  <p class="lead">
+    <%=@survey.intro.gsub("\n",'<br />')%>
+  </p>
+<% end %>
+
+<% form_for (@survey_taker ||= @survey.survey_takers.build), "/groups/#{@group.slug}/surveys/#{@survey.id}" do %>
+  <% @survey.questions.order('order asc').each { |question| %>
+    <div style="margin-bottom: 20px;">
+      <p style="font-weight:bold; margin: 0"><%=question.text%></p>
+      <p style="color: #aaa; margin: 0"><%=question.help%></p>
+      <div style="margin-top: 5px">
+        <% case question.type.to_sym; when :text %>
+          <%= text_field_tag "q[#{question.id}]", :class => 'form-control', :required => question.required %>
+        <% when :text_area %>
+          <%= text_area_tag "q[#{question.id}]", :class => 'form-control', :required => question.required %>
+        <% when :check_box %>
+          <%= hidden_field_tag "q[#{question.id}", :value => 'false' %>
+          <%= check_box_tag "q[#{question.id}]", :value => 'true'  %>
+        <% when :select %>
+          <%= select_tag "q[#{question.id}]", :options => question.options_a, :class => 'form-control'  %>
+        <% when :radio_buttons %>
+          <ul class="list-unstyled" style="margin-bottom: 0">
+            <% question.options_a.each { |option| %>
+              <li>
+                <%= radio_button_tag "q[#{question.id}]", :value => option, :required => question.required %>
+                <% if option == 'Other' %>
+                  Other: <%= text_field_tag "o[#{question.id}]", :onfocus => "$(this).parent().children().first().prop('checked', 'true')", :class => 'form-control', :style => 'display: inline-block; width: 15em' %>
+                <% else %>
+                  <%=option%>
+                <% end %>
+              </li>
+            <% } %>
+          </ul>  
+        <% when :check_boxes %>
+          <ul class="list-unstyled" style="margin-bottom: 0">
+            <% question.options_a.each { |option| %>
+              <li>
+                <%= check_box_tag "q[#{question.id}][]", :value => option %>
+                <% if option == 'Other' %>
+                  Other: <%= text_field_tag "o[#{question.id}]", :onfocus => "$(this).parent().children().first().prop('checked', 'true')", :class => 'form-control', :style => 'display: inline-block; width: 15em' %>
+                <% else %>
+                  <%=option%>
+                <% end %>
+              </li>
+            <% } %>                  
+          </ul>    
+        <% end %>
+      </div>
+    </div>
+  <% } %>
+  <button class="btn btn-primary">Submit</button>
+<% end %>

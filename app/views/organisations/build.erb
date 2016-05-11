@@ -9,19 +9,13 @@
   </li>
 </ol>
 
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
+<% form_for @organisation, @organisation.new_record? ? "/organisations/new" : "/organisations/#{@organisation.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
-    <% form_for @organisation, @organisation.new_record? ? "/organisations/new" : "/organisations/#{@organisation.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_block :address %>
+  <%= f.text_block :website %>
+  <%= partial :'organisations/sectorships', :locals => {:f => f} %>
+  <%= f.image_block :picture, rotate: false %>
+  <%= f.submit_block destroy_url: ("/organisations/#{@organisation.id}/destroy" if @organisation.affiliations.empty?) %>
 
-      <%= f.text_block :name %>
-      <%= f.text_block :address %>
-      <%= f.text_block :website %>
-      <%= partial :'organisations/sectorships', :locals => {:f => f} %>
-      <%= f.image_block :picture, rotate: false %>
-      <%= f.submit_block destroy_url: ("/organisations/#{@organisation.id}/destroy" if @organisation.affiliations.empty?) %>
-
-    <% end %>
-
-  </div>
-</div>
+<% end %>

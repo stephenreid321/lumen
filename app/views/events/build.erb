@@ -65,8 +65,8 @@
 <% form_for @event, @event.new_record? ? "/groups/#{@group.slug}/events/new" : "/groups/#{@group.slug}/events/#{@event.id}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
   <%= f.text_block :name %>
-  <%= f.datetime_block :start_time, div_class: 'col-md-9', fives: true %>
-  <%= f.datetime_block :end_time, div_class: 'col-md-9', fives: true %>
+  <%= f.datetime_block :start_time, fives: true %>
+  <%= f.datetime_block :end_time, fives: true %>
   <%= f.check_box :consider_time, :style => 'display: none'%>
   <%= f.text_block :location %>      
   <%= f.text_block :organisation_name%>
@@ -76,14 +76,14 @@
       $('#event_organisation_name').typeahead({source: organisations}).attr('autocomplete', 'off');
     })
   </script>
-  <%= f.wysiwyg_block :details, div_class: 'col-md-9' %>        
+  <%= f.wysiwyg_block :details %>        
   <%= f.text_block :more_info %>        
   <%= f.radio_block :ticketing %>
   <div id="tickets-link-div" style="display:none">
     <%= f.text_block :tickets_link %>
   </div>
   <%= f.text_block :reason %>        
-  <%= f.text_area_block :publicity_tweet, div_class: 'col-md-9' %>   
+  <%= f.text_area_block :publicity_tweet %>   
   <% if @event.new_record? %>
     <%= f.check_box_block :start_conversation %>    
   <% end %>

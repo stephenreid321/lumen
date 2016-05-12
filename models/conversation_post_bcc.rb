@@ -8,12 +8,12 @@ class ConversationPostBcc
   field :delivered_at, :type => Time
   field :message_id, :type => String
   
-  index({message_id: 1}, {unique: true})
+  index({message_id: 1}, {unique: true, sparse: true})
   
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
   accepts_nested_attributes_for :conversation_post_bcc_recipients
   
-  validates_uniqueness_of :message_id
+  validates_uniqueness_of :message_id, :allow_nil => true
   validates_presence_of :conversation, :conversation_post
     
   def self.admin_fields

@@ -19,60 +19,53 @@
   <%= partial :'group_administration/header' %>
 <% end %>  
 
-<div class="row">
-  <div class="col-md-8 col-md-offset-2" id="group-form">
+<% form_for @group, @group.new_record? ? '/groups/new' : "/groups/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
 
-    <% form_for @group, @group.new_record? ? '/groups/new' : "/groups/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
-
-      <%= f.text_block :name %>    
-      <%= f.slug_block :slug, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>}, :tip => 'Lowercase letters, numbers and dashes only (no spaces)' %>           
-      <%= f.text_area_block :description %>
-      <%= f.image_block :picture %>        
-      <%= f.radio_block :privacy %>
-      <script>
-        $(function () {
-          function toggle_request_questions() {
-            if ($("input[name='group[privacy]']:checked").val() == 'closed')
-              $('.closed-only').show()
-            else
-              $('.closed-only').hide()
-          }
-          $("input[name='group[privacy]']").click(function () {
-            toggle_request_questions();
-          });
-          toggle_request_questions();
-        });
-      </script>
-      <div class="closed-only">
-        <%= f.wysiwyg_block :request_intro %>
-        <%= f.text_area_block :request_questions %>
-      </div>
-      <%= f.wysiwyg_block :landing_tab %>      
-      <%= f.check_box_block :conversations_require_approval %>      
-      <%= f.select_block :default_notification_level %>
-      <% if GroupType.count > 0 %>
-        <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [I18n.t(:"group_type.#{group_type.slug}"),group_type.id] } %>
-      <% end %>
-      <%= f.text_block :redirect_after_first_profile_save %>
-      <% if @group.persisted? %>
-        <%= f.number_block :hot_conversation_threshold, tip: "Posts required for a conversation to appear in the 'hot conversations' section of a digest" %>
-        <%= f.check_box_block :show_full_conversations_in_digests %>
-      <% end %>
-      <% if current_account.admin? %>
-        <%= f.check_box_block :conversation_creation_by_admins_only %>
-      <% end %>      
-      <%= f.submit_block %>
-
-    <% end %> 
-
-    <script>
-      $(function () {
-        $('#group_slug, #group_name').keyup(function () {
-          $('.slug-replace').text($('#group_slug').val());
-        });
-      }).keyup();
-    </script>     
-
+  <%= f.text_block :name %>    
+  <%= f.slug_block :slug, :hint => %Q{Group email address: <span class="slug-replace">#{@group.slug}</span>@#{ENV['MAIL_DOMAIN']}<br />Group URL: http://#{ENV['DOMAIN']}/groups/<span class="slug-replace">#{@group.slug}</span>}, :tip => 'Lowercase letters, numbers and dashes only (no spaces)' %>           
+  <%= f.text_area_block :description %>
+  <%= f.image_block :picture %>        
+  <%= f.radio_block :privacy %>
+  <script>
+    $(function () {
+      function toggle_request_questions() {
+        if ($("input[name='group[privacy]']:checked").val() == 'closed')
+          $('.closed-only').show()
+        else
+          $('.closed-only').hide()
+      }
+      $("input[name='group[privacy]']").click(function () {
+        toggle_request_questions();
+      });
+      toggle_request_questions();
+    });
+  </script>
+  <div class="closed-only">
+    <%= f.wysiwyg_block :request_intro %>
+    <%= f.text_area_block :request_questions %>
   </div>
-</div>
+  <%= f.wysiwyg_block :landing_tab %>      
+  <%= f.check_box_block :conversations_require_approval %>      
+  <%= f.select_block :default_notification_level %>
+  <% if GroupType.count > 0 %>
+    <%= f.select_block :group_type_id, :options => [''] + GroupType.all.map { |group_type| [I18n.t(:"group_type.#{group_type.slug}"),group_type.id] } %>
+  <% end %>
+  <%= f.text_block :redirect_after_first_profile_save %>
+  <% if @group.persisted? %>
+    <%= f.number_block :hot_conversation_threshold, tip: "Posts required for a conversation to appear in the 'hot conversations' section of a digest" %>
+    <%= f.check_box_block :show_full_conversations_in_digests %>
+  <% end %>
+  <% if current_account.admin? %>
+    <%= f.check_box_block :conversation_creation_by_admins_only %>
+  <% end %>      
+  <%= f.submit_block %>
 
+<% end %> 
+
+<script>
+  $(function () {
+    $('#group_slug, #group_name').keyup(function () {
+      $('.slug-replace').text($('#group_slug').val());
+    });
+  }).keyup();
+</script>     

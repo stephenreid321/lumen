@@ -57,6 +57,7 @@
   <% end %>
   <% if current_account.admin? %>
     <%= f.check_box_block :conversation_creation_by_admins_only %>
+    <%= f.check_box_block :join_on_first_sign_in %>
   <% end %>      
   <%= f.submit_block %>
 

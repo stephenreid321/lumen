@@ -12,14 +12,17 @@ class SignIn
   
   after_create do
     if account.sign_ins.count == 1
-      account.memberships.where(:status => 'pending').each { |membership| membership.update_attribute(:status, 'confirmed') }
-      if ENV['GROUPS_TO_JOIN_ON_FIRST_SIGN_IN']
+      account.memberships.where(:status => 'pending').each { |membership| membership.update_attribute(:status, 'confirmed') }      
+      if ENV['GROUPS_TO_JOIN_ON_FIRST_SIGN_IN'] # deprecated
         ENV['GROUPS_TO_JOIN_ON_FIRST_SIGN_IN'].split(',').map(&:strip).each { |slug|
           if group = Group.find_by(slug: slug)
             group.memberships.create :account => account
           end
         }
       end
+      Group.where(:join_on_first_sign_in => true).each { |group|
+        group.memberships.create :account => account
+      }
     end
   end
   

@@ -36,7 +36,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 
 * Register a domain `$DOMAIN`. In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`
 
-* Create a 2GB (or greater) droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.5.4 on 14.04' 
+* Create a 2GB (or greater) droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.5.6 on 14.04' 
 
 * Install fail2ban: `apt-get install fail2ban`
 
@@ -57,8 +57,8 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 * Get DKIM key with `nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt` and add DNS records:
 
   ```
-  $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP  
   $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS   
+  $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP  
   $MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"  
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```

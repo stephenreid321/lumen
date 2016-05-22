@@ -51,7 +51,7 @@
       <% end %>
       <% if ENV['ACCOUNT_TAGS_PREDEFINED'] %>
         <% if AccountTag.count > 0  %>
-          <%= f.check_boxes_block :account_tag_ids, options: AccountTag.all.map { |account_tag| [account_tag.name, account_tag.id] }, checked: @account.account_tagships.map(&:account_tag_id) %>
+          <%= f.check_boxes_block :account_tag_ids, options: AccountTag.order('name asc').map { |account_tag| [account_tag.name, account_tag.id] }, checked: @account.account_tagships.map(&:account_tag_id) %>
         <% end %>
       <% else %>
         <%= partial :'accounts/tagships', :locals => {:f => f} %>

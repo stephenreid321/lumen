@@ -3,6 +3,7 @@
 <% form_for @account, '', :class => 'form-horizontal' do |f| %>
   <%= f.text_block :name %>
   <%= f.text_block :email %>
+  <%= partial :'accounts/affiliations', :locals => {:f => f} %>
   <%= f.check_boxes_block :groups_to_join, options: Group.order(:slug.asc).map { |group| [group.name, group.id] } %>
   <%= f.check_box_block :confirm_memberships %>
   <%= f.check_box_block :prevent_new_memberships %>

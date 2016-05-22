@@ -65,7 +65,7 @@
       </script>
       <% GroupType.where(:join_groups_via_profile => true).each { |group_type| %>
         <div data-group-type="<%=I18n.t(:"group_type.#{group_type.slug}")%>">
-          <%= f.check_boxes_block :group_ids, options: group_type.groups.where(:privacy => 'open').map { |group| [group.name, group.id] }, checked: current_account.memberships.map(&:group_id) %>
+          <%= f.check_boxes_block :group_ids, options: group_type.groups.order('name asc').where(:privacy => 'open').map { |group| [group.name, group.id] }, checked: current_account.memberships.map(&:group_id) %>
         </div>
       <% } %>      
       <% EnvFields.fields(Account).each { |fieldname, fieldtype| %> 

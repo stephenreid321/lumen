@@ -21,7 +21,7 @@
   <li class="active"><%=@group.name%></li>
 </ol>
 
-<% if @membership and @membership.admin? %>
+<% if ((@membership and @membership.admin?) or (current_account and current_account.admin?)) %>
   <%= partial :'group_administration/header' %>
 <% end %>  
 
@@ -63,7 +63,7 @@
         <%= @group.landing_tab %>
       <% end %>
 
-      <% if @membership and @membership.admin? and @group.conversations_require_approval and @group.unapproved_conversations.count > 0 %>
+      <% if ((@membership and @membership.admin?) or (current_account and current_account.admin?)) and @group.conversations_require_approval and @group.unapproved_conversations.count > 0 %>
         <div class="alert alert-warning" style="margin-top: 10px">
           <a href="/groups/<%=@group.slug%>/conversations_requiring_approval"><%=pluralize(@group.unapproved_conversations.count,'conversation') %> to approve</a>
         </div>

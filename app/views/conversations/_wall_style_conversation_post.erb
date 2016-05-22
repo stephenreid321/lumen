@@ -1,7 +1,7 @@
 
 <div style="padding: 7px; position: relative">
 
-  <% if @membership and @membership.admin? %>
+  <% if ((@membership and @membership.admin?) or (current_account and current_account.admin?)) %>
     <% if defined? i and i > 0 %>
       <a style="position: absolute; top:2px; right: 0" title="Hide post" data-confirm="Are you sure you want to hide this post?" class="edit restore-opacity" href="/conversations/<%=conversation_post.conversation.slug%>/hide_post/<%=conversation_post.id%>"><i class="fa fa-times"></i></a>
     <% end %>

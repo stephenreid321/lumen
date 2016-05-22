@@ -99,12 +99,44 @@ class Account
   attr_accessor :confirm_memberships
   attr_accessor :welcome_email_body
   attr_accessor :welcome_email_subject
-  after_create :join_groups
+  after_save :join_groups
   def join_groups
     if @groups_to_join
+      
       @groups_to_join.each { |group_id|
         memberships.create(:group_id => group_id, :status => ('confirmed' if self.confirm_memberships.to_i == 1))
       }
+      
+      account = self
+      Mail.defaults do
+        delivery_method :smtp, Account.smtp_settings
+      end
+                            
+      sign_in_details = ''              
+      if account.confirm_memberships.to_i == 0
+        sign_in_details << "You need to sign in to start receiving email notifications. "
+      end    
+        
+      if account.sign_ins.count == 0       
+        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{account.email} and the password #{password}"
+      else
+        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in."
+      end
+               
+      b = account.welcome_email_body
+      .gsub('[firstname]',account.name.split(' ').first)
+      .gsub('[group_list]',account.groups.map(&:slug).to_sentence)
+      .gsub('[sign_in_details]', sign_in_details)      
+            
+      mail = Mail.new
+      mail.to = account.email
+      mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>"
+      mail.subject = account.welcome_email_subject
+      mail.html_part do
+        content_type 'text/html; charset=UTF-8'
+        body b
+      end
+      mail.deliver       
     end
   end
   

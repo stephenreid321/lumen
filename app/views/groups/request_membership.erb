@@ -6,6 +6,10 @@
   <li class="active">Request membership</li>
 </ol>
 
+<% if ((@membership and @membership.admin?) or (current_account and current_account.admin?)) %>
+  <%= partial :'group_administration/header' %>
+<% end %>  
+
 <% if @group.request_intro %>
   <%= @group.request_intro %>
 <% end %>

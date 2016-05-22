@@ -4,11 +4,13 @@
   <%= f.text_block :name %>
   <%= f.text_block :email %>
   <%= partial :'accounts/affiliations', :locals => {:f => f} %>
-  <%= f.check_boxes_block :groups_to_join, options: Group.order(:slug.asc).map { |group| [group.name, group.id] } %>
+  <%= f.check_boxes_block :groups_to_join, options: Group.order(:slug.asc).where(:id.nin => @account.memberships.map(&:group_id)).map { |group| [group.name, group.id] } %>
   <%= f.check_box_block :confirm_memberships %>
   <%= f.check_box_block :prevent_new_memberships %>
-  <%= f.text_block :welcome_email_subject %>
-  <%= f.wysiwyg_block :welcome_email_body %>
+  <% if @account.new_record? %>
+    <%= f.text_block :welcome_email_subject %>
+    <%= f.wysiwyg_block :welcome_email_body %>
+  <% end %>
   <%= f.submit_block %>
 <% end %>
 

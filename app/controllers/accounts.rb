@@ -9,7 +9,7 @@ Lumen::App.controllers do
 You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
 <br /><br />
 [sign_in_details]}
-    erb :'accounts/new'      
+    erb :'accounts/build_admin'      
   end  
     
   post '/accounts/new' do
@@ -19,39 +19,31 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
     @account.password = password
     @account.password_confirmation = password
     if @account.save
-      flash[:notice] = 'The account was created successfully'
-           
-      Mail.defaults do
-        delivery_method :smtp, Account.smtp_settings
-      end
-      
-      sign_in_details = ''
-      if @account.confirm_memberships.to_i == 0
-        sign_in_details << "You need to sign in to start receiving email notifications. "
-      end       
-      sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{@account.email} and the password #{password}"
-               
-      b = @account.welcome_email_body
-      .gsub('[firstname]',@account.name.split(' ').first)
-      .gsub('[group_list]',@account.groups.map(&:slug).to_sentence)
-      .gsub('[sign_in_details]', sign_in_details)      
-            
-      mail = Mail.new
-      mail.to = @account.email
-      mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>"
-      mail.subject = @account.welcome_email_subject
-      mail.html_part do
-        content_type 'text/html; charset=UTF-8'
-        body b
-      end
-      mail.deliver 
-    
+      flash[:notice] = 'The account was created successfully'              
       redirect back
     else
       flash.now[:error] = 'Some errors prevented the account from being saved'
-      erb :'accounts/new'      
+      erb :'accounts/build_admin'      
     end
-  end    
+  end 
+  
+  get '/accounts/:id/edit' do
+    site_admins_only!
+    @account = Account.find(params[:id])
+    erb :'accounts/build_admin'
+  end
+  
+  post '/accounts/:id/edit' do
+    site_admins_only!
+    @account = Account.find(params[:id])
+    if @account.update_attributes(params[:account])      
+      flash[:notice] = "<strong>Great!</strong> The account was updated successfully."
+      redirect back
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
+      erb :'accounts/build_admin'
+    end    
+  end
     
   get '/accounts/results' do
     sign_in_required!

@@ -104,7 +104,7 @@ class Account
     if @groups_to_join
       
       @groups_to_join.each { |group_id|
-        memberships.create(:group_id => group_id, :status => ('confirmed' if self.confirm_memberships.to_i == 1))
+        memberships.create(:group_id => group_id, :status => ('confirmed' if (account.sign_ins.count == 0 and self.confirm_memberships.to_i == 1)))
       }
       
       account = self
@@ -113,12 +113,12 @@ class Account
       end
                             
       sign_in_details = ''              
-      if account.confirm_memberships.to_i == 0
+      if account.sign_ins.count == 0 and account.confirm_memberships.to_i == 0
         sign_in_details << "You need to sign in to start receiving email notifications. "
       end    
         
-      if account.sign_ins.count == 0       
-        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{account.email} and the password #{password}"
+      if account.sign_ins.count == 0 and account.password    
+        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{account.email} and the password #{account.password}"
       else
         sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in."
       end

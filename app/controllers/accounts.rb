@@ -30,7 +30,7 @@ You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.
   get '/accounts/:id/edit' do
     site_admins_only!
     @account = Account.find(params[:id])
-    @account.welcome_email_subject = "You were added to #{ENV['SITE_NAME_DEFINITE']}"
+    @account.welcome_email_subject = "You were added to groups on #{ENV['SITE_NAME_DEFINITE']}"
     @account.welcome_email_body = %Q{Hi [firstname],
 <br /><br />
 You were added to the groups [group_list] on #{ENV['SITE_NAME_DEFINITE']}.

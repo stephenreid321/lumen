@@ -107,7 +107,6 @@ class Account
       @groups_to_join.each { |group_id|
         memberships.create(:group_id => group_id, :status => ('confirmed' if (account.sign_ins.count == 0 and account.confirm_memberships.to_i == 1)))
       }
-      @groups_to_join = nil
             
       Mail.defaults do
         delivery_method :smtp, Account.smtp_settings
@@ -126,7 +125,7 @@ class Account
                
       b = account.welcome_email_body
       .gsub('[firstname]',account.name.split(' ').first)
-      .gsub('[group_list]',account.groups.map(&:slug).to_sentence)
+      .gsub('[group_list]',@groups_to_join.map { |id| Group.find(id).slug }.to_sentence)
       .gsub('[sign_in_details]', sign_in_details)      
             
       mail = Mail.new

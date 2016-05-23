@@ -25,7 +25,15 @@
 
       <%= f.text_block :name, tip: eval(f('tip-name')) %>
       <% if !ENV['HIDE_ACCOUNT_HEADLINE'] %>
-        <%= f.text_area_block :headline, tip: eval(f('tip-headline')) %>      
+        <style>#account_headline { height: 6em }</style>
+        <script>
+          $(function () {
+            $('#account_headline').simplyCountable({
+              maxCount: <%= ENV['MAX_HEADLINE_LENGTH'] || 150 %>
+            });
+          })
+        </script>
+        <%= f.text_area_block :headline, tip: eval(f('tip-headline')), hint: %Q{<span id="counter"></span>} %>        
       <% end %>
       <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
         <%= partial :'accounts/affiliations', :locals => {:f => f} %>  

@@ -5,7 +5,9 @@
   <%= f.text_block :email %>
   <%= partial :'accounts/affiliations', :locals => {:f => f} %>
   <%= f.check_boxes_block :groups_to_join, options: Group.order(:slug.asc).where(:id.nin => @account.memberships.map(&:group_id)).map { |group| [group.name, group.id] } %>
-  <%= f.check_box_block :confirm_memberships %>
+  <% if @account.sign_ins.count == 0 %>
+    <%= f.check_box_block :confirm_memberships %>
+  <% end %>
   <%= f.check_box_block :prevent_new_memberships %>
   <%= f.text_block :welcome_email_subject %>
   <%= f.wysiwyg_block :welcome_email_body %>

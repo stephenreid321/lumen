@@ -101,13 +101,13 @@ class Account
   attr_accessor :welcome_email_subject
   after_save :join_groups
   def join_groups
+    account = self
     if @groups_to_join
       
       @groups_to_join.each { |group_id|
-        memberships.create(:group_id => group_id, :status => ('confirmed' if (account.sign_ins.count == 0 and self.confirm_memberships.to_i == 1)))
+        memberships.create(:group_id => group_id, :status => ('confirmed' if (account.sign_ins.count == 0 and account.confirm_memberships.to_i == 1)))
       }
-      
-      account = self
+            
       Mail.defaults do
         delivery_method :smtp, Account.smtp_settings
       end

@@ -125,7 +125,7 @@ class Account
                
       b = account.welcome_email_body
       .gsub('[firstname]',account.name.split(' ').first)
-      .gsub('[group_list]',@groups_to_join.map { |id| Group.find(id).slug }.to_sentence)
+      .gsub('[group_list]',@groups_to_join.map { |id| Group.find(id).name }.to_sentence)
       .gsub('[sign_in_details]', sign_in_details)      
             
       mail = Mail.new
@@ -136,7 +136,9 @@ class Account
         content_type 'text/html; charset=UTF-8'
         body b
       end
-      mail.deliver       
+      mail.deliver
+      
+      @groups_to_join = nil
     end
   end
   

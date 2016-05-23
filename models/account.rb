@@ -107,6 +107,7 @@ class Account
       @groups_to_join.each { |group_id|
         memberships.create(:group_id => group_id, :status => ('confirmed' if (account.sign_ins.count == 0 and account.confirm_memberships.to_i == 1)))
       }
+      @groups_to_join = nil
             
       Mail.defaults do
         delivery_method :smtp, Account.smtp_settings

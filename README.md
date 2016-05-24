@@ -91,9 +91,9 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 * Set cron tasks with `crontab -e`:
 
   ```
-  0 4 * * * dokku run $APP_NAME rake cleanup  
-  0 8 * * * dokku run $APP_NAME rake digests:daily  
-  0 0 * * 0 dokku run $APP_NAME rake digests:weekly
+  0 4 * * * /usr/local/bin/dokku run $APP_NAME rake cleanup  
+  0 8 * * * /usr/local/bin/dokku run $APP_NAME rake digests:daily  
+  0 0 * * 0 /usr/local/bin/dokku run $APP_NAME rake digests:weekly
   ```
 
 * Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address `admin@example.com` and the password `lumen`.) Change the admin name, email address and password.

@@ -16,7 +16,7 @@ gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 # Data storage
 gem 'mongoid'
 gem 'delayed_job_mongoid'
-gem 'dragonfly'
+gem 'dragonfly', require: 'dragonfly'
 gem 'dragonfly-s3_data_store'
 
 # Authentication

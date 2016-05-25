@@ -1,16 +1,16 @@
 
-<div style="text-align: center">
+<div style="text-align: center; margin-bottom: 20px">
 
   <p style="margin: 1em"><%=I18n.t(:welcome_to).capitalize%> <%=ENV['SITE_NAME_DEFINITE']%>!</p>   
 
-  <% form_tag '/auth/account/callback', :id => 'sign_in', :class => 'form-inline' do %>
-    <div class="form-group">
+  <% form_tag '/auth/account/callback', :id => 'sign_in' do %>
+    <div class="form-group" style="display:block; margin-bottom: 0.5em">
       <label class="sr-only">Email</label>
-      <%= text_field_tag :email, :id => 'email', :class => 'form-control', :placeholder => 'Email', :style => 'width: 15em' %>
+      <%= text_field_tag :email, :id => 'email', :class => 'form-control', :placeholder => 'Email', :style => 'display: inline-block; max-width: 20em; ' %>
     </div>        
-    <div class="form-group">
+    <div class="form-group" style="display:block; margin-bottom: 0.5em">
       <label class="sr-only">Password</label>
-      <%= password_field_tag :password, :id => 'password', :class => 'form-control', :placeholder => 'Password', :style => 'width: 15em' %>
+      <%= password_field_tag :password, :id => 'password', :class => 'form-control', :placeholder => 'Password', :style => 'display: inline-block; max-width: 20em; ' %>
     </div>
     <button class="btn btn-primary" type="submit">Sign in</button>  
     <div style="margin: 10px" >
@@ -22,9 +22,9 @@
   <% end %>
 
   <% form_tag '/accounts/forgot_password', :id => 'forgot', :class => 'form-inline', :style => 'display: none' do %>
-    <div class="form-group">
+    <div class="form-group" style="display:block; margin-bottom: 0.5em">
       <label class="sr-only">Email</label>   
-      <%= text_field_tag :email, :id => 'forgot-email', :class => 'form-control', :placeholder => 'Email', :style => 'width: 15em' %>
+      <%= text_field_tag :email, :id => 'forgot-email', :class => 'form-control', :placeholder => 'Email', :style => 'display: inline-block; max-width: 20em;' %>
     </div>
     <button class="btn btn-primary" type="submit">Reset password</button>
   <% end %>

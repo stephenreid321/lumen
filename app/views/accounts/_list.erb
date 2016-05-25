@@ -1,4 +1,4 @@
-<% col_class = 'col-md-6'; if defined? full_width; col_class = 'col-md-3' end %>
+<% col_class = 'col-sm-6'; if defined? full_width; col_class = 'col-sm-3' end %>
 
 <% form_tag '/accounts/results', :method => 'get', :id => 'results-form' do %>
   <%= hidden_field_tag :per_page, :value => (per_page if defined? per_page)%> 

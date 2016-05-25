@@ -11,16 +11,16 @@
 
         <% form_for (@conversation ||= @group.conversations.build), "/groups/#{@group.slug}/conversations/new", :id => 'new-conversation', :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
           <style>#new-conversation .help-block { margin-bottom: 0 }</style>
-          <%= f.text_block :subject, div_class: 'col-md-12', hint: "#{I18n.t(:you_can_also_send_a_mail_to)} <a href='mailto:#{@group.email}'>#{@group.email}</a>"  %>
+          <%= f.text_block :subject, div_class: 'col-sm-12', hint: "#{I18n.t(:you_can_also_send_a_mail_to)} <a href='mailto:#{@group.email}'>#{@group.email}</a>"  %>
           <style>#conversation_body { height: 7em }</style>
-          <%= f.text_area_block :body, div_class: 'col-md-12 opengraph', required: true, placeholder: "What's on your mind?" %>
+          <%= f.text_area_block :body, div_class: 'col-sm-12 opengraph', required: true, placeholder: "What's on your mind?" %>
           <div id="opengraph" style="position: relative; margin-bottom: 5px"></div>
           <div id="opengraph-json"></div>                       
           <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
                 $(this).next().show();
                 $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
           <div style="display:none;">
-            <%= f.file_block :file, div_class: 'col-md-12' %>
+            <%= f.file_block :file, div_class: 'col-sm-12' %>
           </div>
           <button type="submit" class="btn btn-primary"><%=I18n.t(:post).capitalize%></button>
         <% end %>

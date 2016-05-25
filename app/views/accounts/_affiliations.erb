@@ -1,5 +1,5 @@
 <div class="form-group <%= 'has-error' if !f.error_message_on(:affiliations).blank? %>">
-  <label class="control-label col-md-3">
+  <label class="control-label col-sm-3">
     <%= I18n.t(:affiliations).capitalize %>
     <% if Fragment.find_by(slug: 'tip-affiliations') %>
       <i id="tip-affiliations" class="fa fa-question-circle" title="<%=eval(f('tip-affiliations'))%>"></i>
@@ -10,7 +10,7 @@
       </script>
     <% end %>
   </label>
-  <div class="col-md-6">             
+  <div class="col-sm-6">             
     <div id="affiliations">
       <% f.fields_for :affiliations do |o| %>
         <div class="affiliation">

@@ -13,13 +13,13 @@
 </ol>
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-sm-8">
 
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-sm-3">
         <img style="width: 100%" src="<%=@organisation.picture.try(:url) || '/images/square.png' %>" />
       </div>
-      <div class="col-md-9">
+      <div class="col-sm-9">
         <h1 style="margin-top: 0"><%=@organisation.name%></h1>          
 
         <div class="table-hr-container">
@@ -62,7 +62,7 @@
     </div>
 
   </div>
-  <div class="col-md-4">
+  <div class="col-sm-4">
     <h2><%=pluralize(@organisation.affiliations.count,'person')%> from this <%=I18n.t(:organisation)%></h2>
     <%= partial :'accounts/list', :locals => {:scope => 'organisation', :scope_id => @organisation.id} %>
   </div>

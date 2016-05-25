@@ -12,7 +12,7 @@
 <%= partial :'group_administration/header' %>
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-sm-8">
 
     <style>#news-summaries td { padding: 0.5em }</style>
     <table id="news-summaries">
@@ -29,7 +29,7 @@
     </table>
 
   </div>
-  <div class="col-md-4">
+  <div class="col-sm-4">
 
     <h2>Did you know&hellip;</h2>
     <% form_tag "/groups/#{@group.slug}/didyouknows/new", :method => 'post' do %>

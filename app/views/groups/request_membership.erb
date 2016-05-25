@@ -19,7 +19,7 @@
 
   <% if !@group.request_intro %>          
     <div class="form-group">
-      <div class="col-md-offset-3 col-md-6"> 
+      <div class="col-sm-offset-3 col-sm-6"> 
         You must be a member to access <strong><%=@group.slug%></strong>.
       </div>
     </div>          
@@ -37,15 +37,15 @@
 
   <% @group.request_questions_a.each { |q| %>
     <div class="form-group">
-      <label class="control-label col-md-3"><%=q%></label>
-      <div class="col-md-6">  
+      <label class="control-label col-sm-3"><%=q%></label>
+      <div class="col-sm-6">  
         <%= text_area_tag "answers[]", :class => 'form-control' %>
       </div>
     </div>  
   <% } %>
 
   <div class="form-group">
-    <div class="col-md-offset-3 col-md-6">
+    <div class="col-sm-offset-3 col-sm-6">
       <button class="btn btn-primary"><i class="fa fa-bell"></i> Request membership</button>
     </div>
   </div>            

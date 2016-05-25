@@ -19,14 +19,14 @@
 </ol>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-sm-6">
 
     <h1><%= @venue.name %></h1>
 
     <%= partial :'venues/summary', :locals => {:venue => @venue} %>
 
   </div>
-  <div class="col-md-6">
+  <div class="col-sm-6">
     <%= partial :'maps/panel', :locals => {:points => [@venue]} %>
   </div>
 </div>

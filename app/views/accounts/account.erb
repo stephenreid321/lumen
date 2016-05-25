@@ -5,13 +5,13 @@
 </ol>
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-sm-8">
 
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <img style="display: block; margin: 0 auto; width: 100%" class="img-circle img-bordered-lg" src="<%=@account.picture ? @account.picture.thumb('500x500#').url : '/images/silhouette.png' %>">
       </div>
-      <div class="col-md-8">
+      <div class="col-sm-8">
         <h1 style="margin-top: 0;"><%=@account.name%></h1>  
         <% if @account.headline %>
           <p class="lead"><%=@account.headline%></p>
@@ -118,7 +118,7 @@
     <% end %>
 
   </div>
-  <div class="col-md-4">
+  <div class="col-sm-4">
     <% if @account.coordinates or @account.affiliations.any? { |affiliation| affiliation.organisation.coordinates } %>
       <%= partial :'maps/panel', :locals => {:points => ([@account])} %>
     <% end %>

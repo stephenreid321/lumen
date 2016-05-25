@@ -7,7 +7,7 @@
 </ol>
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-sm-8">
 
     <h1><%=@sector.name%> <small><%=pluralize(@sector.sectorships.count,'organisation')%></small></h1>
 
@@ -16,7 +16,7 @@
     <% } %>
 
   </div>
-  <div class="col-md-4">
+  <div class="col-sm-4">
     <h2><%=pluralize(@sector.members.count,'person')%> from this <%=I18n.t(:sector)%></h2>
     <%= partial :'accounts/list', :locals => {:scope => 'sector', :scope_id => @sector.id} %>
   </div>

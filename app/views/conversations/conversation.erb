@@ -27,7 +27,7 @@
 
 <div class="row">
 
-  <div class="col-md-8">
+  <div class="col-sm-8">
 
     <h1 style="margin-top: 0"><%=@conversation.subject%></h1>
 
@@ -44,12 +44,12 @@
         <div class="media-body">
 
           <% form_for (@conversation_post ||= @conversation.conversation_posts.build), "/conversations/#{@conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
-            <%= f.wysiwyg_block :body, div_class: 'col-md-12' %>
+            <%= f.wysiwyg_block :body, div_class: 'col-sm-12' %>
             <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
                 $(this).next().show();
                 $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
             <div style="display:none;">
-              <%= f.file_block :file, div_class: 'col-md-12' %>
+              <%= f.file_block :file, div_class: 'col-sm-12' %>
             </div>
             <button type="submit" class="btn btn-default"><%=I18n.t(:post).capitalize%></button>
           <% end %>          
@@ -61,7 +61,7 @@
 
 
   </div>
-  <div class="col-md-4">
+  <div class="col-sm-4">
     <% if current_account %>
       <h2 style="margin-top: 0"><%=pluralize(@conversation.participants.count,'participant')%> in this conversation</h2>
       <%= partial :'accounts/list', :locals => {:scope => 'conversation', :scope_id => @conversation.id} %>

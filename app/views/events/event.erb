@@ -19,14 +19,14 @@
 </ol>
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-sm-8">
 
     <h1 style="margin-top: 0; "><%= @event.name %></h1>
 
     <%= partial 'events/summary', :locals => {:event => @event} %>
 
   </div>
-  <div class="col-md-4">
+  <div class="col-sm-4">
     <%= partial :'maps/panel', :locals => {:points => [@event]} %>
   </div>
 </div>

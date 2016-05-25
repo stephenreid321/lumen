@@ -12,10 +12,10 @@
 <%= partial :'group_administration/header' %>
 
 <div class="row" style="margin-bottom: 10px">
-  <div class="col-md-6">          
+  <div class="col-sm-6">          
     <%= page_entries_info @membership_requests, :model => 'Request' %>
   </div>
-  <div class="col-md-offset-2 col-md-4" style="text-align: right;">
+  <div class="col-sm-offset-2 col-sm-4" style="text-align: right;">
     <% form_tag '', :style => "display: inline", :method => 'get' do %>      
       <div class="input-group" style="text-align: right">
         <%= search_field_tag :q, :class => 'form-control', :value => @q %>

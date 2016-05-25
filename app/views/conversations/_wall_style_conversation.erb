@@ -58,14 +58,14 @@
           </span>
           <div class="media-body">
             <% form_for (@conversation_post ||= conversation.conversation_posts.build), "/conversations/#{conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
-              <%= f.text_block :body, div_class: 'col-md-12 opengraph', placeholder: 'Write a comment...' %>
+              <%= f.text_block :body, div_class: 'col-sm-12 opengraph', placeholder: 'Write a comment...' %>
               <div id="opengraph" style="position: relative; margin-bottom: 5px"></div>
               <div id="opengraph-json"></div>               
               <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
                 $(this).next().show();
                 $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
               <div style="display:none;">
-                <%= f.file_block :file, div_class: 'col-md-12' %>
+                <%= f.file_block :file, div_class: 'col-sm-12' %>
               </div>
               <button type="submit" class="btn btn-primary"><%=I18n.t(:post).capitalize%></button>
             <% end %>

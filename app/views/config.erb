@@ -12,10 +12,10 @@
 
 <form class="form-horizontal">
   <div class="form-group">
-    <label class="control-label col-md-4">
+    <label class="control-label col-sm-4">
       Notification script
     </label>
-    <div class="col-md-2">
+    <div class="col-sm-2">
       <% if ENV['APP_NAME'] %>
         <% if ENV['MAIL_SERVER_ADDRESS'] %>
           <% if @notification_script %>
@@ -40,11 +40,11 @@
 <% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
   <% @environment_variables.each { |k,v| if v.is_a? Array; v = v[0]; check_box = true; else; check_box = false; end %>
     <div class="form-group">
-      <label class="control-label col-md-4">
+      <label class="control-label col-sm-4">
         <%=k%>
         <p style="font-weight: normal" class="help-block"><%=v%></p>
       </label>
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <% if check_box %>
           <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] ? true : false), :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
         <% else %>
@@ -54,7 +54,7 @@
     </div>
   <% } %>
   <div class="form-group">
-    <div class="col-md-offset-4 col-md-6">
+    <div class="col-sm-offset-4 col-sm-6">
       <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
@@ -65,11 +65,11 @@
 <form class="form-horizontal">
   <% @fragments.each { |k,v| %>
     <div class="form-group">
-      <label class="control-label col-md-4">
+      <label class="control-label col-sm-4">
         <%=k%>
         <p style="font-weight: normal" class="help-block"><%=v%></p>
       </label>
-      <div class="col-md-2">
+      <div class="col-sm-2">
         <% if f = Fragment.find_by(slug: k) %>
           <a href="/admin/edit/Fragment/<%=f.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
         <% else %>

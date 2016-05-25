@@ -5,7 +5,7 @@
 
 <% if Fragment.find_by(slug: 'right-col') %>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-sm-8">
     <% end %>
 
     <%= Fragment.find_by(slug: 'events').try(:body) %>
@@ -30,7 +30,7 @@
 
     <% if Fragment.find_by(slug: 'right-col') %>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4">
       <%= eval(f('right-col')) %>    
     </div>
   </div>

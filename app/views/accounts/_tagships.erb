@@ -1,6 +1,6 @@
 
 <div class="form-group <%= 'has-error' if !f.error_message_on(:account_tagships).blank? %>">
-  <label class="control-label col-md-3">
+  <label class="control-label col-sm-3">
     <%=I18n.t(:account_tagships).capitalize%>
     <% if Fragment.find_by(slug: 'tip-tagships') %>
       <i id="tip-tagships" class="fa fa-question-circle" title="<%=eval(f('tip-tagships'))%>"></i>
@@ -11,7 +11,7 @@
       </script>
     <% end %>        
   </label>
-  <div class="col-md-6">             
+  <div class="col-sm-6">             
     <div id="account_tagships">
       <% f.fields_for :account_tagships do |o| %>
         <div class="account_tagship">

@@ -16,14 +16,14 @@
 <% } %>
 
 <style>
-  #home-panels .col-md-4 { margin-top: 20px }
+  #home-panels .col-sm-4 { margin-top: 20px }
   #home-panels h3 { margin: 0; line-height: 150%; font-size: 18px }
   #home-panels h2 { margin-top: 20px }
   #home-panels .pagination { display: none }
 </style>
 <div id="home-panels" class="row">
 
-  <div class="col-md-4" id="latest-conversations">        
+  <div class="col-sm-4" id="latest-conversations">        
     <a class="btn btn-hg btn-primary btn-block modal-trigger" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
     <h2 style="font-size: 30px"><%=I18n.t(:latest_conversations).capitalize%></h2>
     <% current_account.latest_conversations.limit(5).each { |conversation| %>
@@ -36,7 +36,7 @@
     <% } %>
   </div>
 
-  <div class="col-md-4" id="upcoming-conversations">   
+  <div class="col-sm-4" id="upcoming-conversations">   
     <a class="btn btn-hg btn-primary btn-block modal-trigger" href="/events/new"><i class="fa fa-calendar"></i> <%=I18n.t(:add_an_event).capitalize%></a>
     <h2 style="font-size: 30px"><%=I18n.t(:upcoming_events).capitalize%></h2>
     <% current_account.events.future.limit(5).each { |event| %>
@@ -45,7 +45,7 @@
     <% } %>
   </div>  
 
-  <div class="col-md-4" id="people">
+  <div class="col-sm-4" id="people">
     <a class="btn btn-hg btn-primary btn-block" href="/people"><i class="fa fa-search"></i> Browse members</a>    
     <div class="row" style="margin-top: 20px">
       <div style="margin: 0 15px">

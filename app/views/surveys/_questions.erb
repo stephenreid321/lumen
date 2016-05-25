@@ -1,8 +1,8 @@
 <div class="form-group <%= 'has-error' if !f.error_message_on(:questions).blank? %>">
-  <label class="control-label col-md-3">
+  <label class="control-label col-sm-3">
     Questions
   </label>
-  <div class="col-md-6">             
+  <div class="col-sm-6">             
     <div id="questions">
       <% f.fields_for :questions, @survey.questions.order('order asc') do |o| %>
         <div class="question">

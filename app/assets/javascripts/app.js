@@ -105,7 +105,7 @@ $(function () {
 
 
 
-  $(document).on('click', '.pagination a', function (e) {
+  $(document).on('click', '.page-container .pagination a', function (e) {
     if ($(this).attr('href') != '#') {
       $(this).closest('.page-container').load($(this).attr('href'), function () {
         scroll(0, 0);

@@ -82,10 +82,10 @@
           <span class="label label-primary">Muted</span>
         <% end %>          
       </td>      
-      <td>
+      <td <% if membership.status == 'pending' %> style="opacity: 0.5" <% end %> >
         <%=account.email%>
       </td>
-      <td>
+      <td <% if membership.status == 'pending' %> style="opacity: 0.5" <% end %> >
         <%=account.phone%>
       </td>
       <td>
@@ -93,12 +93,12 @@
           <a target="_blank" href="<%=account.twitter_profile_url%>"><%=account.twitter_profile_url.split('.com/')[1]%></a>
         <% end %>
       </td>       
-      <td>
+      <td <% if membership.status == 'pending' %> style="opacity: 0.5" <% end %> >
         <% account.affiliations.each { |affiliation|%>
           <%=affiliation.title%> <%=I18n.t(:at)%> <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a> <br />
         <% } %> 
       </td>
-      <td>
+      <td <% if membership.status == 'pending' %> style="opacity: 0.5" <% end %>>
         <%account.account_tagships.each { |account_tagship|%>
           <a href="/people?account_tag_id=<%=account_tagship.account_tag_id%>" class="label label-primary" style="text-indent: 0"><%=account_tagship.account_tag.name%></a>
         <% } %>

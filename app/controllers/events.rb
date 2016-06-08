@@ -38,6 +38,7 @@ Lumen::App.controllers do
       
   get '/groups/:slug/events/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @event = @group.events.build
     erb :'events/build'
@@ -45,17 +46,20 @@ Lumen::App.controllers do
   
   post '/groups/:slug/events/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @event = @group.events.build(params[:event])    
     @event.account = current_account
     if @event.save  
       flash[:notice] = "<strong>Great!</strong> The event was created successfully."
       if @event.start_conversation == '1'
-        conversation = @event.group.conversations.create!(subject: "New event: #{@event.name}", account: current_account)
-        conversation_post = conversation.conversation_posts.create!(
-          :body => %Q{<h2><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/events/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
-          :account => @event.account)
-        conversation_post.send_notifications!  
+        if !@group.conversation_creation_by_admins_only or @membership.admin?
+          conversation = @event.group.conversations.create!(subject: "New event: #{@event.name}", account: current_account)
+          conversation_post = conversation.conversation_posts.create!(
+            :body => %Q{<h2><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/events/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
+            :account => @event.account)
+          conversation_post.send_notifications!  
+        end
       end
       redirect "/groups/#{@group.slug}/events/#{@event.id}"
     else

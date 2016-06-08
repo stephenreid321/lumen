@@ -85,7 +85,9 @@
   <%= f.text_block :reason %>        
   <%= f.text_area_block :publicity_tweet %>   
   <% if @event.new_record? %>
-    <%= f.check_box_block :start_conversation %>    
+    <% if !@group.conversation_creation_by_admins_only or @membership.admin? %>
+      <%= f.check_box_block :start_conversation %>    
+    <% end %>
   <% end %>
   <% if current_account.admin? %>
     <%= f.check_box_block :highlighted %>    

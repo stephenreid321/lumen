@@ -112,7 +112,7 @@
       <input type="hidden" name="form" value="1" />
       <div class="checkbox">
         <div style="margin-bottom: 5px">
-          <%= select_tag :scope, :options => [['All groups','']] + current_account.groups.map { |group| [group.name,group.id] }, :class => 'form-control', :selected => params[:scope] %>
+          <%= select_tag :scope, :options => [['All groups','']] + current_account.groups.order('name asc').map { |group| [group.name,group.id] }, :class => 'form-control', :selected => params[:scope] %>
         </div>
         <label>
           <%= check_box_tag :accounts, :value => true, :checked => params[:accounts] %>

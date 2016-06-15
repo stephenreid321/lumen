@@ -8,7 +8,7 @@ Lumen::App.controllers do
     sign_in_required!  
     if request.xhr?      
       @points = []      
-      scope = params[:scope] ? Group.find_by(params[:scope]) : current_account  
+      scope = params[:scope] ? Group.find(params[:scope]) : current_account  
       if params[:accounts]
         @points += scope.people
       end

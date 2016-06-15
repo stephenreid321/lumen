@@ -111,6 +111,9 @@
     <form id="map-form">
       <input type="hidden" name="form" value="1" />
       <div class="checkbox">
+        <div style="margin-bottom: 5px">
+          <%= select_tag :scope, :options => ['All groups'] + current_account.groups.map { |group| [group.name,group.id] }, :class => 'form-control', :selected => params[:scope] %>
+        </div>
         <label>
           <%= check_box_tag :accounts, :value => true, :checked => params[:accounts] %>
           <%= I18n.t(:people).capitalize%>  <i class="fa fa-map-marker" style="color: <%= "##{Account.marker_color}" %>"></i>

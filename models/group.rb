@@ -140,6 +140,10 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     Account.where(:id.in => memberships.where(:status => 'confirmed').pluck(:account_id))
   end
   
+  def people
+    members
+  end
+  
   def admins
     Account.where(:id.in => memberships.where(:admin => true).pluck(:account_id))
   end

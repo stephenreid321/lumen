@@ -6,13 +6,20 @@ Lumen::App.controllers do
   
   get '/map' do    
     sign_in_required!  
-    if request.xhr?
-      @points = []
+    if request.xhr?      
+      @points = []      
+      scope = params[:scope] ? Group.find_by(params[:scope]) : current_account  
+      if params[:accounts]
+        @points += scope.people
+      end
+      if params[:events]
+        @points += scope.events.future
+      end        
       if params[:organisations]
-        @points += current_account.network.map(&:affiliations).flatten.map(&:organisation).uniq
+        @points += scope.people.map(&:affiliations).flatten.map(&:organisation).uniq
       end
       if params[:venues]
-        venues = current_account.venues
+        venues = scope.venues
         venues = venues.or({:capacity.gte => params[:min_capacity]}, {:capacity => nil}) if params[:min_capacity]        
         venues = venues.where(:accessibility.ne => 'Not accessible') if params[:accessible]
         venues = venues.where(:private => true) if params[:private]
@@ -20,13 +27,7 @@ Lumen::App.controllers do
         venues = venues.where(:serves_alcohol => true) if params[:serves_alcohol]
         venues = venues.or({:hourly_cost.lte => params[:max_hourly_cost]}, {:hourly_cost => nil}) if params[:max_hourly_cost]
         @points += venues
-      end
-      if params[:accounts]
-        @points += current_account.network
-      end
-      if params[:events]
-        @points += current_account.events.future
-      end        
+      end      
       partial :'maps/map', :locals => {:points => @points}
     else
       erb :'maps/map'

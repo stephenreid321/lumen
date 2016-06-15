@@ -159,6 +159,10 @@ class Account
     Account.where(:id.in => memberships.map(&:group).map { |group| group.memberships.only(:account_id).where(:status => 'confirmed') }.flatten.map(&:account_id))
   end
   
+  def people
+    network
+  end
+  
   def network_organisations
     Organisation.where(:id.in => Affiliation.where(:account_id.in => network.pluck(:id)).pluck(:organisation_id))
   end

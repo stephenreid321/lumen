@@ -17,8 +17,17 @@
       <th>Change in group size</th>
       <th>Conversations</th>
       <th>Conversation posts</th>
+      <% unless ENV['BCC_SINGLE'] %>
+        <th>Conversation post BCCs</th>
+        <th>Read receipts via web</th>
+        <th>Web read rate</th>
+        <th>Read receipts via email</th>
+        <th>Email read rate</th>
+        <th>Total read receipts</th>
+        <th>Total read rate</th>
+      <% end %>
       <th>Distinct posters</th>
-      <th>Fraction of people that posted</th>      
+      <th>Fraction of people that posted</th>  
     </tr>
   </thead>
   <% Group.order(:slug.asc).each { |group| %>
@@ -33,6 +42,15 @@
       </td>      
       <td><%=group.conversations.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
       <td><%=group.conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
+      <% unless ENV['BCC_SINGLE'] %>
+        <td><%= b = group.conversation_post_bccs.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
+        <td><%= r1 = group.conversation_post_read_receipts.where(:web => true).where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
+        <td><%= ((r1.to_f/b)*100).round %>&#37;</td>
+        <td><%= r2 = group.conversation_post_read_receipts.where(:web.ne => true).where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
+        <td><%= ((r2.to_f/b)*100).round %>&#37;</td>
+        <td><%= r3 = group.conversation_post_read_receipts.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
+        <td><%= ((r3.to_f/b)*100).round %>&#37;</td>
+      <% end %>      
       <td><%=d = group.conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to).pluck(:account_id).uniq.count%></td>
       <td>
         <% if m2 > 0 %>

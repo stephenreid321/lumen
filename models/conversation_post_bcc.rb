@@ -4,17 +4,18 @@ class ConversationPostBcc
   
   belongs_to :conversation, index: true
   belongs_to :conversation_post, index: true
+  belongs_to :group, index: true
   
   field :delivered_at, :type => Time
   field :message_id, :type => String
   
   index({message_id: 1}, {unique: true, sparse: true})
-  
+    
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
   accepts_nested_attributes_for :conversation_post_bcc_recipients
   
   validates_uniqueness_of :message_id, :allow_nil => true
-  validates_presence_of :conversation, :conversation_post
+  validates_presence_of :conversation, :conversation_post, :group
     
   def self.admin_fields
     {
@@ -38,8 +39,9 @@ class ConversationPostBcc
   end
 
   attr_accessor :accounts
-  before_validation do
+  before_validation do    
     self.conversation = self.conversation_post.conversation if self.conversation_post
+    self.group = self.conversation.group if self.conversation
     if self.accounts
       self.accounts.each { |account|
         conversation_post_bcc_recipients.build account: account

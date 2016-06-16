@@ -90,6 +90,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   
   has_many :conversations, :dependent => :destroy
   has_many :conversation_posts, :dependent => :destroy
+  has_many :conversation_post_bccs, :dependent => :destroy
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
   has_many :events, :dependent => :destroy

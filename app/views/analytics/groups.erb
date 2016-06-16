@@ -45,11 +45,11 @@
       <% unless ENV['BCC_SINGLE'] %>
         <td><%= b = group.conversation_post_bccs.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
         <td><%= r1 = group.conversation_post_read_receipts.where(:web => true).where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
-        <td><%= ((r1.to_f/b)*100).round %>&#37;</td>
+        <td><%= ((r1.to_f/b)*100) %>&#37;</td>
         <td><%= r2 = group.conversation_post_read_receipts.where(:web.ne => true).where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
-        <td><%= ((r2.to_f/b)*100).round %>&#37;</td>
+        <td><%= ((r2.to_f/b)*100) %>&#37;</td>
         <td><%= r3 = group.conversation_post_read_receipts.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
-        <td><%= ((r3.to_f/b)*100).round %>&#37;</td>
+        <td><%= ((r3.to_f/b)*100) %>&#37;</td>
       <% end %>      
       <td><%=d = group.conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to).pluck(:account_id).uniq.count%></td>
       <td>

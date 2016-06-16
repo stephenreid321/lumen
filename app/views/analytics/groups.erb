@@ -41,8 +41,8 @@
         <td><%= b = group.conversation_post_bccs.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
         <td>
           <% if b > 0 %>
-            <% r2 = group.conversation_post_read_receipts.where(:web.ne => true).where(:created_at.gte => @from).where(:created_at.lte => @to).count %>
-            <%= ((r2.to_f/b)*100).round %>&#37;
+            <% r = group.conversation_post_read_receipts.where(:web.ne => true).where(:created_at.gte => @from).where(:created_at.lte => @to).count %>
+            <%= ((r.to_f/b)*100).round %>&#37;
           <% end %>
         </td>
       <% end %>      

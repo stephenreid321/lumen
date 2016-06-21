@@ -7,7 +7,7 @@ Lumen::App.controllers do
       
       :DOMAIN => 'Domain of Lumen web app',
       :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
-
+      
       :MAIL_SERVER_ADDRESS => 'Mail server address (no http://)',
       :MAIL_SERVER_USERNAME => 'Mail server username',
       :MAIL_SERVER_PASSWORD => 'Mail server password',
@@ -71,6 +71,8 @@ Lumen::App.controllers do
       :FACEBOOK_SECRET => 'Facebook API secret',
       :GOOGLE_KEY => 'Google API key',
       :GOOGLE_SECRET => 'Google API secret',
+      
+      :DMARC_FAIL_DOMAINS => 'Comma-separated list of domains with strict DMARC policies',
       
       :GOOGLE_ANALYTICS_TRACKING_ID => 'Google Analytics tracking ID',
             

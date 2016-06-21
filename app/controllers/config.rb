@@ -80,6 +80,7 @@ Lumen::App.controllers do
       :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 30s.',      
       :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
       
+      :SSL => ['Site served via SSL'],
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
       :HEROKU_OAUTH_TOKEN => 'Heroku OAuth token',
       :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],            

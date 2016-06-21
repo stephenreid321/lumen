@@ -98,7 +98,7 @@ class ConversationPost
   end  
   
   def self.dmarc_fail_domains
-    %w{yahoo.com aol.com}
+    %w{yahoo.com aol.com} + (ENV['DMARC_FAIL_DOMAINS'] ? ENV['DMARC_FAIL_DOMAINS'].split(',') : [])
   end
 
   def from_address

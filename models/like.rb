@@ -16,17 +16,19 @@ class Like
   
   after_create :notify
   def notify
-    group = conversation_post.group
-    Mail.defaults do
-      delivery_method :smtp, group.smtp_settings
-    end 
-    mail = Mail.new(
-      :to => conversation_post.account.email,
-      :from => "#{group.name} <#{group.email('-noreply')}>",
-      :subject => "#{account.name} liked your post in #{conversation_post.conversation.subject}",
-      :body => ERB.new(File.read(Padrino.root('app/views/emails/like.erb'))).result(binding)
-    )
-    mail.deliver         
+    if ENV['MAIL_SERVER_ADDRESS']
+      group = conversation_post.group
+      Mail.defaults do
+        delivery_method :smtp, group.smtp_settings
+      end 
+      mail = Mail.new(
+        :to => conversation_post.account.email,
+        :from => "#{group.name} <#{group.email('-noreply')}>",
+        :subject => "#{account.name} liked your post in #{conversation_post.conversation.subject}",
+        :body => ERB.new(File.read(Padrino.root('app/views/emails/like.erb'))).result(binding)
+      )
+      mail.deliver         
+    end
   end
     
 end

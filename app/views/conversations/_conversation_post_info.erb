@@ -10,15 +10,9 @@
   &middot;  
 <% end %>
 
-<a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/likes"><%=pluralize(conversation_post.likes.count,'person')%> liked this</a>
-
-&middot;  
-
-<% if !conversation_post.likes.find_by(account: current_account) %>
-  <a href="/conversation_posts/<%=conversation_post.id%>/like" class="edit" title="Like this post" ><i class="fa fa-thumbs-o-up"></i> Like</a>
-<% else %>        
-  <a href="/conversation_posts/<%=conversation_post.id%>/remove_like" title="Remove your like"><i class="fa fa-thumbs-o-up"></i> Like</a>
-  <% end %>
+<span class="conversation-post-like">
+  <%= partial :'conversations/like', :locals => {:conversation_post => conversation_post} %>
+</span>
 
 
 

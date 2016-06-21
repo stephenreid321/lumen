@@ -162,8 +162,12 @@ Lumen::App.controllers do
     @conversation_post = ConversationPost.find(params[:id])
     membership_required!(@conversation_post.conversation.group)
     @conversation_post.likes.create(account: current_account)
-    flash[:notice] = "You liked the post by #{@conversation_post.account.name}"
-    redirect "/conversations/#{@conversation_post.conversation.slug}" 
+    if request.xhr?
+      partial :'conversations/like', :locals => {:conversation_post => @conversation_post}
+    else
+      flash[:notice] = "You liked the post by #{@conversation_post.account.name}"
+      redirect "/conversations/#{@conversation_post.conversation.slug}" 
+    end
   end
     
   get '/conversation_posts/:id/remove_like' do
@@ -171,8 +175,12 @@ Lumen::App.controllers do
     @conversation_post = ConversationPost.find(params[:id])
     membership_required!(@conversation_post.conversation.group)
     @conversation_post.likes.find_by(account: current_account).destroy
-    flash[:notice] = 'Your like was removed'
-    redirect "/conversations/#{@conversation_post.conversation.slug}" 
+    if request.xhr?
+      partial :'conversations/like', :locals => {:conversation_post => @conversation_post}
+    else
+      flash[:notice] = 'Your like was removed'
+      redirect "/conversations/#{@conversation_post.conversation.slug}" 
+    end    
   end 
   
   get '/conversation_post_bccs/:id/read', :provides => :gif do

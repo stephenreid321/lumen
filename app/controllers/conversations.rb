@@ -81,8 +81,9 @@ Lumen::App.controllers do
       flash[:notice] = "That conversation is hidden."
       redirect "/groups/#{@conversation.group.slug}"
     else
+      @conversation_posts = @conversation.visible_conversation_posts.order_by(:created_at.asc).per_page(params[:per_page] || 20).page(params[:page])
       if current_account
-        @conversation.visible_conversation_posts.each { |conversation_post|
+        @conversation_posts.each { |conversation_post|
           conversation_post.conversation_post_read_receipts.create(account: current_account, web: true)
         }
       end

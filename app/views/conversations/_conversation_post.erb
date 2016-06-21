@@ -6,13 +6,11 @@
   <div class="media-body">
 
     <div>
-      
+
       <% if ((@membership and @membership.admin?) or (current_account and current_account.admin?)) %>
-        <% if defined? i and i > 0 %>
-          <a style="float: right" title="Hide post" data-confirm="Are you sure you want to hide this post?" class="edit restore-opacity" href="/conversations/<%=conversation_post.conversation.slug%>/hide_post/<%=conversation_post.id%>"><i class="fa fa-times"></i> Hide post</a>
-        <% end %>
+        <a style="float: right" title="Hide post" data-confirm="Are you sure you want to hide this post?" class="edit restore-opacity" href="/conversations/<%=conversation_post.conversation.slug%>/hide_post/<%=conversation_post.id%>"><i class="fa fa-times"></i> Hide post</a>
       <% end %>
-          
+
       <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>            
 
       <div id="conversation-post-<%=conversation_post.id%>" style="margin-bottom: 1em"><%= Rinku.auto_link(conversation_post.replace_cids!.body) %></div>

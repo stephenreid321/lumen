@@ -31,9 +31,17 @@
 
     <h1 style="margin-top: 0"><%=@conversation.subject%></h1>
 
-    <% @conversation.visible_conversation_posts.order_by(:created_at.asc).each_with_index { |conversation_post, i|  %>
-      <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post, :i => i} %>
+    <% @conversation_posts.each { |conversation_post|  %>
+      <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post} %>
     <% } %>
+
+
+    <% unless (p = page_entries_info @conversation_posts, :model => 'Post') =~ /^Displaying <b>all/ %>
+      <div style="text-align: center; margin-bottom: -20px">
+        <p style="margin-top: 10px; margin-bottom: -10px"><%= p %></p>
+        <%= will_paginate @conversation_posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+      </div>    
+    <% end %>
 
     <% if @membership %>
 
@@ -46,8 +54,8 @@
           <% form_for (@conversation_post ||= @conversation.conversation_posts.build), "/conversations/#{@conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
             <%= f.wysiwyg_block :body, div_class: 'col-sm-12' %>
             <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-                $(this).next().show();
-                $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
+                    $(this).next().show();
+                    $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
             <div style="display:none;">
               <%= f.file_block :file, div_class: 'col-sm-12' %>
             </div>

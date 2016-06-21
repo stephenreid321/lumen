@@ -178,6 +178,7 @@ GEM
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
+    open_uri_redirections (0.2.1)
     origin (2.2.0)
     padrino (0.13.2)
       padrino-admin (= 0.13.2)
@@ -228,7 +229,6 @@ GEM
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
-    rack-ssl-enforcer (0.2.9)
     rack-test (0.6.3)
       rack (>= 1.0)
     rack-timeout (0.4.2)
@@ -284,13 +284,13 @@ DEPENDENCIES
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
+  open_uri_redirections
   padrino
   platform-api
   poltergeist
   premailer
   puma
   rack
-  rack-ssl-enforcer
   rack-timeout
   rake
   ri_cal!

@@ -1,14 +1,8 @@
 module Lumen
   class App < Padrino::Application
     
-    use Rack::Timeout, service_timeout: 25
-    
-    if ENV['FORCE_SSL']
-      use Rack::SslEnforcer
-      use Rack::Session::Cookie, :key => '_rack_session', :path => '/', :expire_after => 365*24*60*60, :secret => settings.session_secret
-    else
-      set :sessions, :expire_after => 1.year    
-    end
+    use Rack::Timeout, service_timeout: 25 
+    set :sessions, :expire_after => 1.year    
 
     require 'sass/plugin/rack'
     Sass::Plugin.options[:template_location] = Padrino.root('app', 'assets', 'stylesheets')

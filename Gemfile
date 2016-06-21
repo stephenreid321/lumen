@@ -45,7 +45,7 @@ gem 'sass'
 # Others
 gem 'ri_cal', github: 'espen/ri_cal'
 gem 'countries'
-gem 'rack-ssl-enforcer'
+gem 'open_uri_redirections'
 
 group :test do
   gem 'minitest-rg'

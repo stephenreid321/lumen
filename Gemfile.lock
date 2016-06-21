@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 235facb0c0aeb3b294b944b38087ad66ac754f85
+  revision: 7749257a58f404464fcdf41845a45e6df88d8536
   specs:
     activate-admin (0.0.1)
       activate-tools

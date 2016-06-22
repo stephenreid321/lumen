@@ -165,10 +165,9 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     
   def default_didyouknows
     [
-      %Q{Every group has its own <a href="http://#{ENV['DOMAIN']}/groups/#{slug}/events">events calendar</a>, and #{slug} has [upcoming_events].},
       %Q{You can <a href="[conversation_url]">view this conversation on the web</a> to learn more about its participants.},
-      %Q{You can <a href="http://#{ENV['DOMAIN']}/groups/#{slug}">search past conversations</a> of this group.},
-      %Q{#{slug} has <a href="http://#{ENV['DOMAIN']}/groups/#{slug}">[members]</a>.},      
+      %Q{You can <a href="[site_url]/groups/[slug]">search past conversations</a> of this group.},
+      %Q{#{slug} has <a href="[site_url]/groups/[slug]">[members]</a>.},      
       %Q{The most recent profile update was made by <a href="[most_recently_updated_url]">[most_recently_updated_name]</a>.}
     ]
   end

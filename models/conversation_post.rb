@@ -88,11 +88,14 @@ class ConversationPost
   def didyouknow_replacements(string)
     group = conversation.group
     members = group.members
-    string.gsub!('[conversation_url]', "http://#{ENV['DOMAIN']}/conversations/#{conversation.slug}")
+    string.gsub!('[site_url]', "#{ENV['SSL'] ? 'https://' : 'http://'}#{ENV['DOMAIN']}")
+    string.gsub!('[name]', group.name)
+    string.gsub!('[slug]', group.slug)        
+    string.gsub!('[conversation_url]', "#{ENV['SSL'] ? 'https://' : 'http://'}#{ENV['DOMAIN']}/conversations/#{conversation.slug}")
     string.gsub!('[members]', "#{m = members.count} #{m == 1 ? 'member' : 'members'}")
     string.gsub!('[upcoming_events]', "#{e = group.events.where(:start_time.gt => Time.now).count} #{e == 1 ? 'upcoming event' : 'upcoming events'}")
     most_recently_updated_account = members.order_by([:has_picture.desc, :updated_at.desc]).first
-    string.gsub!('[most_recently_updated_url]', "http://#{ENV['DOMAIN']}/accounts/#{most_recently_updated_account.id}")
+    string.gsub!('[most_recently_updated_url]', "#{ENV['SSL'] ? 'https://' : 'http://'}#{ENV['DOMAIN']}/accounts/#{most_recently_updated_account.id}")
     string.gsub!('[most_recently_updated_name]', most_recently_updated_account.name)
     string
   end  

@@ -24,11 +24,13 @@
     <% } %>
 
 
-    <h2><%=I18n.t(:other_groups).capitalize%></h2>
-    <% Group.where(:id.nin => current_account.groups.pluck(:id)).where(:privacy.ne => 'secret').order_by(:primary.desc, :slug.asc).each { |group| %>
-      <hr />
-      <%= partial :'groups/group', :object => group %>
-    <% } %>
+    <% unless current_account.prevent_new_memberships %>
+      <h2><%=I18n.t(:other_groups).capitalize%></h2>
+      <% Group.where(:id.nin => current_account.groups.pluck(:id)).where(:privacy.ne => 'secret').order_by(:primary.desc, :slug.asc).each { |group| %>
+        <hr />
+        <%= partial :'groups/group', :object => group %>
+      <% } %>
+    <% end %>
 
     <% if Fragment.find_by(slug: 'right-col') %>
     </div>

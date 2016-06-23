@@ -149,7 +149,7 @@ Lumen::App.controllers do
     end
       
     @membership = @group.memberships.create :account => @account
-    (flash[:error] = "You've been prevented from joining other groups" and redirect back) unless @membership.persisted?
+    (flash[:error] = "The membership could not be created" and redirect back) unless @membership.persisted?
     
     if @new_account
       SignIn.create(account: @account)

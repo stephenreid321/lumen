@@ -210,6 +210,7 @@ Lumen::App.controllers do
       @membership = @group.memberships.build :account => @account
       @membership.admin = true if params[:admin]
       @membership.status = 'confirmed' if params[:status] == 'confirmed'
+      @membership.prevent_new_memberships = true if current_account.admin? and params[:prevent_new_memberships]
       @membership.added_by = current_account
       @membership.welcome_email_pending = true
       @membership.save
@@ -288,7 +289,7 @@ Lumen::App.controllers do
       account = membership_request.account           
       membership_request.update_attribute(:status, 'accepted')
       membership = @group.memberships.create(:account => account, :status => params[:status])            
-      (flash[:error] = "That person has been prevented from joining other groups" and redirect back) unless membership.persisted?
+      (flash[:error] = "The membership could not be created" and redirect back) unless membership.persisted?
       
       sign_in_details = ''
       if membership.status == 'pending'

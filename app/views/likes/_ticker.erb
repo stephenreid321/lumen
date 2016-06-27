@@ -1,0 +1,19 @@
+<script>
+  $(function () {
+    $('#likes-ticker').vTicker();
+  });
+</script>
+<div class="panel panel-default" style="margin-top: 20px; margin-bottom: 0">
+  <div class="panel-body">
+    <div id="likes-ticker">
+      <ul>
+        <% Like.where(:conversation_post_id.in => current_account.visible_conversation_posts.pluck(:id)).order('created_at desc').limit(20).each { |like| %>
+          <li>
+            <i class="fa fa-thumbs-up"></i> <a href="/accounts/<% like.account_id %>"><%= like.account.name %></a> liked the post by <a href="/accounts/<%=like.conversation_post.account_id%>"><%=like.conversation_post.account.name%></a> in <a href="/conversations/<%=like.conversation_post.conversation.slug%>"><%=truncate(like.conversation_post.conversation.subject, length: 75)%></a>
+            <a href="/conversations/<%=like.conversation_post.conversation.slug%>" class="edit"><%=timeago(like.created_at)%></a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</div>

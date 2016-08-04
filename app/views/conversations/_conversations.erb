@@ -41,7 +41,7 @@
 </div>
 
 <% if !ENV['WALL_STYLE_CONVERSATIONS'] %>
-  <% if !@group.conversation_creation_by_admins_only or (@group.conversation_creation_by_admins_only and @membership.admin?) %>
+  <% if !@group.conversation_creation_by_admins_only or (@group.conversation_creation_by_admins_only and @membership and @membership.admin?) %>
     <% if @membership %>
       <div class="conversation-form">
         <h4 style="margin-top: 0"><%=I18n.t(:new_conversation).capitalize%></h4>

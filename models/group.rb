@@ -557,15 +557,26 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     puts "checking for conversation with subject #{subject}"
     conversation = group.conversations.order(:created_at.desc).limit(1).first
     if conversation and conversation.subject == subject
-      puts "success!"
+      puts "conversation created"
     else
       begin
         raise "Failed to create conversation: #{subject}"
       rescue => e
-        puts "error!"
+        puts "error"
         Airbrake.notify(e)
       end
     end
+    sleep 60
+    if conversation.conversation_posts.first.conversation_post_bccs.count > 0
+      puts "bccs created"
+    else
+      begin
+        raise "Failed to create bccs: #{subject}"
+      rescue => e
+        puts "error"
+        Airbrake.notify(e)
+      end
+    end    
   end
       
 end

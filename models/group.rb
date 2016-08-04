@@ -566,7 +566,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
         Airbrake.notify(e)
       end
     end
-    sleep 60
+    puts "checking for bccs"
     if conversation.conversation_posts.first.conversation_post_bccs.count > 0
       puts "bccs created"
     else

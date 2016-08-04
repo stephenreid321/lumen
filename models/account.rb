@@ -99,46 +99,53 @@ class Account
   attr_accessor :confirm_memberships
   attr_accessor :welcome_email_body
   attr_accessor :welcome_email_subject
+  attr_accessor :in_callback
   after_save :join_groups
   def join_groups
-    account = self
-    if @groups_to_join
+    unless @in_callback
+      @in_callback = true
       
-      @groups_to_join.each { |group_id|
-        memberships.create(:group_id => group_id, :status => ('confirmed' if (account.sign_ins.count == 0 and account.confirm_memberships.to_i == 1)))
-      }
+      account = self
+      if @groups_to_join
             
-      Mail.defaults do
-        delivery_method :smtp, Account.smtp_settings
-      end
+        @groups_to_join.each { |group_id|
+          memberships.create(:group_id => group_id, :status => ('confirmed' if (account.sign_ins.count == 0 and account.confirm_memberships.to_i == 1)))
+        }
+            
+        Mail.defaults do
+          delivery_method :smtp, Account.smtp_settings
+        end
                             
-      sign_in_details = ''              
-      if account.sign_ins.count == 0 and account.confirm_memberships.to_i == 0
-        sign_in_details << "You need to sign in to start receiving email notifications. "
-      end    
+        sign_in_details = ''              
+        if account.sign_ins.count == 0 and account.confirm_memberships.to_i == 0
+          sign_in_details << "You need to sign in to start receiving email notifications. "
+        end    
         
-      if account.sign_ins.count == 0 and account.password    
-        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{account.email} and the password #{account.password}"
-      else
-        sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in."
-      end
-               
-      b = account.welcome_email_body
-      .gsub('[firstname]',account.name.split(' ').first)
-      .gsub('[group_list]',@groups_to_join.map { |id| Group.find(id).name }.to_sentence)
-      .gsub('[sign_in_details]', sign_in_details)      
-            
-      mail = Mail.new
-      mail.to = account.email
-      mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>"
-      mail.subject = account.welcome_email_subject
-      mail.html_part do
-        content_type 'text/html; charset=UTF-8'
-        body b
-      end
-      mail.deliver
+        if account.sign_ins.count == 0 and account.password    
+          sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{account.email} and the password #{account.password}"
+        else
+          sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in."
+        end
       
-      @groups_to_join = nil
+        b = account.welcome_email_body
+        .gsub('[firstname]',account.name.split(' ').first)
+        .gsub('[group_list]',@groups_to_join.map { |id| Group.find(id).name }.to_sentence)
+        .gsub('[sign_in_details]', sign_in_details)
+            
+        if ENV['MAIL_SERVER_ADDRESS']
+          mail = Mail.new
+          mail.to = account.email
+          mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>"
+          mail.subject = account.welcome_email_subject
+          mail.html_part do
+            content_type 'text/html; charset=UTF-8'
+            body b
+          end
+          mail.deliver
+        end
+      
+        @groups_to_join = nil
+      end
     end
   end
   

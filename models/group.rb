@@ -560,9 +560,9 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       puts "conversation created"
     else
       begin
-        raise "Failed to create conversation: #{subject}"
+        raise (r = "failed to create conversation: #{subject}")
       rescue => e
-        puts "error"
+        puts r
         Airbrake.notify(e)
       end
     end
@@ -571,9 +571,9 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       puts "bccs created"
     else
       begin
-        raise "Failed to create bccs: #{subject}"
+        raise (r = "failed to create bccs: #{subject}")
       rescue => e
-        puts "error"
+        puts r
         Airbrake.notify(e)
       end
     end    

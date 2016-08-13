@@ -16,11 +16,11 @@
   });
   var bounds = new google.maps.LatLngBounds();
   var points = []
-<% points.select(&:coordinates).each { |point|%>
+<% points.select(&:coordinates).each { |point| f = (point.is_a?(Account) ? (1 + (rand-0.5)/5000) : 1) %>
     points.push({
       id: '<%=point.id%>',
-      lat: <%=point.lat%>,
-      lng: <%=point.lng%>,
+      lat: <%=f*point.lat%>,
+      lng: <%=f*point.lng%>,
       color: '<%=point.class.marker_color%>',
       name: "<%=point.try(:name) || point.try(:title)%>",
       content: '<%=js_escape_html(partial "maps/#{point.class.to_s.underscore}".to_sym, :object => point)%>'

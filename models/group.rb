@@ -460,7 +460,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
         )
         mail.deliver
       rescue => e
-        Airbrake.notify(e)
+        Airbrake.notify(e) unless e.message.include?('User unknown in virtual alias table')
       end
         
       puts "this message was sent by a stranger"

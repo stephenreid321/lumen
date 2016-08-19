@@ -150,6 +150,7 @@ Lumen::App.controllers do
       Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
         ssh.exec("dokku config:unset #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| k if !params[k] }.compact.join(' ')}")
         ssh.exec("dokku config:set #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| %Q{#{k}="#{params[k]}"} if params[k] }.compact.join(' ')}")
+        ssh.exec("dokku ps:rebuild #{ENV['APP_NAME']}")
       end              
     end
     flash[:notice] = "Your config vars were updated. You may have to refresh the page for your changes to take effect."

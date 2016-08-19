@@ -148,6 +148,7 @@ Lumen::App.controllers do
       heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])
     else
       Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
+        ssh.exec("dokku config:unset #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| k if !params[k] }.compact.join(' ')}")
         ssh.exec("dokku config:set #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| %Q{#{k}="#{params[k]}"} if params[k] }.compact.join(' ')}")
       end              
     end

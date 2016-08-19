@@ -143,30 +143,16 @@ Lumen::App.controllers do
      
   post '/config' do
     site_admins_only!
-    if ENV['HEROKU_OAUTH_TOKEN']
-      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-      heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])
-    else
-      Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
-        ssh.exec("dokku config:unset #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| k if !params[k] }.compact.join(' ')}")
-        ssh.exec("dokku config:set #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| %Q{#{k}="#{params[k]}"} if params[k] }.compact.join(' ')}")
-        ssh.exec("dokku ps:rebuild #{ENV['APP_NAME']}")
-      end              
-    end
+    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+    heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])             
     flash[:notice] = "Your config vars were updated. You may have to refresh the page for your changes to take effect."
     redirect '/config'
   end  
     
   get '/config/restart' do
     site_admins_only!
-    if ENV['HEROKU_OAUTH_TOKEN']
-      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-      heroku.dyno.restart_all(ENV['APP_NAME'])
-    else
-      Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
-        ssh.exec!("dokku deploy #{ENV['APP_NAME']}")
-      end
-    end
+    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+    heroku.dyno.restart_all(ENV['APP_NAME'])
     redirect back
   end
     

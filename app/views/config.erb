@@ -1,5 +1,8 @@
 
-<a class="btn btn-danger" style="float: right" href="/config/restart"><i class="fa fa-power-off"></i> Restart app</a>
+<% if ENV['HEROKU_OAUTH_TOKEN'] %>
+  <a class="btn btn-danger" style="float: right" href="/config/restart"><i class="fa fa-power-off"></i> Restart app</a>
+<% end %>
+
 
 <style>
   a.delete { opacity: 0.5 }
@@ -44,9 +47,9 @@
       </label>
       <div class="col-sm-4">
         <% if check_box %>
-          <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] ? true : false) %>
+          <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] ? true : false), :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
         <% else %>
-          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control' %>
+          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
         <% end %>
       </div>
     </div>

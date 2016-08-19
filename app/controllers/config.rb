@@ -146,9 +146,9 @@ Lumen::App.controllers do
     if ENV['HEROKU_OAUTH_TOKEN']
       heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
       heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])
-    else      
+    else
       Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
-        ssh.exec!("dokku config:set #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| %Q{#{k}="#{params[k]}"} }.join(' ')}")
+        ssh.exec("dokku config:set #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| %Q{#{k}="#{params[k]}"} }.join(' ')}")
       end              
     end
     flash[:notice] = "Your config vars were updated. You may have to refresh the page for your changes to take effect."

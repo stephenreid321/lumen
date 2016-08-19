@@ -46,9 +46,9 @@
       </label>
       <div class="col-sm-4">
         <% if check_box %>
-          <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] ? true : false), :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
+          <%= check_box_tag k, :value => true, :checked => (ENV[k.to_s] ? true : false) %>
         <% else %>
-          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control', :disabled => !ENV['HEROKU_OAUTH_TOKEN'] %>
+          <%= text_field_tag k, :value => ENV[k.to_s], :class => 'form-control' %>
         <% end %>
       </div>
     </div>

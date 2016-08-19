@@ -35,7 +35,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 
 * Register a domain `$DOMAIN`. In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`
 
-* Create a 2GB (or greater) droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.5.6 on 14.04' 
+* Create a 2GB (or greater) droplet with the hostname `$MAIL_SERVER_ADDRESS` and select the image 'Dokku 0.6.5 on 14.04' 
 
 * Install fail2ban: `apt-get install fail2ban`
 

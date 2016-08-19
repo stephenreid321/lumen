@@ -83,7 +83,7 @@ Lumen::App.controllers do
       :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
       
       :SSL => ['Site served via SSL'],
-      :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],      
+      :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],
       :HEROKU_OAUTH_TOKEN => 'Heroku OAuth token',
       :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],            
                   
@@ -143,8 +143,14 @@ Lumen::App.controllers do
      
   post '/config' do
     site_admins_only!
-    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-    heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])
+    if ENV['HEROKU_OAUTH_TOKEN']
+      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
+      heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])
+    else
+      Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
+        ssh.exec!("dokku config:set #{ENV['APP_NAME']} #{@environment_variables.map { |k,v| %Q{#{k}="#{v}"} }.join(' ')}")
+      end              
+    end
     flash[:notice] = "Your config vars were updated. You may have to refresh the page for your changes to take effect."
     redirect '/config'
   end  

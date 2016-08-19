@@ -6,7 +6,7 @@
 <h2>Translations</h2>
 
 <% if current_account.admin? %>
-  <p>Please note you must <%= ENV['HEROKU_OAUTH_TOKEN'] ? '<a href="/config/restart">restart the app</a>' : 'restart the app' %> for new translations to take effect.</p>
+  <p>Please note you must <a href="/config/restart">restart the app</a> for new translations to take effect.</p>
 <% end %>
 
 <% form_tag '/translations' do %>

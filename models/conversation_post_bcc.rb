@@ -77,7 +77,7 @@ class ConversationPostBcc
     if previous_conversation_posts
       begin
         if ENV['BCC_SINGLE']
-          references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc.message_id}>" }
+          references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc.try(:message_id)}>" }
         else
           account = self.conversation_post_bcc_recipient.account
           references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc_recipients.find_by(account: account).try(:conversation_post_bcc).try(:message_id)}>" }

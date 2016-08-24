@@ -14,14 +14,22 @@
       </style>
       <div id="add-single">
         <p><a href="javascript:;" onclick="$('#add-single input').val('');
-            $('#add-single').hide();
-            $('#add-multiple').show();">Add multiple</a></p>        
+              $('#add-single').hide();
+              $('#add-multiple').show();">Add multiple</a></p>        
 
         <% if (invitables = Account.where(:id.in => (current_account.network.pluck(:id) - @group.memberships.pluck(:account_id)))).count > 0 %>
           <h3><%=I18n.t(:someone_already_in_your_groups).capitalize%></h3>
           <div class="form-group">
-            <%= select_tag :account_id, :class => 'form-control', :options => [''] + invitables.sort_by { |account| account.name.downcase }.map { |account| ["#{account.name} (#{account.email})", account.id] } %>
+            <%= select_tag :account_id, :options => [''] + invitables.sort_by { |account| account.name.downcase }.map { |account| ["#{account.name} (#{account.email})", account.id] } %>
           </div>
+          <script type="text/javascript">
+            $('select[name=account_id]').select2(
+                    {
+                      allowClear: true,
+                      width: '100%'
+                    }
+            );
+          </script>          
           <h3>Someone new</h3>
         <% end %>
 

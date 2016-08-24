@@ -119,8 +119,8 @@ hr { border-color: #ccc; margin-top: 18px; margin-bottom: 18px }
 
 .select2-drop .select2-highlighted > .select2-result-label { background-color: $secondary }
 .select2-container .select2-choice, .select2-container .select2-default { background: white; font-size: 13px }
-.select2-container .select2-choice abbr { top: 6px }
-.select2-container .select2-choice .select2-arrow b { position: relative; top: -1px }
+.select2-container .select2-choice abbr { top: 11px }
+.select2-container .select2-choice .select2-arrow b { position: relative; top: 3px }
 
 .alert-info {
   background-color: #3498DB;

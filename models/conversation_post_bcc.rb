@@ -72,7 +72,13 @@ class ConversationPostBcc
     mail.from = "#{conversation_post.account.name} <#{conversation_post.from_address}>"
     mail.sender = group.email('-noreply')
     mail.subject = conversation.visible_conversation_posts.count == 1 ? "[#{group.slug}] #{conversation.subject}" : "Re: [#{group.slug}] #{conversation.subject}"
-    mail.headers({'Precedence' => 'list', 'X-Auto-Response-Suppress' => 'OOF', 'Auto-Submitted' => 'auto-generated', 'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>"})
+    mail.headers({
+        'Precedence' => 'list',
+        'X-Auto-Response-Suppress' => 'OOF',
+        'Auto-Submitted' => 'auto-generated',
+        'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>",
+        'List-Unsubscribe' => "<http://#{ENV['MAIL_DOMAIN']}/groups/#{group.slug}/notification_level?level=none>"
+      })
         
     if previous_conversation_posts
       begin

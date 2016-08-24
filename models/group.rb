@@ -109,7 +109,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   end
   
   def visible_conversation_posts
-    conversation_posts.where(:hidden.ne => true)
+    conversation_posts.where(:hidden.ne => true).where(:conversation_id.in => visible_conversations.pluck(:id))
   end
   
   belongs_to :group_type, index: true

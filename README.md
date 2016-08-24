@@ -1,5 +1,6 @@
 # Lumen
 
+[![Build Status](https://travis-ci.org/wordsandwriting/lumen.png?branch=master)](https://travis-ci.org/wordsandwriting/lumen)
 [![Code Climate](https://codeclimate.com/github/wordsandwriting/lumen.png)](https://codeclimate.com/github/wordsandwriting/lumen)
 
 **For a live preview of Lumen, feel free to [join the previewers group on lumenapp.com](http://www.lumenapp.com/groups/previewers).**
@@ -58,7 +59,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
   ```
   $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS   
   $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP  
-  $MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"  
+  $MAIL_DOMAIN TXT "v=spf1 mx -all"  
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```
 
@@ -91,9 +92,11 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 * Set cron tasks with `crontab -e`:
 
   ```
-  0 4 * * * /usr/local/bin/dokku run $APP_NAME rake cleanup  
-  0 8 * * * /usr/local/bin/dokku run $APP_NAME rake digests:daily  
-  0 0 * * 0 /usr/local/bin/dokku run $APP_NAME rake digests:weekly
+  0 1 * * * /usr/bin/dokku ps:scale $APP_NAME web=1 worker=1
+  0 2 * * * /usr/bin/dokku run $APP_NAME rake groups:check
+  0 4 * * * /usr/bin/dokku run $APP_NAME rake cleanup  
+  0 8 * * * /usr/bin/dokku run $APP_NAME rake digests:daily  
+  0 0 * * 0 /usr/bin/dokku run $APP_NAME rake digests:weekly
   ```
 
 * Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address `admin@example.com` and the password `lumen`.) Change the admin name, email address and password.

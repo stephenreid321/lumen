@@ -102,7 +102,12 @@ table a:not(.btn), .table a:not(.btn) { text-decoration: none }
 
 a.group { color: #999 }
 
-.select2-container .select2-choice .select2-arrow { border: 0 }
+.select2-container .select2-choice {
+  border: 2px solid #bdc3c7;
+  height: 38px;
+  line-height: 38px;
+}
+.select2-container .select2-choice .select2-arrow { border: 0; border-radius: 0 }
 .note-editor .btn-sm { font-size: 11px; line-height: 100% }
 .note-editor .btn-group > .btn + .dropdown-toggle { padding-top: 9px; padding-bottom: 9px }
 .note-editable { background: white }

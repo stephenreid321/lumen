@@ -8,7 +8,6 @@ DEFAULT_COLORS = {
   'primary-dark' => '#CDA70D',
   'secondary' => '#E74C3C',
   'secondary-dark' => '#CD4435',
-  'secondary-light' => '#F9DFDD',
   'grey-light' => '#ECF0F1',
   'grey-mid' => '#D6DBDF',
   'dark-contrast' => '#F5D74B'

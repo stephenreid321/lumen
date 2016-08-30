@@ -3,7 +3,6 @@ $primary-contrast: colors('primary-contrast');
 $primary-dark: colors('primary-dark');
 $secondary: colors('secondary');
 $secondary-dark: colors('secondary-dark');
-$secondary-light: colors('secondary-light');
 $grey-light: colors('grey-light');
 $grey-mid: colors('grey-mid');
 $dark-contrast: colors('dark-contrast');
@@ -228,6 +227,6 @@ ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
 #venue-filters { background: $grey-light }
 #map-canvas { background: $grey-light !important; }
 .wall-conversation-post-replies { background: $grey-light }
-.stats-highlight { background: $secondary-light }
+.stats-highlight { }
 
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control, .select2-search input[type="text"][disabled], .select2-search input[type="text"][readonly], fieldset[disabled] .select2-search input[type="text"] { color: #999 }

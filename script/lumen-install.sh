@@ -142,11 +142,27 @@ cat <<EOT >> /etc/opendkim/SigningTable
 *@$MAIL_DOMAIN mail._domainkey.$MAIL_DOMAIN
 EOT
 
-cd /etc/opendkim/keys; mkdir $MAIL_DOMAIN; cd $MAIL_DOMAIN; opendkim-genkey -s mail -d $MAIL_DOMAIN; chown opendkim:opendkim mail.private; 
+cd /etc/opendkim/keys
+mkdir $MAIL_DOMAIN
+cd $MAIL_DOMAIN
+opendkim-genkey -s mail -d $MAIL_DOMAIN
+chown opendkim:opendkim mail.private
 
-newaliases; service postfix restart; service dovecot restart; service opendkim restart
+newaliases
+service postfix restart
+service dovecot restart
+service opendkim restart
 
 dokku apps:create $APP_NAME
 dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
 dokku mongo:create $MONGO_SERVICE_NAME
 dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
+
+ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
+cat ~/.ssh/id_rsa.pub | sshcommand acl-add dokku root
+ssh-keyscan localhost >> ~/.ssh/known_hosts
+cd ~
+git clone https://github.com/wordsandwriting/lumen.git
+cd lumen
+git remote add $APP_NAME dokku@localhost:$APP_NAME
+git push $APP_NAME master

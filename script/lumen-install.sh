@@ -160,7 +160,7 @@ dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
 dokku mongo:create $MONGO_SERVICE_NAME
 dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
 
-DOKKU_SETUP_PAGE=$(curl http://138.68.159.78/)
+DOKKU_SETUP_PAGE=$(curl http://$MAIL_SERVER_IP)
 SSH_PUBLIC_KEY=$(expr "$string" : '.*\(ssh-rsa .*\)</textarea>')
 curl -d "keys=$SSH_PUBLIC_KEY&hostname=$DOMAIN&vhost=true" http://$MAIL_SERVER_IP/setup
 

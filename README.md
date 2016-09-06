@@ -35,16 +35,9 @@ In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
 
 * Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$MAIL_SERVER_IP`.
 
-* Run the first installation script:
+* Run the installation script:
   ```
-  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install-1.sh; chmod +x lumen-install-1.sh; ./lumen-install-1.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN $APP_NAME $MONGO_SERVICE_NAME
-  ```
-
-* Visit `$MAIL_SERVER_IP`. Enter `$DOMAIN` as the hostname and check 'Use virtualhost naming for apps'.
-
-* Run the second installation script:
-  ```
-  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install-2.sh; chmod +x lumen-install-2.sh; ./lumen-install-2.sh $APP_NAME $MAIL_SERVER_PASSWORD
+  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN $APP_NAME $MONGO_SERVICE_NAME $MAIL_SERVER_PASSWORD $MAIL_SERVER_IP
   ```
 
 * Set core configuration variables (you can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`):

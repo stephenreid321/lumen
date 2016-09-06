@@ -88,10 +88,10 @@ Lumen::App.controllers do
       :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],            
                   
       :PRIMARY_COLOR => 'Default #F5D74B',
-      :PRIMARY_CONTRAST_COLOR => 'Default #222222',
       :PRIMARY_DARK_COLOR => 'Default #CDA70D',
       :SECONDARY_COLOR => 'Default #E74C3C',
       :SECONDARY_DARK_COLOR => 'Default #CD4435',
+      :PRIMARY_CONTRAST_COLOR => 'Default #222222',
       :GREY_LIGHT_COLOR => 'Default #ECF0F1',
       :GREY_MID_COLOR => 'Default #D6DBDF',
       :DARK_CONTRAST_COLOR => 'Default #F5D74B'    

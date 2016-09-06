@@ -1,5 +1,7 @@
 MAIL_SERVER_ADDRESS=$1
 MAIL_DOMAIN=$2
+APP_NAME=$3
+MONGO_SERVICE_NAME=$4
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem -subj "/"
 aptitude -y install fail2ban
@@ -143,3 +145,8 @@ EOT
 cd /etc/opendkim/keys; mkdir $MAIL_DOMAIN; cd $MAIL_DOMAIN; opendkim-genkey -s mail -d $MAIL_DOMAIN; chown opendkim:opendkim mail.private; 
 
 newaliases; service postfix restart; service dovecot restart; service opendkim restart
+
+dokku apps:create $APP_NAME
+dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
+dokku mongo:create $MONGO_SERVICE_NAME
+dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME

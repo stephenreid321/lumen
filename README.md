@@ -31,13 +31,11 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 
 ## Installation instructions for DigitalOcean/dokku
 
-In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
-
-* Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$MAIL_SERVER_IP`.
+* Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$DOKKU_IP`.
 
 * Run the installation script:
   ```
-  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_IP $DOMAIN $MAIL_SERVER_PASSWORD
+  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DOKKU_IP $DOMAIN $MAIL_SERVER_PASSWORD
   ```
 
 * Set core configuration variables (you can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`):
@@ -49,7 +47,7 @@ In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
 
   ```
   $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS   
-  $MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP  
+  $MAIL_SERVER_ADDRESS A $DOKKU_IP  
   $MAIL_DOMAIN TXT "v=spf1 mx -all"  
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```

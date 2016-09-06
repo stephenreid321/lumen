@@ -33,7 +33,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 
 In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
 
-* Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$MAIL_SERVER_IP`
+* Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$MAIL_SERVER_IP`.
 
 * Install fail2ban: `apt-get install fail2ban`
 
@@ -45,7 +45,7 @@ In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
 
   (You can hit enter a bunch of times to leave the fields empty)
 
-* Install mail packages (**make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` with your domain**). When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no:
+* Install mail packages (**make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` here**). When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no:
 
   ```
   aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart
@@ -70,14 +70,14 @@ In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
   git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@localhost:$APP_NAME; git push $APP_NAME master
   ```
 
-* Set configuration variables (you can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`):
+* Set core configuration variables (you can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`):
   ```
   dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET S3_REGION=$S3_REGION SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
   ```
   
-* Start a worker process: `dokku ps:scale $APP_NAME web=1 worker=1`
-
 * Create default language and database indexes: `dokku run $APP_NAME rake languages:default[English,en]; dokku run $APP_NAME rake mi:create_indexes`
+
+* Start a worker process: `dokku ps:scale $APP_NAME web=1 worker=1`
 
 * Set cron tasks with `crontab -e`:
 

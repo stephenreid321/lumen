@@ -2,6 +2,8 @@ MAIL_SERVER_ADDRESS=$1
 MAIL_DOMAIN=$2
 APP_NAME=$3
 MONGO_SERVICE_NAME=$4
+MAIL_SERVER_PASSWORD=$5
+MAIL_SERVER_IP=$6
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem -subj "/"
 aptitude -y install fail2ban
@@ -157,3 +159,32 @@ dokku apps:create $APP_NAME
 dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
 dokku mongo:create $MONGO_SERVICE_NAME
 dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
+
+DOKKU_SETUP_PAGE=$(curl http://138.68.159.78/)
+SSH_PUBLIC_KEY=$(expr "$string" : '.*\(ssh-rsa .*\)</textarea>')
+curl -d "keys=$SSH_PUBLIC_KEY&hostname=$DOMAIN&vhost=true" http://$MAIL_SERVER_IP/setup
+
+ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
+cat ~/.ssh/id_rsa.pub | sshcommand acl-add dokku root
+ssh-keyscan localhost >> ~/.ssh/known_hosts
+cd ~
+git clone https://github.com/wordsandwriting/lumen.git
+cd lumen
+git remote add $APP_NAME dokku@localhost:$APP_NAME
+git push $APP_NAME master
+sed -i '/PasswordAuthentication yes/s/^#//g' /etc/ssh/sshd_config
+restart ssh
+echo -e "$MAIL_SERVER_PASSWORD\n$MAIL_SERVER_PASSWORD\n" | passwd
+dokku run $APP_NAME rake languages:default[English,en]
+dokku run $APP_NAME rake mi:create_indexes
+dokku ps:scale $APP_NAME web=1 worker=1
+
+cat <<EOT >> /var/spool/cron/crontabs/root
+
+0 1 * * * /usr/bin/dokku ps:scale $APP_NAME web=1 worker=1
+0 2 * * * /usr/bin/dokku run $APP_NAME rake groups:check
+0 4 * * * /usr/bin/dokku run $APP_NAME rake cleanup  
+0 8 * * * /usr/bin/dokku run $APP_NAME rake digests:daily  
+0 0 * * 0 /usr/bin/dokku run $APP_NAME rake digests:weekly
+
+EOT

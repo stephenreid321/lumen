@@ -4,7 +4,7 @@ MAIL_DOMAIN=$2
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem -subj "/"
 aptitude -y install fail2ban
 debconf-set-selections <<< "postfix postfix/mailname string $MAIL_DOMAIN"; debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"; aptitude -y install postfix
-DEBIAN_FRONTEND=noninteractive; aptitude -y install dovecot-core dovecot-imapd
+DEBIAN_FRONTEND=noninteractive aptitude -y install dovecot-core dovecot-imapd
 aptitude -y install opendkim opendkim-tools
 mkdir /etc/opendkim; mkdir /etc/opendkim/keys
 

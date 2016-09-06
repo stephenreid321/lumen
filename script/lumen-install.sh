@@ -1,10 +1,9 @@
-MAIL_SERVER_ADDRESS=$1
-MAIL_DOMAIN=$2
-APP_NAME=$3
-MONGO_SERVICE_NAME=$4
-MAIL_SERVER_IP=$5
-DOMAIN=$6
-MAIL_SERVER_PASSWORD=$7
+MAIL_SERVER_IP=$1
+APP_NAME=$2
+DOMAIN=$3
+MAIL_DOMAIN=$4
+MAIL_SERVER_ADDRESS=$5
+MAIL_SERVER_PASSWORD=$6
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem -subj "/"
 aptitude -y install fail2ban
@@ -158,8 +157,8 @@ service opendkim restart
 
 dokku apps:create $APP_NAME
 dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
-dokku mongo:create $MONGO_SERVICE_NAME
-dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
+dokku mongo:create $APP_NAME
+dokku mongo:link $APP_NAME $APP_NAME
 
 DOKKU_SETUP_PAGE=$(curl http://$MAIL_SERVER_IP)
 SSH_PUBLIC_KEY=$(expr "$DOKKU_SETUP_PAGE" : '.*\(ssh-rsa .*\)</textarea>')

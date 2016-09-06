@@ -35,58 +35,21 @@ In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
 
 * Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$MAIL_SERVER_IP`.
 
-* Install fail2ban: `apt-get install fail2ban`
-
-* Create certificates:
-
+* Run the first installation script:
   ```
-  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem
+  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install-1.sh; chmod +x lumen-install-1.sh; ./lumen-install-1.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN $APP_NAME $MONGO_SERVICE_NAME
   ```
 
-  (You can hit enter a bunch of times to leave the fields empty)
+* Visit `$MAIL_SERVER_IP`. Enter `$DOMAIN` as the hostname and check 'Use virtualhost naming for apps'.
 
-* Install mail packages (**make sure you replace `$MAIL_SERVER_ADDRESS` and `$MAIL_DOMAIN` here**). When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no:
-
+* Run the second installation script:
   ```
-  aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart
-  ```
-
-* Visit `$MAIL_SERVER_IP`. Enter `$DOMAIN` as the hostname and check 'Use virtualhost naming for apps'
-
-* Create the dokku app and add the mongo plugin:
-
-  ```
-  dokku apps:create $APP_NAME
-  dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
-  dokku mongo:create $MONGO_SERVICE_NAME
-  dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
-  ```
-
-* Put your private key in `~/.ssh/id_rsa` and `chmod 600 ~/.ssh/id_rsa`. Enable password authentication and set a password for the root user with: `nano /etc/ssh/sshd_config`; uncomment `PasswordAuthentication yes`; `restart ssh`; `passwd`
-
-* Deploy the app via:
-
-  ```
-  git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@localhost:$APP_NAME; git push $APP_NAME master
+  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install-2.sh; chmod +x lumen-install-2.sh; ./lumen-install-2.sh $APP_NAME $MAIL_SERVER_PASSWORD
   ```
 
 * Set core configuration variables (you can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`):
   ```
   dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET S3_REGION=$S3_REGION SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
-  ```
-  
-* Create default language and database indexes: `dokku run $APP_NAME rake languages:default[English,en]; dokku run $APP_NAME rake mi:create_indexes`
-
-* Start a worker process: `dokku ps:scale $APP_NAME web=1 worker=1`
-
-* Set cron tasks with `crontab -e`:
-
-  ```
-  0 1 * * * /usr/bin/dokku ps:scale $APP_NAME web=1 worker=1
-  0 2 * * * /usr/bin/dokku run $APP_NAME rake groups:check
-  0 4 * * * /usr/bin/dokku run $APP_NAME rake cleanup  
-  0 8 * * * /usr/bin/dokku run $APP_NAME rake digests:daily  
-  0 0 * * 0 /usr/bin/dokku run $APP_NAME rake digests:weekly
   ```
 
 * Add DNS records (get DKIM key with `nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt`):

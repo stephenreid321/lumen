@@ -162,9 +162,7 @@ dokku mongo:create $MONGO_SERVICE_NAME
 dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
 
 DOKKU_SETUP_PAGE=$(curl http://$MAIL_SERVER_IP)
-echo $DOKKU_SETUP_PAGE
 SSH_PUBLIC_KEY=$(expr "$DOKKU_SETUP_PAGE" : '.*\(ssh-rsa .*\)</textarea>')
-echo $SSH_PUBLIC_KEY
 curl -d "keys=$SSH_PUBLIC_KEY&hostname=$DOMAIN&vhost=true" http://$MAIL_SERVER_IP/setup
 
 ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''

@@ -37,7 +37,7 @@ In this simple setup, `$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS`.
 
 * Run the installation script:
   ```
-  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN $APP_NAME $MONGO_SERVICE_NAME $MAIL_SERVER_PASSWORD $MAIL_SERVER_IP
+  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_IP $DOMAIN $MAIL_SERVER_PASSWORD
   ```
 
 * Set core configuration variables (you can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`):

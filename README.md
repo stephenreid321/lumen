@@ -33,7 +33,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 
 * Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$DOKKU_IP`.
 
-* Run the installation script:
+* Run the installation script, replacing `$DOKKU_IP`, `$DOMAIN` and `$MAIL_SERVER_PASSWORD` with the appropriate values (pick a good password for `$MAIL_SERVER_PASSWORD`):
   ```
   wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DOKKU_IP $DOMAIN $MAIL_SERVER_PASSWORD
   ```

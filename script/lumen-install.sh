@@ -2,8 +2,9 @@ MAIL_SERVER_ADDRESS=$1
 MAIL_DOMAIN=$2
 APP_NAME=$3
 MONGO_SERVICE_NAME=$4
-MAIL_SERVER_PASSWORD=$5
-MAIL_SERVER_IP=$6
+MAIL_SERVER_IP=$5
+DOMAIN=$6
+MAIL_SERVER_PASSWORD=$7
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem -subj "/"
 aptitude -y install fail2ban
@@ -161,7 +162,9 @@ dokku mongo:create $MONGO_SERVICE_NAME
 dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
 
 DOKKU_SETUP_PAGE=$(curl http://$MAIL_SERVER_IP)
+echo DOKKU_SETUP_PAGE
 SSH_PUBLIC_KEY=$(expr "$DOKKU_SETUP_PAGE" : '.*\(ssh-rsa .*\)</textarea>')
+echo SSH_PUBLIC_KEY
 curl -d "keys=$SSH_PUBLIC_KEY&hostname=$DOMAIN&vhost=true" http://$MAIL_SERVER_IP/setup
 
 ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''

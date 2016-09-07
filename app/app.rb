@@ -58,8 +58,9 @@ module Lumen
       if Account.count == 0       
         account = Account.create!(:name => 'Lumen Admin', :password => 'lumen', :password_confirmation => 'lumen', :email => 'admin@example.com', :admin => true)
         SignIn.create(account: account)
+        Group.create_notification_script if Config['APP_NAME'] and Config['MAIL_SERVER_ADDRESS']
         session[:account_id] = account.id
-        flash[:notice] = %Q{<strong>Welcome to Lumen!</strong> An admin account has been created. You'll want to change the name, email address and password.}
+        flash[:notice] = %Q{<strong>Welcome to Lumen!</strong> An admin account has been created. You'll want to change the name, email address and password.}        
         redirect '/me/edit'
       end      
       sign_in_required! unless Fragment.find_by(slug: 'public-homepage')

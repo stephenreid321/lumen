@@ -173,9 +173,11 @@ git clone https://github.com/wordsandwriting/lumen.git
 cd lumen
 git remote add $APP_NAME dokku@localhost:$APP_NAME
 git push $APP_NAME master
+
 sed -i '/PasswordAuthentication yes/s/^#//g' /etc/ssh/sshd_config
 restart ssh
 echo -e "$MAIL_SERVER_PASSWORD\n$MAIL_SERVER_PASSWORD\n" | passwd
+
 dokku run $APP_NAME rake languages:default[English,en]
 dokku run $APP_NAME rake mi:create_indexes
 dokku ps:scale $APP_NAME web=1 worker=1
@@ -189,3 +191,7 @@ cat <<EOT >> /var/spool/cron/crontabs/root
 0 0 * * 0 /usr/bin/dokku run $APP_NAME rake digests:weekly
 
 EOT
+
+SESSION_SECRET=$(uuidgen)
+DRAGONFLY_SECRET=$(uuidgen)
+dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET

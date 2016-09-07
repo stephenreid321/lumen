@@ -578,5 +578,27 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       end
     end    
   end
+  
+  def create_notification_script
+    Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
+      ssh.exec!("mkdir /notify")
+      ssh.exec!("chmod 777 /notify")
+      Net::SCP.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |scp|
+        scp.upload! StringIO.new(%Q{#!/bin/bash
+domain="#{Config['DOMAIN']}"
+maildomain="#{Config['MAIL_DOMAIN']}"
+token="#{Account.find_by(admin: true).secret_token}"
+mailfile=`mktemp`
+cat - > $mailfile
+
+if ! grep -q "Sender: $1-noreply@$maildomain" $mailfile; then 
+  curl -L --insecure http://$domain/groups/$1/check/?token=$token
+fi
+
+rm $mailfile}), "/notify/#{Config['APP_NAME']}.sh"
+      end
+      ssh.exec!("chmod 777 /notify/#{Config['APP_NAME']}.sh")
+    end    
+  end
       
 end

@@ -79,7 +79,6 @@ Lumen::App.controllers do
       :BCC_SINGLE => ['Send single BCC to conversation post subscribers'],
       :BCC_SINGLE_JOB => ['Handle single BCCs in the background'],      
       :BCC_EACH_THREADS => 'Number of threads to use when sending individual BCCs (default 10)',
-      :POOL_TIMEOUT => 'Mongo production environment pool timeout in seconds. More threads may require a higher timeout. Default 30s.',      
       :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
       
       :SSL => ['Site served via SSL'],
@@ -165,25 +164,7 @@ Lumen::App.controllers do
     
   get '/config/create_notification_script' do
     site_admins_only!    
-    Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
-      ssh.exec!("mkdir /notify")
-      ssh.exec!("chmod 777 /notify")
-      Net::SCP.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |scp|
-        scp.upload! StringIO.new(%Q{#!/bin/bash
-domain="#{Config['DOMAIN']}"
-maildomain="#{Config['MAIL_DOMAIN']}"
-token="#{Account.find_by(admin: true).secret_token}"
-mailfile=`mktemp`
-cat - > $mailfile
-
-if ! grep -q "Sender: $1-noreply@$maildomain" $mailfile; then 
-  curl -L --insecure http://$domain/groups/$1/check/?token=$token
-fi
-
-rm $mailfile}), "/notify/#{Config['APP_NAME']}.sh"
-      end
-      ssh.exec!("chmod 777 /notify/#{Config['APP_NAME']}.sh")
-    end
+    Group.create_notification_script
     redirect '/config'
   end 
   

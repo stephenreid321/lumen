@@ -38,13 +38,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
   wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DOKKU_IP $DOMAIN $MAIL_SERVER_PASSWORD
   ```
 
-* Set core configuration variables (you can get secrets for `$DRAGONFLY_SECRET` and `$SESSION_SECRET` by running `dokku run $APP_NAME rake secret`):
-  ```
-  dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET S3_REGION=$S3_REGION SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
-  ```
-
 * Add DNS records (get DKIM key with `nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt`):
-
   ```
   $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS   
   $MAIL_SERVER_ADDRESS A $DOKKU_IP  
@@ -52,9 +46,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```
 
-* Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address `admin@example.com` and the password `lumen`.) Change the admin name, email address and password.
-
-* Visit /config and click 'Create notification script'. Add additional configuration variables via `dokku config:set $APP_NAME VAR=$VAR`. You're done!
+* Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address `admin@example.com` and the password `lumen`.) Change the admin name, email address and password, then visit /config and set configuration variables. You're done!
 
 ## Switching mail servers
 

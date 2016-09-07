@@ -46,7 +46,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```
 
-* Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address `admin@example.com` and the password `lumen`.) Change the admin name, email address and password, then visit /config and set configuration variables. You're done!
+* Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address `admin@example.com` and the password `lumen`.) Change the admin name, email address and password, then visit /config to set configuration variables. You're done!
 
 ## Switching mail servers
 

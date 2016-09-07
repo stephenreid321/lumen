@@ -161,6 +161,9 @@ dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
 dokku mongo:create $MONGO_SERVICE_NAME
 dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
 
+dokku storage:mount $APP_NAME /var/lib/dokku/data/storage:/storage
+chmod a+w /var/lib/dokku/data/storage
+
 DOKKU_SETUP_PAGE=$(curl http://$DOKKU_IP)
 SSH_PUBLIC_KEY=$(expr "$DOKKU_SETUP_PAGE" : '.*\(ssh-rsa .*\)</textarea>')
 curl -d "keys=$SSH_PUBLIC_KEY&hostname=$DOMAIN&vhost=true" http://$DOKKU_IP/setup
@@ -195,6 +198,3 @@ EOT
 SESSION_SECRET=$(uuidgen)
 DRAGONFLY_SECRET=$(uuidgen)
 dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
-
-dokku storage:mount $APP_NAME /var/lib/dokku/data/storage:/storage
-chmod a+w /var/lib/dokku/data/storage

@@ -11,12 +11,7 @@ Lumen::App.controllers do
       :MAIL_SERVER_ADDRESS => 'Mail server address (no http://)',
       :MAIL_SERVER_USERNAME => 'Mail server username',
       :MAIL_SERVER_PASSWORD => 'Mail server password',
-      
-      :S3_BUCKET_NAME => 'S3 bucket name',
-      :S3_ACCESS_KEY => 'S3 access key',
-      :S3_SECRET => 'S3 secret',  
-      :S3_REGION => 'S3 region',  
-      
+            
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
       :AIRBRAKE_API_KEY => 'Airbrake API key',      
 
@@ -82,9 +77,14 @@ Lumen::App.controllers do
       :INCLUDE_SENDER_PROFILE => ['Include sender profile in conversation post emails'],
       
       :SSL => ['Site served via SSL'],
+      
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],
       :HEROKU_OAUTH_TOKEN => 'Heroku OAuth token',
-      :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],            
+      :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],                  
+      :S3_BUCKET_NAME => 'S3 bucket name',
+      :S3_ACCESS_KEY => 'S3 access key',
+      :S3_SECRET => 'S3 secret',  
+      :S3_REGION => 'S3 region',        
                   
       :PRIMARY_COLOR => 'Default #F5D74B',
       :PRIMARY_DARK_COLOR => 'Default #CDA70D',

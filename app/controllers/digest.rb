@@ -30,7 +30,7 @@ Lumen::App.controllers do
       @title = Nokogiri::HTML(@message.gsub('<br>',"\n")).text[0..149] if @message # for Gmail snippet
       Premailer.new(
         partial(:'digest/digest', locals: {group: @group, message: @message, h2: @h2, from: @from, to: @to, new_people: @new_people, hot_conversations: @hot_conversations, new_events: @new_events, upcoming_events: @upcoming_events}, :layout => :email),
-        :base_url => "http://#{ENV['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css      
+        :base_url => "http://#{Config['DOMAIN']}", :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css      
     else    
       erb :'digest/digest'
     end  

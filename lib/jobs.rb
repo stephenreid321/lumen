@@ -1,8 +1,8 @@
 class Workoff
   def self.workoff    
-    if ENV['HEROKU_WORKOFF'] and ENV['HEROKU_OAUTH_TOKEN']
-      heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])   
-      heroku.dyno.create(ENV['APP_NAME'], {command: "rake jobs:workoff"})
+    if Config['HEROKU_WORKOFF'] and Config['HEROKU_OAUTH_TOKEN']
+      heroku = PlatformAPI.connect_oauth(Config['HEROKU_OAUTH_TOKEN'])   
+      heroku.dyno.create(Config['APP_NAME'], {command: "rake jobs:workoff"})
     end
   end
 end

@@ -18,14 +18,14 @@ Lumen::App.controllers do
       end
       mail = Mail.new(
         :to => @account.email,
-        :from => "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>",
+        :from => "#{Config['SITE_NAME']} <#{Config['HELP_ADDRESS']}>",
         :subject => "New password",
         :body => erb(:'emails/forgot_password', :layout => false)
       )
       mail.deliver 
       flash[:notice] = "Further instructions were sent to #{@account.email}"
     else
-      flash[:error] = "There's no account registered under that email address. Please contact #{ENV['HELP_ADDRESS']} for assistance."
+      flash[:error] = "There's no account registered under that email address. Please contact #{Config['HELP_ADDRESS']} for assistance."
     end
     redirect back
   end

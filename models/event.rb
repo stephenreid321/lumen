@@ -91,14 +91,14 @@ class Event
   
   def self.ical(eventable)
     cal = RiCal.Calendar do |rcal|
-      rcal.add_x_property('X-WR-CALNAME', eventable.is_a?(Group) ? eventable.email : ENV['DOMAIN'])
+      rcal.add_x_property('X-WR-CALNAME', eventable.is_a?(Group) ? eventable.email : Config['DOMAIN'])
       eventable.events.each { |event|
         rcal.event do |revent|
           revent.summary = event.name
           revent.dtstart =  event.consider_time ? event.start_time : event.start_time.to_date
           revent.dtend = event.consider_time ? event.end_time : (event.end_time.to_date + 1.day)
           (revent.location = event.location) if event.location
-          revent.description = "http://#{ENV['DOMAIN']}/groups/#{event.group.slug}/events/#{event.id}"
+          revent.description = "http://#{Config['DOMAIN']}/groups/#{event.group.slug}/events/#{event.id}"
         end
       }
     end

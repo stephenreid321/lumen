@@ -21,7 +21,7 @@ module Lumen
     use OmniAuth::Builder do
       provider :account
       Provider.registered.each { |provider|
-        provider provider.omniauth_name, ENV["#{provider.display_name.upcase}_KEY"], ENV["#{provider.display_name.upcase}_SECRET"], {provider_ignores_state: true}
+        provider provider.omniauth_name, Config["#{provider.display_name.upcase}_KEY"], Config["#{provider.display_name.upcase}_SECRET"], {provider_ignores_state: true}
       }
     end  
     OmniAuth.config.on_failure = Proc.new { |env|
@@ -32,8 +32,8 @@ module Lumen
     set :default_builder, 'ActivateFormBuilder'    
                       
     before do
-      redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
-      Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : (ENV['DEFAULT_TIME_ZONE'] || 'London')
+      redirect "http://#{Config['DOMAIN']}#{request.path}" if Config['DOMAIN'] and request.env['HTTP_HOST'] != Config['DOMAIN']
+      Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : (Config['DEFAULT_TIME_ZONE'] || 'London')
       I18n.locale = (current_account and current_account.language) ? current_account.language.code : Language.default.code      
       fix_params!
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params

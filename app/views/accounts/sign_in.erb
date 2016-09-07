@@ -1,7 +1,7 @@
 
 <div style="text-align: center; margin-bottom: 20px">
 
-  <p style="margin: 1em"><%=I18n.t(:welcome_to).capitalize%> <%=ENV['SITE_NAME_DEFINITE']%>!</p>   
+  <p style="margin: 1em"><%=I18n.t(:welcome_to).capitalize%> <%=Config['SITE_NAME_DEFINITE']%>!</p>   
 
   <% form_tag '/auth/account/callback', :id => 'sign_in' do %>
     <div class="form-group" style="display:block; margin-bottom: 0.5em">

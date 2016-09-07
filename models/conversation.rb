@@ -54,7 +54,7 @@ class Conversation
   before_validation :set_conversation_post
   def set_conversation_post
     if self.body
-      self.body = self.body.gsub("\n","<br />\n") if ENV['WALL_STYLE_CONVERSATIONS']
+      self.body = self.body.gsub("\n","<br />\n") if Config['WALL_STYLE_CONVERSATIONS']
       conversation_post = self.conversation_posts.build body: self.body, account: self.account
       %w{title url description picture player}.each { |x|
         conversation_post.send("link_#{x}=", self.send("link_#{x}"))
@@ -79,7 +79,7 @@ class Conversation
   end
   
   after_create do
-    if ENV['MAIL_SERVER_ADDRESS'] and group.conversations_require_approval
+    if Config['MAIL_SERVER_ADDRESS'] and group.conversations_require_approval
       group = self.group
       Mail.defaults do
         delivery_method :smtp, group.smtp_settings
@@ -87,7 +87,7 @@ class Conversation
       mail = Mail.new(
         :to => group.admins.map(&:email),
         :from => "#{group.slug} <#{group.email('-noreply')}>",
-        :subject => "Conversation requires approval in #{group.slug} on #{ENV['SITE_NAME_SHORT']}",
+        :subject => "Conversation requires approval in #{group.slug} on #{Config['SITE_NAME_SHORT']}",
         :body => ERB.new(File.read(Padrino.root('app/views/emails/approval_required.erb'))).result(binding)
       )
       mail.deliver        

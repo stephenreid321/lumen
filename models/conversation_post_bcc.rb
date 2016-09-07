@@ -26,14 +26,14 @@ class ConversationPostBcc
     }
   end
   
-  if !ENV['BCC_SINGLE']
+  if !Config['BCC_SINGLE']
     def conversation_post_bcc_recipient
       conversation_post_bcc_recipients.first
     end
   end
   
   def read_receipt!
-    if !ENV['BCC_SINGLE']
+    if !Config['BCC_SINGLE']
       conversation_post.conversation_post_read_receipts.create(account: self.conversation_post_bcc_recipient.try(:account))
     end
   end
@@ -52,7 +52,7 @@ class ConversationPostBcc
             
   after_create :send_email
   def send_email
-    return unless ENV['MAIL_SERVER_ADDRESS']
+    return unless Config['MAIL_SERVER_ADDRESS']
     # set locals for ERB binding
     conversation_post_bcc = self
     conversation_post = conversation_post_bcc.conversation_post
@@ -66,7 +66,7 @@ class ConversationPostBcc
                 
     mail = Mail.new
     mail.to = group.email
-    if ENV['REPLY_TO_GROUP']
+    if Config['REPLY_TO_GROUP']
       mail.reply_to = group.email 
     end
     mail.from = "#{conversation_post.account.name} <#{conversation_post.from_address}>"
@@ -76,13 +76,13 @@ class ConversationPostBcc
         'Precedence' => 'list',
         'X-Auto-Response-Suppress' => 'OOF',
         'Auto-Submitted' => 'auto-generated',
-        'List-Id' => "<#{group.slug}.list-id.#{ENV['MAIL_DOMAIN']}>",
-        'List-Unsubscribe' => "<http://#{ENV['MAIL_DOMAIN']}/groups/#{group.slug}/notification_level?level=none>"
+        'List-Id' => "<#{group.slug}.list-id.#{Config['MAIL_DOMAIN']}>",
+        'List-Unsubscribe' => "<http://#{Config['MAIL_DOMAIN']}/groups/#{group.slug}/notification_level?level=none>"
       })
         
     if previous_conversation_posts
       begin
-        if ENV['BCC_SINGLE']
+        if Config['BCC_SINGLE']
           references = previous_conversation_posts.map { |previous_conversation_post| "<#{previous_conversation_post.conversation_post_bcc.try(:message_id)}>" }
         else
           account = self.conversation_post_bcc_recipient.account

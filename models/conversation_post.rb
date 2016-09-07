@@ -20,7 +20,7 @@ class ConversationPost
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
   has_many :conversation_post_read_receipts, :dependent => :destroy
   
-  if ENV['BCC_SINGLE']
+  if Config['BCC_SINGLE']
     def conversation_post_bcc
       conversation_post_bccs.first
     end
@@ -88,26 +88,26 @@ class ConversationPost
   def didyouknow_replacements(string)
     group = conversation.group
     members = group.members
-    string.gsub!('[site_url]', "#{ENV['SSL'] ? 'https://' : 'http://'}#{ENV['DOMAIN']}")
+    string.gsub!('[site_url]', "#{Config['SSL'] ? 'https://' : 'http://'}#{Config['DOMAIN']}")
     string.gsub!('[name]', group.name)
     string.gsub!('[slug]', group.slug)        
-    string.gsub!('[conversation_url]', "#{ENV['SSL'] ? 'https://' : 'http://'}#{ENV['DOMAIN']}/conversations/#{conversation.slug}")
+    string.gsub!('[conversation_url]', "#{Config['SSL'] ? 'https://' : 'http://'}#{Config['DOMAIN']}/conversations/#{conversation.slug}")
     string.gsub!('[members]', "#{m = members.count} #{m == 1 ? 'member' : 'members'}")
     string.gsub!('[upcoming_events]', "#{e = group.events.where(:start_time.gt => Time.now).count} #{e == 1 ? 'upcoming event' : 'upcoming events'}")
     most_recently_updated_account = members.order_by([:has_picture.desc, :updated_at.desc]).first
-    string.gsub!('[most_recently_updated_url]', "#{ENV['SSL'] ? 'https://' : 'http://'}#{ENV['DOMAIN']}/accounts/#{most_recently_updated_account.id}")
+    string.gsub!('[most_recently_updated_url]', "#{Config['SSL'] ? 'https://' : 'http://'}#{Config['DOMAIN']}/accounts/#{most_recently_updated_account.id}")
     string.gsub!('[most_recently_updated_name]', most_recently_updated_account.name)
     string
   end  
   
   def self.dmarc_fail_domains
-    %w{yahoo.com aol.com gmail.com googlemail.com} + (ENV['DMARC_FAIL_DOMAINS'] ? ENV['DMARC_FAIL_DOMAINS'].split(',') : [])
+    %w{yahoo.com aol.com} + (Config['DMARC_FAIL_DOMAINS'] ? Config['DMARC_FAIL_DOMAINS'].split(',') : [])
   end
 
   def from_address
     group = conversation.group
     from = account.email
-    if ENV['HIDE_ACCOUNT_EMAIL']
+    if Config['HIDE_ACCOUNT_EMAIL']
       group.email
     elsif ConversationPost.dmarc_fail_domains.include?(from.split('@').last)
       group.email('-noreply')
@@ -125,8 +125,8 @@ class ConversationPost
     unless force
       return if conversation.hidden
     end
-    if ENV['BCC_SINGLE']
-      if ENV['BCC_SINGLE_JOB']
+    if Config['BCC_SINGLE']
+      if Config['BCC_SINGLE_JOB']
         Delayed::Job.enqueue BccSingleJob.new(self.id)
       else
         bcc_single
@@ -172,7 +172,7 @@ class ConversationPost
     array = conversation_post.accounts_to_notify
     return if array.length == 0
     
-    no_of_threads = ENV['BCC_EACH_THREADS'] || 10
+    no_of_threads = Config['BCC_EACH_THREADS'] || 10
     
     slice_size = (array.length/Float(no_of_threads)).ceil
     slices = array.each_slice(slice_size).to_a

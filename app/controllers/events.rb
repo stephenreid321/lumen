@@ -56,7 +56,7 @@ Lumen::App.controllers do
         if !@group.conversation_creation_by_admins_only or @membership.admin?
           conversation = @event.group.conversations.create!(subject: "New event: #{@event.name}", account: current_account)
           conversation_post = conversation.conversation_posts.create!(
-            :body => %Q{<h2><a href="http://#{ENV['DOMAIN']}/groups/#{@group.slug}/events/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
+            :body => %Q{<h2><a href="http://#{Config['DOMAIN']}/groups/#{@group.slug}/events/#{@event.id}">#{@event.name}</a></h2>#{partial('events/summary', :locals => {:event => @event})}},
             :account => @event.account)
           conversation_post.send_notifications!  
         end

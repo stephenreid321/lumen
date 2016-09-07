@@ -1,4 +1,4 @@
-if ENV['SANITIZE']
+if Config['SANITIZE']
   
   Dir.entries("#{PADRINO_ROOT}/models").select { |filename| filename.ends_with?('.rb') }.map { |filename| filename.split('.rb').first.camelize.constantize }.each { |model|
     model.fields.map { |k,v| k if v.type == String }.compact.each { |f|

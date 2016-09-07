@@ -2,6 +2,6 @@ Hi <%=conversation_post.account.name.split(' ').first%>,
 
 <%=account.name%> just liked your post in <%=conversation_post.conversation.subject%>.
 
-Click here to view the post on the web: http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>
+Click here to view the post on the web: http://<%=Config['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>
 
 

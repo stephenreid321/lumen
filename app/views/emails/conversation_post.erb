@@ -9,7 +9,7 @@
   </head>
   <body>
     <span style="display:none !important;visibility: hidden;opacity: 0;font-size: 0"><%=(n = Nokogiri::HTML.parse(conversation_post.body)).css('style').remove; n.text[0..255]%><br /></span>
-    <span style="font-size: 80%">Respond by replying above this line or visit <a href="http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>">http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%></a></span>
+    <span style="font-size: 80%">Respond by replying above this line or visit <a href="http://<%=Config['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>">http://<%=Config['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%></a></span>
     <br />
 
     <% if group.didyouknows.count > 0 %>
@@ -17,30 +17,30 @@
       <br />
     <% end %>
 
-    <span style="font-size: 80%"><a href="http://<%=ENV['DOMAIN']%>/conversation_posts/<%=conversation_post.id%>/like">Like this post</a></span>      
+    <span style="font-size: 80%"><a href="http://<%=Config['DOMAIN']%>/conversation_posts/<%=conversation_post.id%>/like">Like this post</a></span>      
     <br />
 
     <br />
 
     <%=conversation_post.replace_cids!.replace_iframes!.body%>
     
-    <% if ENV['INCLUDE_SENDER_PROFILE'] %>
+    <% if Config['INCLUDE_SENDER_PROFILE'] %>
       <div style="margin-top: 1em">
-        <a href="http://<%=ENV['DOMAIN']%>/accounts/<%=conversation_post.account.id%>"><img style="width: 130px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('130x130#').url : "http://#{ENV['DOMAIN']}/images/silhouette.png" %>"></a>
-        <h3><a href="http://<%=ENV['DOMAIN']%>/accounts/<%=conversation_post.account.id%>"><%=conversation_post.account.name%></a></h3>
+        <a href="http://<%=Config['DOMAIN']%>/accounts/<%=conversation_post.account.id%>"><img style="width: 130px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('130x130#').url : "http://#{Config['DOMAIN']}/images/silhouette.png" %>"></a>
+        <h3><a href="http://<%=Config['DOMAIN']%>/accounts/<%=conversation_post.account.id%>"><%=conversation_post.account.name%></a></h3>
         <ul>    
-          <% if !ENV['HIDE_SEARCH_MEMBERSHIPS'] %>    
+          <% if !Config['HIDE_SEARCH_MEMBERSHIPS'] %>    
             <% if conversation_post.account.public_memberships.count > 0 %>
               <li>
                 <i title="Groups" class="fa fa-li fa-group"></i>
-                <%=I18n.t(:member_of).capitalize%> <%= conversation_post.account.public_memberships.map { |membership| %Q{<a href="http://#{ENV['DOMAIN']}/groups/#{membership.group.slug}">#{membership.group.name}</a>} }.to_sentence %>
+                <%=I18n.t(:member_of).capitalize%> <%= conversation_post.account.public_memberships.map { |membership| %Q{<a href="http://#{Config['DOMAIN']}/groups/#{membership.group.slug}">#{membership.group.name}</a>} }.to_sentence %>
               </li>
             <% end %>    
           <% end %>
 
-          <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+          <% if !Config['HIDE_ACCOUNT_AFFILIATIONS'] %>
             <% conversation_post.account.affiliations.each { |affiliation|%>
-              <li><i title="<%=affiliation.title%> <%=I18n.t(:at)%> <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> <%=I18n.t(:at)%> <a href="http://<%=ENV['DOMAIN']%>/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
+              <li><i title="<%=affiliation.title%> <%=I18n.t(:at)%> <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> <%=I18n.t(:at)%> <a href="http://<%=Config['DOMAIN']%>/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
             <% } %>
           <% end %>   
         </ul>
@@ -49,7 +49,7 @@
 
     <% close_divs = ''; conversation_post.conversation.visible_conversation_posts.order_by(:created_at.desc)[1..-1].each { |conversation_post| %>
       <br /><br />        
-      On <%=conversation_post.created_at%>, <%=conversation_post.account.name%><% unless ENV['HIDE_ACCOUNT_EMAIL']%> &lt;<a href="mailto:<%=conversation_post.account.email%>"><%=conversation_post.account.email%></a>&gt;<% end %>  wrote:
+      On <%=conversation_post.created_at%>, <%=conversation_post.account.name%><% unless Config['HIDE_ACCOUNT_EMAIL']%> &lt;<a href="mailto:<%=conversation_post.account.email%>"><%=conversation_post.account.email%></a>&gt;<% end %>  wrote:
       <div style="border-left: 1px solid #ccc; margin-left: 1em; padding-left: 1em">
         <%=conversation_post.replace_cids!.replace_iframes!.body%>
         <% close_divs << '</div>' %>
@@ -58,12 +58,12 @@
      
       <div style="margin-top: 1em">
         <span style="font-size: 80%">
-          Too many emails? <a href="http://<%=ENV['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>/mute">Mute this conversation</a>, switch to a <a href="http://<%=ENV['DOMAIN']%>/groups/<%=group.slug%>">digest</a>, or <a href="http://<%=ENV['DOMAIN']%>/groups/<%=group.slug%>">turn off email notifications completely</a>
+          Too many emails? <a href="http://<%=Config['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>/mute">Mute this conversation</a>, switch to a <a href="http://<%=Config['DOMAIN']%>/groups/<%=group.slug%>">digest</a>, or <a href="http://<%=Config['DOMAIN']%>/groups/<%=group.slug%>">turn off email notifications completely</a>
         </span>
       </div>
 
-      <% if !ENV['BCC_SINGLE'] %>
-        <img src="<%=ENV['DOMAIN']%>/conversation_post_bccs/<%=conversation_post_bcc.id%>/read.gif" />
+      <% if !Config['BCC_SINGLE'] %>
+        <img src="<%=Config['DOMAIN']%>/conversation_post_bccs/<%=conversation_post_bcc.id%>/read.gif" />
       <% end %>
   </body>
 </html>

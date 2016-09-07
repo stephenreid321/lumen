@@ -1,13 +1,13 @@
 Lumen::App.controllers do
   
   get '/groups/new' do
-    ENV['GROUP_CREATION_BY_ADMINS_ONLY'] ? site_admins_only! : sign_in_required!
+    Config['GROUP_CREATION_BY_ADMINS_ONLY'] ? site_admins_only! : sign_in_required!
     @group = Group.new
     erb :'groups/build'
   end
   
   post '/groups/new' do
-    ENV['GROUP_CREATION_BY_ADMINS_ONLY'] ? site_admins_only! : sign_in_required!
+    Config['GROUP_CREATION_BY_ADMINS_ONLY'] ? site_admins_only! : sign_in_required!
     @group = Group.new(params[:group])    
     if @group.save  
       flash[:notice] = "<strong>Great!</strong> The group was created successfully."
@@ -28,7 +28,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     redirect "/groups/#{@group.slug}/request_membership" if !@membership and @group.closed?    
-    sign_in_required! if ((@group.open? or @group.public?) and ENV['PRIVATE_NETWORK'])
+    sign_in_required! if ((@group.open? or @group.public?) and Config['PRIVATE_NETWORK'])
     membership_required! if @group.secret?
     @account = Account.new
     @title = @group.name
@@ -43,7 +43,7 @@ Lumen::App.controllers do
   end
   
   get '/groups/:slug/list_emails' do
-    if ENV['LIST_EMAIL_ADDRESSES']
+    if Config['LIST_EMAIL_ADDRESSES']
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required! unless @group.public?
@@ -59,7 +59,7 @@ Lumen::App.controllers do
     redirect back unless @group.closed?    
     (flash[:notice] = "You're already a member of that group" and redirect back) if @group.memberships.find_by(account: current_account)
     (flash[:notice] = "You've already requested membership to that group" and redirect back) if @group.membership_requests.find_by(account: current_account, status: 'pending')
-    (flash[:notice] = "You must sign in to request membership" and redirect '/sign_in') if ENV['PRIVATE_NETWORK'] and !current_account and !@group.allow_external_membership_requests
+    (flash[:notice] = "You must sign in to request membership" and redirect '/sign_in') if Config['PRIVATE_NETWORK'] and !current_account and !@group.allow_external_membership_requests
     @account = Account.new
     erb :'groups/request_membership'
   end
@@ -99,7 +99,7 @@ Lumen::App.controllers do
         mail = Mail.new(
           :to => @group.admins_receiving_membership_requests.map(&:email),
           :from => "#{@group.slug} <#{@group.email('-noreply')}>",
-          :subject => "#{@account.name} requested membership of #{@group.slug} on #{ENV['SITE_NAME_SHORT']}",
+          :subject => "#{@account.name} requested membership of #{@group.slug} on #{Config['SITE_NAME_SHORT']}",
           :body => erb(:'emails/membership_request', :layout => false)
         )
         mail.deliver   
@@ -126,7 +126,7 @@ Lumen::App.controllers do
   get '/groups/:slug/join' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     redirect back if @group.closed? or @group.secret?
-    redirect back if !current_account and ENV['PRIVATE_NETWORK']
+    redirect back if !current_account and Config['PRIVATE_NETWORK']
     if current_account
       @account = current_account
     else

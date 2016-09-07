@@ -1,4 +1,4 @@
-  <h2>People using <%=ENV['SITE_NAME']%></h2>
+  <h2>People using <%=Config['SITE_NAME']%></h2>
   <div>
     <% random(Account.where(:picture_uid.ne => nil), 6).each {  |account| %>
       <img style="margin: 10px" title="<%=account.name.split(' ').first%>" style="width: 100px" class="img-circle img-bordered" src="<%=account.picture ? account.picture.thumb('100x100#').url : '/images/silhouette.png' %>">

@@ -15,7 +15,7 @@ class Provider
   end
   
   def registered?
-    ENV["#{display_name.upcase}_KEY"] && ENV["#{display_name.upcase}_SECRET"]
+    Config["#{display_name.upcase}_KEY"] && Config["#{display_name.upcase}_SECRET"]
   end
   
   def self.all

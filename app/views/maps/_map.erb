@@ -57,9 +57,9 @@
 
   var markerClusterer = new MarkerClusterer(map, markers, {zoomOnClick: false});
 
-<% if ENV['MAP_DEFAULTS'] and points.length > 1 %>
-    map.setCenter(new google.maps.LatLng(<%=ENV['MAP_DEFAULTS'].split(',')[0]%>, <%=ENV['MAP_DEFAULTS'].split(',')[1]%>))
-    map.setZoom(<%=ENV['MAP_DEFAULTS'].split(',')[2]%>)
+<% if Config['MAP_DEFAULTS'] and points.length > 1 %>
+    map.setCenter(new google.maps.LatLng(<%=Config['MAP_DEFAULTS'].split(',')[0]%>, <%=Config['MAP_DEFAULTS'].split(',')[1]%>))
+    map.setZoom(<%=Config['MAP_DEFAULTS'].split(',')[2]%>)
 <% elsif !points.empty? %>
     map.fitBounds(bounds);
 <% end %>

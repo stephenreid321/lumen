@@ -17,10 +17,10 @@ Lumen::App.controllers do
   
   post '/me/edit' do
     sign_in_required!
-    params[:account][:account_tag_ids] = [] if ENV['ACCOUNT_TAGS_PREDEFINED'] and !params[:account][:account_tag_ids]
+    params[:account][:account_tag_ids] = [] if Config['ACCOUNT_TAGS_PREDEFINED'] and !params[:account][:account_tag_ids]
     @account = current_account  
-    @account.require_account_affiliations = ENV['REQUIRE_ACCOUNT_AFFILIATIONS'] 
-    @account.prevent_email_changes = ENV['PREVENT_EMAIL_CHANGES']
+    @account.require_account_affiliations = Config['REQUIRE_ACCOUNT_AFFILIATIONS'] 
+    @account.prevent_email_changes = Config['PREVENT_EMAIL_CHANGES']
     if @account.update_attributes(params[:account])      
       if params[:return]
         redirect back

@@ -27,40 +27,40 @@ class Group
     after_assign { |picture| self.picture = picture.thumb('500x500>') }
   end  
     
-  field :reminder_email_subject, :type => String, :default => -> { "A reminder to complete your profile on #{ENV['SITE_NAME_SHORT']}" }
+  field :reminder_email_subject, :type => String, :default => -> { "A reminder to complete your profile on #{Config['SITE_NAME_SHORT']}" }
   field :reminder_email, :type => String, :default => -> {
     %Q{Hi [firstname],
    <br /><br />
-[admin] noticed that you haven't yet [issue] on #{ENV['SITE_NAME_DEFINITE']}.
+[admin] noticed that you haven't yet [issue] on #{Config['SITE_NAME_DEFINITE']}.
 <br /><br />
 Well-maintained profiles help build a stronger community. Will you spare a minute to provide the missing details?
 <br /><br />
-You can sign in at http://#{ENV['DOMAIN']}/sign_in.}
+You can sign in at http://#{Config['DOMAIN']}/sign_in.}
   }
     
-  field :invite_email_subject, :type => String, :default => -> { "You were added to the group #{self.name} (#{self.email}) on #{ENV['SITE_NAME_SHORT']}" }
+  field :invite_email_subject, :type => String, :default => -> { "You were added to the group #{self.name} (#{self.email}) on #{Config['SITE_NAME_SHORT']}" }
   field :invite_email, :type => String, :default => -> { 
     %Q{Hi [firstname],
 <br /><br />
-[admin] added you to the group #{self.name} (#{self.email}) on #{ENV['SITE_NAME_DEFINITE']}.
+[admin] added you to the group #{self.name} (#{self.email}) on #{Config['SITE_NAME_DEFINITE']}.
 <br /><br />
 [sign_in_details]}
   }    
   
-  field :membership_request_thanks_email_subject, :type => String, :default => -> { "Thanks for requesting membership of #{self.name} (#{self.email}) on #{ENV['SITE_NAME_SHORT']}" }
+  field :membership_request_thanks_email_subject, :type => String, :default => -> { "Thanks for requesting membership of #{self.name} (#{self.email}) on #{Config['SITE_NAME_SHORT']}" }
   field :membership_request_thanks_email, :type => String, :default => -> {
     %Q{Hi [firstname],
 <br /><br />
-Thanks for requesting membership of the group #{self.name} (#{self.email}) on #{ENV['SITE_NAME_DEFINITE']}.
+Thanks for requesting membership of the group #{self.name} (#{self.email}) on #{Config['SITE_NAME_DEFINITE']}.
 <br /><br />
 The group administrators have been notified and will process your request shortly.}
   }
   
-  field :membership_request_acceptance_email_subject, :type => String, :default => -> { "You're now a member of #{self.name} (#{self.email}) on #{ENV['SITE_NAME_SHORT']}" }
+  field :membership_request_acceptance_email_subject, :type => String, :default => -> { "You're now a member of #{self.name} (#{self.email}) on #{Config['SITE_NAME_SHORT']}" }
   field :membership_request_acceptance_email, :type => String, :default => -> {
     %Q{Hi [firstname],
 <br /><br />
-You have been granted membership of the group #{self.name} (#{self.email}) on #{ENV['SITE_NAME_DEFINITE']}.
+You have been granted membership of the group #{self.name} (#{self.email}) on #{Config['SITE_NAME_DEFINITE']}.
 <br /><br />
 [sign_in_details]}
   }
@@ -73,19 +73,19 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/  
   
   def email(suffix = '')
-    "#{self.slug}#{suffix}@#{ENV['MAIL_DOMAIN']}"
+    "#{self.slug}#{suffix}@#{Config['MAIL_DOMAIN']}"
   end
       
   def username(add = '')
-    "#{slug}#{add}.#{ENV['GROUP_USERNAME_SUFFIX'] || ENV['APP_NAME']}"
+    "#{slug}#{add}.#{Config['GROUP_USERNAME_SUFFIX'] || Config['APP_NAME']}"
   end
   
   def self.max_slug_length
-    32 - "-noreply.#{ENV['GROUP_USERNAME_SUFFIX'] || ENV['APP_NAME']}".length
+    32 - "-noreply.#{Config['GROUP_USERNAME_SUFFIX'] || Config['APP_NAME']}".length
   end  
                
   def smtp_settings
-    {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => self.username('-noreply'), :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
+    {:address => Config['MAIL_SERVER_ADDRESS'], :user_name => self.username('-noreply'), :password => Config['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
   end  
   
   has_many :conversations, :dependent => :destroy
@@ -227,7 +227,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       
   def self.privacies
     p = {}
-    (p['Public: group content is public and anyone can choose to join'] = 'public') unless ENV['PRIVATE_NETWORK']
+    (p['Public: group content is public and anyone can choose to join'] = 'public') unless Config['PRIVATE_NETWORK']
     p['Open: anyone can choose to join'] = 'open'
     p['Closed: people must request membership'] = 'closed'
     p['Secret: group is hidden and people can only join via invitation'] = 'secret'      
@@ -266,7 +266,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       
       h2 = "Digest for #{group.slug}"        
       # is there a better way of accessing the controller context?
-      html = open("http://#{ENV['DOMAIN']}/groups/#{group.slug}/digest?from=#{from.to_s(:db)}&to=#{to.to_s(:db)}&for_email=true&h2=#{URI.escape(h2)}&token=#{Account.find_by(admin: true).secret_token}", :allow_redirections => :safe, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read
+      html = open("http://#{Config['DOMAIN']}/groups/#{group.slug}/digest?from=#{from.to_s(:db)}&to=#{to.to_s(:db)}&for_email=true&h2=#{URI.escape(h2)}&token=#{Account.find_by(admin: true).secret_token}", :allow_redirections => :safe, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read
         
       if html.include?('Conversations') or html.include?('Hot conversations') or html.include?('New people') or html.include?('New events') or html.include?('Top stories')
         Mail.defaults do
@@ -296,16 +296,16 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       
   after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
-    if ENV['MAIL_SERVER_ADDRESS'] and !@setup_complete
-      if ENV['VIRTUALMIN']
+    if Config['MAIL_SERVER_ADDRESS'] and !@setup_complete
+      if Config['VIRTUALMIN']
         Delayed::Job.enqueue SetupMailAccountsAndForwarderViaVirtualminJob.new(self.id)
       else      
         group = self
-        Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
-          ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")
-          ssh.exec!("useradd -d /home/#{group.username('-noreply')} -m #{group.username('-noreply')}; echo #{group.username('-noreply')}:#{ENV['MAIL_SERVER_PASSWORD']} | chpasswd")                      
-          ssh.exec!(%Q{echo '#{group.slug}@#{ENV['MAIL_DOMAIN']} #{group.username}' >> /etc/postfix/virtual})
-          ssh.exec!(%Q{echo '#{group.username}: #{group.username('-inbox')}, "| /notify/#{ENV['APP_NAME']}.sh #{group.slug}"' >> /etc/aliases})
+        Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
+          ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{Config['MAIL_SERVER_PASSWORD']} | chpasswd")
+          ssh.exec!("useradd -d /home/#{group.username('-noreply')} -m #{group.username('-noreply')}; echo #{group.username('-noreply')}:#{Config['MAIL_SERVER_PASSWORD']} | chpasswd")                      
+          ssh.exec!(%Q{echo '#{group.slug}@#{Config['MAIL_DOMAIN']} #{group.username}' >> /etc/postfix/virtual})
+          ssh.exec!(%Q{echo '#{group.username}: #{group.username('-inbox')}, "| /notify/#{Config['APP_NAME']}.sh #{group.slug}"' >> /etc/aliases})
           ssh.exec!("newaliases")        
           ssh.exec!("postmap /etc/postfix/virtual")
           ssh.exec!("service postfix restart")
@@ -317,13 +317,13 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   
   after_destroy :remove_mail_accounts_and_forwarder
   def remove_mail_accounts_and_forwarder
-    if ENV['MAIL_SERVER_ADDRESS'] and !ENV['VIRTUALMIN']
+    if Config['MAIL_SERVER_ADDRESS'] and !Config['VIRTUALMIN']
       group = self
-      Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
+      Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
         ssh.exec!("deluser #{group.username('-inbox')} --remove-home")
         ssh.exec!("deluser #{group.username('-noreply')} --remove-home")
-        ssh.exec!(%Q{sed -i '/#{Regexp.escape(%Q{#{group.slug}@#{ENV['MAIL_DOMAIN']} #{group.username}}).gsub('/','\/')}/d' /etc/postfix/virtual})
-        ssh.exec!(%Q{sed -i '/#{Regexp.escape(%Q{#{group.username}: #{group.username('-inbox')}, "| /notify/#{ENV['APP_NAME']}.sh #{group.slug}"}).gsub('/','\/')}/d' /etc/aliases})
+        ssh.exec!(%Q{sed -i '/#{Regexp.escape(%Q{#{group.slug}@#{Config['MAIL_DOMAIN']} #{group.username}}).gsub('/','\/')}/d' /etc/postfix/virtual})
+        ssh.exec!(%Q{sed -i '/#{Regexp.escape(%Q{#{group.username}: #{group.username('-inbox')}, "| /notify/#{Config['APP_NAME']}.sh #{group.slug}"}).gsub('/','\/')}/d' /etc/aliases})
         ssh.exec!("newaliases")        
         ssh.exec!("postmap /etc/postfix/virtual")
         ssh.exec!("service postfix restart")    
@@ -335,12 +335,12 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     group = self   
     agent = Mechanize.new
     agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    index = agent.get("https://#{ENV['MAIL_SERVER_ADDRESS']}:10000").form_with(:action => '/session_login.cgi') do |f|
-      f.user = ENV['MAIL_SERVER_USERNAME']
-      f.pass = ENV['MAIL_SERVER_PASSWORD']
+    index = agent.get("https://#{Config['MAIL_SERVER_ADDRESS']}:10000").form_with(:action => '/session_login.cgi') do |f|
+      f.user = Config['MAIL_SERVER_USERNAME']
+      f.pass = Config['MAIL_SERVER_PASSWORD']
     end.submit
     form = index.frames[0].click.forms[0]
-    form.field_with(:name => 'dom').option_with(:text => /#{Regexp.escape(ENV['MAIL_DOMAIN'][0..9])}/).click
+    form.field_with(:name => 'dom').option_with(:text => /#{Regexp.escape(Config['MAIL_DOMAIN'][0..9])}/).click
     domain_page = form.submit
     users_page = domain_page.link_with(:text => 'Edit Users').click
     add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
@@ -349,13 +349,13 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     # Add inbound user
     form = add_user_page.form_with(:action => 'save_user.cgi')
     form['mailuser'] = "#{group.slug}-inbox"
-    form['mailpass'] = ENV['MAIL_SERVER_PASSWORD']
+    form['mailpass'] = Config['MAIL_SERVER_PASSWORD']
     form['quota'] = 0
     form.submit
     # Add outbound user
     form = add_user_page.form_with(:action => 'save_user.cgi')
     form['mailuser'] = "#{group.slug}-noreply"
-    form['mailpass'] = ENV['MAIL_SERVER_PASSWORD']
+    form['mailpass'] = Config['MAIL_SERVER_PASSWORD']
     form['quota'] = 0
     form.submit    
     # Add pipe
@@ -364,13 +364,13 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
     form['val_0'] = group.username('-inbox')
     form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
-    form['val_1'] = "/notify/#{ENV['APP_NAME']}.sh #{group.slug}"
+    form['val_1'] = "/notify/#{Config['APP_NAME']}.sh #{group.slug}"
     form.submit
   end
       
   attr_accessor :renamed
   before_validation do
-    errors.add(:slug, "is too long: max #{Group.max_slug_length} characters") if !ENV['VIRTUALMIN'] and self.slug and self.slug.length > Group.max_slug_length
+    errors.add(:slug, "is too long: max #{Group.max_slug_length} characters") if !Config['VIRTUALMIN'] and self.slug and self.slug.length > Group.max_slug_length
     @renamed = slug_changed?
     true
   end
@@ -387,13 +387,13 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   end
     
   def check!(since: Date.yesterday)
-    return unless ENV['MAIL_SERVER_ADDRESS']
+    return unless Config['MAIL_SERVER_ADDRESS']
     group = self
-    imap = Net::IMAP.new(ENV['MAIL_SERVER_ADDRESS'], :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
+    imap = Net::IMAP.new(Config['MAIL_SERVER_ADDRESS'], :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
     begin
-      imap.authenticate('PLAIN', group.username('-inbox'), ENV['MAIL_SERVER_PASSWORD'])
+      imap.authenticate('PLAIN', group.username('-inbox'), Config['MAIL_SERVER_PASSWORD'])
     rescue # try former/deprecated account form
-      imap.authenticate('PLAIN', group.username, ENV['MAIL_SERVER_PASSWORD'])
+      imap.authenticate('PLAIN', group.username, Config['MAIL_SERVER_PASSWORD'])
     end
     imap.select('INBOX')  
     
@@ -453,7 +453,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
         end 
         mail = Mail.new(
           :to => from,
-          :bcc => ENV['HELP_ADDRESS'],
+          :bcc => Config['HELP_ADDRESS'],
           :from => "#{group.slug} <#{group.email('-noreply')}>",
           :subject => "Delivery failed: #{mail.subject}",
           :body => ERB.new(File.read(Padrino.root('app/views/emails/delivery_failed.erb'))).result(binding)
@@ -495,7 +495,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
         (mail.in_reply_to and (conversation = ConversationPostBcc.find_by(message_id: mail.in_reply_to).try(:conversation)) and conversation.group == group) or
           (
           html.match(/Respond\s+by\s+replying\s+above\s+this\s+line/) and
-            (conversation_url_match = html.match(/http:\/\/#{ENV['DOMAIN']}\/conversations\/(\d+)/)) and
+            (conversation_url_match = html.match(/http:\/\/#{Config['DOMAIN']}\/conversations\/(\d+)/)) and
             conversation = group.conversations.find_by(slug: conversation_url_match[-1])
         )
       )

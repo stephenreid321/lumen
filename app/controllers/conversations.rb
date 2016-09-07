@@ -18,8 +18,8 @@ Lumen::App.controllers do
         @conversations = @conversations.where(:id.in => conversation_posts.pluck(:conversation_id))
       end
     end    
-    @conversations = @conversations.order_by(:updated_at.desc).per_page(ENV['WALL_STYLE_CONVERSATIONS'] ? 5 : 10).page(params[:page])            
-    if current_account and ENV['WALL_STYLE_CONVERSATIONS']
+    @conversations = @conversations.order_by(:updated_at.desc).per_page(Config['WALL_STYLE_CONVERSATIONS'] ? 5 : 10).page(params[:page])            
+    if current_account and Config['WALL_STYLE_CONVERSATIONS']
       @conversations.each { |conversation|
         conversation.visible_conversation_posts.each { |conversation_post|
           conversation_post.conversation_post_read_receipts.create(account: current_account, web: true)
@@ -74,7 +74,7 @@ Lumen::App.controllers do
       
   get '/conversations/:slug' do    
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
-    redirect "/groups/#{@conversation.group.slug}/conversations?q=slug:#{params[:slug]}" if ENV['WALL_STYLE_CONVERSATIONS']
+    redirect "/groups/#{@conversation.group.slug}/conversations?q=slug:#{params[:slug]}" if Config['WALL_STYLE_CONVERSATIONS']
     membership_required!(@conversation.group) unless @conversation.group.public?
     @membership = @conversation.group.memberships.find_by(account: current_account)
     if @conversation.hidden

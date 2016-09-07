@@ -1,4 +1,4 @@
-<% if !ENV['HIDE_SEARCH_TAGS'] %>
+<% if !Config['HIDE_SEARCH_TAGS'] %>
   <% if account.account_tagships.count > 0 %>
     <li>
       <i title="<%=I18n.t(:account_tagships).capitalize%>" class="fa fa-li fa-tags"></i>

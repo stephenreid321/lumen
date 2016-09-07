@@ -92,7 +92,7 @@ class Account
   end  
   
   def self.smtp_settings
-    {:address => ENV['MAIL_SERVER_ADDRESS'], :user_name => ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
+    {:address => Config['MAIL_SERVER_ADDRESS'], :user_name => Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
   end  
   
   attr_accessor :groups_to_join
@@ -122,9 +122,9 @@ class Account
         end    
         
         if account.sign_ins.count == 0 and account.password    
-          sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in with the email address #{account.email} and the password #{account.password}"
+          sign_in_details << "Sign in at http://#{Config['DOMAIN']}/sign_in with the email address #{account.email} and the password #{account.password}"
         else
-          sign_in_details << "Sign in at http://#{ENV['DOMAIN']}/sign_in."
+          sign_in_details << "Sign in at http://#{Config['DOMAIN']}/sign_in."
         end
       
         b = account.welcome_email_body
@@ -132,10 +132,10 @@ class Account
         .gsub('[group_list]',@groups_to_join.map { |id| Group.find(id).name }.to_sentence)
         .gsub('[sign_in_details]', sign_in_details)
             
-        if ENV['MAIL_SERVER_ADDRESS']
+        if Config['MAIL_SERVER_ADDRESS']
           mail = Mail.new
           mail.to = account.email
-          mail.from = "#{ENV['SITE_NAME']} <#{ENV['HELP_ADDRESS']}>"
+          mail.from = "#{Config['SITE_NAME']} <#{Config['HELP_ADDRESS']}>"
           mail.subject = account.welcome_email_subject
           mail.html_part do
             content_type 'text/html; charset=UTF-8'
@@ -251,7 +251,7 @@ class Account
   validates_presence_of :password_confirmation, :if => :password_required  
   
   def require_account_postcode
-    ENV['REQUIRE_ACCOUNT_POSTCODE']
+    Config['REQUIRE_ACCOUNT_POSTCODE']
   end      
   validates_presence_of :postcode, :if => :require_account_postcode
   
@@ -261,7 +261,7 @@ class Account
   validates_length_of :password, :within => 4..40, :if => :password_required
   validates_confirmation_of :password, :if => :password_required 
   
-  validates_length_of :headline, maximum: (ENV['MAX_HEADLINE_LENGTH'] ? ENV['MAX_HEADLINE_LENGTH'].to_i : 150)
+  validates_length_of :headline, maximum: (Config['MAX_HEADLINE_LENGTH'] ? Config['MAX_HEADLINE_LENGTH'].to_i : 150)
   
   index({email: 1 }, {unique: true})
   

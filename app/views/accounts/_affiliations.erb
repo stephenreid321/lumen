@@ -14,8 +14,8 @@
     <div id="affiliations">
       <% f.fields_for :affiliations do |o| %>
         <div class="affiliation">
-          <% if ENV['AFFILIATION_POSITIONS'] %>
-            <%= o.select :title, :options => ENV['AFFILIATION_POSITIONS'].split(','), :class => 'form-control' %>
+          <% if Config['AFFILIATION_POSITIONS'] %>
+            <%= o.select :title, :options => Config['AFFILIATION_POSITIONS'].split(','), :class => 'form-control' %>
           <% else %>
             <%= o.text_field :title, :class => 'form-control', :placeholder => I18n.t(:position).capitalize %>
           <% end %>
@@ -40,11 +40,11 @@
         var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;"><%= I18n.t(:add_another_affiliation).capitalize %></a></div>');
         $(icon).click(function () {
           var c = $('.affiliation').length
-<% if ENV['AFFILIATION_POSITIONS'] %>
+<% if Config['AFFILIATION_POSITIONS'] %>
             var i = $('<select/>');
             i.attr('name', 'account[affiliations_attributes][' + c + '][title]');
             i.attr('id', 'account_affiliations_attributes_' + c + '_title');
-  <% ENV['AFFILIATION_POSITIONS'].split(',').each { |ap| %>
+  <% Config['AFFILIATION_POSITIONS'].split(',').each { |ap| %>
               i.append('<option value="<%=ap%>"><%=ap%></option>')
   <% } %>
             i.addClass('form-control');

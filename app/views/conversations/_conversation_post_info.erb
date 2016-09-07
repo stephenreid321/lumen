@@ -1,11 +1,11 @@
 
 
-<% if !ENV['WALL_STYLE_CONVERSATIONS'] %>
+<% if !Config['WALL_STYLE_CONVERSATIONS'] %>
   <a class="edit" href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>" title="<%=conversation_post.created_at%>"><%=timeago(conversation_post.created_at)%></a>
   &middot;
 <% end %>
 
-<% if !ENV['BCC_SINGLE'] %>  
+<% if !Config['BCC_SINGLE'] %>  
   <a class="edit modal-trigger" href="/conversation_posts/<%=conversation_post.id%>/read_receipts"><%=pluralize(conversation_post.conversation_post_read_receipts.count,'person')%> read this</a>
   &middot;  
 <% end %>

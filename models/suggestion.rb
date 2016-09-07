@@ -28,7 +28,7 @@ class Suggestion
     mail = Mail.new
     mail.to = self.to
     mail.from = "#{account.name} <#{account.email}>"
-    mail.sender = "noreply@#{ENV['MAIL_DOMAIN']}"
+    mail.sender = "noreply@#{Config['MAIL_DOMAIN']}"
     mail.subject = self.subject
     b = self.body
     mail.html_part do

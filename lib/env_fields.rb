@@ -2,7 +2,7 @@ class EnvFields
   
   def self.fields(model)    
     varname = "ENV_FIELDS_#{model.to_s.upcase}"
-    ENV[varname] ? Hash[*ENV[varname].split(',').map { |pair| pair.split(':').map { |x| x.to_sym } }.flatten(1)] : {}    
+    Config[varname] ? Hash[*Config[varname].split(',').map { |pair| pair.split(':').map { |x| x.to_sym } }.flatten(1)] : {}    
   end
   
   def self.set(model)   

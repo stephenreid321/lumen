@@ -5,7 +5,7 @@
 
 <script>
   $(function () {
-    $('#map').load('/map?<%= {form: true, accounts: !ENV['HIDE_PEOPLE_BY_DEFAULT'], events: ENV['SHOW_EVENTS_BY_DEFAULT'], venues: ENV['SHOW_VENUES_BY_DEFAULT'], organisations: ENV['SHOW_ORGS_BY_DEFAULT']}.to_query %>')
+    $('#map').load('/map?<%= {form: true, accounts: !Config['HIDE_PEOPLE_BY_DEFAULT'], events: Config['SHOW_EVENTS_BY_DEFAULT'], venues: Config['SHOW_VENUES_BY_DEFAULT'], organisations: Config['SHOW_ORGS_BY_DEFAULT']}.to_query %>')
   });
 </script>
 <div id="map"></div>

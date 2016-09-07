@@ -16,7 +16,7 @@ DEFAULT_COLORS = {
 module Sass::Script::Functions
   def colors(color)
     color = color.to_s.gsub('"','')       
-    v = ENV["#{color.underscore.upcase}_COLOR"] || DEFAULT_COLORS[color]
+    v = Config["#{color.underscore.upcase}_COLOR"] || DEFAULT_COLORS[color]
     Sass::Script::Value::String.new(v)
   end 
 end

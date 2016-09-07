@@ -128,13 +128,13 @@ Lumen::App.controllers do
   
   get '/config' do
     site_admins_only!
-    if ENV['APP_NAME'] and ENV['MAIL_SERVER_ADDRESS']
-      Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |ssh|
+    if Config['APP_NAME'] and Config['MAIL_SERVER_ADDRESS']
+      Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
         result = ''
         ssh.exec!("ls /notify") do |channel, stream, data|
           result << data
         end
-        @notification_script = result.include?("#{ENV['APP_NAME']}.sh")      
+        @notification_script = result.include?("#{Config['APP_NAME']}.sh")      
       end
     end
     erb :config
@@ -142,28 +142,36 @@ Lumen::App.controllers do
      
   post '/config' do
     site_admins_only!
-    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-    heroku.config_var.update(ENV['APP_NAME'], Hash[@environment_variables.map { |k,v| [k, params[k]] }])             
-    flash[:notice] = "Your config vars were updated. You may have to refresh the page for your changes to take effect."
+    @environment_variables.each { |k,v|
+      config = Config.find_by(slug: k) || Config.create(slug: k)
+      config.update_attribute(:body, params[k])
+    }
+    flash[:notice] = "Your config vars were updated."
     redirect '/config'
   end  
     
   get '/config/restart' do
     site_admins_only!
-    heroku = PlatformAPI.connect_oauth(ENV['HEROKU_OAUTH_TOKEN'])
-    heroku.dyno.restart_all(ENV['APP_NAME'])
+    if Config['HEROKU_OAUTH_TOKEN']
+      heroku = PlatformAPI.connect_oauth(Config['HEROKU_OAUTH_TOKEN'])
+      heroku.dyno.restart_all(Config['APP_NAME'])
+    else
+      Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
+        ssh.exec!("dokku ps:rebuild #{Config['APP_NAME']}")
+      end      
+    end
     redirect back
   end
     
   get '/config/create_notification_script' do
     site_admins_only!    
-    Net::SSH.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do  |ssh|
+    Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
       ssh.exec!("mkdir /notify")
       ssh.exec!("chmod 777 /notify")
-      Net::SCP.start(ENV['MAIL_SERVER_ADDRESS'], ENV['MAIL_SERVER_USERNAME'], :password => ENV['MAIL_SERVER_PASSWORD']) do |scp|
+      Net::SCP.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |scp|
         scp.upload! StringIO.new(%Q{#!/bin/bash
-domain="#{ENV['DOMAIN']}"
-maildomain="#{ENV['MAIL_DOMAIN']}"
+domain="#{Config['DOMAIN']}"
+maildomain="#{Config['MAIL_DOMAIN']}"
 token="#{Account.find_by(admin: true).secret_token}"
 mailfile=`mktemp`
 cat - > $mailfile
@@ -172,9 +180,9 @@ if ! grep -q "Sender: $1-noreply@$maildomain" $mailfile; then
   curl -L --insecure http://$domain/groups/$1/check/?token=$token
 fi
 
-rm $mailfile}), "/notify/#{ENV['APP_NAME']}.sh"
+rm $mailfile}), "/notify/#{Config['APP_NAME']}.sh"
       end
-      ssh.exec!("chmod 777 /notify/#{ENV['APP_NAME']}.sh")
+      ssh.exec!("chmod 777 /notify/#{Config['APP_NAME']}.sh")
     end
     redirect '/config'
   end 

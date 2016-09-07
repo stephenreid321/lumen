@@ -13,19 +13,19 @@
       <i id="filter-spin" style="display: none; position: absolute; right: -5px; top: 9px" class="fa fa-spin fa-spinner"></i>
     </div>
 
-    <%  if defined?(full_width) or ENV['SHOW_COMPACT_ORG_FILTER'] %>
+    <%  if defined?(full_width) or Config['SHOW_COMPACT_ORG_FILTER'] %>
       <div class="<%=col_class%>">   
         <%= text_field_tag :organisation_name, :class => 'input-sm form-control', :placeholder => I18n.t(:filter_by_organisation).capitalize %>
       </div>
     <% end %>
 
-    <%  if defined?(full_width) or ENV['SHOW_COMPACT_TAG_FILTER'] %>
+    <%  if defined?(full_width) or Config['SHOW_COMPACT_TAG_FILTER'] %>
       <div class="<%=col_class%>">   
         <%= text_field_tag :account_tag_name, :class => 'input-sm form-control', :placeholder => I18n.t(:filter_by_account_tagship).capitalize %>
       </div>
     <% end %>
 
-    <% unless ENV['HIDE_COMPACT_SORT'] %>
+    <% unless Config['HIDE_COMPACT_SORT'] %>
       <div class="<%=col_class%>">
         <div style="text-align: right" >      
           <i style="margin-right: 4px" title="Sort by" class="fa fa-sort"></i>

@@ -2,15 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">    
-    <title><%=@title || ENV['SITE_NAME']%></title>      
+    <title><%=@title || Config['SITE_NAME']%></title>      
     <style>
       body, p, td, input { font-family: 	Lato,​Helvetica,​Arial,​sans-serif }
       h1 { font-family: 'loveloblack' }
       h1 small, h2 small, h3 small { color: #bbb }
-      a { text-decoration: none; color: <%=ENV['SECONDARY_COLOR'] || DEFAULT_COLORS['secondary']%> }
-      a.btn { font-weight: normal; color: <%=ENV['PRIMARY_CONTRAST_COLOR'] || DEFAULT_COLORS['primary-contrast']%>;  background: <%=ENV['PRIMARY_COLOR'] || DEFAULT_COLORS['primary']%>; padding: 5px 10px; border-radius: 5px; font-size: 14px }
+      a { text-decoration: none; color: <%=Config['SECONDARY_COLOR'] || DEFAULT_COLORS['secondary']%> }
+      a.btn { font-weight: normal; color: <%=Config['PRIMARY_CONTRAST_COLOR'] || DEFAULT_COLORS['primary-contrast']%>;  background: <%=Config['PRIMARY_COLOR'] || DEFAULT_COLORS['primary']%>; padding: 5px 10px; border-radius: 5px; font-size: 14px }
       table.table { width: 100% }
-      span.badge { background: <%=ENV['SECONDARY_COLOR'] || DEFAULT_COLORS['secondary']%>; border-radius: 5px; padding: 3px 5px; color: white }
+      span.badge { background: <%=Config['SECONDARY_COLOR'] || DEFAULT_COLORS['secondary']%>; border-radius: 5px; padding: 3px 5px; color: white }
       .img-circle { display: inline-block !important }
       ul.list-unstyled { padding: 0 }
       ul.list-unstyled li { margin-left: 0 }

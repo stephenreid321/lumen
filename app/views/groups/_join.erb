@@ -12,7 +12,7 @@
         <% if !current_account %>
           <%= f.text_block :name %>
           <%= f.text_block :email %>
-          <% if ENV['REQUEST_LOCATION'] %>
+          <% if Config['REQUEST_LOCATION'] %>
             <%= f.text_block :town %>
             <%= f.text_block :postcode %>
             <%= f.select_block :country %>  

@@ -24,40 +24,40 @@
     <% form_for @account, '/me/edit', :id => 'me-form', :class => 'form-horizontal', :multipart => true do |f| %>
 
       <%= f.text_block :name, tip: eval(f('tip-name')) %>
-      <% if !ENV['HIDE_ACCOUNT_HEADLINE'] %>
+      <% if !Config['HIDE_ACCOUNT_HEADLINE'] %>
         <style>#account_headline { height: 6em }</style>
         <script>
           $(function () {
             $('#account_headline').simplyCountable({
-              maxCount: <%= ENV['MAX_HEADLINE_LENGTH'] || 150 %>
+              maxCount: <%= Config['MAX_HEADLINE_LENGTH'] || 150 %>
             });
           })
         </script>
         <%= f.text_area_block :headline, tip: eval(f('tip-headline')), hint: %Q{<span id="counter"></span>} %>        
       <% end %>
-      <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+      <% if !Config['HIDE_ACCOUNT_AFFILIATIONS'] %>
         <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
       <% end %>
-      <%= f.email_block :email, tip: eval(f('tip-email')), disabled: ENV['PREVENT_EMAIL_CHANGES'] %>
+      <%= f.email_block :email, tip: eval(f('tip-email')), disabled: Config['PREVENT_EMAIL_CHANGES'] %>
 
       <%= eval(f('below-account-email')) %>
 
       <%= f.text_block :town, tip: eval(f('tip-town')) %>
       <%= f.text_block :postcode, tip: eval(f('tip-postcode')) %>
       <%= f.select_block :country, tip: eval(f('tip-country')) %>
-      <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
+      <% if !Config['HIDE_ACCOUNT_PHONE'] %>
         <%= f.text_block :phone, tip: eval(f('tip-phone')) %>
       <% end %>
-      <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
+      <% if !Config['HIDE_ACCOUNT_WEBSITE'] %>
         <%= f.url_block :website, tip: eval(f('tip-website')) %>
       <% end %>
-      <% if !ENV['HIDE_ACCOUNT_TIME_ZONE'] %>
+      <% if !Config['HIDE_ACCOUNT_TIME_ZONE'] %>
         <%= f.select_block :time_zone, tip: eval(f('tip-time-zone')) %>
       <% end %>
       <% if Language.count > 1 %>
         <%= f.select_block(:language_id, tip: eval(f('tip-language')), options: ['']+Language.all.map { |language| [language.name, language.id] }) %>
       <% end %>
-      <% if ENV['ACCOUNT_TAGS_PREDEFINED'] %>
+      <% if Config['ACCOUNT_TAGS_PREDEFINED'] %>
         <% if AccountTag.count > 0  %>
           <%= f.check_boxes_block :account_tag_ids, options: AccountTag.order('name asc').map { |account_tag| [account_tag.name, account_tag.id] }, checked: @account.account_tagships.map(&:account_tag_id) %>
         <% end %>

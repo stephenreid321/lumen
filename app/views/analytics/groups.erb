@@ -17,7 +17,7 @@
       <th>Change in group size</th>
       <th>Conversations</th>
       <th>Conversation posts</th>
-      <% unless ENV['BCC_SINGLE'] %>
+      <% unless Config['BCC_SINGLE'] %>
         <th>Conversation post BCCs</th>
         <th>Open rate</th>
       <% end %>
@@ -37,7 +37,7 @@
       </td>      
       <td><%=group.conversations.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
       <td><%=group.conversation_posts.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
-      <% unless ENV['BCC_SINGLE'] %>
+      <% unless Config['BCC_SINGLE'] %>
         <td><%= b = group.conversation_post_bccs.where(:created_at.gte => @from).where(:created_at.lte => @to).count %></td>
         <td>
           <% if b > 0 %>

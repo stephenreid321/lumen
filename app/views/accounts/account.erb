@@ -22,7 +22,7 @@
     <div class="table-hr-container">
       <table class="table table-hr" >
 
-        <% if !ENV['HIDE_ACCOUNT_AFFILIATIONS'] %>
+        <% if !Config['HIDE_ACCOUNT_AFFILIATIONS'] %>
           <tr>
             <td>Affiliations</td>
             <td>  
@@ -59,14 +59,14 @@
           </tr>
         <% end %>          
 
-        <% if !ENV['HIDE_ACCOUNT_EMAIL'] %>
+        <% if !Config['HIDE_ACCOUNT_EMAIL'] %>
           <tr>
             <td>Email</td>
             <td><a target="_blank" href="mailto:<%=@account.email%>"><%=@account.email%></a></td>
           </tr>
         <% end %>        
 
-        <% if !ENV['HIDE_ACCOUNT_PHONE'] %>
+        <% if !Config['HIDE_ACCOUNT_PHONE'] %>
           <% if @account.phone %>
             <tr>
               <td>Phone</td>
@@ -75,7 +75,7 @@
           <% end %>
         <% end %>
 
-        <% if !ENV['HIDE_ACCOUNT_WEBSITE'] %>
+        <% if !Config['HIDE_ACCOUNT_WEBSITE'] %>
           <% if @account.website %>
             <tr>
               <td>Website</td>

@@ -5,7 +5,7 @@ Dragonfly.app.configure do
   if Config['S3_BUCKET_NAME']
     datastore :s3, {:bucket_name => Config['S3_BUCKET_NAME'], :access_key_id => Config['S3_ACCESS_KEY'], :secret_access_key => Config['S3_SECRET'], :region => Config['S3_REGION'], :url_scheme => (Config['SSL'] ? 'https' : 'http')}
   else
-    datastore :file, {:root_path => Config['DRAGONFLY_ROOT_PATH']}
+    datastore :file, {:root_path => Config['DRAGONFLY_ROOT_PATH'], :server_root => Config['DRAGONFLY_SERVER_ROOT']}
   end
   
   secret Config['DRAGONFLY_SECRET']

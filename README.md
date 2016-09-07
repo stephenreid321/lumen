@@ -6,7 +6,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 [Mailman](http://www.list.org/) or [Sympa](http://www.sympa.org/). Since then, it's gained some powerful extras. An outline of its features:
 
 * Open-source (under [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported](http://creativecommons.org/licenses/by-nc-sa/3.0/))
-* Hosted using DigitalOcean/dokku (preferred, Heroku/S3 also possible)
+* Hosted using DigitalOcean/dokku
 * Designed for custom domains (group email addresses of the form yourgroup@yourdomain.org)
 * Sends and receives mail via regular SMTP and IMAP accounts
 * Dual web/email access

@@ -2,7 +2,7 @@ Lumen::App.controllers do
   
   before do
     @environment_variables = {
-      :APP_NAME => 'App name (lowercase, no spaces) - Heroku app name if using Heroku',
+      :APP_NAME => 'App name (lowercase, no spaces)',
       :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',      
       
       :DOMAIN => 'Domain of Lumen web app',
@@ -79,8 +79,6 @@ Lumen::App.controllers do
       :SSL => ['Site served via SSL'],
       
       :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],
-      :HEROKU_OAUTH_TOKEN => 'Heroku OAuth token',
-      :HEROKU_WORKOFF => ['Start a dyno to work off jobs on Heroku immediately after queueing (bypasses need for ongoing worker process)'],                  
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',
       :S3_SECRET => 'S3 secret',  
@@ -151,13 +149,8 @@ Lumen::App.controllers do
     
   get '/config/restart' do
     site_admins_only!
-    if Config['HEROKU_OAUTH_TOKEN']
-      heroku = PlatformAPI.connect_oauth(Config['HEROKU_OAUTH_TOKEN'])
-      heroku.dyno.restart_all(Config['APP_NAME'])
-    else
-      Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
-        ssh.exec!("dokku ps:rebuild #{Config['APP_NAME']}")
-      end      
+    Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
+      ssh.exec!("dokku ps:rebuild #{Config['APP_NAME']}")
     end
     redirect back
   end

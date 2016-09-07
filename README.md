@@ -28,7 +28,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 3. Your web app connects to the mail server via IMAP to fetch the new mail
 4. Your web app distributes the message to group members via SMTP
 
-## Installation instructions for DigitalOcean/dokku
+## Installation instructions
 
 * Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$DOKKU_IP`.
 

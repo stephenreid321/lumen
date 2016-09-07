@@ -3,7 +3,7 @@ APP_NAME=lumen
 DOMAIN=$2
 MAIL_DOMAIN=$DOMAIN
 MAIL_SERVER_ADDRESS=$DOMAIN
-MAIL_SERVER_PASSWORD=$3
+MAIL_SERVER_PASSWORD=$(uuidgen)
 MONGO_SERVICE_NAME=$APP_NAME
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem -subj "/"

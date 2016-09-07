@@ -6,7 +6,7 @@ Dragonfly.app.configure do
     datastore :s3, {:bucket_name => Config['S3_BUCKET_NAME'], :access_key_id => Config['S3_ACCESS_KEY'], :secret_access_key => Config['S3_SECRET'], :region => Config['S3_REGION'], :url_scheme => (Config['SSL'] ? 'https' : 'http')}
   else
     `ln -s /storage #{Padrino.root('app', 'assets', 'dragonfly')}` if Padrino.env == :production
-    datastore :file, {:root_path => Padrino.root('app', 'assets', 'dragonfly'), :server_root => 'dragonfly'}
+    datastore :file, {:root_path => Padrino.root('app', 'assets', 'dragonfly'), :server_root => Padrino.root('app', 'assets', 'dragonfly')}
   end
   
   secret Config['DRAGONFLY_SECRET']

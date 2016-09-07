@@ -30,17 +30,17 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 
 ## Installation instructions
 
-* Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$DOKKU_IP`.
+* Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname `$DOMAIN` (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via `ssh root@$DROPLET_IP`.
 
-* Run the installation script, replacing `$DOKKU_IP` and `$DOMAIN` with the appropriate values:
+* Run the installation script, replacing `$DROPLET_IP` and `$DOMAIN` with the appropriate values:
   ```
-  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DOKKU_IP $DOMAIN
+  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DROPLET_IP $DOMAIN
   ```
 
 * Add DNS records (get DKIM key with `nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt`):
   ```
   $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS   
-  $MAIL_SERVER_ADDRESS A $DOKKU_IP  
+  $MAIL_SERVER_ADDRESS A $DROPLET_IP  
   $MAIL_DOMAIN TXT "v=spf1 mx -all"  
   mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```

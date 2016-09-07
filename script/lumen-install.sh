@@ -1,4 +1,4 @@
-DOKKU_IP=$1
+DROPLET_IP=$1
 APP_NAME=lumen
 DOMAIN=$2
 MAIL_DOMAIN=$DOMAIN
@@ -164,9 +164,9 @@ dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
 dokku storage:mount $APP_NAME /var/lib/dokku/data/storage:/storage
 chmod a+w /var/lib/dokku/data/storage
 
-DOKKU_SETUP_PAGE=$(curl http://$DOKKU_IP)
+DOKKU_SETUP_PAGE=$(curl http://$DROPLET_IP)
 SSH_PUBLIC_KEY=$(expr "$DOKKU_SETUP_PAGE" : '.*\(ssh-rsa .*\)</textarea>')
-curl -d "keys=$SSH_PUBLIC_KEY&hostname=$DOMAIN&vhost=true" http://$DOKKU_IP/setup
+curl -d "keys=$SSH_PUBLIC_KEY&hostname=$DOMAIN&vhost=true" http://$DROPLET_IP/setup
 
 ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
 cat ~/.ssh/id_rsa.pub | sshcommand acl-add dokku root

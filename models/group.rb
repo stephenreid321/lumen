@@ -579,7 +579,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     end    
   end
   
-  def create_notification_script
+  def self.create_notification_script
     Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
       ssh.exec!("mkdir /notify")
       ssh.exec!("chmod 777 /notify")

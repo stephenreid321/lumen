@@ -143,14 +143,14 @@ Lumen::App.controllers do
       config = Config.find_by(slug: k) || Config.create(slug: k)
       config.update_attribute(:body, params[k])
     }
-    flash[:notice] = "Your config vars were updated."
+    flash[:notice] = "Your config vars were updated. You may need to restart the server for your changes to take effect."
     redirect '/config'
   end  
     
   get '/config/restart' do
     site_admins_only!
     Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
-      ssh.exec!("dokku ps:rebuild #{Config['APP_NAME']}")
+      ssh.exec("dokku ps:rebuild #{Config['APP_NAME']}")
     end
     redirect back
   end

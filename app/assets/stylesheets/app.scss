@@ -1,10 +1,12 @@
 $primary: colors('primary');
+$primary-dark: darken($primary, 15%);
 $primary-contrast: colors('primary-contrast');
-$primary-dark: colors('primary-dark');
 $secondary: colors('secondary');
-$secondary-dark: colors('secondary-dark');
+$secondary-dark: darken($secondary, 15%);
 $grey-light: colors('grey-light');
 $grey-mid: colors('grey-mid');
+$dark: colors('dark');
+$dark-light: lighten($dark, 40%);
 $dark-contrast: colors('dark-contrast');
 
 /*
@@ -25,7 +27,7 @@ body { padding: 10px 0 0 0; }
 
 abbr[title] { border: none }
 
-#footer { background: #333333; padding: 20px 0; font-size: 14px; line-height: 130% }
+#footer { background: $dark; padding: 20px 0; font-size: 14px; line-height: 130% }
 @media(min-width: 768px) {
   body { padding-bottom: 120px }
   #footer { position: absolute; bottom: 0; height: 100px; width: 100%; }
@@ -99,7 +101,7 @@ select[name*=day], select[name*=month], select[name*=year], select[name*=hour], 
 
 table a:not(.btn), .table a:not(.btn) { text-decoration: none }
 
-a.group { color: #999 }
+a.group { color: $dark-light }
 
 .select2-container .select2-choice {
   border: 2px solid #bdc3c7;
@@ -138,8 +140,8 @@ a:hover, a:focus, a:active { color: $secondary-dark }
 .btn-info { background: $secondary; color: white }
 .btn-info:hover, .btn-info:focus, .btn-info:active  { background: $secondary-dark}
 
-.navbar-inverse { background: #333333 }
-.navbar-inverse .navbar-nav > .open > .dropdown-menu  { background: #333333 }
+.navbar-inverse { background: $dark }
+.navbar-inverse .navbar-nav > .open > .dropdown-menu  { background: $dark }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu > .divider { background: black }
 .navbar-inverse .navbar-collapse { border-color: black }
 .navbar-inverse .navbar-toggle:hover::before, .navbar-inverse .navbar-toggle:focus::before { color: $dark-contrast; }
@@ -151,7 +153,7 @@ a:hover, a:focus, a:active { color: $secondary-dark }
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: $dark-contrast }
 .navbar-nav > li > .dropdown-menu { margin-top: 2px }
 
-h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: $dark }
 
 .form-group.focus .form-control, .form-control:focus, .form-group.focus .select2-search input[type="text"], .select2-search input[type="text"]:focus { border-color: $secondary }
 
@@ -159,11 +161,11 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: #333 }
 .img-bordered:hover { border: 6px solid $secondary; }
 .img-bordered-lg { border: 8px solid $primary; }
 
-#footer, #footer a { color: #999999 }
+#footer, #footer a { color: $dark-light }
 #footer a:hover { color: $dark-contrast }
 
 .pagination li.previous > a, .pagination li.next > a, .pagination li.previous > span, .pagination li.next > span, .pagination li > a, .pagination li > span { color: #fff; background: $grey-mid }
-.pagination li.disabled > a, .pagination li.disabled > span, .pagination li.disabled > a:hover, .pagination li.disabled > span:hover, .pagination li.disabled > a:focus, .pagination li.disabled > span:focus, .pagination li.disabled > a:active, .pagination li.disabled > span:active { color: #999 }
+.pagination li.disabled > a, .pagination li.disabled > span, .pagination li.disabled > a:hover, .pagination li.disabled > span:hover, .pagination li.disabled > a:focus, .pagination li.disabled > span:focus, .pagination li.disabled > a:active, .pagination li.disabled > span:active { color: $dark-light }
 .pagination li.active > a, .pagination li.active > span { background: $primary }
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus { background: $primary-dark }
 .pagination li > a:hover, .pagination li > span:hover, .pagination li > a:focus, .pagination li > span:focus { background: $primary }
@@ -229,4 +231,4 @@ ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
 .wall-conversation-post-replies { background: $grey-light }
 .stats-highlight { }
 
-.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control, .select2-search input[type="text"][disabled], .select2-search input[type="text"][readonly], fieldset[disabled] .select2-search input[type="text"] { color: #999 }
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control, .select2-search input[type="text"][disabled], .select2-search input[type="text"][readonly], fieldset[disabled] .select2-search input[type="text"] { color: $dark-light }

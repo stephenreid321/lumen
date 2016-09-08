@@ -17,7 +17,7 @@
           else
                   $('.fc-left h2 i').remove();
           },
-          eventColor: '#E74C3C',
+          eventColor: '<%=Config['SECONDARY_COLOR']%>',
           eventClick: function(event, jsEvent, view) {
           $('.fc-event').popover('destroy');
           if ($(this).data('popover') == true) {

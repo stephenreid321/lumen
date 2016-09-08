@@ -85,12 +85,11 @@ Lumen::App.controllers do
       :S3_REGION => 'S3 region',        
                   
       :PRIMARY_COLOR => 'Default #F5D74B',
-      :PRIMARY_DARK_COLOR => 'Default #CDA70D',
-      :SECONDARY_COLOR => 'Default #E74C3C',
-      :SECONDARY_DARK_COLOR => 'Default #CD4435',
       :PRIMARY_CONTRAST_COLOR => 'Default #222222',
+      :SECONDARY_COLOR => 'Default #E74C3C',      
       :GREY_LIGHT_COLOR => 'Default #ECF0F1',
       :GREY_MID_COLOR => 'Default #D6DBDF',
+      :DARK_COLOR => 'Default #333333',    
       :DARK_CONTRAST_COLOR => 'Default #F5D74B'    
     } 
     
@@ -151,6 +150,7 @@ Lumen::App.controllers do
     site_admins_only!
     Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
       ssh.exec("dokku ps:rebuild #{Config['APP_NAME']}")
+      flash[:notice] = "The app is restarting. Changes will take effect in a minute or two."
     end
     redirect back
   end

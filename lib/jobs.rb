@@ -1,3 +1,12 @@
+
+RestartJob = OpenStruct.new do  
+  def perform
+    Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
+      ssh.exec!("dokku ps:rebuild #{Config['APP_NAME']}")
+    end
+  end
+end
+
 BccSingleJob = Struct.new(:id) do  
   def perform
     ConversationPost.find(id).bcc_single

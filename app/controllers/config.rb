@@ -148,10 +148,8 @@ Lumen::App.controllers do
     
   get '/config/restart' do
     site_admins_only!
-    Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
-      ssh.exec("dokku ps:rebuild #{Config['APP_NAME']}")
-      flash[:notice] = "The app is restarting. Changes will take effect in a minute or two."
-    end
+    Delayed::Job.enqueue RestartJob.new
+    flash[:notice] = "The app is restarting. Changes will take effect in a minute or two."
     redirect back
   end
     

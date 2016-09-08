@@ -148,7 +148,7 @@ Lumen::App.controllers do
     
   get '/config/restart' do
     site_admins_only!
-    Delayed::Job.enqueue RestartJob.new
+    Delayed::Job.enqueue SshJob.new("dokku ps:rebuild #{Config['APP_NAME']}")
     flash[:notice] = "The app is restarting. Changes will take effect in a minute or two."
     redirect back
   end

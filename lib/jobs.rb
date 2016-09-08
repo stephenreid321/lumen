@@ -1,8 +1,8 @@
 
-RestartJob = OpenStruct.new do  
+SshJob = Struct.new do(:command)  
   def perform
     Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
-      ssh.exec!("dokku ps:rebuild #{Config['APP_NAME']}")
+      ssh.exec!(command)
     end
   end
 end

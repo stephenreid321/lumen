@@ -1,5 +1,5 @@
 
-SshJob = Struct.new do(:command)  
+SshJob = Struct.new(:command) do
   def perform
     Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
       ssh.exec!(command)

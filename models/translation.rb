@@ -81,6 +81,7 @@ class Translation
       :'mongoid.attributes.account.postcode' => 'Postcode',
       :'mongoid.attributes.account.country' => 'Country',
       :'mongoid.attributes.account.headline' => 'Headline',
+      :'mongoid.attributes.account.antispam' => "Antispam: what's 1+1?",
       :'mongoid.attributes.account.welcome_email_body' => 'HTML. Replacements: [firstname], [group_list], [sign_in_details]',
       :'mongoid.attributes.account.account_tag_ids' => 'Areas of expertise',
       :'mongoid.attributes.event.organisation_name' => 'Host organisation',

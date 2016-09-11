@@ -95,6 +95,14 @@ class Account
     {:address => Config['MAIL_SERVER_ADDRESS'], :user_name => Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
   end  
   
+  attr_accessor :request_membership
+  attr_accessor :antispam
+  before_validation do
+    if self.request_membership
+      errors.add(:antispam, 'is not correct') unless self.antispam and ['2','two'].include?(self.antispam.strip.downcase)
+    end
+  end  
+  
   attr_accessor :groups_to_join
   attr_accessor :confirm_memberships
   attr_accessor :welcome_email_body

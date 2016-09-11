@@ -33,6 +33,8 @@
       <%= f.text_block :postcode %>
       <%= f.select_block :country %>  
     <% end %>
+    <%= f.hidden_field :request_membership, :value => true %>
+    <%= f.text_block :antispam %>
   <% end %>
 
   <% @group.request_questions_a.each { |q| %>

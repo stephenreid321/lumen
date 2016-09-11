@@ -37,12 +37,12 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
   wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DROPLET_IP $DOMAIN
   ```
 
-* Add DNS records (get DKIM key with `nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt`):
+* Add DNS records (get DKIM key with `nano -$ /etc/opendkim/keys/$DOMAIN/mail.txt`):
   ```
-  $MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS   
-  $MAIL_SERVER_ADDRESS A $DROPLET_IP  
-  $MAIL_DOMAIN TXT "v=spf1 mx -all"  
-  mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
+  $DOMAIN MX $DOMAIN
+  $DOMAIN A $DROPLET_IP  
+  $DOMAIN TXT "v=spf1 mx -all"  
+  mail._domainkey.$DOMAIN TXT "v=DKIM1; k=rsa; p=..."
   ```
 
 * Visit `$DOMAIN`. (You should be automatically logged in as an administrator. If not, sign in with the email address `admin@example.com` and the password `lumen`.) Change the admin name, email address and password, then click 'Configuration' in the footer to set configuration variables. You're done!

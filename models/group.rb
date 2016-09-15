@@ -297,27 +297,23 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   after_create :setup_mail_accounts_and_forwarder
   def setup_mail_accounts_and_forwarder
     if Config['MAIL_SERVER_ADDRESS'] and !@setup_complete
-      if Config['VIRTUALMIN']
-        Delayed::Job.enqueue SetupMailAccountsAndForwarderViaVirtualminJob.new(self.id)
-      else      
-        group = self
-        Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
-          ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{Config['MAIL_SERVER_PASSWORD']} | chpasswd")
-          ssh.exec!("useradd -d /home/#{group.username('-noreply')} -m #{group.username('-noreply')}; echo #{group.username('-noreply')}:#{Config['MAIL_SERVER_PASSWORD']} | chpasswd")                      
-          ssh.exec!(%Q{echo '#{group.slug}@#{Config['MAIL_DOMAIN']} #{group.username}' >> /etc/postfix/virtual})
-          ssh.exec!(%Q{echo '#{group.username}: #{group.username('-inbox')}, "| /notify/#{Config['APP_NAME']}.sh #{group.slug}"' >> /etc/aliases})
-          ssh.exec!("newaliases")        
-          ssh.exec!("postmap /etc/postfix/virtual")
-          ssh.exec!("service postfix restart")
-        end        
-      end
+      group = self
+      Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
+        ssh.exec!("useradd -d /home/#{group.username('-inbox')} -m #{group.username('-inbox')}; echo #{group.username('-inbox')}:#{Config['MAIL_SERVER_PASSWORD']} | chpasswd")
+        ssh.exec!("useradd -d /home/#{group.username('-noreply')} -m #{group.username('-noreply')}; echo #{group.username('-noreply')}:#{Config['MAIL_SERVER_PASSWORD']} | chpasswd")                      
+        ssh.exec!(%Q{echo '#{group.slug}@#{Config['MAIL_DOMAIN']} #{group.username}' >> /etc/postfix/virtual})
+        ssh.exec!(%Q{echo '#{group.username}: #{group.username('-inbox')}, "| /notify/#{Config['APP_NAME']}.sh #{group.slug}"' >> /etc/aliases})
+        ssh.exec!("newaliases")        
+        ssh.exec!("postmap /etc/postfix/virtual")
+        ssh.exec!("service postfix restart")
+      end        
       @setup_complete = true
     end    
   end
   
   after_destroy :remove_mail_accounts_and_forwarder
   def remove_mail_accounts_and_forwarder
-    if Config['MAIL_SERVER_ADDRESS'] and !Config['VIRTUALMIN']
+    if Config['MAIL_SERVER_ADDRESS']
       group = self
       Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do  |ssh|
         ssh.exec!("deluser #{group.username('-inbox')} --remove-home")
@@ -330,47 +326,10 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       end
     end
   end  
-    
-  def setup_mail_accounts_and_forwarder_via_virtualmin    
-    group = self   
-    agent = Mechanize.new
-    agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    index = agent.get("https://#{Config['MAIL_SERVER_ADDRESS']}:10000").form_with(:action => '/session_login.cgi') do |f|
-      f.user = Config['MAIL_SERVER_USERNAME']
-      f.pass = Config['MAIL_SERVER_PASSWORD']
-    end.submit
-    form = index.frames[0].click.forms[0]
-    form.field_with(:name => 'dom').option_with(:text => /#{Regexp.escape(Config['MAIL_DOMAIN'][0..9])}/).click
-    domain_page = form.submit
-    users_page = domain_page.link_with(:text => 'Edit Users').click
-    add_user_page = users_page.link_with(:text => 'Add a user to this server.').click
-    aliases_page = domain_page.link_with(:text => 'Edit Mail Aliases').click
-    add_alias_page = aliases_page.link_with(:text => 'Add an alias to this domain.').click.link_with(:text => 'Advanced mode').click
-    # Add inbound user
-    form = add_user_page.form_with(:action => 'save_user.cgi')
-    form['mailuser'] = "#{group.slug}-inbox"
-    form['mailpass'] = Config['MAIL_SERVER_PASSWORD']
-    form['quota'] = 0
-    form.submit
-    # Add outbound user
-    form = add_user_page.form_with(:action => 'save_user.cgi')
-    form['mailuser'] = "#{group.slug}-noreply"
-    form['mailpass'] = Config['MAIL_SERVER_PASSWORD']
-    form['quota'] = 0
-    form.submit    
-    # Add pipe
-    form = add_alias_page.form_with(:action => 'save_alias.cgi')
-    form['complexname'] = group.slug
-    form.field_with(:name => 'type_0').option_with(:text => /Mailbox of user/).click
-    form['val_0'] = group.username('-inbox')
-    form.field_with(:name => 'type_1').option_with(:text => /Feed to program/).click
-    form['val_1'] = "/notify/#{Config['APP_NAME']}.sh #{group.slug}"
-    form.submit
-  end
-      
+          
   attr_accessor :renamed
   before_validation do
-    errors.add(:slug, "is too long: max #{Group.max_slug_length} characters") if !Config['VIRTUALMIN'] and self.slug and self.slug.length > Group.max_slug_length
+    errors.add(:slug, "is too long: max #{Group.max_slug_length} characters") if self.slug and self.slug.length > Group.max_slug_length
     @renamed = slug_changed?
     true
   end

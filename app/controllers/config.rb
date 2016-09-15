@@ -78,7 +78,6 @@ Lumen::App.controllers do
       
       :SSL => ['Site served via SSL'],
       
-      :VIRTUALMIN => ['Create mail accounts via Virtualmin (legacy option)'],
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',
       :S3_SECRET => 'S3 secret',  

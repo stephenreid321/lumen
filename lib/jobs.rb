@@ -25,8 +25,3 @@ SendWelcomeEmailsJob = Struct.new(:id) do
   end  
 end
 
-SetupMailAccountsAndForwarderViaVirtualminJob = Struct.new(:id) do
-  def perform
-    Group.find(id).setup_mail_accounts_and_forwarder_via_virtualmin
-  end  
-end

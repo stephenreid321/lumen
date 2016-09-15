@@ -18,7 +18,8 @@
       'bootstrap-datepicker/1.3.1' => 'js/bootstrap-datepicker.min.js css/datepicker.min.css',
       'moment.js/2.10.6' => 'moment.min.js',
       'fullcalendar/2.4.0' => 'fullcalendar.min.js fullcalendar.min.css',
-      'jquery-timeago/1.4.3' => 'jquery.timeago.min.js'
+      'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
+      'jquery.tablesorter/2.27.6' => 'js/jquery.tablesorter.min.js css/theme.default.min.css'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "//cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>

@@ -8,7 +8,12 @@
 
 <%= partial :'analytics/header' %>
 
-<table class="table">
+<script>
+  $(function () {
+    $("#stats").tablesorter({theme: 'default', sortList: [ [0,0 ]]});
+  });
+</script>
+<table class="table" id="stats">
   <thead>
     <tr>
       <% @header.each { |h| %>

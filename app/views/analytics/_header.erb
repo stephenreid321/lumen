@@ -17,4 +17,5 @@
   &ndash;
   <input type="text" style="width: 8em; display: inline-block" class="form-control datepicker" name="to" value="<%=@to.strftime('%d-%b-%Y')%>"/>
   <button class="btn btn-primary">Get data</button>
+  <% if @csv %> <a class="btn btn-primary" href="<%=request.url%>.csv"><i class="fa fa-download"></i> Download as CSV</a> <% end %>
 </form>

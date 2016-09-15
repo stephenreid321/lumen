@@ -1,0 +1,26 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/analytics">Analytics</a></li>
+  <li class="active">
+    <%=@active%>
+  </li>
+</ol>
+
+<%= partial :'analytics/header' %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <% @header.each { |h| %>
+        <th><%=h%></th>
+      <% } %>
+    </tr>
+  </thead>
+  <% @stats.each { |row| %>
+    <tr>
+      <% row.each { |stat| %>
+        <td><%=stat.is_a?(Float) ? "#{(stat*100).round}&#37;" : stat %></td>
+      <% } %>
+    </tr>
+  <% } %> 
+</table>

@@ -367,7 +367,7 @@ class Account
     affiliations.first.try(:title)
   end      
   
-  def organisation_of_first_affiliation
+  def organisation_name_of_first_affiliation
     affiliations.first.try(:organisation).try(:name)    
   end  
     

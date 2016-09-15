@@ -56,6 +56,8 @@
           <% end %>
 
           <p class="lead" style="margin: 10px 0"><%=@group.description%></p>
+          
+          <p style="font-size: 12px">Non-members can apply for membership by visiting <span style="border-bottom: 1px dotted #999"><%= Config['SSL'] ? 'https://' : 'http://' %><%=Config['DOMAIN']%>/groups/<%=@group.slug%>/request_membership</span></p>
         </div>
       </div>
 

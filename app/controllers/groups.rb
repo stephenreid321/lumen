@@ -56,9 +56,9 @@ Lumen::App.controllers do
           
   get '/groups/:slug/request_membership' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    redirect back unless @group.closed?    
-    (flash[:notice] = "You're already a member of that group" and redirect back) if @group.memberships.find_by(account: current_account)
-    (flash[:notice] = "You've already requested membership to that group" and redirect back) if @group.membership_requests.find_by(account: current_account, status: 'pending')
+    @membership = @group.memberships.find_by(account: current_account)    
+    redirect "/groups/#{@group.slug}" if @group.public? or @group.open?
+    (flash[:notice] = 'It is not possible to request membersip of that group' and redirect '/' if @group.secret?)
     (flash[:notice] = "You must sign in to request membership" and redirect '/sign_in') if Config['PRIVATE_NETWORK'] and !current_account and !@group.allow_external_membership_requests
     @account = Account.new
     erb :'groups/request_membership'

@@ -351,6 +351,7 @@ class Account
       :prevent_new_memberships => :check_box,      
       :affiliations => :collection,
       :affiliations_summary => {:type => :text, :edit => false},
+      :first_affiliation_summary => {:type => :text, :edit => false},
       :memberships => :collection,
       :memberships_summary => {:type => :text, :edit => false},
       :membership_requests => :collection
@@ -360,6 +361,10 @@ class Account
   def affiliations_summary
     affiliations.map { |affiliation| "#{affiliation.title} at #{affiliation.organisation.name}" }.join(', ')
   end
+  
+  def first_affiliation_summary
+    affiliations[0..0].map { |affiliation| "#{affiliation.title} at #{affiliation.organisation.name}" }
+  end  
   
   def memberships_summary
     memberships.map { |membership| membership.group.slug }.join(', ')

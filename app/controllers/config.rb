@@ -78,6 +78,9 @@ Lumen::App.controllers do
       
       :SSL => ['Site served via SSL'],
       
+      :SLACK_WEBHOOK_URL => 'Slack webhook URL',
+      :SLACK_CHANNEL => 'Channel to post Slack notifications',
+      
       :S3_BUCKET_NAME => 'S3 bucket name',
       :S3_ACCESS_KEY => 'S3 access key',
       :S3_SECRET => 'S3 secret',  

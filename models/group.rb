@@ -171,6 +171,13 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       %Q{The most recent profile update was made by <a href="[most_recently_updated_url]">[most_recently_updated_name]</a>.}
     ]
   end
+  
+  after_create do
+    if Config['SLACK_WEBHOOK_URL']
+      agent = Mechanize.new
+      agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"A group was created: <http://#{Config['DOMAIN']}/groups/#{slug}|#{name}>", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
+    end    
+  end
        
   after_create :create_default_didyouknows
   def create_default_didyouknows

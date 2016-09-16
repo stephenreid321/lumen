@@ -12,7 +12,7 @@
 
 <% if @membership %>
   <div style="text-align: center">
-    You're already a member of <%=@group.name%>. Others can apply for membership by visiting this page:<br />
+    You're already a member of <%=@group.name%>. Non-members can apply for membership by visiting this page:<br />
     <span style="display: inline-block; margin-top: 10px; border-bottom: 1px dotted #999"><%= Config['SSL'] ? 'https://' : 'http://' %><%=Config['DOMAIN']%>/groups/<%=@group.slug%>/request_membership</span>
   </div>
 <% elsif @group.membership_requests.find_by(account: current_account, status: 'pending') %>

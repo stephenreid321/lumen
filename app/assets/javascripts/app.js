@@ -1,6 +1,4 @@
 
-webshims.polyfill();
-
 $(function () {
 
   $('input[type=text].slug').each(function () {

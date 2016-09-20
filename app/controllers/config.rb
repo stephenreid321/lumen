@@ -70,6 +70,7 @@ Lumen::App.controllers do
       :DMARC_FAIL_DOMAINS => 'Comma-separated list of domains with strict DMARC policies',
       
       :GOOGLE_ANALYTICS_TRACKING_ID => 'Google Analytics tracking ID',
+      :GOOGLE_MAPS_API_KEY => 'Google Maps API key',
             
       :BCC_SINGLE => ['Send single BCC to conversation post subscribers'],
       :BCC_SINGLE_JOB => ['Handle single BCCs in the background'],      

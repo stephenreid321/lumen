@@ -38,7 +38,7 @@
     <% } %>
 
     <% [
-      '//maps.googleapis.com/maps/api/js?libraries=places',
+      "//maps.googleapis.com/maps/api/js?key=#{Config['GOOGLE_MAPS_API_KEY']}&libraries=places",
       '//cdn.rawgit.com/chrissrogers/jquery-deparam/05018fe327c3675250f91f6ead6e83ef90dab1d0/jquery-deparam.min.js',            
       '//cdn.rawgit.com/wordsandwriting/activate-tools/f39002fcc10a9a554c651543b3065847130c2811/js/jquery.geopicker.js',      
       '//cdn.rawgit.com/mahnunchik/markerclustererplus/736b0e3a7d916fbeb2ee5007494f17a5329b11a8/src/markerclusterer.js',

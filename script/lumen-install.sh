@@ -162,7 +162,7 @@ dokku mongo:create $MONGO_SERVICE_NAME
 dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
 
 dokku storage:mount $APP_NAME /var/lib/dokku/data/storage:/storage
-chmod a+w /var/lib/dokku/data/storage
+chmod -R 777 /var/lib/dokku/data/storage
 
 DOKKU_SETUP_PAGE=$(curl http://$DROPLET_IP)
 SSH_PUBLIC_KEY=$(expr "$DOKKU_SETUP_PAGE" : '.*\(ssh-rsa .*\)</textarea>')

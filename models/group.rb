@@ -22,6 +22,7 @@ class Group
   field :hide_from_dropdown, :type => Boolean
   field :conversation_creation_by_admins_only, :type => Boolean
   field :join_on_first_sign_in, :type => Boolean
+  field :slack_ignore, :type => Boolean
         
   dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }
@@ -207,6 +208,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       :group_type_id => :lookup,
       :coordinates => :geopicker,      
       :hide_from_dropdown => :check_box,
+      :slack_ignore => :check_box,
       :conversation_creation_by_admins_only => :check_box,
       :join_on_first_sign_in => :check_box,
       :memberships => :collection,

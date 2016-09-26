@@ -6,13 +6,13 @@ GIT
 
 GIT
   remote: git://github.com/mislav/will_paginate.git
-  revision: 5d92ee219d4a941a18c0de8a24a11973548495ac
+  revision: 67e11dce90a75d98d184e4bcc1120457e58b477b
   specs:
-    will_paginate (3.1.0)
+    will_paginate (3.1.3)
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 7749257a58f404464fcdf41845a45e6df88d8536
+  revision: d4faad414f9e73d52f9fcd824fab32bc7612da1c
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -128,8 +128,9 @@ GEM
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (>= 0.0.9, < 0.2)
     mime-types (2.99.3)
+    mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
-    minitest (5.9.0)
+    minitest (5.9.1)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
     moneta (0.8.0)

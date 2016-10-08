@@ -78,7 +78,7 @@ class Membership
                
     b = group.invite_email
     .gsub('[firstname]',account.name.split(' ').first)
-    .gsub('[admin]', added_by.name)
+    .gsub('[admin]', added_by.try(:name))
     .gsub('[sign_in_details]', sign_in_details)      
             
     mail = Mail.new

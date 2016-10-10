@@ -83,7 +83,7 @@ class Membership
             
     mail = Mail.new
     mail.to = account.email
-    mail.from = "#{group.name} <#{group.email('-noreply')}>"
+    mail.from = "#{group.slug} <#{group.email('-noreply')}>"
     mail.subject = group.invite_email_subject
     mail.html_part do
       content_type 'text/html; charset=UTF-8'

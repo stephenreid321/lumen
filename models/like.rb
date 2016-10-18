@@ -23,7 +23,7 @@ class Like
       end 
       mail = Mail.new(
         :to => conversation_post.account.email,
-        :from => "#{group.name} <#{group.email('-noreply')}>",
+        :from => "#{group.slug} <#{group.email('-noreply')}>",
         :subject => "#{account.name} liked your post in #{conversation_post.conversation.subject}",
         :body => ERB.new(File.read(Padrino.root('app/views/emails/like.erb'))).result(binding)
       )

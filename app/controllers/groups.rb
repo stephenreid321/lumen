@@ -70,6 +70,7 @@ Lumen::App.controllers do
     if current_account
       @account = current_account
     else           
+      redirect back unless params[:account] and params[:account][:email]
       if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))
         @account = Account.new(params[:account])
         @account.password = Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request

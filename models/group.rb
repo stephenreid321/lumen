@@ -484,8 +484,8 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     html.search('style').remove
     # html.search('.gmail_extra').remove
     html = html.search('body').inner_html
-                     
-    conversation_post = conversation.conversation_posts.create :body => html, :account => account, :imap_uid => imap_uid, :message_id => mail.message_id
+             
+    conversation_post = conversation.conversation_posts.create :body => html, :account => account, :imap_uid => imap_uid, :message_id => (mail.message_id or SecureRandom.uuid)
     if !conversation_post.persisted? # failed to create the conversation post
       puts "failed to create conversation post, deleting conversation"
       conversation.destroy if new_conversation

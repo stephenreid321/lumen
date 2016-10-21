@@ -313,6 +313,13 @@ class Account
     return true
   end
   
+  after_create do
+    if Config['SLACK_WEBHOOK_URL']
+      agent = Mechanize.new
+      agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"An account was created: <http://#{Config['DOMAIN']}/accounts/#{self.id}|#{self.name}>", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
+    end    
+  end  
+  
   def self.new_tips
     {
       :postcode => 'For internal use only, not displayed publicly'

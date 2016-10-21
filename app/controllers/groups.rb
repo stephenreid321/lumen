@@ -89,7 +89,8 @@ Lumen::App.controllers do
       flash[:notice] = "You've already requested membership of that group."
       redirect back
     else
-      @group.membership_requests.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
+      @membership_request = @group.membership_requests.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
+      (flash[:error] = "The membership request could not be created" and redirect back) unless @membership_request.persisted?
       
       group = @group
       Mail.defaults do

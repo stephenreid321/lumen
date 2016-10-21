@@ -448,9 +448,8 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       charset = mail.charset
       nl2br = true
     end                            
-          
-    body = body.to_s    
-    html = begin; body.decoded.force_encoding(charset).encode('UTF-8'); rescue; body; end
+              
+    html = begin; body.decoded.force_encoding(charset).encode('UTF-8'); rescue; body.to_s; end
     html = html.gsub("\n", "<br>\n") if nl2br
     html = html.gsub(/<o:p>/, '')
     html = html.gsub(/<\/o:p>/, '')

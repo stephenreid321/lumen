@@ -1,38 +1,26 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Lumen by wordsandwriting</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Lumen</h1>
-        <p>Open-source group discussion platform. Written in Ruby (Padrino), hosted via dokku/Heroku (web app) and a VPS (mail server)</p>
+    <section class="page-header">
+      <h1 class="project-name">Lumen</h1>
+      <h2 class="project-tagline">Open-source group discussion platform. Written in Ruby (Padrino), hosted via Heroku (web) and Virtualmin (email)</h2>
+      <a href="https://github.com/wordsandwriting/lumen" class="btn">View on GitHub</a>
+      <a href="https://github.com/wordsandwriting/lumen/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/wordsandwriting/lumen/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <p class="view"><a href="https://github.com/wordsandwriting/lumen">View the Project on GitHub <small>wordsandwriting/lumen</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/wordsandwriting/lumen/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/wordsandwriting/lumen/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/wordsandwriting/lumen">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
+    <section class="main-content">
+      <h1>
 <a id="lumen" class="anchor" href="#lumen" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lumen</h1>
-
-<p><a href="https://travis-ci.org/wordsandwriting/lumen"><img src="https://travis-ci.org/wordsandwriting/lumen.png?branch=master" alt="Build Status"></a>
-<a href="https://codeclimate.com/github/wordsandwriting/lumen"><img src="https://codeclimate.com/github/wordsandwriting/lumen.png" alt="Code Climate"></a></p>
 
 <p><strong>For a live preview of Lumen, feel free to <a href="http://www.lumenapp.com/groups/previewers">join the previewers group on lumenapp.com</a>.</strong></p>
 
@@ -41,8 +29,7 @@
 
 <ul>
 <li>Open-source (under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported</a>)</li>
-<li>Hosted using dokku/Heroku (web app), a VPS (mail sever) and Amazon S3 (file attachments)</li>
-<li>You can run dokku and the mail server on the same VPS</li>
+<li>Hosted using DigitalOcean/dokku</li>
 <li>Designed for custom domains (group email addresses of the form <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>)</li>
 <li>Sends and receives mail via regular SMTP and IMAP accounts</li>
 <li>Dual web/email access</li>
@@ -56,8 +43,6 @@
 
 <p>Lumen is written in Ruby using the <a href="http://padrinorb.com/">Padrino</a> framework. It was originally created for the <a href="http://neweconomyorganisersnetwork.org/">New Economy Organisers Network</a> (hosted by the <a href="http://neweconomics.org/">New Economics Foundation</a>) who kindly agreed to open source the project and continue to sponsor its development.</p>
 
-<p><a href="http://wordsandwriting.github.io/lumen/images/neon.png"><img src="http://wordsandwriting.github.io/lumen/images/neon.png"></a></p>
-
 <h2>
 <a id="how-the-mailing-lists-work-in-brief" class="anchor" href="#how-the-mailing-lists-work-in-brief" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> How the mailing lists work, in brief</h2>
 
@@ -70,69 +55,26 @@
 </ol>
 
 <h2>
-<a id="installation-instructions-for-digitaloceandokku" class="anchor" href="#installation-instructions-for-digitaloceandokku" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation instructions for DigitalOcean/dokku</h2>
+<a id="installation-instructions" class="anchor" href="#installation-instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation instructions</h2>
 
 <ul>
-<li><p>Register a domain <code>$DOMAIN</code>. In this simple setup, <code>$DOMAIN = $MAIL_DOMAIN = $MAIL_SERVER_ADDRESS</code></p></li>
-<li><p>Create a 2GB (or greater) droplet with the hostname <code>$MAIL_SERVER_ADDRESS</code> and select the image 'Dokku 0.5.4 on 14.04' </p></li>
-<li><p>Install fail2ban: <code>apt-get install fail2ban</code></p></li>
+<li><p>Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname <code>$DOMAIN</code> (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via <code>ssh root@$DROPLET_IP</code>.</p></li>
 <li>
-<p>Create certificates:</p>
+<p>Run the installation script, replacing <code>$DROPLET_IP</code> and <code>$DOMAIN</code> with the appropriate values:</p>
 
-<pre><code>openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem
-</code></pre>
-
-<p>(You can hit enter a bunch of times to leave the fields empty)</p>
-</li>
-<li>
-<p>Install mail packages (<strong>make sure you replace <code>$MAIL_SERVER_ADDRESS</code> and <code>$MAIL_DOMAIN</code> with your domain</strong>). When dovecot-core asks whether you want to create a self-signed SSL certificate, answer no:</p>
-
-<pre><code>aptitude install postfix dovecot-core dovecot-imapd opendkim opendkim-tools; mkdir /etc/opendkim; mkdir /etc/opendkim/keys; wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $MAIL_SERVER_ADDRESS $MAIL_DOMAIN; newaliases; service postfix restart; service dovecot restart; service opendkim restart
+<pre><code>wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DROPLET_IP $DOMAIN
 </code></pre>
 </li>
 <li>
-<p>Get DKIM key with <code>nano -$ /etc/opendkim/keys/$MAIL_DOMAIN/mail.txt</code> and add DNS records:</p>
+<p>Add DNS records (get DKIM key with <code>nano -$ /etc/opendkim/keys/$DOMAIN/mail.txt</code>):</p>
 
-<pre><code>$MAIL_DOMAIN MX $MAIL_SERVER_ADDRESS  
-$MAIL_SERVER_ADDRESS A $MAIL_SERVER_IP  
-$MAIL_DOMAIN TXT "v=spf1 a mx a:$MAIL_DOMAIN ip4:$MAIL_SERVER_IP ?all"  
-mail._domainkey.$MAIL_DOMAIN TXT "v=DKIM1; k=rsa; p=..."
+<pre><code>$DOMAIN MX $DOMAIN
+$DOMAIN A $DROPLET_IP  
+$DOMAIN TXT "v=spf1 mx -all"  
+mail._domainkey.$DOMAIN TXT "v=DKIM1; k=rsa; p=..."
 </code></pre>
 </li>
-<li><p>Visit <code>$DOMAIN</code>. Enter <code>$DOMAIN</code> as the hostname and check 'Use virtualhost naming for apps'</p></li>
-<li>
-<p>Create the dokku app and add the mongo plugin:</p>
-
-<pre><code>dokku apps:create $APP_NAME
-dokku plugin:install https://github.com/dokku/dokku-mongo.git mongo
-dokku mongo:create $MONGO_SERVICE_NAME
-dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
-</code></pre>
-</li>
-<li>
-<p>From your own machine run:</p>
-
-<pre><code>git clone https://github.com/wordsandwriting/lumen.git; cd lumen; git remote add $APP_NAME dokku@$DOMAIN:$APP_NAME; git push $APP_NAME master
-</code></pre>
-</li>
-<li>
-<p>Set configuration variables. You can get secrets for <code>$DRAGONFLY_SECRET</code> and <code>$SESSION_SECRET</code> by running <code>dokku run $APP_NAME rake secret</code>. If you didn't obtain a password for the root user, enable password authentication and set one with: <code>nano /etc/ssh/sshd_config</code>; uncomment <code>set PasswordAuthentication yes</code>; <code>restart ssh</code>; <code>passwd</code>:</p>
-
-<pre><code>dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD S3_BUCKET_NAME=$S3_BUCKET_NAME S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET=$S3_SECRET S3_REGION=$S3_REGION SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
-</code></pre>
-</li>
-<li><p>Start a worker process: <code>dokku ps:scale $APP_NAME web=1 worker=1</code></p></li>
-<li><p>Create default language and database indexes: <code>dokku run $APP_NAME rake languages:default[English,en]; dokku run $APP_NAME rake mi:create_indexes</code></p></li>
-<li>
-<p>Set cron tasks with <code>crontab -e</code>:</p>
-
-<pre><code>0 4 * * * dokku run $APP_NAME rake cleanup  
-0 8 * * * dokku run $APP_NAME rake digests:daily  
-0 0 * * 0 dokku run $APP_NAME rake digests:weekly
-</code></pre>
-</li>
-<li><p>Visit <code>$DOMAIN</code>. (You should be automatically logged in as an administrator. If not, sign in with the email address <code>admin@example.com</code> and the password <code>lumen</code>.) Change the admin name, email address and password.</p></li>
-<li><p>Visit /config and click 'Create notification script'. Add additional configuration variables via <code>dokku config:set $APP_NAME VAR=$VAR</code>. You're done!</p></li>
+<li><p>Visit <code>$DOMAIN</code>. (You should be automatically logged in as an administrator. If not, sign in with the email address <code>admin@example.com</code> and the password <code>lumen</code>.) Change the admin name, email address and password, then click 'Configuration' in the footer to set configuration variables. You're done!</p></li>
 </ul>
 
 <h2>
@@ -143,13 +85,15 @@ dokku mongo:link $MONGO_SERVICE_NAME $APP_NAME
 <pre><code>Group.each { |group| group.setup_mail_accounts_and_forwarder }
 ConversationPost.update_all(imap_uid: nil)
 </code></pre>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/wordsandwriting">wordsandwriting</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/wordsandwriting/lumen">Lumen</a> is maintained by <a href="https://github.com/wordsandwriting">wordsandwriting</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+
+    </section>
+
+  
   </body>
 </html>

@@ -3,97 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <title>Lumen by wordsandwriting</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <script>
+	window.location = 'https://github.com/wordsandwriting/lumen'
+    </script>
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Lumen</h1>
-      <h2 class="project-tagline">Open-source group discussion platform. Written in Ruby (Padrino), hosted via Heroku (web) and Virtualmin (email)</h2>
-      <a href="https://github.com/wordsandwriting/lumen" class="btn">View on GitHub</a>
-      <a href="https://github.com/wordsandwriting/lumen/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/wordsandwriting/lumen/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
-
-    <section class="main-content">
-      <h1>
-<a id="lumen" class="anchor" href="#lumen" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lumen</h1>
-
-<p><strong>For a live preview of Lumen, feel free to <a href="http://www.lumenapp.com/groups/previewers">join the previewers group on lumenapp.com</a>.</strong></p>
-
-<p>Lumen started life as a group discussion platform akin to <a href="http://groups.google.com">Google Groups</a>, <a href="http://groupserver.org/">GroupServer</a>, 
-<a href="http://www.list.org/">Mailman</a> or <a href="http://www.sympa.org/">Sympa</a>. Since then, it's gained some powerful extras. An outline of its features:</p>
-
-<ul>
-<li>Open-source (under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported</a>)</li>
-<li>Hosted using DigitalOcean/dokku</li>
-<li>Designed for custom domains (group email addresses of the form <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>)</li>
-<li>Sends and receives mail via regular SMTP and IMAP accounts</li>
-<li>Dual web/email access</li>
-<li>Extensible member profiles</li>
-<li>Flexible digest engine</li>
-<li>Events calendar</li>
-<li>Maps placing people, organisations and venues</li>
-<li>Google Docs integration</li>
-<li>Facebook-style walls</li>
-</ul>
-
-<p>Lumen is written in Ruby using the <a href="http://padrinorb.com/">Padrino</a> framework. It was originally created for the <a href="http://neweconomyorganisersnetwork.org/">New Economy Organisers Network</a> (hosted by the <a href="http://neweconomics.org/">New Economics Foundation</a>) who kindly agreed to open source the project and continue to sponsor its development.</p>
-
-<h2>
-<a id="how-the-mailing-lists-work-in-brief" class="anchor" href="#how-the-mailing-lists-work-in-brief" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> How the mailing lists work, in brief</h2>
-
-<ol>
-<li>Your mail server receives a mail to <a href="mailto:yourgroup@yourdomain.org">yourgroup@yourdomain.org</a>
-</li>
-<li>The mail triggers a simple notification script on the mail server that in turn alerts your web app to the fact there's a new message for the group</li>
-<li>Your web app connects to the mail server via IMAP to fetch the new mail</li>
-<li>Your web app distributes the message to group members via SMTP</li>
-</ol>
-
-<h2>
-<a id="installation-instructions" class="anchor" href="#installation-instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation instructions</h2>
-
-<ul>
-<li><p>Create a 2GB (or greater) droplet, which will act as both your web and mail server, with the image 'Dokku 0.6.5 on 14.04' and hostname <code>$DOMAIN</code> (this could be a root domain like lumenapp.com, or a subdomain like network.lumenapp.com). SSH into the server via <code>ssh root@$DROPLET_IP</code>.</p></li>
-<li>
-<p>Run the installation script, replacing <code>$DROPLET_IP</code> and <code>$DOMAIN</code> with the appropriate values:</p>
-
-<pre><code>wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DROPLET_IP $DOMAIN
-</code></pre>
-</li>
-<li>
-<p>Add DNS records (get DKIM key with <code>nano -$ /etc/opendkim/keys/$DOMAIN/mail.txt</code>):</p>
-
-<pre><code>$DOMAIN MX $DOMAIN
-$DOMAIN A $DROPLET_IP  
-$DOMAIN TXT "v=spf1 mx -all"  
-mail._domainkey.$DOMAIN TXT "v=DKIM1; k=rsa; p=..."
-</code></pre>
-</li>
-<li><p>Visit <code>$DOMAIN</code>. (You should be automatically logged in as an administrator. If not, sign in with the email address <code>admin@example.com</code> and the password <code>lumen</code>.) Change the admin name, email address and password, then click 'Configuration' in the footer to set configuration variables. You're done!</p></li>
-</ul>
-
-<h2>
-<a id="switching-mail-servers" class="anchor" href="#switching-mail-servers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Switching mail servers</h2>
-
-<p>If you switch your mail server, you'll need to re-setup the group mail accounts on the new server. Fire up a console (<code>padrino c</code>) and run:</p>
-
-<pre><code>Group.each { |group| group.setup_mail_accounts_and_forwarder }
-ConversationPost.update_all(imap_uid: nil)
-</code></pre>
-
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/wordsandwriting/lumen">Lumen</a> is maintained by <a href="https://github.com/wordsandwriting">wordsandwriting</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
-
-    </section>
-
-  
+    See <a href="https://github.com/wordsandwriting/lumen">https://github.com/wordsandwriting/lumen</a>  
   </body>
 </html>

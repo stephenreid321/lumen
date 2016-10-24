@@ -151,6 +151,7 @@ a:hover, a:focus, a:active { color: $secondary-dark }
 .navbar-inverse .navbar-nav > .dropdown > a:hover .caret, .navbar-inverse .navbar-nav > .dropdown > a:focus .caret { border-bottom-color: $primary; border-top-color: $dark-contrast; }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:focus { background: black; color: $dark-contrast }
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: $dark-contrast }
+.navbar-brand { font-family: 'loveloblack'; font-weight: normal }
 .navbar-nav > li > .dropdown-menu { margin-top: 2px }
 
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: $dark }

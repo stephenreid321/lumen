@@ -1,6 +1,6 @@
 # Lumen
 
-**For a live preview of Lumen, feel free to [join the previewers group on lumenapp.com](http://www.lumenapp.com/groups/previewers).**
+**For a live preview of Lumen, feel free to [join the previewers group on lumenapp.com](http://www.lumenapp.com).**
 
 Lumen started life as a group discussion platform akin to [Google Groups](http://groups.google.com), [GroupServer](http://groupserver.org/), 
 [Mailman](http://www.list.org/) or [Sympa](http://www.sympa.org/). Since then, it's gained some powerful extras. An outline of its features:

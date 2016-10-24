@@ -2,8 +2,7 @@
 
 **For a live preview of Lumen, feel free to [join the previewers group on lumenapp.com](http://www.lumenapp.com).**
 
-Lumen started life as a group discussion platform akin to [Google Groups](http://groups.google.com), [GroupServer](http://groupserver.org/), 
-[Mailman](http://www.list.org/) or [Sympa](http://www.sympa.org/). Since then, it's gained some powerful extras. An outline of its features:
+Lumen is an open-source group discussion platform with dual web-email access akin to [Discourse](http://discourse.org/), [Slack](http://slack.com/), [Google Groups](http://groups.google.com) or [Facebook Groups](http://facebook.com/groups). An outline of its features:
 
 * Open-source (under [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported](http://creativecommons.org/licenses/by-nc-sa/3.0/))
 * Hosted using DigitalOcean/dokku
@@ -15,7 +14,7 @@ Lumen started life as a group discussion platform akin to [Google Groups](http:/
 * Events calendar
 * Maps placing people, organisations and venues
 * Google Docs integration
-* Facebook-style walls
+* Optional Facebook-style wall view
 
 Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. It was originally created for the [New Economy Organisers Network](http://neweconomyorganisersnetwork.org/) (hosted by the [New Economics Foundation](http://neweconomics.org/)) who kindly agreed to open source the project and continue to sponsor its development.
 

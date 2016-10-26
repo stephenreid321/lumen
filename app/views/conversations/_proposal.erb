@@ -37,7 +37,7 @@
     <% end %>
 
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-8 vcenter">
         <canvas id="myChart" width="100%"></canvas>
         <script>
           var ctx = document.getElementById("myChart");
@@ -75,7 +75,7 @@
 
         </script>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 vcenter">
         <% %w{agree abstain disagree block}.each_with_index { |p,i| %>
           <p style="font-size: 12px; border-bottom: 4px solid <%=c[i]%>"><%=proposal.positions.where(status: p).count%> <%=p.capitalize%></p>
         <% } %>

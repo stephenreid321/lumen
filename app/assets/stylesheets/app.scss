@@ -233,3 +233,9 @@ ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
 .stats-highlight { }
 
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control, .select2-search input[type="text"][disabled], .select2-search input[type="text"][readonly], fieldset[disabled] .select2-search input[type="text"] { color: $dark-light }
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}

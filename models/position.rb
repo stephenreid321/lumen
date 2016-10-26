@@ -23,5 +23,17 @@ class Position
       :proposal_id => :lookup
     }
   end
-    
+  
+  def actioned
+    case status; when 'agree'; 'agreed with'; when 'abstain'; 'abstained on'; when 'disgaree'; 'disagreed with'; when 'block'; 'blocked'; end
+  end
+  
+  after_save do
+    conversation = proposal.conversation
+    conversation_post = conversation.conversation_posts.create!(
+      :body => %Q{<p><a href="http://#{Config['DOMAIN']}/accounts/#{account_id}">#{account.name}</a> <strong>#{actioned.split(' ').first}</strong>#{%Q{ #{actioned.split(' ').last}} if actioned.split(' ').length == 2} the proposal <strong>#{proposal.title}</strong></p><p>#{reason}</p><p style="font-size: 12px">State your position at <a href="http://#{Config['DOMAIN']}/conversations/#{conversation.slug}">http://#{Config['DOMAIN']}/conversations/#{conversation.slug}</a></p>},
+      :account => account)
+    conversation_post.send_notifications!  
+  end  
+      
 end

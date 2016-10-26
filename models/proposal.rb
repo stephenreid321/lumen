@@ -26,5 +26,12 @@ class Proposal
   def closed?
     Time.now > closes_at
   end
+  
+  after_create do
+    conversation_post = conversation.conversation_posts.create!(
+      :body => %Q{<p><a href="http://#{Config['DOMAIN']}/accounts/#{account_id}">#{account.name}</a> created a proposal: <strong>#{title}</strong></p><p>#{details}</p><p style="font-size: 12px">State your position at <a href="http://#{Config['DOMAIN']}/conversations/#{conversation.slug}">http://#{Config['DOMAIN']}/conversations/#{conversation.slug}</a></p>},
+      :account => account)
+    conversation_post.send_notifications!  
+  end
     
 end

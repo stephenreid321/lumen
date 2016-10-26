@@ -2,7 +2,7 @@
 
 **For a live preview of Lumen, feel free to [join the previewers group on lumenapp.com](http://www.lumenapp.com).**
 
-Lumen is an open-source group discussion platform with dual web-email access akin to [Discourse](http://discourse.org/), [Slack](http://slack.com/), [Google Groups](http://groups.google.com) or [Facebook Groups](http://facebook.com/groups). An outline of its features:
+Lumen is an open-source group discussion platform with dual web-email access akin to [Discourse](http://discourse.org/), [Loomio](http://loomio.org/), [Slack](http://slack.com/), [Google Groups](http://groups.google.com) or [Facebook Groups](http://facebook.com/groups). An outline of its features:
 
 * Open-source (under [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported](http://creativecommons.org/licenses/by-nc-sa/3.0/))
 * Hosted using DigitalOcean/dokku
@@ -10,7 +10,7 @@ Lumen is an open-source group discussion platform with dual web-email access aki
 * Sends and receives mail via regular SMTP and IMAP accounts
 * Dual web/email access
 * Extensible member profiles
-* Flexible digest engine
+* Loomio-style proposals
 * Events calendar
 * Maps placing people, organisations and venues
 * Google Docs integration

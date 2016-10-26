@@ -25,7 +25,7 @@ class Position
   end
   
   def actioned
-    case status; when 'agree'; 'agreed with'; when 'abstain'; 'abstained on'; when 'disgaree'; 'disagreed with'; when 'block'; 'blocked'; end
+    case status; when 'agree'; 'agreed with'; when 'abstain'; 'abstained on'; when 'disagree'; 'disagreed with'; when 'block'; 'blocked'; end
   end
   
   after_save do

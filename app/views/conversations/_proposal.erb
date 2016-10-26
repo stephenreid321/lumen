@@ -95,7 +95,7 @@
           <% when 'block' %>  
             <span class="btn btn-danger btn-xs"><i class="fa fa-hand-stop-o"></i></span>
             <% end %>
-          <a href="/accounts/<%=position.account_id%>"><%=position.account.name%></a> <%="#{position.status}ed".gsub('eee','ee')%><% if position.reason %>: <%=position.reason%><% end %>
+          <a href="/accounts/<%=position.account_id%>"><%=position.account.name%></a> <strong><%="#{position.status}ed".gsub('eee','ee')%></strong><% if position.reason %>: <%=position.reason%><% end %>
         </li>
       <% } %>
     </ul>

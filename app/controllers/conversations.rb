@@ -74,12 +74,13 @@ Lumen::App.controllers do
       
   get '/conversations/:slug' do    
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
-    redirect "/groups/#{@conversation.group.slug}/conversations?q=slug:#{params[:slug]}" if Config['WALL_STYLE_CONVERSATIONS']
-    membership_required!(@conversation.group) unless @conversation.group.public?
-    @membership = @conversation.group.memberships.find_by(account: current_account)
+    @group = @conversation.group
+    redirect "/groups/#{@group.slug}/conversations?q=slug:#{params[:slug]}" if Config['WALL_STYLE_CONVERSATIONS']
+    membership_required!(@group) unless @group.public?
+    @membership = @group.memberships.find_by(account: current_account)
     if @conversation.hidden
       flash[:notice] = "That conversation is hidden."
-      redirect "/groups/#{@conversation.group.slug}"
+      redirect "/groups/#{@group.slug}"
     else
       @conversation_posts = @conversation.visible_conversation_posts.order_by(:created_at.asc).per_page(params[:per_page] || 20).page(params[:page])
       if current_account
@@ -94,8 +95,9 @@ Lumen::App.controllers do
   
   post '/conversations/:slug' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
-    membership_required!(@conversation.group)
-    @membership = @conversation.group.memberships.find_by(account: current_account)
+    @group = @conversation.group
+    membership_required!(@group)
+    @membership = @group.memberships.find_by(account: current_account)
     @conversation_post = @conversation.conversation_posts.build(params[:conversation_post])
     @conversation_post.account = current_account
     if @conversation_post.save
@@ -105,6 +107,60 @@ Lumen::App.controllers do
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the post from being created."
       erb :'conversations/conversation'      
     end
+  end
+  
+  get '/conversations/:slug/propose' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    @group = @conversation.group
+    membership_required!(@group)
+    @membership = @group.memberships.find_by(account: current_account)
+    @proposal = Proposal.new(conversation: @conversation, closes_at: Time.now + 7.days)
+    erb :'conversations/proposal'
+  end  
+    
+  post '/conversations/:slug/propose' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    @group = @conversation.group
+    membership_required!(@group)
+    @membership = @group.memberships.find_by(account: current_account)
+    @proposal = Proposal.new(params[:proposal])
+    @proposal.account = current_account
+    @proposal.conversation = @conversation
+    if @proposal.save
+      redirect "/conversations/#{@conversation.slug}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the proposal from being created."
+      erb :'conversations/proposal'      
+    end
+  end  
+  
+  get '/proposals/:id/destroy' do
+    @proposal = Proposal.find(params[:id]) || not_found
+    @conversation = @proposal.conversation
+    @group = @conversation.group
+    membership_required!(@group)
+    @membership = @group.memberships.find_by(account: current_account)
+    if (@proposal.account == current_account) or @membership.admin?
+      @proposal.destroy      
+    end
+    redirect back
+  end  
+  
+  get '/proposals/:id/position/:status' do
+    @proposal = Proposal.find(params[:id]) || not_found
+    @conversation = @proposal.conversation
+    @group = @conversation.group
+    membership_required!(@group)
+    @membership = @group.memberships.find_by(account: current_account)
+    position = @proposal.positions.find_by(account: current_account) || @proposal.positions.build(account: current_account)
+    if params[:status] == 'destroy'
+      position.destroy
+    else
+      position.status = params[:status]
+      position.reason = params[:reason]
+      position.save!
+    end
+    redirect back
   end
   
   get '/conversations/:slug/approve' do

@@ -18,7 +18,8 @@
       'moment.js/2.10.6' => 'moment.min.js',
       'fullcalendar/2.4.0' => 'fullcalendar.min.js fullcalendar.min.css',
       'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
-      'datatables/1.10.12' => 'js/jquery.dataTables.min.js css/dataTables.bootstrap.min.css'     
+      'datatables/1.10.12' => 'js/jquery.dataTables.min.js css/dataTables.bootstrap.min.css',
+      'Chart.js/2.3.0' => 'Chart.min.js'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "//cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>

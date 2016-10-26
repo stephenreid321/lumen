@@ -1,5 +1,10 @@
 <% if @membership %>
   <ul class="page-options">  
+    <% if @membership and !@conversation.proposal %>
+      <li>
+        <a title="Make a proposal" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/propose"><i class="fa fa-pie-chart"></i> Make a proposal</a>
+      </li>     
+    <% end %>
     <% if @conversation.conversation_mutes.find_by(account: current_account) %>
       <li>
         <a title="Unmute conversation" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/unmute"><i class="fa fa-volume-up"></i> Unmute conversation</a>
@@ -20,8 +25,8 @@
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
-  <li><a href="/groups/<%=@conversation.group.slug%>"><%=@conversation.group.name%></a></li>
-  <li><a href="/groups/<%=@conversation.group.slug%>/conversations">Conversations</a></li>
+  <li><a href="/groups/<%=@group.slug%>"><%=@group.name%></a></li>
+  <li><a href="/groups/<%=@group.slug%>/conversations">Conversations</a></li>
   <li class="active"><%=@conversation.subject%></li>
 </ol>
 
@@ -54,8 +59,8 @@
           <% form_for (@conversation_post ||= @conversation.conversation_posts.build), "/conversations/#{@conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
             <%= f.wysiwyg_block :body, div_class: 'col-sm-12' %>
             <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-                    $(this).next().show();
-                    $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
+                $(this).next().show();
+                $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
             <div style="display:none;">
               <%= f.file_block :file, div_class: 'col-sm-12' %>
             </div>
@@ -70,11 +75,16 @@
 
   </div>
   <div class="col-sm-4">
+
+    <% if @conversation.proposal %>
+      <%= partial :'conversations/proposal', :locals => {:proposal => @conversation.proposal} %>
+    <% end %>
+
     <% if current_account %>
       <h2 style="margin-top: 0"><%=pluralize(@conversation.participants.count,'participant')%> in this conversation</h2>
       <%= partial :'accounts/list', :locals => {:scope => 'conversation', :scope_id => @conversation.id} %>
     <% else %>
-      <%= partial 'groups/join', :locals => {:group => @conversation.group} %>
+      <%= partial 'groups/join', :locals => {:group => @group} %>
     <% end %>    
   </div>
 </div>

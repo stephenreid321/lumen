@@ -1,0 +1,20 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/conversations"><%=I18n.t(:conversations).capitalize%></a>    
+  </li>  
+  <li><a href="/conversations/<%=@conversation.slug%>"><%=@conversation.subject%></a></li>
+  <li class="active">Make a proposal</li>
+</ol>
+
+<% form_for @proposal, "/conversations/#{@conversation.slug}/propose", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :title %>
+  <%= f.text_area_block :details %>
+  <%= f.datetime_block :closes_at %>
+  <%= f.submit_block %>
+<% end %>
+

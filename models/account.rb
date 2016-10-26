@@ -58,6 +58,8 @@ class Account
   has_many :survey_takers, :dependent => :destroy
   has_many :likes, :dependent => :destroy
   has_many :suggestions, :dependent => :destroy
+  has_many :proposals, :dependent => :destroy
+  has_many :positions, :dependent => :destroy
   
   belongs_to :language, index: true
   

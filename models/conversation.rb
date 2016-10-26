@@ -11,6 +11,7 @@ class Conversation
   has_many :conversation_post_bccs, :dependent => :destroy
   has_many :conversation_post_bcc_recipients, :dependent => :destroy
   has_many :conversation_post_read_receipts, :dependent => :destroy
+  has_one :proposal, :dependent => :destroy
   
   def merge(other_conversation)
     [conversation_posts, conversation_post_bccs, conversation_post_bcc_recipients, conversation_mutes].each { |collection|

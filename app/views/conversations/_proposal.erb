@@ -1,0 +1,104 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <p style="color: #ccc; text-transform: uppercase; margin-bottom: 5px">Proposal</p>
+    <h2 style="margin-top: 0"><%=proposal.title%></h2>
+    <p style="font-size: 12px">
+      Created by <a href="/accounts/<%=proposal.account_id%>"><%=proposal.account.name%></a>
+      &middot;
+      <% if proposal.closed? %> Closed <%=timeago(proposal.closes_at) %> <% else %> Closes in <%=distance_of_time_in_words(proposal.closes_at-Time.now)%> <% end %>
+      &middot;
+      <% if (proposal.account == current_account) or @membership.admin? %>
+        <a data-confirm="Are you sure?" href="/proposals/<%=proposal.id%>/destroy">Remove</a>
+      <% end %>
+
+    </p>
+    <p><%=proposal.details%></p>
+
+    <% unless proposal.closed? %>
+      <script>
+        $(function () {
+          $('.positions a').not('a[href*=destroy]').click(function () {
+            var reason = prompt('Share your reasoning');
+            if (reason) {
+              $(this).attr('href', $(this).attr('href') + '?reason=' + reason)
+            }
+          });
+        })
+      </script>
+      <div class="positions">
+        <a class="btn btn-success" title="Agree" href="/proposals/<%=proposal.id%>/position/agree"><i class="fa fa-thumbs-up"></i></a>
+        <a class="btn btn-warning" title="Abstain" href="/proposals/<%=proposal.id%>/position/abstain"><i class="fa fa-thumbs-down" style="transform: rotate(-90deg);"></i></a>
+        <a class="btn btn-danger" title="Disagree" style="opacity: 0.6" href="/proposals/<%=proposal.id%>/position/disagree"><i class="fa fa-thumbs-down"></i></a>
+        <a class="btn btn-danger" title="Block" href="/proposals/<%=proposal.id%>/position/block"><i class="fa fa-hand-stop-o"></i></a>
+        <% if proposal.positions.find_by(account: current_account) %>
+          <a class="btn btn-default" title="Remove position" href="/proposals/<%=proposal.id%>/position/destroy"><i class="fa fa-times"></i></a>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="col-sm-8">
+        <canvas id="myChart" width="100%"></canvas>
+        <script>
+          var ctx = document.getElementById("myChart");
+
+          var data = {
+            labels: [
+              "Agree",
+              "Abstain",
+              "Disagree",
+              "Block"
+            ],
+            datasets: [
+              {
+                data: [
+<%=proposal.positions.where(status: 'agree').count%>,
+<%=proposal.positions.where(status: 'abstain').count%>,
+<%=proposal.positions.where(status: 'disagree').count%>,
+<%=proposal.positions.where(status: 'block').count%>,
+                ],
+                backgroundColor: <%= c = %w{#2BC16B #F1C40F #F0938A #E74C3C} %>
+              }]
+          };
+
+          // And for a doughnut chart
+          var myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+              legend: {
+                display: false
+              }
+            }
+
+          });
+
+        </script>
+      </div>
+      <div class="col-sm-4">
+        <% %w{agree abstain disagree block}.each_with_index { |p,i| %>
+          <p style="font-size: 12px; border-bottom: 4px solid <%=c[i]%>"><%=proposal.positions.where(status: p).count%> <%=p.capitalize%></p>
+        <% } %>
+      </div>
+    </div>
+
+    <ul class="list-unstyled" style="margin-bottom: 0">
+      <% proposal.positions.each { |position| %>
+        <li>
+          <% case position.status %>
+          <% when 'agree' %>
+            <span class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i></span>
+          <% when 'abstain' %>  
+            <span class="btn btn-warning btn-xs"><i class="fa fa-thumbs-down" style="transform: rotate(-90deg);"></i></span>
+          <% when 'disagree' %>  
+            <span  class="btn btn-danger btn-xs" style="opacity: 0.6"><i class="fa fa-thumbs-down"></i></span>
+          <% when 'block' %>  
+            <span class="btn btn-danger btn-xs"><i class="fa fa-hand-stop-o"></i></span>
+            <% end %>
+          <a href="/accounts/<%=position.account_id%>"><%=position.account.name%></a> <%="#{position.status}ed".gsub('eee','ee')%><% if position.reason %>: <%=position.reason%><% end %>
+        </li>
+      <% } %>
+    </ul>
+
+  </div>
+</div>

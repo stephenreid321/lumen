@@ -19,7 +19,7 @@
         $(function () {
           $('.positions a').not('a[href*=destroy]').click(function () {
             var reason = prompt('Share your reasoning');
-            if (reason) {
+            if (reason != null) {
               $(this).attr('href', $(this).attr('href') + '?reason=' + reason)
             }
           });

@@ -176,6 +176,9 @@
             <% if current_account.admin? or current_account.translator %>
               <li><a href="/translations">Translations</a></li>
             <% end %>
+            <% unless f = Fragment.find_by(slug: 'footer') and f.include?('Powered by Lumen') %>
+              <li><a href="http://lumenapp.com">Powered by Lumen</a></li>
+            <% end %>
           <% end %>
         </ul>
       </div>

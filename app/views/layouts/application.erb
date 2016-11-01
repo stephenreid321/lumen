@@ -176,10 +176,10 @@
             <% if current_account.admin? or current_account.translator %>
               <li><a href="/translations">Translations</a></li>
             <% end %>
-            <% unless footer_fragment = Fragment.find_by(slug: 'footer') and footer_fragment.body.include?('Powered by Lumen') %>
-              <li><a href="http://lumenapp.com">Powered by Lumen</a></li>
-            <% end %>
           <% end %>
+          <% unless footer_fragment = Fragment.find_by(slug: 'footer') and footer_fragment.body.include?('Powered by Lumen') %>
+            <li><a href="http://lumenapp.com">Powered by Lumen</a></li>
+          <% end %>              
         </ul>
       </div>
     </div>

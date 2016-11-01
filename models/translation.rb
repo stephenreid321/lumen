@@ -79,7 +79,7 @@ class Translation
       :'mongoid.attributes.account.location' => 'Location',
       :'mongoid.attributes.account.town' => 'Town/city',
       :'mongoid.attributes.account.postcode' => 'Postcode',
-      :account_postcode_top => 'For internal use only, not displayed publicly',
+      :account_postcode_tip => 'For internal use only, not displayed publicly',
       :'mongoid.attributes.account.country' => 'Country',
       :'mongoid.attributes.account.headline' => 'Headline',
       :'mongoid.attributes.account.antispam' => "Antispam: what's 1+1?",

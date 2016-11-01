@@ -79,6 +79,7 @@ class Translation
       :'mongoid.attributes.account.location' => 'Location',
       :'mongoid.attributes.account.town' => 'Town/city',
       :'mongoid.attributes.account.postcode' => 'Postcode',
+      :account_postcode_top => 'For internal use only, not displayed publicly',
       :'mongoid.attributes.account.country' => 'Country',
       :'mongoid.attributes.account.headline' => 'Headline',
       :'mongoid.attributes.account.antispam' => "Antispam: what's 1+1?",
@@ -181,7 +182,7 @@ class Translation
       :latest_conversations => 'Latest conversations',
       :pick_a_group => 'Pick a group',
       :listed => 'listed',
-      :filter_by_group => 'filter by group'
+      :filter_by_group => 'filter by group',
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

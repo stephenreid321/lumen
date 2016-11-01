@@ -324,7 +324,7 @@ class Account
   
   def self.new_tips
     {
-      :postcode => 'For internal use only, not displayed publicly'
+      :postcode => I18n.t(:account_postcode_tip)
     }
   end
   

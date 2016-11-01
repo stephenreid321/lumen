@@ -8,6 +8,7 @@ class Account
   field :email, :type => String
   field :secret_token, :type => String
   field :crypted_password, :type => String
+  field :password_set_by_user, :type => Boolean
   field :admin, :type => Boolean
   field :time_zone, :type => String
   field :has_picture, :type => Boolean
@@ -28,6 +29,10 @@ class Account
   field :prevent_new_memberships, :type => Boolean
     
   EnvFields.set(self)
+  
+  def self.e(email)
+    find_by(email: email)
+  end
   
   include Geocoder::Model::Mongoid
   def location
@@ -291,6 +296,8 @@ class Account
   end  
   
   before_validation do
+    errors.add(:password, 'should be changed') if self.sign_ins.count == 1 and !self.password_set_by_user and !self.password
+    
     self.email = self.email.gsub(' ','') # strip unicode \u00a0
     self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
@@ -308,6 +315,10 @@ class Account
     self.google_profile_url = "http://#{self.google_profile_url}" if self.google_profile_url and !(self.google_profile_url =~ /\Ahttps?:\/\//)
     self.linkedin_profile_url = "http://#{self.linkedin_profile_url}" if self.linkedin_profile_url and !(self.linkedin_profile_url =~ /\Ahttps?:\/\//)    
   end  
+  
+  after_save do
+    update_attribute(:password_set_by_user, true) if self.sign_ins.count > 0 and !self.password_set_by_user and self.password
+  end
     
   before_validation :set_has_picture
   def set_has_picture
@@ -357,6 +368,7 @@ class Account
       :language_id => :lookup,
       :password => :password,
       :password_confirmation => :password,
+      :password_set_by_user => :check_box,
       :prevent_new_memberships => :check_box,      
       :affiliations => :collection,
       :affiliations_summary => {:type => :text, :edit => false},

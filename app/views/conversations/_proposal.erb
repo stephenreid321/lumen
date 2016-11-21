@@ -26,10 +26,10 @@
         })
       </script>
       <div class="positions">
-        <a class="btn btn-success" title="Agree" href="/proposals/<%=proposal.id%>/position/agree"><i class="fa fa-thumbs-up"></i></a>
-        <a class="btn btn-warning" title="Abstain" href="/proposals/<%=proposal.id%>/position/abstain"><i class="fa fa-thumbs-down" style="transform: rotate(-90deg);"></i></a>
-        <a class="btn btn-danger" title="Disagree" style="opacity: 0.6" href="/proposals/<%=proposal.id%>/position/disagree"><i class="fa fa-thumbs-down"></i></a>
-        <a class="btn btn-danger" title="Block" href="/proposals/<%=proposal.id%>/position/block"><i class="fa fa-hand-stop-o"></i></a>
+        <a class="btn btn-success" title="<%=I18n.t(:agree).capitalize%>" href="/proposals/<%=proposal.id%>/position/agree"><i class="fa fa-thumbs-up"></i></a>
+        <a class="btn btn-warning" title="<%=I18n.t(:abstain).capitalize%>" href="/proposals/<%=proposal.id%>/position/abstain"><i class="fa fa-thumbs-down" style="transform: rotate(-90deg);"></i></a>
+        <a class="btn btn-danger" title="<%=I18n.t(:disagree).capitalize%>" style="opacity: 0.6" href="/proposals/<%=proposal.id%>/position/disagree"><i class="fa fa-thumbs-down"></i></a>
+        <a class="btn btn-danger" title="<%=I18n.t(:block).capitalize%>" href="/proposals/<%=proposal.id%>/position/block"><i class="fa fa-hand-stop-o"></i></a>
         <% if proposal.positions.find_by(account: current_account) %>
           <a class="btn btn-default" title="Remove position" href="/proposals/<%=proposal.id%>/position/destroy"><i class="fa fa-times"></i></a>
         <% end %>
@@ -44,10 +44,10 @@
 
           var data = {
             labels: [
-              "Agree",
-              "Abstain",
-              "Disagree",
-              "Block"
+              "<%=I18n.t(:agree).capitalize%>",
+              "<%=I18n.t(:abstain).capitalize%>",
+              "<%=I18n.t(:disagree).capitalize%>",
+              "<%=I18n.t(:block).capitalize%>"
             ],
             datasets: [
               {
@@ -76,7 +76,9 @@
         </script>
       </div><div class="col-sm-4 vcenter">
         <% %w{agree abstain disagree block}.each_with_index { |p,i| %>
-          <p style="font-size: 12px; border-bottom: 4px solid <%=c[i]%>"><%=proposal.positions.where(status: p).count%> <%=p.capitalize%></p>
+          <p style="font-size: 12px; border-bottom: 4px solid <%=c[i]%>"><%=proposal.positions.where(status: p).count%>
+            <%=I18n.t(p).capitalize%>
+          </p>
         <% } %>
       </div>
     </div>

@@ -25,8 +25,8 @@ You were added to the groups [group_list] on #{Config['SITE_NAME_DEFINITE']}.
       flash.now[:error] = 'Some errors prevented the account from being saved'
       erb :'accounts/build_admin'      
     end
-  end 
-  
+  end
+    
   get '/accounts/:id/edit' do
     site_admins_only!
     @account = Account.find(params[:id])

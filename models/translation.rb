@@ -183,6 +183,10 @@ class Translation
       :pick_a_group => 'Pick a group',
       :listed => 'listed',
       :filter_by_group => 'filter by group',
+      :agree => 'agree',
+      :abstain => 'abstain',
+      :disagree => 'disagree',
+      :block => 'block'      
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

@@ -193,4 +193,25 @@ class ConversationPost
     threads.each { |thread| thread.join }  
   end
   
+  def self.check_for_missing_bccs_and_message_ids(since: 1.hour.ago)
+    ConversationPost.where(:created_at.gt => since).each { |conversation_post|
+      if conversation_post.conversation_post_bccs.empty?
+        begin
+          raise (r = "no bccs: #{conversation_post.conversation.subject} #{conversation_post.id}")
+        rescue => e
+          puts r
+          Airbrake.notify(e)
+        end      
+      end
+      if conversation_post.conversation_post_bccs.where(message_id: nil).count > 0
+        begin
+          raise (r = "bcc with no message_id: #{conversation_post.conversation.subject} #{conversation_post.id}")
+        rescue => e
+          puts r
+          Airbrake.notify(e)
+        end        
+      end
+    }    
+  end  
+  
 end

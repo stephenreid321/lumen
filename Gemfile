@@ -31,6 +31,7 @@ gem 'premailer'
 
 # Interacting with other websites
 gem 'airbrake', '4.3.5'
+gem 'delayed-plugins-airbrake'
 gem 'mechanize'
 gem 'platform-api'
 gem 'geocoder'

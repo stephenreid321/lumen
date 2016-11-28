@@ -81,12 +81,7 @@ Lumen::App.controllers do
       
       :SLACK_WEBHOOK_URL => 'Slack webhook URL',
       :SLACK_CHANNEL => 'Channel to post Slack notifications',
-      
-      :S3_BUCKET_NAME => 'S3 bucket name (deprecated)',
-      :S3_ACCESS_KEY => 'S3 access key (deprecated)',
-      :S3_SECRET => 'S3 secret (deprecated)',  
-      :S3_REGION => 'S3 region (deprecated)',        
-                  
+                        
       :PRIMARY_COLOR => 'Default #F5D74B',
       :PRIMARY_CONTRAST_COLOR => 'Default #222222',
       :SECONDARY_COLOR => 'Default #E74C3C',      

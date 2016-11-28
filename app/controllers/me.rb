@@ -19,7 +19,7 @@ Lumen::App.controllers do
     sign_in_required!
     params[:account][:account_tag_ids] = [] if Config['ACCOUNT_TAGS_PREDEFINED'] and !params[:account][:account_tag_ids]
     @account = current_account  
-    @account.require_password_change if self.sign_ins.count == 1
+    @account.require_password_change if @account.sign_ins.count == 1
     @account.require_account_affiliations = Config['REQUIRE_ACCOUNT_AFFILIATIONS'] 
     @account.prevent_email_changes = Config['PREVENT_EMAIL_CHANGES']
     if @account.update_attributes(params[:account])      

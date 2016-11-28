@@ -295,9 +295,12 @@ class Account
     end
   end  
   
+  attr_accessor :require_password_change
   before_validation do
-    errors.add(:password, 'should be changed') if self.sign_ins.count == 1 and !self.password_set_by_user and !self.password
-    
+    errors.add(:password, 'should be changed') if self.require_password_change and !self.password_set_by_user and !self.password
+  end    
+  
+  before_validation do    
     self.email = self.email.gsub(' ','') # strip unicode \u00a0
     self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
@@ -317,7 +320,7 @@ class Account
   end  
   
   after_save do
-    update_attribute(:password_set_by_user, true) if self.sign_ins.count > 0 and !self.password_set_by_user and self.password
+    update_attribute(:password_set_by_user, true) if !self.password_set_by_user and self.password and self.sign_ins.count > 0 
   end
     
   before_validation :set_has_picture

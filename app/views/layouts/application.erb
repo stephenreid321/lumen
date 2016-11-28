@@ -6,13 +6,13 @@
 
     <title><% if @title %><%=@title%>  · <% end %><%=Config['SITE_NAME']%></title>
 
-    <% {            
-      'jquery/1.11.2' => 'jquery.min.js',   
-      'twitter-bootstrap/3.2.0' => 'css/bootstrap.min.css js/bootstrap.min.js',      
+    <% {
+      'jquery/1.11.2' => 'jquery.min.js',
+      'twitter-bootstrap/3.2.0' => 'css/bootstrap.min.css js/bootstrap.min.js',
       'flat-ui/2.2.2' => 'css/flat-ui.min.css',
       'font-awesome/4.5.0' => 'css/font-awesome.min.css',
-      'select2/3.5.2' => 'select2.min.js select2.min.css',  
-      'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
+      'select2/3.5.2' => 'select2.min.js select2.min.css',
+      'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',
       'summernote/0.6.1' => 'summernote.min.css summernote.min.js',
       'bootstrap-datepicker/1.3.1' => 'js/bootstrap-datepicker.min.js css/datepicker.min.css',
       'moment.js/2.10.6' => 'moment.min.js',
@@ -20,10 +20,10 @@
       'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
       'datatables/1.10.12' => 'js/jquery.dataTables.min.js css/dataTables.bootstrap.min.css',
       'Chart.js/2.3.0' => 'Chart.min.js'
-      }.each { |k,v| %>    
+      }.each { |k,v| %>
       <% v.split(' ').each { |f| u = "//cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>
-          <script src="<%=u%>"></script>      
+          <script src="<%=u%>"></script>
         <% when :css %>
           <link rel="stylesheet" href="<%=u%>" />
         <% end %>
@@ -33,24 +33,24 @@
     <% [
       '/fonts/lovelo_black/stylesheet.css',
       '/stylesheets/app.css'
-      ].each { |f| %> 
-      <link rel="stylesheet" href="<%=f%>" />    
+      ].each { |f| %>
+      <link rel="stylesheet" href="<%=f%>" />
     <% } %>
 
     <% [
       "//maps.googleapis.com/maps/api/js?key=#{Config['GOOGLE_MAPS_API_KEY']}&libraries=places",
-      '//cdn.rawgit.com/chrissrogers/jquery-deparam/05018fe327c3675250f91f6ead6e83ef90dab1d0/jquery-deparam.min.js',            
-      '//cdn.rawgit.com/wordsandwriting/activate-tools/f39002fcc10a9a554c651543b3065847130c2811/js/jquery.geopicker.js',      
+      '//cdn.rawgit.com/chrissrogers/jquery-deparam/05018fe327c3675250f91f6ead6e83ef90dab1d0/jquery-deparam.min.js',
+      '//cdn.rawgit.com/wordsandwriting/activate-tools/f39002fcc10a9a554c651543b3065847130c2811/js/jquery.geopicker.js',
       '//cdn.rawgit.com/mahnunchik/markerclustererplus/736b0e3a7d916fbeb2ee5007494f17a5329b11a8/src/markerclusterer.js',
-      '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/d5d71f28b00a16766d2661aef6a75f80f1f604da/bootstrap3-typeahead.min.js',      
+      '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/d5d71f28b00a16766d2661aef6a75f80f1f604da/bootstrap3-typeahead.min.js',
       '//cdn.rawgit.com/m1ket/jquery-typing/7bfdbca1014b418fac5de12c86a91850bc8edd25/plugin/jquery.typing-0.3.0.min.js',
-      '//cdn.rawgit.com/aaronrussell/jquery-simply-countable/9c7c8fb200cf2c8f0bc0bdb20e37ca7ee6c00be7/jquery.simplyCountable.js',            
-      '//cdn.rawgit.com/richhollis/vticker/1c624bd347ef0bcb6e686795303a056e506472cc/js/jquery.vticker.js',            
+      '//cdn.rawgit.com/aaronrussell/jquery-simply-countable/9c7c8fb200cf2c8f0bc0bdb20e37ca7ee6c00be7/jquery.simplyCountable.js',
+      '//cdn.rawgit.com/richhollis/vticker/1c624bd347ef0bcb6e686795303a056e506472cc/js/jquery.vticker.js',
       ("//cdn.rawgit.com/rmm5t/jquery-timeago/5293dacee881e78b25bd4f699161fca81dff5205/locales/jquery.timeago.#{I18n.locale}.js" if I18n.locale != :en),
       '/javascripts/app.js'
       ].compact.each { |f| %>
       <script src="<%=f%>"></script>
-    <% } %>      
+    <% } %>
 
     <% if Config['GOOGLE_ANALYTICS_TRACKING_ID'] and Padrino.env == :production %>
       <script>
@@ -74,8 +74,8 @@
             ga('send', 'pageview', location.pathname + location.search + $(this).attr('href'));
           });
         });
-      </script>    
-    <% end %>   
+      </script>
+    <% end %>
 
     <%= eval(f('head')) %>
 
@@ -91,9 +91,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><%= Fragment.find_by(slug: 'navbar-brand').try(:body) || Config['NAVBAR_BRAND'] || '<i class="fa fa-home"></i>'%></a>        
+          <a class="navbar-brand" href="/"><%= Fragment.find_by(slug: 'navbar-brand').try(:body) || Config['NAVBAR_BRAND'] || '<i class="fa fa-home"></i>'%></a>
         </div>
-        <div class="collapse navbar-collapse" id="navbar-top">        
+        <div class="collapse navbar-collapse" id="navbar-top">
           <% if current_account %>
             <ul class="nav navbar-nav">
               <% if current_account %>
@@ -104,18 +104,18 @@
                     <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
+                    <li><a href="/groups"><%=I18n.t(:all_groups).capitalize%></a></li>
+                    <li role="separator" class="divider"></li>
                     <% current_account.memberships.map(&:group).reject { |group| group.hide_from_dropdown }.sort_by(&:name).each { |group| %>
                       <li><a href="/groups/<%=group.slug%>"><%= group.name %></a></li>
-                    <% } %>  
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/groups"><%=I18n.t(:all_groups).capitalize%></a></li>
-                  </ul>        
-                </li>    
+                    <% } %>
+                  </ul>
+                </li>
               <%  end %>
-              <li><a href="/events"><%=I18n.t(:events).capitalize%></a></li>                                                
+              <li><a href="/events"><%=I18n.t(:events).capitalize%></a></li>
               <li><a href="/map"><%=I18n.t(:map).capitalize%></a></li>
               <li><a href="/docs"><%=I18n.t(:docs).capitalize%></a></li>
-            </ul>  
+            </ul>
           <% end %>
           <div class="navbar-right">
             <ul class="nav navbar-nav">
@@ -129,16 +129,16 @@
                   <ul class="dropdown-menu">
                     <li><a href="/me">My profile</a></li>
                     <li><a href="/me/edit"><%=I18n.t(:edit_profile).capitalize%></a></li>
-                    <li><a href="/sign_out"><%=I18n.t(:sign_out).capitalize%></a></li>                    
+                    <li><a href="/sign_out"><%=I18n.t(:sign_out).capitalize%></a></li>
                   </ul>
                 </li>
-              <% else %> 
+              <% else %>
                 <li><a href="/sign_in"><%=I18n.t(:sign_in).capitalize%></a></li>
               <% end %>
             </ul>
           </div>
         </div>
-      </nav>    
+      </nav>
     </div>
 
     <div style="z-index: 1040; width: 40%; margin-left: -20%; left: 50%; position: absolute; margin-top: -40px">
@@ -148,8 +148,8 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <%= flash[k] %>
           </div>
-        <% end %>        
-      <% } %>       
+        <% end %>
+      <% } %>
     </div>
     <script>
       $(function () {
@@ -165,21 +165,21 @@
     </div>
 
     <div id="footer">
-      <div class="container-fluid">         
-        <%= eval(f('footer')) %>      
+      <div class="container-fluid">
+        <%= eval(f('footer')) %>
         <ul class="list-inline" style="margin-bottom: 0">
           <% if current_account %>
             <% if current_account.admin? %>
               <li><a href="/config">Configuration</a></li>
-              <li><a href="/analytics">Analytics</a></li>              
-            <% end %>          
+              <li><a href="/analytics">Analytics</a></li>
+            <% end %>
             <% if current_account.admin? or current_account.translator %>
               <li><a href="/translations">Translations</a></li>
             <% end %>
           <% end %>
           <% unless footer_fragment = Fragment.find_by(slug: 'footer') and footer_fragment.body.include?('Powered by Lumen') %>
             <li><a href="http://lumenapp.com">Powered by Lumen</a></li>
-          <% end %>              
+          <% end %>
         </ul>
       </div>
     </div>
@@ -190,7 +190,7 @@
         <div class="modal-content page-container">
         </div>
       </div>
-    </div>    
+    </div>
 
   </body>
 </html>

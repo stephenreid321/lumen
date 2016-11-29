@@ -1,3 +1,17 @@
+class Dragonfly::TempObject
+  def to_file(path, opts={})
+    mode = opts[:mode] || 0777
+    prepare_path(path) unless opts[:mkdirs] == false
+    if @data
+      File.open(path, 'wb', mode){|f| f.write(@data) }
+    else
+      FileUtils.cp(self.path, path)
+      File.chmod(mode, path)
+    end
+    File.new(path, 'rb')
+  end
+end
+
 Dragonfly.app.configure do    
   plugin :imagemagick
   url_format '/media/:job/:name'    

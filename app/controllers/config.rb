@@ -11,15 +11,16 @@ Lumen::App.controllers do
       :MAIL_SERVER_ADDRESS => 'Mail server address (no http://)',
       :MAIL_SERVER_USERNAME => 'Mail server username',
       :MAIL_SERVER_PASSWORD => 'Mail server password',
+      
+      :HELP_ADDRESS => 'Email address for general queries',      
             
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
-      :AIRBRAKE_API_KEY => 'Airbrake API key',      
-
+      :AIRBRAKE_API_KEY => 'Airbrake API key',  
+           
       :SITE_NAME => 'Name of site e.g. Lumen Users Network',
       :SITE_NAME_DEFINITE => "Name of site with 'the' if appropriate e.g. The Lumen Users Network",
       :SITE_NAME_SHORT => 'Short site name e.g. LUN',
       :NAVBAR_BRAND => 'Content to appear in a.navbar-brand in the header',
-      :HELP_ADDRESS => 'Email address for general queries',
       
       :DEFAULT_TIME_ZONE => 'Default time zone (see dropdown in profile for options, defaults to London)',
       :SANITIZE => ['Sanitize user input'],

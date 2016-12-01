@@ -1,6 +1,7 @@
 DROPLET_IP=$1
-APP_NAME=lumen
 DOMAIN=$2
+ADMIN_EMAIL=$3
+APP_NAME=lumen
 MAIL_DOMAIN=$DOMAIN
 MAIL_SERVER_ADDRESS=$DOMAIN
 MAIL_SERVER_PASSWORD=$(uuidgen)
@@ -183,7 +184,6 @@ echo -e "$MAIL_SERVER_PASSWORD\n$MAIL_SERVER_PASSWORD\n" | passwd
 
 dokku run $APP_NAME rake languages:default[English,en]
 dokku run $APP_NAME rake mi:create_indexes
-dokku ps:scale $APP_NAME web=1 worker=1
 
 cat <<EOT >> /var/spool/cron/crontabs/root
 
@@ -197,4 +197,17 @@ EOT
 
 SESSION_SECRET=$(uuidgen)
 DRAGONFLY_SECRET=$(uuidgen)
-dokku config:set $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET
+dokku config:set --no-restart $APP_NAME APP_NAME=$APP_NAME DOMAIN=$DOMAIN MAIL_DOMAIN=$MAIL_DOMAIN MAIL_SERVER_ADDRESS=$MAIL_SERVER_ADDRESS MAIL_SERVER_USERNAME=root MAIL_SERVER_PASSWORD=$MAIL_SERVER_PASSWORD SESSION_SECRET=$SESSION_SECRET DRAGONFLY_SECRET=$DRAGONFLY_SECRET HELP_ADDRESS=$ADMIN_EMAIL
+
+dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
+dokku config:set --no-restart $APP_NAME DOKKU_LETSENCRYPT_EMAIL=$ADMIN_EMAIL SSL=true
+dokku domains:add $APP_NAME $DOMAIN
+dokku domains:remove $APP_NAME $APP_NAME.$DOMAIN
+dokku letsencrypt $APP_NAME
+
+mkdir /home/dokku/$APP_NAME/nginx.conf.d/
+echo 'client_max_body_size 50M;' > /home/dokku/$APP_NAME/nginx.conf.d/upload.conf
+chown dokku:dokku /home/dokku/$APP_NAME/nginx.conf.d/upload.conf
+service nginx reload
+
+dokku ps:scale $APP_NAME web=1 worker=1

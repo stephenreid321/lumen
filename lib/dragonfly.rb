@@ -6,7 +6,7 @@ class Dragonfly::TempObject
       File.open(path, 'wb', mode){|f| f.write(@data) }
     else
       FileUtils.cp(self.path, path)
-      File.chmod(mode, path)
+      FileUtils.chmod_R(mode, path)
     end
     File.new(path, 'rb')
   end

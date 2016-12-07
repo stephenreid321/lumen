@@ -187,7 +187,7 @@ dokku run $APP_NAME rake mi:create_indexes
 
 cat <<EOT >> /var/spool/cron/crontabs/root
 
-0 1 * * * /usr/bin/dokku ps:scale $APP_NAME web=1 worker=1
+0 1 * * * /usr/bin/dokku ps:rebuild $APP_NAME
 0 2 * * * /usr/bin/dokku run $APP_NAME rake groups:check
 0 4 * * * /usr/bin/dokku run $APP_NAME rake cleanup  
 0 8 * * * /usr/bin/dokku run $APP_NAME rake digests:daily  

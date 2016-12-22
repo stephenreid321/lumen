@@ -6,7 +6,6 @@ gem 'padrino'
 gem 'rake'
 gem 'erubis'
 gem 'rack'
-gem 'rack-timeout'
 
 # Admin
 gem 'will_paginate', github: 'mislav/will_paginate'

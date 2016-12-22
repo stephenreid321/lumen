@@ -1,7 +1,6 @@
 module Lumen
   class App < Padrino::Application
     
-    use Rack::Timeout, service_timeout: 25 
     set :sessions, :expire_after => 1.year    
 
     require 'sass/plugin/rack'

@@ -16,12 +16,7 @@
 
 <% if @membership and @membership.admin? %>
   &middot;
-
-  <% if Config['BCC_SINGLE'] and conversation_post.conversation_post_bcc.message_id.nil? %>
-    <i class="fa fa-warning"></i> BCC has no message_id.
-  <% end %>
-  <a href="/conversation_posts/<%=conversation_post.id%>/resend">Resend</a>
-
+  <a class="edit" data-confirm="Are you sure you want to resend emails for this post?" href="/conversation_posts/<%=conversation_post.id%>/resend">Resend</a>
 <% end %>
 
 

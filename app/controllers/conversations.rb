@@ -219,6 +219,11 @@ Lumen::App.controllers do
     File.open("#{Padrino.root}/app/assets/images/pixel.gif", "r").read
   end
   
+  get '/conversation_posts/:id' do
+    @conversation_post = ConversationPost.find(params[:id])
+    redirect "/conversations/#{@conversation_post.conversation.slug}#conversation-post-#{@conversation_post.id}"
+  end  
+  
   get '/conversation_posts/:id/read_receipts' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])    
@@ -228,7 +233,7 @@ Lumen::App.controllers do
     @title = "People who read this"
     partial :'accounts/results_compact', :layout => 'modal'
   end
-  
+    
   get '/conversation_posts/:id/resend' do
     sign_in_required!
     @conversation_post = ConversationPost.find(params[:id])

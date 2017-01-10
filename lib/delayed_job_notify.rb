@@ -7,7 +7,7 @@ class Delayed::Job
         raise (r = "Delayed::Job error")
       rescue => e
         puts r
-        Airbrake.notify(e, {backtrace: self.last_error})
+        Airbrake.notify(e, :error_message => self.last_error)
       end      
     end
   end

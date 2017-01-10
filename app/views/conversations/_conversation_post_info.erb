@@ -14,5 +14,15 @@
   <%= partial :'conversations/like', :locals => {:conversation_post => conversation_post} %>
 </span>
 
+<% if @membership and @membership.admin? %>
+  &middot;
+
+  <% if Config['BCC_SINGLE'] and conversation_post.conversation_post_bcc.message_id.nil? %>
+    <i class="fa fa-warning"></i> BCC has no message_id.
+  <% end %>
+  <a href="/conversation_posts/<%=conversation_post.id%>/resend">Resend</a>
+
+<% end %>
+
 
 

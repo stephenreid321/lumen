@@ -229,4 +229,13 @@ Lumen::App.controllers do
     partial :'accounts/results_compact', :layout => 'modal'
   end
   
+  get '/conversation_posts/:id/resend' do
+    sign_in_required!
+    @conversation_post = ConversationPost.find(params[:id])
+    group_admins_only!(@conversation_post.group)
+    @conversation_post.send_notifications!
+    flash[:notice] = 'Emails for the post were resent.'
+    redirect back
+  end  
+  
 end

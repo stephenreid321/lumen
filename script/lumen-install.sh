@@ -6,6 +6,7 @@ MAIL_SERVER_ADDRESS=$DOMAIN
 MAIL_SERVER_PASSWORD=$(uuidgen)
 MONGO_SERVICE_NAME=$APP_NAME
 
+apt -y install aptitude
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mail.key -out /etc/ssl/certs/mailcert.pem -subj "/"
 aptitude -y install fail2ban
 debconf-set-selections <<< "postfix postfix/mailname string $MAIL_DOMAIN"; debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"; aptitude -y install postfix

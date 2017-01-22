@@ -204,4 +204,6 @@ echo 'client_max_body_size 50M;' > /home/dokku/$APP_NAME/nginx.conf.d/upload.con
 chown dokku:dokku /home/dokku/$APP_NAME/nginx.conf.d/upload.conf
 service nginx reload
 
+ufw disable
+
 dokku ps:scale $APP_NAME web=1 worker=1

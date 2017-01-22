@@ -139,14 +139,14 @@ class ConversationPost
   def replace_cids!
     self.body = body.gsub(/src="cid:(\S+)"/) { |match|
       begin
-        %Q{src="#{attachments.find_by(cid: $1).file.url(host: "#{Config['SSL'] ? 'https://' : 'http://'}#{Config['DOMAIN']}")}"}
+        %Q{src="#{attachments.find_by(cid: $1).file.url}"}
       rescue
         nil
       end
     }    
     self.body = body.gsub(/\[cid:(\S+)\]/) { |match|
       begin
-        %Q{<img src="#{attachments.find_by(cid: $1).file.url(host: "#{Config['SSL'] ? 'https://' : 'http://'}#{Config['DOMAIN']}")}">}
+        %Q{<img src="#{attachments.find_by(cid: $1).file.url}">}
       rescue
         nil
       end

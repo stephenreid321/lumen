@@ -7,6 +7,6 @@ Dragonfly.app.configure do
   datastore :file, {:root_path => Padrino.root('app', 'assets', 'dragonfly'), :server_root => 'assets'}
      
   define_url do |app, job, opts|    
-    app.datastore.url_for((DragonflyJob.find_by(signature: job.signature) || DragonflyJob.create(uid: job.store, signature: job.signature)).uid)
+    app.datastore.url_for((DragonflyJob.find_by(signature: job.signature) || DragonflyJob.create(uid: job.store, signature: job.signature)).uid, host: "#{Config['SSL'] ? 'https://' : 'http://'}#{Config['DOMAIN']}")
   end
 end

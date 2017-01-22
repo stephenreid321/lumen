@@ -135,18 +135,18 @@ class ConversationPost
       Delayed::Job.enqueue BccEachJob.new(self.id)
     end
   end
-      
+        
   def replace_cids!
     self.body = body.gsub(/src="cid:(\S+)"/) { |match|
       begin
-        %Q{src="#{attachments.find_by(cid: $1).file.url}"}
+        %Q{src=""#{Config['SSL'] ? 'https://' : 'http://'}#{Config['DOMAIN']}"#{attachments.find_by(cid: $1).file.url}"}
       rescue
         nil
       end
     }    
     self.body = body.gsub(/\[cid:(\S+)\]/) { |match|
       begin
-        %Q{<img src="#{attachments.find_by(cid: $1).file.url}">}
+        %Q{<img src=""#{Config['SSL'] ? 'https://' : 'http://'}#{Config['DOMAIN']}"#{attachments.find_by(cid: $1).file.url}">}
       rescue
         nil
       end

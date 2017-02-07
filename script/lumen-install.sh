@@ -179,7 +179,7 @@ git remote add $APP_NAME dokku@localhost:$APP_NAME
 git push $APP_NAME master
 
 sed -i '/PasswordAuthentication yes/s/^#//g' /etc/ssh/sshd_config
-restart ssh
+service ssh restart
 echo -e "$MAIL_SERVER_PASSWORD\n$MAIL_SERVER_PASSWORD\n" | passwd
 
 dokku run $APP_NAME rake languages:default[English,en]

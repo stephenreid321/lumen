@@ -210,7 +210,6 @@ Lumen::App.controllers do
       @membership = @group.memberships.build :account => @account
       @membership.admin = true if params[:admin]
       @membership.status = 'confirmed' if params[:status] == 'confirmed'
-      @membership.prevent_new_memberships = true if current_account.admin? and params[:prevent_new_memberships]
       @membership.added_by = current_account
       @membership.welcome_email_pending = true
       @membership.save

@@ -69,14 +69,6 @@
           Admin
         </label>
       </div>    
-      <% if current_account.admin? %>
-        <div class="checkbox">
-          <label>
-            <%= check_box_tag :prevent_new_memberships, :value => 1 %>
-            Prevent new memberships
-          </label>
-        </div> 
-      <% end %>
       <button type="submit" class="btn btn-primary">Add</button>
     <% end %>  
   </div>

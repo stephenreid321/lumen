@@ -76,6 +76,7 @@ class Translation
       :'mongoid.attributes.account.password_confirmation' => 'Password again',      
       :'mongoid.attributes.account.location' => 'Location',
       :'mongoid.attributes.account.town' => 'Town/city',
+      :'mongoid.attributes.account.state' => 'State/province',
       :'mongoid.attributes.account.postcode' => 'Postcode',
       :account_postcode_tip => 'For internal use only, not displayed publicly',
       :'mongoid.attributes.account.country' => 'Country',

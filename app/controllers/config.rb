@@ -38,6 +38,7 @@ Lumen::App.controllers do
             
       :AFFILIATION_POSITIONS => 'Comma-separated list of acceptable positions e.g. Novice,Intermediate,Master',
       :ACCOUNT_TAGS_PREDEFINED => ['Turns the tagships profile field into a series of checkboxes'],      
+      :SHOW_ACCOUNT_STATE => ['Shows state/province on account profiles'],
       :HIDE_ACCOUNT_HEADLINE => ['Hides headline on account profiles'],
       :HIDE_ACCOUNT_AFFILIATIONS => ['Hides affiliations on account profiles'],
       :HIDE_ACCOUNT_WEBSITE => ['Hides the website field on account profiles'],
@@ -112,6 +113,7 @@ Lumen::App.controllers do
       :'tip-full-name' => 'Tip for the full name field on account edit page',
       :'tip-headline' => 'Tip for the headline field on account edit page',
       :'tip-town' => 'Tip for the town field on account edit page',
+      :'tip-state' => 'Tip for the state field on account edit page',
       :'tip-postcode' => 'Tip for the postcode field on account edit page',
       :'tip-country' => 'Tip for the country field on account edit page',
       :'tip-phone' => 'Tip for the phone field on account edit page',

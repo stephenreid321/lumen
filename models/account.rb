@@ -17,6 +17,7 @@ class Account
   field :website, :type => String 
   field :headline, :type => String 
   field :town, :type => String
+  field :state, :type => String
   field :postcode, :type => String
   field :country, :type => String
   field :coordinates, :type => Array 
@@ -36,7 +37,7 @@ class Account
   
   include Geocoder::Model::Mongoid
   def location
-    [town, postcode, country].compact.join(', ')
+    [town, state, postcode, country].compact.join(', ')
   end
   geocoded_by :location
   def lat; coordinates[1] if coordinates; end  
@@ -357,6 +358,7 @@ class Account
       :phone => :text, 
       :website => :text,
       :town => :text,
+      :state => :text,
       :postcode => :text,
       :country => :select,
       :coordinates => :geopicker,      

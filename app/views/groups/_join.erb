@@ -14,6 +14,9 @@
           <%= f.text_block :email %>
           <% if Config['REQUEST_LOCATION'] %>
             <%= f.text_block :town %>
+            <% if Config['SHOW_ACCOUNT_STATE'] %>
+              <%= f.text_block :state %>
+            <% end %>
             <%= f.text_block :postcode %>
             <%= f.select_block :country %>  
           <% end %>    

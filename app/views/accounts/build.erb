@@ -43,6 +43,9 @@
       <%= eval(f('below-account-email')) %>
 
       <%= f.text_block :town, tip: eval(f('tip-town')) %>
+      <% if Config['SHOW_ACCOUNT_STATE'] %>
+        <%= f.text_block :state, tip: eval(f('tip-state')) %>
+      <% end %>
       <%= f.text_block :postcode, tip: eval(f('tip-postcode')) %>
       <%= f.select_block :country, tip: eval(f('tip-country')) %>
       <% if !Config['HIDE_ACCOUNT_PHONE'] %>

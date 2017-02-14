@@ -52,10 +52,10 @@
           </tr>
         <% end %>          
 
-        <% if [@account.town, @account.country].compact.length > 0 %>
+        <% if [@account.town, @account.state, @account.country].compact.length > 0 %>
           <tr>
             <td>Location</td>
-            <td><%=[@account.town, @account.country].compact.join(', ')%></td>
+            <td><%=[@account.town, @account.state, @account.country].compact.join(', ')%></td>
           </tr>
         <% end %>          
 

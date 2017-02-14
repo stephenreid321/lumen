@@ -16,7 +16,9 @@ Lumen::App.controllers do
             
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
       :AIRBRAKE_API_KEY => 'Airbrake API key',  
-           
+      
+      :GOOGLE_MAPS_API_KEY => 'Google Maps API key',
+      
       :SITE_NAME => 'Name of site e.g. Lumen Users Network',
       :SITE_NAME_DEFINITE => "Name of site with 'the' if appropriate e.g. The Lumen Users Network",
       :SITE_NAME_SHORT => 'Short site name e.g. LUN',
@@ -72,7 +74,6 @@ Lumen::App.controllers do
       :DMARC_FAIL_DOMAINS => 'Comma-separated list of domains with strict DMARC policies',
       
       :GOOGLE_ANALYTICS_TRACKING_ID => 'Google Analytics tracking ID',
-      :GOOGLE_MAPS_API_KEY => 'Google Maps API key',
             
       :BCC_SINGLE => ['Send single BCC to conversation post subscribers'],
       :BCC_SINGLE_JOB => ['Handle single BCCs in the background'],      

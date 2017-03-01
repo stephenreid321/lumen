@@ -44,6 +44,7 @@ class Translation
       :digest => 'digest',
       :map => 'map',
       :docs => 'docs',
+      :classified => 'request/offer',
       :classifieds => 'requests/offers',
       :surveys => 'surveys',
       :stats => 'stats',

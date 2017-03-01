@@ -46,7 +46,7 @@
 
       var inputGroup = $('<div class="input-group"></div>');
       $('#venue_hourly_cost').wrap(inputGroup);
-      $('<span class="input-group-addon">£</span>').prependTo($('#venue_hourly_cost').parent());
+      $('<span class="input-group-addon"><%= I18n.t(:currency_symbol)%></span>').prependTo($('#venue_hourly_cost').parent());
     });
   </script>
 

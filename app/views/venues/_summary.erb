@@ -42,7 +42,7 @@
     <% if venue.hourly_cost %>      
       <tr>
         <td>Approximate hourly cost</td>
-        <td>£<%=venue.hourly_cost%>/hour</td>
+        <td><%= I18n.t(:currency_symbol)%><%=venue.hourly_cost%>/hour</td>
       </tr>
     <% end %>     
     <% if venue.website %>

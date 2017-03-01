@@ -169,7 +169,7 @@
         <div class="form-group"> 
           <label><%= I18n.t(:maximum_hourly_cost).capitalize%></label>
           <div class="input-group">
-            <span class="input-group-addon">£</span>
+            <span class="input-group-addon"><%= I18n.t(:currency_symbol)%></span>
             <%= number_field_tag :max_hourly_cost, :class => 'form-control', :min => 0, :step => 1, :value => params[:max_hourly_cost] %>
           </div>
         </div>            

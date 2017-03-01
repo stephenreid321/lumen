@@ -189,7 +189,8 @@ class Translation
       :agree => 'agree',
       :abstain => 'abstain',
       :disagree => 'disagree',
-      :block => 'block'      
+      :block => 'block',
+      :currency_symbol => '£'
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       

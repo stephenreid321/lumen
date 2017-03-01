@@ -103,7 +103,7 @@ class Account
   attr_accessor :classified_request
   attr_accessor :classified_offer
   after_save do
-    if group = Group.find_by(primary: true)
+    if group = Group.find_by(primary: true) and group.memberships.find_by(account: self)
       if self.classified_request
         group.classifieds.create type: 'Request', description: self.classified_request, account: self
       end

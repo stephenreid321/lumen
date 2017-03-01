@@ -68,7 +68,7 @@
         <%= partial :'accounts/tagships', :locals => {:f => f} %>
       <% end %>
 
-      <% if Config['SHOW_ACCOUNT_CLASSIFIEDS'] and group = Group.find_by(primary: true) %>
+      <% if Config['SHOW_ACCOUNT_CLASSIFIEDS'] and group = Group.find_by(primary: true) and group.memberships.find_by(account: @account) %>
         <style>
           #account_classified_request, #account_classified_offer { height: 6em }
         </style>

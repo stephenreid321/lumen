@@ -1,0 +1,43 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">Requests/offers</li>
+</ol>
+
+<a style="float: right" class="btn btn-primary modal-trigger" href="/classifieds/new"><i class="fa fa-plus"></i> Make a request/offer</a>    
+
+<% form_tag '', :id => 'search-form', :class => 'form-inline', :style => "display: inline", :method => 'get' do %>      
+  <div class="input-group" style="text-align: right">
+    <%= search_field_tag :q, :class => 'form-control', :value => params[:q] %>
+    <span class="input-group-btn">
+      <button class="btn btn-default"><i class="fa fa-search"></i></button>
+    </span>            
+  </div>     
+
+  <%=I18n.t(:filter_by_group).capitalize%>
+  <%=select_tag :group_id, :selected => params[:group_id], :options => [''] + current_account.memberships.map(&:group).map { |group| [group.name, group.id] }.sort_by { |name,slug| name }, :class => 'form-control', :id => 'group-select' %>
+
+<% end %> 
+<script>
+  $(function () {
+
+    function search() {
+      $('#classifieds').css('opacity', 0.5);
+      $('#classifieds').load("/classifieds?" + $('#search-form').serialize(), function() {
+        $('#classifieds').css('opacity', 1);
+      });
+    }
+
+    $('#search-form').submit(function (e) {
+      search()
+      return false;
+    });
+    $('#group-select').change(function (e) {
+      search()
+      return false;
+    });
+  });
+</script> 
+
+<div id="classifieds">
+  <%= partial :'classifieds/classifieds' %>
+</div>

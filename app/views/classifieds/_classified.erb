@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+
+    <div class="media">
+      <span class="pull-left">
+        <a href="/accounts/<%=classified.account_id%>"><img class="media-object" style="display:block;width: 100px" src="<%=classified.account.picture ? classified.account.picture.thumb('100x100#').url : '/images/silhouette.png' %>"></a>
+        <a style="margin-top: 2px; display: inline-block; font-weight:bold" href="/accounts/<%=classified.account_id%>"><%=classified.account.name%></a>
+      </span>
+      <div class="media-body">
+
+
+        <%= classified.description.gsub('<br>',"\n") %>
+
+        <div class="classified-info">
+          <small>
+            <%=timeago(classified.created_at)%>
+            <% if !@group %>
+              in <%=g classified.group%>
+            <% end %>                              
+            &middot;
+            <a class="edit" href="/classifieds/<%=classified.id%>/destroy" data-confirm="Are you sure you want to unlist this request/offer?"><i class="fa fa-times"></i></a>
+          </small>
+        </div>      
+
+      </div>
+    </div>      
+
+  </div>
+</div>  

@@ -59,6 +59,7 @@ class Account
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
   has_many :venues_as_creator, :class_name => 'Venue', :inverse_of => :account, :dependent => :destroy
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
+  has_many :classified_as_creator, :class_name => 'Classified', :inverse_of => :account, :dependent => :destroy
   has_many :surveys_as_creator, :class_name => 'Survey', :inverse_of => :account, :dependent => :destroy
   has_many :answers, :dependent => :destroy
   has_many :survey_takers, :dependent => :destroy
@@ -225,6 +226,10 @@ class Account
   def venues
     Venue.where(:group_id.in => memberships.pluck(:group_id))
   end  
+  
+  def classifieds
+    Classified.where(:group_id.in => memberships.pluck(:group_id))
+  end   
         
   def docs
     Doc.where(:group_id.in => memberships.pluck(:group_id))

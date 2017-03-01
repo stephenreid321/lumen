@@ -99,6 +99,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   has_many :didyouknows, :dependent => :destroy
   has_many :venues, :dependent => :destroy
   has_many :docs, :dependent => :destroy
+  has_many :classifieds, :dependent => :destroy
   has_many :surveys, :dependent => :destroy
   
   def tags

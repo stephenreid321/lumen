@@ -1,0 +1,19 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>
+  </li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/classifieds"><%=I18n.t(:classifieds).capitalize%></a>    
+  </li>  
+  <li class="active">
+    Make a request/offer
+  </li>    
+</ol>
+
+<% form_for @classified, "/groups/#{@group.slug}/classifieds/new", :class => 'form-horizontal' do |f| %>
+  <%= f.select_block :type %>
+  <%= f.text_area_block :description %>
+  <%= f.submit_block %>
+<% end %>

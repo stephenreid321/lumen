@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h1>Requests</h1>
+    <% @classifieds.where(type: 'Request').each { |classified| %>
+      <%= partial :'classifieds/classified', :object => classified %>
+    <% } %>
+  </div>
+  <div class="col-sm-6">
+    <h1>Offers</h1>
+    <% @classifieds.where(type: 'Offer').each { |classified| %>
+      <%= partial :'classifieds/classified', :object => classified %>
+    <% } %>
+  </div>  
+</div>

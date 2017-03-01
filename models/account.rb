@@ -59,7 +59,7 @@ class Account
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
   has_many :venues_as_creator, :class_name => 'Venue', :inverse_of => :account, :dependent => :destroy
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
-  has_many :classified_as_creator, :class_name => 'Classified', :inverse_of => :account, :dependent => :destroy
+  has_many :classifieds_as_creator, :class_name => 'Classified', :inverse_of => :account, :dependent => :destroy
   has_many :surveys_as_creator, :class_name => 'Survey', :inverse_of => :account, :dependent => :destroy
   has_many :answers, :dependent => :destroy
   has_many :survey_takers, :dependent => :destroy
@@ -99,6 +99,19 @@ class Account
       groups_to_join.each { |group_id| memberships.create(:group_id => group_id) }
     end
   end  
+  
+  attr_accessor :classified_request
+  attr_accessor :classified_offer
+  after_save do
+    if group = Group.find_by(primary: true)
+      if self.classified_request
+        group.classifieds.create type: 'Request', description: self.classified_request, account: self
+      end
+      if self.classified_offer
+        group.classifieds.create type: 'Offer', description: self.classified_offer, account: self
+      end    
+    end
+  end
   
   def self.smtp_settings
     {:address => Config['MAIL_SERVER_ADDRESS'], :user_name => Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}

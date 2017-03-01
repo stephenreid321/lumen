@@ -67,6 +67,15 @@
       <% else %>
         <%= partial :'accounts/tagships', :locals => {:f => f} %>
       <% end %>
+
+      <% if Config['SHOW_ACCOUNT_CLASSIFIEDS'] and group = Group.find_by(primary: true) %>
+        <style>
+          #account_classified_request, #account_classified_offer { height: 6em }
+        </style>
+        <%= f.text_area_block :classified_request %>
+        <%= f.text_area_block :classified_offer %>
+      <% end %>
+
       <script>
         $(function () {
           $('div[data-group-type]').each(function () {

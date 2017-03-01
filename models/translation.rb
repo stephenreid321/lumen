@@ -86,6 +86,8 @@ class Translation
       :'mongoid.attributes.account.antispam' => "Antispam: what's 1+1?",
       :'mongoid.attributes.account.welcome_email_body' => 'HTML. Replacements: [firstname], [group_list], [sign_in_details]',
       :'mongoid.attributes.account.account_tag_ids' => 'Areas of expertise',
+      :'mongoid.attributes.account.classified_request' => "Something you'd like to receive",
+      :'mongoid.attributes.account.classified_offer' => 'Something you can offer',
       :'mongoid.attributes.event.organisation_name' => 'Host organisation',
       :'mongoid.attributes.event.organisation_id' => 'Host organisation',
       :'mongoid.attributes.event.name' => 'Event name',     

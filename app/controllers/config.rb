@@ -47,6 +47,7 @@ Lumen::App.controllers do
       :HIDE_ACCOUNT_PHONE => ['Hides the phone field on account profiles'],
       :HIDE_ACCOUNT_TIME_ZONE => ['Hides the time zone field on account profiles'],
       :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],      
+      :SHOW_ACCOUNT_CLASSIFIEDS => ['Shows request/offer creation forms on edit profile'],      
       :MAX_HEADLINE_LENGTH => 'Maximum character length  for the headline field (defaults to 150)',
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
       

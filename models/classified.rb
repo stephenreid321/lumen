@@ -11,6 +11,7 @@ class Classified
   end
   
   validates_presence_of :account, :group, :description
+  validates_length_of :description, maximum: (Config['MAX_CLASSIFIED_LENGTH'] ? Config['MAX_CLASSIFIED_LENGTH'].to_i : 150)
   
   belongs_to :account, index: true
   belongs_to :group, index: true

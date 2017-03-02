@@ -49,6 +49,7 @@ Lumen::App.controllers do
       :HIDE_ACCOUNT_EMAIL => ['Hides email addresses from account profiles and email notifications'],      
       :SHOW_ACCOUNT_CLASSIFIEDS => ['Shows request/offer creation forms on edit profile'],      
       :MAX_HEADLINE_LENGTH => 'Maximum character length  for the headline field (defaults to 150)',
+      :MAX_CLASSIFIED_LENGTH => 'Maximum character length  for the headline field (defaults to 150)',
       :ENV_FIELDS_ACCOUNT => 'Extra fields for the Account model e.g. biography:wysiwyg,research_proposal:file',
       
       :MAP_DEFAULTS => 'Comma-separated latitude, longitude and zoom',            
@@ -114,6 +115,8 @@ Lumen::App.controllers do
       :'below-account-email' => 'Text displayed below the email field on the account edit page',      
       :'tip-full-name' => 'Tip for the full name field on account edit page',
       :'tip-headline' => 'Tip for the headline field on account edit page',
+      :'tip-classified-request' => 'Tip for the classified request field on account edit page',
+      :'tip-classified-offer' => 'Tip for the classified offer field on account edit page',
       :'tip-town' => 'Tip for the town field on account edit page',
       :'tip-state' => 'Tip for the state field on account edit page',
       :'tip-postcode' => 'Tip for the postcode field on account edit page',

@@ -29,11 +29,12 @@
         <script>
           $(function () {
             $('#account_headline').simplyCountable({
+              counter: '#headline-counter',
               maxCount: <%= Config['MAX_HEADLINE_LENGTH'] || 150 %>
             });
           })
         </script>
-        <%= f.text_area_block :headline, tip: eval(f('tip-headline')), hint: %Q{<span id="counter"></span>} %>        
+        <%= f.text_area_block :headline, tip: eval(f('tip-headline')), hint: %Q{<span id="headline-counter"></span>} %>        
       <% end %>
       <% if !Config['HIDE_ACCOUNT_AFFILIATIONS'] %>
         <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
@@ -72,8 +73,20 @@
         <style>
           #account_classified_request, #account_classified_offer { height: 6em }
         </style>
-        <%= f.text_area_block :classified_request %>
-        <%= f.text_area_block :classified_offer %>
+        <script>
+          $(function () {
+            $('#account_classified_request').simplyCountable({
+              counter: '#classified-request-counter',
+              maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
+            });
+            $('#account_classified_offer').simplyCountable({
+              counter: '#classified-offer-counter',
+              maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
+            });            
+          })
+        </script>
+        <%= f.text_area_block :classified_request, tip: eval(f('tip-classified-request')), hint: %Q{<span id="classified-request-counter"></span>} %>
+        <%= f.text_area_block :classified_offer, tip: eval(f('tip-classified-offer')), hint: %Q{<span id="classified-offer-counter"></span>} %>
       <% end %>
 
       <script>

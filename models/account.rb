@@ -296,6 +296,8 @@ class Account
   validates_confirmation_of :password, :if => :password_required 
   
   validates_length_of :headline, maximum: (Config['MAX_HEADLINE_LENGTH'] ? Config['MAX_HEADLINE_LENGTH'].to_i : 150)
+  validates_length_of :classified_request, maximum: (Config['MAX_CLASSIFIED_LENGTH'] ? Config['MAX_CLASSIFIED_LENGTH'].to_i : 150)
+  validates_length_of :classified_offer, maximum: (Config['MAX_CLASSIFIED_LENGTH'] ? Config['MAX_CLASSIFIED_LENGTH'].to_i : 150)
   
   index({email: 1 }, {unique: true})
   

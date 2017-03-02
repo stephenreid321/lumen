@@ -14,6 +14,17 @@
 
 <% form_for @classified, @classified.new_record ? "/groups/#{@group.slug}/classifieds/new" : "/groups/#{@group.slug}/classifieds/#{@classified.id}/edit", :class => 'form-horizontal' do |f| %>
   <%= f.select_block :type %>
-  <%= f.text_area_block :description %>
+
+  <style>#classified_description { height: 6em }</style>
+  <script>
+    $(function () {
+      $('#classified_description').simplyCountable({
+        counter: '#description-counter',
+        maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
+      });
+    })
+  </script>
+  <%= f.text_area_block :description, hint: %Q{<span id="description-counter"></span>} %> 
+
   <%= f.submit_block :button_text => (@classified.new_record ? "Create #{I18n.t(:classified)}" : "Update #{I18n.t(:classified)}" )%>
 <% end %>

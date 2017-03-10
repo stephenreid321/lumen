@@ -1,6 +1,6 @@
 # Lumen
 
-**For a live preview of Lumen, feel free to [join the Previewers group on lumenapp.com](http://www.lumenapp.com).**
+**For a live preview of Lumen, feel free to [join the Previewers group on lumenapp.com](http://lumenapp.com).**
 
 Lumen is an open-source group discussion platform with dual web-email access.
 It can be compared to [Discourse](http://discourse.org/), [Loomio](http://loomio.org/), [Slack](http://slack.com/), [Google Groups](http://groups.google.com) or [Facebook Groups](http://facebook.com/groups). An outline of its features:

@@ -31,7 +31,7 @@
     <% } %>
 
     <% [
-      '/stylesheets/app.css'
+      "/stylesheets/app.css?#{Time.now.to_i}"
       ].each { |f| %>
       <link rel="stylesheet" href="<%=f%>" />
     <% } %>
@@ -46,7 +46,7 @@
       '//cdn.rawgit.com/aaronrussell/jquery-simply-countable/9c7c8fb200cf2c8f0bc0bdb20e37ca7ee6c00be7/jquery.simplyCountable.js',
       '//cdn.rawgit.com/richhollis/vticker/1c624bd347ef0bcb6e686795303a056e506472cc/js/jquery.vticker.js',
       ("//cdn.rawgit.com/rmm5t/jquery-timeago/5293dacee881e78b25bd4f699161fca81dff5205/locales/jquery.timeago.#{I18n.locale}.js" if I18n.locale != :en),
-      '/javascripts/app.js'
+      "/javascripts/app.js?#{Time.now.to_i}"
       ].compact.each { |f| %>
       <script src="<%=f%>"></script>
     <% } %>

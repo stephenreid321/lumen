@@ -86,7 +86,7 @@ Lumen::App.controllers do
             flash[:error] = "There are errors with your account that need correcting before making connections."
           end
         end
-        refreshParent
+        redirect '/'
       else # not signed in
         if account # sign in
           SignIn.create(account: account)

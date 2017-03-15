@@ -25,7 +25,7 @@
 
   <div class="col-sm-4" id="latest-conversations">        
     <a class="btn btn-hg btn-primary btn-block modal-trigger" href="/conversations/new"><i class="fa fa-comment"></i> Start a conversation</a>
-    <h2 style="font-size: 30px"><%=I18n.t(:latest_conversations).capitalize%></h2>
+    <h2 style="font-size: 28px"><%=I18n.t(:latest_conversations).capitalize%></h2>
     <% current_account.latest_conversations.limit(5).each { |conversation| %>
       <hr />
       <h3><a href="/conversations/<%=conversation.slug%>"><%=conversation.subject%></a> <%= conversation_posts_badge(conversation) %> <small><%=g conversation.group%></small></h3>      
@@ -38,7 +38,7 @@
 
   <div class="col-sm-4" id="upcoming-conversations">   
     <a class="btn btn-hg btn-primary btn-block modal-trigger" href="/events/new"><i class="fa fa-calendar"></i> <%=I18n.t(:add_an_event).capitalize%></a>
-    <h2 style="font-size: 30px"><%=I18n.t(:upcoming_events).capitalize%></h2>
+    <h2 style="font-size: 28px"><%=I18n.t(:upcoming_events).capitalize%></h2>
     <% current_account.events.future.limit(5).each { |event| %>
       <hr />
       <%= partial :'events/minimal', :locals => {:event => event} %>

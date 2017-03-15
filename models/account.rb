@@ -106,9 +106,11 @@ class Account
     if group = Group.find_by(primary: true) and group.memberships.find_by(account: self)
       if self.classified_request
         group.classifieds.create type: 'Request', description: self.classified_request, account: self
+        self.classified_request = nil
       end
       if self.classified_offer
         group.classifieds.create type: 'Offer', description: self.classified_offer, account: self
+        self.classified_offer = nil
       end    
     end
   end

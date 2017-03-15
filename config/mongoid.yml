@@ -3,14 +3,14 @@ development:
     default:
       database: <%= File.basename(PADRINO_ROOT) %>
       hosts:
-        - localhost:27017
+        - 127.0.0.1:27017
         
 test:
   clients:
     default:
       database: <%= File.basename(PADRINO_ROOT) %>_test
       hosts:
-        - localhost:27017        
+        - 127.0.0.1:27017        
 
 production:
   clients:

@@ -21,7 +21,7 @@ blank.png
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,400i,700,700i,900,900i');
 
 body, p, ul, ol, input, select, .form-control, label { font-family: $bodyFont, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 150%; }
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: $headerFont; text-transform: uppercase; font-weight: 900 }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: $headerFont; }
 .panel-title { font-family: $headerFont; }
 .navbar-brand { font-family: $headerFont; }
 
@@ -42,8 +42,8 @@ abbr[title] { border: none }
   #footer { position: absolute; bottom: 0; height: 100px; width: 100%; }
 }
 
-h1, .h1 {font-size: 44px; margin-top: 20px }
-h2, .h2 {font-size: 36px;}
+h1, .h1 {font-size: 44px; margin-top: 20px; text-transform: uppercase; font-weight: 900 }
+h2, .h2 {font-size: 36px; text-transform: uppercase; font-weight: 900 }
 h3, .h3 {font-size: 30px;}
 h4, .h4 {font-size: 24px;}
 h5, .h5 {font-size: 20px;}

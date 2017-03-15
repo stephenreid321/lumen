@@ -10,6 +10,7 @@ require 'capybara/poltergeist'
 require 'factory_girl'
 require 'minitest/autorun'
 require 'minitest/rg'
+require 'dragonfly'
 
 Capybara.app = Padrino.application
 Capybara.server_port = ENV['PORT']

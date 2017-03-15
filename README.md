@@ -1,5 +1,7 @@
 # Lumen
 
+[![Build Status](https://travis-ci.org/wordsandwriting/lumen.svg?branch=master)](https://travis-ci.org/wordsandwriting/lumen)
+
 **For a live preview of Lumen, feel free to [join the Previewers group on lumenapp.com](http://lumenapp.com).**
 
 Lumen is an open-source group discussion platform with dual web-email access.

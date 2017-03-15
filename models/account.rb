@@ -60,8 +60,6 @@ class Account
   has_many :venues_as_creator, :class_name => 'Venue', :inverse_of => :account, :dependent => :destroy
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
   has_many :classifieds_as_creator, :class_name => 'Classified', :inverse_of => :account, :dependent => :destroy
-  has_many :answers, :dependent => :destroy
-  has_many :survey_takers, :dependent => :destroy
   has_many :likes, :dependent => :destroy
   has_many :suggestions, :dependent => :destroy
   has_many :proposals, :dependent => :destroy

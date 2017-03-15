@@ -3,13 +3,13 @@ require 'sass/util'
 require 'sass/script'
 
 DEFAULT_COLORS = {
-  'primary' => '#F5D74B',
-  'primary-contrast' => '#222222',
-  'secondary' => '#E74C3C',
+  'primary' => '#228DFF',
+  'primary-contrast' => '#ffffff',
+  'secondary' => '#228DFF',
   'grey-light' => '#ECF0F1',
   'grey-mid' => '#D6DBDF',
   'dark' => '#333333',
-  'dark-contrast' => '#F5D74B'
+  'dark-contrast' => '#228DFF'
 }
 
 module Sass::Script::Functions

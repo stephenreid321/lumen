@@ -87,13 +87,13 @@ Lumen::App.controllers do
       :SLACK_WEBHOOK_URL => 'Slack webhook URL',
       :SLACK_CHANNEL => 'Channel to post Slack notifications',
                         
-      :PRIMARY_COLOR => 'Default #F5D74B',
-      :PRIMARY_CONTRAST_COLOR => 'Default #222222',
-      :SECONDARY_COLOR => 'Default #E74C3C',      
+      :PRIMARY_COLOR => 'Default #228DFF',
+      :PRIMARY_CONTRAST_COLOR => 'Default #FFFFFF',
+      :SECONDARY_COLOR => 'Default #228DFF',      
       :GREY_LIGHT_COLOR => 'Default #ECF0F1',
       :GREY_MID_COLOR => 'Default #D6DBDF',
       :DARK_COLOR => 'Default #333333',    
-      :DARK_CONTRAST_COLOR => 'Default #F5D74B'    
+      :DARK_CONTRAST_COLOR => 'Default #228DFF'    
     } 
     
     @fragments = {
@@ -130,16 +130,12 @@ Lumen::App.controllers do
   
   get '/config' do
     site_admins_only!
-    if Config['APP_NAME'] and Config['MAIL_SERVER_ADDRESS']
-      Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
-        result = ''
-        ssh.exec!("ls /notify") do |channel, stream, data|
-          result << data
-        end
-        @notification_script = result.include?("#{Config['APP_NAME']}.sh")      
-      end
-    end
-    erb :config
+    erb :'config/vars'
+  end
+  
+  get '/fragments' do
+    site_admins_only!
+    erb :'config/fragments'
   end
      
   post '/config' do

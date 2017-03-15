@@ -1,0 +1,20 @@
+
+<%= partial :'config/header' %>
+
+<form class="form-horizontal">
+  <% @fragments.each { |k,v| %>
+    <div class="form-group">
+      <label class="control-label col-sm-4">
+        <%=k%>
+        <p style="font-weight: normal" class="help-block"><%=v%></p>
+      </label>
+      <div class="col-sm-2">
+        <% if f = Fragment.find_by(slug: k) %>
+          <a href="/admin/edit/Fragment/<%=f.id%>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</a>
+        <% else %>
+          <a href="/config/create_fragment/<%=k%>" class="btn btn-default"><i class="fa fa-pencil"></i> Create</a>
+        <% end %>        
+      </div>
+    </div>
+  <% } %>
+</form>

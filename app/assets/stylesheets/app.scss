@@ -8,6 +8,8 @@ $grey-mid: colors('grey-mid');
 $dark: colors('dark');
 $dark-light: lighten($dark, 40%);
 $dark-contrast: colors('dark-contrast');
+$headerFont: 'Raleway';
+$bodyFont: 'Raleway';
 
 /*
 elsewhere:
@@ -15,6 +17,13 @@ eventColor
 blank.png
 .alert-info
 */
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,400i,700,700i,900,900i');
+
+body, p, ul, ol, input, select, .form-control, label { font-family: $bodyFont, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 150%; }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: $headerFont; text-transform: uppercase; font-weight: 900 }
+.panel-title { font-family: $headerFont; }
+.navbar-brand { font-family: $headerFont; }
 
 html {
   position: relative;
@@ -33,16 +42,12 @@ abbr[title] { border: none }
   #footer { position: absolute; bottom: 0; height: 100px; width: 100%; }
 }
 
-body, p {font-size: 15px; line-height: 135%; }
-.page, .page p  {  font-size: 17px; line-height: 1.6; }
-.panel-title { font-family: 'loveloblack'; font-weight: normal }
-h1, .h1 {font-size: 44px; text-transform: uppercase; font-family: 'loveloblack'; margin-top: 20px }
+h1, .h1 {font-size: 44px; margin-top: 20px }
 h2, .h2 {font-size: 36px;}
 h3, .h3 {font-size: 30px;}
 h4, .h4 {font-size: 24px;}
 h5, .h5 {font-size: 20px;}
 h6, .h6 {font-size: 18px;}
-
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small { color: #ced0d3 }
 
 .checkbox, .radio { padding-left: 0 }
@@ -71,20 +76,14 @@ a.odn { visibility:hidden; }
   }
 }
 
-ul.admin-options { margin-top: 5px; padding: 8px 15px; list-style-type: none; background: $grey-light }
-ul.admin-options li { display: inline-block; padding: 0px 8px }
-ul.admin-options li:first-child { padding-left: 0 }
-ul.admin-options li a { color: black; text-decoration: none; opacity: 0.25 }
-ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
-
 table a, .table a { text-decoration: none }
 table a:hover, .table a:hover { text-decoration: underline }
 
-.restore-opacity { opacity: 0.5; }
+.restore-opacity { opacity: 0.4; }
 .restore-opacity:hover { opacity: 1 !important  }
 
-a.edit { color: black; text-decoration: none; opacity: 0.3 }
-a.edit:hover { opacity: 1 }      
+a.edit { color: black; text-decoration: none; opacity: 0.4 }
+a.edit:hover { opacity: 1; color: $secondary }      
 
 ol.breadcrumb li[style*=float]:before { content: '' }
 
@@ -93,8 +92,10 @@ select[name*=day], select[name*=month], select[name*=year], select[name*=hour], 
 .popover { z-index: 1040 }
 .tooltip { z-index: 1020; }  
 
-.page-options { margin: 0; padding: 0; float: right }
+.page-options { margin: 0; padding: 0; position: relative; top: 2px; float: right }
 .page-options li { display:inline-block; padding: 0.5em }
+
+.page, .page p  {  font-size: 17px; line-height: 1.6; }
 
 #results-form .select2-container { margin-bottom: 5px }
 #results-form { background: $grey-light; border-radius: 5px; padding: 10px }
@@ -136,7 +137,7 @@ a:hover, a:focus, a:active { color: $secondary-dark }
 
 .btn-primary { background: $primary; color: $primary-contrast }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active { background: $primary-dark; color: $primary-contrast }
-
+       
 .btn-info { background: $secondary; color: white }
 .btn-info:hover, .btn-info:focus, .btn-info:active  { background: $secondary-dark}
 
@@ -151,8 +152,9 @@ a:hover, a:focus, a:active { color: $secondary-dark }
 .navbar-inverse .navbar-nav > .dropdown > a:hover .caret, .navbar-inverse .navbar-nav > .dropdown > a:focus .caret { border-bottom-color: $primary; border-top-color: $dark-contrast; }
 .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav > .open > .dropdown-menu > li > a:focus { background: black; color: $dark-contrast }
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus { color: $dark-contrast }
-.navbar-brand { font-family: 'loveloblack'; font-weight: normal }
-.navbar-nav > li > .dropdown-menu { margin-top: 2px }
+.navbar-nav > li > a { font-size: 14px }
+.navbar-nav > li > .dropdown-menu { margin-top: 2px; font-size: 14px  }
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus { background-color: $secondary }
 
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 { color: $dark }
 
@@ -225,8 +227,8 @@ p.lead { font-size: 20px; line-height: 140% }
 ul.admin-options { margin-top: -15px; padding: 8px 15px; list-style-type: none; background: $grey-light; margin-bottom: 20px; }
 ul.admin-options li { display: inline-block; padding: 0px 8px }
 ul.admin-options li:first-child { padding-left: 0 }
-ul.admin-options li a { color: black; text-decoration: none; opacity: 0.25 }
-ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
+ul.admin-options li a { color: black; text-decoration: none; opacity: 0.4 }
+ul.admin-options li a:hover, ul.admin-options li.active a { color: $secondary; opacity: 1 }
 
 #venue-filters { background: $grey-light }
 #map-canvas { background: $grey-light !important; }

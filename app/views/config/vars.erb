@@ -1,0 +1,30 @@
+
+<%= partial :'config/header' %>
+
+<style>
+  a.delete { opacity: 0.5 }
+  a.delete:hover { opacity: 1 }
+</style>
+
+<% form_tag '/config', :class => 'form-horizontal', :id => 'env' do %>
+  <% @environment_variables.each { |k,v| if v.is_a? Array; v = v[0]; check_box = true; else; check_box = false; end %>
+    <div class="form-group">
+      <label class="control-label col-sm-4">
+        <%=k%>
+        <p style="font-weight: normal" class="help-block"><%=v%></p>
+      </label>
+      <div class="col-sm-4">
+        <% if check_box %>
+          <%= check_box_tag k, :value => true, :checked => (Config[k.to_s] ? true : false) %>
+        <% else %>
+          <%= text_field_tag k, :value => Config[k.to_s], :class => 'form-control' %>
+        <% end %>
+      </div>
+    </div>
+  <% } %>
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-6">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+<% end %>

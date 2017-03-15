@@ -1,0 +1,74 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>"><%=@group.name%></a>    
+  </li>
+  <li class="active">
+    Add members
+  </li>
+</ol>
+
+<%= partial :'group_administration/header' %>
+
+<script>$(function () {
+
+    $('.status-tip').tooltip();
+
+    var accounts = <%=Account.where(:id.in => (current_account.network.pluck(:id) - @group.memberships.pluck(:account_id))).map { |account| {:name => account.name, :email => account.email} }.to_json%>
+    $('#add-single input[name=name]').typeahead({
+      source: accounts,
+      afterSelect: function (selected) {
+        $('#add-single input[name=email]').val(selected.email)
+      }
+    }).focus();
+  })
+</script>
+
+<% form_tag "/groups/#{@group.slug}/invite", :method => 'post' do %>
+
+  <style>
+    #add-single h3 { font-size: 16px }
+  </style>
+  <div id="add-single">
+    <p><a href="javascript:;" onclick="$('#add-single input').val('');
+                $('#add-single').hide();
+                $('#add-multiple').show();">Add multiple</a></p>        
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name', :autocomplete => 'off'  %>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <%= text_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="add-multiple" style="display:none">  
+    <p>Paste from spreadsheet, two columns: name, email</p>        
+    <div class="form-group">
+      <%= text_area_tag :data, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="checkbox">
+    <label>
+      <%= check_box_tag :status, :value => 'confirmed' %>
+      Start receiving emails immediately (even if never signed in)
+      <i class="status-tip fa fa-question-circle" title="By default, people will only start receiving email notifications once they sign in for the first time.
+         Check this box if you want them to start receiving emails immediately."></i>             
+    </label>
+  </div>        
+  <div class="checkbox">
+    <label>
+      <%= check_box_tag :admin, :value => 1 %>
+      Admin
+    </label>
+  </div>    
+  <button type="submit" class="btn btn-primary">Add</button>
+<% end %>  

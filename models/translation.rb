@@ -130,6 +130,7 @@ class Translation
       :'will_paginate.page_entries_info.multi_page' => 'Displaying %{model} %{from} - %{to} of %{count} in total',
       :'will_paginate.page_entries_info.multi_page_html' => 'Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total',
       :manage_members => 'manage members',
+      :add_members => 'add members',
       :settings => 'settings',
       :emails => 'emails',
       :landing_tab => 'landing tab',

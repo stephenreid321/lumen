@@ -86,6 +86,12 @@ Lumen::App.controllers do
     end
   end
   
+  get '/groups/:slug/add_members' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    group_admins_only!
+    erb :'group_administration/add_members'
+  end
+  
   get '/groups/:slug/membership_requests' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!

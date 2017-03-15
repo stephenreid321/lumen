@@ -17,7 +17,11 @@ class Config
   end
   
   def self.[](slug)
-    find_by(slug: slug).try(:body) || ENV[slug]
+    if Padrino.env == :test
+      ENV[slug]
+    else
+      find_by(slug: slug).try(:body) || ENV[slug]
+    end
   end
     
 end

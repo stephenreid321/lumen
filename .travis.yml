@@ -1,11 +1,6 @@
 language: ruby
-os:
-  - osx
-rvm:
-  - 2.3.0
+rvm: 2.3.0
 services: mongodb
-before_script:
-  - mongo --version
 script: bundle exec rake test
 env:
   global:

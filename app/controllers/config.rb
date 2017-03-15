@@ -57,7 +57,7 @@ Lumen::App.controllers do
       :SHOW_EVENTS_BY_DEFAULT => ['Shows events on maps by default'],
       :SHOW_VENUES_BY_DEFAULT => ['Shows venues on maps by default'],
       :SHOW_ORGS_BY_DEFAULT => ['Shows organisations on maps by default'],
-  
+      :ENABLE_CLASSIFIEDS => ['Shows request/offer link in navigation bar'],
       :WALL_STYLE_CONVERSATIONS => ['Wall-style conversations'],
       :REPLY_TO_GROUP => ['Sets the reply-to header to the group address'],
       :HIGHLIGHTED_EVENT_LABEL_TEXT => 'Custom label text for highlighted events',

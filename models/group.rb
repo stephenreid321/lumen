@@ -507,14 +507,27 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     conversation_post.send_notifications!
   end
   
+  def self.test_creating_a_conversation_via_email
+    random_string = Account.generate_password(8)
+    group = Group.create!(name: random_string, slug: random_string, privacy: 'secret')
+    account = Account.create!(name: random_string, email: "#{random_string}@example.com", password: random_string, password_confirmation: random_string)
+    group.memberships.create!(account: account, status: 'confirmed')
+    group.test_creating_a_conversation_via_email
+    group.destroy
+    account.destroy    
+  rescue => e
+    puts e
+    Airbrake.notify(e)
+  end
+  
   def test_creating_a_conversation_via_email
     group = self
     Mail.defaults do
-      delivery_method :smtp, group.smtp_settings
+      delivery_method :smtp, group.smtp_settings # send via the group smtp account...
     end    
     mail = Mail.new
     mail.to = group.email
-    mail.from = group.members.first.email
+    mail.from = group.members.first.email # ...and simply spoof the from address!
     subject = "test #{Time.now.to_s(:db)}"
     mail.subject = subject
     mail.body = '.'

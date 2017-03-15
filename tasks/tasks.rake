@@ -34,8 +34,8 @@ namespace :groups do
       group.check!
     }
   end
-  task :test_creating_a_conversation_via_email, [:slug] => :environment do |t, args|
-    Group.find_by(slug: args[:slug]).test_creating_a_conversation_via_email
+  task :test_creating_a_conversation_via_email => :environment do |t, args|
+    Group.test_creating_a_conversation_via_email
   end 
 end
 

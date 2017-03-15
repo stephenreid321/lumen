@@ -3,8 +3,7 @@ os:
 - osx
 rvm:
 - 2.3.0
-services:
-- mongodb
+services: mongodb
 script: bundle exec rake test
 env:
   global:

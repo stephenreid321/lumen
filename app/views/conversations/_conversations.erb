@@ -26,7 +26,9 @@
 <% if Config['WALL_STYLE_CONVERSATIONS'] %>
 
   <% if @membership %>
-    <%= partial :'conversations/wall_style_build'  %>
+    <% if !@q %>
+      <%= partial :'conversations/wall_style_build'  %>
+    <% end %>
   <% end %>
 
   <% @conversations.each { |conversation| %>

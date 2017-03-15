@@ -34,7 +34,7 @@
 
   <div class="col-sm-8" style="margin-bottom: 20px">
 
-    <h1 style="margin-top: 0"><%=@conversation.subject%></h1>
+    <h1 style="margin-top: 0; text-transform: none"><%=@conversation.subject%></h1>
 
     <% @conversation_posts.each { |conversation_post|  %>
       <%= partial :'conversations/conversation_post', :locals => {:conversation_post => conversation_post} %>

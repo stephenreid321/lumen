@@ -30,7 +30,7 @@ class Account
   field :prevent_new_memberships, :type => Boolean
     
   EnvFields.set(self)
-  
+    
   def self.e(email)
     find_by(email: email)
   end

@@ -1,7 +1,6 @@
 class Classified
   include Mongoid::Document
   include Mongoid::Timestamps
-  extend Dragonfly::Model
 
   field :type, :type => String
   field :description, :type => String

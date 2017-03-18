@@ -23,7 +23,7 @@
     <br />
 
     <%=conversation_post.replace_cids!.replace_iframes!.body%>
-    
+
     <% if Config['INCLUDE_SENDER_PROFILE'] %>
       <div style="margin-top: 1em">
         <a href="http://<%=Config['DOMAIN']%>/accounts/<%=conversation_post.account.id%>"><img style="width: 130px" src="http://<%=Config['DOMAIN']%><%=conversation_post.account.picture ? conversation_post.account.picture.thumb('130x130#').url : "http://#{Config['DOMAIN']}/images/silhouette.png" %>"></a>
@@ -55,14 +55,29 @@
         <% close_divs << '</div>' %>
       <% } %>
       <%= close_divs %>     
-     
+
+      <% if conversation_post.attachments.count > 0 %>
+        <fieldset style="margin-top: 1em">
+          <legend>Attachments</legend>        
+          <% if conversation_post.attachments.count == 1 and (attachment = conversation_post.attachments.first; %w{png jpg gif jpeg}.any? { |x| attachment.file_name.downcase.ends_with? ".#{x}" }) and !attachment.cid %>
+            <img style="display: block; width: 100%;" src="http://<%=Config['DOMAIN']%><%=attachment.file.url%>">
+          <% elsif conversation_post.attachments.count > 0 %>
+            <ul>
+              <% conversation_post.attachments.each { |attachment| %>
+                <li><a href="http://<%=Config['DOMAIN']%><%=attachment.file.url%>"><%=attachment.file_name%></a></li>
+              <% } %>
+            </ul>
+          <% end %>
+        </fieldset>
+      <% end %>
+
       <div style="margin-top: 1em">
         <span style="font-size: 80%">
           Too many emails? <a href="http://<%=Config['DOMAIN']%>/conversations/<%=conversation_post.conversation.slug%>/mute">Mute this conversation</a>, switch to a <a href="http://<%=Config['DOMAIN']%>/groups/<%=group.slug%>">digest</a>, or <a href="http://<%=Config['DOMAIN']%>/groups/<%=group.slug%>">turn off email notifications completely</a>
         </span>
       </div>
 
-      <% if !Config['BCC_SINGLE'] %>
+      <% if !Config['BCC_SINGLE'] and defined?(conversation_post_bcc) %>
         <img src="<%=Config['DOMAIN']%>/conversation_post_bccs/<%=conversation_post_bcc.id%>/read.gif" />
       <% end %>
   </body>

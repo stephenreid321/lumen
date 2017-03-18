@@ -98,10 +98,6 @@ class ConversationPostBcc
       content_type 'text/html; charset=UTF-8'
       body ERB.new(File.read(Padrino.root('app/views/emails/conversation_post.erb'))).result(binding)
     end
-    conversation_post.attachments.each { |attachment|
-      a = Attachment.find(attachment.id) # avoid weird caching issue on some systems
-      mail.add_file(:filename => a.file_name, :content => a.file.data)
-    }    
     mail.bcc = conversation_post_bcc_recipients.map(&:email)
     mail = mail.deliver
     update_attribute(:message_id, mail.message_id)

@@ -13,7 +13,12 @@ Lumen::App.controllers do
     @group.imap_connect!
     @group.imap.select('INBOX')
     @since = Date.yesterday    
-    @mails = @group.imap.search(["SINCE", @since.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', @group.email('-noreply')]).map { |sequence_id| [@group.imap.fetch(sequence_id,'UID')[0].attr['UID'], Mail.read_from_string(@group.imap.fetch(sequence_id,'RFC822')[0].attr['RFC822'])] }
+    @mails = @group.imap.search(["SINCE", @since.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', @group.email('-noreply')]).map { |sequence_id|
+      [
+        @group.imap.fetch(sequence_id,'UID')[0].attr['UID'],
+        Mail.read_from_string(@group.imap.fetch(sequence_id,'RFC822')[0].attr['RFC822'])
+      ]      
+    }
     @group.imap_disconnect! 
     erb :'groups/inbox'
   end

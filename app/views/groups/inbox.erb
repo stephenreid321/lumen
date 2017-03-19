@@ -15,7 +15,12 @@
   Displaying mails received since <%=@since%>
 </p>
 
-<table class="table">
+<script>
+  $(function () {
+    $('#inbox').dataTable({paging: false, order: [[2, "desc"]]});
+  });
+</script>
+<table class="table" id="inbox">
   <thead>
     <tr>      
       <th>From</th>
@@ -28,7 +33,7 @@
     <tr>
       <td><%=mail.from.first%></td>
       <td><%=mail.subject%></td>
-      <td><%=mail.date%></td>
+      <td data-order="<%=mail.date.to_s(:db)%>"><%=mail.date%></td>
       <td>
         <% if conversation_post = @group.conversation_posts.find_by(imap_uid: imap_uid) %>
           <a href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>"><%=conversation_post.conversation.subject%></a>

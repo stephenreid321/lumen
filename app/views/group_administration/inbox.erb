@@ -12,7 +12,8 @@
 <%= partial :'group_administration/header' %>
 
 <p>
-  Displaying mails received since <%=@since%>
+  Displaying mails received since <%=@since%> &middot; 
+  <a href="/groups/<%=@group.slug%>/check">Check for new mail</a>
 </p>
 
 <script>

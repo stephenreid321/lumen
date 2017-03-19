@@ -4,7 +4,7 @@ Lumen::App.controllers do
     @group = Group.find_by(slug: params[:slug]) || not_found
     group_admins_only!
     @group.check!
-    redirect "/groups/#{@group.slug}"
+    redirect "/groups/#{@group.slug}/inbox"
   end   
   
   get '/groups/:slug/inbox' do    
@@ -20,7 +20,7 @@ Lumen::App.controllers do
       ]      
     }
     @group.imap_disconnect! 
-    erb :'groups/inbox'
+    erb :'group_administration/inbox'
   end
   
   get '/groups/:slug/edit' do

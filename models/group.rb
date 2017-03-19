@@ -352,25 +352,40 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   def send_welcome_emails
     memberships.where(:welcome_email_pending => true).each(&:send_welcome_email)
   end
-    
-  def check!(since: Date.yesterday)
+  
+  attr_accessor :imap
+  def imap_connect!
     return unless Config['MAIL_SERVER_ADDRESS']
     group = self
-    imap = Net::IMAP.new(Config['MAIL_SERVER_ADDRESS'], :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
+    @imap = Net::IMAP.new(Config['MAIL_SERVER_ADDRESS'], :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
     begin
-      imap.authenticate('PLAIN', group.username('-inbox'), Config['MAIL_SERVER_PASSWORD'])
+      @imap.authenticate('PLAIN', group.username('-inbox'), Config['MAIL_SERVER_PASSWORD'])
     rescue # try former/deprecated account form
-      imap.authenticate('PLAIN', group.username, Config['MAIL_SERVER_PASSWORD'])
+      @imap.authenticate('PLAIN', group.username, Config['MAIL_SERVER_PASSWORD'])
     end
-    imap.select('INBOX')  
-    
-    # delete messages sent by lumen
+    @imap
+  end
+  
+  def imap_disconnect!
+    @imap.disconnect
+  end
+  
+  def delete_messages_sent_by_group
+    group = self
     sent_by_lumen = imap.search(['HEADER', 'Sender', group.email('-noreply')])
     if !sent_by_lumen.empty?
       imap.store(sent_by_lumen, "+FLAGS", [:Deleted])
       imap.expunge
-    end
-
+    end    
+  end
+    
+  def check!(since: Date.yesterday)
+    return unless Config['MAIL_SERVER_ADDRESS']
+    group = self    
+    imap_connect!
+    imap.select('INBOX')  
+    delete_messages_sent_by_group
+    
     imap.search(["SINCE", since.strftime("%d-%b-%Y"), 'NOT', 'HEADER', 'Sender', group.email('-noreply')]).each do |sequence_id|
       
       # skip messages we've already dealt with
@@ -396,7 +411,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       imap.store(sequence_id, "+FLAGS", [:Seen])
     end 
     imap.expunge
-    imap.disconnect
+    imap_disconnect!
   end
   
   def process_mail(mail, imap_uid: nil)

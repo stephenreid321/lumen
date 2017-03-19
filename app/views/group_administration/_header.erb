@@ -6,6 +6,7 @@
   ['<i class="fa fa-pencil"></i> ' + I18n.t(:settings).capitalize, 'edit'],
   ['<i class="fa fa-envelope"></i> ' + I18n.t(:emails).capitalize, 'emails'],
   ['<i class="fa fa-question"></i> ' + I18n.t(:did_you_know).capitalize, 'didyouknows'],
+  ['<i class="fa fa-inbox"></i> ' + I18n.t(:inbox).capitalize, 'inbox'],
   ['<i class="fa fa-bar-chart"></i> ' + I18n.t(:stats).capitalize, 'stats'],
   (['<i class="fa fa-hand-stop-o"></i> ' + 'Conversations requiring approval' + (@group.unapproved_conversations.count > 0 ? %Q{ <span class="badge">#{@group.unapproved_conversations.count}</span>}  : ''), 'conversations_requiring_approval'] if @group.conversations_require_approval)
   ].compact, prefix: "/groups/#{@group.slug}/"

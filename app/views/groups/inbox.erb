@@ -1,0 +1,39 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/groups"><%=I18n.t(:groups).capitalize%></a></li>
+  <li>
+    <a href="/groups/<%=@group.slug%>/"><%= @group.name%></a>    
+  </li>      
+  <li class="active">
+    Inbox
+  </li>
+</ol>
+
+<%= partial :'group_administration/header' %>
+
+<p>
+  Displaying mails received since <%=@since%>
+</p>
+
+<table class="table">
+  <thead>
+    <tr>      
+      <th>From</th>
+      <th>Subject</th>
+      <th>Date</th>
+      <th>Conversation post</th>
+    </tr>
+  </thead>  
+  <% @mails.each do |imap_uid, mail| %>
+    <tr>
+      <td><%=mail.from.first%></td>
+      <td><%=mail.subject%></td>
+      <td><%=mail.date%></td>
+      <td>
+        <% if conversation_post = @group.conversation_posts.find_by(imap_uid: imap_uid) %>
+          <a href="/conversations/<%=conversation_post.conversation.slug%>#conversation-post-<%=conversation_post.id%>"><%=conversation_post.conversation.subject%></a>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

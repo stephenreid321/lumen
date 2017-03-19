@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 gem 'puma'
-gem 'padrino'
+gem 'padrino', '0.13.3.2'
 gem 'rake'
 gem 'erubis'
 gem 'rack'
@@ -16,6 +16,7 @@ gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 gem 'mongoid'
 gem 'delayed_job_mongoid'
 gem 'dragonfly'
+gem 'activemodel', '~>4.2'
 
 # Authentication
 gem 'bcrypt'

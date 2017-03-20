@@ -86,8 +86,7 @@
     <ul class="list-unstyled" style="margin-bottom: 0">
       <% proposal.positions.each { |position| %>
         <li style="margin-bottom: 1px">
-          <% case position.status %>
-          <% when 'agree' %>
+          <% case position.status; when 'agree' %>
             <span class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i></span>
           <% when 'abstain' %>  
             <span class="btn btn-warning btn-xs"><i class="fa fa-thumbs-down" style="transform: rotate(-90deg);"></i></span>

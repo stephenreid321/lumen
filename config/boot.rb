@@ -18,6 +18,5 @@ Padrino.load!
 
 Delayed::Worker.max_attempts = 1
 Delayed::Worker.destroy_failed_jobs = false
-Delayed::Worker.plugins << Delayed::Plugins::Airbrake::Plugin
 
 I18n.enforce_available_locales = false

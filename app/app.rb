@@ -16,7 +16,7 @@ module Lumen
     helpers Activate::NavigationHelpers
     
     use Dragonfly::Middleware
-    use Airbrake::Rack    
+    use Airbrake::Rack::Middleware
     use OmniAuth::Builder do
       provider :account
       Provider.registered.each { |provider|
@@ -52,7 +52,7 @@ module Lumen
     end
         
     ############
-                  
+    
     get '/' do
       if Account.count == 0       
         account = Account.create!(:name => 'Lumen Admin', :password => 'lumen', :password_confirmation => 'lumen', :email => 'admin@example.com', :admin => true)

@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 2fb991e480ee8e00ddfd2786a3651f2791d79fac
+  revision: 6f4836d3b37060ede7830fdd84c45e52a7181fd3
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: ffabe789bc796852f7213c66e9dc0467a9538cff
+  revision: 11473378865624cff7d457a57d245309dc716fa9
   specs:
     activate-tools (0.0.1)
       padrino
@@ -39,9 +39,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    airbrake (4.3.5)
-      builder
-      multi_json
+    airbrake (5.8.1)
+      airbrake-ruby (~> 1.8)
+    airbrake-ruby (1.8.0)
     bcrypt (3.1.11)
     bson (4.2.1)
     builder (3.2.3)
@@ -61,9 +61,6 @@ GEM
     crass (1.0.2)
     css_parser (1.4.10)
       addressable
-    delayed-plugins-airbrake (1.1.0)
-      airbrake
-      delayed_job
     delayed_job (4.1.2)
       activesupport (>= 3.0, < 5.1)
     delayed_job_mongoid (2.3.0)
@@ -137,7 +134,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (4.1.0)
-    nokogiri (1.7.0.1)
+    nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     nokogumbo (1.4.10)
       nokogiri
@@ -251,11 +248,10 @@ DEPENDENCIES
   activate-admin!
   activate-tools!
   activemodel (~> 4.2)
-  airbrake (= 4.3.5)
+  airbrake
   bcrypt
   capybara
   countries
-  delayed-plugins-airbrake
   delayed_job_mongoid
   dragonfly
   erubis
@@ -286,7 +282,7 @@ DEPENDENCIES
   will_paginate!
 
 RUBY VERSION
-   ruby 2.3.0p0
+   ruby 2.3.3p222
 
 BUNDLED WITH
-   1.13.7
+   1.14.6

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.3.3'
 gem 'puma'
 gem 'padrino', '0.13.3.2'
 gem 'rake'
@@ -29,8 +29,7 @@ gem 'mail'
 gem 'premailer'
 
 # Interacting with other websites
-gem 'airbrake', '4.3.5'
-gem 'delayed-plugins-airbrake'
+gem 'airbrake'
 gem 'mechanize'
 gem 'platform-api'
 gem 'geocoder'

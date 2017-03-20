@@ -1,5 +1,5 @@
 language: ruby
-rvm: 2.3.0
+rvm: 2.3.3
 services: mongodb
 script: bundle exec rake test
 env:

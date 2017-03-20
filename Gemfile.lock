@@ -254,7 +254,6 @@ DEPENDENCIES
   countries
   delayed_job_mongoid
   dragonfly
-  erubis
   factory_girl
   geocoder
   launchy
@@ -273,7 +272,6 @@ DEPENDENCIES
   poltergeist
   premailer
   puma
-  rack
   rake
   ri_cal!
   rinku

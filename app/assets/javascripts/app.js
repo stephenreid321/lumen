@@ -42,10 +42,10 @@ $(function () {
       });
       $('.note-image-input').parent().hide();
       $(textarea).prop('required', false);
-      $(summernote).code($(textarea).val());
+      $(summernote).summernote("code", $(textarea).val());
       $(textarea).addClass('wysified').hide();
       $(textarea.form).submit(function () {
-        $(textarea).val($(summernote).code());
+        $(textarea).val($(summernote).summernote("code"));
       });
     });
   }

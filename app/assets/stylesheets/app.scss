@@ -38,6 +38,8 @@ html {
 body { padding: 10px 0 0 0; }
 .container-fluid { max-width: 1170px }
 
+img { image-orientation: from-image; }
+
 .breadcrumb { background: $grey-light; border: 0; margin-bottom: 20px }
 
 abbr[title] { border: none }

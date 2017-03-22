@@ -1,5 +1,5 @@
 Airbrake.configure do |config|
-  config.host = ENV['AIRBRAKE_HOST']
+  config.host = (ENV['AIRBRAKE_HOST'] or 'airbrake.io')
   config.project_id = (ENV['AIRBRAKE_PROJECT_ID'] or 1)
   config.project_key = (ENV['AIRBRAKE_PROJECT_KEY'] or ENV['AIRBRAKE_API_KEY'] or 'project_key')
   config.environment = Padrino.env

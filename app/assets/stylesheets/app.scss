@@ -40,6 +40,12 @@ body { padding: 10px 0 0 0; }
 
 img { image-orientation: from-image; }
 
+input[name$='[day]'], input[name$='[month]'], input[name$='[year]'], select[name$='[hour]'], select[name$='[min]'] { display:inline; } 
+input[name$='[day]'], input[name$='[year]'] { width: 4em }
+input[name$='[month]'] { width: 8em }
+select[name$='[hour]'], select[name$='[min]'] { width: 6em }
+input[name$='[lat]'], input[name$='[lng]'] { display:inline; width: auto } 
+
 .breadcrumb { background: $grey-light; border: 0; margin-bottom: 20px }
 
 abbr[title] { border: none }

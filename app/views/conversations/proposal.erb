@@ -13,7 +13,7 @@
 
 <% form_for @proposal, "/conversations/#{@conversation.slug}/propose", :class => 'form-horizontal' do |f| %>
   <%= f.text_block :title %>
-  <%= f.text_area_block :details %>
+  <%= f.wysiwyg_block :details %>
   <%= f.datetime_block :closes_at %>
   <%= f.submit_block %>
 <% end %>

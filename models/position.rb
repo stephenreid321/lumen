@@ -31,7 +31,7 @@ class Position
   after_save do
     conversation = proposal.conversation
     conversation_post = conversation.conversation_posts.create!(
-      :body => %Q{<p><a href="http://#{Config['DOMAIN']}/accounts/#{account_id}">#{account.name}</a> <strong>#{actioned.split(' ').first}</strong>#{%Q{ #{actioned.split(' ').last}} if actioned.split(' ').length == 2} the proposal <strong>#{proposal.title}</strong></p><p style="font-style: italic">#{reason}</p><p class="hidden" style="font-size: 12px">State your position at <a href="http://#{Config['DOMAIN']}/conversations/#{conversation.slug}">http://#{Config['DOMAIN']}/conversations/#{conversation.slug}</a></p>},
+      :body => %Q{<p><a href="http://#{Config['DOMAIN']}/accounts/#{account_id}">#{account.name}</a> <strong>#{actioned.split(' ').first}</strong>#{%Q{ #{actioned.split(' ').last}} if actioned.split(' ').length == 2} the proposal <strong>#{proposal.title}</strong>:</p><p style="font-style: italic">#{reason}</p><p class="hidden" style="font-size: 12px">State your position at <a href="http://#{Config['DOMAIN']}/conversations/#{conversation.slug}">http://#{Config['DOMAIN']}/conversations/#{conversation.slug}</a></p>},
       :account => account)
     # conversation_post.send_notifications!  
   end  

@@ -5,7 +5,7 @@
     <p style="font-size: 12px">
       Created by <a href="/accounts/<%=proposal.account_id%>"><%=proposal.account.name%></a>
       &middot;
-      <% if proposal.closed? %> Closed <%=timeago(proposal.closes_at) %> <% else %> Closes in <%=timeago(proposal.closes_at)%> <% end %>
+      <% if proposal.closed? %> Closed <%=timeago(proposal.closes_at) %> <% else %> Closes in <abbr title="<%=proposal.closes_at%>"><%=distance_of_time_in_words(proposal.closes_at, Time.now)%></abbr> <% end %>
       &middot;
       <% if (proposal.account == current_account) or @membership.admin? %>
         <a data-confirm="Are you sure?" href="/proposals/<%=proposal.id%>/destroy">Remove</a>

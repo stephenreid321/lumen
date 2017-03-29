@@ -8,13 +8,12 @@
       </span>
       <div class="media-body">
 
-
-        <%= classified.description.gsub("\n","<br />") %>
-        
-        <div>
+        <div style="float: right; margin: 0 0 5px 5px">
           <a class="label label-primary" href="mailto:<%=classified.account.email%>"><i class="fa fa-mail-reply"></i> Reply</a>
         </div>
 
+        <%= classified.description.gsub("\n","<br />") %>
+        
         <div class="classified-info">
           <small>
             <%=timeago(classified.created_at)%>

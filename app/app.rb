@@ -37,7 +37,7 @@ module Lumen
       fix_params!
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       if params[:token] and account = Account.find_by(secret_token: params[:token])
-        session[:account_id] = account.id
+        session[:account_id] = account.id.to_s
       end
       PageView.create(:account => current_account, :path => request.path) if current_account and !request.xhr? and !params[:token]
     end     
@@ -58,7 +58,7 @@ module Lumen
         account = Account.create!(:name => 'Lumen Admin', :password => 'lumen', :password_confirmation => 'lumen', :email => 'admin@example.com', :admin => true)
         SignIn.create(account: account)
         Group.create_notification_script if Config['APP_NAME'] and Config['MAIL_SERVER_ADDRESS']
-        session[:account_id] = account.id
+        session[:account_id] = account.id.to_s
         flash[:notice] = %Q{<strong>Welcome to Lumen!</strong> An admin account has been created. You'll want to change the name, email address and password.}        
         redirect '/me/edit'
       end      

@@ -94,7 +94,7 @@ Lumen::App.controllers do
       else # not signed in
         if account # sign in
           SignIn.create(account: account)
-          session[:account_id] = account.id
+          session[:account_id] = account.id.to_s
           flash[:notice] = "Signed in!"
           if account.sign_ins.count == 1
             redirect '/me/edit'

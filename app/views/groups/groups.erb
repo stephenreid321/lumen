@@ -15,7 +15,7 @@
       <h1 style="margin-top: 0"><%=I18n.t(:groups).capitalize%></h1>
     </div>
 
-    <%= Fragment.find_by(slug: 'groups').try(:body) %>
+    <%= eval(f('groups')) %>
 
     <h2><%=I18n.t(:your_groups).capitalize%></h2>
     <% current_account.groups.order_by(:primary.desc, :slug.asc).each { |group| %>

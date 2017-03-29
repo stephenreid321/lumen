@@ -103,6 +103,7 @@ Lumen::App.controllers do
       :'home-below' => 'Content displayed below the content columns on the logged-in homepage',
       :'public-homepage' => 'If defined, creates a public homepage with this HTML',
       :'groups' => 'Content to display on /groups',
+      :'classifieds' => 'Content to display on /classifieds',
       :'head' => 'Extra content for &lt;head&gt;',
       :'navbar' => 'Extra content for the navbar',
       :'right-col' => 'Right hand sidebar for fragment pages',

@@ -14,8 +14,8 @@ Lumen::App.helpers do
     %Q{<span style="position: relative; top: -2px; opacity: #{(o = (0.3 + 0.7*((c = conversation.visible_conversation_posts.count).to_f/3))) > 1 ? 1 : o}" title="#{pluralize(c,'post')}" class="badge">#{c}</span>}
   end
   
-  def g(group)
-    unless group.primary
+  def g(group, force: false)
+    if force or !group.primary
       %Q{<a title="#{I18n.t(:posted_in_the_group, name: group.name).capitalize}" class="group" href="/groups/#{group.slug}"><i class="fa fa-group"></i> #{group.name}</a>}
     end
   end    
@@ -77,9 +77,9 @@ Lumen::App.helpers do
     end     
   end
   
-  def group_admins_and_creator_only!(group: nil, account: nil)
+  def group_admins_and_creator_only!(account, group: nil)
     group = @group if !group
-    unless current_account and group and ((account == current_account) or (((membership = group.memberships.find_by(account: current_account)) and membership.admin?) or current_account.admin?))
+    unless current_account and group and ((account.id == current_account.id) or (((membership = group.memberships.find_by(account: current_account)) and membership.admin?) or current_account.admin?))
       flash[:notice] = 'You must be an admin or creator to access that page.'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(membership ? "/groups/#{group.slug}" : (current_account ? '/' : '/sign_in'))

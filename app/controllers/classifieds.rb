@@ -46,15 +46,15 @@ Lumen::App.controllers do
   
   get '/groups/:slug/classifieds/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required!
     @classified = @group.classifieds.find(params[:id]) || not_found
+    group_admins_and_creator_only!(@classified.account)
     erb :'classifieds/build'
   end  
         
   post '/groups/:slug/classifieds/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    membership_required!
     @classified = @group.classifieds.find(params[:id]) || not_found
+    group_admins_and_creator_only!(@classified.account)
     if @classified.update_attributes(params[:classified])
       flash[:notice] = "<strong>Great!</strong> The request/offer was updated successfully."
       redirect "/groups/#{@group.slug}/classifieds"
@@ -64,9 +64,10 @@ Lumen::App.controllers do
     end
   end  
   
-  get  '/classifieds/:id/destroy' do    
+  get '/classifieds/:id/destroy' do    
     @classified = Classified.find(params[:id])
-    membership_required!(@classified.group)
+    @group = @classified.group
+    group_admins_and_creator_only!(@classified.account)
     @classified.destroy    
     flash[:notice] = 'The request/offer was removed.'
     redirect back

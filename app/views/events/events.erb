@@ -8,7 +8,7 @@
     <div class="col-sm-8">
     <% end %>
 
-    <%= Fragment.find_by(slug: 'events').try(:body) %>
+    <%= eval(f('events')) %>
 
     <div>
       <a style="float: right" class="btn btn-primary modal-trigger" href="/events/new"><i class="fa fa-plus"></i> <%=I18n.t(:add_an_event).capitalize%></a>

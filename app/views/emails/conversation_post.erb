@@ -17,8 +17,10 @@
       <br />
     <% end %>
 
-    <span style="font-size: 80%"><a href="http://<%=Config['DOMAIN']%>/conversation_posts/<%=conversation_post.id%>/like">Like this post</a></span>      
-    <br />
+    <% unless Config['HIDE_EMAIL_LIKE'] %>
+      <span style="font-size: 80%"><a href="http://<%=Config['DOMAIN']%>/conversation_posts/<%=conversation_post.id%>/like">Like this post</a></span>      
+      <br />
+    <% end %>
 
     <br />
 

@@ -1,6 +1,5 @@
 require 'bundler/setup'
 require 'padrino-core/cli/rake'
-
 require 'dragonfly'
 require 'airbrake'
 

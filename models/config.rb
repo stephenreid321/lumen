@@ -17,7 +17,7 @@ class Config
   end
   
   def self.[](slug)
-    find_by(slug: slug).try(:body) || ENV[slug]
+    ENV[slug] || find_by(slug: slug).try(:body)
   end
     
 end

@@ -22,7 +22,7 @@
       lat: <%=f*point.lat%>,
       lng: <%=f*point.lng%>,
       color: '<%=point.class.marker_color%>',
-      name: "<%=point.try(:name) || point.try(:title)%>",
+      name: "<%=js_escape_html(point.try(:name) || point.try(:title))%>",
       content: '<%=js_escape_html(partial "maps/#{point.class.to_s.underscore}".to_sym, :object => point)%>'
     })
 <% } %>

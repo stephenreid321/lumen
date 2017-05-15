@@ -9,7 +9,7 @@ namespace :cleanup do
     Sector.each { |sector|
       sector.destroy if sector.sectorships.count == 0      
     }
-  end      
+  end  
 end
 task :cleanup => ['cleanup:organisations', 'cleanup:sectors']
 

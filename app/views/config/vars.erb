@@ -15,9 +15,9 @@
       </label>
       <div class="col-sm-4">
         <% if check_box %>
-          <%= check_box_tag k, :value => true, :checked => (Config[k.to_s] ? true : false) %>
+          <%= check_box_tag k, :value => true, :checked => (Config[k.to_s] ? true : false), :disabled => ENV[k.to_s] %>
         <% else %>
-          <%= text_field_tag k, :value => Config[k.to_s], :class => 'form-control' %>
+          <%= text_field_tag k, :value => Config[k.to_s], :class => 'form-control', :disabled => ENV[k.to_s] %>
         <% end %>
       </div>
     </div>

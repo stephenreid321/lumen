@@ -7,185 +7,161 @@
   </li>
 </ol>
 
-<!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist" style="margin-bottom: 20px">
-  <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-  <li role="presentation"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab">Notifications</a></li>
-</ul>
+<%= partial :'accounts/nav' %>
 
-<!-- Tab panes -->
-<div class="tab-content">
-  <div role="tabpanel" class="tab-pane active" id="profile">
+<% if @account.sign_ins.count == 1 %>
+  <%= eval(f('first-time')) %>
+<% end %>
 
-    <% if @account.sign_ins.count == 1 %>
-      <%= eval(f('first-time')) %>
+<% form_for @account, '/me/edit', :id => 'me-form', :class => 'form-horizontal', :multipart => true do |f| %>
+
+  <%= f.text_block :name, tip: eval(f('tip-name')) %>
+  <% if !Config['HIDE_ACCOUNT_HEADLINE'] %>
+    <style>#account_headline { height: 6em }</style>
+    <script>
+      $(function () {
+        $('#account_headline').simplyCountable({
+          counter: '#headline-counter',
+          maxCount: <%= Config['MAX_HEADLINE_LENGTH'] || 150 %>
+        });
+      })
+    </script>
+    <%= f.text_area_block :headline, tip: eval(f('tip-headline')), hint: %Q{<span id="headline-counter"></span>} %>        
+  <% end %>
+  <% if !Config['HIDE_ACCOUNT_AFFILIATIONS'] %>
+    <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
+  <% end %>
+  <%= f.email_block :email, tip: eval(f('tip-email')), disabled: Config['PREVENT_EMAIL_CHANGES'] %>
+
+  <%= eval(f('below-account-email')) %>
+
+  <%= f.text_block :town, tip: eval(f('tip-town')) %>
+  <% if Config['SHOW_ACCOUNT_STATE'] %>
+    <%= f.text_block :state, tip: eval(f('tip-state')) %>
+  <% end %>
+  <%= f.text_block :postcode, tip: eval(f('tip-postcode')) %>
+  <%= f.select_block :country, tip: eval(f('tip-country')) %>
+  <% if !Config['HIDE_ACCOUNT_PHONE'] %>
+    <%= f.text_block :phone, tip: eval(f('tip-phone')) %>
+  <% end %>
+  <% if !Config['HIDE_ACCOUNT_WEBSITE'] %>
+    <%= f.url_block :website, tip: eval(f('tip-website')) %>
+  <% end %>
+  <% if !Config['HIDE_ACCOUNT_TIME_ZONE'] %>
+    <%= f.select_block :time_zone, tip: eval(f('tip-time-zone')) %>
+  <% end %>
+  <% if Language.count > 1 %>
+    <%= f.select_block(:language_id, tip: eval(f('tip-language')), options: ['']+Language.all.map { |language| [language.name, language.id] }) %>
+  <% end %>
+  <% if Config['ACCOUNT_TAGS_PREDEFINED'] %>
+    <% if AccountTag.count > 0  %>
+      <%= f.check_boxes_block :account_tag_ids, options: AccountTag.order('name asc').map { |account_tag| [account_tag.name, account_tag.id] }, checked: @account.account_tagships.map(&:account_tag_id) %>
     <% end %>
+  <% else %>
+    <%= partial :'accounts/tagships', :locals => {:f => f} %>
+  <% end %>
 
-    <% form_for @account, '/me/edit', :id => 'me-form', :class => 'form-horizontal', :multipart => true do |f| %>
-
-      <%= f.text_block :name, tip: eval(f('tip-name')) %>
-      <% if !Config['HIDE_ACCOUNT_HEADLINE'] %>
-        <style>#account_headline { height: 6em }</style>
-        <script>
-          $(function () {
-            $('#account_headline').simplyCountable({
-              counter: '#headline-counter',
-              maxCount: <%= Config['MAX_HEADLINE_LENGTH'] || 150 %>
-            });
-          })
-        </script>
-        <%= f.text_area_block :headline, tip: eval(f('tip-headline')), hint: %Q{<span id="headline-counter"></span>} %>        
-      <% end %>
-      <% if !Config['HIDE_ACCOUNT_AFFILIATIONS'] %>
-        <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
-      <% end %>
-      <%= f.email_block :email, tip: eval(f('tip-email')), disabled: Config['PREVENT_EMAIL_CHANGES'] %>
-
-      <%= eval(f('below-account-email')) %>
-
-      <%= f.text_block :town, tip: eval(f('tip-town')) %>
-      <% if Config['SHOW_ACCOUNT_STATE'] %>
-        <%= f.text_block :state, tip: eval(f('tip-state')) %>
-      <% end %>
-      <%= f.text_block :postcode, tip: eval(f('tip-postcode')) %>
-      <%= f.select_block :country, tip: eval(f('tip-country')) %>
-      <% if !Config['HIDE_ACCOUNT_PHONE'] %>
-        <%= f.text_block :phone, tip: eval(f('tip-phone')) %>
-      <% end %>
-      <% if !Config['HIDE_ACCOUNT_WEBSITE'] %>
-        <%= f.url_block :website, tip: eval(f('tip-website')) %>
-      <% end %>
-      <% if !Config['HIDE_ACCOUNT_TIME_ZONE'] %>
-        <%= f.select_block :time_zone, tip: eval(f('tip-time-zone')) %>
-      <% end %>
-      <% if Language.count > 1 %>
-        <%= f.select_block(:language_id, tip: eval(f('tip-language')), options: ['']+Language.all.map { |language| [language.name, language.id] }) %>
-      <% end %>
-      <% if Config['ACCOUNT_TAGS_PREDEFINED'] %>
-        <% if AccountTag.count > 0  %>
-          <%= f.check_boxes_block :account_tag_ids, options: AccountTag.order('name asc').map { |account_tag| [account_tag.name, account_tag.id] }, checked: @account.account_tagships.map(&:account_tag_id) %>
-        <% end %>
-      <% else %>
-        <%= partial :'accounts/tagships', :locals => {:f => f} %>
-      <% end %>
-
-      <% if Config['SHOW_ACCOUNT_CLASSIFIEDS'] and group = Group.find_by(primary: true) and group.memberships.find_by(account: @account) %>
-        <style>
-          #account_classified_request, #account_classified_offer { height: 6em }
-        </style>
-        <script>
-          $(function () {
-            $('#account_classified_request').simplyCountable({
-              counter: '#classified-request-counter',
-              maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
-            });
-            $('#account_classified_offer').simplyCountable({
-              counter: '#classified-offer-counter',
-              maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
-            });            
-          })
-        </script>
-        <%= f.text_area_block :classified_request, tip: eval(f('tip-classified-request')), hint: %Q{<span id="classified-request-counter"></span>} %>
-        <%= f.text_area_block :classified_offer, tip: eval(f('tip-classified-offer')), hint: %Q{<span id="classified-offer-counter"></span>} %>
-      <% end %>
-
-      <script>
-        $(function () {
-          $('div[data-group-type]').each(function () {
-            $('.control-label', this).text($(this).attr('data-group-type'))
-          });
+  <% if Config['SHOW_ACCOUNT_CLASSIFIEDS'] and group = Group.find_by(primary: true) and group.memberships.find_by(account: @account) %>
+    <style>
+      #account_classified_request, #account_classified_offer { height: 6em }
+    </style>
+    <script>
+      $(function () {
+        $('#account_classified_request').simplyCountable({
+          counter: '#classified-request-counter',
+          maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
         });
-      </script>
-      <% GroupType.where(:join_groups_via_profile => true).each { |group_type| %>
-        <div data-group-type="<%=I18n.t(:"group_type.#{group_type.slug}")%>">
-          <%= f.check_boxes_block :group_ids, options: group_type.groups.order('name asc').where(:privacy => 'open').map { |group| [group.name, group.id] }, checked: current_account.memberships.map(&:group_id) %>
-        </div>
-      <% } %>      
-      <% EnvFields.fields(Account).each { |fieldname, fieldtype| %> 
-        <%= f.send("#{fieldtype}_block", fieldname) %>
-      <% } %>        
+        $('#account_classified_offer').simplyCountable({
+          counter: '#classified-offer-counter',
+          maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
+        });            
+      })
+    </script>
+    <%= f.text_area_block :classified_request, tip: eval(f('tip-classified-request')), hint: %Q{<span id="classified-request-counter"></span>} %>
+    <%= f.text_area_block :classified_offer, tip: eval(f('tip-classified-offer')), hint: %Q{<span id="classified-offer-counter"></span>} %>
+  <% end %>
 
-      <script>
-        $(function () {
-          $('.use-picture').popover({trigger: 'hover', html: true});
-        });
-      </script>
+  <script>
+    $(function () {
+      $('div[data-group-type]').each(function () {
+        $('.control-label', this).text($(this).attr('data-group-type'))
+      });
+    });
+  </script>
+  <% GroupType.where(:join_groups_via_profile => true).each { |group_type| %>
+    <div data-group-type="<%=I18n.t(:"group_type.#{group_type.slug}")%>">
+      <%= f.check_boxes_block :group_ids, options: group_type.groups.order('name asc').where(:privacy => 'open').map { |group| [group.name, group.id] }, checked: current_account.memberships.map(&:group_id) %>
+    </div>
+  <% } %>      
+  <% EnvFields.fields(Account).each { |fieldname, fieldtype| %> 
+    <%= f.send("#{fieldtype}_block", fieldname) %>
+  <% } %>        
 
-      <style>
-        @media(min-width: 768px) {
-          .provider-display-name { text-align: right }
-        }
-      </style>      
+  <script>
+    $(function () {
+      $('.use-picture').popover({trigger: 'hover', html: true});
+    });
+  </script>
 
-      <% ['Facebook', 'Google', 'Twitter', 'LinkedIn'].each { |display_name| %>      
-        <% if provider = Provider.all.find { |provider| provider.display_name == display_name } and provider.registered? %>                       
-          <div class="row" style="margin-bottom: 10px">
-            <div class="col-sm-3 provider-display-name"><%=provider.display_name%></div>
-            <div class="col-sm-8">   
-              <div class="row">
-                <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
-                  <a class="col-sm-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
-                  <% if current_account %>
-                    <div class="col-sm-3">
-                      <a class="use-picture btn btn-default" href="/me/<%=provider.omniauth_name%>/use_picture" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
-                    </div>
-                    <div class="col-sm-3">
-                      <a class="btn btn-default" href="/me/<%=provider.omniauth_name%>/disconnect">Disconnect</a>
-                    </div>
-                  <% end %>                
-                <% else %>
-                  <span class="col-sm-4" style="margin-top: 5px">Not connected</span>
-                  <div class="col-sm-3">
-                    <a class="popup btn btn-default" onclick="$('#me-form').append('<input type=\'hidden\' name=\'return\' value=\'1\' />').submit();" href="/auth/<%=provider.omniauth_name%>">
-                      <i class="fa fa-<%=provider.icon%>"></i> Connect</a>
-                  </div>
-                <% end %>
+  <style>
+    @media(min-width: 768px) {
+      .provider-display-name { text-align: right }
+    }
+  </style>      
+
+  <% ['Facebook', 'Google', 'Twitter', 'LinkedIn'].each { |display_name| %>      
+    <% if provider = Provider.all.find { |provider| provider.display_name == display_name } and provider.registered? %>                       
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-3 provider-display-name"><%=provider.display_name%></div>
+        <div class="col-sm-8">   
+          <div class="row">
+            <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
+              <a class="col-sm-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
+              <% if current_account %>
+                <div class="col-sm-3">
+                  <a class="use-picture btn btn-default" href="/me/<%=provider.omniauth_name%>/use_picture" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
+                </div>
+                <div class="col-sm-3">
+                  <a class="btn btn-default" href="/me/<%=provider.omniauth_name%>/disconnect">Disconnect</a>
+                </div>
+              <% end %>                
+            <% else %>
+              <span class="col-sm-4" style="margin-top: 5px">Not connected</span>
+              <div class="col-sm-3">
+                <a class="popup btn btn-default" onclick="$('#me-form').append('<input type=\'hidden\' name=\'return\' value=\'1\' />').submit();" href="/auth/<%=provider.omniauth_name%>">
+                  <i class="fa fa-<%=provider.icon%>"></i> Connect</a>
               </div>
-            </div>
-          </div>      
-        <% else %>
-          <%= f.text_block :"#{display_name.downcase}_profile_url" %>
-        <% end %>
-
-      <% } %>
-
-      <%= f.image_block :picture, rotate: false, hint: ('Connect an account above to automatically grab a picture' if !@account.picture and Provider.all.any? { |provider| provider.registered? }) %>
-      <%= f.password_block :password %>
-      <%= f.password_block :password_confirmation %>
-      <%= f.submit_block button_text: I18n.t(:update_account).capitalize %>
-
+            <% end %>
+          </div>
+        </div>
+      </div>      
+    <% else %>
+      <%= f.text_block :"#{display_name.downcase}_profile_url" %>
     <% end %>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= I18n.t(:delete_account).capitalize %></h3>
-      </div>
-      <div class="panel-body">
-        <p><%= I18n.t(:delete_account_instructions) %></p>
+  <% } %>
 
-        <% form_tag '/me/destroy', :class => 'form-inline' do %>
-          <%= text_field_tag :name, :class => 'form-control' %>
-          <button class="btn btn-danger"><%= I18n.t(:delete_account).capitalize %></button>
-        <% end %>   
-      </div>
-    </div>          
+  <%= f.image_block :picture, rotate: false, hint: ('Connect an account above to automatically grab a picture' if !@account.picture and Provider.all.any? { |provider| provider.registered? }) %>
+  <%= f.password_block :password %>
+  <%= f.password_block :password_confirmation %>
+  <%= f.submit_block button_text: I18n.t(:update_account).capitalize %>
 
+<% end %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= I18n.t(:delete_account).capitalize %></h3>
   </div>
-  <div role="tabpanel" class="tab-pane" id="notifications">
-    <% current_account.memberships.sort_by { |membership| membership.group.name }.each { |membership| group = membership.group %>
-      <div class="form-group row">
-        <label class="control-label col-sm-3" style="text-align: right">
-          <%=group.name%>
-        </label>
-        <div class="col-sm-6">
-          <form method="get" action="/groups/<%=group.slug%>/notification_level">
-            <%= select_tag :level, :id => 'notification-level', :options => {'Emails on' => 'each', 'Emails off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => membership.notification_level, :class => "form-control", :onchange => "this.form.submit()" %>            
-          </form>            
-        </div>
-      </div>
-    <% } %>      
+  <div class="panel-body">
+    <p><%= I18n.t(:delete_account_instructions) %></p>
+
+    <% form_tag '/me/destroy', :class => 'form-inline' do %>
+      <%= text_field_tag :name, :class => 'form-control' %>
+      <button class="btn btn-danger"><%= I18n.t(:delete_account).capitalize %></button>
+    <% end %>   
   </div>
-</div>
+</div>          
+
 
 
 

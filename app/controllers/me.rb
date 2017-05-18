@@ -15,6 +15,12 @@ Lumen::App.controllers do
     erb :'accounts/build'
   end
   
+  get '/me/notifications' do
+    sign_in_required!
+    @account = current_account   
+    erb :'accounts/notifications'
+  end  
+  
   post '/me/edit' do
     sign_in_required!
     params[:account][:account_tag_ids] = [] if Config['ACCOUNT_TAGS_PREDEFINED'] and !params[:account][:account_tag_ids]

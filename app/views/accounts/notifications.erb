@@ -1,0 +1,23 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/people">People</a></li>  
+  <li><a href="/me"><%=current_account.name%></a></li>
+  <li class="active">
+    <%=I18n.t(:edit).capitalize%>
+  </li>
+</ol>
+
+<%= partial :'accounts/nav' %>
+
+<% current_account.memberships.sort_by { |membership| membership.group.name }.each { |membership| group = membership.group %>
+  <div class="form-group row">
+    <label class="control-label col-sm-3" style="text-align: right">
+      <%=group.name%>
+    </label>
+    <div class="col-sm-6">
+      <form method="get" action="/groups/<%=group.slug%>/notification_level">
+        <%= select_tag :level, :id => 'notification-level', :options => {'Emails on' => 'each', 'Emails off' => 'none', 'Daily digest' => 'daily', 'Weekly digest' => 'weekly'}, :selected => membership.notification_level, :class => "form-control", :onchange => "this.form.submit()" %>            
+      </form>            
+    </div>
+  </div>
+<% } %>      

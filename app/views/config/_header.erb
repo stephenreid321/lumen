@@ -1,12 +1,13 @@
 
-<div style="float: right; text-align: right">
+<div style="margin-bottom: 10px">
   <div>    
     <a class="btn btn-danger" href="/config/restart"><i class="fa fa-power-off"></i> Restart app</a>
   </div>
   <div style="margin-top: 5px"> 
 
+    <% if Config['APP_NAME'] and Config['MAIL_SERVER_ADDRESS'] %>
+    
     <%
-    if Config['APP_NAME'] and Config['MAIL_SERVER_ADDRESS']
       Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
         result = ''
         ssh.exec!("ls /notify") do |channel, stream, data|
@@ -14,10 +15,8 @@
           end
         @notification_script = result.include?("#{Config['APP_NAME']}.sh")      
       end
-      end
-  %>
-
-    <% if Config['APP_NAME'] and Config['MAIL_SERVER_ADDRESS'] %>
+      %>
+      
       <% if @notification_script %>
         <i class="fa fa-check"></i> Notification script present
         &middot;
@@ -32,7 +31,9 @@
   </div>
 </div>
 
-<%= ul_nav 'nav nav-pills', [
-  ['Environment variables', '/config'],  
-  ['Fragments', '/fragments'],  
-  ].compact %>
+<div style="margin-bottom: 20px">
+  <%= ul_nav 'nav nav-tabs', [
+    ['Environment variables', '/config'],  
+    ['Fragments', '/fragments'],  
+    ].compact %>
+</div>

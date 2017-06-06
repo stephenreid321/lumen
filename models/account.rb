@@ -61,7 +61,6 @@ class Account
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
   has_many :classifieds_as_creator, :class_name => 'Classified', :inverse_of => :account, :dependent => :destroy
   has_many :likes, :dependent => :destroy
-  has_many :suggestions, :dependent => :destroy
   has_many :proposals, :dependent => :destroy
   has_many :positions, :dependent => :destroy
   
@@ -317,7 +316,7 @@ class Account
   end    
   
   before_validation do    
-    self.email = self.email.gsub(' ','') # strip unicode \u00a0
+    self.email = self.email.gsub(' ','') if self.email # strip unicode \u00a0
     self.secret_token = SecureRandom.uuid if !self.secret_token
     self.website = "http://#{self.website}" if self.website and !(self.website =~ /\Ahttps?:\/\//)
     self.name_transliterated = I18n.transliterate(self.name)

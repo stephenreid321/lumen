@@ -220,7 +220,7 @@ Lumen::App.controllers do
   end
   
   get '/conversation_posts/:id' do
-    @conversation_post = ConversationPost.find(params[:id])
+    @conversation_post = ConversationPost.find(params[:id]) || not_found
     redirect "/conversations/#{@conversation_post.conversation.slug}#conversation-post-#{@conversation_post.id}"
   end  
   

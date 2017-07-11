@@ -22,7 +22,7 @@
 
     function search() {
       $('#classifieds').css('opacity', 0.5);
-      $('#classifieds').load("/classifieds?" + $('#search-form').serialize(), function() {
+      $('#classifieds').load("/classifieds?" + $('#search-form').serialize(), function () {
         $('#classifieds').css('opacity', 1);
       });
     }

@@ -6,17 +6,17 @@
   <div style="margin-top: 5px"> 
 
     <% if Config['APP_NAME'] and Config['MAIL_SERVER_ADDRESS'] %>
-    
-    <%
+
+      <%
       Net::SSH.start(Config['MAIL_SERVER_ADDRESS'], Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD']) do |ssh|
         result = ''
         ssh.exec!("ls /notify") do |channel, stream, data|
           result << data
           end
         @notification_script = result.include?("#{Config['APP_NAME']}.sh")      
-      end
-      %>
-      
+        end
+    %>
+
       <% if @notification_script %>
         <i class="fa fa-check"></i> Notification script present
         &middot;
@@ -27,7 +27,7 @@
         <a href="/config/create_notification_script">Create notification script</a>
       <% end %>
     <% end %>
-        
+
   </div>
 </div>
 

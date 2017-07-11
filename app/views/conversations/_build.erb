@@ -3,8 +3,8 @@
   <%= f.text_block :subject, div_class: 'col-sm-12' %>
   <%= f.wysiwyg_block :body, div_class: 'col-sm-12', required: true %>
   <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-            $(this).next().show();
-            $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
+      $(this).next().show();
+      $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
   <div style="display:none;">
     <%= f.file_block :file, div_class: 'col-sm-12' %>
   </div>

@@ -4,9 +4,9 @@
   <% if !Config['HIDE_ACCOUNT_AFFILIATIONS'] %>
     <% account.affiliations.each { |affiliation|%>
       <li><i title="<%=affiliation.title%> <%=I18n.t(:at)%> <%=affiliation.organisation.name%>" class="fa fa-li fa-briefcase"></i><%=affiliation.title%> <%=I18n.t(:at)%> <a href="/organisations/<%=affiliation.organisation_id%>"><%=affiliation.organisation.name%></a></li>
-      <% } %>
-    <% end %>   
-           
+    <% } %>
+  <% end %>   
+
   <% if !Config['HIDE_SEARCH_MEMBERSHIPS'] %>    
     <% if account.public_memberships.count > 0 %>
       <li>

@@ -3,7 +3,9 @@
 &middot;  
 
 <% if !conversation_post.likes.find_by(account: current_account) %>
-  <a href="/conversation_posts/<%=conversation_post.id%>/like" class="edit" title="Like this post" onclick="$(this).closest('.conversation-post-like').load($(this).attr('href')); return false"><i class="fa fa-thumbs-o-up"></i> Like</a>
+  <a href="/conversation_posts/<%=conversation_post.id%>/like" class="edit" title="Like this post" onclick="$(this).closest('.conversation-post-like').load($(this).attr('href'));
+      return false"><i class="fa fa-thumbs-o-up"></i> Like</a>
 <% else %>        
-  <a href="/conversation_posts/<%=conversation_post.id%>/remove_like" title="Remove your like" onclick="$(this).closest('.conversation-post-like').load($(this).attr('href')); return false"><i class="fa fa-thumbs-o-up"></i> Like</a>
+  <a href="/conversation_posts/<%=conversation_post.id%>/remove_like" title="Remove your like" onclick="$(this).closest('.conversation-post-like').load($(this).attr('href'));
+      return false"><i class="fa fa-thumbs-o-up"></i> Like</a>
 <% end %>

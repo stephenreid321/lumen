@@ -71,10 +71,10 @@
           counter: '#classified-request-counter',
           maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
         });
-        $('#account_classified_offer').simplyCountable({
+          $('#account_classified_offer').simplyCountable({
           counter: '#classified-offer-counter',
           maxCount: <%= Config['MAX_CLASSIFIED_LENGTH'] || 150 %>
-        });            
+              });            
       })
     </script>
     <%= f.text_area_block :classified_request, tip: eval(f('tip-classified-request')), hint: %Q{<span id="classified-request-counter"></span>} %>

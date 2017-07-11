@@ -3,6 +3,6 @@
   <ul class="list-unstyled">
     <% upcoming_events.each { |event| %>
       <li><a href="/groups/<%=event.group.slug%>/events/<%=event.id%>"><%=event.name%></a> <%= event.when_details %> <% if !group%><%=g event.group%><% end%></li>
-      <% } %>
+    <% } %>
   </ul>
 <% end %>  

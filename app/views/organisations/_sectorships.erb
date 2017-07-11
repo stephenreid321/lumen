@@ -20,9 +20,9 @@
       .sectorship .input-group-btn { padding-left: 5px }
     </style>
     <script>
-      $(function() {
+      $(function () {
         var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;"><%= I18n.t(:add_another_sector).capitalize %></a></div>');
-        $(icon).click(function() {
+        $(icon).click(function () {
           var c = $('.sectorship').length
           var i = $('<input type="text" />');
           i.attr('name', 'organisation[sectorships_attributes][' + c + '][sector_name]');

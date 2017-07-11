@@ -12,13 +12,13 @@
       <img class="media-object" style="width: 32px" src="<%=conversation_post.account.picture ? conversation_post.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
     </span>
     <div class="media-body">
-      
+
       <a href="/accounts/<%=conversation_post.account.id%>" style="font-weight: bold;"><%=conversation_post.account.name%></a>                
-      
+
       <div id="conversation-post-<%=conversation_post.id%>" style="display: inline"><%= Rinku.auto_link(conversation_post.replace_cids!.body) %></div>
-      
+
       <%= partial :'conversations/conversation_post_attachments', :locals => {:conversation_post => conversation_post} %>            
-      
+
       <div style="font-size: 12px;">
         <%= partial :'conversations/conversation_post_info', :locals => {:conversation_post => conversation_post} %>
         &middot;

@@ -28,7 +28,7 @@ Lumen::App.controllers do
     @account.require_password_change if @account.sign_ins.count == 1
     @account.require_account_affiliations = Config['REQUIRE_ACCOUNT_AFFILIATIONS'] 
     @account.prevent_email_changes = Config['PREVENT_EMAIL_CHANGES']
-    if @account.update_attributes(params[:account])      
+    if @account.update_attributes(mass_assigning(params[:account], Account))
       if params[:return]
         redirect back
       else

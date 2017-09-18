@@ -14,7 +14,7 @@ You were added to the groups [group_list] on #{Config['SITE_NAME_DEFINITE']}.
     
   post '/accounts/new' do
     site_admins_only!
-    @account = Account.new(params[:account])
+    @account = Account.new(mass_assigning(params[:account], Account))
     password = Account.generate_password(8)
     @account.password = password
     @account.password_confirmation = password
@@ -42,7 +42,7 @@ You were added to the groups [group_list] on #{Config['SITE_NAME_DEFINITE']}.
   post '/accounts/:id/edit' do
     site_admins_only!
     @account = Account.find(params[:id])
-    if @account.update_attributes(params[:account])      
+    if @account.update_attributes(mass_assigning(params[:account], Account))
       flash[:notice] = "<strong>Great!</strong> The account was updated successfully."
       redirect back
     else

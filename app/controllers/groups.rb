@@ -72,7 +72,7 @@ Lumen::App.controllers do
     else           
       redirect back unless params[:account] and params[:account][:email]
       if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))
-        @account = Account.new(params[:account])
+        @account = Account.new(mass_assigning(params[:account], Account))
         @account.password = Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
         @account.password_confirmation = @account.password 
         if !@account.save
@@ -135,7 +135,7 @@ Lumen::App.controllers do
       redirect back if !params[:account]
       if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))   
         @new_account = true
-        @account = Account.new(params[:account])
+        @account = Account.new(mass_assigning(params[:account], Account))
         @account.password = Account.generate_password(8)
         @account.password_confirmation = @account.password
         if !@account.save

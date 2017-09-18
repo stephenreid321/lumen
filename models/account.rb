@@ -28,6 +28,10 @@ class Account
   field :linkedin_profile_url, :type => String
   field :google_profile_url, :type => String
   field :prevent_new_memberships, :type => Boolean
+  
+  def self.protected_attributes
+    %w{admin}
+  end  
     
   EnvFields.set(self)
     

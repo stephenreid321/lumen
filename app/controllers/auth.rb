@@ -41,7 +41,7 @@ Lumen::App.controllers do
   
   post '/accounts/reset_password/:password_reset_token' do
     if @account = Account.find_by(password_reset_token: params[:password_reset_token])
-      if @account.update_attributes(params[:account])
+      if @account.update_attributes(mass_assigning(params[:account], Account))
         @account.update_attribute(:password_reset_token, nil)
         flash[:notice] = 'Your password was reset. You can sign in below.'
         redirect '/sign_in'

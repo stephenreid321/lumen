@@ -30,6 +30,7 @@ class Conversation
   field :slug, :type => Integer
   field :hidden, :type => Boolean, :default => false
   field :approved, :type => Boolean
+  field :pinned, :type => Boolean
   
   index({slug: 1 }, {unique: true})
   
@@ -107,6 +108,7 @@ class Conversation
       :slug => :text,
       :hidden => :check_box,
       :approved => :check_box,
+      :pinned => :check_box,
       :group_id => :lookup,      
       :account_id => :lookup,      
       :conversation_posts => :collection

@@ -18,6 +18,13 @@
       <li>
         <a title="Hide conversation" data-confirm="Are you sure you want to hide this conversation?" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/hide"><i class="fa fa-times"></i> Hide conversation</a>
       </li> 
+      <li>
+        <% if !@conversation.pinned? %>
+          <a title="Pin conversation" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/pin"><i class="fa fa-map-pin"></i> Pin conversation</a>
+        <% else %>
+          <a title="Unpin conversation" class="edit restore-opacity" href="/conversations/<%=@conversation.slug%>/unpin"><i class="fa fa-map-pin"></i> Unpin conversation</a>
+        <% end %>
+      </li>       
     <% end %>
   </ul>
 <% end %>
@@ -66,8 +73,8 @@
           <% form_for (@conversation_post ||= @conversation.conversation_posts.build), "/conversations/#{@conversation.slug}", :class => 'form-horizontal placeholders-only', :multipart => true do |f| %>
             <%= f.wysiwyg_block :body, div_class: 'col-sm-12' %>
             <a class="btn btn-default" href="javascript:;" onclick="$(this).hide();
-                $(this).next().show();
-                $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
+                    $(this).next().show();
+                    $(this).next().find('input').click();"><%=I18n.t(:attach_a_file).capitalize%></a>
             <div style="display:none;">
               <%= f.file_block :file, div_class: 'col-sm-12' %>
             </div>

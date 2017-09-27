@@ -8,7 +8,12 @@
           <%=g conversation.group%>
         <% end %>        
       </td>
-      <td><%= conversation_posts_badge(conversation) %></td>
+      <td>
+        <%= conversation_posts_badge(conversation) %>
+        <% if conversation.pinned? %>
+          <i class="fa fa-map-pin" title="Pinned"></i>
+        <% end %>
+      </td>
       <td>
         <% if conversation.last_conversation_post %>
           <%=I18n.t(:last_post).capitalize%> <%=timeago(conversation.last_conversation_post.created_at)%>        

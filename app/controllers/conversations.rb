@@ -18,7 +18,7 @@ Lumen::App.controllers do
         @conversations = @conversations.where(:id.in => conversation_posts.pluck(:conversation_id))
       end
     end    
-    @conversations = @conversations.order_by(:updated_at.desc).per_page(Config['WALL_STYLE_CONVERSATIONS'] ? 5 : 10).page(params[:page])            
+    @conversations = @conversations.order_by('pinned desc, updated_at desc').per_page(Config['WALL_STYLE_CONVERSATIONS'] ? 5 : 10).page(params[:page])
     if current_account and Config['WALL_STYLE_CONVERSATIONS']
       @conversations.each { |conversation|
         conversation.visible_conversation_posts.each { |conversation_post|
@@ -188,6 +188,22 @@ Lumen::App.controllers do
     flash[:notice] = "The conversation was hidden."
     redirect "/groups/#{@conversation.group.slug}"
   end  
+  
+  get '/conversations/:slug/pin' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    group_admins_only!(@conversation.group)
+    @conversation.update_attribute(:pinned, true)
+    flash[:notice] = "The conversation was pinned."
+    redirect back
+  end 
+
+  get '/conversations/:slug/unpin' do
+    @conversation = Conversation.find_by(slug: params[:slug]) || not_found
+    group_admins_only!(@conversation.group)
+    @conversation.update_attribute(:pinned, false)
+    flash[:notice] = "The conversation was unpinned."
+    redirect back
+  end 
   
   get '/conversations/:slug/hide_post/:id' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found

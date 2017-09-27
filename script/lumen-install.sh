@@ -178,7 +178,7 @@ cd lumen
 git remote add $APP_NAME dokku@localhost:$APP_NAME
 git push $APP_NAME master
 
-sed -i '/PasswordAuthentication yes/s/^#//g' /etc/ssh/sshd_config
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 service ssh restart
 echo -e "$MAIL_SERVER_PASSWORD\n$MAIL_SERVER_PASSWORD\n" | passwd
 

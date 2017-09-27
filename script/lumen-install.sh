@@ -192,7 +192,7 @@ cat <<EOT >> /var/spool/cron/crontabs/root
 0 4 * * * /usr/bin/dokku run $APP_NAME rake cleanup  
 0 8 * * * /usr/bin/dokku run $APP_NAME rake digests:daily  
 0 0 * * 0 /usr/bin/dokku run $APP_NAME rake digests:weekly
-15 * * * * /usr/bin/dokku run lumen rake groups:test_creating_a_conversation_via_email
+15 * * * * /usr/bin/dokku run $APP_NAME rake groups:test_creating_a_conversation_via_email
 EOT
 
 SESSION_SECRET=$(uuidgen)

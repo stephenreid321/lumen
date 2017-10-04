@@ -177,6 +177,7 @@ cd ~
 git clone https://github.com/wordsandwriting/lumen.git
 cd lumen
 git remote add $APP_NAME dokku@localhost:$APP_NAME
+dokku config:set $APP_NAME CURL_CONNECT_TIMEOUT=30 CURL_TIMEOUT=300
 git push $APP_NAME master
 
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config

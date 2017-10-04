@@ -154,7 +154,7 @@ class Account
         end    
         
         if account.sign_ins.count == 0 and account.password    
-          sign_in_details << %Q{Sign in at http://#{Config['DOMAIN']}/sign_in with the email address #{account.email} and the password <div class="password">#{account.password}</span>}
+          sign_in_details << %Q{Sign in at http://#{Config['DOMAIN']}/sign_in with the email address #{account.email} and the password <div class="password">#{account.password}</div>}
         else
           sign_in_details << "Sign in at http://#{Config['DOMAIN']}/sign_in."
         end

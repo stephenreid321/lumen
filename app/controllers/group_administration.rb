@@ -262,22 +262,25 @@ Lumen::App.controllers do
     Mail.defaults do
       delivery_method :smtp, group.smtp_settings
     end    
-    
-    b = @group.reminder_email
-    .gsub('[firstname]',@account.name.split(' ').first)
-    .gsub('[admin]', current_account.name)
-    .gsub('[issue]',@issue)
-            
+                
     mail = Mail.new
     mail.to = @account.email
     mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
     mail.cc = current_account.email
     mail.subject = @group.reminder_email_subject
-    mail.html_part do
+    
+    content = @group.reminder_email
+    .gsub('[firstname]',@account.name.split(' ').first)
+    .gsub('[admin]', current_account.name)
+    .gsub('[issue]',@issue)
+    
+    html_part = Mail::Part.new do
       content_type 'text/html; charset=UTF-8'
-      body b
-    end
-    mail.deliver    
+      body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)     
+    end    
+    mail.html_part = html_part
+    
+    mail.deliver
     membership.update_attribute(:reminder_sent, Time.now)
     redirect back
   end
@@ -329,19 +332,22 @@ Lumen::App.controllers do
       Mail.defaults do
         delivery_method :smtp, group.smtp_settings
       end      
-      
-      b = group.membership_request_acceptance_email
-      .gsub('[firstname]',account.name.split(' ').first)
-      .gsub('[sign_in_details]', sign_in_details)
-              
+                    
       mail = Mail.new
       mail.to = account.email
       mail.from = "#{group.slug} <#{group.email('-noreply')}>"
       mail.subject = group.membership_request_acceptance_email_subject
-      mail.html_part do
+
+      content = group.membership_request_acceptance_email
+      .gsub('[firstname]',account.name.split(' ').first)
+      .gsub('[sign_in_details]', sign_in_details)
+    
+      html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body b
-      end
+        body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)     
+      end    
+      mail.html_part = html_part      
+      
       mail.deliver  
 
     else

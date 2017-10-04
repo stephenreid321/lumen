@@ -158,21 +158,24 @@ class Account
         else
           sign_in_details << "Sign in at http://#{Config['DOMAIN']}/sign_in."
         end
-      
-        b = account.welcome_email_body
-        .gsub('[firstname]',account.name.split(' ').first)
-        .gsub('[group_list]',@groups_to_join.map { |id| Group.find(id).name }.to_sentence)
-        .gsub('[sign_in_details]', sign_in_details)
-            
+                  
         if Config['MAIL_SERVER_ADDRESS']
           mail = Mail.new
           mail.to = account.email
           mail.from = "#{Config['SITE_NAME']} <#{Config['HELP_ADDRESS']}>"
           mail.subject = account.welcome_email_subject
-          mail.html_part do
+
+          content = account.welcome_email_body
+          .gsub('[firstname]',account.name.split(' ').first)
+          .gsub('[group_list]',@groups_to_join.map { |id| Group.find(id).name }.to_sentence)
+          .gsub('[sign_in_details]', sign_in_details)
+    
+          html_part = Mail::Part.new do
             content_type 'text/html; charset=UTF-8'
-            body b
-          end
+            body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)     
+          end    
+          mail.html_part = html_part            
+          
           mail.deliver
         end
       

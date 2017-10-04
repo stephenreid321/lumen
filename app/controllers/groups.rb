@@ -106,18 +106,21 @@ Lumen::App.controllers do
         )
         mail.deliver   
       end
-            
-      b = @group.membership_request_thanks_email
-      .gsub('[firstname]',@account.name.split(' ').first)   
-        
+                      
       mail = Mail.new
       mail.to = @account.email
       mail.from = "#{@group.slug} <#{@group.email('-noreply')}>"
       mail.subject = @group.membership_request_thanks_email_subject
-      mail.html_part do
+
+      content = @group.membership_request_thanks_email
+      .gsub('[firstname]',@account.name.split(' ').first)
+    
+      html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body b
-      end
+        body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)     
+      end    
+      mail.html_part = html_part        
+      
       mail.deliver        
       
       flash[:notice] = 'Your request was sent.'

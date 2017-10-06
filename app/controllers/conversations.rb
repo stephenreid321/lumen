@@ -200,7 +200,7 @@ Lumen::App.controllers do
   get '/conversations/:slug/unpin' do
     @conversation = Conversation.find_by(slug: params[:slug]) || not_found
     group_admins_only!(@conversation.group)
-    @conversation.update_attribute(:pinned, false)
+    @conversation.update_attribute(:pinned, nil)
     flash[:notice] = "The conversation was unpinned."
     redirect back
   end 

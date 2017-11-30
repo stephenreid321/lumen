@@ -102,6 +102,6 @@ class ConversationPostBcc
     mail = mail.deliver
     update_attribute(:message_id, mail.message_id)
     update_attribute(:delivered_at, Time.now)
-  end  
-  
+  end
+    
 end

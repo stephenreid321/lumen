@@ -85,6 +85,10 @@ Lumen::App.controllers do
       
       :SSL => ['Site served via SSL'],
       
+      :SMTP_ADDRESS => 'Address of alternative SMTP server',
+      :SMTP_USERNAME => 'Username of alternative SMTP server',
+      :SMTP_PASSWORD => 'Password for alternative SMTP server',      
+      
       :SLACK_WEBHOOK_URL => 'Slack webhook URL',
       :SLACK_CHANNEL => 'Channel to post Slack notifications',
                         

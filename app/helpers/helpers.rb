@@ -1,6 +1,7 @@
 Lumen::App.helpers do
   
   def mass_assigning(params, model)
+    params ||= {}
     intersection = model.protected_attributes & params.keys
     if !intersection.empty?
       raise "attributes #{intersection} are protected"

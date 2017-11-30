@@ -86,9 +86,13 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   end  
                
   def smtp_settings
-    {:address => Config['MAIL_SERVER_ADDRESS'], :user_name => self.username('-noreply'), :password => Config['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
+    if Config['SMTP_ADDRESS']
+      {:address => Config['SMTP_ADDRESS'], :user_name => Config['SMTP_USERNAME'], :password => Config['SMTP_PASSWORD'], :port => 587}
+    else
+      {:address => Config['MAIL_SERVER_ADDRESS'], :user_name => self.username('-noreply'), :password => Config['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
+    end
   end  
-  
+    
   has_many :conversations, :dependent => :destroy
   has_many :conversation_posts, :dependent => :destroy
   has_many :conversation_post_bccs, :dependent => :destroy

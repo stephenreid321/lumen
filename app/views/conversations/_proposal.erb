@@ -88,11 +88,11 @@
         <li style="margin-bottom: 1px">
           <% case position.status; when 'agree' %>
             <span class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i></span>
-          <% when 'abstain' %>  
+          <% when 'abstain' %>
             <span class="btn btn-warning btn-xs"><i class="fa fa-thumbs-down" style="transform: rotate(-90deg);"></i></span>
-          <% when 'disagree' %>  
+          <% when 'disagree' %>
             <span  class="btn btn-danger btn-xs" style="opacity: 0.6"><i class="fa fa-thumbs-down"></i></span>
-          <% when 'block' %>  
+          <% when 'block' %>
             <span class="btn btn-danger btn-xs"><i class="fa fa-hand-stop-o"></i></span>
             <% end %>
           <a href="/accounts/<%=position.account_id%>"><%=position.account.name%></a> <strong><%="#{position.status}ed".gsub('eee','ee')%></strong><% if position.reason %>: <em><%=position.reason%></em><% end %>
